@@ -1,0 +1,69 @@
+/*
+ * Face própria da carta (CardFace.swift). Medidas da "carta de referência" de 320 de largura (proporção 59:86), em
+ * unidades --u = 1/320 da largura real: o mesmo desenho serve para a mão, o campo e o destaque.
+ */
+.cardface {
+  container-type: inline-size;
+  --u: calc(100cqw / 320);
+  /* tabela de medidas (x, y, largura, altura) na carta de 320 */
+  --border: 10; --name-x: 16; --name-y: 16; --name-w: 286; --name-h: 37; --attr: 30;
+  --level-x: 30; --level-y: 55; --level-w: 257; --level-h: 20; --star: 18;
+  --art-x: 30; --art-y: 78; --art-w: 261; --art-h: 259; --art-inset: 4;
+  --box-x: 12; --box-y: 345; --box-w: 291; --box-h: 97; --paper-x: 22; --paper-y: 350; --paper-w: 275; --paper-h: 89;
+  --stats-font: 44; --kind-font: 38;
+  /* O próprio elemento não pode usar --u (unidades de contêiner medem o contêiner de fora): canto 14/320 da largura. */
+  position: relative; width: 100%; aspect-ratio: 59 / 86; border-radius: 4.4% / 3%; overflow: hidden;
+  background: #1f1f29; color: #000; font-family: ui-serif, Georgia, 'Times New Roman', serif; contain: layout paint;
+}
+.cardface > * { position: absolute; }
+.cf-frame { inset: calc(var(--border) * var(--u)); border-radius: calc(6 * var(--u)); background: var(--frame); }
+.cf-normal { --frame: linear-gradient(135deg, #cfb27c, #c0954b); }
+.cf-effect { --frame: linear-gradient(135deg, #c98763, #b55b2d); }
+.cf-fusion { --frame: linear-gradient(135deg, #a275ad, #884396); }
+.cf-ritual { --frame: linear-gradient(135deg, #7a9fd6, #4f78bf); }
+.cf-spell { --frame: linear-gradient(135deg, #3fae9f, #0a8e7b); --name-color: #fff; }
+.cf-trap { --frame: linear-gradient(135deg, #bf5b9a, #a82275); --name-color: #fff; }
+.cf-token { --frame: linear-gradient(135deg, #b9b9b9, #969696); }
+.cf-name {
+  left: calc(var(--name-x) * var(--u)); top: calc(var(--name-y) * var(--u)); width: calc(var(--name-w) * var(--u)); height: calc(var(--name-h) * var(--u));
+  display: flex; align-items: center; gap: calc(6 * var(--u)); padding: 0 calc(7 * var(--u));
+  border-radius: calc(3 * var(--u)); background: rgba(255, 255, 255, .18); box-shadow: inset 0 0 0 calc(1.2 * var(--u)) rgba(0, 0, 0, .45);
+}
+.cf-name span {
+  flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  font-size: calc(var(--name-size) * var(--u)); font-weight: 700; font-variant: small-caps; color: var(--name-color, #000);
+}
+.cf-attr {
+  flex: 0 0 auto; width: calc(var(--attr) * var(--u)); height: calc(var(--attr) * var(--u)); border-radius: 50%; display: grid; place-items: center;
+  color: #fff; font-style: normal; font-weight: 800; font-size: calc(var(--attr) * .62 * var(--u)); font-family: system-ui, sans-serif;
+  box-shadow: 0 0 0 calc(1.5 * var(--u)) rgba(255, 255, 255, .6);
+}
+.cf-level {
+  left: calc(var(--level-x) * var(--u)); top: calc(var(--level-y) * var(--u)); width: calc(var(--level-w) * var(--u)); height: calc(var(--level-h) * var(--u));
+  display: flex; justify-content: flex-end; align-items: center; gap: calc(1 * var(--u));
+  font-size: calc(17 * var(--u)); font-weight: 700; font-variant: small-caps; color: var(--name-color, #000);
+}
+.cf-level i { width: calc(var(--star) * var(--u)); height: calc(var(--star) * var(--u)); border-radius: 50%; background: radial-gradient(circle at 40% 35%, #ff8a3a, #c2380f); box-shadow: inset 0 0 0 calc(1 * var(--u)) #ffd24a; }
+.cf-art {
+  left: calc(var(--art-x) * var(--u)); top: calc(var(--art-y) * var(--u)); width: calc(var(--art-w) * var(--u)); height: calc(var(--art-h) * var(--u));
+  padding: calc(var(--art-inset) * var(--u)); border-radius: calc(2 * var(--u)); background: rgba(0, 0, 0, .35);
+}
+.cf-art img { display: block; width: 100%; height: 100%; object-fit: cover; }
+/* Sem a arte recortada: a carta oficial inteira, enquadrada na região da ilustração. */
+.cf-art img.whole { object-position: 50% 30%; }
+.cf-text {
+  left: calc(var(--box-x) * var(--u)); top: calc(var(--box-y) * var(--u)); width: calc(var(--box-w) * var(--u)); height: calc(var(--box-h) * var(--u));
+  border-radius: calc(2 * var(--u)); background: #9e7333;
+  padding: calc((var(--paper-y) - var(--box-y)) * var(--u)) calc((var(--paper-x) - var(--box-x)) * var(--u));
+  display: flex; flex-direction: column; justify-content: center;
+}
+.cf-text::before { content: ''; position: absolute; inset: calc((var(--paper-y) - var(--box-y)) * var(--u)) calc((var(--paper-x) - var(--box-x)) * var(--u)) calc((var(--box-h) - var(--paper-h) - (var(--paper-y) - var(--box-y))) * var(--u)); background: #ebdeca; }
+.cf-text > * { position: relative; }
+.compact .cf-text b { text-align: center; white-space: nowrap; font-weight: 900; line-height: 1; letter-spacing: 0; }
+.compact .cf-text .cf-stats { font-size: calc(var(--stats-font) * var(--u)); font-variant-numeric: lining-nums tabular-nums; }
+.compact .cf-text .cf-kind { font-size: calc(var(--kind-font) * var(--u)); }
+.full .cf-text { justify-content: flex-start; gap: calc(1 * var(--u)); }
+.full .cf-text em { font-size: calc(10.5 * var(--u)); font-weight: 700; font-style: normal; white-space: nowrap; overflow: hidden; }
+.full .cf-text p { flex: 1; margin: 0; font-size: calc(9 * var(--u)); line-height: 1.15; overflow: hidden; }
+.full .cf-text small { align-self: flex-end; font-size: calc(10 * var(--u)); font-weight: 700; border-top: calc(.8 * var(--u)) solid #000; }
+.cardback-img { display: block; width: 100%; aspect-ratio: 59 / 86; object-fit: cover; border-radius: 4px; }

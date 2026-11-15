@@ -12,9 +12,12 @@
     "preview": "vite preview",
     "smoke": "tsx proto/smoke.ts",
     "fetch-data": "sh scripts/fetch_data.sh",
-    "export-proto-data": "python3 scripts/export_proto_data.py"
+    "export-proto-data": "python3 scripts/export_proto_data.py",
+    "test": "vitest run",
+    "postinstall": "patch-package"
   },
   "dependencies": {
+    "@phosphor-icons/react": "^2.1.10",
     "dexie": "^4.4.7",
     "ocgcore-wasm": "^0.1.6",
     "react": "^19.3.1",
@@ -22,14 +25,19 @@
     "zustand": "^5.1.0"
   },
   "devDependencies": {
+    "@testing-library/dom": "^10.4.2",
+    "@testing-library/react": "^16.3.3",
     "@types/node": "^26.6.6",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-react": "^6.3.0",
+    "happy-dom": "^21.0.4",
+    "patch-package": "^8.0.0",
     "playwright": "^1.65.1",
     "tsx": "^4.23.15",
     "typescript": "^7.0.2",
     "vite": "^8.3.8",
-    "vite-plugin-pwa": "^2.0.0"
+    "vite-plugin-pwa": "^2.0.0",
+    "vitest": "^5.1.0"
   }
 }

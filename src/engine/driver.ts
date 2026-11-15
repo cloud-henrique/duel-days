@@ -8,7 +8,7 @@ import { startDuel, type CardRecord, type DeckList, type DuelSession } from './s
 export const UI_PROMPTS = new Set<number>([
   OcgMessageType.SELECT_IDLECMD, OcgMessageType.SELECT_BATTLECMD, OcgMessageType.SELECT_CHAIN, OcgMessageType.SELECT_EFFECTYN,
   OcgMessageType.SELECT_YESNO, OcgMessageType.SELECT_OPTION, OcgMessageType.SELECT_CARD, OcgMessageType.SELECT_TRIBUTE,
-  OcgMessageType.SELECT_UNSELECT_CARD, OcgMessageType.SELECT_POSITION,
+  OcgMessageType.SELECT_UNSELECT_CARD, OcgMessageType.SELECT_POSITION, OcgMessageType.SORT_CARD,
 ]);
 export type DriverOut = Exclude<FromWorker, { t: 'ready' }>;
 

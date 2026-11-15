@@ -2,6 +2,9 @@ import { OcgLocation, OcgMessageType, OcgQueryFlags, type OcgMessage } from 'ocg
 import type { Board, BoardCard, PlayerBoard, Show } from './protocol';
 import type { DuelSession } from './session';
 
+/** A consulta do motor devolve ATK/DEF sem sinal; "?" (−2) chegaria como 4294967294. Volta para inteiro com sinal. */
+const signed = (v: number | undefined) => (v == null ? v : v | 0);
+
 /** Acompanha o duelo: LP, turno e fase, descreve eventos em texto e tira a "foto" do tabuleiro para a interface. */
 export class Narrator {
   lp: [number, number] = [8000, 8000];
@@ -42,7 +45,7 @@ export class Narrator {
     const flags = (OcgQueryFlags.CODE | OcgQueryFlags.POSITION | OcgQueryFlags.ATTACK | OcgQueryFlags.DEFENSE) as OcgQueryFlags;
     const q = (controller: 0 | 1, location: OcgLocation): (BoardCard | null)[] =>
       s.core.duelQueryLocation(s.handle, { flags, controller, location }).map((c) =>
-        c && c.code ? { code: c.code, position: c.position ?? 0, attack: c.attack, defense: c.defense } : null);
+        c && c.code ? { code: c.code, position: c.position ?? 0, attack: signed(c.attack), defense: signed(c.defense) } : null);
     const pb = (p: 0 | 1): PlayerBoard => ({
       lp: this.lp[p],
       deck: s.core.duelQueryCount(s.handle, p, OcgLocation.DECK),

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { DeckBuilder } from './screens/DeckBuilder';
-import { DuelScreen } from './screens/DuelScreen';
+import { DuelScreen } from './screens/duel/DuelScreen';
 import { ShopScreen } from './screens/ShopScreen';
 import { loadData, type GameData } from './data/cards';
 import { randomDeck, starterCollection, validateDeck } from './game/decks';

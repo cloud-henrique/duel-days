@@ -7,9 +7,11 @@ Documento para continuar o projeto numa sessão nova. Leia também o `CLAUDE.md`
 - **Duelo** com o ocgcore oficial em WASM, num Worker: regras da era DM (modo MR1), CPU simples, pool de ~1.700 cartas
   (caixas de 2002–2005) com Extra Deck e fichas. Testado em massa (1.500 duelos CPU x CPU sem trava) e no **iPhone 11 Pro
   físico** (Safari e app instalado).
-- **Interface do duelo** no estilo HUD azul: campo em perspectiva ocupando a largura toda, barra de fases, fichas com avatar
-  e LP, mão em leque, jogada pela folha da carta (Invocar/Baixar/Ativar/Atacar), botões laterais (BATALHA/Encerrar),
-  cemitério, histórico, opção "não perguntar mais" para correntes opcionais, tela de erro com reinício.
+- **Interface do duelo** com as proporções do app nativo (change OpenSpec `polir-hud-duelo`): métricas derivadas da
+  largura (`duel.css`), campo inclinado 22°, zonas M/A em 0,78, **face própria da carta em português** com arte
+  recortada, placas de 60 com contagem e "−500" no LP, barra de fases com o narrador (sem balão), botão de fase 64×60,
+  menu com Desistir, mão em leque como no nativo. Testes de unidade (Vitest) e `proto/layout-e2e.mjs`.
+- Próximo change planejado: `animar-duelo` (linha do tempo de eventos no motor + animações, sons, abertura/fim).
 - **História**: mapa com 3 locais (Colégio Domino/Joey, Parque/Bakura, Kaiba Corp/Kaiba), corações de amizade (0–4),
   cenas `intro` → `bond` (4 corações) → `rematch`, nome do jogador (`{nome}`), botão Pular, save em IndexedDB.
 - **Economia**: 300 moedas e 40 cartas iniciais; vitória +100, derrota +30; loja com pack de 5 cartas (1 rara garantida),
@@ -50,4 +52,5 @@ Documento para continuar o projeto numa sessão nova. Leia também o `CLAUDE.md`
 
 - ~0,5% dos duelos simulados ainda podem ter resposta rejeitada em casos raros; a UI reenvia o pedido ("Jogada inválida").
 - No Safari (fora do app instalado), a barra flutuante cobre parte da mão; instalado na tela inicial fica em tela cheia.
-- Imagens das cartas são em inglês (só o texto da folha é em português).
+- A folha da carta (zoom), o deck builder e a loja ainda usam a imagem oficial em inglês; o duelo usa a face própria em
+  português. Arte recortada: `.venv/bin/python scripts/fetch_card_art.py cropped`.

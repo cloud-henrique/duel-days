@@ -1,19 +1,69 @@
 /** Rótulos em português para os campos numéricos do banco de cartas. */
-const ATTR: Record<number, string> = { 1: 'TERRA', 2: 'ÁGUA', 4: 'FOGO', 8: 'VENTO', 16: 'LUZ', 32: 'TREVAS', 64: 'DIVINO' };
-const RACE: [bigint, string][] = [
-  [0x1n, 'Guerreiro'], [0x2n, 'Mago'], [0x4n, 'Fada'], [0x8n, 'Demônio'], [0x10n, 'Zumbi'], [0x20n, 'Máquina'], [0x40n, 'Aqua'],
-  [0x80n, 'Piro'], [0x100n, 'Rocha'], [0x200n, 'Besta Alada'], [0x400n, 'Planta'], [0x800n, 'Inseto'], [0x1000n, 'Trovão'],
-  [0x2000n, 'Dragão'], [0x4000n, 'Besta'], [0x8000n, 'Besta-Guerreiro'], [0x10000n, 'Dinossauro'], [0x20000n, 'Peixe'],
-  [0x40000n, 'Serpente Marinha'], [0x80000n, 'Réptil'], [0x100000n, 'Psíquico'], [0x200000n, 'Divindade'],
-  [0x400000n, 'Deus Criador'], [0x800000n, 'Wyrm'], [0x1000000n, 'Ciberso'],
+import { OcgType } from 'ocgcore-wasm';
+
+/** Atributo: nome em português e nome do ícone (`public/card-icons/attribute-*.svg`, copiado do nativo). */
+const ATTR: Record<number, [string, string]> = {
+  1: ['TERRA', 'earth'], 2: ['ÁGUA', 'water'], 4: ['FOGO', 'fire'], 8: ['VENTO', 'wind'], 16: ['LUZ', 'light'], 32: ['TREVAS', 'dark'], 64: ['DIVINO', 'divine'],
+};
+/** Tipo de monstro: bit, nome em português e ícone do nativo (`type-*.svg`; vazio = o nativo não tem). */
+const RACE: [bigint, string, string][] = [
+  [0x1n, 'Guerreiro', 'warrior'], [0x2n, 'Mago', 'spellcaster'], [0x4n, 'Fada', 'fairy'], [0x8n, 'Demônio', 'fiend'],
+  [0x10n, 'Zumbi', 'zombie'], [0x20n, 'Máquina', 'machine'], [0x40n, 'Aqua', 'aqua'], [0x80n, 'Piro', 'pyro'],
+  [0x100n, 'Rocha', 'rock'], [0x200n, 'Besta Alada', 'winged-beast'], [0x400n, 'Planta', 'plant'], [0x800n, 'Inseto', 'insect'],
+  [0x1000n, 'Trovão', 'thunder'], [0x2000n, 'Dragão', 'dragon'], [0x4000n, 'Besta', 'beast'], [0x8000n, 'Besta-Guerreiro', 'beast-warrior'],
+  [0x10000n, 'Dinossauro', 'dinosaur'], [0x20000n, 'Peixe', 'fish'], [0x40000n, 'Serpente Marinha', 'sea-serpent'], [0x80000n, 'Réptil', 'reptile'],
+  [0x100000n, 'Psíquico', ''], [0x200000n, 'Besta Divina', 'divine-beast'], [0x400000n, 'Deus Criador', ''], [0x800000n, 'Wyrm', ''],
+  [0x1000000n, 'Ciberso', ''],
 ];
-export const attrName = (a: number) => ATTR[a] ?? '';
-export const raceName = (r: string) => { const v = BigInt(r || 0); return RACE.find(([bit]) => v & bit)?.[1] ?? ''; };
+const raceOf = (r: string) => { const v = BigInt(r || 0); return RACE.find(([bit]) => v & bit); };
+export const attrName = (a: number) => ATTR[a]?.[0] ?? '';
+export const raceName = (r: string) => raceOf(r)?.[1] ?? '';
+/** Nome do ícone (sem extensão) em `public/card-icons/`, ou null se não houver. */
+export const attrIcon = (a: number) => (ATTR[a] ? `attribute-${ATTR[a][1]}` : null);
+export const raceIcon = (r: string) => { const slug = raceOf(r)?.[2]; return slug ? `type-${slug}` : null; };
+/** O nativo só tem o ícone de Magia Rápida entre as propriedades de Magia/Armadilha. */
+export const propertyIcon = (type: number) => (type & OcgType.SPELL && type & OcgType.QUICKPLAY ? 'property-quick-play' : null);
+
+/** Propriedade de Magia/Armadilha como no Manual Oficial (Equipamento, Campo, Rápida, Ritual, Contínua, Resposta). */
+const SPELL_KIND: [number, string][] = [
+  [OcgType.EQUIP, 'Magia de Equipamento'], [OcgType.FIELD, 'Magia de Campo'], [OcgType.QUICKPLAY, 'Magia Rápida'],
+  [OcgType.RITUAL, 'Magia de Ritual'], [OcgType.CONTINUOUS, 'Magia Contínua'],
+];
+const TRAP_KIND: [number, string][] = [[OcgType.CONTINUOUS, 'Armadilha Contínua'], [OcgType.COUNTER, 'Armadilha de Resposta']];
+const MONSTER_KIND: [number, string][] = [
+  [OcgType.FUSION, 'Fusão'], [OcgType.RITUAL, 'Ritual'], [OcgType.SYNCHRO, 'Sincro'], [OcgType.XYZ, 'Xyz'], [OcgType.EFFECT, 'Efeito'],
+];
+const kindOf = (type: number, table: [number, string][], fallback: string) => table.find(([bit]) => type & bit)?.[1] ?? fallback;
 
 export function typeLine(type: number) {
-  if (type & 0x2) return type & 0x80000 ? 'Magia de Equipamento' : type & 0x10000 ? 'Magia de Campo' : type & 0x20000 ? 'Magia Rápida' : type & 0x80 ? 'Magia de Ritual' : type & 0x40000 ? 'Magia Contínua' : 'Magia';
-  if (type & 0x4) return type & 0x20000 ? 'Armadilha de Contra-Ataque' : type & 0x100000 ? 'Armadilha Contínua' : 'Armadilha';
-  const sub = type & 0x40 ? 'Fusão' : type & 0x80 ? 'Ritual' : type & 0x2000 ? 'Sincro' : type & 0x800000 ? 'Xyz' : type & 0x20 ? 'Efeito' : 'Normal';
-  return `Monstro · ${sub}`;
+  if (type & OcgType.SPELL) return kindOf(type, SPELL_KIND, 'Magia Normal');
+  if (type & OcgType.TRAP) return kindOf(type, TRAP_KIND, 'Armadilha Normal');
+  return `Monstro · ${kindOf(type, MONSTER_KIND, 'Normal')}`;
 }
-export const isMonster = (type: number) => (type & 0x1) !== 0;
+export const isMonster = (type: number) => (type & OcgType.MONSTER) !== 0;
+
+/** A partir daqui o valor é um "?" que chegou sem sinal (ex.: 4294967294 = −2). */
+const STAT_UNKNOWN_MIN = 0x7fffffff;
+/** Único formatador de ATK/DEF da interface: valores "?" (negativos no motor) aparecem como `?`. */
+export const formatStat = (v: number | null | undefined) => (v == null || v < 0 || v >= STAT_UNKNOWN_MIN ? '?' : String(v));
+
+/** Moldura da carta impressa (cor da face própria e do halo da ativação). */
+export type Frame = 'normal' | 'effect' | 'fusion' | 'ritual' | 'spell' | 'trap' | 'token';
+export function frameOf(type: number): Frame {
+  if (type & OcgType.SPELL) return 'spell';
+  if (type & OcgType.TRAP) return 'trap';
+  if (type & OcgType.TOKEN) return 'token';
+  if (type & OcgType.FUSION) return 'fusion';
+  if (type & OcgType.RITUAL) return 'ritual';
+  return type & OcgType.EFFECT ? 'effect' : 'normal';
+}
+
+const ATTR_GLYPH: Record<string, [string, string]> = {
+  TERRA: ['地', '#8a6a3a'], 'ÁGUA': ['水', '#2f8de0'], FOGO: ['炎', '#e0502f'], VENTO: ['風', '#3cae6a'],
+  LUZ: ['光', '#d9b43a'], TREVAS: ['闇', '#7a3fa8'], DIVINO: ['神', '#c9a227'],
+};
+const KIND_GLYPH: Partial<Record<Frame, [string, string]>> = { spell: ['魔', '#1d9a7a'], trap: ['罠', '#b0337e'] };
+/** Selo redondo do canto da carta: kanji e cor do atributo (monstro) ou de Magia/Armadilha. */
+export function attrGlyph(type: number, attribute: number): [string, string] {
+  return KIND_GLYPH[frameOf(type)] ?? ATTR_GLYPH[attrName(attribute)] ?? ['?', '#555'];
+}

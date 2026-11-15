@@ -11,10 +11,10 @@ page.on('pageerror', (e) => logs.push(`[page error] ${e.message}`));
 page.on('worker', (w) => { logs.push(`[worker criado] ${w.url()}`); w.on('console', (m) => logs.push(`[worker ${m.type()}] ${m.text()}`)); w.on('close', () => logs.push('[worker fechado]')); });
 const btn = (t) => page.locator('button', { hasText: t }).first();
 const state = () => page.evaluate(() => ({
-  fase: document.querySelector('.chip.on')?.textContent, turno: document.querySelector('.phasebar .turn')?.textContent,
+  fase: document.querySelector('.chip.on')?.textContent, narrador: document.querySelector('.phasebar .narr')?.textContent,
   side: [...document.querySelectorAll('.sidebtns button')].map((b) => b.textContent),
   painel: [...document.querySelectorAll('.scrim .sheet')].pop()?.innerText.slice(0, 80) ?? null,
-  campo: document.querySelectorAll('.field .slot img').length, brilho: document.querySelectorAll('.handfan .slot.hl').length,
+  campo: document.querySelectorAll('.field .zone .cardface').length, brilho: document.querySelectorAll('.handfan .slot.hl').length,
 }));
 try {
   await page.goto(url);

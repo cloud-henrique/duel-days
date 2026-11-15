@@ -30,7 +30,7 @@ export default defineConfig({
         background_color: '#0b0d17', theme_color: '#0b0d17', icons: [],
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,wasm,json,webp}'],
+        globPatterns: ['**/*.{js,css,html,wasm,json,webp,woff2,svg}'],
         // A arte das cartas (dezenas de MB) não entra na pré-carga: é guardada conforme é vista.
         globIgnores: ['cards/**'],
         runtimeCaching: [{

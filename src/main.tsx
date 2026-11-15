@@ -9,4 +9,7 @@ registerSW({ immediate: true });
 // Sensação de app nativo: sem zoom por gesto.
 for (const ev of ['gesturestart', 'gesturechange', 'gestureend']) document.addEventListener(ev, (e) => e.preventDefault());
 navigator.storage?.persist?.().catch(() => {});
-createRoot(document.getElementById('root')!).render(<App />);
+const root = createRoot(document.getElementById('root')!);
+// Desenvolvimento: ?cardfaces abre a página de conferência da face das cartas.
+if (import.meta.env.DEV && location.search.includes('cardfaces')) import('./dev/CardFaceGallery').then(({ CardFaceGallery }) => root.render(<CardFaceGallery />));
+else root.render(<App />);

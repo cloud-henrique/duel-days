@@ -43,7 +43,8 @@ npm run fetch-data                 # clona CardScripts e BabelCDB (ProjectIgnis)
 python3 scripts/fetch_pool.py      # 33 caixas de 2002-2005 (YGOPRODeck): quais cartas e a raridade de cada uma
 python3 scripts/export_data.py     # public/data/{cards,pool}.json + public/scripts.json (só cartas que o motor roda)
 python3 scripts/fetch_card_text_pt.py   # nomes e efeitos em português (o resto cai para inglês)
-.venv/bin/python scripts/fetch_card_art.py  # arte (small/large, WebP); ~70 MB
+.venv/bin/python scripts/fetch_card_art.py  # arte (small/large/cropped + verso, WebP); ~95 MB
+.venv/bin/python scripts/copy_card_icons.py # ícones de atributo/tipo/Magia Rápida, copiados do app nativo (fora do git)
 npx tsx proto/smoke.ts 500         # CPU x CPU com decks aleatórios: mede travas e erros de Lua
 npx tsx proto/economy-smoke.ts     # packs e coleção inicial
 npm run dev                        # PWA (use --port se o labeler estiver aberto)
@@ -89,10 +90,16 @@ npx tsx proto/story-smoke.ts               # percorre todos os caminhos de todas
 ## Arte das cartas
 
 ```bash
-.venv/bin/python scripts/fetch_card_art.py   # baixa de images.ygoprodeck.com (uso pessoal) e converte para WebP
+.venv/bin/python scripts/fetch_card_art.py           # todas as variantes; baixa de images.ygoprodeck.com (uso pessoal) e converte para WebP
+.venv/bin/python scripts/fetch_card_art.py cropped   # só uma variante
 ```
 
-- Para cada carta de `public/data/cards.json`: `public/cards/small/<id>.webp` (268 px, campo e mão) e `public/cards/large/<id>.webp` (540 px, zoom). Originais em `raw/cards/` (não versionados).
+- Para cada carta de `public/data/pool.json`:
+  - `public/cards/small/<id>.webp` (200 px, deck builder, loja e fallback);
+  - `public/cards/large/<id>.webp` (380 px, folha da carta);
+  - `public/cards/cropped/<id>.webp` (256 px, só a ilustração, usada pela face própria da carta no duelo).
+- O verso fica em `public/cards/back.webp`. Originais em `raw/cards/` (não versionados).
+- Sem Pillow? `python3 -m venv .venv && .venv/bin/pip install -r scripts/requirements.txt`.
 - Pausa entre requisições e pula o que já existe. Rode de novo ao ampliar o pool.
 - Toque numa carta abre o zoom com o texto do efeito (hoje em inglês, vindo do banco oficial). Cartas baixadas do oponente aparecem com o verso e não abrem.
 
