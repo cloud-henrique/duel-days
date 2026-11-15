@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="512" height="512">
+<defs>
+<g id="ankh">
+<path fill-rule="evenodd" d="M335,432 C175,250 255,20 400,20 C545,20 625,250 465,432 Z M400,372 C300,250 318,95 400,95 C482,95 500,250 400,372 Z"/>
+<polygon points="40,385 335,432 400,470 335,508 40,555"/>
+<polygon points="760,385 465,432 400,470 465,508 760,555"/>
+<path d="M335,508 L400,470 L465,508 Q448,800 550,960 L250,960 Q352,800 335,508 Z"/>
+<rect x="335" y="400" width="130" height="108"/>
+</g>
+<linearGradient id="fill" gradientUnits="userSpaceOnUse" x1="0" y1="20" x2="0" y2="960"><stop offset="0" stop-color="#8cc2ff"/><stop offset="1" stop-color="#2a6fe0"/></linearGradient>
+<linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0a1a3a"/><stop offset="1" stop-color="#050c1f"/></linearGradient>
+<radialGradient id="glow" cx="50%" cy="50%" r="55%"><stop offset="0" stop-color="#2f7fd8" stop-opacity=".7"/><stop offset="1" stop-color="#2f7fd8" stop-opacity="0"/></radialGradient>
+</defs>
+<rect width="100" height="100" fill="url(#bg)"/><rect width="100" height="100" fill="url(#glow)"/>
+<g transform="translate(50 50) scale(.72) translate(-50 -50)"><polygon points="22,12 88,12 88,78 78,88 12,88 12,22" fill="#0d2147" fill-opacity=".85" stroke="#2f7fd8" stroke-width="2.5"/><g transform="translate(50 50) scale(0.056) translate(-400 -490)"><use href="#ankh" fill="#bfe0ff" stroke="#bfe0ff" stroke-width="22" stroke-linejoin="round"/><use href="#ankh" fill="url(#fill)"/></g></g>
+</svg>

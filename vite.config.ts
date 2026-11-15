@@ -27,10 +27,16 @@ export default defineConfig({
       registerType: 'autoUpdate',
       manifest: {
         name: 'YGO Story', short_name: 'YGO Story', display: 'standalone', orientation: 'portrait',
-        background_color: '#0b0d17', theme_color: '#0b0d17', icons: [],
+        background_color: '#050c1f', theme_color: '#050c1f',
+        icons: [
+          { src: 'icons/icon-192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
+          { src: 'icons/icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'any' },
+          { src: 'icons/icon-maskable-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
+        ],
       },
+      includeAssets: ['favicon.ico', 'icons/icon.svg', 'icons/apple-touch-icon.png'],
       workbox: {
-        globPatterns: ['**/*.{js,css,html,wasm,json,webp,woff2,svg}'],
+        globPatterns: ['**/*.{js,css,html,wasm,json,webp,woff2,svg,png,ico}'],
         // A arte das cartas (dezenas de MB) não entra na pré-carga: é guardada conforme é vista.
         globIgnores: ['cards/**'],
         runtimeCaching: [{

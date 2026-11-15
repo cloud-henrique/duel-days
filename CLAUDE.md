@@ -24,6 +24,8 @@ node proto/webkit-e2e.mjs           # fluxo no WebKit (Playwright) contra o prev
 Pipeline de dados (gera arquivos NÃO versionados; veja README): `npm run fetch-data`, `python3 scripts/fetch_pool.py`,
 `python3 scripts/export_data.py`, `python3 scripts/fetch_card_text_pt.py`, `.venv/bin/python scripts/fetch_card_art.py` (small/large/cropped + verso), `.venv/bin/python scripts/copy_card_icons.py` (ícones de atributo/tipo do app nativo e propriedades do `cardicons.png` do Tag Force 3 no PPSSPP → `public/card-icons/`),
 `.venv/bin/python scripts/extract_action_icons.py` (recorta o `actions.png` do Tag Force; o ícone de cada ação se escolhe em `npm run icon-labeler`, porta 5174, e fica em `assets/action-icons/labels.json`), `npm run build-characters`, `.venv/bin/python scripts/build_sprites.py`.
+Ícones do PWA (ankh em HUD azul; arte própria, os binários são versionados): edite `assets/app-icon/*.svg` e rode `node scripts/build_app_icons.mjs`
+(Playwright; se faltar o Chromium da revisão certa, `CHROMIUM_PATH=<chrome-headless-shell>`) → `public/icons/*` e `public/favicon.ico`.
 
 ## Arquitetura
 
@@ -31,7 +33,8 @@ Pipeline de dados (gera arquivos NÃO versionados; veja README): `npm run fetch-
   - `session.ts` cria o duelo (modo `MR1`), carrega `constant.lua` e `utility.lua` e **embaralha o deck por conta própria**
     (o core não embaralha; a compra sairia na ordem inversa da lista).
   - `driver.ts` (`DuelDriver`): avança o motor, responde pela CPU (jogador 1) e pelos prompts automáticos, tem orçamento
-    de passos/tempo e devolve `prompt`/`end`/`error`. É o mesmo código no Worker e nos testes em Node.
+    de passos/tempo e devolve `prompt`/`end`/`error`, com os **quadros** do caminho (cada jogada da CPU, cortados também na troca de
+    turno) para a tela tocar com pausas (`screens/duel/pacing.ts`, ritmo do `DuelPacing` nativo: 700 ms por jogada da CPU). É o mesmo código no Worker e nos testes em Node.
   - `host.ts` trata as mensagens; `worker.ts` é só o invólucro; `inline.ts` roda o motor na thread principal (`?engine=inline`).
   - `cpu.ts`: CPU aleatória com preferências; só responde o que o motor oferece (ex.: `to_ep` pode ser falso).
   - `narrator.ts`: LP/turno/fase, texto dos eventos e a "foto" do tabuleiro para a UI.
