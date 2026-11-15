@@ -11,6 +11,7 @@ import { cardActions, highlighted, refKey, sideActions, type CardRef } from './p
 import { choiceMarks, choiceOf, tapOption } from './choice';
 import { ChoiceBar } from './ChoicePanels';
 import { useDuelEngine } from './useDuelEngine';
+import { SHOWCASE_MS } from './pacing';
 import { promptPanel } from './PromptPanel';
 import { Plate, type Duelist } from './Plate';
 import { Field } from './Field';
@@ -22,8 +23,6 @@ import './duel.css';
 
 export type { Duelist } from './Plate';
 
-/** Tempo de cada carta no destaque de ativação. */
-const SHOWCASE_MS = 1300;
 /** Fase de batalha (todos os sub-passos): o alvo escolhido depois de "Atacar" é o de ataque. */
 const BATTLE = OcgPhase.BATTLE_START | OcgPhase.BATTLE_STEP | OcgPhase.DAMAGE | OcgPhase.DAMAGE_CAL | OcgPhase.BATTLE;
 const isBattle = (phase: number) => (phase & BATTLE) !== 0;

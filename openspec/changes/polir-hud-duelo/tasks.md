@@ -72,6 +72,7 @@ Regra deste change: **nenhuma mudança de comportamento sem um teste que a cubra
 - [x] 8.9 Escolha de cartas como no nativo (`choice.ts`, `ChoicePanels.tsx`): com tudo no campo ou na mão, barra compacta (carta que age, título, dica, contador) e toque nas cartas que brilham (alvo de ataque em vermelho); com cartas fora do campo, fileira de cartas com a origem. Testes em `choice.test.ts`; conferência visual em dev com `?choices`.
 - [x] 8.10 Selo da face com os ícones oficiais (atributo, `card-spell`/`card-trap`; o kanji só sem eles); texto da folha inteiro até um terço da tela; ícone de propriedade para todas as Magias/Armadilhas (os seis oficiais, recortados do atlas do Tag Force 3 por `scripts/copy_card_icons.py`).
 - [x] 8.11 Ícones das ações só do Phosphor (consistência): Sparkle (ativar), Tornado (invocar), CompassRose (Invocação-Especial), EyeSlash (baixar), ArrowsClockwise (mudar posição), Link (corrente), Sword/Crosshair (ataque). A escolha seguiu os ícones do Tag Force rotulados no labeler de ícones (`tools/icon-labeler`, `scripts/extract_action_icons.py`).
+- [x] 8.12 Turno do oponente com ritmo, como o nativo: o `DuelDriver` devolve quadros (tabuleiro + eventos + ativações) a cada jogada da CPU e na troca de turno; a tela os toca com 700 ms por jogada e espera o destaque de ativação (`pacing.ts`, testes em `pacing.test.ts`). As jogadas do próprio jogador continuam imediatas.
 
 ## Workflow follow-up
 

@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import type { OcgMessage, OcgResponse } from 'ocgcore-wasm';
-import type { Board, FromWorker, Show, ToWorker } from '../../engine/protocol';
+import type { Board, Frame, FromWorker, Show, ToWorker } from '../../engine/protocol';
 import type { DeckList } from '../../engine/session';
 import { InlineEngine } from '../../engine/inline';
 import { debugOn, engineInline, rlog } from '../../debug/remote';
 import { art } from '../../components/CardSheet';
+import { playbackDelays } from './pacing';
 
 const BASE = import.meta.env.BASE_URL;
 /** Sem resposta do motor por este tempo depois de uma jogada, a tela mostra o erro em vez de ficar parada. */
@@ -42,7 +43,35 @@ export function useDuelEngine({ mine, foe, foeName, onPrompt, onEvents, onShows,
   const clearDog = () => { window.clearTimeout(watchdog.current); watchdog.current = undefined; };
   const send = (m: ToWorker) => worker.current?.postMessage(m);
 
+  // Reprodução: os quadros do motor (ex.: cada jogada da CPU) entram um por vez, com as pausas do `pacing`; o pedido
+  // de jogada (ou o fim) só aparece depois do último.
+  const playTimer = useRef<number | undefined>(undefined);
+  const stopPlayback = () => { window.clearTimeout(playTimer.current); playTimer.current = undefined; };
+  const showFrame = (f: Frame) => { setBoard(f.board); onEvents(f.events); onShows(f.shows); };
+  const finish = (d: Extract<FromWorker, { t: 'prompt' | 'end' }>) => {
+    if (d.t === 'prompt') { setBoard(d.board); setPrompt(d.msg); onPrompt(); onEvents(d.events); onShows(d.shows); return; }
+    setBoard(d.board); setPrompt(null); onEvents(d.events); onShows(d.shows);
+    setEnded({ text: d.winner === 0 ? 'Você venceu!' : `${foeName} venceu.`, won: d.winner === 0 });
+  };
+  const play = (d: Extract<FromWorker, { t: 'prompt' | 'end' }>) => {
+    stopPlayback();
+    const frames = d.frames ?? [];
+    const delays = playbackDelays(frames);
+    const step = (i: number) => {
+      if (i < frames.length) showFrame(frames[i]);
+      else { playTimer.current = undefined; finish(d); return; }
+      next(i + 1);
+    };
+    const next = (i: number) => {
+      // Sem espera, aplica na hora (as jogadas do próprio jogador não ficam para depois).
+      if (delays[i] === 0) step(i);
+      else playTimer.current = window.setTimeout(() => step(i), delays[i]);
+    };
+    next(0);
+  };
+
   const start = () => {
+    stopPlayback();
     worker.current?.terminate();
     const w = engineInline ? new InlineEngine() : new Worker(new URL('../../engine/worker.ts', import.meta.url), { type: 'module' });
     rlog(`motor: ${engineInline ? 'thread principal (inline)' : 'worker'}`);
@@ -56,11 +85,8 @@ export function useDuelEngine({ mine, foe, foeName, onPrompt, onEvents, onShows,
       clearDog();
       if (d.t !== 'ready') rlog(`<- ${d.t}${d.t === 'prompt' ? ' ' + d.msg.type : d.t === 'error' ? ' ' + d.text : ''}`);
       if (d.t === 'ready') setInfo(`ocgcore ${d.version.join('.')} · ${d.loadMs} ms`);
-      else if (d.t === 'prompt') { setBoard(d.board); setPrompt(d.msg); onPrompt(); onEvents(d.events); onShows(d.shows); }
-      else if (d.t === 'end') {
-        setBoard(d.board); setPrompt(null); onEvents(d.events); onShows(d.shows);
-        setEnded({ text: d.winner === 0 ? 'Você venceu!' : `${foeName} venceu.`, won: d.winner === 0 });
-      } else if (d.t === 'error') { onLog(`ERRO: ${d.text}`); setFail(d.text); }
+      else if (d.t === 'prompt' || d.t === 'end') play(d);
+      else if (d.t === 'error') { onLog(`ERRO: ${d.text}`); setFail(d.text); }
     };
     send({ t: 'start', seed: Date.now() % SEED_RANGE, mine, foe, base: BASE, debug: debugOn });
     pong.current = Date.now();
@@ -78,7 +104,7 @@ export function useDuelEngine({ mine, foe, foeName, onPrompt, onEvents, onShows,
     // Aquece o cache offline com a arte das cartas deste duelo.
     for (const code of new Set([...mine.main, ...mine.extra, ...foe.main, ...foe.extra])) fetch(art(code, 'small')).catch(() => {});
     start();
-    return () => { worker.current?.terminate(); };
+    return () => { stopPlayback(); worker.current?.terminate(); };
   }, []);
 
   const reply = (response: OcgResponse) => {
@@ -91,7 +117,7 @@ export function useDuelEngine({ mine, foe, foeName, onPrompt, onEvents, onShows,
     }, WATCHDOG_MS);
   };
   const autoPass = () => send({ t: 'autoPass', value: true });
-  const surrender = () => { worker.current?.terminate(); setPrompt(null); setEnded({ text: 'Você desistiu.', won: false }); };
+  const surrender = () => { stopPlayback(); worker.current?.terminate(); setPrompt(null); setEnded({ text: 'Você desistiu.', won: false }); };
   const restart = () => { setFail(null); setBoard(null); setPrompt(null); start(); };
 
   return { board, prompt, info, ended, fail, setFail, dbg, lastPongAgo: () => Math.round((Date.now() - pong.current) / 1000), reply, autoPass, surrender, restart };

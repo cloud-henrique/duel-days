@@ -13,6 +13,11 @@ export interface PlayerBoard {
 /** Carta ativada (para a animação de destaque na interface). */
 export interface Show { code: number; controller: number }
 export interface Board { players: [PlayerBoard, PlayerBoard]; turn: number; turnPlayer: number; phase: number }
+/**
+ * Um passo do motor no meio do processamento (ex.: cada jogada da CPU): o tabuleiro naquele momento, os eventos e as
+ * ativações desde o quadro anterior. A interface toca os quadros com pausas, em vez de pular direto ao resultado.
+ */
+export interface Frame { board: Board; events: string[]; shows: Show[] }
 
 export type ToWorker =
   | { t: 'start'; seed: number; mine: DeckList; foe: DeckList; base: string; debug?: boolean }
@@ -22,8 +27,8 @@ export type ToWorker =
   | { t: 'ping'; n: number };
 export type FromWorker =
   | { t: 'ready'; version: [number, number]; loadMs: number }
-  | { t: 'prompt'; msg: OcgMessage; board: Board; events: string[]; shows?: Show[] }
-  | { t: 'end'; winner: number; board: Board; events: string[]; shows?: Show[] }
+  | { t: 'prompt'; msg: OcgMessage; board: Board; events: string[]; shows?: Show[]; frames?: Frame[] }
+  | { t: 'end'; winner: number; board: Board; events: string[]; shows?: Show[]; frames?: Frame[] }
   | { t: 'error'; text: string }
   | { t: 'debug'; text: string }
   | { t: 'pong'; n: number };
