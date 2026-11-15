@@ -50,19 +50,21 @@ npm run dev                 # PWA em http://localhost:5173 (use --port se o labe
 - `src/App.tsx`: UI mínima; todos os prompts (`SELECT_*`) viram botões. Zona/posição ainda são automáticas.
 - `public/data` e `public/scripts` não são versionados (regeneráveis).
 
-## História (visual novel)
+## História (visual novel + mapa)
 
 ```bash
 python3 -m venv .venv && .venv/bin/pip install -r scripts/requirements.txt
-npm run build-characters                 # assets/characters/characters.json (a partir dos rótulos)
+npm run build-characters                   # assets/characters/characters.json (a partir dos rótulos)
 .venv/bin/python scripts/build_sprites.py  # public/characters/ (WebP + index.json)
-npx tsx proto/story-smoke.ts             # percorre todos os caminhos do capítulo
+npx tsx proto/story-smoke.ts               # percorre todos os caminhos de todas as cenas
 ```
 
 - O sprite de corpo vem com o rosto em branco; o rosto 240x240 se sobrepõe sempre em (260, 120) (medido nos 44 personagens).
-- `src/story/runner.ts`: motor puro (say, show/hide, choice, set/if/goto/label, duel, end). O estado cabe num save JSON.
-- `src/story/chapters/ch1.ts`: capítulo de exemplo (Yugi, Joey e Kaiba). Cada `duel` abre a tela de duelo e volta pelo resultado.
-- `src/story/save.ts`: save em IndexedDB (Dexie), gravado a cada passo. Um duelo em andamento recomeça se a página recarregar.
+- `src/story/runner.ts`: motor puro (say, show/hide, choice, set/if/goto/label, heart, duel, end). O estado de uma cena cabe num JSON.
+- `src/story/world.ts`: locais e cenas. Cada personagem tem cenas na ordem `intro` (única), `bond` (única, exige 4 corações) e `rematch` (repetível). `pickScene` escolhe a primeira elegível.
+- `src/story/content.ts`: o texto das cenas (Joey, Bakura, Kaiba). `{nome}` vira o nome do jogador.
+- `src/story/progress.ts`: progresso em IndexedDB (Dexie): nome, corações, vitórias, cenas vistas e a cena em andamento. Corações vêm de nós `heart` e valem ao terminar a cena.
+- Um duelo em andamento recomeça se a página recarregar.
 
 ## Arte das cartas
 

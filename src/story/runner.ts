@@ -1,5 +1,5 @@
 /** Motor da história: puro, sem React. O estado cabe num save (JSON). */
-export type Side = 'left' | 'right';
+export type Side = 'left' | 'right' | 'center';
 export type Node =
   | { t: 'say'; who?: string; name?: string; expr?: string; text: string }
   | { t: 'show'; who: string; side: Side; expr?: string }
@@ -9,6 +9,7 @@ export type Node =
   | { t: 'goto'; to: string }
   | { t: 'label'; name: string }
   | { t: 'choice'; options: { text: string; goto: string; set?: string }[] }
+  | { t: 'heart'; who: string; delta: number }
   | { t: 'duel'; opponent: string; win: string; lose: string }
   | { t: 'end'; text?: string };
 
@@ -20,9 +21,11 @@ export interface RunState {
   flags: Record<string, boolean>;
   stage: StageSprite[];
   speaker: string | null;
+  /** Corações ganhos nesta cena (somados ao progresso quando a cena termina). */
+  gain: Record<string, number>;
 }
 
-export const newState = (ch: Chapter): RunState => settle(ch, { chapter: ch.id, i: 0, flags: {}, stage: [], speaker: null });
+export const newState = (ch: Chapter): RunState => settle(ch, { chapter: ch.id, i: 0, flags: {}, stage: [], speaker: null, gain: {} });
 
 const labelIndex = (ch: Chapter, name: string) => {
   const i = ch.nodes.findIndex((n) => n.t === 'label' && n.name === name);
@@ -32,7 +35,7 @@ const labelIndex = (ch: Chapter, name: string) => {
 
 /** Executa os nós que não pedem interação até chegar a um que pede (say, choice, duel, end). */
 export function settle(ch: Chapter, st: RunState): RunState {
-  let s: RunState = { ...st, flags: { ...st.flags }, stage: st.stage.map((x) => ({ ...x })) };
+  let s: RunState = { ...st, flags: { ...st.flags }, stage: st.stage.map((x) => ({ ...x })), gain: { ...st.gain } };
   for (let guard = 0; guard < 1000; guard++) {
     const n = ch.nodes[s.i];
     if (!n) return { ...s, i: ch.nodes.length };
@@ -45,6 +48,7 @@ export function settle(ch: Chapter, st: RunState): RunState {
       }
       case 'hide': s.stage = s.stage.filter((x) => x.id !== n.who); s.i++; break;
       case 'set': s.flags[n.flag] = n.value ?? true; s.i++; break;
+      case 'heart': s.gain[n.who] = (s.gain[n.who] ?? 0) + n.delta; s.i++; break;
       case 'if': s.i = labelIndex(ch, s.flags[n.flag] ? n.then : (n.else ?? n.then)); break;
       case 'goto': s.i = labelIndex(ch, n.to); break;
       case 'say': {
@@ -73,5 +77,11 @@ export function resolveDuel(ch: Chapter, st: RunState, won: boolean): RunState {
   const n = ch.nodes[st.i];
   if (n?.t !== 'duel') return st;
   return settle(ch, { ...st, flags: { ...st.flags, [`won:${n.opponent}`]: won }, i: labelIndex(ch, won ? n.win : n.lose) });
+}
+/** Pula as falas até a próxima escolha, duelo ou fim. */
+export function skip(ch: Chapter, st: RunState): RunState {
+  let s = st;
+  for (let guard = 0; guard < 1000 && ch.nodes[s.i]?.t === 'say'; guard++) s = advance(ch, s);
+  return s;
 }
 export const isEnd = (ch: Chapter, st: RunState) => st.i >= ch.nodes.length || ch.nodes[st.i]?.t === 'end';
