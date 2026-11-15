@@ -1,0 +1,38 @@
+# Dependências e builds
+node_modules/
+dist/
+build/
+.vite/
+.expo/
+*.tsbuildinfo
+
+# Ambientes e segredos
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# SO / editores
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.swp
+*.tmp
+
+# Material com copyright da Konami: NUNCA versionar.
+# Zips originais e arquivos temporários de download
+raw/
+# Sprites, rostos e artes das cartas (uso pessoal)
+assets/characters/*/
+assets/cards/
+# Mantém só os metadados leves (manifest e rótulos manuais)
+!assets/characters/manifest.json
+!assets/characters/labels.json
+!assets/characters/README.md

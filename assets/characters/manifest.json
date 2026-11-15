@@ -1,0 +1,5580 @@
+{
+ "source": "The Spriters Resource - Yu-Gi-Oh! Duel Links (Portraits)",
+ "note": "faces: 240x240 expression crops (index order = game order); full: 760x800 body art",
+ "characters": [
+  {
+   "id": "arkana",
+   "name": "Arkana",
+   "sourceAssetId": "132206",
+   "full": {
+    "variant": "chara007",
+    "file": "arkana/full_chara007.png",
+    "w": 760,
+    "h": 800
+   },
+   "bodies": [
+    {
+     "variant": "chara007",
+     "file": "arkana/full_chara007.png",
+     "w": 760,
+     "h": 800
+    }
+   ],
+   "faces": [
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "arkana/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "file": "arkana/faces/chara007_02.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "file": "arkana/faces/chara007_03.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "file": "arkana/faces/chara007_04.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "file": "arkana/faces/chara007_05.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "file": "arkana/faces/chara007_06.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 7,
+     "file": "arkana/faces/chara007_07.png",
+     "w": 240,
+     "h": 240
+    }
+   ],
+   "extras": [],
+   "series": "dm"
+  },
+  {
+   "id": "bakura",
+   "name": "Bakura",
+   "sourceAssetId": "170922",
+   "full": {
+    "variant": "chara007",
+    "file": "bakura/full_chara007.png",
+    "w": 760,
+    "h": 800
+   },
+   "bodies": [
+    {
+     "variant": "chara007",
+     "file": "bakura/full_chara007.png",
+     "w": 760,
+     "h": 800
+    }
+   ],
+   "faces": [
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "bakura/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "file": "bakura/faces/chara007_02.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "file": "bakura/faces/chara007_03.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "file": "bakura/faces/chara007_04.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "file": "bakura/faces/chara007_05.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "file": "bakura/faces/chara007_06.png",
+     "w": 240,
+     "h": 240
+    }
+   ],
+   "extras": [],
+   "series": "dm"
+  },
+  {
+   "id": "bandit_keith",
+   "name": "Bandit Keith",
+   "sourceAssetId": "132208",
+   "full": {
+    "variant": "chara007",
+    "file": "bandit_keith/full_chara007.png",
+    "w": 760,
+    "h": 800
+   },
+   "bodies": [
+    {
+     "variant": "chara007",
+     "file": "bandit_keith/full_chara007.png",
+     "w": 760,
+     "h": 800
+    }
+   ],
+   "faces": [
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "bandit_keith/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "file": "bandit_keith/faces/chara007_02.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "file": "bandit_keith/faces/chara007_03.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "file": "bandit_keith/faces/chara007_04.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "file": "bandit_keith/faces/chara007_05.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "file": "bandit_keith/faces/chara007_06.png",
+     "w": 240,
+     "h": 240
+    }
+   ],
+   "extras": [],
+   "series": "dm"
+  },
+  {
+   "id": "bonz",
+   "name": "Bonz",
+   "sourceAssetId": "132211",
+   "full": {
+    "variant": "chara007",
+    "file": "bonz/full_chara007.png",
+    "w": 760,
+    "h": 800
+   },
+   "bodies": [
+    {
+     "variant": "chara007",
+     "file": "bonz/full_chara007.png",
+     "w": 760,
+     "h": 800
+    }
+   ],
+   "faces": [
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "bonz/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "file": "bonz/faces/chara007_02.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "file": "bonz/faces/chara007_03.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "file": "bonz/faces/chara007_04.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "file": "bonz/faces/chara007_05.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "file": "bonz/faces/chara007_06.png",
+     "w": 240,
+     "h": 240
+    }
+   ],
+   "extras": [],
+   "series": "dm"
+  },
+  {
+   "id": "bronk_stone",
+   "name": "Bronk Stone",
+   "sourceAssetId": "142526",
+   "full": {
+    "variant": "chara007",
+    "file": "bronk_stone/full_chara007.png",
+    "w": 760,
+    "h": 800
+   },
+   "bodies": [
+    {
+     "variant": "chara007",
+     "file": "bronk_stone/full_chara007.png",
+     "w": 760,
+     "h": 800
+    }
+   ],
+   "faces": [
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "bronk_stone/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "file": "bronk_stone/faces/chara007_02.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "file": "bronk_stone/faces/chara007_03.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "file": "bronk_stone/faces/chara007_04.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "file": "bronk_stone/faces/chara007_05.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "file": "bronk_stone/faces/chara007_06.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 7,
+     "file": "bronk_stone/faces/chara007_07.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 8,
+     "file": "bronk_stone/faces/chara007_08.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 11,
+     "file": "bronk_stone/faces/chara007_11.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 12,
+     "file": "bronk_stone/faces/chara007_12.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 13,
+     "file": "bronk_stone/faces/chara007_13.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 14,
+     "file": "bronk_stone/faces/chara007_14.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 15,
+     "file": "bronk_stone/faces/chara007_15.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 16,
+     "file": "bronk_stone/faces/chara007_16.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 17,
+     "file": "bronk_stone/faces/chara007_17.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 18,
+     "file": "bronk_stone/faces/chara007_18.png",
+     "w": 240,
+     "h": 240
+    }
+   ],
+   "extras": [],
+   "series": "dm?"
+  },
+  {
+   "id": "dox",
+   "name": "Dox",
+   "sourceAssetId": "132214",
+   "full": {
+    "variant": "chara007",
+    "file": "dox/full_chara007.png",
+    "w": 760,
+    "h": 800
+   },
+   "bodies": [
+    {
+     "variant": "chara007",
+     "file": "dox/full_chara007.png",
+     "w": 760,
+     "h": 800
+    }
+   ],
+   "faces": [
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "dox/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "file": "dox/faces/chara007_02.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "file": "dox/faces/chara007_03.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "file": "dox/faces/chara007_04.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "file": "dox/faces/chara007_05.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "file": "dox/faces/chara007_06.png",
+     "w": 240,
+     "h": 240
+    }
+   ],
+   "extras": [],
+   "series": "dm?"
+  },
+  {
+   "id": "dr_faker",
+   "name": "Dr. Faker",
+   "sourceAssetId": "174405",
+   "full": {
+    "variant": "chara007",
+    "file": "dr_faker/full_chara007.png",
+    "w": 760,
+    "h": 800
+   },
+   "bodies": [
+    {
+     "variant": "chara007",
+     "file": "dr_faker/full_chara007.png",
+     "w": 760,
+     "h": 800
+    },
+    {
+     "variant": "chara007",
+     "alt": 1,
+     "file": "dr_faker/full_chara007_alt1.png",
+     "w": 760,
+     "h": 800
+    }
+   ],
+   "faces": [
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "dr_faker/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 1,
+     "alt": 1,
+     "file": "dr_faker/faces/chara007_01_alt1.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "file": "dr_faker/faces/chara007_02.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "alt": 1,
+     "file": "dr_faker/faces/chara007_02_alt1.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "file": "dr_faker/faces/chara007_03.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "alt": 1,
+     "file": "dr_faker/faces/chara007_03_alt1.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "file": "dr_faker/faces/chara007_04.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "alt": 1,
+     "file": "dr_faker/faces/chara007_04_alt1.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "file": "dr_faker/faces/chara007_05.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "alt": 1,
+     "file": "dr_faker/faces/chara007_05_alt1.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "file": "dr_faker/faces/chara007_06.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 7,
+     "file": "dr_faker/faces/chara007_07.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 7,
+     "alt": 1,
+     "file": "dr_faker/faces/chara007_07_alt1.png",
+     "w": 240,
+     "h": 240
+    }
+   ],
+   "extras": [],
+   "series": "dm?"
+  },
+  {
+   "id": "duke_devlin",
+   "name": "Duke Devlin",
+   "sourceAssetId": "153410",
+   "full": {
+    "variant": "chara007",
+    "file": "duke_devlin/full_chara007.png",
+    "w": 760,
+    "h": 800
+   },
+   "bodies": [
+    {
+     "variant": "chara007",
+     "file": "duke_devlin/full_chara007.png",
+     "w": 760,
+     "h": 800
+    }
+   ],
+   "faces": [
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "duke_devlin/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "file": "duke_devlin/faces/chara007_02.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "file": "duke_devlin/faces/chara007_03.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "file": "duke_devlin/faces/chara007_04.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "file": "duke_devlin/faces/chara007_05.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "file": "duke_devlin/faces/chara007_06.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 7,
+     "file": "duke_devlin/faces/chara007_07.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 8,
+     "file": "duke_devlin/faces/chara007_08.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 9,
+     "file": "duke_devlin/faces/chara007_09.png",
+     "w": 240,
+     "h": 240
+    }
+   ],
+   "extras": [],
+   "series": "dm"
+  },
+  {
+   "id": "espa_roba",
+   "name": "Espa Roba",
+   "sourceAssetId": "132215",
+   "full": {
+    "variant": "chara007",
+    "file": "espa_roba/full_chara007.png",
+    "w": 760,
+    "h": 800
+   },
+   "bodies": [
+    {
+     "variant": "chara007",
+     "file": "espa_roba/full_chara007.png",
+     "w": 760,
+     "h": 800
+    }
+   ],
+   "faces": [
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "espa_roba/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "file": "espa_roba/faces/chara007_02.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "file": "espa_roba/faces/chara007_03.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "file": "espa_roba/faces/chara007_04.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "file": "espa_roba/faces/chara007_05.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "file": "espa_roba/faces/chara007_06.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 7,
+     "file": "espa_roba/faces/chara007_07.png",
+     "w": 240,
+     "h": 240
+    }
+   ],
+   "extras": [],
+   "series": "dm"
+  },
+  {
+   "id": "gong_strong",
+   "name": "Gong Strong",
+   "sourceAssetId": "162885",
+   "full": {
+    "variant": "chara007",
+    "file": "gong_strong/full_chara007.png",
+    "w": 760,
+    "h": 800
+   },
+   "bodies": [
+    {
+     "variant": "chara007",
+     "file": "gong_strong/full_chara007.png",
+     "w": 760,
+     "h": 800
+    }
+   ],
+   "faces": [
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "gong_strong/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "file": "gong_strong/faces/chara007_02.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "file": "gong_strong/faces/chara007_03.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "file": "gong_strong/faces/chara007_04.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "file": "gong_strong/faces/chara007_05.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "file": "gong_strong/faces/chara007_06.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 7,
+     "file": "gong_strong/faces/chara007_07.png",
+     "w": 240,
+     "h": 240
+    }
+   ],
+   "extras": [],
+   "series": "dm?"
+  },
+  {
+   "id": "ishizu_ishtar",
+   "name": "Ishizu Ishtar",
+   "sourceAssetId": "132216",
+   "full": {
+    "variant": "chara007",
+    "file": "ishizu_ishtar/full_chara007.png",
+    "w": 760,
+    "h": 800
+   },
+   "bodies": [
+    {
+     "variant": "chara007",
+     "file": "ishizu_ishtar/full_chara007.png",
+     "w": 760,
+     "h": 800
+    }
+   ],
+   "faces": [
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "ishizu_ishtar/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "file": "ishizu_ishtar/faces/chara007_02.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "file": "ishizu_ishtar/faces/chara007_03.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "file": "ishizu_ishtar/faces/chara007_04.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "file": "ishizu_ishtar/faces/chara007_05.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "file": "ishizu_ishtar/faces/chara007_06.png",
+     "w": 240,
+     "h": 240
+    }
+   ],
+   "extras": [],
+   "series": "dm"
+  },
+  {
+   "id": "joey_wheeler",
+   "name": "Joey Wheeler",
+   "sourceAssetId": "132221",
+   "full": {
+    "variant": "chara007",
+    "file": "joey_wheeler/full_chara007.png",
+    "w": 760,
+    "h": 800
+   },
+   "bodies": [
+    {
+     "variant": "chara007",
+     "file": "joey_wheeler/full_chara007.png",
+     "w": 760,
+     "h": 800
+    }
+   ],
+   "faces": [
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "joey_wheeler/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 1,
+     "alt": 1,
+     "file": "joey_wheeler/faces/chara007_01_alt1.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "file": "joey_wheeler/faces/chara007_02.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "alt": 1,
+     "file": "joey_wheeler/faces/chara007_02_alt1.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "file": "joey_wheeler/faces/chara007_03.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "alt": 1,
+     "file": "joey_wheeler/faces/chara007_03_alt1.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "file": "joey_wheeler/faces/chara007_04.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "alt": 1,
+     "file": "joey_wheeler/faces/chara007_04_alt1.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "file": "joey_wheeler/faces/chara007_05.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "alt": 1,
+     "file": "joey_wheeler/faces/chara007_05_alt1.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "file": "joey_wheeler/faces/chara007_06.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "alt": 1,
+     "file": "joey_wheeler/faces/chara007_06_alt1.png",
+     "w": 240,
+     "h": 240
+    }
+   ],
+   "extras": [],
+   "series": "dm"
+  },
+  {
+   "id": "joey_wheeler_casual",
+   "name": "Joey Wheeler (Casual)",
+   "sourceAssetId": "537648",
+   "full": null,
+   "bodies": [],
+   "faces": [
+    {
+     "variant": "chara003",
+     "index": 1,
+     "file": "joey_wheeler_casual/faces/chara003_01.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 2,
+     "file": "joey_wheeler_casual/faces/chara003_02.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 3,
+     "file": "joey_wheeler_casual/faces/chara003_03.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 4,
+     "file": "joey_wheeler_casual/faces/chara003_04.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 5,
+     "file": "joey_wheeler_casual/faces/chara003_05.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 6,
+     "file": "joey_wheeler_casual/faces/chara003_06.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 7,
+     "file": "joey_wheeler_casual/faces/chara003_07.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 8,
+     "file": "joey_wheeler_casual/faces/chara003_08.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 9,
+     "file": "joey_wheeler_casual/faces/chara003_09.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 10,
+     "file": "joey_wheeler_casual/faces/chara003_10.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 11,
+     "file": "joey_wheeler_casual/faces/chara003_11.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 0,
+     "file": "joey_wheeler_casual/faces/chara007_00.png",
+     "w": 1024,
+     "h": 1024
+    },
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "joey_wheeler_casual/faces/chara007_01.png",
+     "w": 360,
+     "h": 360
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "file": "joey_wheeler_casual/faces/chara007_02.png",
+     "w": 360,
+     "h": 360
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "file": "joey_wheeler_casual/faces/chara007_03.png",
+     "w": 360,
+     "h": 360
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "file": "joey_wheeler_casual/faces/chara007_04.png",
+     "w": 360,
+     "h": 360
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "file": "joey_wheeler_casual/faces/chara007_05.png",
+     "w": 360,
+     "h": 360
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "file": "joey_wheeler_casual/faces/chara007_06.png",
+     "w": 360,
+     "h": 360
+    },
+    {
+     "variant": "chara007",
+     "index": 7,
+     "file": "joey_wheeler_casual/faces/chara007_07.png",
+     "w": 360,
+     "h": 360
+    },
+    {
+     "variant": "chara007",
+     "index": 8,
+     "file": "joey_wheeler_casual/faces/chara007_08.png",
+     "w": 360,
+     "h": 360
+    },
+    {
+     "variant": "chara007",
+     "index": 9,
+     "file": "joey_wheeler_casual/faces/chara007_09.png",
+     "w": 360,
+     "h": 360
+    },
+    {
+     "variant": "chara007",
+     "index": 10,
+     "file": "joey_wheeler_casual/faces/chara007_10.png",
+     "w": 360,
+     "h": 360
+    },
+    {
+     "variant": "chara007",
+     "index": 11,
+     "file": "joey_wheeler_casual/faces/chara007_11.png",
+     "w": 360,
+     "h": 360
+    },
+    {
+     "variant": "chara050",
+     "index": 1,
+     "file": "joey_wheeler_casual/faces/chara050_01.png",
+     "w": 1024,
+     "h": 1024
+    }
+   ],
+   "extras": [
+    {
+     "file": "joey_wheeler_casual/extras/Chara001.png",
+     "w": 124,
+     "h": 146
+    },
+    {
+     "file": "joey_wheeler_casual/extras/Chara002.png",
+     "w": 500,
+     "h": 960
+    },
+    {
+     "file": "joey_wheeler_casual/extras/Chara004.png",
+     "w": 256,
+     "h": 256
+    },
+    {
+     "file": "joey_wheeler_casual/extras/Chara010.png",
+     "w": 400,
+     "h": 120
+    },
+    {
+     "file": "joey_wheeler_casual/extras/Chara013.png",
+     "w": 204,
+     "h": 216
+    },
+    {
+     "file": "joey_wheeler_casual/extras/CharaName001.png",
+     "w": 356,
+     "h": 190
+    },
+    {
+     "file": "joey_wheeler_casual/extras/Cutin001.png",
+     "w": 512,
+     "h": 256
+    },
+    {
+     "file": "joey_wheeler_casual/extras/Cutin002.png",
+     "w": 512,
+     "h": 512
+    },
+    {
+     "file": "joey_wheeler_casual/extras/Cutin003.png",
+     "w": 1024,
+     "h": 1024
+    },
+    {
+     "file": "joey_wheeler_casual/extras/VS001.png",
+     "w": 512,
+     "h": 256
+    },
+    {
+     "file": "joey_wheeler_casual/extras/VS002.png",
+     "w": 256,
+     "h": 256
+    }
+   ],
+   "series": "dm"
+  },
+  {
+   "id": "joey_wheeler_dsod",
+   "name": "Joey Wheeler (DSoD)",
+   "sourceAssetId": "132222",
+   "full": {
+    "variant": "chara007",
+    "file": "joey_wheeler_dsod/full_chara007.png",
+    "w": 760,
+    "h": 800
+   },
+   "bodies": [
+    {
+     "variant": "chara007",
+     "file": "joey_wheeler_dsod/full_chara007.png",
+     "w": 760,
+     "h": 800
+    }
+   ],
+   "faces": [
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "joey_wheeler_dsod/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "file": "joey_wheeler_dsod/faces/chara007_02.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "file": "joey_wheeler_dsod/faces/chara007_03.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "file": "joey_wheeler_dsod/faces/chara007_04.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "file": "joey_wheeler_dsod/faces/chara007_05.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "file": "joey_wheeler_dsod/faces/chara007_06.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 7,
+     "file": "joey_wheeler_dsod/faces/chara007_07.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 8,
+     "file": "joey_wheeler_dsod/faces/chara007_08.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 9,
+     "file": "joey_wheeler_dsod/faces/chara007_09.png",
+     "w": 240,
+     "h": 240
+    }
+   ],
+   "extras": [],
+   "series": "dm"
+  },
+  {
+   "id": "lester",
+   "name": "Lester",
+   "sourceAssetId": "153407",
+   "full": {
+    "variant": "chara007",
+    "file": "lester/full_chara007.png",
+    "w": 760,
+    "h": 800
+   },
+   "bodies": [
+    {
+     "variant": "chara007",
+     "file": "lester/full_chara007.png",
+     "w": 760,
+     "h": 800
+    }
+   ],
+   "faces": [
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "lester/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "file": "lester/faces/chara007_02.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "file": "lester/faces/chara007_03.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "file": "lester/faces/chara007_04.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "file": "lester/faces/chara007_05.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "file": "lester/faces/chara007_06.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 7,
+     "file": "lester/faces/chara007_07.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 8,
+     "file": "lester/faces/chara007_08.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 9,
+     "file": "lester/faces/chara007_09.png",
+     "w": 240,
+     "h": 240
+    }
+   ],
+   "extras": [],
+   "series": "dm?"
+  },
+  {
+   "id": "mai_valentine",
+   "name": "Mai Valentine",
+   "sourceAssetId": "132227",
+   "full": {
+    "variant": "chara007",
+    "file": "mai_valentine/full_chara007.png",
+    "w": 760,
+    "h": 800
+   },
+   "bodies": [
+    {
+     "variant": "chara007",
+     "file": "mai_valentine/full_chara007.png",
+     "w": 760,
+     "h": 800
+    }
+   ],
+   "faces": [
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "mai_valentine/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "file": "mai_valentine/faces/chara007_02.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "file": "mai_valentine/faces/chara007_03.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "file": "mai_valentine/faces/chara007_04.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "file": "mai_valentine/faces/chara007_05.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "file": "mai_valentine/faces/chara007_06.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 7,
+     "file": "mai_valentine/faces/chara007_07.png",
+     "w": 240,
+     "h": 240
+    }
+   ],
+   "extras": [],
+   "series": "dm"
+  },
+  {
+   "id": "mako_tsunami",
+   "name": "Mako Tsunami",
+   "sourceAssetId": "132228",
+   "full": {
+    "variant": "chara007",
+    "file": "mako_tsunami/full_chara007.png",
+    "w": 760,
+    "h": 800
+   },
+   "bodies": [
+    {
+     "variant": "chara007",
+     "file": "mako_tsunami/full_chara007.png",
+     "w": 760,
+     "h": 800
+    }
+   ],
+   "faces": [
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "mako_tsunami/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "file": "mako_tsunami/faces/chara007_02.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "file": "mako_tsunami/faces/chara007_03.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "file": "mako_tsunami/faces/chara007_04.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "file": "mako_tsunami/faces/chara007_05.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "file": "mako_tsunami/faces/chara007_06.png",
+     "w": 240,
+     "h": 240
+    }
+   ],
+   "extras": [],
+   "series": "dm"
+  },
+  {
+   "id": "marik_ishtar",
+   "name": "Marik Ishtar",
+   "sourceAssetId": "132229",
+   "full": {
+    "variant": "chara007",
+    "file": "marik_ishtar/full_chara007.png",
+    "w": 760,
+    "h": 800
+   },
+   "bodies": [
+    {
+     "variant": "chara007",
+     "file": "marik_ishtar/full_chara007.png",
+     "w": 760,
+     "h": 800
+    }
+   ],
+   "faces": [
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "marik_ishtar/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "file": "marik_ishtar/faces/chara007_02.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "file": "marik_ishtar/faces/chara007_03.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "file": "marik_ishtar/faces/chara007_04.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "file": "marik_ishtar/faces/chara007_05.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "file": "marik_ishtar/faces/chara007_06.png",
+     "w": 240,
+     "h": 240
+    }
+   ],
+   "extras": [],
+   "series": "dm"
+  },
+  {
+   "id": "maximillion_pegasus",
+   "name": "Maximillion Pegasus",
+   "sourceAssetId": "132230",
+   "full": {
+    "variant": "chara007",
+    "file": "maximillion_pegasus/full_chara007.png",
+    "w": 760,
+    "h": 800
+   },
+   "bodies": [
+    {
+     "variant": "chara007",
+     "file": "maximillion_pegasus/full_chara007.png",
+     "w": 760,
+     "h": 800
+    }
+   ],
+   "faces": [
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "maximillion_pegasus/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "file": "maximillion_pegasus/faces/chara007_02.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "file": "maximillion_pegasus/faces/chara007_03.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "file": "maximillion_pegasus/faces/chara007_04.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "file": "maximillion_pegasus/faces/chara007_05.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "file": "maximillion_pegasus/faces/chara007_06.png",
+     "w": 240,
+     "h": 240
+    }
+   ],
+   "extras": [],
+   "series": "dm"
+  },
+  {
+   "id": "mokuba_kaiba",
+   "name": "Mokuba Kaiba",
+   "sourceAssetId": "132232",
+   "full": {
+    "variant": "chara007",
+    "file": "mokuba_kaiba/full_chara007.png",
+    "w": 760,
+    "h": 800
+   },
+   "bodies": [
+    {
+     "variant": "chara007",
+     "file": "mokuba_kaiba/full_chara007.png",
+     "w": 760,
+     "h": 800
+    }
+   ],
+   "faces": [
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "mokuba_kaiba/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "file": "mokuba_kaiba/faces/chara007_02.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "file": "mokuba_kaiba/faces/chara007_03.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "file": "mokuba_kaiba/faces/chara007_04.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "file": "mokuba_kaiba/faces/chara007_05.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "file": "mokuba_kaiba/faces/chara007_06.png",
+     "w": 240,
+     "h": 240
+    }
+   ],
+   "extras": [],
+   "series": "dm"
+  },
+  {
+   "id": "mokuba_kaiba_dsod",
+   "name": "Mokuba Kaiba (DSoD)",
+   "sourceAssetId": "132231",
+   "full": {
+    "variant": "chara007",
+    "file": "mokuba_kaiba_dsod/full_chara007.png",
+    "w": 760,
+    "h": 800
+   },
+   "bodies": [
+    {
+     "variant": "chara007",
+     "file": "mokuba_kaiba_dsod/full_chara007.png",
+     "w": 760,
+     "h": 800
+    }
+   ],
+   "faces": [
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "mokuba_kaiba_dsod/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "file": "mokuba_kaiba_dsod/faces/chara007_02.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "file": "mokuba_kaiba_dsod/faces/chara007_03.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "file": "mokuba_kaiba_dsod/faces/chara007_04.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "file": "mokuba_kaiba_dsod/faces/chara007_05.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "file": "mokuba_kaiba_dsod/faces/chara007_06.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 7,
+     "file": "mokuba_kaiba_dsod/faces/chara007_07.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 8,
+     "file": "mokuba_kaiba_dsod/faces/chara007_08.png",
+     "w": 240,
+     "h": 240
+    }
+   ],
+   "extras": [],
+   "series": "dm"
+  },
+  {
+   "id": "mokuba_kaiba_princess_adena",
+   "name": "Mokuba Kaiba (Princess Adena)",
+   "sourceAssetId": "537664",
+   "full": null,
+   "bodies": [],
+   "faces": [
+    {
+     "variant": "chara003",
+     "index": 1,
+     "file": "mokuba_kaiba_princess_adena/faces/chara003_01.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 2,
+     "file": "mokuba_kaiba_princess_adena/faces/chara003_02.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 3,
+     "file": "mokuba_kaiba_princess_adena/faces/chara003_03.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 4,
+     "file": "mokuba_kaiba_princess_adena/faces/chara003_04.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 5,
+     "file": "mokuba_kaiba_princess_adena/faces/chara003_05.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 6,
+     "file": "mokuba_kaiba_princess_adena/faces/chara003_06.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 7,
+     "file": "mokuba_kaiba_princess_adena/faces/chara003_07.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 8,
+     "file": "mokuba_kaiba_princess_adena/faces/chara003_08.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 9,
+     "file": "mokuba_kaiba_princess_adena/faces/chara003_09.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 0,
+     "file": "mokuba_kaiba_princess_adena/faces/chara007_00.png",
+     "w": 1024,
+     "h": 1024
+    },
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "mokuba_kaiba_princess_adena/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "file": "mokuba_kaiba_princess_adena/faces/chara007_02.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "file": "mokuba_kaiba_princess_adena/faces/chara007_03.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "file": "mokuba_kaiba_princess_adena/faces/chara007_04.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "file": "mokuba_kaiba_princess_adena/faces/chara007_05.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "file": "mokuba_kaiba_princess_adena/faces/chara007_06.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 7,
+     "file": "mokuba_kaiba_princess_adena/faces/chara007_07.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 8,
+     "file": "mokuba_kaiba_princess_adena/faces/chara007_08.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 9,
+     "file": "mokuba_kaiba_princess_adena/faces/chara007_09.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara050",
+     "index": 1,
+     "file": "mokuba_kaiba_princess_adena/faces/chara050_01.png",
+     "w": 1024,
+     "h": 1024
+    }
+   ],
+   "extras": [
+    {
+     "file": "mokuba_kaiba_princess_adena/extras/Chara001.png",
+     "w": 124,
+     "h": 146
+    },
+    {
+     "file": "mokuba_kaiba_princess_adena/extras/Chara002.png",
+     "w": 500,
+     "h": 960
+    },
+    {
+     "file": "mokuba_kaiba_princess_adena/extras/Chara004.png",
+     "w": 256,
+     "h": 256
+    },
+    {
+     "file": "mokuba_kaiba_princess_adena/extras/Chara010.png",
+     "w": 400,
+     "h": 120
+    },
+    {
+     "file": "mokuba_kaiba_princess_adena/extras/Chara013.png",
+     "w": 204,
+     "h": 216
+    },
+    {
+     "file": "mokuba_kaiba_princess_adena/extras/CharaName001.png",
+     "w": 356,
+     "h": 190
+    },
+    {
+     "file": "mokuba_kaiba_princess_adena/extras/Cutin001.png",
+     "w": 512,
+     "h": 256
+    },
+    {
+     "file": "mokuba_kaiba_princess_adena/extras/Cutin002.png",
+     "w": 512,
+     "h": 512
+    },
+    {
+     "file": "mokuba_kaiba_princess_adena/extras/Cutin003.png",
+     "w": 1024,
+     "h": 1024
+    },
+    {
+     "file": "mokuba_kaiba_princess_adena/extras/VS001.png",
+     "w": 512,
+     "h": 256
+    },
+    {
+     "file": "mokuba_kaiba_princess_adena/extras/VS002.png",
+     "w": 256,
+     "h": 256
+    }
+   ],
+   "series": "dm"
+  },
+  {
+   "id": "npc_duelists_common__ashley",
+   "name": "NPC Duelists (Common) / Ashley",
+   "sourceAssetId": "157083",
+   "full": {
+    "variant": "chara007",
+    "file": "npc_duelists_common__ashley/full_chara007.png",
+    "w": 760,
+    "h": 800
+   },
+   "bodies": [
+    {
+     "variant": "chara007",
+     "file": "npc_duelists_common__ashley/full_chara007.png",
+     "w": 760,
+     "h": 800
+    }
+   ],
+   "faces": [
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "npc_duelists_common__ashley/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "file": "npc_duelists_common__ashley/faces/chara007_02.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "file": "npc_duelists_common__ashley/faces/chara007_03.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "file": "npc_duelists_common__ashley/faces/chara007_04.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "file": "npc_duelists_common__ashley/faces/chara007_05.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "file": "npc_duelists_common__ashley/faces/chara007_06.png",
+     "w": 240,
+     "h": 240
+    }
+   ],
+   "extras": [],
+   "series": "common-npc"
+  },
+  {
+   "id": "npc_duelists_common__bella",
+   "name": "NPC Duelists (Common) / Bella",
+   "sourceAssetId": "157083",
+   "full": {
+    "variant": "chara007",
+    "file": "npc_duelists_common__bella/full_chara007.png",
+    "w": 760,
+    "h": 800
+   },
+   "bodies": [
+    {
+     "variant": "chara007",
+     "file": "npc_duelists_common__bella/full_chara007.png",
+     "w": 760,
+     "h": 800
+    }
+   ],
+   "faces": [
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "npc_duelists_common__bella/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "file": "npc_duelists_common__bella/faces/chara007_02.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "file": "npc_duelists_common__bella/faces/chara007_03.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "file": "npc_duelists_common__bella/faces/chara007_04.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "file": "npc_duelists_common__bella/faces/chara007_05.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "file": "npc_duelists_common__bella/faces/chara007_06.png",
+     "w": 240,
+     "h": 240
+    }
+   ],
+   "extras": [],
+   "series": "common-npc"
+  },
+  {
+   "id": "npc_duelists_common__david",
+   "name": "NPC Duelists (Common) / David",
+   "sourceAssetId": "157083",
+   "full": {
+    "variant": "chara007",
+    "file": "npc_duelists_common__david/full_chara007.png",
+    "w": 760,
+    "h": 800
+   },
+   "bodies": [
+    {
+     "variant": "chara007",
+     "file": "npc_duelists_common__david/full_chara007.png",
+     "w": 760,
+     "h": 800
+    }
+   ],
+   "faces": [
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "npc_duelists_common__david/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "file": "npc_duelists_common__david/faces/chara007_02.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "file": "npc_duelists_common__david/faces/chara007_03.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "file": "npc_duelists_common__david/faces/chara007_04.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "file": "npc_duelists_common__david/faces/chara007_05.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "file": "npc_duelists_common__david/faces/chara007_06.png",
+     "w": 240,
+     "h": 240
+    }
+   ],
+   "extras": [],
+   "series": "common-npc"
+  },
+  {
+   "id": "npc_duelists_common__emma",
+   "name": "NPC Duelists (Common) / Emma",
+   "sourceAssetId": "157083",
+   "full": {
+    "variant": "chara007",
+    "file": "npc_duelists_common__emma/full_chara007.png",
+    "w": 760,
+    "h": 800
+   },
+   "bodies": [
+    {
+     "variant": "chara007",
+     "file": "npc_duelists_common__emma/full_chara007.png",
+     "w": 760,
+     "h": 800
+    }
+   ],
+   "faces": [
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "npc_duelists_common__emma/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "file": "npc_duelists_common__emma/faces/chara007_02.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "file": "npc_duelists_common__emma/faces/chara007_03.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "file": "npc_duelists_common__emma/faces/chara007_04.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "file": "npc_duelists_common__emma/faces/chara007_05.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "file": "npc_duelists_common__emma/faces/chara007_06.png",
+     "w": 240,
+     "h": 240
+    }
+   ],
+   "extras": [],
+   "series": "common-npc"
+  },
+  {
+   "id": "npc_duelists_common__jay",
+   "name": "NPC Duelists (Common) / Jay",
+   "sourceAssetId": "157083",
+   "full": {
+    "variant": "chara007",
+    "file": "npc_duelists_common__jay/full_chara007.png",
+    "w": 760,
+    "h": 800
+   },
+   "bodies": [
+    {
+     "variant": "chara007",
+     "file": "npc_duelists_common__jay/full_chara007.png",
+     "w": 760,
+     "h": 800
+    }
+   ],
+   "faces": [
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "npc_duelists_common__jay/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "file": "npc_duelists_common__jay/faces/chara007_02.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "file": "npc_duelists_common__jay/faces/chara007_03.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "file": "npc_duelists_common__jay/faces/chara007_04.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "file": "npc_duelists_common__jay/faces/chara007_05.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "file": "npc_duelists_common__jay/faces/chara007_06.png",
+     "w": 240,
+     "h": 240
+    }
+   ],
+   "extras": [],
+   "series": "common-npc"
+  },
+  {
+   "id": "npc_duelists_common__meg",
+   "name": "NPC Duelists (Common) / Meg",
+   "sourceAssetId": "157083",
+   "full": {
+    "variant": "chara007",
+    "file": "npc_duelists_common__meg/full_chara007.png",
+    "w": 760,
+    "h": 800
+   },
+   "bodies": [
+    {
+     "variant": "chara007",
+     "file": "npc_duelists_common__meg/full_chara007.png",
+     "w": 760,
+     "h": 800
+    }
+   ],
+   "faces": [
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "npc_duelists_common__meg/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "file": "npc_duelists_common__meg/faces/chara007_02.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "file": "npc_duelists_common__meg/faces/chara007_03.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "file": "npc_duelists_common__meg/faces/chara007_04.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "file": "npc_duelists_common__meg/faces/chara007_05.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "file": "npc_duelists_common__meg/faces/chara007_06.png",
+     "w": 240,
+     "h": 240
+    }
+   ],
+   "extras": [],
+   "series": "common-npc"
+  },
+  {
+   "id": "npc_duelists_common__mickey",
+   "name": "NPC Duelists (Common) / Mickey",
+   "sourceAssetId": "157083",
+   "full": {
+    "variant": "chara007",
+    "file": "npc_duelists_common__mickey/full_chara007.png",
+    "w": 760,
+    "h": 800
+   },
+   "bodies": [
+    {
+     "variant": "chara007",
+     "file": "npc_duelists_common__mickey/full_chara007.png",
+     "w": 760,
+     "h": 800
+    }
+   ],
+   "faces": [
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "npc_duelists_common__mickey/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "file": "npc_duelists_common__mickey/faces/chara007_02.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "file": "npc_duelists_common__mickey/faces/chara007_03.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "file": "npc_duelists_common__mickey/faces/chara007_04.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "file": "npc_duelists_common__mickey/faces/chara007_05.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "file": "npc_duelists_common__mickey/faces/chara007_06.png",
+     "w": 240,
+     "h": 240
+    }
+   ],
+   "extras": [],
+   "series": "common-npc"
+  },
+  {
+   "id": "npc_duelists_common__nick",
+   "name": "NPC Duelists (Common) / Nick",
+   "sourceAssetId": "157083",
+   "full": {
+    "variant": "chara007",
+    "file": "npc_duelists_common__nick/full_chara007.png",
+    "w": 760,
+    "h": 800
+   },
+   "bodies": [
+    {
+     "variant": "chara007",
+     "file": "npc_duelists_common__nick/full_chara007.png",
+     "w": 760,
+     "h": 800
+    }
+   ],
+   "faces": [
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "npc_duelists_common__nick/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "file": "npc_duelists_common__nick/faces/chara007_02.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "file": "npc_duelists_common__nick/faces/chara007_03.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "file": "npc_duelists_common__nick/faces/chara007_04.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "file": "npc_duelists_common__nick/faces/chara007_05.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "file": "npc_duelists_common__nick/faces/chara007_06.png",
+     "w": 240,
+     "h": 240
+    }
+   ],
+   "extras": [],
+   "series": "common-npc"
+  },
+  {
+   "id": "npc_duelists_dm__andrew",
+   "name": "NPC Duelists (DM) / Andrew",
+   "sourceAssetId": "157084",
+   "full": {
+    "variant": "chara007",
+    "file": "npc_duelists_dm__andrew/full_chara007.png",
+    "w": 760,
+    "h": 800
+   },
+   "bodies": [
+    {
+     "variant": "chara007",
+     "file": "npc_duelists_dm__andrew/full_chara007.png",
+     "w": 760,
+     "h": 800
+    }
+   ],
+   "faces": [
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "npc_duelists_dm__andrew/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "file": "npc_duelists_dm__andrew/faces/chara007_02.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "file": "npc_duelists_dm__andrew/faces/chara007_03.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "file": "npc_duelists_dm__andrew/faces/chara007_04.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "file": "npc_duelists_dm__andrew/faces/chara007_05.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "file": "npc_duelists_dm__andrew/faces/chara007_06.png",
+     "w": 240,
+     "h": 240
+    }
+   ],
+   "extras": [],
+   "series": "dm-npc"
+  },
+  {
+   "id": "npc_duelists_dm__christine",
+   "name": "NPC Duelists (DM) / Christine",
+   "sourceAssetId": "157084",
+   "full": {
+    "variant": "chara007",
+    "file": "npc_duelists_dm__christine/full_chara007.png",
+    "w": 760,
+    "h": 800
+   },
+   "bodies": [
+    {
+     "variant": "chara007",
+     "file": "npc_duelists_dm__christine/full_chara007.png",
+     "w": 760,
+     "h": 800
+    }
+   ],
+   "faces": [
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "npc_duelists_dm__christine/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "file": "npc_duelists_dm__christine/faces/chara007_02.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "file": "npc_duelists_dm__christine/faces/chara007_03.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "file": "npc_duelists_dm__christine/faces/chara007_04.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "file": "npc_duelists_dm__christine/faces/chara007_05.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "file": "npc_duelists_dm__christine/faces/chara007_06.png",
+     "w": 240,
+     "h": 240
+    }
+   ],
+   "extras": [],
+   "series": "dm-npc"
+  },
+  {
+   "id": "npc_duelists_dm__daniel",
+   "name": "NPC Duelists (DM) / Daniel",
+   "sourceAssetId": "157084",
+   "full": {
+    "variant": "chara007",
+    "file": "npc_duelists_dm__daniel/full_chara007.png",
+    "w": 760,
+    "h": 800
+   },
+   "bodies": [
+    {
+     "variant": "chara007",
+     "file": "npc_duelists_dm__daniel/full_chara007.png",
+     "w": 760,
+     "h": 800
+    }
+   ],
+   "faces": [
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "npc_duelists_dm__daniel/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "file": "npc_duelists_dm__daniel/faces/chara007_02.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "file": "npc_duelists_dm__daniel/faces/chara007_03.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "file": "npc_duelists_dm__daniel/faces/chara007_04.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "file": "npc_duelists_dm__daniel/faces/chara007_05.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "file": "npc_duelists_dm__daniel/faces/chara007_06.png",
+     "w": 240,
+     "h": 240
+    }
+   ],
+   "extras": [],
+   "series": "dm-npc"
+  },
+  {
+   "id": "npc_duelists_dm__hailey",
+   "name": "NPC Duelists (DM) / Hailey",
+   "sourceAssetId": "157084",
+   "full": {
+    "variant": "chara007",
+    "file": "npc_duelists_dm__hailey/full_chara007.png",
+    "w": 760,
+    "h": 800
+   },
+   "bodies": [
+    {
+     "variant": "chara007",
+     "file": "npc_duelists_dm__hailey/full_chara007.png",
+     "w": 760,
+     "h": 800
+    }
+   ],
+   "faces": [
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "npc_duelists_dm__hailey/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "file": "npc_duelists_dm__hailey/faces/chara007_02.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "file": "npc_duelists_dm__hailey/faces/chara007_03.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "file": "npc_duelists_dm__hailey/faces/chara007_04.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "file": "npc_duelists_dm__hailey/faces/chara007_05.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "file": "npc_duelists_dm__hailey/faces/chara007_06.png",
+     "w": 240,
+     "h": 240
+    }
+   ],
+   "extras": [],
+   "series": "dm-npc"
+  },
+  {
+   "id": "npc_duelists_dm__jess",
+   "name": "NPC Duelists (DM) / Jess",
+   "sourceAssetId": "157084",
+   "full": {
+    "variant": "chara007",
+    "file": "npc_duelists_dm__jess/full_chara007.png",
+    "w": 760,
+    "h": 800
+   },
+   "bodies": [
+    {
+     "variant": "chara007",
+     "file": "npc_duelists_dm__jess/full_chara007.png",
+     "w": 760,
+     "h": 800
+    }
+   ],
+   "faces": [
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "npc_duelists_dm__jess/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "file": "npc_duelists_dm__jess/faces/chara007_02.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "file": "npc_duelists_dm__jess/faces/chara007_03.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "file": "npc_duelists_dm__jess/faces/chara007_04.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "file": "npc_duelists_dm__jess/faces/chara007_05.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "file": "npc_duelists_dm__jess/faces/chara007_06.png",
+     "w": 240,
+     "h": 240
+    }
+   ],
+   "extras": [],
+   "series": "dm-npc"
+  },
+  {
+   "id": "npc_duelists_dm__josh",
+   "name": "NPC Duelists (DM) / Josh",
+   "sourceAssetId": "157084",
+   "full": {
+    "variant": "chara007",
+    "file": "npc_duelists_dm__josh/full_chara007.png",
+    "w": 760,
+    "h": 800
+   },
+   "bodies": [
+    {
+     "variant": "chara007",
+     "file": "npc_duelists_dm__josh/full_chara007.png",
+     "w": 760,
+     "h": 800
+    }
+   ],
+   "faces": [
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "npc_duelists_dm__josh/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "file": "npc_duelists_dm__josh/faces/chara007_02.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "file": "npc_duelists_dm__josh/faces/chara007_03.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "file": "npc_duelists_dm__josh/faces/chara007_04.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "file": "npc_duelists_dm__josh/faces/chara007_05.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "file": "npc_duelists_dm__josh/faces/chara007_06.png",
+     "w": 240,
+     "h": 240
+    }
+   ],
+   "extras": [],
+   "series": "dm-npc"
+  },
+  {
+   "id": "noah_kaiba",
+   "name": "Noah Kaiba",
+   "sourceAssetId": "537647",
+   "full": null,
+   "bodies": [],
+   "faces": [
+    {
+     "variant": "chara003",
+     "index": 1,
+     "file": "noah_kaiba/faces/chara003_01.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 2,
+     "file": "noah_kaiba/faces/chara003_02.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 3,
+     "file": "noah_kaiba/faces/chara003_03.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 4,
+     "file": "noah_kaiba/faces/chara003_04.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 5,
+     "file": "noah_kaiba/faces/chara003_05.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 6,
+     "file": "noah_kaiba/faces/chara003_06.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 7,
+     "file": "noah_kaiba/faces/chara003_07.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 8,
+     "file": "noah_kaiba/faces/chara003_08.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 9,
+     "file": "noah_kaiba/faces/chara003_09.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 10,
+     "file": "noah_kaiba/faces/chara003_10.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 11,
+     "file": "noah_kaiba/faces/chara003_11.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara004",
+     "index": 1,
+     "file": "noah_kaiba/faces/chara004_01.png",
+     "w": 256,
+     "h": 256
+    },
+    {
+     "variant": "chara007",
+     "index": 0,
+     "file": "noah_kaiba/faces/chara007_00.png",
+     "w": 1024,
+     "h": 1024
+    },
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "noah_kaiba/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "file": "noah_kaiba/faces/chara007_02.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "file": "noah_kaiba/faces/chara007_03.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "file": "noah_kaiba/faces/chara007_04.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "file": "noah_kaiba/faces/chara007_05.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "file": "noah_kaiba/faces/chara007_06.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 7,
+     "file": "noah_kaiba/faces/chara007_07.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 8,
+     "file": "noah_kaiba/faces/chara007_08.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 9,
+     "file": "noah_kaiba/faces/chara007_09.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 10,
+     "file": "noah_kaiba/faces/chara007_10.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 11,
+     "file": "noah_kaiba/faces/chara007_11.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara050",
+     "index": 1,
+     "file": "noah_kaiba/faces/chara050_01.png",
+     "w": 1024,
+     "h": 1024
+    }
+   ],
+   "extras": [
+    {
+     "file": "noah_kaiba/extras/Chara001.png",
+     "w": 124,
+     "h": 146
+    },
+    {
+     "file": "noah_kaiba/extras/Chara002.png",
+     "w": 500,
+     "h": 960
+    },
+    {
+     "file": "noah_kaiba/extras/Chara004.png",
+     "w": 256,
+     "h": 256
+    },
+    {
+     "file": "noah_kaiba/extras/Chara010.png",
+     "w": 400,
+     "h": 120
+    },
+    {
+     "file": "noah_kaiba/extras/Chara013.png",
+     "w": 204,
+     "h": 216
+    },
+    {
+     "file": "noah_kaiba/extras/CharaName001.png",
+     "w": 356,
+     "h": 190
+    },
+    {
+     "file": "noah_kaiba/extras/Cutin001.png",
+     "w": 512,
+     "h": 256
+    },
+    {
+     "file": "noah_kaiba/extras/Cutin002.png",
+     "w": 512,
+     "h": 512
+    },
+    {
+     "file": "noah_kaiba/extras/Cutin003.png",
+     "w": 1024,
+     "h": 1024
+    },
+    {
+     "file": "noah_kaiba/extras/VS001.png",
+     "w": 512,
+     "h": 256
+    },
+    {
+     "file": "noah_kaiba/extras/VS002.png",
+     "w": 256,
+     "h": 256
+    }
+   ],
+   "series": "dm"
+  },
+  {
+   "id": "odion",
+   "name": "Odion",
+   "sourceAssetId": "132233",
+   "full": {
+    "variant": "chara007",
+    "file": "odion/full_chara007.png",
+    "w": 760,
+    "h": 800
+   },
+   "bodies": [
+    {
+     "variant": "chara007",
+     "file": "odion/full_chara007.png",
+     "w": 760,
+     "h": 800
+    }
+   ],
+   "faces": [
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "odion/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "file": "odion/faces/chara007_02.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "file": "odion/faces/chara007_03.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "file": "odion/faces/chara007_04.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "file": "odion/faces/chara007_05.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "file": "odion/faces/chara007_06.png",
+     "w": 240,
+     "h": 240
+    }
+   ],
+   "extras": [],
+   "series": "dm"
+  },
+  {
+   "id": "princess_adena",
+   "name": "Princess Adena",
+   "sourceAssetId": "537689",
+   "full": null,
+   "bodies": [],
+   "faces": [
+    {
+     "variant": "chara007",
+     "index": 0,
+     "file": "princess_adena/faces/chara007_00.png",
+     "w": 1024,
+     "h": 1024
+    },
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "princess_adena/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "file": "princess_adena/faces/chara007_02.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "file": "princess_adena/faces/chara007_03.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "file": "princess_adena/faces/chara007_04.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "file": "princess_adena/faces/chara007_05.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "file": "princess_adena/faces/chara007_06.png",
+     "w": 240,
+     "h": 240
+    }
+   ],
+   "extras": [],
+   "series": "dm?"
+  },
+  {
+   "id": "rare_hunter",
+   "name": "Rare Hunter",
+   "sourceAssetId": "157092",
+   "full": {
+    "variant": "chara007",
+    "file": "rare_hunter/full_chara007.png",
+    "w": 760,
+    "h": 800
+   },
+   "bodies": [
+    {
+     "variant": "chara007",
+     "file": "rare_hunter/full_chara007.png",
+     "w": 760,
+     "h": 800
+    }
+   ],
+   "faces": [
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "rare_hunter/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "file": "rare_hunter/faces/chara007_02.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "file": "rare_hunter/faces/chara007_03.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "file": "rare_hunter/faces/chara007_04.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "file": "rare_hunter/faces/chara007_05.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "file": "rare_hunter/faces/chara007_06.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 7,
+     "file": "rare_hunter/faces/chara007_07.png",
+     "w": 240,
+     "h": 240
+    }
+   ],
+   "extras": [],
+   "series": "dm"
+  },
+  {
+   "id": "rebecca_hawkins",
+   "name": "Rebecca Hawkins",
+   "sourceAssetId": "537642",
+   "full": null,
+   "bodies": [],
+   "faces": [
+    {
+     "variant": "chara003",
+     "index": 1,
+     "file": "rebecca_hawkins/faces/chara003_01.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 2,
+     "file": "rebecca_hawkins/faces/chara003_02.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 3,
+     "file": "rebecca_hawkins/faces/chara003_03.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 4,
+     "file": "rebecca_hawkins/faces/chara003_04.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 5,
+     "file": "rebecca_hawkins/faces/chara003_05.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 6,
+     "file": "rebecca_hawkins/faces/chara003_06.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 7,
+     "file": "rebecca_hawkins/faces/chara003_07.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 8,
+     "file": "rebecca_hawkins/faces/chara003_08.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 9,
+     "file": "rebecca_hawkins/faces/chara003_09.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 10,
+     "file": "rebecca_hawkins/faces/chara003_10.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 11,
+     "file": "rebecca_hawkins/faces/chara003_11.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 12,
+     "file": "rebecca_hawkins/faces/chara003_12.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 0,
+     "file": "rebecca_hawkins/faces/chara007_00.png",
+     "w": 1024,
+     "h": 1024
+    },
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "rebecca_hawkins/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "file": "rebecca_hawkins/faces/chara007_02.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "file": "rebecca_hawkins/faces/chara007_03.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "file": "rebecca_hawkins/faces/chara007_04.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "file": "rebecca_hawkins/faces/chara007_05.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "file": "rebecca_hawkins/faces/chara007_06.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 7,
+     "file": "rebecca_hawkins/faces/chara007_07.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 8,
+     "file": "rebecca_hawkins/faces/chara007_08.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 9,
+     "file": "rebecca_hawkins/faces/chara007_09.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 10,
+     "file": "rebecca_hawkins/faces/chara007_10.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 11,
+     "file": "rebecca_hawkins/faces/chara007_11.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 12,
+     "file": "rebecca_hawkins/faces/chara007_12.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara050",
+     "index": 1,
+     "file": "rebecca_hawkins/faces/chara050_01.png",
+     "w": 1024,
+     "h": 1024
+    }
+   ],
+   "extras": [
+    {
+     "file": "rebecca_hawkins/extras/Chara001.png",
+     "w": 124,
+     "h": 146
+    },
+    {
+     "file": "rebecca_hawkins/extras/Chara001_silhouette.png",
+     "w": 124,
+     "h": 146
+    },
+    {
+     "file": "rebecca_hawkins/extras/Chara002.png",
+     "w": 500,
+     "h": 960
+    },
+    {
+     "file": "rebecca_hawkins/extras/Chara004.png",
+     "w": 256,
+     "h": 256
+    },
+    {
+     "file": "rebecca_hawkins/extras/Chara010.png",
+     "w": 400,
+     "h": 120
+    },
+    {
+     "file": "rebecca_hawkins/extras/Chara013.png",
+     "w": 204,
+     "h": 216
+    },
+    {
+     "file": "rebecca_hawkins/extras/CharaName001.png",
+     "w": 356,
+     "h": 190
+    },
+    {
+     "file": "rebecca_hawkins/extras/Cutin001.png",
+     "w": 512,
+     "h": 256
+    },
+    {
+     "file": "rebecca_hawkins/extras/Cutin002.png",
+     "w": 512,
+     "h": 512
+    },
+    {
+     "file": "rebecca_hawkins/extras/Cutin003.png",
+     "w": 1024,
+     "h": 1024
+    },
+    {
+     "file": "rebecca_hawkins/extras/VS001.png",
+     "w": 512,
+     "h": 256
+    },
+    {
+     "file": "rebecca_hawkins/extras/VS002.png",
+     "w": 256,
+     "h": 256
+    }
+   ],
+   "series": "dm"
+  },
+  {
+   "id": "rex_raptor",
+   "name": "Rex Raptor",
+   "sourceAssetId": "132236",
+   "full": {
+    "variant": "chara007",
+    "file": "rex_raptor/full_chara007.png",
+    "w": 760,
+    "h": 800
+   },
+   "bodies": [
+    {
+     "variant": "chara007",
+     "file": "rex_raptor/full_chara007.png",
+     "w": 760,
+     "h": 800
+    }
+   ],
+   "faces": [
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "rex_raptor/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "file": "rex_raptor/faces/chara007_02.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "file": "rex_raptor/faces/chara007_03.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "file": "rex_raptor/faces/chara007_04.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "file": "rex_raptor/faces/chara007_05.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "file": "rex_raptor/faces/chara007_06.png",
+     "w": 240,
+     "h": 240
+    }
+   ],
+   "extras": [],
+   "series": "dm"
+  },
+  {
+   "id": "roland",
+   "name": "Roland",
+   "sourceAssetId": "537708",
+   "full": {
+    "variant": "chara012",
+    "file": "roland/full_chara012.png",
+    "w": 760,
+    "h": 800
+   },
+   "bodies": [
+    {
+     "variant": "chara012",
+     "file": "roland/full_chara012.png",
+     "w": 760,
+     "h": 800
+    }
+   ],
+   "faces": [
+    {
+     "variant": "chara007",
+     "index": 0,
+     "file": "roland/faces/chara007_00.png",
+     "w": 1024,
+     "h": 1024
+    },
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "roland/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 7,
+     "file": "roland/faces/chara007_07.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 8,
+     "file": "roland/faces/chara007_08.png",
+     "w": 240,
+     "h": 240
+    }
+   ],
+   "extras": [
+    {
+     "file": "roland/extras/Chara006.png",
+     "w": 320,
+     "h": 200
+    },
+    {
+     "file": "roland/extras/Chara011.png",
+     "w": 120,
+     "h": 120
+    },
+    {
+     "file": "roland/extras/Chara012_Bg.png",
+     "w": 752,
+     "h": 960
+    }
+   ],
+   "series": "dm"
+  },
+  {
+   "id": "serenity_wheeler",
+   "name": "Serenity Wheeler",
+   "sourceAssetId": "537649",
+   "full": null,
+   "bodies": [],
+   "faces": [
+    {
+     "variant": "chara003",
+     "index": 1,
+     "file": "serenity_wheeler/faces/chara003_01.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 2,
+     "file": "serenity_wheeler/faces/chara003_02.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 3,
+     "file": "serenity_wheeler/faces/chara003_03.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 4,
+     "file": "serenity_wheeler/faces/chara003_04.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 5,
+     "file": "serenity_wheeler/faces/chara003_05.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 6,
+     "file": "serenity_wheeler/faces/chara003_06.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 7,
+     "file": "serenity_wheeler/faces/chara003_07.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 8,
+     "file": "serenity_wheeler/faces/chara003_08.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 9,
+     "file": "serenity_wheeler/faces/chara003_09.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 0,
+     "file": "serenity_wheeler/faces/chara007_00.png",
+     "w": 1024,
+     "h": 1024
+    },
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "serenity_wheeler/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "file": "serenity_wheeler/faces/chara007_02.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "file": "serenity_wheeler/faces/chara007_03.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "file": "serenity_wheeler/faces/chara007_04.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "file": "serenity_wheeler/faces/chara007_05.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "file": "serenity_wheeler/faces/chara007_06.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 7,
+     "file": "serenity_wheeler/faces/chara007_07.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 8,
+     "file": "serenity_wheeler/faces/chara007_08.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 9,
+     "file": "serenity_wheeler/faces/chara007_09.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara050",
+     "index": 1,
+     "file": "serenity_wheeler/faces/chara050_01.png",
+     "w": 1024,
+     "h": 1024
+    }
+   ],
+   "extras": [
+    {
+     "file": "serenity_wheeler/extras/Chara001.png",
+     "w": 124,
+     "h": 146
+    },
+    {
+     "file": "serenity_wheeler/extras/Chara002.png",
+     "w": 500,
+     "h": 960
+    },
+    {
+     "file": "serenity_wheeler/extras/Chara004.png",
+     "w": 256,
+     "h": 256
+    },
+    {
+     "file": "serenity_wheeler/extras/Chara010.png",
+     "w": 400,
+     "h": 120
+    },
+    {
+     "file": "serenity_wheeler/extras/Chara013.png",
+     "w": 204,
+     "h": 216
+    },
+    {
+     "file": "serenity_wheeler/extras/CharaName001.png",
+     "w": 356,
+     "h": 190
+    },
+    {
+     "file": "serenity_wheeler/extras/Cutin001.png",
+     "w": 512,
+     "h": 256
+    },
+    {
+     "file": "serenity_wheeler/extras/Cutin002.png",
+     "w": 512,
+     "h": 512
+    },
+    {
+     "file": "serenity_wheeler/extras/Cutin003.png",
+     "w": 1024,
+     "h": 1024
+    },
+    {
+     "file": "serenity_wheeler/extras/VS001.png",
+     "w": 512,
+     "h": 256
+    },
+    {
+     "file": "serenity_wheeler/extras/VS002.png",
+     "w": 256,
+     "h": 256
+    }
+   ],
+   "series": "dm"
+  },
+  {
+   "id": "seto_kaiba",
+   "name": "Seto Kaiba",
+   "sourceAssetId": "132241",
+   "full": {
+    "variant": "chara007",
+    "file": "seto_kaiba/full_chara007.png",
+    "w": 760,
+    "h": 800
+   },
+   "bodies": [
+    {
+     "variant": "chara007",
+     "file": "seto_kaiba/full_chara007.png",
+     "w": 760,
+     "h": 800
+    }
+   ],
+   "faces": [
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "seto_kaiba/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "file": "seto_kaiba/faces/chara007_02.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "file": "seto_kaiba/faces/chara007_03.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "file": "seto_kaiba/faces/chara007_04.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "file": "seto_kaiba/faces/chara007_05.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "file": "seto_kaiba/faces/chara007_06.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 7,
+     "file": "seto_kaiba/faces/chara007_07.png",
+     "w": 240,
+     "h": 240
+    }
+   ],
+   "extras": [],
+   "series": "dm"
+  },
+  {
+   "id": "seto_kaiba_dsod",
+   "name": "Seto Kaiba (DSoD)",
+   "sourceAssetId": "132240",
+   "full": {
+    "variant": "chara007",
+    "file": "seto_kaiba_dsod/full_chara007.png",
+    "w": 760,
+    "h": 800
+   },
+   "bodies": [
+    {
+     "variant": "chara007",
+     "file": "seto_kaiba_dsod/full_chara007.png",
+     "w": 760,
+     "h": 800
+    }
+   ],
+   "faces": [
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "seto_kaiba_dsod/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "file": "seto_kaiba_dsod/faces/chara007_02.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "file": "seto_kaiba_dsod/faces/chara007_03.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "file": "seto_kaiba_dsod/faces/chara007_04.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "file": "seto_kaiba_dsod/faces/chara007_05.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "file": "seto_kaiba_dsod/faces/chara007_06.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 7,
+     "file": "seto_kaiba_dsod/faces/chara007_07.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 8,
+     "file": "seto_kaiba_dsod/faces/chara007_08.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 9,
+     "file": "seto_kaiba_dsod/faces/chara007_09.png",
+     "w": 240,
+     "h": 240
+    }
+   ],
+   "extras": [],
+   "series": "dm"
+  },
+  {
+   "id": "seto_kaiba_urban",
+   "name": "Seto Kaiba (Urban)",
+   "sourceAssetId": "537646",
+   "full": null,
+   "bodies": [],
+   "faces": [
+    {
+     "variant": "chara003",
+     "index": 1,
+     "file": "seto_kaiba_urban/faces/chara003_01.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 2,
+     "file": "seto_kaiba_urban/faces/chara003_02.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 3,
+     "file": "seto_kaiba_urban/faces/chara003_03.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 4,
+     "file": "seto_kaiba_urban/faces/chara003_04.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 5,
+     "file": "seto_kaiba_urban/faces/chara003_05.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 6,
+     "file": "seto_kaiba_urban/faces/chara003_06.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 7,
+     "file": "seto_kaiba_urban/faces/chara003_07.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 8,
+     "file": "seto_kaiba_urban/faces/chara003_08.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 9,
+     "file": "seto_kaiba_urban/faces/chara003_09.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 0,
+     "file": "seto_kaiba_urban/faces/chara007_00.png",
+     "w": 1024,
+     "h": 1024
+    },
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "seto_kaiba_urban/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "file": "seto_kaiba_urban/faces/chara007_02.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "file": "seto_kaiba_urban/faces/chara007_03.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "file": "seto_kaiba_urban/faces/chara007_04.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "file": "seto_kaiba_urban/faces/chara007_05.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "file": "seto_kaiba_urban/faces/chara007_06.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 7,
+     "file": "seto_kaiba_urban/faces/chara007_07.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 8,
+     "file": "seto_kaiba_urban/faces/chara007_08.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 9,
+     "file": "seto_kaiba_urban/faces/chara007_09.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara050",
+     "index": 1,
+     "file": "seto_kaiba_urban/faces/chara050_01.png",
+     "w": 1024,
+     "h": 1024
+    }
+   ],
+   "extras": [
+    {
+     "file": "seto_kaiba_urban/extras/Chara001.png",
+     "w": 124,
+     "h": 146
+    },
+    {
+     "file": "seto_kaiba_urban/extras/Chara002.png",
+     "w": 500,
+     "h": 960
+    },
+    {
+     "file": "seto_kaiba_urban/extras/Chara004.png",
+     "w": 256,
+     "h": 256
+    },
+    {
+     "file": "seto_kaiba_urban/extras/Chara010.png",
+     "w": 400,
+     "h": 120
+    },
+    {
+     "file": "seto_kaiba_urban/extras/Chara013.png",
+     "w": 204,
+     "h": 216
+    },
+    {
+     "file": "seto_kaiba_urban/extras/CharaName001.png",
+     "w": 356,
+     "h": 190
+    },
+    {
+     "file": "seto_kaiba_urban/extras/Cutin001.png",
+     "w": 512,
+     "h": 256
+    },
+    {
+     "file": "seto_kaiba_urban/extras/Cutin002.png",
+     "w": 512,
+     "h": 512
+    },
+    {
+     "file": "seto_kaiba_urban/extras/Cutin003.png",
+     "w": 1024,
+     "h": 1024
+    },
+    {
+     "file": "seto_kaiba_urban/extras/VS001.png",
+     "w": 512,
+     "h": 256
+    },
+    {
+     "file": "seto_kaiba_urban/extras/VS002.png",
+     "w": 256,
+     "h": 256
+    }
+   ],
+   "series": "dm"
+  },
+  {
+   "id": "solomon_muto",
+   "name": "Solomon Muto",
+   "sourceAssetId": "197140",
+   "full": {
+    "variant": "chara007",
+    "file": "solomon_muto/full_chara007.png",
+    "w": 760,
+    "h": 800
+   },
+   "bodies": [
+    {
+     "variant": "chara007",
+     "file": "solomon_muto/full_chara007.png",
+     "w": 760,
+     "h": 800
+    }
+   ],
+   "faces": [
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "solomon_muto/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "file": "solomon_muto/faces/chara007_02.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "file": "solomon_muto/faces/chara007_03.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "file": "solomon_muto/faces/chara007_04.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "file": "solomon_muto/faces/chara007_05.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "file": "solomon_muto/faces/chara007_06.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 7,
+     "file": "solomon_muto/faces/chara007_07.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 8,
+     "file": "solomon_muto/faces/chara007_08.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 9,
+     "file": "solomon_muto/faces/chara007_09.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 10,
+     "file": "solomon_muto/faces/chara007_10.png",
+     "w": 240,
+     "h": 240
+    }
+   ],
+   "extras": [],
+   "series": "dm"
+  },
+  {
+   "id": "the_gore",
+   "name": "The Gore",
+   "sourceAssetId": "184000",
+   "full": {
+    "variant": "chara007",
+    "file": "the_gore/full_chara007.png",
+    "w": 760,
+    "h": 800
+   },
+   "bodies": [
+    {
+     "variant": "chara007",
+     "file": "the_gore/full_chara007.png",
+     "w": 760,
+     "h": 800
+    }
+   ],
+   "faces": [
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "the_gore/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "file": "the_gore/faces/chara007_02.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "file": "the_gore/faces/chara007_03.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "file": "the_gore/faces/chara007_04.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "file": "the_gore/faces/chara007_05.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "file": "the_gore/faces/chara007_06.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 7,
+     "file": "the_gore/faces/chara007_07.png",
+     "w": 240,
+     "h": 240
+    }
+   ],
+   "extras": [],
+   "series": "dm?"
+  },
+  {
+   "id": "tristan_taylor",
+   "name": "Tristan Taylor",
+   "sourceAssetId": "132246",
+   "full": {
+    "variant": "chara007",
+    "file": "tristan_taylor/full_chara007.png",
+    "w": 760,
+    "h": 800
+   },
+   "bodies": [
+    {
+     "variant": "chara007",
+     "file": "tristan_taylor/full_chara007.png",
+     "w": 760,
+     "h": 800
+    }
+   ],
+   "faces": [
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "tristan_taylor/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "file": "tristan_taylor/faces/chara007_02.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "file": "tristan_taylor/faces/chara007_03.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "file": "tristan_taylor/faces/chara007_04.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "file": "tristan_taylor/faces/chara007_05.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "file": "tristan_taylor/faces/chara007_06.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 7,
+     "file": "tristan_taylor/faces/chara007_07.png",
+     "w": 240,
+     "h": 240
+    }
+   ],
+   "extras": [],
+   "series": "dm"
+  },
+  {
+   "id": "tea_gardner",
+   "name": "Téa Gardner",
+   "sourceAssetId": "132244",
+   "full": {
+    "variant": "chara007",
+    "file": "tea_gardner/full_chara007.png",
+    "w": 760,
+    "h": 800
+   },
+   "bodies": [
+    {
+     "variant": "chara007",
+     "file": "tea_gardner/full_chara007.png",
+     "w": 760,
+     "h": 800
+    }
+   ],
+   "faces": [
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "tea_gardner/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "file": "tea_gardner/faces/chara007_02.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "file": "tea_gardner/faces/chara007_03.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "file": "tea_gardner/faces/chara007_04.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "file": "tea_gardner/faces/chara007_05.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "file": "tea_gardner/faces/chara007_06.png",
+     "w": 240,
+     "h": 240
+    }
+   ],
+   "extras": [],
+   "series": "dm"
+  },
+  {
+   "id": "tea_gardner_casual",
+   "name": "Téa Gardner (Casual)",
+   "sourceAssetId": "537650",
+   "full": null,
+   "bodies": [],
+   "faces": [
+    {
+     "variant": "chara003",
+     "index": 1,
+     "file": "tea_gardner_casual/faces/chara003_01.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 2,
+     "file": "tea_gardner_casual/faces/chara003_02.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 3,
+     "file": "tea_gardner_casual/faces/chara003_03.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 4,
+     "file": "tea_gardner_casual/faces/chara003_04.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 5,
+     "file": "tea_gardner_casual/faces/chara003_05.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 6,
+     "file": "tea_gardner_casual/faces/chara003_06.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 7,
+     "file": "tea_gardner_casual/faces/chara003_07.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 8,
+     "file": "tea_gardner_casual/faces/chara003_08.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 9,
+     "file": "tea_gardner_casual/faces/chara003_09.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 10,
+     "file": "tea_gardner_casual/faces/chara003_10.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 0,
+     "file": "tea_gardner_casual/faces/chara007_00.png",
+     "w": 1024,
+     "h": 1024
+    },
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "tea_gardner_casual/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "file": "tea_gardner_casual/faces/chara007_02.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "file": "tea_gardner_casual/faces/chara007_03.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "file": "tea_gardner_casual/faces/chara007_04.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "file": "tea_gardner_casual/faces/chara007_05.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "file": "tea_gardner_casual/faces/chara007_06.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 7,
+     "file": "tea_gardner_casual/faces/chara007_07.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 8,
+     "file": "tea_gardner_casual/faces/chara007_08.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 9,
+     "file": "tea_gardner_casual/faces/chara007_09.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 10,
+     "file": "tea_gardner_casual/faces/chara007_10.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara050",
+     "index": 1,
+     "file": "tea_gardner_casual/faces/chara050_01.png",
+     "w": 1024,
+     "h": 1024
+    }
+   ],
+   "extras": [
+    {
+     "file": "tea_gardner_casual/extras/Chara001.png",
+     "w": 124,
+     "h": 146
+    },
+    {
+     "file": "tea_gardner_casual/extras/Chara002.png",
+     "w": 500,
+     "h": 960
+    },
+    {
+     "file": "tea_gardner_casual/extras/Chara004.png",
+     "w": 256,
+     "h": 256
+    },
+    {
+     "file": "tea_gardner_casual/extras/Chara010.png",
+     "w": 400,
+     "h": 120
+    },
+    {
+     "file": "tea_gardner_casual/extras/Chara013.png",
+     "w": 204,
+     "h": 216
+    },
+    {
+     "file": "tea_gardner_casual/extras/CharaName001.png",
+     "w": 356,
+     "h": 190
+    },
+    {
+     "file": "tea_gardner_casual/extras/Cutin001.png",
+     "w": 512,
+     "h": 256
+    },
+    {
+     "file": "tea_gardner_casual/extras/Cutin002.png",
+     "w": 512,
+     "h": 512
+    },
+    {
+     "file": "tea_gardner_casual/extras/Cutin003.png",
+     "w": 1024,
+     "h": 1024
+    },
+    {
+     "file": "tea_gardner_casual/extras/VS001.png",
+     "w": 512,
+     "h": 256
+    },
+    {
+     "file": "tea_gardner_casual/extras/VS002.png",
+     "w": 256,
+     "h": 256
+    }
+   ],
+   "series": "dm"
+  },
+  {
+   "id": "tea_gardner_dsod",
+   "name": "Téa Gardner (DSoD)",
+   "sourceAssetId": "134187",
+   "full": {
+    "variant": "chara007",
+    "file": "tea_gardner_dsod/full_chara007.png",
+    "w": 760,
+    "h": 800
+   },
+   "bodies": [
+    {
+     "variant": "chara007",
+     "file": "tea_gardner_dsod/full_chara007.png",
+     "w": 760,
+     "h": 800
+    }
+   ],
+   "faces": [
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "tea_gardner_dsod/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "file": "tea_gardner_dsod/faces/chara007_02.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "file": "tea_gardner_dsod/faces/chara007_03.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "file": "tea_gardner_dsod/faces/chara007_04.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "file": "tea_gardner_dsod/faces/chara007_05.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "file": "tea_gardner_dsod/faces/chara007_06.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 7,
+     "file": "tea_gardner_dsod/faces/chara007_07.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 8,
+     "file": "tea_gardner_dsod/faces/chara007_08.png",
+     "w": 240,
+     "h": 240
+    }
+   ],
+   "extras": [],
+   "series": "dm"
+  },
+  {
+   "id": "weevil_underwood",
+   "name": "Weevil Underwood",
+   "sourceAssetId": "132250",
+   "full": {
+    "variant": "chara007",
+    "file": "weevil_underwood/full_chara007.png",
+    "w": 760,
+    "h": 800
+   },
+   "bodies": [
+    {
+     "variant": "chara007",
+     "file": "weevil_underwood/full_chara007.png",
+     "w": 760,
+     "h": 800
+    }
+   ],
+   "faces": [
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "weevil_underwood/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "file": "weevil_underwood/faces/chara007_02.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "file": "weevil_underwood/faces/chara007_03.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "file": "weevil_underwood/faces/chara007_04.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "file": "weevil_underwood/faces/chara007_05.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "file": "weevil_underwood/faces/chara007_06.png",
+     "w": 240,
+     "h": 240
+    }
+   ],
+   "extras": [],
+   "series": "dm"
+  },
+  {
+   "id": "yami_bakura",
+   "name": "Yami Bakura",
+   "sourceAssetId": "132251",
+   "full": {
+    "variant": "chara007",
+    "file": "yami_bakura/full_chara007.png",
+    "w": 760,
+    "h": 800
+   },
+   "bodies": [
+    {
+     "variant": "chara007",
+     "file": "yami_bakura/full_chara007.png",
+     "w": 760,
+     "h": 800
+    }
+   ],
+   "faces": [
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "yami_bakura/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "file": "yami_bakura/faces/chara007_02.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "file": "yami_bakura/faces/chara007_03.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "file": "yami_bakura/faces/chara007_04.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "file": "yami_bakura/faces/chara007_05.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "file": "yami_bakura/faces/chara007_06.png",
+     "w": 240,
+     "h": 240
+    }
+   ],
+   "extras": [],
+   "series": "dm"
+  },
+  {
+   "id": "yami_marik",
+   "name": "Yami Marik",
+   "sourceAssetId": "132252",
+   "full": {
+    "variant": "chara007",
+    "file": "yami_marik/full_chara007.png",
+    "w": 760,
+    "h": 800
+   },
+   "bodies": [
+    {
+     "variant": "chara007",
+     "file": "yami_marik/full_chara007.png",
+     "w": 760,
+     "h": 800
+    }
+   ],
+   "faces": [
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "yami_marik/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "file": "yami_marik/faces/chara007_02.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "file": "yami_marik/faces/chara007_03.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "file": "yami_marik/faces/chara007_04.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "file": "yami_marik/faces/chara007_05.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "file": "yami_marik/faces/chara007_06.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 7,
+     "file": "yami_marik/faces/chara007_07.png",
+     "w": 240,
+     "h": 240
+    }
+   ],
+   "extras": [],
+   "series": "dm"
+  },
+  {
+   "id": "yami_yugi",
+   "name": "Yami Yugi",
+   "sourceAssetId": "132253",
+   "full": {
+    "variant": "chara007",
+    "file": "yami_yugi/full_chara007.png",
+    "w": 760,
+    "h": 800
+   },
+   "bodies": [
+    {
+     "variant": "chara007",
+     "file": "yami_yugi/full_chara007.png",
+     "w": 760,
+     "h": 800
+    },
+    {
+     "variant": "chara007",
+     "alt": 1,
+     "file": "yami_yugi/full_chara007_alt1.png",
+     "w": 760,
+     "h": 800
+    }
+   ],
+   "faces": [
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "yami_yugi/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 1,
+     "alt": 1,
+     "file": "yami_yugi/faces/chara007_01_alt1.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "file": "yami_yugi/faces/chara007_02.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "alt": 1,
+     "file": "yami_yugi/faces/chara007_02_alt1.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "file": "yami_yugi/faces/chara007_03.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "alt": 1,
+     "file": "yami_yugi/faces/chara007_03_alt1.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "file": "yami_yugi/faces/chara007_04.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "alt": 1,
+     "file": "yami_yugi/faces/chara007_04_alt1.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "file": "yami_yugi/faces/chara007_05.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "alt": 1,
+     "file": "yami_yugi/faces/chara007_05_alt1.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "file": "yami_yugi/faces/chara007_06.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "alt": 1,
+     "file": "yami_yugi/faces/chara007_06_alt1.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 7,
+     "file": "yami_yugi/faces/chara007_07.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 7,
+     "alt": 1,
+     "file": "yami_yugi/faces/chara007_07_alt1.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 8,
+     "file": "yami_yugi/faces/chara007_08.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 8,
+     "alt": 1,
+     "file": "yami_yugi/faces/chara007_08_alt1.png",
+     "w": 240,
+     "h": 240
+    }
+   ],
+   "extras": [],
+   "series": "dm"
+  },
+  {
+   "id": "yami_yugi_street",
+   "name": "Yami Yugi (Street)",
+   "sourceAssetId": "537645",
+   "full": null,
+   "bodies": [],
+   "faces": [
+    {
+     "variant": "chara003",
+     "index": 1,
+     "file": "yami_yugi_street/faces/chara003_01.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 2,
+     "file": "yami_yugi_street/faces/chara003_02.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 3,
+     "file": "yami_yugi_street/faces/chara003_03.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 4,
+     "file": "yami_yugi_street/faces/chara003_04.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 5,
+     "file": "yami_yugi_street/faces/chara003_05.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 6,
+     "file": "yami_yugi_street/faces/chara003_06.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 7,
+     "file": "yami_yugi_street/faces/chara003_07.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 8,
+     "file": "yami_yugi_street/faces/chara003_08.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 9,
+     "file": "yami_yugi_street/faces/chara003_09.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara003",
+     "index": 10,
+     "file": "yami_yugi_street/faces/chara003_10.png",
+     "w": 400,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 0,
+     "file": "yami_yugi_street/faces/chara007_00.png",
+     "w": 1024,
+     "h": 1024
+    },
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "yami_yugi_street/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "file": "yami_yugi_street/faces/chara007_02.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "file": "yami_yugi_street/faces/chara007_03.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "file": "yami_yugi_street/faces/chara007_04.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "file": "yami_yugi_street/faces/chara007_05.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "file": "yami_yugi_street/faces/chara007_06.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 7,
+     "file": "yami_yugi_street/faces/chara007_07.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 8,
+     "file": "yami_yugi_street/faces/chara007_08.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 9,
+     "file": "yami_yugi_street/faces/chara007_09.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 10,
+     "file": "yami_yugi_street/faces/chara007_10.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara050",
+     "index": 1,
+     "file": "yami_yugi_street/faces/chara050_01.png",
+     "w": 1024,
+     "h": 1024
+    }
+   ],
+   "extras": [
+    {
+     "file": "yami_yugi_street/extras/Chara001.png",
+     "w": 124,
+     "h": 146
+    },
+    {
+     "file": "yami_yugi_street/extras/Chara002.png",
+     "w": 500,
+     "h": 960
+    },
+    {
+     "file": "yami_yugi_street/extras/Chara004.png",
+     "w": 256,
+     "h": 256
+    },
+    {
+     "file": "yami_yugi_street/extras/Chara010.png",
+     "w": 400,
+     "h": 120
+    },
+    {
+     "file": "yami_yugi_street/extras/Chara013.png",
+     "w": 204,
+     "h": 216
+    },
+    {
+     "file": "yami_yugi_street/extras/CharaName001.png",
+     "w": 356,
+     "h": 190
+    },
+    {
+     "file": "yami_yugi_street/extras/Cutin001.png",
+     "w": 512,
+     "h": 256
+    },
+    {
+     "file": "yami_yugi_street/extras/Cutin002.png",
+     "w": 512,
+     "h": 512
+    },
+    {
+     "file": "yami_yugi_street/extras/Cutin003.png",
+     "w": 1024,
+     "h": 1024
+    },
+    {
+     "file": "yami_yugi_street/extras/VS001.png",
+     "w": 512,
+     "h": 256
+    },
+    {
+     "file": "yami_yugi_street/extras/VS002.png",
+     "w": 256,
+     "h": 256
+    }
+   ],
+   "series": "dm"
+  },
+  {
+   "id": "yugi_muto",
+   "name": "Yugi Muto",
+   "sourceAssetId": "132255",
+   "full": {
+    "variant": "chara007",
+    "file": "yugi_muto/full_chara007.png",
+    "w": 760,
+    "h": 800
+   },
+   "bodies": [
+    {
+     "variant": "chara007",
+     "file": "yugi_muto/full_chara007.png",
+     "w": 760,
+     "h": 800
+    }
+   ],
+   "faces": [
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "yugi_muto/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 2,
+     "file": "yugi_muto/faces/chara007_02.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 3,
+     "file": "yugi_muto/faces/chara007_03.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 4,
+     "file": "yugi_muto/faces/chara007_04.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 5,
+     "file": "yugi_muto/faces/chara007_05.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 6,
+     "file": "yugi_muto/faces/chara007_06.png",
+     "w": 240,
+     "h": 240
+    }
+   ],
+   "extras": [],
+   "series": "dm"
+  }
+ ]
+}

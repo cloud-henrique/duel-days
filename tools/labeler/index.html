@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Labeler de Expressões</title>
+<style>
+  :root {
+    --bg: #f4f4f6; --panel: #ffffff; --text: #1b1b1f; --muted: #6b6b76; --line: #dcdce2;
+    --accent: #5b4bdb; --accent-soft: #e9e6fb; --ok: #1f9d55; --warn: #c97a00; --danger: #c0392b;
+    --checker-a: #e6e6ea; --checker-b: #f7f7f9;
+  }
+  :root:not([data-theme="light"]) { }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #121216; --panel: #1b1b21; --text: #ececf1; --muted: #9a9aa6; --line: #2d2d36;
+      --accent: #8b7dff; --accent-soft: #2a2748; --ok: #3ecf80; --warn: #f0a93a; --danger: #ff6b5b;
+      --checker-a: #26262d; --checker-b: #1f1f25;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #121216; --panel: #1b1b21; --text: #ececf1; --muted: #9a9aa6; --line: #2d2d36;
+    --accent: #8b7dff; --accent-soft: #2a2748; --ok: #3ecf80; --warn: #f0a93a; --danger: #ff6b5b;
+    --checker-a: #26262d; --checker-b: #1f1f25;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+  body { background: var(--bg); color: var(--text); font: 14px/1.4 system-ui, -apple-system, Segoe UI, sans-serif; display: flex; flex-direction: column; }
+  header { display: flex; align-items: center; gap: 16px; padding: 10px 16px; background: var(--panel); border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+  header h1 { font-size: 16px; margin: 0; }
+  .progress { flex: 1; min-width: 160px; max-width: 360px; }
+  .bar { height: 8px; background: var(--line); border-radius: 4px; overflow: hidden; }
+  .bar > i { display: block; height: 100%; background: var(--ok); width: 0; transition: width .2s; }
+  .progress small { color: var(--muted); }
+  #status { margin-left: auto; color: var(--muted); font-size: 12px; }
+  #status.err { color: var(--danger); }
+  main { flex: 1; display: grid; grid-template-columns: 280px 1fr; min-height: 0; }
+  aside { background: var(--panel); border-right: 1px solid var(--line); display: flex; flex-direction: column; min-height: 0; }
+  aside .tools { padding: 10px; display: grid; gap: 8px; border-bottom: 1px solid var(--line); }
+  input[type=search], input[type=text], select { width: 100%; padding: 7px 9px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); color: var(--text); font: inherit; }
+  #list { overflow: auto; flex: 1; }
+  .item { display: flex; align-items: center; gap: 8px; padding: 8px 12px; cursor: pointer; border-bottom: 1px solid var(--line); }
+  .item:hover { background: var(--accent-soft); }
+  .item.sel { background: var(--accent-soft); box-shadow: inset 3px 0 0 var(--accent); }
+  .item .nm { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .item .cnt { color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+  .item.done .cnt { color: var(--ok); }
+  .item.excl .nm { text-decoration: line-through; color: var(--muted); }
+  .badge { font-size: 10px; padding: 1px 6px; border-radius: 8px; border: 1px solid var(--line); color: var(--muted); }
+  .badge.unsure { color: var(--warn); border-color: var(--warn); }
+  section#view { overflow: auto; padding: 16px; min-width: 0; }
+  .head { display: flex; gap: 16px; align-items: flex-start; flex-wrap: wrap; margin-bottom: 14px; }
+  .bodies { display: flex; gap: 8px; }
+  .bodies img { height: 150px; width: auto; border-radius: 6px; background: repeating-conic-gradient(var(--checker-a) 0 25%, var(--checker-b) 0 50%) 0 0/16px 16px; border: 1px solid var(--line); }
+  .meta { flex: 1; min-width: 240px; display: grid; gap: 8px; }
+  .meta h2 { margin: 0; font-size: 20px; }
+  .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .row label { display: flex; gap: 6px; align-items: center; }
+  button { padding: 6px 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--panel); color: var(--text); font: inherit; cursor: pointer; }
+  button:hover { border-color: var(--accent); }
+  .hint { color: var(--muted); font-size: 12px; }
+  .keys { display: flex; flex-wrap: wrap; gap: 4px; margin: 6px 0 14px; }
+  .keys span { font-size: 12px; border: 1px solid var(--line); border-radius: 5px; padding: 1px 6px; background: var(--panel); }
+  .keys kbd { font-weight: 700; color: var(--accent); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+  .card { background: var(--panel); border: 2px solid var(--line); border-radius: 8px; padding: 8px; display: grid; gap: 6px; outline: none; }
+  .card.sel { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+  .card.lab { border-color: var(--ok); }
+  .card.lab.sel { border-color: var(--accent); }
+  .pic { aspect-ratio: 1; display: grid; place-items: center; border-radius: 6px; background: repeating-conic-gradient(var(--checker-a) 0 25%, var(--checker-b) 0 50%) 0 0/16px 16px; overflow: hidden; }
+  .pic img { max-width: 100%; max-height: 100%; object-fit: contain; image-rendering: auto; }
+  .cap { display: flex; justify-content: space-between; color: var(--muted); font-size: 11px; }
+  .empty { color: var(--muted); padding: 40px; text-align: center; }
+  @media (max-width: 760px) { main { grid-template-columns: 1fr; } aside { max-height: 38vh; border-right: 0; border-bottom: 1px solid var(--line); } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Labeler de Expressões</h1>
+  <div class="progress">
+    <div class="bar"><i id="bar"></i></div>
+    <small id="ptext">carregando…</small>
+  </div>
+  <span id="status">—</span>
+</header>
+<main>
+  <aside>
+    <div class="tools">
+      <input id="q" type="search" placeholder="Buscar personagem…">
+      <select id="filter">
+        <option value="all">Todos</option>
+        <option value="todo">Incompletos</option>
+        <option value="done">Completos</option>
+        <option value="unsure">Série incerta (dm?)</option>
+        <option value="excl">Excluídos</option>
+      </select>
+    </div>
+    <div id="list"></div>
+  </aside>
+  <section id="view"><div class="empty">Escolha um personagem na lista.</div></section>
+</main>
+
+<script>
+// Expressões padrão. id (inglês) vai pro labels.json; rótulo e tecla são só da interface.
+const EXPR = [
+  ['neutral','Neutro','n'], ['happy','Feliz','h'], ['laugh','Risada','l'], ['smug','Convencido','m'],
+  ['angry','Bravo','a'], ['shout','Gritando','y'], ['surprised','Surpreso','u'], ['sad','Triste','s'],
+  ['worried','Preocupado','w'], ['embarrassed','Envergonhado','b'], ['thinking','Pensativo','t'],
+  ['serious','Sério','r'], ['determined','Determinado','d'], ['scared','Assustado','f'], ['skip','Ignorar','x'],
+];
+const KEY2EXPR = Object.fromEntries(EXPR.map(([id,,k]) => [k, id]));
+
+let manifest = [], labels = {}, current = null, selFace = null, saveTimer = null;
+const $ = s => document.querySelector(s);
+const url = f => '/assets/characters/' + f.split('/').map(encodeURIComponent).join('/');
+
+const entryLabels = id => (labels[id] ||= { faces: {} });
+const faceFiles = c => c.faces.map(f => f.file);
+const doneCount = c => faceFiles(c).filter(f => entryLabels(c.id).faces[f]).length;
+const isExcl = c => !!(labels[c.id] && labels[c.id].excluded);
+
+function setStatus(msg, err) { const s = $('#status'); s.textContent = msg; s.className = err ? 'err' : ''; }
+
+function scheduleSave() {
+  setStatus('alterações pendentes…');
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(save, 400);
+}
+async function save() {
+  try {
+    const pruned = Object.fromEntries(Object.entries(labels).filter(([, v]) => v.excluded || v.note || Object.keys(v.faces || {}).length));
+    const r = await fetch('/api/labels', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(pruned) });
+    if (!r.ok) throw new Error(r.status);
+    setStatus('salvo ✓ ' + new Date().toLocaleTimeString());
+  } catch (e) { setStatus('ERRO ao salvar (' + e.message + ')', true); }
+}
+window.addEventListener('beforeunload', e => { if (saveTimer) { clearTimeout(saveTimer); save(); } });
+
+function updateProgress() {
+  const act = manifest.filter(c => !isExcl(c));
+  const total = act.reduce((s, c) => s + c.faces.length, 0);
+  const done = act.reduce((s, c) => s + doneCount(c), 0);
+  const chDone = act.filter(c => c.faces.length && doneCount(c) === c.faces.length).length;
+  $('#bar').style.width = total ? (100 * done / total) + '%' : '0';
+  $('#ptext').textContent = `${done}/${total} expressões · ${chDone}/${act.length} personagens completos`;
+}
+
+function renderList() {
+  const q = $('#q').value.trim().toLowerCase(), f = $('#filter').value;
+  const list = $('#list'); list.textContent = '';
+  for (const c of manifest) {
+    const d = doneCount(c), full = c.faces.length && d === c.faces.length;
+    if (q && !(c.name.toLowerCase().includes(q) || c.id.includes(q))) continue;
+    if (f === 'todo' && (full || isExcl(c))) continue;
+    if (f === 'done' && !full) continue;
+    if (f === 'unsure' && c.series !== 'dm?') continue;
+    if (f === 'excl' && !isExcl(c)) continue;
+    const el = document.createElement('div');
+    el.className = 'item' + (current === c.id ? ' sel' : '') + (full ? ' done' : '') + (isExcl(c) ? ' excl' : '');
+    const nm = document.createElement('span'); nm.className = 'nm'; nm.textContent = c.name; el.append(nm);
+    if (c.series === 'dm?') { const b = document.createElement('span'); b.className = 'badge unsure'; b.textContent = 'dm?'; el.append(b); }
+    else if (c.series && c.series !== 'dm') { const b = document.createElement('span'); b.className = 'badge'; b.textContent = c.series; el.append(b); }
+    const cnt = document.createElement('span'); cnt.className = 'cnt'; cnt.textContent = `${d}/${c.faces.length}`; el.append(cnt);
+    el.onclick = () => openChar(c.id);
+    list.append(el);
+  }
+}
+
+function openChar(id) {
+  current = id; selFace = null;
+  const c = manifest.find(x => x.id === id), L = entryLabels(id);
+  const v = $('#view'); v.textContent = '';
+
+  const head = document.createElement('div'); head.className = 'head';
+  const bodies = document.createElement('div'); bodies.className = 'bodies';
+  for (const b of c.bodies || []) { const im = document.createElement('img'); im.src = url(b.file); im.loading = 'lazy'; im.title = b.file; bodies.append(im); }
+  head.append(bodies);
+
+  const meta = document.createElement('div'); meta.className = 'meta';
+  const h2 = document.createElement('h2'); h2.textContent = c.name; meta.append(h2);
+  const sub = document.createElement('div'); sub.className = 'hint';
+  sub.textContent = `${c.id} · série: ${c.series || '?'} · ${c.faces.length} rostos`; meta.append(sub);
+
+  const r1 = document.createElement('div'); r1.className = 'row';
+  const lab = document.createElement('label'); const cb = document.createElement('input'); cb.type = 'checkbox'; cb.checked = !!L.excluded;
+  cb.onchange = () => { L.excluded = cb.checked; if (!cb.checked) delete L.excluded; scheduleSave(); updateProgress(); renderList(); };
+  lab.append(cb, document.createTextNode(' Não é DM (excluir)')); r1.append(lab);
+
+  const copySel = document.createElement('select'); copySel.style.width = 'auto';
+  const o0 = document.createElement('option'); o0.value = ''; o0.textContent = 'Copiar rótulos de…'; copySel.append(o0);
+  for (const o of manifest) if (o.id !== id && doneCount(o) > 0) { const op = document.createElement('option'); op.value = o.id; op.textContent = `${o.name} (${doneCount(o)})`; copySel.append(op); }
+  copySel.onchange = () => {
+    if (!copySel.value) return;
+    const src = manifest.find(x => x.id === copySel.value), SL = entryLabels(src.id).faces;
+    const sv = src.faces.map(f => SL[f.file]);
+    c.faces.forEach((f, i) => { if (sv[i]) L.faces[f.file] = sv[i]; });
+    scheduleSave(); openChar(id); renderList(); updateProgress();
+  };
+  r1.append(copySel);
+
+  const clr = document.createElement('button'); clr.textContent = 'Limpar rótulos';
+  clr.onclick = () => { if (confirm('Limpar todos os rótulos de ' + c.name + '?')) { L.faces = {}; scheduleSave(); openChar(id); renderList(); updateProgress(); } };
+  r1.append(clr); meta.append(r1);
+
+  const note = document.createElement('input'); note.type = 'text'; note.placeholder = 'Nota (opcional)'; note.value = L.note || '';
+  note.oninput = () => { if (note.value) L.note = note.value; else delete L.note; scheduleSave(); };
+  meta.append(note);
+  head.append(meta); v.append(head);
+
+  const keys = document.createElement('div'); keys.className = 'keys';
+  for (const [, label, k] of EXPR) { const s = document.createElement('span'); const kb = document.createElement('kbd'); kb.textContent = k.toUpperCase(); s.append(kb, ' ' + label); keys.append(s); }
+  const tip = document.createElement('div'); tip.className = 'hint'; tip.textContent = 'Clique num rosto e aperte a tecla da expressão. Setas movem a seleção; Backspace limpa.';
+  v.append(tip, keys);
+
+  const grid = document.createElement('div'); grid.className = 'grid'; grid.id = 'grid';
+  c.faces.forEach(f => grid.append(makeCard(c, f, L)));
+  v.append(grid);
+  renderList();
+}
+
+function makeCard(c, f, L) {
+  const card = document.createElement('div'); card.className = 'card'; card.tabIndex = 0; card.dataset.file = f.file;
+  const pic = document.createElement('div'); pic.className = 'pic';
+  const im = document.createElement('img'); im.src = url(f.file); im.loading = 'lazy'; im.alt = f.file; pic.append(im);
+  const cap = document.createElement('div'); cap.className = 'cap';
+  const a = document.createElement('span'); a.textContent = `#${f.index}` + (f.alt ? ` alt${f.alt}` : '') + ` · ${f.variant.replace('chara', 'c')}`;
+  const b = document.createElement('span'); b.textContent = `${f.w}×${f.h}`; cap.append(a, b);
+  const sel = document.createElement('select');
+  const e0 = document.createElement('option'); e0.value = ''; e0.textContent = '— sem rótulo —'; sel.append(e0);
+  for (const [id, label] of EXPR) { const o = document.createElement('option'); o.value = id; o.textContent = label; sel.append(o); }
+  sel.value = L.faces[f.file] || '';
+  const apply = val => { if (val) L.faces[f.file] = val; else delete L.faces[f.file]; sel.value = val || ''; card.classList.toggle('lab', !!val); scheduleSave(); updateProgress(); refreshItem(c); };
+  sel.onchange = () => apply(sel.value);
+  card.classList.toggle('lab', !!L.faces[f.file]);
+  card.append(pic, cap, sel);
+  card.addEventListener('mousedown', () => select(card));
+  card.addEventListener('focus', () => select(card));
+  card._apply = apply;
+  return card;
+}
+
+function select(card) {
+  document.querySelectorAll('.card.sel').forEach(x => x.classList.remove('sel'));
+  card.classList.add('sel'); selFace = card;
+}
+function refreshItem(c) { renderList(); }
+
+document.addEventListener('keydown', e => {
+  if (e.target.matches('input[type=text], input[type=search], select') || e.metaKey || e.ctrlKey || e.altKey) return;
+  if (!selFace) return;
+  const cards = [...document.querySelectorAll('#grid .card')], i = cards.indexOf(selFace);
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); const n = cards[Math.min(i + 1, cards.length - 1)]; n.focus(); n.scrollIntoView({ block: 'nearest' }); return; }
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); const n = cards[Math.max(i - 1, 0)]; n.focus(); n.scrollIntoView({ block: 'nearest' }); return; }
+  if (e.key === 'Backspace' || e.key === 'Delete') { e.preventDefault(); selFace._apply(''); return; }
+  const id = KEY2EXPR[e.key.toLowerCase()];
+  if (id) { e.preventDefault(); selFace._apply(id); const n = cards[i + 1]; if (n) { n.focus(); n.scrollIntoView({ block: 'nearest' }); } }
+});
+
+$('#q').oninput = renderList;
+$('#filter').onchange = renderList;
+
+(async () => {
+  try {
+    const r = await fetch('/api/data'); const d = await r.json();
+    manifest = d.manifest.characters; labels = d.labels || {};
+    updateProgress(); renderList(); setStatus('pronto');
+    if (manifest.length) openChar((manifest.find(c => doneCount(c) < c.faces.length && !isExcl(c)) || manifest[0]).id);
+  } catch (e) { setStatus('erro ao carregar dados: ' + e.message, true); $('#ptext').textContent = 'servidor não respondeu'; }
+})();
+</script>
+</body>
+</html>
