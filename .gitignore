@@ -41,3 +41,5 @@ assets/cards/
 # Dados do protótipo (regeneráveis: npm run fetch-data && npm run export-proto-data)
 public/data/
 public/scripts/
+public/characters/
+.venv/

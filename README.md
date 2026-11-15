@@ -50,6 +50,20 @@ npm run dev                 # PWA em http://localhost:5173 (use --port se o labe
 - `src/App.tsx`: UI mínima; todos os prompts (`SELECT_*`) viram botões. Zona/posição ainda são automáticas.
 - `public/data` e `public/scripts` não são versionados (regeneráveis).
 
+## História (visual novel)
+
+```bash
+python3 -m venv .venv && .venv/bin/pip install -r scripts/requirements.txt
+npm run build-characters                 # assets/characters/characters.json (a partir dos rótulos)
+.venv/bin/python scripts/build_sprites.py  # public/characters/ (WebP + index.json)
+npx tsx proto/story-smoke.ts             # percorre todos os caminhos do capítulo
+```
+
+- O sprite de corpo vem com o rosto em branco; o rosto 240x240 se sobrepõe sempre em (260, 120) (medido nos 44 personagens).
+- `src/story/runner.ts`: motor puro (say, show/hide, choice, set/if/goto/label, duel, end). O estado cabe num save JSON.
+- `src/story/chapters/ch1.ts`: capítulo de exemplo (Yugi, Joey e Kaiba). Cada `duel` abre a tela de duelo e volta pelo resultado.
+- `src/story/save.ts`: save em IndexedDB (Dexie), gravado a cada passo. Um duelo em andamento recomeça se a página recarregar.
+
 ## Direitos
 
 Sprites do Duel Links e artes de cartas pertencem à Konami. Repositório e site são de uso pessoal;

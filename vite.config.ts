@@ -13,7 +13,7 @@ export default defineConfig({
         background_color: '#0b0d17', theme_color: '#0b0d17', icons: [],
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,wasm,json,lua}'],
+        globPatterns: ['**/*.{js,css,html,wasm,json,lua,webp}'],
         maximumFileSizeToCacheInBytes: 8 * 1024 * 1024,
       },
     }),
