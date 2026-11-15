@@ -7,7 +7,7 @@ import type { Board, BoardCard, FromWorker, ToWorker } from '../engine/protocol'
 import { freePlaces } from '../engine/cpu';
 import type { Cards } from '../data/cards';
 import { isMonster } from '../data/labels';
-import { Backdrop, CardSheet, art } from '../components/CardSheet';
+import { Backdrop, CardSheet, ICONS, art } from '../components/CardSheet';
 import type { DeckList } from '../engine/session';
 import { LOSS_COINS, WIN_COINS } from '../game/economy';
 import { InlineEngine } from '../engine/inline';
@@ -56,35 +56,54 @@ function highlighted(m: OcgMessage | null): Set<string> {
 
 const PHASES: [string, number][] = [['DP', 1], ['SP', 2], ['M1', 4], ['BP', 8 | 16 | 32 | 64 | 128], ['M2', 256], ['EP', 512]];
 
-function Slot({ c, cards, cref, foe, hl, onTap, style }: {
-  c: BoardCard | null; cards: Cards; cref: CardRef; foe?: boolean; hl?: boolean;
-  onTap: (code: number, ref: CardRef, hidden: boolean) => void; style?: React.CSSProperties;
+function Slot({ c, cards, cref, foe, hl, onTap, style, zone, lift }: {
+  c: BoardCard | null; cards: Cards; cref: CardRef; foe?: boolean; hl?: boolean; zone?: 'm' | 's' | 'f';
+  onTap: (code: number, ref: CardRef, hidden: boolean) => void; style?: React.CSSProperties; lift?: boolean;
 }) {
-  if (!c) return <div className="slot empty" style={style} />;
+  if (!c) return <div className={`zone empty ${zone ?? 'm'}`} style={style} />;
   const inHand = cref.location === OcgLocation.HAND;
   const facedown = !inHand && (c.position & 10) !== 0;
-  const def = !inHand && (c.position & 12) !== 0;
   const info = cards[String(c.code)];
+  const def = !inHand && (c.position & 12) !== 0 && !!info && isMonster(info.type);
   const hidden = !!foe && (facedown || inHand);
-  const showStats = !facedown && !inHand && c.attack != null && !!info && isMonster(info.type);
+  const mon = !!info && isMonster(info.type);
+  const showStats = !facedown && !inHand && c.attack != null && mon;
+  const cls = `${zone ? `zone ${zone}` : 'slot'}${def ? ' def' : ''}${facedown ? ' down' : ''}${hl ? ' hl' : ''}${lift ? ' lift' : ''}`;
+  // Na mão, uma tarja cobre a caixa de texto com ATK/DEF (ou MAGIA/ARMADILHA), como na referência.
+  const strip = inHand && !hidden && info
+    ? <b className={`strip ${mon ? 'mon' : info.type & 2 ? 'spell' : 'trap'}`}>{mon ? `${c.attack ?? info.attack} / ${c.defense ?? info.defense}` : info.type & 2 ? 'MAGIA' : 'ARMADILHA'}</b>
+    : null;
   return (
-    <button className={`slot${def ? ' def' : ''}${facedown ? ' down' : ''}${hl ? ' hl' : ''}`} style={style} disabled={hidden} onClick={() => onTap(c.code, cref, hidden)}>
+    <button className={cls} style={style} disabled={hidden} onClick={() => onTap(c.code, cref, hidden)}>
       {hidden ? <div className="cardback" /> : <img src={art(c.code, 'small')} alt={info?.name ?? ''} draggable={false} />}
+      {strip}
       {showStats && <i>{c.attack}/{c.defense}</i>}
     </button>
   );
 }
 
-function Plate({ side, who, lp, deck, hand, grave, onGrave }: { side: 'me' | 'foe'; who: Duelist; lp: number; deck: number; hand: number; grave: number; onGrave: () => void }) {
+const Ico = {
+  deck: <svg viewBox="0 0 24 24" width="22" height="22"><path d="m12 3 10 5-10 5L2 8zM4.5 12.5 12 16l7.5-3.5L22 14l-10 5L2 14z" fill="currentColor" /></svg>,
+  hand: <svg viewBox="0 0 24 24" width="22" height="22"><rect x="3" y="9" width="14" height="12" rx="2" fill="currentColor" /><rect x="6" y="4" width="14" height="12" rx="2" fill="currentColor" opacity=".55" /></svg>,
+  flag: <svg viewBox="0 0 24 24" width="30" height="30"><path d="M5 3v18" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" /><path d="M6 4c4-2 7 2 12 0v9c-5 2-8-2-12 0z" fill="#fff" /></svg>,
+  spin: <svg viewBox="0 0 24 24" width="40" height="40" className="spin"><g stroke="#cfd8e6" strokeWidth="2.6" strokeLinecap="round">{Array.from({ length: 8 }, (_, i) => <line key={i} x1="12" y1="2.5" x2="12" y2="7" opacity={0.25 + i * 0.1} transform={`rotate(${i * 45} 12 12)`} />)}</g></svg>,
+};
+
+function Plate({ side, who, lp, deck, hand, grave, turn, onGrave }: { side: 'me' | 'foe'; who: Duelist; lp: number; deck: number; hand: number; grave: BoardCard[]; turn: boolean; onGrave: () => void }) {
+  const top = grave[grave.length - 1];
   return (
-    <div className={`plate hud ${side}`}>
+    <div className={`plate hud ${side}${turn ? ' turn' : ''}`}>
       <img className="av" src={avatar(who.id)} alt="" onError={(e) => ((e.target as HTMLImageElement).style.visibility = 'hidden')} />
       <div className="info">
         <div className="nm">{who.name}</div>
         <div className="lpn">LP {lp}</div>
         <div className="bar"><i style={{ width: `${Math.max(0, Math.min(100, (lp / 8000) * 100))}%` }} /></div>
       </div>
-      <div className="counts"><span>▤ {deck}</span><span>✋ {hand}</span><button onClick={onGrave}>⚰ {grave}</button></div>
+      <div className="counts"><span className="c-deck">{Ico.deck}{deck}</span>{side === 'foe' && <span className="c-hand">{Ico.hand}{hand}</span>}</div>
+      <button className="gravebox" onClick={onGrave} aria-label="Cemitério">
+        <span className="gslot">{top && <img src={art(top.code, 'small')} alt="" draggable={false} />}</span>
+        <em>{grave.length}</em>
+      </button>
     </div>
   );
 }
@@ -103,6 +122,11 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id:
   const [logOpen, setLogOpen] = useState(false);
   const [fail, setFail] = useState<string | null>(null);
   const [dbg, setDbg] = useState<string[]>([]);
+  const [peek, setPeek] = useState(false);
+  const [evText, setEvText] = useState('');
+  const [giveUp, setGiveUp] = useState(false);
+  const [showQ, setShowQ] = useState<{ code: number; controller: number; k: number }[]>([]);
+  const showK = useRef(0);
   const pong = useRef(0);
   const [, tick] = useState(0);
   const watchdog = useRef<number | undefined>(undefined);
@@ -113,8 +137,18 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id:
   const pushEvents = (ev: string[]) => {
     if (!ev.length) return;
     setLog((l) => [...l, ...ev]);
+    const last = ev.filter((e) => !e.startsWith('—')).slice(-1)[0];
+    if (last) setEvText(last);
     setToast((t) => ({ n: (t?.n ?? 0) + 1, text: ev.filter((e) => !e.startsWith('—')).slice(-2).join(' · ') || ev[ev.length - 1] }));
   };
+
+  const enqueue = (sh?: { code: number; controller: number }[]) => { if (sh?.length) setShowQ((q) => [...q, ...sh.map((x) => ({ ...x, k: ++showK.current }))]); };
+  const curShow = showQ[0];
+  useEffect(() => {
+    if (!curShow) return;
+    const id = window.setTimeout(() => setShowQ((q) => q.slice(1)), 1300);
+    return () => window.clearTimeout(id);
+  }, [curShow?.k]);
 
   const start = () => {
     worker.current?.terminate();
@@ -130,9 +164,9 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id:
       clearDog();
       if (d.t !== 'ready') rlog(`<- ${d.t}${d.t === 'prompt' ? ' ' + d.msg.type : d.t === 'error' ? ' ' + d.text : ''}`);
       if (d.t === 'ready') setInfo(`ocgcore ${d.version.join('.')} · ${d.loadMs} ms`);
-      else if (d.t === 'prompt') { setBoard(d.board); setPrompt(d.msg); setSel([]); pushEvents(d.events); }
+      else if (d.t === 'prompt') { setBoard(d.board); setPrompt(d.msg); setSel([]); setPeek(false); pushEvents(d.events); enqueue(d.shows); }
       else if (d.t === 'end') {
-        setBoard(d.board); setPrompt(null); pushEvents(d.events);
+        setBoard(d.board); setPrompt(null); pushEvents(d.events); enqueue(d.shows);
         setEnded({ text: d.winner === 0 ? 'Você venceu!' : `${opponent.name} venceu.`, won: d.winner === 0 });
       } else if (d.t === 'error') { setLog((l) => [...l, `ERRO: ${d.text}`]); setFail(d.text); }
     };
@@ -172,7 +206,14 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id:
     const where = (x: { location: number; code: number }) => `${name(x.code)} (${LOC[x.location] ?? ''})`;
     switch (m.type) {
       case OcgMessageType.SELECT_CHAIN:
-        return <><h4>Responder em corrente?</h4>{m.selects.map((c, i) => btn(`Ativar ${where(c)}`, { type: OcgResponseType.SELECT_CHAIN, index: i }, true))}{!m.forced && btn('Não', { type: OcgResponseType.SELECT_CHAIN, index: null })}{!m.forced && <button className="hud-btn" onClick={() => { send({ t: 'autoPass', value: true }); reply({ type: OcgResponseType.SELECT_CHAIN, index: null }); }}>Não perguntar mais neste duelo</button>}</>;
+        return <>
+          <div className="alert"><svg viewBox="0 0 24 24" width="30" height="30"><path d="M12 2 1 21h22z" fill="#f59e0b" /><path d="M12 9v5m0 3v.5" stroke="#1b1200" strokeWidth="2.4" strokeLinecap="round" /></svg><b>{evText || 'Responder em corrente?'}</b></div>
+          <p className="sub">Você pode responder.</p>
+          {m.selects.map((c, i) => <button key={i} className="hud-btn wide primary" onClick={() => reply({ type: OcgResponseType.SELECT_CHAIN, index: i })}>{ICONS.bolt}<span>{name(c.code)}</span></button>)}
+          {!m.forced && <button className="hud-btn wide" onClick={() => reply({ type: OcgResponseType.SELECT_CHAIN, index: null })}><span>Passar</span></button>}
+          <button className="hud-btn wide" onClick={() => setPeek(true)}>{ICONS.eye}<span>Ver campo</span></button>
+          {!m.forced && <button className="linkbtn" onClick={() => { send({ t: 'autoPass', value: true }); reply({ type: OcgResponseType.SELECT_CHAIN, index: null }); }}>Não perguntar mais neste duelo</button>}
+        </>;
       case OcgMessageType.SELECT_YESNO:
       case OcgMessageType.SELECT_EFFECTYN: {
         const t = m.type === OcgMessageType.SELECT_YESNO ? OcgResponseType.SELECT_YESNO : OcgResponseType.SELECT_EFFECTYN;
@@ -214,62 +255,103 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id:
 
   const side = useMemo(() => {
     const m = prompt;
+    const idle = (action: SelectIdleCMDAction) => () => reply({ type: OcgResponseType.SELECT_IDLECMD, action, index: null });
+    const bat = (action: SelectBattleCMDAction) => () => reply({ type: OcgResponseType.SELECT_BATTLECMD, action, index: null });
     if (m?.type === OcgMessageType.SELECT_IDLECMD)
       return <>
-        {m.to_bp && <button className="hud-btn primary" onClick={() => reply({ type: OcgResponseType.SELECT_IDLECMD, action: SelectIdleCMDAction.TO_BP, index: null })}>BATALHA</button>}
-        {m.to_ep && <button className="hud-btn" onClick={() => reply({ type: OcgResponseType.SELECT_IDLECMD, action: SelectIdleCMDAction.TO_EP, index: null })}>Encerrar</button>}
+        {m.to_bp && m.to_ep && <button className="side-sm" onClick={idle(SelectIdleCMDAction.TO_EP)}>Encerrar</button>}
+        {m.to_bp ? <button className="side-big" onClick={idle(SelectIdleCMDAction.TO_BP)}>BATTLE</button>
+          : m.to_ep && <button className="side-big" onClick={idle(SelectIdleCMDAction.TO_EP)}>FIM DO TURNO</button>}
       </>;
     if (m?.type === OcgMessageType.SELECT_BATTLECMD)
       return <>
-        {m.to_m2 && <button className="hud-btn" onClick={() => reply({ type: OcgResponseType.SELECT_BATTLECMD, action: SelectBattleCMDAction.TO_M2, index: null })}>Main 2</button>}
-        {m.to_ep && <button className="hud-btn primary" onClick={() => reply({ type: OcgResponseType.SELECT_BATTLECMD, action: SelectBattleCMDAction.TO_EP, index: null })}>Encerrar</button>}
+        {m.to_m2 && <button className="side-sm" onClick={bat(SelectBattleCMDAction.TO_M2)}>Main 2</button>}
+        {m.to_ep && <button className="side-big" onClick={bat(SelectBattleCMDAction.TO_EP)}>FIM DO TURNO</button>}
       </>;
+    if (!m && !ended) return <div className="side-big wait">{Ico.spin}</div>; // aguardando o oponente/motor
     return null;
-  }, [prompt]);
+  }, [prompt, ended]);
 
   const tap = (code: number, ref: CardRef, hidden: boolean) => { if (!hidden) setSheet({ code, ref }); };
-  const sheetActions = sheet ? cardActions(prompt, sheet.ref.controller, sheet.ref.location, sheet.ref.sequence).map((a) => ({ label: a.label, primary: a.primary, onClick: () => reply(a.response) })) : [];
+  const iconFor = (label: string, code: number) => {
+    const t = cards[String(code)]?.type ?? 0;
+    if (label === 'Invocar' || label === 'Invocar por efeito') return ICONS.card;
+    if (label === 'Atacar') return ICONS.card;
+    if (label === 'Ataque direto') return ICONS.sword;
+    if (label === 'Baixar') return isMonster(t) ? ICONS.set : ICONS.spellset;
+    if (label === 'Mudar posição') return ICONS.swap;
+    return ICONS.bolt;
+  };
+  const sheetActions = sheet ? cardActions(prompt, sheet.ref.controller, sheet.ref.location, sheet.ref.sequence).map((a) => ({ label: a.label, primary: a.primary, icon: iconFor(a.label, sheet.code), onClick: () => reply(a.response) })) : [];
 
   const dbgBox = debugOn ? <div className="dbg">worker: última resposta há {Math.round((Date.now() - pong.current) / 1000)} s{dbg.map((l, i) => <div key={i}>{l}</div>)}</div> : null;
   if (!board) return <div className="duel hexbg"><div className="stats">Carregando motor…</div>{dbgBox}{fail && <p className="errtext">{fail}</p>}</div>;
   const [me, foe] = board.players;
   const phase = PHASES.find(([, mask]) => board.phase & mask)?.[0];
-  const row = (cs: (BoardCard | null)[], controller: 0 | 1, location: number) => (
-    <div className="row">{cs.slice(0, 5).map((c, i) => <Slot key={i} c={c} cards={cards} foe={controller === 1} cref={{ controller, location, sequence: i }} hl={hl.has(key(controller, location, i))} onTap={tap} />)}</div>
+  const row = (cs: (BoardCard | null)[], controller: 0 | 1, location: number, zone: 'm' | 's') => (
+    <div className="row">{cs.slice(0, 5).map((c, i) => <Slot key={i} c={c} cards={cards} zone={zone} foe={controller === 1} cref={{ controller, location, sequence: i }} hl={hl.has(key(controller, location, i))} onTap={tap} />)}</div>
   );
+  const fieldZone = (p: 0 | 1) => <Slot c={board.players[p].szone[5] ?? null} cards={cards} zone="f" foe={p === 1} cref={{ controller: p, location: OcgLocation.SZONE, sequence: 5 }} hl={hl.has(key(p, OcgLocation.SZONE, 5))} onTap={tap} />;
   const n = me.hand.length;
-  const overlap = n > 4 ? -Math.min(48, (n * 74 - 330) / (n - 1)) : 4;
+  const selHand = sheet && sheet.ref.location === OcgLocation.HAND && sheet.ref.controller === 0 ? sheet.ref.sequence : -1;
+  const showPanel = panel && !sheet && !peek && !curShow;
+  const myTurn = board.turnPlayer === 0;
 
   return (
     <div className="duel hexbg">
-      <Plate side="foe" who={opponent} lp={foe.lp} deck={foe.deck} hand={foe.hand.length} grave={foe.grave.length} onGrave={() => setGraveOf(1)} />
-      <div className="foehand">{foe.hand.map((_, i) => <div key={i} className="cardback mini" />)}</div>
+      <div className="foebar">
+        <button className="flagbtn" aria-label="Desistir" onClick={() => setGiveUp(true)}>{Ico.flag}</button>
+        <Plate side="foe" who={opponent} lp={foe.lp} deck={foe.deck} hand={foe.hand.length} grave={foe.grave} turn={!myTurn} onGrave={() => setGraveOf(1)} />
+      </div>
+      <div className="foehand">{foe.hand.map((_, i) => { const mid = (foe.hand.length - 1) / 2; return <div key={i} className="cardback mini" style={{ transform: `rotate(${(i - mid) * -4}deg) translateY(${Math.abs(i - mid) * 1.5}px)`, marginLeft: i ? -8 : 0 }} />; })}</div>
       <div className="fieldwrap">
         <div className="field">
-          {row(foe.szone, 1, OcgLocation.SZONE)}{row(foe.mzone, 1, OcgLocation.MZONE)}
-          <div style={{ height: 34 }} />
-          {row(me.mzone, 0, OcgLocation.MZONE)}{row(me.szone, 0, OcgLocation.SZONE)}
+          {row(foe.szone, 1, OcgLocation.SZONE, 's')}{row(foe.mzone, 1, OcgLocation.MZONE, 'm')}
+          <div className="midrow">{fieldZone(0)}<span />{fieldZone(1)}
+            <div className="phasebar hud">
+<div className="chips"><b className="tn">T{board.turn}</b>{PHASES.map(([p]) => <span key={p} className={`chip${p === phase ? ' on' : ''}`}>{p}</span>)}</div>
+<div className="turn">— Turno {board.turn}: {myTurn ? player.name : opponent.name} —</div>
+</div>
+          </div>
+          {row(me.mzone, 0, OcgLocation.MZONE, 'm')}{row(me.szone, 0, OcgLocation.SZONE, 's')}
         </div>
-        <div className="phasebar hud">
-          <div className="chips">{PHASES.map(([p]) => <span key={p} className={`chip${p === phase ? ' on' : ''}`}>{p}</span>)}</div>
-          <div className="turn">Turno {board.turn}: {board.turnPlayer === 0 ? player.name : opponent.name}</div>
-        </div>
+      </div>
+      <div className="mybar">
+        <Plate side="me" who={player} lp={me.lp} deck={me.deck} hand={me.hand.length} grave={me.grave} turn={myTurn} onGrave={() => setGraveOf(0)} />
+        <div className="sidebtns">{side}</div>
       </div>
       <div className="spacer" />
-      <Plate side="me" who={player} lp={me.lp} deck={me.deck} hand={me.hand.length} grave={me.grave.length} onGrave={() => setGraveOf(0)} />
-      <div className="handfan">
+      <div className="handfan" style={{ ['--n1' as string]: Math.max(1, n - 1) }}>
         {me.hand.map((c, i) => {
           const mid = (n - 1) / 2;
-          return <Slot key={i} c={c} cards={cards} cref={{ controller: 0, location: OcgLocation.HAND, sequence: i }} hl={hl.has(key(0, OcgLocation.HAND, i))} onTap={tap}
-            style={{ marginLeft: i === 0 ? 0 : overlap, transform: `rotate(${(i - mid) * 3.5}deg) translateY(${Math.abs(i - mid) * 3}px)`, zIndex: i }} />;
+          const up = i === selHand;
+          return <Slot key={i} c={c} cards={cards} cref={{ controller: 0, location: OcgLocation.HAND, sequence: i }} hl={hl.has(key(0, OcgLocation.HAND, i))} onTap={tap} lift={up}
+            style={{ left: `calc(50% + var(--step) * ${i - mid} - var(--hw) / 2)`, transform: up ? 'translateY(-34px) scale(1.04)' : `rotate(${(i - mid) * 3.2}deg) translateY(${Math.pow(Math.abs(i - mid), 1.5) * 2}px)`, zIndex: up ? 60 : i }} />;
         })}
       </div>
-      {side && <div className="sidebtns">{side}</div>}
-      {toast && <div key={toast.n} className="toast">{toast.text}</div>}
-      <div className="stats" style={{ textAlign: 'center' }}>{info} · <button style={{ all: 'unset', textDecoration: 'underline' }} onClick={() => setLogOpen(true)}>histórico</button></div>
+      {curShow && (
+        <button key={curShow.k} className="showcase" onClick={() => setShowQ((q) => q.slice(1))}>
+          <img src={art(curShow.code, 'large')} alt={name(curShow.code)} draggable={false} />
+          <span>{curShow.controller === 0 ? player.name : opponent.name} ativou {name(curShow.code)}</span>
+        </button>
+      )}
+      {toast && !showPanel && !sheet && <div key={toast.n} className="toast">{toast.text}</div>}
+      {debugOn && <div className="stats" style={{ textAlign: 'center' }}>{info} · <button style={{ all: 'unset', textDecoration: 'underline' }} onClick={() => setLogOpen(true)}>histórico</button></div>}
+      {!debugOn && <button className="logbtn" aria-label="Histórico" onClick={() => setLogOpen(true)}>⋯</button>}
 
-      {panel && !sheet && <div className="scrim center"><div className="sheet hud">{panel}</div></div>}
-      {sheet && <CardSheet code={sheet.code} cards={cards} actions={sheetActions} onClose={() => setSheet(null)} />}
+      {showPanel && <div className="scrim uphand"><div className="sheet hud panel">{panel}</div></div>}
+      {panel && peek && !sheet && <button className="hud-btn primary peekback" onClick={() => setPeek(false)}>{ICONS.bolt}<span>Voltar à resposta</span></button>}
+      {sheet && !curShow && <CardSheet code={sheet.code} cards={cards} actions={sheetActions} aboveHand onClose={() => setSheet(null)} />}
+      {giveUp && !ended && (
+        <div className="scrim center"><Backdrop onClose={() => setGiveUp(false)} /><div className="sheet hud">
+          <h4>Desistir do duelo?</h4>
+          <p className="stats" style={{ margin: 0 }}>Conta como derrota.</p>
+          <div className="acts">
+            <button className="hud-btn primary" onClick={() => { setGiveUp(false); worker.current?.terminate(); setPrompt(null); setEnded({ text: 'Você desistiu.', won: false }); }}>Desistir</button>
+            <button className="hud-btn" onClick={() => setGiveUp(false)}>Continuar</button>
+          </div>
+        </div></div>
+      )}
       {graveOf !== null && (
         <div className="scrim center">
           <Backdrop onClose={() => setGraveOf(null)} />

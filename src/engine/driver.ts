@@ -52,6 +52,8 @@ export class DuelDriver {
   run(): DriverOut {
     const s = this.session;
     const events: string[] = [];
+    this.narrator.shows = [];
+    const shows = () => this.narrator.shows.slice(-3);
     const t0 = Date.now();
     for (let n = 0; ; n++) {
       if (n >= MAX_STEPS || Date.now() - t0 > MAX_MS) return { t: 'error', text: `O motor entrou em laço (${n} passos, ${Date.now() - t0} ms). ${this.diag()}` };
@@ -60,7 +62,7 @@ export class DuelDriver {
       this.trace?.(`step ${n}: status ${status}, ${messages.length} msgs [${messages.slice(-4).map((m) => OcgMessageType[m.type]).join(',')}]`);
       let winner: number | null = null;
       for (const m of messages) { this.narrator.describe(m, events, s); if (m.type === OcgMessageType.WIN) winner = m.player; }
-      if (winner !== null || status === OcgProcessResult.END) return { t: 'end', winner: winner ?? -1, board: this.narrator.snapshot(s), events };
+      if (winner !== null || status === OcgProcessResult.END) return { t: 'end', winner: winner ?? -1, board: this.narrator.snapshot(s), events, shows: shows() };
       const sel = [...messages].reverse().find(isSelect);
       if (!sel || !('player' in sel)) {
         // Resposta rejeitada: pede de novo o mesmo comando em vez de travar.
@@ -85,7 +87,7 @@ export class DuelDriver {
         const auto = cpuRespond(sel, this.rng, { cards: this.cardList });
         if (auto) { s.respond(auto); continue; }
       }
-      if (sel.player === 0) { this.lastPrompt = sel; return { t: 'prompt', msg: sel, board: this.narrator.snapshot(s), events }; }
+      if (sel.player === 0) { this.lastPrompt = sel; return { t: 'prompt', msg: sel, board: this.narrator.snapshot(s), events, shows: shows() }; }
       const r = cpuRespond(sel, this.rng, { cards: this.cardList });
       if (!r) return { t: 'error', text: `CPU sem resposta para ${OcgMessageType[sel.type]}. ${this.diag()}` };
       s.respond(r);

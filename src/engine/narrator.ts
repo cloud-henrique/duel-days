@@ -1,5 +1,5 @@
 import { OcgLocation, OcgMessageType, OcgQueryFlags, type OcgMessage } from 'ocgcore-wasm';
-import type { Board, BoardCard, PlayerBoard } from './protocol';
+import type { Board, BoardCard, PlayerBoard, Show } from './protocol';
 import type { DuelSession } from './session';
 
 /** Acompanha o duelo: LP, turno e fase, descreve eventos em texto e tira a "foto" do tabuleiro para a interface. */
@@ -8,6 +8,8 @@ export class Narrator {
   turn = 0;
   turnPlayer = 0;
   phase = 0;
+  /** Ativações desde o último pedido de jogada; o driver entrega e zera. */
+  shows: Show[] = [];
   constructor(private nameOf: (code: number) => string) {}
 
   reset() { this.lp = [8000, 8000]; this.turn = 0; this.turnPlayer = 0; this.phase = 0; }
@@ -27,7 +29,7 @@ export class Narrator {
       case OcgMessageType.SUMMONING: case OcgMessageType.SPSUMMONING: out.push(`${who(m.controller)} invocou ${nm(m.code)}`); break;
       case OcgMessageType.SET: out.push(`${who(m.controller)} baixou uma carta`); break;
       case OcgMessageType.ATTACK: out.push(`${who(m.card.controller)} ataca com ${nm(this.codeAt(s, m.card.controller, m.card.location, m.card.sequence))}`); break;
-      case OcgMessageType.CHAINING: out.push(`${who(m.controller)} ativou ${nm(m.code)}`); break;
+      case OcgMessageType.CHAINING: this.shows.push({ code: m.code, controller: m.controller }); out.push(`${who(m.controller)} ativou ${nm(m.code)}`); break;
       case OcgMessageType.DAMAGE: this.lp[m.player] -= m.amount; out.push(`${who(m.player)} perdeu ${m.amount} LP`); break;
       case OcgMessageType.RECOVER: this.lp[m.player] += m.amount; out.push(`${who(m.player)} recuperou ${m.amount} LP`); break;
       case OcgMessageType.PAY_LPCOST: this.lp[m.player] -= m.amount; out.push(`${who(m.player)} pagou ${m.amount} LP`); break;

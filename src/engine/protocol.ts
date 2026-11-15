@@ -10,6 +10,8 @@ export interface PlayerBoard {
   szone: (BoardCard | null)[];
   grave: BoardCard[];
 }
+/** Carta ativada (para a animação de destaque na interface). */
+export interface Show { code: number; controller: number }
 export interface Board { players: [PlayerBoard, PlayerBoard]; turn: number; turnPlayer: number; phase: number }
 
 export type ToWorker =
@@ -20,8 +22,8 @@ export type ToWorker =
   | { t: 'ping'; n: number };
 export type FromWorker =
   | { t: 'ready'; version: [number, number]; loadMs: number }
-  | { t: 'prompt'; msg: OcgMessage; board: Board; events: string[] }
-  | { t: 'end'; winner: number; board: Board; events: string[] }
+  | { t: 'prompt'; msg: OcgMessage; board: Board; events: string[]; shows?: Show[] }
+  | { t: 'end'; winner: number; board: Board; events: string[]; shows?: Show[] }
   | { t: 'error'; text: string }
   | { t: 'debug'; text: string }
   | { t: 'pong'; n: number };
