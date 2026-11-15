@@ -1,0 +1,22 @@
+:root { color-scheme: dark; --bg:#0b0d17; --panel:#171a2b; --line:#2a2f4a; --txt:#e8eaf6; --dim:#8b91b5; --acc:#f2b84b; --me:#4aa3ff; --foe:#ff6b6b; }
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body, #root { height: 100%; margin: 0; }
+body { background: var(--bg); color: var(--txt); font: 14px/1.35 system-ui, sans-serif; user-select: none; -webkit-user-select: none; touch-action: manipulation; overscroll-behavior: none; }
+.app { height: 100%; display: flex; flex-direction: column; padding: env(safe-area-inset-top) 10px env(safe-area-inset-bottom); gap: 8px; }
+.lp { display: flex; justify-content: space-between; font-weight: 700; }
+.lp .foe { color: var(--foe); } .lp .me { color: var(--me); }
+.row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; }
+.slot { min-height: 56px; border: 1px dashed var(--line); border-radius: 6px; padding: 3px; font-size: 10px; display: flex; flex-direction: column; justify-content: center; text-align: center; background: var(--panel); }
+.slot.def { transform: rotate(90deg) scale(.8); } .slot.down { background: #2c2440; color: var(--dim); }
+.slot b { font-size: 10px; } .slot i { color: var(--acc); font-style: normal; }
+.hand { display: flex; gap: 4px; overflow-x: auto; min-height: 52px; }
+.hand .slot { flex: 0 0 74px; }
+.meta { color: var(--dim); font-size: 11px; display: flex; justify-content: space-between; }
+.log { flex: 1; min-height: 60px; overflow-y: auto; background: var(--panel); border-radius: 8px; padding: 6px 8px; font-size: 12px; color: var(--dim); }
+.log div:last-child { color: var(--txt); }
+.panel { background: var(--panel); border-radius: 10px; padding: 8px; display: flex; flex-direction: column; gap: 6px; max-height: 38%; overflow-y: auto; }
+.panel h4 { margin: 0; font-size: 12px; color: var(--acc); }
+button { background: #232845; color: var(--txt); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; font: inherit; text-align: left; }
+button:active { background: #30375f; } button.primary { background: var(--acc); color: #1a1405; border-color: var(--acc); font-weight: 700; }
+button.on { outline: 2px solid var(--acc); } button:disabled { opacity: .4; }
+.stats { color: var(--dim); font-size: 11px; }

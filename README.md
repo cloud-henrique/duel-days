@@ -35,6 +35,21 @@ Formato do `labels.json`:
 { "arkana": { "faces": { "arkana/faces/chara007_01.png": "neutral" }, "excluded": false, "note": "" } }
 ```
 
+## Protótipo do motor (ocgcore em WASM)
+
+```bash
+npm install
+npm run fetch-data          # clona CardScripts e BabelCDB (ProjectIgnis) em raw/data
+npm run export-proto-data   # gera public/data/cards.json e public/scripts/*.lua (29 cartas clássicas)
+npm run smoke               # duelo CPU x CPU em Node (valida o motor)
+npm run dev                 # PWA em http://localhost:5173 (use --port se o labeler estiver aberto)
+```
+
+- `src/engine/session.ts`: cria o duelo (modo MR1, regras da era DM). O host precisa carregar `constant.lua` e `utility.lua`.
+- `src/engine/worker.ts`: roda o ocgcore (build síncrono, sem JSPI) num Web Worker; a CPU (`cpu.ts`) joga como jogador 1.
+- `src/App.tsx`: UI mínima; todos os prompts (`SELECT_*`) viram botões. Zona/posição ainda são automáticas.
+- `public/data` e `public/scripts` não são versionados (regeneráveis).
+
 ## Direitos
 
 Sprites do Duel Links e artes de cartas pertencem à Konami. Repositório e site são de uso pessoal;

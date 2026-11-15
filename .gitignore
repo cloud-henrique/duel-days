@@ -37,3 +37,7 @@ assets/cards/
 !assets/characters/labels.json
 !assets/characters/characters.json
 !assets/characters/README.md
+
+# Dados do protótipo (regeneráveis: npm run fetch-data && npm run export-proto-data)
+public/data/
+public/scripts/
