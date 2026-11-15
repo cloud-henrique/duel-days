@@ -35,23 +35,24 @@ body { background: var(--bg); color: var(--txt); font: 14px/1.35 system-ui, -app
 .menu input { background: #0a1a3a; color: var(--txt); border: 2px solid var(--line-dim); border-radius: 6px; padding: 11px 12px; font: inherit; user-select: text; -webkit-user-select: text; }
 
 /* ============ Duelo ============ */
-.duel { position: relative; height: 100%; overflow: hidden; display: flex; flex-direction: column; padding: calc(8px + env(safe-area-inset-top)) 8px calc(6px + env(safe-area-inset-bottom)); gap: 6px; }
-.plate { display: flex; align-items: center; gap: 10px; padding: 8px 12px; flex-shrink: 0; }
-.plate .av { width: 50px; height: 50px; flex: 0 0 50px; border-radius: 6px; object-fit: cover; background: #07142e; box-shadow: 0 0 0 2px var(--acc); }
+.duel { position: relative; height: 100%; overflow: hidden; display: flex; flex-direction: column; padding: calc(6px + env(safe-area-inset-top)) 4px calc(4px + env(safe-area-inset-bottom)); gap: 4px; }
+.plate { display: flex; align-items: center; gap: 10px; padding: 6px 10px; flex-shrink: 0; }
+.plate .av { width: 44px; height: 44px; flex: 0 0 44px; border-radius: 6px; object-fit: cover; background: #07142e; box-shadow: 0 0 0 2px var(--acc); }
 .plate .info { flex: 1; min-width: 0; }
 .plate .nm { font-size: 11px; color: var(--dim); letter-spacing: 1px; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.plate .lpn { font-size: 26px; font-weight: 800; line-height: 1.05; }
+.plate .lpn { font-size: 23px; font-weight: 800; line-height: 1.05; }
 .plate .bar { height: 5px; background: #07142e; border-radius: 3px; margin-top: 3px; overflow: hidden; }
 .plate .bar > i { display: block; height: 100%; background: var(--me); transition: width .4s; }
 .plate.foe .bar > i { background: var(--acc); }
 .plate .counts { display: flex; flex-direction: column; gap: 4px; align-items: flex-end; font-size: 12px; color: var(--dim); }
 .plate .counts button { background: none; border: 0; color: var(--dim); font: inherit; padding: 0; }
-.foehand { display: flex; justify-content: center; gap: 3px; height: 30px; flex-shrink: 0; }
-.foehand .mini { width: 20px; height: 29px; }
-.fieldwrap { position: relative; flex-shrink: 0; margin: 0 auto; width: 100%; max-width: 310px; }
-.field { display: flex; flex-direction: column; gap: 5px; transform: perspective(600px) rotateX(12deg); transform-origin: 50% 100%; padding: 8px; border: 1px solid var(--line-dim); background: rgba(18,60,130,.18); border-radius: 6px; }
-.row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; }
-.phasebar { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 3; width: 108%; padding: 5px 8px 6px; text-align: center; }
+.foehand { display: flex; justify-content: center; gap: 3px; height: 24px; flex-shrink: 0; }
+.foehand .mini { width: 16px; height: 23px; }
+/* O campo ocupa toda a largura (só 4px de margem): zonas e cartas maiores. */
+.fieldwrap { position: relative; flex-shrink: 0; width: 100%; }
+.field { display: flex; flex-direction: column; gap: 4px; transform: perspective(700px) rotateX(16deg); transform-origin: 50% 100%; padding: 6px; border: 1px solid var(--line-dim); background: rgba(18,60,130,.18); border-radius: 6px; }
+.row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; }
+.phasebar { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 3; width: 100%; padding: 5px 8px 6px; text-align: center; }
 .phasebar .chips { display: flex; justify-content: center; gap: 4px; }
 .phasebar .chip { padding: 4px 7px; font: 700 11px/1 system-ui; color: var(--dim); background: #0a1a3a; border: 1px solid var(--line-dim); border-radius: 3px; }
 .phasebar .chip.on { background: var(--acc); color: #2a1b00; border-color: var(--acc); }
@@ -66,8 +67,8 @@ body { background: var(--bg); color: var(--txt); font: 14px/1.35 system-ui, -app
 .slot i { position: absolute; left: 50%; bottom: -3px; transform: translateX(-50%); z-index: 2; background: rgba(5,12,31,.92); color: var(--hl); font: 800 10px/1 system-ui; padding: 2px 5px; border-radius: 3px; font-style: normal; white-space: nowrap; }
 .cardback { background: repeating-linear-gradient(45deg, #3b2a14, #3b2a14 4px, #5a4020 4px, #5a4020 8px); border: 2px solid #8a6a30; }
 .spacer { flex: 1; min-height: 0; }
-.sidebtns { position: absolute; right: 8px; bottom: 214px; display: flex; flex-direction: column; gap: 8px; z-index: 4; width: 104px; }
-.handfan { position: relative; height: 112px; flex-shrink: 0; display: flex; justify-content: center; align-items: flex-end; padding-bottom: 2px; }
+.sidebtns { position: absolute; right: 4px; bottom: calc(206px + env(safe-area-inset-bottom)); display: flex; flex-direction: column; gap: 8px; z-index: 4; width: 104px; }
+.handfan { position: relative; height: 104px; flex-shrink: 0; display: flex; justify-content: center; align-items: flex-end; padding-bottom: 2px; }
 .handfan .slot { width: 74px; flex: 0 0 74px; border: 0; background: none; transform-origin: 50% 120%; transition: transform .15s; }
 .handfan .slot.hl { border: 0; box-shadow: none; animation: none; filter: drop-shadow(0 0 7px var(--hl)); }
 .handfan .slot img { border-radius: 4px; box-shadow: 0 3px 8px #000a; }
