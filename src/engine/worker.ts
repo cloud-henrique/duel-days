@@ -1,6 +1,6 @@
 /// <reference lib="webworker" />
 import { OcgLocation, OcgMessageType, OcgProcessResult, OcgQueryFlags, OcgResponseType, type OcgMessage } from 'ocgcore-wasm';
-import { cpuRespond, isSelect, makeRng } from './cpu';
+import { cpuRespond, freePlaces, isSelect, makeRng } from './cpu';
 import { openCore, startDuel, type CardRecord, type DuelSession } from './session';
 import type { Board, BoardCard, FromWorker, PlayerBoard, ToWorker } from './protocol';
 
@@ -14,6 +14,10 @@ const nm = (code: number) => cards[String(code)]?.name ?? `#${code}`;
 
 async function loadAssets(base: string) {
   cards = await (await fetch(`${base}data/cards.json`)).json();
+  try {
+    const pt: Record<string, { name: string }> = await (await fetch(`${base}data/text.pt.json`)).json();
+    for (const [id, t] of Object.entries(pt)) if (cards[id]) cards[id].name = t.name;
+  } catch { /* sem tradução */ }
   const names: string[] = await (await fetch(`${base}scripts/index.json`)).json();
   const scripts = new Map<string, string>();
   await Promise.all(names.map(async (n) => scripts.set(n, await (await fetch(`${base}scripts/${n}`)).text())));
@@ -35,12 +39,12 @@ function snapshot(s: DuelSession): Board {
   return { players: [pb(0), pb(1)], turn, turnPlayer, phase };
 }
 
-const who = (p: number) => (p === 0 ? 'Você' : 'CPU');
+const who = (p: number) => (p === 0 ? 'Você' : 'Oponente');
 function describe(m: OcgMessage, out: string[]) {
   switch (m.type) {
     case OcgMessageType.NEW_TURN: turn++; turnPlayer = m.player; out.push(`— Turno ${turn} (${who(m.player)}) —`); break;
     case OcgMessageType.NEW_PHASE: phase = m.phase; break;
-    case OcgMessageType.DRAW: if (m.player === 0) m.drawn.forEach((d) => out.push(`Você comprou ${nm(d.code)}`)); else out.push('CPU comprou uma carta'); break;
+    case OcgMessageType.DRAW: if (m.player === 0) m.drawn.forEach((d) => out.push(`Você comprou ${nm(d.code)}`)); else out.push('Oponente comprou uma carta'); break;
     case OcgMessageType.SUMMONING: case OcgMessageType.SPSUMMONING: out.push(`${who(m.controller)} invocou ${nm(m.code)}`); break;
     case OcgMessageType.SET: out.push(`${who(m.controller)} baixou uma carta`); break;
     case OcgMessageType.ATTACK: out.push(`${who(m.card.controller)} ataca com ${nm(cardCode(m.card.controller, m.card.location, m.card.sequence))}`); break;
@@ -49,7 +53,7 @@ function describe(m: OcgMessage, out: string[]) {
     case OcgMessageType.RECOVER: lp[m.player] += m.amount; out.push(`${who(m.player)} recuperou ${m.amount} LP`); break;
     case OcgMessageType.PAY_LPCOST: lp[m.player] -= m.amount; out.push(`${who(m.player)} pagou ${m.amount} LP`); break;
     case OcgMessageType.LPUPDATE: lp[m.player] = m.lp; break;
-    case OcgMessageType.WIN: out.push(m.player === 0 ? 'Você venceu!' : 'A CPU venceu.'); break;
+    case OcgMessageType.WIN: out.push(m.player === 0 ? 'Você venceu!' : 'O oponente venceu.'); break;
   }
 }
 function cardCode(controller: number, location: OcgLocation, sequence: number) {
@@ -74,6 +78,11 @@ function run() {
     // Correntes sem nada a ativar: responde "não" sem incomodar o jogador.
     if (sel.type === OcgMessageType.SELECT_CHAIN && !sel.forced && sel.selects.length === 0) {
       s.respond({ type: OcgResponseType.SELECT_CHAIN, index: null });
+      continue;
+    }
+    // Zona: por enquanto a primeira livre (escolha manual vem depois), sem pedir confirmação.
+    if (sel.player === 0 && (sel.type === OcgMessageType.SELECT_PLACE || sel.type === OcgMessageType.SELECT_DISFIELD)) {
+      s.respond({ type: sel.type === OcgMessageType.SELECT_PLACE ? OcgResponseType.SELECT_PLACE : OcgResponseType.SELECT_DISFIELD, places: freePlaces(sel.field_mask, sel.player, sel.count) });
       continue;
     }
     if (sel.player === 0) { post({ t: 'prompt', msg: sel, board: snapshot(s), events }); return; }

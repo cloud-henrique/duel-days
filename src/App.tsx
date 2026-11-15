@@ -40,7 +40,7 @@ export function App() {
   const ch = CHAPTERS[st.chapter];
   const node = ch.nodes[st.i];
   if (node?.t === 'duel') {
-    return <DuelScreen key={st.i} opponent={chars[node.opponent]?.name ?? 'CPU'} onEnd={(won) => update(resolveDuel(ch, st, won))} />;
+    return <DuelScreen key={st.i} opponent={{ id: node.opponent, name: chars[node.opponent]?.name ?? 'Oponente' }} onEnd={(won) => update(resolveDuel(ch, st, won))} />;
   }
   return (
     <StoryScreen chapter={ch} state={st} chars={chars}
