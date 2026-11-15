@@ -7,7 +7,7 @@ import type { Board, BoardCard, FromWorker, ToWorker } from '../engine/protocol'
 import { freePlaces } from '../engine/cpu';
 import type { Cards } from '../data/cards';
 import { isMonster } from '../data/labels';
-import { CardSheet, art } from '../components/CardSheet';
+import { Backdrop, CardSheet, art } from '../components/CardSheet';
 import type { DeckList } from '../engine/session';
 import { LOSS_COINS, WIN_COINS } from '../game/economy';
 
@@ -100,6 +100,10 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id:
   const [graveOf, setGraveOf] = useState<0 | 1 | null>(null);
   const [logOpen, setLogOpen] = useState(false);
   const [fail, setFail] = useState<string | null>(null);
+  const debugOn = typeof location !== 'undefined' && location.search.includes('debug');
+  const [dbg, setDbg] = useState<string[]>([]);
+  const pong = useRef(0);
+  const [, tick] = useState(0);
   const watchdog = useRef<number | undefined>(undefined);
   const clearDog = () => { window.clearTimeout(watchdog.current); watchdog.current = undefined; };
 
@@ -119,6 +123,8 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id:
     w.onmessageerror = () => { clearDog(); setFail('Erro ao ler a resposta do motor.'); };
     w.onmessage = (ev: MessageEvent<FromWorker>) => {
       const d = ev.data;
+      if (d.t === 'pong') { pong.current = Date.now(); return; }
+      if (d.t === 'debug') { setDbg((l) => [...l.slice(-14), `${new Date().toISOString().slice(17, 23)} ${d.text}`]); return; }
       clearDog();
       if (d.t === 'ready') setInfo(`ocgcore ${d.version.join('.')} · ${d.loadMs} ms`);
       else if (d.t === 'prompt') { setBoard(d.board); setPrompt(d.msg); setSel([]); pushEvents(d.events); }
@@ -127,8 +133,17 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id:
         setEnded({ text: d.winner === 0 ? 'Você venceu!' : `${opponent.name} venceu.`, won: d.winner === 0 });
       } else if (d.t === 'error') { setLog((l) => [...l, `ERRO: ${d.text}`]); setFail(d.text); }
     };
-    send({ t: 'start', seed: Date.now() % 100000, mine, foe: foeDeck, base: BASE });
+    send({ t: 'start', seed: Date.now() % 100000, mine, foe: foeDeck, base: BASE, debug: debugOn });
+    pong.current = Date.now();
   };
+
+  // Diagnóstico (?debug): pinga o worker a cada 2 s para saber se ele está vivo.
+  useEffect(() => {
+    if (!debugOn) return;
+    let n = 0;
+    const id = window.setInterval(() => { send({ t: 'ping', n: n++ }); tick((x) => x + 1); }, 2000);
+    return () => window.clearInterval(id);
+  }, []);
 
   useEffect(() => {
     // Aquece o cache offline com a arte das cartas deste duelo.
@@ -211,7 +226,8 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id:
   const tap = (code: number, ref: CardRef, hidden: boolean) => { if (!hidden) setSheet({ code, ref }); };
   const sheetActions = sheet ? cardActions(prompt, sheet.ref.controller, sheet.ref.location, sheet.ref.sequence).map((a) => ({ label: a.label, primary: a.primary, onClick: () => reply(a.response) })) : [];
 
-  if (!board) return <div className="duel hexbg"><div className="stats">Carregando motor…</div></div>;
+  const dbgBox = debugOn ? <div className="dbg">worker: última resposta há {Math.round((Date.now() - pong.current) / 1000)} s{dbg.map((l, i) => <div key={i}>{l}</div>)}</div> : null;
+  if (!board) return <div className="duel hexbg"><div className="stats">Carregando motor…</div>{dbgBox}{fail && <p className="errtext">{fail}</p>}</div>;
   const [me, foe] = board.players;
   const phase = PHASES.find(([, mask]) => board.phase & mask)?.[0];
   const row = (cs: (BoardCard | null)[], controller: 0 | 1, location: number) => (
@@ -251,15 +267,17 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id:
       {panel && !sheet && <div className="scrim center"><div className="sheet hud">{panel}</div></div>}
       {sheet && <CardSheet code={sheet.code} cards={cards} actions={sheetActions} onClose={() => setSheet(null)} />}
       {graveOf !== null && (
-        <div className="scrim center" onClick={() => setGraveOf(null)}>
-          <div className="sheet hud" onClick={(e) => e.stopPropagation()}>
+        <div className="scrim center">
+          <Backdrop onClose={() => setGraveOf(null)} />
+          <div className="sheet hud">
             <h4>Cemitério de {graveOf === 0 ? player.name : opponent.name}</h4>
             {board.players[graveOf].grave.length === 0 ? <span className="stats">vazio</span>
               : <div className="grid">{board.players[graveOf].grave.map((c, i) => <img key={i} src={art(c.code, 'small')} alt={name(c.code)} onClick={() => { setGraveOf(null); setSheet({ code: c.code, ref: { controller: graveOf, location: OcgLocation.GRAVE, sequence: i } }); }} />)}</div>}
           </div>
         </div>
       )}
-      {logOpen && <div className="scrim center" onClick={() => setLogOpen(false)}><div className="sheet hud"><h4>Histórico</h4><div className="log">{log.map((l, i) => <div key={i}>{l}</div>)}</div></div></div>}
+      {logOpen && <div className="scrim center"><Backdrop onClose={() => setLogOpen(false)} /><div className="sheet hud"><h4>Histórico</h4><div className="log">{log.map((l, i) => <div key={i}>{l}</div>)}</div></div></div>}
+      {dbgBox}
       {fail && !ended && (
         <div className="scrim center"><div className="sheet hud">
           <h4>Algo deu errado no duelo</h4>

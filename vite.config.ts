@@ -4,7 +4,9 @@ import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig({
   preview: { allowedHosts: ['.trycloudflare.com'] },
-  worker: { format: 'es' },
+  // Worker em arquivo único: com code-splitting, o chunk do WASM importava de volta a entrada do worker, e o
+  // WebKit do iOS reexecuta esse módulo (perdendo o estado do duelo após o primeiro pedido).
+  worker: { format: 'es', rollupOptions: { output: { inlineDynamicImports: true } } },
   plugins: [
     react(),
     VitePWA({

@@ -38,7 +38,7 @@ export function StoryScreen({ chapter, state, chars, playerName, header, bg, onN
   const tap = () => { if (node?.t !== 'say') return; if (shown < text.length) setShown(text.length); else onNext(); };
 
   return (
-    <div className="story hexbg" style={{ backgroundImage: undefined }} onClick={tap}>
+    <div className="story hexbg">
       <div className="story-bg" style={{ background: bg }} />
       <div className="shead">
         <div className="place hud"><b>{header.place}</b><span>{header.sub}</span></div>
@@ -49,6 +49,8 @@ export function StoryScreen({ chapter, state, chars, playerName, header, bg, onN
       </div>
       {node?.t === 'say' && (
         <>
+          {/* Área de toque para avançar: <button> porque o iOS não entrega toques a <div>. */}
+          <button type="button" className="tapzone" aria-label="Avançar" onClick={tap} />
           <button className="hud-btn skip" onClick={(e) => { e.stopPropagation(); onSkip(); }}>⏭ Pular</button>
           <div className="dialog">
             {node.name && <div className="nametag">{tr(node.name)}</div>}

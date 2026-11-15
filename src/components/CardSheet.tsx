@@ -3,6 +3,14 @@ import { attrName, isMonster, raceName, typeLine } from '../data/labels';
 
 const BASE = import.meta.env.BASE_URL;
 export const art = (code: number, size: 'small' | 'large') => `${BASE}cards/${size}/${code}.webp`;
+/**
+ * Fundo escurecido que fecha ao tocar. É um <button> porque o Safari do iOS não entrega toques a <div> sem
+ * tratamento especial; a folha fica por cima dele.
+ */
+export function Backdrop({ onClose }: { onClose: () => void }) {
+  return <button type="button" className="backdrop" aria-label="Fechar" onClick={onClose} />;
+}
+
 export interface SheetAction { label: string; onClick: () => void; primary?: boolean; disabled?: boolean }
 
 /** Folha de detalhe da carta (arte, dados e texto), com os botões de ação do contexto. */
@@ -10,8 +18,9 @@ export function CardSheet({ code, cards, actions = [], onClose }: { code: number
   const c = cards[String(code)];
   const monster = !!c && isMonster(c.type);
   return (
-    <div className="scrim" onClick={onClose}>
-      <div className="sheet hud" onClick={(e) => e.stopPropagation()}>
+    <div className="scrim">
+      <Backdrop onClose={onClose} />
+      <div className="sheet hud">
         <div className="cardsheet">
           <img src={art(code, 'large')} alt={c?.name ?? ''} draggable={false} />
           <div className="meta">

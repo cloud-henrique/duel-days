@@ -18,7 +18,7 @@ export function HubScreen({ progress, chars, onPick, onTitle, onDecks, onShop }:
       </div>
       <div className="hublist">
         {LOCATIONS.map((loc) => (
-          <section key={loc.id} className="loc hud" style={{ backgroundImage: `${loc.bg}` }}>
+          <section key={loc.id} className="loc hud" style={{ ['--fill' as string]: loc.bg }}>
             <h3>{loc.name}</h3>
             <p>{loc.blurb}</p>
             <div className="locchars">

@@ -55,6 +55,15 @@ npm run dev                        # PWA (use --port se o labeler estiver aberto
 - `src/engine/`: sessão do duelo (MR1, regras da era DM), Worker com o ocgcore (build síncrono, sem JSPI) e a CPU. Prompts que a UI não trata são respondidos automaticamente.
 - `public/data`, `public/scripts.json` e `public/cards` não são versionados (regeneráveis). A arte não entra na pré-carga do PWA: é guardada conforme vista.
 
+## Diagnóstico e iOS
+
+- `?debug=1` na URL mostra, no duelo, um painel com o que o Worker faz (etapas, cada passo do motor) e se ele está vivo.
+- O Worker é gerado como **arquivo único** (`worker.rollupOptions.output.inlineDynamicImports`). Com code-splitting, o chunk do
+  WASM importava de volta a entrada do Worker e o Safari do iOS reexecutava o módulo, perdendo o duelo depois do primeiro pedido.
+- No iOS, toques só chegam de forma confiável a `<button>`: fundos que fecham (`Backdrop`) e a área de avançar o diálogo são botões.
+- `proto/monkey.ts` (mesmo código do Worker, decks reais dos personagens) e `proto/webkit-e2e.mjs` (Playwright/WebKit) testam o duelo.
+- Depois de publicar uma versão nova, o PWA troca de versão na segunda abertura (service worker).
+
 ## Economia, coleção e decks
 
 - Início: 300 moedas e 40 cartas Normais (forma um deck válido). Duelo: vitória +100, derrota +30. Pack: ◎100, 5 cartas, 1 rara garantida (N 61%, R 28%, SR 9%, UR 2%).
