@@ -1,6 +1,19 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
+import { appendFileSync } from 'node:fs';
+import type { Connect, Plugin } from 'vite';
+
+// Recebe os logs de diagnóstico do aparelho (?debug na URL) e grava em /tmp/ygo-device.log (só dev/preview).
+const deviceLog = (): Plugin => {
+  const mw: Connect.NextHandleFunction = (req, res, next) => {
+    if (req.method !== 'POST' || !req.url?.startsWith('/__log')) return next();
+    let body = '';
+    req.on('data', (c) => (body += c));
+    req.on('end', () => { appendFileSync('/tmp/ygo-device.log', body + '\n'); res.statusCode = 204; res.end(); });
+  };
+  return { name: 'device-log', configureServer: (s) => { s.middlewares.use(mw); }, configurePreviewServer: (s) => { s.middlewares.use(mw); } };
+};
 
 export default defineConfig({
   preview: { allowedHosts: ['.trycloudflare.com'] },
@@ -8,6 +21,7 @@ export default defineConfig({
   // WebKit do iOS reexecuta esse módulo (perdendo o estado do duelo após o primeiro pedido).
   worker: { format: 'es', rollupOptions: { output: { inlineDynamicImports: true } } },
   plugins: [
+    deviceLog(),
     react(),
     VitePWA({
       registerType: 'autoUpdate',

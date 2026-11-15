@@ -10,6 +10,8 @@ import { isMonster } from '../data/labels';
 import { Backdrop, CardSheet, art } from '../components/CardSheet';
 import type { DeckList } from '../engine/session';
 import { LOSS_COINS, WIN_COINS } from '../game/economy';
+import { InlineEngine } from '../engine/inline';
+import { debugOn, engineInline, rlog } from '../debug/remote';
 
 const BASE = import.meta.env.BASE_URL;
 const avatar = (id: string) => `${BASE}characters/${id}/neutral.webp`;
@@ -88,7 +90,7 @@ function Plate({ side, who, lp, deck, hand, grave, onGrave }: { side: 'me' | 'fo
 }
 
 export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id: 'yugi_muto', name: 'Você' }, onEnd }: { cards: Cards; mine: DeckList; foe: DeckList; opponent: Duelist; player?: Duelist; onEnd: (won: boolean) => void }) {
-  const worker = useRef<Worker | null>(null);
+  const worker = useRef<Worker | InlineEngine | null>(null);
   const [board, setBoard] = useState<Board | null>(null);
   const [prompt, setPrompt] = useState<OcgMessage | null>(null);
   const [log, setLog] = useState<string[]>([]);
@@ -100,7 +102,6 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id:
   const [graveOf, setGraveOf] = useState<0 | 1 | null>(null);
   const [logOpen, setLogOpen] = useState(false);
   const [fail, setFail] = useState<string | null>(null);
-  const debugOn = typeof location !== 'undefined' && location.search.includes('debug');
   const [dbg, setDbg] = useState<string[]>([]);
   const pong = useRef(0);
   const [, tick] = useState(0);
@@ -117,15 +118,17 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id:
 
   const start = () => {
     worker.current?.terminate();
-    const w = new Worker(new URL('../engine/worker.ts', import.meta.url), { type: 'module' });
+    const w = engineInline ? new InlineEngine() : new Worker(new URL('../engine/worker.ts', import.meta.url), { type: 'module' });
+    rlog(`motor: ${engineInline ? 'thread principal (inline)' : 'worker'}`);
     worker.current = w;
-    w.onerror = (e) => { clearDog(); setFail(`Erro no motor: ${e.message || 'falha ao carregar o worker'}`); };
-    w.onmessageerror = () => { clearDog(); setFail('Erro ao ler a resposta do motor.'); };
+    w.onerror = (e: ErrorEvent) => { clearDog(); rlog(`worker.onerror: ${e.message}`); setFail(`Erro no motor: ${e.message || 'falha ao carregar o worker'}`); };
+    w.onmessageerror = () => { clearDog(); rlog('worker.onmessageerror'); setFail('Erro ao ler a resposta do motor.'); };
     w.onmessage = (ev: MessageEvent<FromWorker>) => {
       const d = ev.data;
       if (d.t === 'pong') { pong.current = Date.now(); return; }
-      if (d.t === 'debug') { setDbg((l) => [...l.slice(-14), `${new Date().toISOString().slice(17, 23)} ${d.text}`]); return; }
+      if (d.t === 'debug') { rlog(`[motor] ${d.text}`); setDbg((l) => [...l.slice(-14), `${new Date().toISOString().slice(17, 23)} ${d.text}`]); return; }
       clearDog();
+      if (d.t !== 'ready') rlog(`<- ${d.t}${d.t === 'prompt' ? ' ' + d.msg.type : d.t === 'error' ? ' ' + d.text : ''}`);
       if (d.t === 'ready') setInfo(`ocgcore ${d.version.join('.')} · ${d.loadMs} ms`);
       else if (d.t === 'prompt') { setBoard(d.board); setPrompt(d.msg); setSel([]); pushEvents(d.events); }
       else if (d.t === 'end') {
@@ -154,9 +157,10 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id:
 
   const reply = (response: OcgResponse) => {
     setPrompt(null); setSheet(null); send({ t: 'respond', response });
+    rlog(`-> respond ${JSON.stringify(response)}`);
     // Se o motor não devolver nada em 12 s, mostra o problema em vez de deixar a tela parada.
     clearDog();
-    watchdog.current = window.setTimeout(() => setFail('O motor não respondeu (12 s sem novo pedido de jogada).'), 12000);
+    watchdog.current = window.setTimeout(() => { rlog(`WATCHDOG: 12 s sem resposta; último pong há ${Math.round((Date.now() - pong.current) / 1000)} s`); setFail('O motor não respondeu (12 s sem novo pedido de jogada).'); }, 12000);
   };
   const hl = useMemo(() => highlighted(prompt), [prompt]);
 
