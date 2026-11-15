@@ -5,12 +5,20 @@ body { background: var(--bg); color: var(--txt); font: 14px/1.35 system-ui, sans
 .app { height: 100%; display: flex; flex-direction: column; padding: env(safe-area-inset-top) 10px env(safe-area-inset-bottom); gap: 8px; }
 .lp { display: flex; justify-content: space-between; font-weight: 700; }
 .lp .foe { color: var(--foe); } .lp .me { color: var(--me); }
-.row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; }
-.slot { min-height: 56px; border: 1px dashed var(--line); border-radius: 6px; padding: 3px; font-size: 10px; display: flex; flex-direction: column; justify-content: center; text-align: center; background: var(--panel); }
-.slot.def { transform: rotate(90deg) scale(.8); } .slot.down { background: #2c2440; color: var(--dim); }
-.slot b { font-size: 10px; } .slot i { color: var(--acc); font-style: normal; }
-.hand { display: flex; gap: 4px; overflow-x: auto; min-height: 52px; }
-.hand .slot { flex: 0 0 74px; }
+.row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; width: 100%; max-width: 290px; margin: 0 auto; }
+.slot { position: relative; aspect-ratio: 268 / 391; padding: 0; border: 1px dashed var(--line); border-radius: 4px; background: var(--panel); overflow: visible; }
+.slot.empty { background: transparent; }
+.slot img { display: block; width: 100%; height: 100%; border-radius: 3px; object-fit: cover; transition: transform .2s; }
+.slot.def img, .slot.def .cardback { transform: rotate(90deg) scale(.68); }
+.slot.down:not(:disabled) img { filter: brightness(.55); }
+.slot i { position: absolute; left: 50%; bottom: 2px; transform: translateX(-50%); background: rgba(8,9,18,.85); color: var(--acc); font: 700 9px/1 system-ui; padding: 2px 4px; border-radius: 6px; font-style: normal; white-space: nowrap; }
+.cardback { width: 100%; height: 100%; border-radius: 3px; background: repeating-linear-gradient(45deg, #3b2a14, #3b2a14 4px, #5a4020 4px, #5a4020 8px); border: 2px solid #8a6a30; transition: transform .2s; }
+.hand { display: flex; gap: 4px; overflow-x: auto; padding-bottom: 2px; }
+.hand .slot { flex: 0 0 56px; }
+.zoom { position: fixed; inset: 0; z-index: 20; background: rgba(5,6,14,.94); display: flex; flex-direction: column; align-items: center; gap: 12px; padding: calc(16px + env(safe-area-inset-top)) 16px 16px; overflow-y: auto; }
+.zoom img { max-width: 62%; max-height: 52vh; border-radius: 8px; box-shadow: 0 8px 30px #000a; }
+.zoomtext { max-width: 420px; display: flex; flex-direction: column; gap: 6px; }
+.zoomtext p { margin: 0; white-space: pre-wrap; color: #cfd3ee; font-size: 13px; }
 .meta { color: var(--dim); font-size: 11px; display: flex; justify-content: space-between; }
 .log { flex: 1; min-height: 60px; overflow-y: auto; background: var(--panel); border-radius: 8px; padding: 6px 8px; font-size: 12px; color: var(--dim); }
 .log div:last-child { color: var(--txt); }
@@ -41,3 +49,7 @@ button.on { outline: 2px solid var(--acc); } button:disabled { opacity: .4; }
 @keyframes bob { 50% { transform: translateY(3px); } }
 .dialog.choices { display: flex; flex-direction: column; gap: 8px; }
 .menu-btn { position: absolute; top: calc(8px + env(safe-area-inset-top)); right: 10px; z-index: 4; padding: 6px 12px; }
+
+/* O campo e a mão nunca encolhem; quem cede espaço é o log. */
+.row, .hand, .lp, .meta { flex-shrink: 0; }
+.log { min-height: 40px; }

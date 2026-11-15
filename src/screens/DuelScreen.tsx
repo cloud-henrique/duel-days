@@ -8,31 +8,49 @@ const BASE = import.meta.env.BASE_URL;
 type Cards = Record<string, CardRecord>;
 const LOC: Record<number, string> = { [OcgLocation.HAND]: 'mão', [OcgLocation.MZONE]: 'campo', [OcgLocation.SZONE]: 'M/A', [OcgLocation.GRAVE]: 'cemitério', [OcgLocation.DECK]: 'deck' };
 
-function Slot({ c, cards, hidden, inHand }: { c: BoardCard | null; cards: Cards; hidden?: boolean; inHand?: boolean }) {
-  if (!c) return <div className="slot" />;
-  const down = hidden || (!inHand && (c.position & 10) !== 0);
+const art = (code: number, size: 'small' | 'large') => `${BASE}cards/${size}/${code}.webp`;
+
+/** Uma carta: arte real, verso para cartas ocultas do oponente, giro em defesa. Toque abre o zoom. */
+function Slot({ c, cards, foe, inHand, onZoom }: { c: BoardCard | null; cards: Cards; foe?: boolean; inHand?: boolean; onZoom: (code: number) => void }) {
+  if (!c) return <div className="slot empty" />;
+  const facedown = !inHand && (c.position & 10) !== 0;
   const def = !inHand && (c.position & 12) !== 0;
   const info = cards[String(c.code)];
+  const hidden = foe && facedown;
+  const showStats = !facedown && c.attack != null && !!info && info.attack + info.defense > 0;
   return (
-    <div className={`slot${def ? ' def' : ''}${down ? ' down' : ''}`}>
-      {down && hidden ? '▮' : <><b>{down ? '(baixada)' : info?.name ?? c.code}</b>{!down && c.attack != null && info && info.attack + info.defense > 0 && <i>{c.attack}/{c.defense}</i>}</>}
-    </div>
+    <button className={`slot${def ? ' def' : ''}${facedown ? ' down' : ''}`} disabled={hidden} onClick={() => onZoom(c.code)} title={hidden ? '' : info?.name}>
+      {hidden ? <div className="cardback" /> : <img src={art(c.code, 'small')} alt={info?.name ?? ''} draggable={false} />}
+      {showStats && <i>{c.attack}/{c.defense}</i>}
+    </button>
   );
 }
 
-function BoardView({ b, cards, opponent }: { b: Board; cards: Cards; opponent: string }) {
+function BoardView({ b, cards, opponent, onZoom }: { b: Board; cards: Cards; opponent: string; onZoom: (code: number) => void }) {
   const [me, foe] = b.players;
+  const row = (cs: (BoardCard | null)[], isFoe?: boolean) => <div className="row">{cs.slice(0, 5).map((c, i) => <Slot key={i} c={c} cards={cards} foe={isFoe} onZoom={onZoom} />)}</div>;
   return (
     <>
-      <div className="lp"><span className="foe">{opponent} {foe.lp}</span><span className="stats">Turno {b.turn} · {b.turnPlayer === 0 ? 'seu' : 'da CPU'}</span><span className="me">Você {me.lp}</span></div>
+      <div className="lp"><span className="foe">{opponent} {foe.lp}</span><span className="stats">Turno {b.turn} · {b.turnPlayer === 0 ? 'seu' : 'do oponente'}</span><span className="me">Você {me.lp}</span></div>
       <div className="meta"><span>{opponent}: mão {foe.hand.length} · deck {foe.deck} · cem. {foe.grave.length}</span></div>
-      <div className="row">{foe.szone.slice(0, 5).map((c, i) => <Slot key={i} c={c} cards={cards} hidden={!!c && (c.position & 10) !== 0} />)}</div>
-      <div className="row">{foe.mzone.slice(0, 5).map((c, i) => <Slot key={i} c={c} cards={cards} />)}</div>
-      <div className="row">{me.mzone.slice(0, 5).map((c, i) => <Slot key={i} c={c} cards={cards} />)}</div>
-      <div className="row">{me.szone.slice(0, 5).map((c, i) => <Slot key={i} c={c} cards={cards} />)}</div>
+      {row(foe.szone, true)}{row(foe.mzone, true)}{row(me.mzone)}{row(me.szone)}
       <div className="meta"><span>Você: deck {me.deck} · cem. {me.grave.length}</span></div>
-      <div className="hand">{me.hand.map((c, i) => <Slot key={i} c={c} cards={cards} inHand />)}</div>
+      <div className="hand">{me.hand.map((c, i) => <Slot key={i} c={c} cards={cards} inHand onZoom={onZoom} />)}</div>
     </>
+  );
+}
+
+function ZoomCard({ code, cards, onClose }: { code: number; cards: Cards; onClose: () => void }) {
+  const info = cards[String(code)];
+  return (
+    <div className="zoom" onClick={onClose}>
+      <img src={art(code, 'large')} alt={info?.name ?? ''} draggable={false} />
+      <div className="zoomtext">
+        <b>{info?.name}</b>
+        <p>{info?.desc}</p>
+        <span className="stats">toque para fechar</span>
+      </div>
+    </div>
   );
 }
 
@@ -45,6 +63,7 @@ export function DuelScreen({ opponent, onEnd }: { opponent: string; onEnd: (won:
   const [info, setInfo] = useState('');
   const [ended, setEnded] = useState<{ text: string; won: boolean } | null>(null);
   const [sel, setSel] = useState<number[]>([]);
+  const [zoom, setZoom] = useState<number | null>(null);
   const logEnd = useRef<HTMLDivElement>(null);
 
   const name = (code: number) => cards[String(code)]?.name ?? `#${code}`;
@@ -152,11 +171,12 @@ export function DuelScreen({ opponent, onEnd }: { opponent: string; onEnd: (won:
 
   return (
     <div className="app">
-      {board ? <BoardView b={board} cards={cards} opponent={opponent} /> : <div className="stats">Carregando motor…</div>}
+      {board ? <BoardView b={board} cards={cards} opponent={opponent} onZoom={setZoom} /> : <div className="stats">Carregando motor…</div>}
       <div className="log">{log.slice(-40).map((l, i) => <div key={i}>{l}</div>)}<div ref={logEnd} /></div>
       {ended ? <div className="panel"><h4>{ended.text}</h4><button className="primary" onClick={() => onEnd(ended.won)}>Continuar</button></div>
         : actions && <div className="panel">{actions}</div>}
       <div className="stats">{info}</div>
+      {zoom != null && <ZoomCard code={zoom} cards={cards} onClose={() => setZoom(null)} />}
     </div>
   );
 }

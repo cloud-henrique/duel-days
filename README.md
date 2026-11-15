@@ -64,6 +64,16 @@ npx tsx proto/story-smoke.ts             # percorre todos os caminhos do capítu
 - `src/story/chapters/ch1.ts`: capítulo de exemplo (Yugi, Joey e Kaiba). Cada `duel` abre a tela de duelo e volta pelo resultado.
 - `src/story/save.ts`: save em IndexedDB (Dexie), gravado a cada passo. Um duelo em andamento recomeça se a página recarregar.
 
+## Arte das cartas
+
+```bash
+.venv/bin/python scripts/fetch_card_art.py   # baixa de images.ygoprodeck.com (uso pessoal) e converte para WebP
+```
+
+- Para cada carta de `public/data/cards.json`: `public/cards/small/<id>.webp` (268 px, campo e mão) e `public/cards/large/<id>.webp` (540 px, zoom). Originais em `raw/cards/` (não versionados).
+- Pausa entre requisições e pula o que já existe. Rode de novo ao ampliar o pool.
+- Toque numa carta abre o zoom com o texto do efeito (hoje em inglês, vindo do banco oficial). Cartas baixadas do oponente aparecem com o verso e não abrem.
+
 ## Direitos
 
 Sprites do Duel Links e artes de cartas pertencem à Konami. Repositório e site são de uso pessoal;
