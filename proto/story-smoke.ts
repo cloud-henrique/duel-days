@@ -41,7 +41,7 @@ for (const s of SCENES) {
 
 // Seleção de cena: intro -> (4 corações) vínculo -> revanche
 for (const l of LOCATIONS) for (const c of l.chars) {
-  const p = newProgress('Teste');
+  const p = newProgress('Teste', {});
   const a = pickScene(c, p).id;
   p.seen.push(a); p.hearts[c] = 4;
   const b = pickScene(c, p).id;

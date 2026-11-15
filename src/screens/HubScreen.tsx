@@ -4,12 +4,17 @@ import type { CharInfo } from './StoryScreen';
 
 const BASE = import.meta.env.BASE_URL;
 
-export function HubScreen({ progress, chars, onPick, onTitle }: { progress: Progress; chars: Record<string, CharInfo>; onPick: (char: string) => void; onTitle: () => void }) {
+export function HubScreen({ progress, chars, onPick, onTitle, onDecks, onShop }: { progress: Progress; chars: Record<string, CharInfo>; onPick: (char: string) => void; onTitle: () => void; onDecks: () => void; onShop: () => void }) {
   return (
     <div className="app hub hexbg">
       <div className="hubtop">
         <div><div className="stats">MAPA</div><b className="hubname">{progress.playerName}</b></div>
+        <span className="coins">◎ {progress.coins}</span>
         <button className="hud-btn" onClick={onTitle}>☰</button>
+      </div>
+      <div className="hubnav">
+        <button className="hud-btn primary" onClick={onDecks}>Decks</button>
+        <button className="hud-btn primary" onClick={onShop}>Loja</button>
       </div>
       <div className="hublist">
         {LOCATIONS.map((loc) => (

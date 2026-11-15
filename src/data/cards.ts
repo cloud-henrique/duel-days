@@ -1,4 +1,5 @@
 import type { CardRecord } from '../engine/session';
+import type { Tier } from '../game/packs';
 
 export type Cards = Record<string, CardRecord>;
 const BASE = import.meta.env.BASE_URL;
@@ -11,4 +12,12 @@ export async function loadCards(): Promise<Cards> {
     for (const [id, t] of Object.entries(pt)) if (cards[id]) { cards[id].name = t.name; cards[id].desc = t.desc; }
   } catch { /* sem tradução: segue em inglês */ }
   return cards;
+}
+
+export interface GameData { cards: Cards; tiers: Record<string, Tier>; poolIds: number[] }
+
+/** Cartas + raridades. `poolIds` são as cartas colecionáveis (o banco tem também fichas, que não entram na coleção). */
+export async function loadData(): Promise<GameData> {
+  const [cards, tiers] = await Promise.all([loadCards(), fetch(`${BASE}data/pool.json`).then((r) => r.json() as Promise<Record<string, Tier>>)]);
+  return { cards, tiers, poolIds: Object.keys(tiers).map(Number) };
 }

@@ -3,7 +3,8 @@
 e grava public/data/text.pt.json. Cartas sem tradução ficam de fora (o app cai para o inglês)."""
 import json, os, urllib.request
 R = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
-ids = [int(k) for k in json.load(open(f'{R}/public/data/cards.json', encoding='utf-8'))]
+pool = json.load(open(f'{R}/public/data/pool.json'))
+ids = [int(k) for k in pool]  # só cartas da coleção (fichas não têm tradução)
 out = {}
 for i in range(0, len(ids), 40):
     chunk = ','.join(map(str, ids[i:i + 40]))

@@ -35,20 +35,31 @@ Formato do `labels.json`:
 { "arkana": { "faces": { "arkana/faces/chara007_01.png": "neutral" }, "excluded": false, "note": "" } }
 ```
 
-## Protótipo do motor (ocgcore em WASM)
+## Dados do jogo (pool da era Duel Monsters)
 
 ```bash
 npm install
-npm run fetch-data          # clona CardScripts e BabelCDB (ProjectIgnis) em raw/data
-npm run export-proto-data   # gera public/data/cards.json e public/scripts/*.lua (29 cartas clássicas)
-npm run smoke               # duelo CPU x CPU em Node (valida o motor)
-npm run dev                 # PWA em http://localhost:5173 (use --port se o labeler estiver aberto)
+npm run fetch-data                 # clona CardScripts e BabelCDB (ProjectIgnis) em raw/data
+python3 scripts/fetch_pool.py      # 33 caixas de 2002-2005 (YGOPRODeck): quais cartas e a raridade de cada uma
+python3 scripts/export_data.py     # public/data/{cards,pool}.json + public/scripts.json (só cartas que o motor roda)
+python3 scripts/fetch_card_text_pt.py   # nomes e efeitos em português (o resto cai para inglês)
+.venv/bin/python scripts/fetch_card_art.py  # arte (small/large, WebP); ~70 MB
+npx tsx proto/smoke.ts 500         # CPU x CPU com decks aleatórios: mede travas e erros de Lua
+npx tsx proto/economy-smoke.ts     # packs e coleção inicial
+npm run dev                        # PWA (use --port se o labeler estiver aberto)
 ```
 
-- `src/engine/session.ts`: cria o duelo (modo MR1, regras da era DM). O host precisa carregar `constant.lua` e `utility.lua`.
-- `src/engine/worker.ts`: roda o ocgcore (build síncrono, sem JSPI) num Web Worker; a CPU (`cpu.ts`) joga como jogador 1.
-- `src/App.tsx`: UI mínima; todos os prompts (`SELECT_*`) viram botões. Zona/posição ainda são automáticas.
-- `public/data` e `public/scripts` não são versionados (regeneráveis).
+- `raw/pool/blocklist.json` lista passcodes que o motor não aguenta (hoje: Rivalry of Warlords). Rode `export_data.py` depois de mudar.
+- O pool tem ~1.700 cartas (61 de fusão, que vão para o Extra Deck). 11 foram cortadas por não terem efeito implementado no script oficial.
+- Teste em massa (800 duelos): 99,4% terminam; o resto são respostas rejeitadas em `SELECT_SUM` e no menu principal.
+- `src/engine/`: sessão do duelo (MR1, regras da era DM), Worker com o ocgcore (build síncrono, sem JSPI) e a CPU. Prompts que a UI não trata são respondidos automaticamente.
+- `public/data`, `public/scripts.json` e `public/cards` não são versionados (regeneráveis). A arte não entra na pré-carga do PWA: é guardada conforme vista.
+
+## Economia, coleção e decks
+
+- Início: 300 moedas e 40 cartas Normais (forma um deck válido). Duelo: vitória +100, derrota +30. Pack: ◎100, 5 cartas, 1 rara garantida (N 61%, R 28%, SR 9%, UR 2%).
+- Deck: 40 a 60 cartas no principal, até 15 no Extra, até 3 cópias, limitado pela coleção. Até 5 decks; o duelo usa o deck ativo e é bloqueado se ele for inválido.
+- `src/game/{decks,packs,economy}.ts` são puros. `src/screens/{DeckBuilder,ShopScreen}.tsx` são as telas.
 
 ## História (visual novel + mapa)
 

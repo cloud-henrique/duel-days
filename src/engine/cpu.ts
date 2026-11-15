@@ -1,6 +1,6 @@
 import {
-  OcgLocation, OcgMessageType, OcgPosition, OcgResponseType, SelectBattleCMDAction, SelectIdleCMDAction,
-  type OcgMessage, type OcgResponse, type SelectFieldPlace,
+  cardMatchesOpcode, OcgLocation, OcgMessageType, OcgPosition, OcgResponseType, SelectBattleCMDAction, SelectIdleCMDAction,
+  type OcgCardData, type OcgMessage, type OcgResponse, type SelectFieldPlace,
 } from 'ocgcore-wasm';
 
 /** RNG simples e determinístico (mulberry32) para a CPU. */
@@ -17,22 +17,45 @@ export function makeRng(seed: number) {
 
 const pick = <T,>(rng: () => number, xs: T[]) => xs[Math.floor(rng() * xs.length)];
 
-/** Zonas livres a partir da máscara (bit setado = ocupado). Bits 0-15 do próprio jogador. */
+/**
+ * Zonas livres a partir da máscara (bit setado = indisponível). Bits 0-15 são do próprio jogador, 16-31 do oponente;
+ * em cada metade: 0-6 monstros, 8-12 magias/armadilhas, 13 campo, 14-15 pêndulo. Prefere o próprio campo.
+ */
 export function freePlaces(mask: number, player: number, count: number) {
   const places: SelectFieldPlace[] = [];
-  for (let seq = 0; seq < 5 && places.length < count; seq++)
-    if (!(mask & (1 << seq))) places.push({ player, location: OcgLocation.MZONE, sequence: seq });
-  for (let seq = 0; seq < 5 && places.length < count; seq++)
-    if (!(mask & (1 << (8 + seq)))) places.push({ player, location: OcgLocation.SZONE, sequence: seq });
+  for (let b = 0; b < 32 && places.length < count; b++) {
+    if (mask & (1 << b)) continue;
+    const local = b % 16;
+    const owner = b < 16 ? player : 1 - player;
+    if (local <= 6) places.push({ player: owner, location: OcgLocation.MZONE, sequence: local });
+    else if (local >= 8 && local <= 13) places.push({ player: owner, location: OcgLocation.SZONE, sequence: local - 8 });
+    else if (local >= 14) places.push({ player: owner, location: OcgLocation.SZONE, sequence: local - 8 });
+  }
   return places;
 }
 
+const PROMPTS = new Set<number>([
+  OcgMessageType.SELECT_BATTLECMD, OcgMessageType.SELECT_IDLECMD, OcgMessageType.SELECT_EFFECTYN, OcgMessageType.SELECT_YESNO,
+  OcgMessageType.SELECT_OPTION, OcgMessageType.SELECT_CARD, OcgMessageType.SELECT_CHAIN, OcgMessageType.SELECT_PLACE,
+  OcgMessageType.SELECT_POSITION, OcgMessageType.SELECT_TRIBUTE, OcgMessageType.SORT_CHAIN, OcgMessageType.SELECT_COUNTER,
+  OcgMessageType.SELECT_SUM, OcgMessageType.SELECT_DISFIELD, OcgMessageType.SORT_CARD, OcgMessageType.SELECT_UNSELECT_CARD,
+  OcgMessageType.ROCK_PAPER_SCISSORS, OcgMessageType.ANNOUNCE_RACE, OcgMessageType.ANNOUNCE_ATTRIB, OcgMessageType.ANNOUNCE_CARD,
+  OcgMessageType.ANNOUNCE_NUMBER,
+]);
+/** A mensagem pede uma resposta do jogador? */
 export function isSelect(m: OcgMessage) {
-  return m.type >= OcgMessageType.SELECT_BATTLECMD && m.type <= OcgMessageType.ROCK_PAPER_SCISSORS && 'player' in m;
+  return PROMPTS.has(m.type) && 'player' in m;
 }
 
 /** Escolhe uma resposta legal. Preferência: invocar > ativar > baixar > batalhar > encerrar turno. */
-export function cpuRespond(m: OcgMessage, rng: () => number): OcgResponse | null {
+export interface CpuContext { cards?: OcgCardData[] }
+const lowBits = (mask: number | bigint, n: number) => {
+  const out: bigint[] = []; let v = BigInt(mask);
+  for (let bit = 1n; v >= bit && out.length < n; bit <<= 1n) if (v & bit) out.push(bit);
+  return out;
+};
+
+export function cpuRespond(m: OcgMessage, rng: () => number, ctx: CpuContext = {}): OcgResponse | null {
   switch (m.type) {
     case OcgMessageType.SELECT_IDLECMD: {
       const opts: { action: SelectIdleCMDAction; index: number }[] = [];
@@ -71,8 +94,32 @@ export function cpuRespond(m: OcgMessage, rng: () => number): OcgResponse | null
       const p = [OcgPosition.FACEUP_ATTACK, OcgPosition.FACEUP_DEFENSE, OcgPosition.FACEDOWN_DEFENSE].find((x) => m.positions & x);
       return { type: OcgResponseType.SELECT_POSITION, position: (p ?? m.positions) as never };
     }
-    case OcgMessageType.SELECT_SUM:
-      return { type: OcgResponseType.SELECT_SUM, indicies: Array.from({ length: m.selects.length }, (_, i) => i).slice(0, Math.max(m.min, 1)) };
+    case OcgMessageType.SELECT_SUM: {
+      // Soma os valores das cartas até alcançar o total pedido (os obrigatórios já contam).
+      let total = m.selects_must.reduce((a, c) => a + (c.amount & 0xffff), 0);
+      const picked: number[] = [];
+      for (let i = 0; i < m.selects.length && (total < m.amount || picked.length < m.min); i++) { picked.push(i); total += m.selects[i].amount & 0xffff; }
+      return { type: OcgResponseType.SELECT_SUM, indicies: picked };
+    }
+    case OcgMessageType.SELECT_COUNTER: {
+      let left = m.count;
+      return { type: OcgResponseType.SELECT_COUNTER, counters: m.cards.map((c) => { const take = Math.min(c.count, left); left -= take; return take; }) };
+    }
+    case OcgMessageType.ANNOUNCE_ATTRIB:
+      return { type: OcgResponseType.ANNOUNCE_ATTRIB, attributes: lowBits(m.available, m.count).map(Number) as never };
+    case OcgMessageType.ANNOUNCE_RACE:
+      return { type: OcgResponseType.ANNOUNCE_RACE, races: lowBits(m.available, m.count) as never };
+    case OcgMessageType.ANNOUNCE_NUMBER:
+      return { type: OcgResponseType.ANNOUNCE_NUMBER, value: 0 };
+    case OcgMessageType.ANNOUNCE_CARD: {
+      const hit = ctx.cards?.find((c) => cardMatchesOpcode(c, m.opcodes));
+      return { type: OcgResponseType.ANNOUNCE_CARD, card: hit?.code ?? ctx.cards?.[0]?.code ?? 0 };
+    }
+    case OcgMessageType.SORT_CARD:
+    case OcgMessageType.SORT_CHAIN:
+      return { type: OcgResponseType.SORT_CARD, order: null };
+    case OcgMessageType.ROCK_PAPER_SCISSORS:
+      return { type: OcgResponseType.ROCK_PAPER_SCISSORS, value: (1 + Math.floor(rng() * 3)) as 1 | 2 | 3 };
     default:
       return null;
   }

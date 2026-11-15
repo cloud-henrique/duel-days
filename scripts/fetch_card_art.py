@@ -9,8 +9,8 @@ import json, os, sys, time, urllib.request
 from PIL import Image
 
 R = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
-CARDS = json.load(open(f'{R}/public/data/cards.json', encoding='utf-8'))
-VARIANTS = {'small': ('cards_small', 268), 'large': ('cards', 540)}
+CARDS = json.load(open(f'{R}/public/data/pool.json'))  # só cartas da coleção
+VARIANTS = {'small': ('cards_small', 200), 'large': ('cards', 380)}
 fail = []
 for code in CARDS:
     for name, (path, width) in VARIANTS.items():
@@ -26,6 +26,6 @@ for code in CARDS:
         if not os.path.exists(out):
             im = Image.open(raw).convert('RGB')
             im = im.resize((width, round(im.height * width / im.width)), Image.LANCZOS)
-            im.save(out, quality=85, method=6)
+            im.save(out, quality=68, method=4)
 print(len(CARDS), 'cartas;', 'falhas:', fail)
 sys.exit(1 if fail else 0)

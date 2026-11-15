@@ -124,3 +124,39 @@ body { background: var(--bg); color: var(--txt); font: 14px/1.35 system-ui, -app
 .charchip .cn { font-weight: 800; font-size: 15px; }
 .charchip .hs i { font-style: normal; color: #ff6b8a; font-size: 16px; } .charchip .hs i.off { color: #3a2a45; }
 .charchip:active { filter: brightness(1.3); }
+
+/* ============ Deck builder e loja ============ */
+.coins { color: var(--acc); font-weight: 800; font-size: 18px; }
+.hubnav { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; flex-shrink: 0; }
+.deckb { padding: calc(10px + env(safe-area-inset-top)) 12px calc(10px + env(safe-area-inset-bottom)); gap: 8px; }
+.deckb .hubtop { gap: 10px; }
+.deckbar { display: flex; gap: 6px; padding: 8px; flex-shrink: 0; }
+.deckbar select, .filters select { background: #0a1a3a; color: var(--txt); border: 2px solid var(--line-dim); border-radius: 6px; padding: 8px; font: inherit; max-width: 36%; }
+.deckbar input, .filters input { flex: 1; min-width: 0; background: #0a1a3a; color: var(--txt); border: 2px solid var(--line-dim); border-radius: 6px; padding: 8px; font: inherit; user-select: text; -webkit-user-select: text; }
+.deckbar .hud-btn { padding: 8px 12px; }
+.deckstat { display: flex; gap: 12px; align-items: center; font-weight: 700; font-size: 13px; flex-shrink: 0; }
+.deckstat .hud-btn { margin-left: auto; padding: 8px 14px; }
+.deckstat .ok { color: var(--me); } .deckstat .bad { color: var(--foe); }
+.problems { font-size: 12px; color: #ffb4b4; background: rgba(255,80,80,.1); border-left: 3px solid var(--foe); padding: 6px 10px; flex-shrink: 0; }
+.tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; flex-shrink: 0; }
+.tabs button, .chips button { background: #0a1a3a; color: var(--dim); border: 1px solid var(--line-dim); border-radius: 4px; padding: 9px 6px; font: 700 13px system-ui; }
+.tabs button.on, .chips button.on { background: var(--line); color: #fff; border-color: #7fb6ff; }
+.filters { display: flex; gap: 6px; flex-shrink: 0; }
+.chips { display: flex; gap: 5px; overflow-x: auto; flex-shrink: 0; }
+.chips button { white-space: nowrap; padding: 7px 10px; }
+.cardgrid { flex: 1; min-height: 0; overflow-y: auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; align-content: start; padding: 2px 2px 8px; }
+.cell { position: relative; padding: 0; border: 2px solid transparent; border-radius: 5px; background: none; content-visibility: auto; contain-intrinsic-size: 80px 117px; }
+.cell img { display: block; width: 100%; border-radius: 3px; }
+.cell.r-R { border-color: #4aa3ff; box-shadow: 0 0 6px rgba(74,163,255,.55); }
+.cell.r-SR { border-color: #b57aff; box-shadow: 0 0 8px rgba(181,122,255,.65); }
+.cell.r-UR { border-color: var(--acc); box-shadow: 0 0 10px rgba(242,193,78,.8); }
+.cell i { position: absolute; right: 2px; bottom: 2px; background: rgba(5,12,31,.9); color: var(--txt); font: 800 10px/1 system-ui; padding: 2px 5px; border-radius: 3px; font-style: normal; }
+.cell i.full { color: var(--hl); }
+.nova { position: absolute; left: -4px; top: 18%; background: #20b86a; color: #fff; font: 800 11px/1 system-ui; padding: 4px 8px 4px 5px; clip-path: polygon(0 0, 100% 0, 88% 50%, 100% 100%, 0 100%); font-style: normal; }
+.pop { animation: pop .35s both; }
+@keyframes pop { from { opacity: 0; transform: scale(.6) rotateY(90deg); } to { opacity: 1; transform: none; } }
+.summary { margin: 0; font-size: 18px; font-weight: 700; flex-shrink: 0; }
+.pack { padding: 16px; display: flex; flex-direction: column; gap: 12px; align-items: center; text-align: center; }
+.packart { width: 150px; height: 210px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 2px; border-radius: 8px; background: linear-gradient(160deg, #f6d36a, #b9791a 55%, #5a3a0a); color: #2a1b00; font: 900 22px/1 system-ui; box-shadow: 0 10px 24px #000a, inset 0 0 0 3px rgba(255,255,255,.35); transform: rotate(-3deg); }
+.packart small { font: 700 11px system-ui; margin-top: 10px; }
+.pack p { margin: 0; color: #cfe2ff; } .pack .acts { width: 100%; }

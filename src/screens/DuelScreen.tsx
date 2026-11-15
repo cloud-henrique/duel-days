@@ -5,11 +5,13 @@ import {
 } from 'ocgcore-wasm';
 import type { Board, BoardCard, FromWorker, ToWorker } from '../engine/protocol';
 import { freePlaces } from '../engine/cpu';
-import { loadCards, type Cards } from '../data/cards';
-import { attrName, isMonster, raceName, typeLine } from '../data/labels';
+import type { Cards } from '../data/cards';
+import { isMonster } from '../data/labels';
+import { CardSheet, art } from '../components/CardSheet';
+import type { DeckList } from '../engine/session';
+import { LOSS_COINS, WIN_COINS } from '../game/economy';
 
 const BASE = import.meta.env.BASE_URL;
-const art = (code: number, size: 'small' | 'large') => `${BASE}cards/${size}/${code}.webp`;
 const avatar = (id: string) => `${BASE}characters/${id}/neutral.webp`;
 const LOC: Record<number, string> = { [OcgLocation.HAND]: 'mão', [OcgLocation.MZONE]: 'campo', [OcgLocation.SZONE]: 'M/A', [OcgLocation.GRAVE]: 'cemitério', [OcgLocation.DECK]: 'deck' };
 
@@ -85,32 +87,8 @@ function Plate({ side, who, lp, deck, hand, grave, onGrave }: { side: 'me' | 'fo
   );
 }
 
-function CardSheet({ code, cards, actions, onAct, onClose }: { code: number; cards: Cards; actions: CardAction[]; onAct: (r: OcgResponse) => void; onClose: () => void }) {
-  const c = cards[String(code)];
-  const monster = !!c && isMonster(c.type);
-  return (
-    <div className="scrim" onClick={onClose}>
-      <div className="sheet hud" onClick={(e) => e.stopPropagation()}>
-        <div className="cardsheet">
-          <img src={art(code, 'large')} alt={c?.name ?? ''} draggable={false} />
-          <div className="meta">
-            <div className="nm">{c?.name}</div>
-            {monster && c.level > 0 && <div className="stars">{'★'.repeat(Math.min(c.level, 12))}</div>}
-            <div className="kv">{c && typeLine(c.type)}{monster && ` · ${attrName(c.attribute)} · ${raceName(c.race)}`}</div>
-            {monster && <div><span className="atk">ATK {c.attack}</span> &nbsp; <span className="def">DEF {c.defense}</span></div>}
-            <div className="desc">{c?.desc}</div>
-          </div>
-        </div>
-        {actions.length > 0 && <div className="acts">{actions.map((a) => <button key={a.label + JSON.stringify(a.response)} className={`hud-btn ${a.primary ? 'primary' : ''}`} onClick={() => onAct(a.response)}>{a.label}</button>)}</div>}
-        <button className="hud-btn close" onClick={onClose}>✕</button>
-      </div>
-    </div>
-  );
-}
-
-export function DuelScreen({ opponent, player = { id: 'yugi_muto', name: 'Você' }, onEnd }: { opponent: Duelist; player?: Duelist; onEnd: (won: boolean) => void }) {
+export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id: 'yugi_muto', name: 'Você' }, onEnd }: { cards: Cards; mine: DeckList; foe: DeckList; opponent: Duelist; player?: Duelist; onEnd: (won: boolean) => void }) {
   const worker = useRef<Worker | null>(null);
-  const [cards, setCards] = useState<Cards>({});
   const [board, setBoard] = useState<Board | null>(null);
   const [prompt, setPrompt] = useState<OcgMessage | null>(null);
   const [log, setLog] = useState<string[]>([]);
@@ -130,7 +108,7 @@ export function DuelScreen({ opponent, player = { id: 'yugi_muto', name: 'Você'
     setToast((t) => ({ n: (t?.n ?? 0) + 1, text: ev.filter((e) => !e.startsWith('—')).slice(-2).join(' · ') || ev[ev.length - 1] }));
   };
 
-  const start = (cs: Cards) => {
+  const start = () => {
     worker.current?.terminate();
     const w = new Worker(new URL('../engine/worker.ts', import.meta.url), { type: 'module' });
     worker.current = w;
@@ -143,13 +121,13 @@ export function DuelScreen({ opponent, player = { id: 'yugi_muto', name: 'Você'
         setEnded({ text: d.winner === 0 ? 'Você venceu!' : `${opponent.name} venceu.`, won: d.winner === 0 });
       } else if (d.t === 'error') setLog((l) => [...l, `ERRO: ${d.text}`]);
     };
-    const pool = Object.keys(cs).map(Number);
-    const deck = Array.from({ length: 40 }, (_, i) => pool[i % pool.length]);
-    send({ t: 'start', seed: Date.now() % 100000, deck, base: BASE });
+    send({ t: 'start', seed: Date.now() % 100000, mine, foe: foeDeck, base: BASE });
   };
 
   useEffect(() => {
-    loadCards().then((cs) => { setCards(cs); start(cs); });
+    // Aquece o cache offline com a arte das cartas deste duelo.
+    for (const code of new Set([...mine.main, ...mine.extra, ...foeDeck.main, ...foeDeck.extra])) fetch(art(code, 'small')).catch(() => {});
+    start();
     return () => { worker.current?.terminate(); };
   }, []);
 
@@ -217,7 +195,7 @@ export function DuelScreen({ opponent, player = { id: 'yugi_muto', name: 'Você'
   }, [prompt]);
 
   const tap = (code: number, ref: CardRef, hidden: boolean) => { if (!hidden) setSheet({ code, ref }); };
-  const sheetActions = sheet ? cardActions(prompt, sheet.ref.controller, sheet.ref.location, sheet.ref.sequence) : [];
+  const sheetActions = sheet ? cardActions(prompt, sheet.ref.controller, sheet.ref.location, sheet.ref.sequence).map((a) => ({ label: a.label, primary: a.primary, onClick: () => reply(a.response) })) : [];
 
   if (!board) return <div className="duel hexbg"><div className="stats">Carregando motor…</div></div>;
   const [me, foe] = board.players;
@@ -257,7 +235,7 @@ export function DuelScreen({ opponent, player = { id: 'yugi_muto', name: 'Você'
       <div className="stats" style={{ textAlign: 'center' }}>{info} · <button style={{ all: 'unset', textDecoration: 'underline' }} onClick={() => setLogOpen(true)}>histórico</button></div>
 
       {panel && !sheet && <div className="scrim center"><div className="sheet hud">{panel}</div></div>}
-      {sheet && <CardSheet code={sheet.code} cards={cards} actions={sheetActions} onAct={reply} onClose={() => setSheet(null)} />}
+      {sheet && <CardSheet code={sheet.code} cards={cards} actions={sheetActions} onClose={() => setSheet(null)} />}
       {graveOf !== null && (
         <div className="scrim center" onClick={() => setGraveOf(null)}>
           <div className="sheet hud" onClick={(e) => e.stopPropagation()}>
@@ -268,7 +246,7 @@ export function DuelScreen({ opponent, player = { id: 'yugi_muto', name: 'Você'
         </div>
       )}
       {logOpen && <div className="scrim center" onClick={() => setLogOpen(false)}><div className="sheet hud"><h4>Histórico</h4><div className="log">{log.map((l, i) => <div key={i}>{l}</div>)}</div></div></div>}
-      {ended && <div className="scrim center"><div className="sheet hud"><h4>{ended.text}</h4><button className="hud-btn gold" onClick={() => onEnd(ended.won)}>Continuar</button></div></div>}
+      {ended && <div className="scrim center"><div className="sheet hud"><h4>{ended.text}</h4><p className="stats" style={{ margin: 0 }}>+{ended.won ? WIN_COINS : LOSS_COINS} moedas</p><button className="hud-btn gold" onClick={() => onEnd(ended.won)}>Continuar</button></div></div>}
     </div>
   );
 }

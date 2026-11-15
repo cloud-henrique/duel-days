@@ -44,3 +44,4 @@ public/scripts/
 public/characters/
 .venv/
 public/cards/
+public/scripts.json

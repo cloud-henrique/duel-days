@@ -4,6 +4,7 @@ import createCore, {
 } from 'ocgcore-wasm';
 
 export interface CardRecord extends Omit<OcgCardData, 'race'> { race: string; name: string; desc: string }
+export interface DeckList { main: number[]; extra: number[] }
 export interface DuelAssets {
   cards: Record<string, CardRecord>;
   /** Devolve o texto Lua de um script (ou null). */
@@ -24,7 +25,7 @@ export async function openCore() {
 }
 
 export function startDuel(
-  core: OcgCoreSync, assets: DuelAssets, decks: [number[], number[]],
+  core: OcgCoreSync, assets: DuelAssets, decks: [DeckList, DeckList],
   opts: { seed?: bigint; flags?: bigint; log?: (t: string) => void } = {},
 ): DuelSession {
   const log = opts.log ?? (() => {});
@@ -54,18 +55,20 @@ export function startDuel(
     core.loadScript(handle, base, src);
   }
   for (const team of [0, 1] as const) {
-    decks[team].forEach((code) =>
-      core.duelNewCard(handle, {
-        team, duelist: 0, code, controller: team, location: OcgLocation.DECK,
-        sequence: 0, position: OcgPosition.FACEDOWN_DEFENSE,
-      }));
+    for (const [list, location] of [[decks[team].main, OcgLocation.DECK], [decks[team].extra, OcgLocation.EXTRA]] as const)
+      list.forEach((code) =>
+        core.duelNewCard(handle, {
+          team, duelist: 0, code, controller: team, location,
+          sequence: 0, position: OcgPosition.FACEDOWN_DEFENSE,
+        }));
   }
   core.startDuel(handle);
   return {
     core, handle,
     step() {
       const messages: OcgMessage[] = [];
-      for (;;) {
+      for (let guard = 0; ; guard++) {
+        if (guard > 20000) throw new Error('motor preso em laço (CONTINUE sem fim)');
         const status = core.duelProcess(handle);
         messages.push(...core.duelGetMessage(handle));
         if (status !== OcgProcessResult.CONTINUE) return { status, messages };

@@ -1,4 +1,5 @@
 import type { OcgMessage, OcgResponse } from 'ocgcore-wasm';
+import type { DeckList } from './session';
 
 export interface BoardCard { code: number; position: number; attack?: number; defense?: number }
 export interface PlayerBoard {
@@ -11,7 +12,7 @@ export interface PlayerBoard {
 }
 export interface Board { players: [PlayerBoard, PlayerBoard]; turn: number; turnPlayer: number; phase: number }
 
-export type ToWorker = { t: 'start'; seed: number; deck: number[]; base: string } | { t: 'respond'; response: OcgResponse };
+export type ToWorker = { t: 'start'; seed: number; mine: DeckList; foe: DeckList; base: string } | { t: 'respond'; response: OcgResponse };
 export type FromWorker =
   | { t: 'ready'; version: [number, number]; loadMs: number }
   | { t: 'prompt'; msg: OcgMessage; board: Board; events: string[] }

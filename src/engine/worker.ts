@@ -1,10 +1,17 @@
 /// <reference lib="webworker" />
-import { OcgLocation, OcgMessageType, OcgProcessResult, OcgQueryFlags, OcgResponseType, type OcgMessage } from 'ocgcore-wasm';
+import { OcgLocation, OcgMessageType, OcgProcessResult, OcgQueryFlags, OcgResponseType, type OcgCardData, type OcgMessage } from 'ocgcore-wasm';
 import { cpuRespond, freePlaces, isSelect, makeRng } from './cpu';
 import { openCore, startDuel, type CardRecord, type DuelSession } from './session';
 import type { Board, BoardCard, FromWorker, PlayerBoard, ToWorker } from './protocol';
 
 const post = (m: FromWorker) => postMessage(m);
+const UI_PROMPTS = new Set<number>([
+  OcgMessageType.SELECT_IDLECMD, OcgMessageType.SELECT_BATTLECMD, OcgMessageType.SELECT_CHAIN, OcgMessageType.SELECT_EFFECTYN,
+  OcgMessageType.SELECT_YESNO, OcgMessageType.SELECT_OPTION, OcgMessageType.SELECT_CARD, OcgMessageType.SELECT_TRIBUTE,
+  OcgMessageType.SELECT_UNSELECT_CARD, OcgMessageType.SELECT_POSITION,
+]);
+let cardCache: OcgCardData[] | null = null;
+const cardList = () => (cardCache ??= Object.values(cards).map((c) => ({ ...c, race: BigInt(c.race) }) as OcgCardData));
 let session: DuelSession | null = null;
 let cards: Record<string, CardRecord> = {};
 const lp: [number, number] = [8000, 8000];
@@ -18,9 +25,8 @@ async function loadAssets(base: string) {
     const pt: Record<string, { name: string }> = await (await fetch(`${base}data/text.pt.json`)).json();
     for (const [id, t] of Object.entries(pt)) if (cards[id]) cards[id].name = t.name;
   } catch { /* sem tradução */ }
-  const names: string[] = await (await fetch(`${base}scripts/index.json`)).json();
-  const scripts = new Map<string, string>();
-  await Promise.all(names.map(async (n) => scripts.set(n, await (await fetch(`${base}scripts/${n}`)).text())));
+  const bundle: Record<string, string> = await (await fetch(`${base}scripts.json`)).json();
+  const scripts = new Map<string, string>(Object.entries(bundle));
   return scripts;
 }
 
@@ -85,8 +91,13 @@ function run() {
       s.respond({ type: sel.type === OcgMessageType.SELECT_PLACE ? OcgResponseType.SELECT_PLACE : OcgResponseType.SELECT_DISFIELD, places: freePlaces(sel.field_mask, sel.player, sel.count) });
       continue;
     }
+    // Prompts que a interface ainda não trata (anunciar, ordenar, contadores, soma...): responde automaticamente.
+    if (sel.player === 0 && !UI_PROMPTS.has(sel.type)) {
+      const auto = cpuRespond(sel, rng, { cards: cardList() });
+      if (auto) { s.respond(auto); continue; }
+    }
     if (sel.player === 0) { post({ t: 'prompt', msg: sel, board: snapshot(s), events }); return; }
-    const r = cpuRespond(sel, rng);
+    const r = cpuRespond(sel, rng, { cards: cardList() });
     if (!r) { post({ t: 'error', text: `CPU sem resposta para mensagem ${sel.type}` }); return; }
     s.respond(r);
   }
@@ -102,8 +113,7 @@ onmessage = async (ev: MessageEvent<ToWorker>) => {
       const scripts = await loadAssets(d.base);
       const core = await openCore();
       lp[0] = lp[1] = 8000; turn = 0;
-      const deck2 = d.deck.slice().reverse();
-      session = startDuel(core, { cards, script: (n) => scripts.get(n) ?? null }, [d.deck, deck2], { seed: BigInt(d.seed), log: (t) => console.warn(t) });
+      session = startDuel(core, { cards, script: (n) => scripts.get(n) ?? null }, [d.mine, d.foe], { seed: BigInt(d.seed), log: (t) => console.warn(t) });
       post({ t: 'ready', version: core.getVersion() as [number, number], loadMs: Math.round(performance.now() - t0) });
       run();
     } else if (d.t === 'respond' && session) {
