@@ -6,6 +6,7 @@ import { cpuRespond, isSelect, makeRng } from '../src/engine/cpu';
 import { randomDeck } from '../src/game/decks';
 import { openCore, startDuel, type CardRecord } from '../src/engine/session';
 import type { OcgCardData } from 'ocgcore-wasm';
+import { Narrator } from '../src/engine/narrator';
 
 const N = Number(process.argv[2] ?? 100), SEED0 = Number(process.argv[3] ?? 1);
 const cards = JSON.parse(readFileSync('public/data/cards.json', 'utf8')) as Record<string, CardRecord>;
@@ -15,6 +16,8 @@ const cardList = Object.values(cards).map((c) => ({ ...c, race: BigInt(c.race) }
 const core = await openCore();
 const stat = { fim: 0, passos: 0, semResposta: 0, erro: 0, laco: 0 };
 const bad: string[] = [];
+const retryDumps: string[] = [];
+const snapErr = new Map<string, number>();
 const luaErr = new Map<string, number>(), stall = new Map<string, number>();
 let turns = 0;
 const t0 = performance.now();
@@ -25,19 +28,23 @@ for (let i = 0; i < N; i++) {
     s = startDuel(core, { cards, script: (n) => scripts[n] ?? null }, [randomDeck(cards, poolIds, SEED0 + i * 2), randomDeck(cards, poolIds, SEED0 + i * 2 + 1)], { seed: BigInt(SEED0 + i), log: (t) => logs.push(t) });
   } catch (e) { stat.erro++; console.log('erro ao criar duelo', String(e)); continue; }
   const rng = makeRng(SEED0 + i);
-  let outcome = 'passos', steps = 0, lastTypes = '', lastPrompt = '';
+  const nar = new Narrator((c) => cards[c]?.name ?? String(c));
+  let outcome = 'passos', steps = 0, lastTypes = '', lastPrompt = '', lastMsg: unknown = null, lastResp: unknown = null;
   while (steps++ < 4000) {
     let step;
     try { step = s.step(); } catch (e) { outcome = 'laco'; bad.push(`seed ${SEED0 + i}: ${String(e)} (último prompt ${lastPrompt})`); break; }
     const { status, messages } = step;
+    // A "foto" do tabuleiro e o texto dos eventos também rodam aqui, como no app.
+    try { for (const m of messages) nar.describe(m, [], s); nar.snapshot(s); } catch (e) { const k = String((e as Error)?.message ?? e).slice(0, 120); snapErr.set(`seed ${SEED0 + i}: ${k}`, 1 + (snapErr.get(k) ?? 0)); }
     let won = false;
     for (const m of messages) { if (m.type === OcgMessageType.NEW_TURN) turns++; if (m.type === OcgMessageType.WIN) won = true; }
     if (won || status === OcgProcessResult.END) { outcome = 'fim'; break; }
     const sel = [...messages].reverse().find(isSelect);
-    if (!sel && messages.some((m) => m.type === OcgMessageType.RETRY)) { outcome = 'semResposta'; lastTypes = `RETRY depois de ${lastPrompt}`; break; }
-    if (sel) lastPrompt = OcgMessageType[sel.type];
+    if (!sel && messages.some((m) => m.type === OcgMessageType.RETRY)) { outcome = 'semResposta'; lastTypes = `RETRY depois de ${lastPrompt}`; if (retryDumps.length < 6) retryDumps.push(JSON.stringify({ seed: SEED0 + i, prompt: lastMsg, resp: lastResp }, (_, v) => (typeof v === 'bigint' ? Number(v) : v)).slice(0, 1400)); break; }
+    if (sel) { lastPrompt = OcgMessageType[sel.type]; lastMsg = sel; }
     const r = sel && cpuRespond(sel, rng, { cards: cardList });
     if (!r) { outcome = 'semResposta'; lastTypes = messages.map((m) => OcgMessageType[m.type]).join(','); break; }
+    lastResp = r;
     try { s.respond(r); } catch (e) { outcome = 'erro'; lastTypes = String(e); break; }
   }
   stat[outcome as keyof typeof stat]++;
@@ -52,5 +59,8 @@ for (let i = 0; i < N; i++) {
 console.log(`${N} duelos em ${Math.round(performance.now() - t0)} ms, ${turns} turnos`, stat);
 const top = [...luaErr].sort((a, b) => b[1] - a[1]).slice(0, 15);
 console.log('cartas com erro de Lua (duelos afetados):', top.map(([c, n]) => `${cards[c]?.name ?? c} [${c}] x${n}`));
+console.log('erros na foto do tabuleiro/eventos:', [...snapErr].slice(0, 8), 'total', snapErr.size);
 console.log('duelos problemáticos:', bad.slice(0, 8));
 console.log('travas sem resposta:', [...stall].slice(0, 8));
+
+retryDumps.forEach((d) => console.log('RETRY>', d));

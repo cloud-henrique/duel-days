@@ -65,8 +65,10 @@ export function cpuRespond(m: OcgMessage, rng: () => number, ctx: CpuContext = {
       m.spell_sets.forEach((_, i) => opts.push({ action: SelectIdleCMDAction.SELECT_SPELL_SET, index: i }));
       m.monster_sets.forEach((_, i) => opts.push({ action: SelectIdleCMDAction.SELECT_MONSTER_SET, index: i }));
       if (opts.length && rng() < 0.9) return { type: OcgResponseType.SELECT_IDLECMD, ...pick(rng, opts) };
-      if (m.to_bp && rng() < 0.7) return { type: OcgResponseType.SELECT_IDLECMD, action: SelectIdleCMDAction.TO_BP, index: null };
-      return { type: OcgResponseType.SELECT_IDLECMD, action: SelectIdleCMDAction.TO_EP, index: null };
+      // Só responde com o que o motor oferece (to_ep pode ser falso: aí o caminho é pela fase de batalha).
+      if (m.to_bp && (!m.to_ep || rng() < 0.7)) return { type: OcgResponseType.SELECT_IDLECMD, action: SelectIdleCMDAction.TO_BP, index: null };
+      if (m.to_ep) return { type: OcgResponseType.SELECT_IDLECMD, action: SelectIdleCMDAction.TO_EP, index: null };
+      return { type: OcgResponseType.SELECT_IDLECMD, action: SelectIdleCMDAction.SHUFFLE, index: null };
     }
     case OcgMessageType.SELECT_BATTLECMD: {
       if (m.attacks.length) return { type: OcgResponseType.SELECT_BATTLECMD, action: SelectBattleCMDAction.SELECT_BATTLE, index: Math.floor(rng() * m.attacks.length) };
@@ -82,8 +84,12 @@ export function cpuRespond(m: OcgMessage, rng: () => number, ctx: CpuContext = {
       return { type: OcgResponseType.SELECT_OPTION, index: 0 };
     case OcgMessageType.SELECT_CARD:
       return { type: OcgResponseType.SELECT_CARD, indicies: Array.from({ length: m.min }, (_, i) => i) };
-    case OcgMessageType.SELECT_TRIBUTE:
-      return { type: OcgResponseType.SELECT_TRIBUTE, indicies: Array.from({ length: m.min }, (_, i) => i) };
+    case OcgMessageType.SELECT_TRIBUTE: {
+      // Cada carta vale `release_param` tributos (1 ou 2): soma até alcançar o mínimo.
+      const picked: number[] = []; let total = 0;
+      for (let i = 0; i < m.selects.length && total < m.min; i++) { picked.push(i); total += m.selects[i].release_param || 1; }
+      return { type: OcgResponseType.SELECT_TRIBUTE, indicies: picked };
+    }
     case OcgMessageType.SELECT_UNSELECT_CARD:
       return { type: OcgResponseType.SELECT_UNSELECT_CARD, index: m.min > 0 || !m.can_finish ? 0 : null };
     case OcgMessageType.SELECT_PLACE:
@@ -95,10 +101,17 @@ export function cpuRespond(m: OcgMessage, rng: () => number, ctx: CpuContext = {
       return { type: OcgResponseType.SELECT_POSITION, position: (p ?? m.positions) as never };
     }
     case OcgMessageType.SELECT_SUM: {
-      // Soma os valores das cartas até alcançar o total pedido (os obrigatórios já contam).
-      let total = m.selects_must.reduce((a, c) => a + (c.amount & 0xffff), 0);
-      const picked: number[] = [];
-      for (let i = 0; i < m.selects.length && (total < m.amount || picked.length < m.min); i++) { picked.push(i); total += m.selects[i].amount & 0xffff; }
+      // Procura um subconjunto cuja soma (com os obrigatórios) bata exatamente o total; se não houver, vai guloso.
+      const base = m.selects_must.reduce((a, c) => a + (c.amount & 0xffff), 0);
+      const vals = m.selects.map((c) => c.amount & 0xffff);
+      const n = Math.min(vals.length, 14);
+      for (let mask = 0; mask < 1 << n; mask++) {
+        let sum = base, cnt = 0;
+        for (let i = 0; i < n; i++) if (mask & (1 << i)) { sum += vals[i]; cnt++; }
+        if (sum === m.amount && cnt >= m.min && (m.max === 0 || cnt <= m.max)) return { type: OcgResponseType.SELECT_SUM, indicies: Array.from({ length: n }, (_, i) => i).filter((i) => mask & (1 << i)) };
+      }
+      let total = base; const picked: number[] = [];
+      for (let i = 0; i < vals.length && (total < m.amount || picked.length < m.min); i++) { picked.push(i); total += vals[i]; }
       return { type: OcgResponseType.SELECT_SUM, indicies: picked };
     }
     case OcgMessageType.SELECT_COUNTER: {

@@ -99,6 +99,9 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id:
   const [sheet, setSheet] = useState<{ code: number; ref: CardRef } | null>(null);
   const [graveOf, setGraveOf] = useState<0 | 1 | null>(null);
   const [logOpen, setLogOpen] = useState(false);
+  const [fail, setFail] = useState<string | null>(null);
+  const watchdog = useRef<number | undefined>(undefined);
+  const clearDog = () => { window.clearTimeout(watchdog.current); watchdog.current = undefined; };
 
   const name = (code: number) => cards[String(code)]?.name ?? `#${code}`;
   const send = (m: ToWorker) => worker.current?.postMessage(m);
@@ -112,14 +115,17 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id:
     worker.current?.terminate();
     const w = new Worker(new URL('../engine/worker.ts', import.meta.url), { type: 'module' });
     worker.current = w;
+    w.onerror = (e) => { clearDog(); setFail(`Erro no motor: ${e.message || 'falha ao carregar o worker'}`); };
+    w.onmessageerror = () => { clearDog(); setFail('Erro ao ler a resposta do motor.'); };
     w.onmessage = (ev: MessageEvent<FromWorker>) => {
       const d = ev.data;
+      clearDog();
       if (d.t === 'ready') setInfo(`ocgcore ${d.version.join('.')} · ${d.loadMs} ms`);
       else if (d.t === 'prompt') { setBoard(d.board); setPrompt(d.msg); setSel([]); pushEvents(d.events); }
       else if (d.t === 'end') {
         setBoard(d.board); setPrompt(null); pushEvents(d.events);
         setEnded({ text: d.winner === 0 ? 'Você venceu!' : `${opponent.name} venceu.`, won: d.winner === 0 });
-      } else if (d.t === 'error') setLog((l) => [...l, `ERRO: ${d.text}`]);
+      } else if (d.t === 'error') { setLog((l) => [...l, `ERRO: ${d.text}`]); setFail(d.text); }
     };
     send({ t: 'start', seed: Date.now() % 100000, mine, foe: foeDeck, base: BASE });
   };
@@ -131,7 +137,12 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id:
     return () => { worker.current?.terminate(); };
   }, []);
 
-  const reply = (response: OcgResponse) => { setPrompt(null); setSheet(null); send({ t: 'respond', response }); };
+  const reply = (response: OcgResponse) => {
+    setPrompt(null); setSheet(null); send({ t: 'respond', response });
+    // Se o motor não devolver nada em 12 s, mostra o problema em vez de deixar a tela parada.
+    clearDog();
+    watchdog.current = window.setTimeout(() => setFail('O motor não respondeu (12 s sem novo pedido de jogada).'), 12000);
+  };
   const hl = useMemo(() => highlighted(prompt), [prompt]);
 
   /** Painel para prompts que não são "tocar numa carta". */
@@ -142,7 +153,7 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id:
     const where = (x: { location: number; code: number }) => `${name(x.code)} (${LOC[x.location] ?? ''})`;
     switch (m.type) {
       case OcgMessageType.SELECT_CHAIN:
-        return <><h4>Responder em corrente?</h4>{m.selects.map((c, i) => btn(`Ativar ${where(c)}`, { type: OcgResponseType.SELECT_CHAIN, index: i }, true))}{!m.forced && btn('Não', { type: OcgResponseType.SELECT_CHAIN, index: null })}</>;
+        return <><h4>Responder em corrente?</h4>{m.selects.map((c, i) => btn(`Ativar ${where(c)}`, { type: OcgResponseType.SELECT_CHAIN, index: i }, true))}{!m.forced && btn('Não', { type: OcgResponseType.SELECT_CHAIN, index: null })}{!m.forced && <button className="hud-btn" onClick={() => { send({ t: 'autoPass', value: true }); reply({ type: OcgResponseType.SELECT_CHAIN, index: null }); }}>Não perguntar mais neste duelo</button>}</>;
       case OcgMessageType.SELECT_YESNO:
       case OcgMessageType.SELECT_EFFECTYN: {
         const t = m.type === OcgMessageType.SELECT_YESNO ? OcgResponseType.SELECT_YESNO : OcgResponseType.SELECT_EFFECTYN;
@@ -160,7 +171,10 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id:
       case OcgMessageType.SELECT_CARD:
       case OcgMessageType.SELECT_TRIBUTE: {
         const list = m.selects as { code: number; location: number }[];
-        const ok = sel.length >= m.min && sel.length <= m.max;
+        // Tributo: cada carta pode valer 1 ou 2; confere a soma, não a quantidade.
+        const weight = (i: number) => (m.type === OcgMessageType.SELECT_TRIBUTE ? (m.selects[i] as { release_param?: number }).release_param || 1 : 1);
+        const got = sel.reduce((a, i) => a + weight(i), 0);
+        const ok = got >= m.min && got <= m.max;
         const t = m.type === OcgMessageType.SELECT_CARD ? OcgResponseType.SELECT_CARD : OcgResponseType.SELECT_TRIBUTE;
         return <>
           <h4>{m.type === OcgMessageType.SELECT_TRIBUTE ? 'Escolha os tributos' : 'Escolha as cartas'} ({m.min}–{m.max})</h4>
@@ -246,6 +260,14 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id:
         </div>
       )}
       {logOpen && <div className="scrim center" onClick={() => setLogOpen(false)}><div className="sheet hud"><h4>Histórico</h4><div className="log">{log.map((l, i) => <div key={i}>{l}</div>)}</div></div></div>}
+      {fail && !ended && (
+        <div className="scrim center"><div className="sheet hud">
+          <h4>Algo deu errado no duelo</h4>
+          <p className="errtext">{fail}</p>
+          <button className="hud-btn primary" onClick={() => { setFail(null); setBoard(null); setPrompt(null); setLog([]); start(); }}>Reiniciar o duelo</button>
+          <button className="hud-btn" onClick={() => setFail(null)}>Fechar</button>
+        </div></div>
+      )}
       {ended && <div className="scrim center"><div className="sheet hud"><h4>{ended.text}</h4><p className="stats" style={{ margin: 0 }}>+{ended.won ? WIN_COINS : LOSS_COINS} moedas</p><button className="hud-btn gold" onClick={() => onEnd(ended.won)}>Continuar</button></div></div>}
     </div>
   );

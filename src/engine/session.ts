@@ -1,3 +1,4 @@
+import { makeRng } from './cpu';
 import createCore, {
   OcgDuelMode, OcgLocation, OcgPosition, OcgProcessResult,
   type OcgCardData, type OcgCoreSync, type OcgDuelHandle, type OcgMessage, type OcgResponse,
@@ -54,8 +55,16 @@ export function startDuel(
     if (src == null) throw new Error(`script base ausente: ${base}`);
     core.loadScript(handle, base, src);
   }
+  // O build do ocgcore não embaralha o deck no início (a compra sai na ordem inversa da lista): embaralhamos aqui,
+  // de forma determinística pela semente (Fisher-Yates).
+  const rng = makeRng(Number(opts.seed ?? 1n) * 2654435761);
+  const shuffled = decks.map((d) => {
+    const main = [...d.main];
+    for (let i = main.length - 1; i > 0; i--) { const j = Math.floor(rng() * (i + 1)); [main[i], main[j]] = [main[j], main[i]]; }
+    return { ...d, main };
+  }) as [DeckList, DeckList];
   for (const team of [0, 1] as const) {
-    for (const [list, location] of [[decks[team].main, OcgLocation.DECK], [decks[team].extra, OcgLocation.EXTRA]] as const)
+    for (const [list, location] of [[shuffled[team].main, OcgLocation.DECK], [shuffled[team].extra, OcgLocation.EXTRA]] as const)
       list.forEach((code) =>
         core.duelNewCard(handle, {
           team, duelist: 0, code, controller: team, location,

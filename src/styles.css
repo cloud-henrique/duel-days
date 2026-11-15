@@ -160,3 +160,5 @@ body { background: var(--bg); color: var(--txt); font: 14px/1.35 system-ui, -app
 .packart { width: 150px; height: 210px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 2px; border-radius: 8px; background: linear-gradient(160deg, #f6d36a, #b9791a 55%, #5a3a0a); color: #2a1b00; font: 900 22px/1 system-ui; box-shadow: 0 10px 24px #000a, inset 0 0 0 3px rgba(255,255,255,.35); transform: rotate(-3deg); }
 .packart small { font: 700 11px system-ui; margin-top: 10px; }
 .pack p { margin: 0; color: #cfe2ff; } .pack .acts { width: 100%; }
+
+.errtext { margin: 0; font-size: 12px; color: #ffb4b4; word-break: break-word; user-select: text; -webkit-user-select: text; max-height: 40vh; overflow: auto; }
