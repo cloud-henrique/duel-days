@@ -3,7 +3,6 @@ import { OcgLocation, OcgMessageType, OcgPhase, type OcgResponse } from 'ocgcore
 import type { Show } from '../../engine/protocol';
 import type { DeckList } from '../../engine/session';
 import type { Cards } from '../../data/cards';
-import { isMonster } from '../../data/labels';
 import { Backdrop, CardSheet, ICONS, art } from '../../components/CardSheet';
 import { CardFace } from '../../components/CardFace';
 import { LOSS_COINS, WIN_COINS } from '../../game/economy';
@@ -93,16 +92,16 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id:
     if (sheet && refKey(sheet.ref) === refKey(ref)) { setSheet(null); return; }
     setSheet({ code, ref });
   };
-  const iconFor = (label: string, code: number) => {
-    const t = cards[String(code)]?.type ?? 0;
-    if (label === 'Invocar' || label === 'Invocar por efeito') return ICONS.card;
+  const iconFor = (label: string) => {
+    if (label === 'Invocar') return ICONS.summon;
+    if (label === 'Invocar por efeito') return ICONS.special;
     if (label === 'Atacar') return ICONS.attack;
     if (label === 'Ataque direto') return ICONS.direct;
-    if (label === 'Baixar') return isMonster(t) ? ICONS.set : ICONS.spellset;
+    if (label === 'Baixar') return ICONS.set;
     if (label === 'Mudar posição') return ICONS.swap;
-    return ICONS.bolt;
+    return ICONS.activate;
   };
-  const sheetActions = sheet ? cardActions(prompt, sheet.ref).map((a) => ({ label: a.label, primary: a.primary, icon: iconFor(a.label, sheet.code), onClick: () => { setActor({ code: sheet.code, attack: a.label === 'Atacar' }); reply(a.response); } })) : [];
+  const sheetActions = sheet ? cardActions(prompt, sheet.ref).map((a) => ({ label: a.label, primary: a.primary, icon: iconFor(a.label), onClick: () => { setActor({ code: sheet.code, attack: a.label === 'Atacar' }); reply(a.response); } })) : [];
 
   const dbgBox = debugOn ? <div className="dbg">worker: última resposta há {engine.lastPongAgo()} s{engine.dbg.map((l, i) => <div key={i}>{l}</div>)}</div> : null;
   if (!board) return <div className="duel hexbg"><div className="stats">Carregando motor…</div>{dbgBox}{fail && <p className="errtext">{fail}</p>}</div>;

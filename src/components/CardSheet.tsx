@@ -1,9 +1,9 @@
 import { useState, type ReactNode } from 'react';
-import { ArrowsClockwise, Crosshair, Eye, Lightning, Sword, X } from '@phosphor-icons/react';
+import { ArrowsClockwise, CompassRose, Crosshair, Eye, EyeSlash, Link, Sparkle, Sword, Tornado, X } from '@phosphor-icons/react';
 import type { Cards } from '../data/cards';
 import { attrIcon, attrName, formatStat, frameOf, isMonster, propertyIcon, raceIcon, raceName, typeLine } from '../data/labels';
 
-const BASE = import.meta.env.BASE_URL;
+export const BASE = import.meta.env.BASE_URL;
 const MAX_STARS = 12;
 export const art = (code: number, size: 'small' | 'large' | 'cropped') => `${BASE}cards/${size}/${code}.webp`;
 /**
@@ -27,13 +27,17 @@ export function CardIcon({ name }: { name: string | null }) {
 }
 
 const PH = { size: 22, weight: 'fill' } as const;
-/** Ícones das ações. Posições (invocar/baixar) são desenhos próprios; o resto é Phosphor, como no nativo. */
+/**
+ * Ícones das ações, todos do Phosphor (consistência com o resto da interface). A escolha de cada um seguiu o ícone do
+ * Tag Force correspondente: estouro (ativar), redemoinho (invocar); Invocação-Especial e baixar (virada, oculta) escolhidos pelo jogador.
+ */
 export const ICONS = {
-  card: <svg viewBox="0 0 24 24" width="22" height="22"><rect x="6" y="2" width="12" height="20" rx="2" fill="#fff" /><rect x="8" y="4" width="8" height="10" fill="#0b1c3f" /></svg>,
-  set: <svg viewBox="0 0 24 24" width="22" height="22"><rect x="2" y="6" width="20" height="12" rx="2.5" fill="#0b1c3f" stroke="#fff" strokeWidth="2" /><ellipse cx="12" cy="12" rx="6" ry="2.6" fill="none" stroke="#7fc0ff" strokeWidth="1.8" /></svg>,
-  spellset: <svg viewBox="0 0 24 24" width="22" height="22"><rect x="6" y="2" width="12" height="20" rx="2" fill="#0b1c3f" stroke="#fff" strokeWidth="2" /><text x="12" y="16" textAnchor="middle" fontSize="11" fontWeight="800" fill="#fff">0</text></svg>,
-  bolt: <Lightning {...PH} />,
+  activate: <Sparkle {...PH} />,
+  summon: <Tornado {...PH} />,
+  special: <CompassRose {...PH} />,
+  set: <EyeSlash {...PH} />,
   swap: <ArrowsClockwise {...PH} />,
+  chain: <Link {...PH} />,
   attack: <Sword {...PH} />,
   direct: <Crosshair {...PH} />,
   eye: <Eye {...PH} />,

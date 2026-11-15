@@ -70,6 +70,8 @@ Regra deste change: **nenhuma mudança de comportamento sem um teste que a cubra
 - [x] 8.7 Tocar de novo na carta aberta fecha a folha.
 - [x] 8.8 "Ver campo" em todos os painéis de resposta e escolha; no lugar do painel, a barra "Só olhando" (PeekBar do nativo). O painel fica escondido sem desmontar, então guarda o que estava marcado ou ordenado.
 - [x] 8.9 Escolha de cartas como no nativo (`choice.ts`, `ChoicePanels.tsx`): com tudo no campo ou na mão, barra compacta (carta que age, título, dica, contador) e toque nas cartas que brilham (alvo de ataque em vermelho); com cartas fora do campo, fileira de cartas com a origem. Testes em `choice.test.ts`; conferência visual em dev com `?choices`.
+- [x] 8.10 Selo da face com os ícones oficiais (atributo, `card-spell`/`card-trap`; o kanji só sem eles); texto da folha inteiro até um terço da tela; ícone de propriedade para todas as Magias/Armadilhas (os seis oficiais, recortados do atlas do Tag Force 3 por `scripts/copy_card_icons.py`).
+- [x] 8.11 Ícones das ações só do Phosphor (consistência): Sparkle (ativar), Tornado (invocar), CompassRose (Invocação-Especial), EyeSlash (baixar), ArrowsClockwise (mudar posição), Link (corrente), Sword/Crosshair (ataque). A escolha seguiu os ícones do Tag Force rotulados no labeler de ícones (`tools/icon-labeler`, `scripts/extract_action_icons.py`).
 
 ## Workflow follow-up
 

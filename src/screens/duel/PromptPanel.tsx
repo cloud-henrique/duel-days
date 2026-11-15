@@ -1,6 +1,5 @@
 import type { ReactNode } from 'react';
 import { OcgMessageType, OcgPosition, OcgResponseType, type OcgMessage, type OcgResponse } from 'ocgcore-wasm';
-import { Warning } from '@phosphor-icons/react';
 import { freePlaces } from '../../engine/cpu';
 import { ICONS } from '../../components/CardSheet';
 import type { Cards } from '../../data/cards';
@@ -27,9 +26,9 @@ export function promptPanel(m: OcgMessage | null, ctx: {
   switch (m.type) {
     case OcgMessageType.SELECT_CHAIN:
       return <>
-        <div className="alert"><Warning size={20} weight="fill" color="#f59e0b" /><b>{ctx.evText || 'Responder em corrente?'}</b></div>
+        <div className="alert">{ICONS.chain}<b>{ctx.evText || 'Responder em corrente?'}</b></div>
         <p className="sub">Você pode responder.</p>
-        {m.selects.map((c, i) => <button key={i} className="hud-btn wide primary" onClick={() => reply({ type: OcgResponseType.SELECT_CHAIN, index: i })}>{ICONS.bolt}<span>{name(c.code)}</span></button>)}
+        {m.selects.map((c, i) => <button key={i} className="hud-btn wide primary" onClick={() => reply({ type: OcgResponseType.SELECT_CHAIN, index: i })}>{ICONS.activate}<span>{name(c.code)}</span></button>)}
         {!m.forced && <button className="hud-btn wide" onClick={() => reply({ type: OcgResponseType.SELECT_CHAIN, index: null })}><span>Passar</span></button>}
         {!m.forced && <button className="linkbtn" onClick={() => { ctx.autoPass(); reply({ type: OcgResponseType.SELECT_CHAIN, index: null }); }}>Não perguntar mais neste duelo</button>}
       </>;
