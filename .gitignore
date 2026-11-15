@@ -35,4 +35,5 @@ assets/cards/
 # Mantém só os metadados leves (manifest e rótulos manuais)
 !assets/characters/manifest.json
 !assets/characters/labels.json
+!assets/characters/characters.json
 !assets/characters/README.md

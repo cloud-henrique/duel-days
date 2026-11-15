@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "scripts": {
     "labeler": "python3 tools/labeler/server.py",
-    "filter-dm": "python3 scripts/filter_dm.py"
+    "filter-dm": "python3 scripts/filter_dm.py",
+    "build-characters": "python3 scripts/build_characters.py"
   }
 }

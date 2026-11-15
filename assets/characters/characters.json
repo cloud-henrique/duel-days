@@ -1,0 +1,1196 @@
+{
+ "characters": [
+  {
+   "id": "arkana",
+   "name": "Arkana",
+   "body": "arkana/full_chara007.png",
+   "faces": {
+    "neutral": [
+     "arkana/faces/chara007_01.png"
+    ],
+    "laugh": [
+     "arkana/faces/chara007_02.png"
+    ],
+    "angry": [
+     "arkana/faces/chara007_03.png"
+    ],
+    "surprised": [
+     "arkana/faces/chara007_04.png"
+    ],
+    "sad": [
+     "arkana/faces/chara007_05.png"
+    ],
+    "embarrassed": [
+     "arkana/faces/chara007_06.png"
+    ],
+    "worried": [
+     "arkana/faces/chara007_07.png"
+    ]
+   }
+  },
+  {
+   "id": "bakura",
+   "name": "Bakura",
+   "body": "bakura/full_chara007.png",
+   "faces": {
+    "neutral": [
+     "bakura/faces/chara007_01.png"
+    ],
+    "laugh": [
+     "bakura/faces/chara007_02.png"
+    ],
+    "angry": [
+     "bakura/faces/chara007_03.png"
+    ],
+    "surprised": [
+     "bakura/faces/chara007_04.png"
+    ],
+    "sad": [
+     "bakura/faces/chara007_05.png"
+    ],
+    "embarrassed": [
+     "bakura/faces/chara007_06.png"
+    ]
+   }
+  },
+  {
+   "id": "bandit_keith",
+   "name": "Bandit Keith",
+   "body": "bandit_keith/full_chara007.png",
+   "faces": {
+    "neutral": [
+     "bandit_keith/faces/chara007_01.png"
+    ],
+    "laugh": [
+     "bandit_keith/faces/chara007_02.png"
+    ],
+    "angry": [
+     "bandit_keith/faces/chara007_03.png"
+    ],
+    "surprised": [
+     "bandit_keith/faces/chara007_04.png"
+    ],
+    "sad": [
+     "bandit_keith/faces/chara007_05.png"
+    ],
+    "embarrassed": [
+     "bandit_keith/faces/chara007_06.png"
+    ]
+   }
+  },
+  {
+   "id": "bonz",
+   "name": "Bonz",
+   "body": "bonz/full_chara007.png",
+   "faces": {
+    "neutral": [
+     "bonz/faces/chara007_01.png"
+    ],
+    "laugh": [
+     "bonz/faces/chara007_02.png"
+    ],
+    "angry": [
+     "bonz/faces/chara007_03.png"
+    ],
+    "surprised": [
+     "bonz/faces/chara007_04.png"
+    ],
+    "sad": [
+     "bonz/faces/chara007_05.png"
+    ],
+    "embarrassed": [
+     "bonz/faces/chara007_06.png"
+    ]
+   }
+  },
+  {
+   "id": "dox",
+   "name": "Dox",
+   "body": "dox/full_chara007.png",
+   "faces": {
+    "neutral": [
+     "dox/faces/chara007_01.png"
+    ],
+    "laugh": [
+     "dox/faces/chara007_02.png"
+    ],
+    "angry": [
+     "dox/faces/chara007_03.png"
+    ],
+    "surprised": [
+     "dox/faces/chara007_04.png"
+    ],
+    "sad": [
+     "dox/faces/chara007_05.png"
+    ],
+    "embarrassed": [
+     "dox/faces/chara007_06.png"
+    ]
+   }
+  },
+  {
+   "id": "duke_devlin",
+   "name": "Duke Devlin",
+   "body": "duke_devlin/full_chara007.png",
+   "faces": {
+    "neutral": [
+     "duke_devlin/faces/chara007_01.png"
+    ],
+    "laugh": [
+     "duke_devlin/faces/chara007_02.png"
+    ],
+    "angry": [
+     "duke_devlin/faces/chara007_03.png"
+    ],
+    "surprised": [
+     "duke_devlin/faces/chara007_04.png"
+    ],
+    "sad": [
+     "duke_devlin/faces/chara007_05.png"
+    ],
+    "embarrassed": [
+     "duke_devlin/faces/chara007_06.png"
+    ],
+    "worried": [
+     "duke_devlin/faces/chara007_07.png"
+    ],
+    "smug": [
+     "duke_devlin/faces/chara007_08.png"
+    ],
+    "scared": [
+     "duke_devlin/faces/chara007_09.png"
+    ]
+   }
+  },
+  {
+   "id": "espa_roba",
+   "name": "Espa Roba",
+   "body": "espa_roba/full_chara007.png",
+   "faces": {
+    "neutral": [
+     "espa_roba/faces/chara007_01.png"
+    ],
+    "laugh": [
+     "espa_roba/faces/chara007_02.png"
+    ],
+    "angry": [
+     "espa_roba/faces/chara007_03.png"
+    ],
+    "surprised": [
+     "espa_roba/faces/chara007_04.png"
+    ],
+    "sad": [
+     "espa_roba/faces/chara007_05.png"
+    ],
+    "embarrassed": [
+     "espa_roba/faces/chara007_06.png"
+    ],
+    "worried": [
+     "espa_roba/faces/chara007_07.png"
+    ]
+   }
+  },
+  {
+   "id": "ishizu_ishtar",
+   "name": "Ishizu Ishtar",
+   "body": "ishizu_ishtar/full_chara007.png",
+   "faces": {
+    "neutral": [
+     "ishizu_ishtar/faces/chara007_01.png"
+    ],
+    "laugh": [
+     "ishizu_ishtar/faces/chara007_02.png"
+    ],
+    "angry": [
+     "ishizu_ishtar/faces/chara007_03.png"
+    ],
+    "surprised": [
+     "ishizu_ishtar/faces/chara007_04.png"
+    ],
+    "sad": [
+     "ishizu_ishtar/faces/chara007_05.png"
+    ],
+    "embarrassed": [
+     "ishizu_ishtar/faces/chara007_06.png"
+    ]
+   }
+  },
+  {
+   "id": "joey_wheeler",
+   "name": "Joey Wheeler",
+   "body": "joey_wheeler/full_chara007.png",
+   "faces": {
+    "neutral": [
+     "joey_wheeler/faces/chara007_01.png"
+    ],
+    "laugh": [
+     "joey_wheeler/faces/chara007_02.png"
+    ],
+    "angry": [
+     "joey_wheeler/faces/chara007_03_alt1.png"
+    ],
+    "surprised": [
+     "joey_wheeler/faces/chara007_04.png"
+    ],
+    "sad": [
+     "joey_wheeler/faces/chara007_05.png"
+    ],
+    "serious": [
+     "joey_wheeler/faces/chara007_05_alt1.png"
+    ],
+    "embarrassed": [
+     "joey_wheeler/faces/chara007_06.png"
+    ],
+    "worried": [
+     "joey_wheeler/faces/chara007_06_alt1.png"
+    ]
+   }
+  },
+  {
+   "id": "joey_wheeler_dsod",
+   "name": "Joey Wheeler (DSoD)",
+   "body": "joey_wheeler_dsod/full_chara007.png",
+   "faces": {
+    "neutral": [
+     "joey_wheeler_dsod/faces/chara007_01.png"
+    ],
+    "laugh": [
+     "joey_wheeler_dsod/faces/chara007_02.png"
+    ],
+    "angry": [
+     "joey_wheeler_dsod/faces/chara007_03.png"
+    ],
+    "surprised": [
+     "joey_wheeler_dsod/faces/chara007_04.png"
+    ],
+    "sad": [
+     "joey_wheeler_dsod/faces/chara007_05.png"
+    ],
+    "embarrassed": [
+     "joey_wheeler_dsod/faces/chara007_06.png"
+    ],
+    "happy": [
+     "joey_wheeler_dsod/faces/chara007_07.png"
+    ],
+    "worried": [
+     "joey_wheeler_dsod/faces/chara007_08.png"
+    ],
+    "smug": [
+     "joey_wheeler_dsod/faces/chara007_09.png"
+    ]
+   }
+  },
+  {
+   "id": "mai_valentine",
+   "name": "Mai Valentine",
+   "body": "mai_valentine/full_chara007.png",
+   "faces": {
+    "neutral": [
+     "mai_valentine/faces/chara007_01.png"
+    ],
+    "laugh": [
+     "mai_valentine/faces/chara007_02.png"
+    ],
+    "angry": [
+     "mai_valentine/faces/chara007_03.png"
+    ],
+    "surprised": [
+     "mai_valentine/faces/chara007_04.png"
+    ],
+    "sad": [
+     "mai_valentine/faces/chara007_05.png"
+    ],
+    "embarrassed": [
+     "mai_valentine/faces/chara007_06.png"
+    ],
+    "smug": [
+     "mai_valentine/faces/chara007_07.png"
+    ]
+   }
+  },
+  {
+   "id": "mako_tsunami",
+   "name": "Mako Tsunami",
+   "body": "mako_tsunami/full_chara007.png",
+   "faces": {
+    "neutral": [
+     "mako_tsunami/faces/chara007_01.png"
+    ],
+    "laugh": [
+     "mako_tsunami/faces/chara007_02.png"
+    ],
+    "angry": [
+     "mako_tsunami/faces/chara007_03.png"
+    ],
+    "surprised": [
+     "mako_tsunami/faces/chara007_04.png"
+    ],
+    "sad": [
+     "mako_tsunami/faces/chara007_05.png"
+    ],
+    "embarrassed": [
+     "mako_tsunami/faces/chara007_06.png"
+    ]
+   }
+  },
+  {
+   "id": "marik_ishtar",
+   "name": "Marik Ishtar",
+   "body": "marik_ishtar/full_chara007.png",
+   "faces": {
+    "neutral": [
+     "marik_ishtar/faces/chara007_01.png"
+    ],
+    "laugh": [
+     "marik_ishtar/faces/chara007_02.png"
+    ],
+    "angry": [
+     "marik_ishtar/faces/chara007_03.png"
+    ],
+    "surprised": [
+     "marik_ishtar/faces/chara007_04.png"
+    ],
+    "sad": [
+     "marik_ishtar/faces/chara007_05.png"
+    ],
+    "embarrassed": [
+     "marik_ishtar/faces/chara007_06.png"
+    ]
+   }
+  },
+  {
+   "id": "maximillion_pegasus",
+   "name": "Maximillion Pegasus",
+   "body": "maximillion_pegasus/full_chara007.png",
+   "faces": {
+    "neutral": [
+     "maximillion_pegasus/faces/chara007_01.png"
+    ],
+    "laugh": [
+     "maximillion_pegasus/faces/chara007_02.png"
+    ],
+    "angry": [
+     "maximillion_pegasus/faces/chara007_03.png"
+    ],
+    "surprised": [
+     "maximillion_pegasus/faces/chara007_04.png"
+    ],
+    "sad": [
+     "maximillion_pegasus/faces/chara007_05.png"
+    ],
+    "embarrassed": [
+     "maximillion_pegasus/faces/chara007_06.png"
+    ]
+   }
+  },
+  {
+   "id": "mokuba_kaiba",
+   "name": "Mokuba Kaiba",
+   "body": "mokuba_kaiba/full_chara007.png",
+   "faces": {
+    "neutral": [
+     "mokuba_kaiba/faces/chara007_01.png"
+    ],
+    "laugh": [
+     "mokuba_kaiba/faces/chara007_02.png"
+    ],
+    "angry": [
+     "mokuba_kaiba/faces/chara007_03.png"
+    ],
+    "surprised": [
+     "mokuba_kaiba/faces/chara007_04.png"
+    ],
+    "sad": [
+     "mokuba_kaiba/faces/chara007_05.png"
+    ],
+    "embarrassed": [
+     "mokuba_kaiba/faces/chara007_06.png"
+    ]
+   }
+  },
+  {
+   "id": "mokuba_kaiba_dsod",
+   "name": "Mokuba Kaiba (DSoD)",
+   "body": "mokuba_kaiba_dsod/full_chara007.png",
+   "faces": {
+    "neutral": [
+     "mokuba_kaiba_dsod/faces/chara007_01.png"
+    ],
+    "laugh": [
+     "mokuba_kaiba_dsod/faces/chara007_02.png"
+    ],
+    "angry": [
+     "mokuba_kaiba_dsod/faces/chara007_03.png"
+    ],
+    "surprised": [
+     "mokuba_kaiba_dsod/faces/chara007_04.png"
+    ],
+    "sad": [
+     "mokuba_kaiba_dsod/faces/chara007_05.png"
+    ],
+    "embarrassed": [
+     "mokuba_kaiba_dsod/faces/chara007_06.png"
+    ],
+    "worried": [
+     "mokuba_kaiba_dsod/faces/chara007_07.png"
+    ],
+    "smug": [
+     "mokuba_kaiba_dsod/faces/chara007_08.png"
+    ]
+   }
+  },
+  {
+   "id": "npc_duelists_common__ashley",
+   "name": "NPC Duelists (Common) / Ashley",
+   "body": "npc_duelists_common__ashley/full_chara007.png",
+   "faces": {
+    "neutral": [
+     "npc_duelists_common__ashley/faces/chara007_01.png"
+    ],
+    "laugh": [
+     "npc_duelists_common__ashley/faces/chara007_02.png"
+    ],
+    "angry": [
+     "npc_duelists_common__ashley/faces/chara007_03.png"
+    ],
+    "surprised": [
+     "npc_duelists_common__ashley/faces/chara007_04.png"
+    ],
+    "sad": [
+     "npc_duelists_common__ashley/faces/chara007_05.png"
+    ],
+    "embarrassed": [
+     "npc_duelists_common__ashley/faces/chara007_06.png"
+    ]
+   }
+  },
+  {
+   "id": "npc_duelists_common__bella",
+   "name": "NPC Duelists (Common) / Bella",
+   "body": "npc_duelists_common__bella/full_chara007.png",
+   "faces": {
+    "neutral": [
+     "npc_duelists_common__bella/faces/chara007_01.png"
+    ],
+    "laugh": [
+     "npc_duelists_common__bella/faces/chara007_02.png"
+    ],
+    "angry": [
+     "npc_duelists_common__bella/faces/chara007_03.png"
+    ],
+    "surprised": [
+     "npc_duelists_common__bella/faces/chara007_04.png"
+    ],
+    "sad": [
+     "npc_duelists_common__bella/faces/chara007_05.png"
+    ],
+    "embarrassed": [
+     "npc_duelists_common__bella/faces/chara007_06.png"
+    ]
+   }
+  },
+  {
+   "id": "npc_duelists_common__david",
+   "name": "NPC Duelists (Common) / David",
+   "body": "npc_duelists_common__david/full_chara007.png",
+   "faces": {
+    "neutral": [
+     "npc_duelists_common__david/faces/chara007_01.png"
+    ],
+    "laugh": [
+     "npc_duelists_common__david/faces/chara007_02.png"
+    ],
+    "angry": [
+     "npc_duelists_common__david/faces/chara007_03.png"
+    ],
+    "surprised": [
+     "npc_duelists_common__david/faces/chara007_04.png"
+    ],
+    "sad": [
+     "npc_duelists_common__david/faces/chara007_05.png"
+    ],
+    "embarrassed": [
+     "npc_duelists_common__david/faces/chara007_06.png"
+    ]
+   }
+  },
+  {
+   "id": "npc_duelists_common__emma",
+   "name": "NPC Duelists (Common) / Emma",
+   "body": "npc_duelists_common__emma/full_chara007.png",
+   "faces": {
+    "neutral": [
+     "npc_duelists_common__emma/faces/chara007_01.png"
+    ],
+    "laugh": [
+     "npc_duelists_common__emma/faces/chara007_02.png"
+    ],
+    "angry": [
+     "npc_duelists_common__emma/faces/chara007_03.png"
+    ],
+    "surprised": [
+     "npc_duelists_common__emma/faces/chara007_04.png"
+    ],
+    "sad": [
+     "npc_duelists_common__emma/faces/chara007_05.png"
+    ],
+    "embarrassed": [
+     "npc_duelists_common__emma/faces/chara007_06.png"
+    ]
+   }
+  },
+  {
+   "id": "npc_duelists_common__jay",
+   "name": "NPC Duelists (Common) / Jay",
+   "body": "npc_duelists_common__jay/full_chara007.png",
+   "faces": {
+    "neutral": [
+     "npc_duelists_common__jay/faces/chara007_01.png"
+    ],
+    "laugh": [
+     "npc_duelists_common__jay/faces/chara007_02.png"
+    ],
+    "angry": [
+     "npc_duelists_common__jay/faces/chara007_03.png"
+    ],
+    "surprised": [
+     "npc_duelists_common__jay/faces/chara007_04.png"
+    ],
+    "sad": [
+     "npc_duelists_common__jay/faces/chara007_05.png"
+    ],
+    "embarrassed": [
+     "npc_duelists_common__jay/faces/chara007_06.png"
+    ]
+   }
+  },
+  {
+   "id": "npc_duelists_common__meg",
+   "name": "NPC Duelists (Common) / Meg",
+   "body": "npc_duelists_common__meg/full_chara007.png",
+   "faces": {
+    "neutral": [
+     "npc_duelists_common__meg/faces/chara007_01.png"
+    ],
+    "laugh": [
+     "npc_duelists_common__meg/faces/chara007_02.png"
+    ],
+    "angry": [
+     "npc_duelists_common__meg/faces/chara007_03.png"
+    ],
+    "surprised": [
+     "npc_duelists_common__meg/faces/chara007_04.png"
+    ],
+    "sad": [
+     "npc_duelists_common__meg/faces/chara007_05.png"
+    ],
+    "embarrassed": [
+     "npc_duelists_common__meg/faces/chara007_06.png"
+    ]
+   }
+  },
+  {
+   "id": "npc_duelists_common__mickey",
+   "name": "NPC Duelists (Common) / Mickey",
+   "body": "npc_duelists_common__mickey/full_chara007.png",
+   "faces": {
+    "neutral": [
+     "npc_duelists_common__mickey/faces/chara007_01.png"
+    ],
+    "laugh": [
+     "npc_duelists_common__mickey/faces/chara007_02.png"
+    ],
+    "angry": [
+     "npc_duelists_common__mickey/faces/chara007_03.png"
+    ],
+    "surprised": [
+     "npc_duelists_common__mickey/faces/chara007_04.png"
+    ],
+    "sad": [
+     "npc_duelists_common__mickey/faces/chara007_05.png"
+    ],
+    "embarrassed": [
+     "npc_duelists_common__mickey/faces/chara007_06.png"
+    ]
+   }
+  },
+  {
+   "id": "npc_duelists_common__nick",
+   "name": "NPC Duelists (Common) / Nick",
+   "body": "npc_duelists_common__nick/full_chara007.png",
+   "faces": {
+    "neutral": [
+     "npc_duelists_common__nick/faces/chara007_01.png"
+    ],
+    "laugh": [
+     "npc_duelists_common__nick/faces/chara007_02.png"
+    ],
+    "angry": [
+     "npc_duelists_common__nick/faces/chara007_03.png"
+    ],
+    "surprised": [
+     "npc_duelists_common__nick/faces/chara007_04.png"
+    ],
+    "sad": [
+     "npc_duelists_common__nick/faces/chara007_05.png"
+    ],
+    "embarrassed": [
+     "npc_duelists_common__nick/faces/chara007_06.png"
+    ]
+   }
+  },
+  {
+   "id": "npc_duelists_dm__andrew",
+   "name": "NPC Duelists (DM) / Andrew",
+   "body": "npc_duelists_dm__andrew/full_chara007.png",
+   "faces": {
+    "neutral": [
+     "npc_duelists_dm__andrew/faces/chara007_01.png"
+    ],
+    "laugh": [
+     "npc_duelists_dm__andrew/faces/chara007_02.png"
+    ],
+    "angry": [
+     "npc_duelists_dm__andrew/faces/chara007_03.png"
+    ],
+    "surprised": [
+     "npc_duelists_dm__andrew/faces/chara007_04.png"
+    ],
+    "sad": [
+     "npc_duelists_dm__andrew/faces/chara007_05.png"
+    ],
+    "embarrassed": [
+     "npc_duelists_dm__andrew/faces/chara007_06.png"
+    ]
+   }
+  },
+  {
+   "id": "npc_duelists_dm__christine",
+   "name": "NPC Duelists (DM) / Christine",
+   "body": "npc_duelists_dm__christine/full_chara007.png",
+   "faces": {
+    "neutral": [
+     "npc_duelists_dm__christine/faces/chara007_01.png"
+    ],
+    "laugh": [
+     "npc_duelists_dm__christine/faces/chara007_02.png"
+    ],
+    "angry": [
+     "npc_duelists_dm__christine/faces/chara007_03.png"
+    ],
+    "surprised": [
+     "npc_duelists_dm__christine/faces/chara007_04.png"
+    ],
+    "sad": [
+     "npc_duelists_dm__christine/faces/chara007_05.png"
+    ],
+    "embarrassed": [
+     "npc_duelists_dm__christine/faces/chara007_06.png"
+    ]
+   }
+  },
+  {
+   "id": "npc_duelists_dm__daniel",
+   "name": "NPC Duelists (DM) / Daniel",
+   "body": "npc_duelists_dm__daniel/full_chara007.png",
+   "faces": {
+    "neutral": [
+     "npc_duelists_dm__daniel/faces/chara007_01.png"
+    ],
+    "laugh": [
+     "npc_duelists_dm__daniel/faces/chara007_02.png"
+    ],
+    "angry": [
+     "npc_duelists_dm__daniel/faces/chara007_03.png"
+    ],
+    "surprised": [
+     "npc_duelists_dm__daniel/faces/chara007_04.png"
+    ],
+    "sad": [
+     "npc_duelists_dm__daniel/faces/chara007_05.png"
+    ],
+    "embarrassed": [
+     "npc_duelists_dm__daniel/faces/chara007_06.png"
+    ]
+   }
+  },
+  {
+   "id": "npc_duelists_dm__hailey",
+   "name": "NPC Duelists (DM) / Hailey",
+   "body": "npc_duelists_dm__hailey/full_chara007.png",
+   "faces": {
+    "neutral": [
+     "npc_duelists_dm__hailey/faces/chara007_01.png"
+    ],
+    "laugh": [
+     "npc_duelists_dm__hailey/faces/chara007_02.png"
+    ],
+    "angry": [
+     "npc_duelists_dm__hailey/faces/chara007_03.png"
+    ],
+    "surprised": [
+     "npc_duelists_dm__hailey/faces/chara007_04.png"
+    ],
+    "sad": [
+     "npc_duelists_dm__hailey/faces/chara007_05.png"
+    ],
+    "embarrassed": [
+     "npc_duelists_dm__hailey/faces/chara007_06.png"
+    ]
+   }
+  },
+  {
+   "id": "npc_duelists_dm__jess",
+   "name": "NPC Duelists (DM) / Jess",
+   "body": "npc_duelists_dm__jess/full_chara007.png",
+   "faces": {
+    "neutral": [
+     "npc_duelists_dm__jess/faces/chara007_01.png"
+    ],
+    "laugh": [
+     "npc_duelists_dm__jess/faces/chara007_02.png"
+    ],
+    "angry": [
+     "npc_duelists_dm__jess/faces/chara007_03.png"
+    ],
+    "surprised": [
+     "npc_duelists_dm__jess/faces/chara007_04.png"
+    ],
+    "sad": [
+     "npc_duelists_dm__jess/faces/chara007_05.png"
+    ],
+    "embarrassed": [
+     "npc_duelists_dm__jess/faces/chara007_06.png"
+    ]
+   }
+  },
+  {
+   "id": "npc_duelists_dm__josh",
+   "name": "NPC Duelists (DM) / Josh",
+   "body": "npc_duelists_dm__josh/full_chara007.png",
+   "faces": {
+    "neutral": [
+     "npc_duelists_dm__josh/faces/chara007_01.png"
+    ],
+    "laugh": [
+     "npc_duelists_dm__josh/faces/chara007_02.png"
+    ],
+    "angry": [
+     "npc_duelists_dm__josh/faces/chara007_03.png"
+    ],
+    "surprised": [
+     "npc_duelists_dm__josh/faces/chara007_04.png"
+    ],
+    "sad": [
+     "npc_duelists_dm__josh/faces/chara007_05.png"
+    ],
+    "embarrassed": [
+     "npc_duelists_dm__josh/faces/chara007_06.png"
+    ]
+   }
+  },
+  {
+   "id": "odion",
+   "name": "Odion",
+   "body": "odion/full_chara007.png",
+   "faces": {
+    "neutral": [
+     "odion/faces/chara007_01.png"
+    ],
+    "laugh": [
+     "odion/faces/chara007_02.png"
+    ],
+    "angry": [
+     "odion/faces/chara007_03.png"
+    ],
+    "surprised": [
+     "odion/faces/chara007_04.png"
+    ],
+    "sad": [
+     "odion/faces/chara007_05.png"
+    ],
+    "embarrassed": [
+     "odion/faces/chara007_06.png"
+    ]
+   }
+  },
+  {
+   "id": "rare_hunter",
+   "name": "Rare Hunter",
+   "body": "rare_hunter/full_chara007.png",
+   "faces": {
+    "neutral": [
+     "rare_hunter/faces/chara007_01.png"
+    ],
+    "laugh": [
+     "rare_hunter/faces/chara007_02.png"
+    ],
+    "angry": [
+     "rare_hunter/faces/chara007_03.png"
+    ],
+    "worried": [
+     "rare_hunter/faces/chara007_04.png"
+    ],
+    "sad": [
+     "rare_hunter/faces/chara007_05.png"
+    ],
+    "embarrassed": [
+     "rare_hunter/faces/chara007_06.png"
+    ],
+    "scared": [
+     "rare_hunter/faces/chara007_07.png"
+    ]
+   }
+  },
+  {
+   "id": "rex_raptor",
+   "name": "Rex Raptor",
+   "body": "rex_raptor/full_chara007.png",
+   "faces": {
+    "neutral": [
+     "rex_raptor/faces/chara007_01.png"
+    ],
+    "laugh": [
+     "rex_raptor/faces/chara007_02.png"
+    ],
+    "angry": [
+     "rex_raptor/faces/chara007_03.png"
+    ],
+    "surprised": [
+     "rex_raptor/faces/chara007_04.png"
+    ],
+    "sad": [
+     "rex_raptor/faces/chara007_05.png"
+    ],
+    "embarrassed": [
+     "rex_raptor/faces/chara007_06.png"
+    ]
+   }
+  },
+  {
+   "id": "seto_kaiba",
+   "name": "Seto Kaiba",
+   "body": "seto_kaiba/full_chara007.png",
+   "faces": {
+    "neutral": [
+     "seto_kaiba/faces/chara007_01.png"
+    ],
+    "laugh": [
+     "seto_kaiba/faces/chara007_02.png"
+    ],
+    "angry": [
+     "seto_kaiba/faces/chara007_03.png"
+    ],
+    "surprised": [
+     "seto_kaiba/faces/chara007_04.png"
+    ],
+    "sad": [
+     "seto_kaiba/faces/chara007_05.png"
+    ],
+    "embarrassed": [
+     "seto_kaiba/faces/chara007_06.png"
+    ],
+    "worried": [
+     "seto_kaiba/faces/chara007_07.png"
+    ]
+   }
+  },
+  {
+   "id": "seto_kaiba_dsod",
+   "name": "Seto Kaiba (DSoD)",
+   "body": "seto_kaiba_dsod/full_chara007.png",
+   "faces": {
+    "neutral": [
+     "seto_kaiba_dsod/faces/chara007_01.png"
+    ],
+    "laugh": [
+     "seto_kaiba_dsod/faces/chara007_02.png"
+    ],
+    "angry": [
+     "seto_kaiba_dsod/faces/chara007_03.png"
+    ],
+    "surprised": [
+     "seto_kaiba_dsod/faces/chara007_04.png"
+    ],
+    "sad": [
+     "seto_kaiba_dsod/faces/chara007_05.png"
+    ],
+    "embarrassed": [
+     "seto_kaiba_dsod/faces/chara007_06.png"
+    ],
+    "worried": [
+     "seto_kaiba_dsod/faces/chara007_07.png"
+    ],
+    "smug": [
+     "seto_kaiba_dsod/faces/chara007_08.png"
+    ],
+    "scared": [
+     "seto_kaiba_dsod/faces/chara007_09.png"
+    ]
+   }
+  },
+  {
+   "id": "solomon_muto",
+   "name": "Solomon Muto",
+   "body": "solomon_muto/full_chara007.png",
+   "faces": {
+    "neutral": [
+     "solomon_muto/faces/chara007_01.png"
+    ],
+    "laugh": [
+     "solomon_muto/faces/chara007_02.png"
+    ],
+    "angry": [
+     "solomon_muto/faces/chara007_03.png"
+    ],
+    "surprised": [
+     "solomon_muto/faces/chara007_04.png"
+    ],
+    "sad": [
+     "solomon_muto/faces/chara007_05.png"
+    ],
+    "embarrassed": [
+     "solomon_muto/faces/chara007_06.png"
+    ],
+    "worried": [
+     "solomon_muto/faces/chara007_07.png"
+    ],
+    "thinking": [
+     "solomon_muto/faces/chara007_08.png"
+    ],
+    "smug": [
+     "solomon_muto/faces/chara007_09.png"
+    ],
+    "scared": [
+     "solomon_muto/faces/chara007_10.png"
+    ]
+   }
+  },
+  {
+   "id": "tristan_taylor",
+   "name": "Tristan Taylor",
+   "body": "tristan_taylor/full_chara007.png",
+   "faces": {
+    "neutral": [
+     "tristan_taylor/faces/chara007_01.png"
+    ],
+    "laugh": [
+     "tristan_taylor/faces/chara007_02.png"
+    ],
+    "angry": [
+     "tristan_taylor/faces/chara007_03.png"
+    ],
+    "surprised": [
+     "tristan_taylor/faces/chara007_04.png"
+    ],
+    "sad": [
+     "tristan_taylor/faces/chara007_05.png"
+    ],
+    "embarrassed": [
+     "tristan_taylor/faces/chara007_06.png"
+    ],
+    "happy": [
+     "tristan_taylor/faces/chara007_07.png"
+    ]
+   }
+  },
+  {
+   "id": "tea_gardner",
+   "name": "Téa Gardner",
+   "body": "tea_gardner/full_chara007.png",
+   "faces": {
+    "neutral": [
+     "tea_gardner/faces/chara007_01.png"
+    ],
+    "laugh": [
+     "tea_gardner/faces/chara007_02.png"
+    ],
+    "angry": [
+     "tea_gardner/faces/chara007_03.png"
+    ],
+    "surprised": [
+     "tea_gardner/faces/chara007_04.png"
+    ],
+    "sad": [
+     "tea_gardner/faces/chara007_05.png"
+    ],
+    "embarrassed": [
+     "tea_gardner/faces/chara007_06.png"
+    ]
+   }
+  },
+  {
+   "id": "tea_gardner_dsod",
+   "name": "Téa Gardner (DSoD)",
+   "body": "tea_gardner_dsod/full_chara007.png",
+   "faces": {
+    "neutral": [
+     "tea_gardner_dsod/faces/chara007_01.png"
+    ],
+    "laugh": [
+     "tea_gardner_dsod/faces/chara007_02.png"
+    ],
+    "angry": [
+     "tea_gardner_dsod/faces/chara007_03.png"
+    ],
+    "surprised": [
+     "tea_gardner_dsod/faces/chara007_04.png"
+    ],
+    "sad": [
+     "tea_gardner_dsod/faces/chara007_05.png"
+    ],
+    "embarrassed": [
+     "tea_gardner_dsod/faces/chara007_06.png"
+    ],
+    "happy": [
+     "tea_gardner_dsod/faces/chara007_07.png"
+    ],
+    "smug": [
+     "tea_gardner_dsod/faces/chara007_08.png"
+    ]
+   }
+  },
+  {
+   "id": "weevil_underwood",
+   "name": "Weevil Underwood",
+   "body": "weevil_underwood/full_chara007.png",
+   "faces": {
+    "neutral": [
+     "weevil_underwood/faces/chara007_01.png"
+    ],
+    "laugh": [
+     "weevil_underwood/faces/chara007_02.png"
+    ],
+    "angry": [
+     "weevil_underwood/faces/chara007_03.png"
+    ],
+    "surprised": [
+     "weevil_underwood/faces/chara007_04.png"
+    ],
+    "sad": [
+     "weevil_underwood/faces/chara007_05.png"
+    ],
+    "embarrassed": [
+     "weevil_underwood/faces/chara007_06.png"
+    ]
+   }
+  },
+  {
+   "id": "yami_bakura",
+   "name": "Yami Bakura",
+   "body": "yami_bakura/full_chara007.png",
+   "faces": {
+    "neutral": [
+     "yami_bakura/faces/chara007_01.png"
+    ],
+    "laugh": [
+     "yami_bakura/faces/chara007_02.png"
+    ],
+    "angry": [
+     "yami_bakura/faces/chara007_03.png"
+    ],
+    "surprised": [
+     "yami_bakura/faces/chara007_04.png"
+    ],
+    "sad": [
+     "yami_bakura/faces/chara007_05.png"
+    ],
+    "embarrassed": [
+     "yami_bakura/faces/chara007_06.png"
+    ]
+   }
+  },
+  {
+   "id": "yami_marik",
+   "name": "Yami Marik",
+   "body": "yami_marik/full_chara007.png",
+   "faces": {
+    "neutral": [
+     "yami_marik/faces/chara007_01.png"
+    ],
+    "laugh": [
+     "yami_marik/faces/chara007_02.png"
+    ],
+    "angry": [
+     "yami_marik/faces/chara007_03.png"
+    ],
+    "surprised": [
+     "yami_marik/faces/chara007_04.png"
+    ],
+    "sad": [
+     "yami_marik/faces/chara007_05.png"
+    ],
+    "embarrassed": [
+     "yami_marik/faces/chara007_06.png"
+    ],
+    "happy": [
+     "yami_marik/faces/chara007_07.png"
+    ]
+   }
+  },
+  {
+   "id": "yami_yugi",
+   "name": "Yami Yugi",
+   "body": "yami_yugi/full_chara007.png",
+   "faces": {
+    "neutral": [
+     "yami_yugi/faces/chara007_01.png",
+     "yami_yugi/faces/chara007_01_alt1.png"
+    ],
+    "laugh": [
+     "yami_yugi/faces/chara007_02.png",
+     "yami_yugi/faces/chara007_02_alt1.png"
+    ],
+    "angry": [
+     "yami_yugi/faces/chara007_03.png",
+     "yami_yugi/faces/chara007_03_alt1.png"
+    ],
+    "surprised": [
+     "yami_yugi/faces/chara007_04.png",
+     "yami_yugi/faces/chara007_04_alt1.png"
+    ],
+    "sad": [
+     "yami_yugi/faces/chara007_05.png",
+     "yami_yugi/faces/chara007_05_alt1.png"
+    ],
+    "embarrassed": [
+     "yami_yugi/faces/chara007_06.png",
+     "yami_yugi/faces/chara007_06_alt1.png"
+    ],
+    "worried": [
+     "yami_yugi/faces/chara007_07.png",
+     "yami_yugi/faces/chara007_07_alt1.png"
+    ],
+    "scared": [
+     "yami_yugi/faces/chara007_08.png",
+     "yami_yugi/faces/chara007_08_alt1.png"
+    ]
+   }
+  },
+  {
+   "id": "yugi_muto",
+   "name": "Yugi Muto",
+   "body": "yugi_muto/full_chara007.png",
+   "faces": {
+    "neutral": [
+     "yugi_muto/faces/chara007_01.png"
+    ],
+    "laugh": [
+     "yugi_muto/faces/chara007_02.png"
+    ],
+    "angry": [
+     "yugi_muto/faces/chara007_03.png"
+    ],
+    "surprised": [
+     "yugi_muto/faces/chara007_04.png"
+    ],
+    "sad": [
+     "yugi_muto/faces/chara007_05.png"
+    ],
+    "embarrassed": [
+     "yugi_muto/faces/chara007_06.png"
+    ]
+   }
+  }
+ ]
+}

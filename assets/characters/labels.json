@@ -1,0 +1,644 @@
+{
+ "arkana": {
+  "faces": {
+   "arkana/faces/chara007_01.png": "neutral",
+   "arkana/faces/chara007_02.png": "laugh",
+   "arkana/faces/chara007_03.png": "angry",
+   "arkana/faces/chara007_04.png": "surprised",
+   "arkana/faces/chara007_05.png": "sad",
+   "arkana/faces/chara007_06.png": "embarrassed",
+   "arkana/faces/chara007_07.png": "worried"
+  }
+ },
+ "bakura": {
+  "faces": {
+   "bakura/faces/chara007_01.png": "neutral",
+   "bakura/faces/chara007_02.png": "laugh",
+   "bakura/faces/chara007_03.png": "angry",
+   "bakura/faces/chara007_04.png": "surprised",
+   "bakura/faces/chara007_05.png": "sad",
+   "bakura/faces/chara007_06.png": "embarrassed"
+  }
+ },
+ "bandit_keith": {
+  "faces": {
+   "bandit_keith/faces/chara007_01.png": "neutral",
+   "bandit_keith/faces/chara007_02.png": "laugh",
+   "bandit_keith/faces/chara007_03.png": "angry",
+   "bandit_keith/faces/chara007_04.png": "surprised",
+   "bandit_keith/faces/chara007_05.png": "sad",
+   "bandit_keith/faces/chara007_06.png": "embarrassed"
+  }
+ },
+ "bonz": {
+  "faces": {
+   "bonz/faces/chara007_01.png": "neutral",
+   "bonz/faces/chara007_02.png": "laugh",
+   "bonz/faces/chara007_03.png": "angry",
+   "bonz/faces/chara007_04.png": "surprised",
+   "bonz/faces/chara007_05.png": "sad",
+   "bonz/faces/chara007_06.png": "embarrassed"
+  }
+ },
+ "bronk_stone": {
+  "excluded": true,
+  "faces": {}
+ },
+ "dox": {
+  "faces": {
+   "dox/faces/chara007_01.png": "neutral",
+   "dox/faces/chara007_02.png": "laugh",
+   "dox/faces/chara007_03.png": "angry",
+   "dox/faces/chara007_04.png": "surprised",
+   "dox/faces/chara007_05.png": "sad",
+   "dox/faces/chara007_06.png": "embarrassed"
+  }
+ },
+ "dr_faker": {
+  "excluded": true,
+  "faces": {}
+ },
+ "duke_devlin": {
+  "faces": {
+   "duke_devlin/faces/chara007_01.png": "neutral",
+   "duke_devlin/faces/chara007_02.png": "laugh",
+   "duke_devlin/faces/chara007_03.png": "angry",
+   "duke_devlin/faces/chara007_04.png": "surprised",
+   "duke_devlin/faces/chara007_05.png": "sad",
+   "duke_devlin/faces/chara007_06.png": "embarrassed",
+   "duke_devlin/faces/chara007_07.png": "worried",
+   "duke_devlin/faces/chara007_08.png": "smug",
+   "duke_devlin/faces/chara007_09.png": "scared"
+  }
+ },
+ "espa_roba": {
+  "faces": {
+   "espa_roba/faces/chara007_01.png": "neutral",
+   "espa_roba/faces/chara007_02.png": "laugh",
+   "espa_roba/faces/chara007_03.png": "angry",
+   "espa_roba/faces/chara007_04.png": "surprised",
+   "espa_roba/faces/chara007_05.png": "sad",
+   "espa_roba/faces/chara007_06.png": "embarrassed",
+   "espa_roba/faces/chara007_07.png": "worried"
+  }
+ },
+ "gong_strong": {
+  "excluded": true,
+  "faces": {}
+ },
+ "ishizu_ishtar": {
+  "faces": {
+   "ishizu_ishtar/faces/chara007_01.png": "neutral",
+   "ishizu_ishtar/faces/chara007_02.png": "laugh",
+   "ishizu_ishtar/faces/chara007_03.png": "angry",
+   "ishizu_ishtar/faces/chara007_04.png": "surprised",
+   "ishizu_ishtar/faces/chara007_05.png": "sad",
+   "ishizu_ishtar/faces/chara007_06.png": "embarrassed"
+  }
+ },
+ "joey_wheeler": {
+  "faces": {
+   "joey_wheeler/faces/chara007_01.png": "neutral",
+   "joey_wheeler/faces/chara007_01_alt1.png": "skip",
+   "joey_wheeler/faces/chara007_02.png": "laugh",
+   "joey_wheeler/faces/chara007_02_alt1.png": "skip",
+   "joey_wheeler/faces/chara007_03.png": "skip",
+   "joey_wheeler/faces/chara007_03_alt1.png": "angry",
+   "joey_wheeler/faces/chara007_04.png": "surprised",
+   "joey_wheeler/faces/chara007_04_alt1.png": "skip",
+   "joey_wheeler/faces/chara007_05.png": "sad",
+   "joey_wheeler/faces/chara007_05_alt1.png": "serious",
+   "joey_wheeler/faces/chara007_06.png": "embarrassed",
+   "joey_wheeler/faces/chara007_06_alt1.png": "worried"
+  }
+ },
+ "joey_wheeler_casual": {
+  "faces": {
+   "joey_wheeler_casual/faces/chara003_01.png": "skip",
+   "joey_wheeler_casual/faces/chara003_02.png": "skip",
+   "joey_wheeler_casual/faces/chara003_03.png": "skip",
+   "joey_wheeler_casual/faces/chara003_04.png": "skip",
+   "joey_wheeler_casual/faces/chara003_05.png": "skip",
+   "joey_wheeler_casual/faces/chara003_06.png": "skip",
+   "joey_wheeler_casual/faces/chara003_07.png": "skip",
+   "joey_wheeler_casual/faces/chara003_08.png": "skip",
+   "joey_wheeler_casual/faces/chara003_09.png": "skip",
+   "joey_wheeler_casual/faces/chara003_10.png": "skip",
+   "joey_wheeler_casual/faces/chara003_11.png": "skip",
+   "joey_wheeler_casual/faces/chara007_01.png": "neutral",
+   "joey_wheeler_casual/faces/chara007_02.png": "laugh",
+   "joey_wheeler_casual/faces/chara007_03.png": "angry",
+   "joey_wheeler_casual/faces/chara007_04.png": "surprised",
+   "joey_wheeler_casual/faces/chara007_05.png": "sad",
+   "joey_wheeler_casual/faces/chara007_06.png": "embarrassed",
+   "joey_wheeler_casual/faces/chara007_07.png": "worried",
+   "joey_wheeler_casual/faces/chara007_08.png": "determined",
+   "joey_wheeler_casual/faces/chara007_09.png": "serious",
+   "joey_wheeler_casual/faces/chara007_10.png": "scared",
+   "joey_wheeler_casual/faces/chara007_11.png": "smug"
+  },
+  "note": "Esses com ignorar não usaremos. O número zero é o corpo base"
+ },
+ "joey_wheeler_dsod": {
+  "faces": {
+   "joey_wheeler_dsod/faces/chara007_01.png": "neutral",
+   "joey_wheeler_dsod/faces/chara007_02.png": "laugh",
+   "joey_wheeler_dsod/faces/chara007_03.png": "angry",
+   "joey_wheeler_dsod/faces/chara007_04.png": "surprised",
+   "joey_wheeler_dsod/faces/chara007_05.png": "sad",
+   "joey_wheeler_dsod/faces/chara007_06.png": "embarrassed",
+   "joey_wheeler_dsod/faces/chara007_07.png": "happy",
+   "joey_wheeler_dsod/faces/chara007_08.png": "worried",
+   "joey_wheeler_dsod/faces/chara007_09.png": "smug"
+  }
+ },
+ "lester": {
+  "excluded": true,
+  "faces": {}
+ },
+ "mai_valentine": {
+  "faces": {
+   "mai_valentine/faces/chara007_01.png": "neutral",
+   "mai_valentine/faces/chara007_02.png": "laugh",
+   "mai_valentine/faces/chara007_03.png": "angry",
+   "mai_valentine/faces/chara007_04.png": "surprised",
+   "mai_valentine/faces/chara007_05.png": "sad",
+   "mai_valentine/faces/chara007_06.png": "embarrassed",
+   "mai_valentine/faces/chara007_07.png": "smug"
+  }
+ },
+ "mako_tsunami": {
+  "faces": {
+   "mako_tsunami/faces/chara007_01.png": "neutral",
+   "mako_tsunami/faces/chara007_02.png": "laugh",
+   "mako_tsunami/faces/chara007_03.png": "angry",
+   "mako_tsunami/faces/chara007_04.png": "surprised",
+   "mako_tsunami/faces/chara007_05.png": "sad",
+   "mako_tsunami/faces/chara007_06.png": "embarrassed"
+  }
+ },
+ "marik_ishtar": {
+  "faces": {
+   "marik_ishtar/faces/chara007_01.png": "neutral",
+   "marik_ishtar/faces/chara007_02.png": "laugh",
+   "marik_ishtar/faces/chara007_03.png": "angry",
+   "marik_ishtar/faces/chara007_04.png": "surprised",
+   "marik_ishtar/faces/chara007_05.png": "sad",
+   "marik_ishtar/faces/chara007_06.png": "embarrassed"
+  }
+ },
+ "maximillion_pegasus": {
+  "faces": {
+   "maximillion_pegasus/faces/chara007_01.png": "neutral",
+   "maximillion_pegasus/faces/chara007_02.png": "laugh",
+   "maximillion_pegasus/faces/chara007_03.png": "angry",
+   "maximillion_pegasus/faces/chara007_04.png": "surprised",
+   "maximillion_pegasus/faces/chara007_05.png": "sad",
+   "maximillion_pegasus/faces/chara007_06.png": "embarrassed"
+  }
+ },
+ "mokuba_kaiba": {
+  "faces": {
+   "mokuba_kaiba/faces/chara007_01.png": "neutral",
+   "mokuba_kaiba/faces/chara007_02.png": "laugh",
+   "mokuba_kaiba/faces/chara007_03.png": "angry",
+   "mokuba_kaiba/faces/chara007_04.png": "surprised",
+   "mokuba_kaiba/faces/chara007_05.png": "sad",
+   "mokuba_kaiba/faces/chara007_06.png": "embarrassed"
+  }
+ },
+ "mokuba_kaiba_dsod": {
+  "faces": {
+   "mokuba_kaiba_dsod/faces/chara007_01.png": "neutral",
+   "mokuba_kaiba_dsod/faces/chara007_02.png": "laugh",
+   "mokuba_kaiba_dsod/faces/chara007_03.png": "angry",
+   "mokuba_kaiba_dsod/faces/chara007_04.png": "surprised",
+   "mokuba_kaiba_dsod/faces/chara007_05.png": "sad",
+   "mokuba_kaiba_dsod/faces/chara007_06.png": "embarrassed",
+   "mokuba_kaiba_dsod/faces/chara007_07.png": "worried",
+   "mokuba_kaiba_dsod/faces/chara007_08.png": "smug"
+  }
+ },
+ "mokuba_kaiba_princess_adena": {
+  "faces": {
+   "mokuba_kaiba_princess_adena/faces/chara007_01.png": "neutral",
+   "mokuba_kaiba_princess_adena/faces/chara007_02.png": "laugh",
+   "mokuba_kaiba_princess_adena/faces/chara007_03.png": "angry",
+   "mokuba_kaiba_princess_adena/faces/chara007_04.png": "surprised",
+   "mokuba_kaiba_princess_adena/faces/chara007_05.png": "sad",
+   "mokuba_kaiba_princess_adena/faces/chara007_06.png": "embarrassed",
+   "mokuba_kaiba_princess_adena/faces/chara007_07.png": "worried",
+   "mokuba_kaiba_princess_adena/faces/chara007_08.png": "happy",
+   "mokuba_kaiba_princess_adena/faces/chara007_09.png": "smug"
+  },
+  "note": "O número zero é o corpo base"
+ },
+ "noah_kaiba": {
+  "faces": {
+   "noah_kaiba/faces/chara007_01.png": "neutral",
+   "noah_kaiba/faces/chara007_02.png": "laugh",
+   "noah_kaiba/faces/chara007_03.png": "angry",
+   "noah_kaiba/faces/chara007_04.png": "surprised",
+   "noah_kaiba/faces/chara007_05.png": "sad",
+   "noah_kaiba/faces/chara007_06.png": "embarrassed",
+   "noah_kaiba/faces/chara007_07.png": "worried",
+   "noah_kaiba/faces/chara007_08.png": "smug",
+   "noah_kaiba/faces/chara007_09.png": "serious",
+   "noah_kaiba/faces/chara007_10.png": "happy",
+   "noah_kaiba/faces/chara007_11.png": "shout"
+  }
+ },
+ "npc_duelists_common__ashley": {
+  "faces": {
+   "npc_duelists_common__ashley/faces/chara007_01.png": "neutral",
+   "npc_duelists_common__ashley/faces/chara007_02.png": "laugh",
+   "npc_duelists_common__ashley/faces/chara007_03.png": "angry",
+   "npc_duelists_common__ashley/faces/chara007_04.png": "surprised",
+   "npc_duelists_common__ashley/faces/chara007_05.png": "sad",
+   "npc_duelists_common__ashley/faces/chara007_06.png": "embarrassed"
+  }
+ },
+ "npc_duelists_common__bella": {
+  "faces": {
+   "npc_duelists_common__bella/faces/chara007_01.png": "neutral",
+   "npc_duelists_common__bella/faces/chara007_02.png": "laugh",
+   "npc_duelists_common__bella/faces/chara007_03.png": "angry",
+   "npc_duelists_common__bella/faces/chara007_04.png": "surprised",
+   "npc_duelists_common__bella/faces/chara007_05.png": "sad",
+   "npc_duelists_common__bella/faces/chara007_06.png": "embarrassed"
+  }
+ },
+ "npc_duelists_common__david": {
+  "faces": {
+   "npc_duelists_common__david/faces/chara007_01.png": "neutral",
+   "npc_duelists_common__david/faces/chara007_02.png": "laugh",
+   "npc_duelists_common__david/faces/chara007_03.png": "angry",
+   "npc_duelists_common__david/faces/chara007_04.png": "surprised",
+   "npc_duelists_common__david/faces/chara007_05.png": "sad",
+   "npc_duelists_common__david/faces/chara007_06.png": "embarrassed"
+  }
+ },
+ "npc_duelists_common__emma": {
+  "faces": {
+   "npc_duelists_common__emma/faces/chara007_01.png": "neutral",
+   "npc_duelists_common__emma/faces/chara007_02.png": "laugh",
+   "npc_duelists_common__emma/faces/chara007_03.png": "angry",
+   "npc_duelists_common__emma/faces/chara007_04.png": "surprised",
+   "npc_duelists_common__emma/faces/chara007_05.png": "sad",
+   "npc_duelists_common__emma/faces/chara007_06.png": "embarrassed"
+  }
+ },
+ "npc_duelists_common__jay": {
+  "faces": {
+   "npc_duelists_common__jay/faces/chara007_01.png": "neutral",
+   "npc_duelists_common__jay/faces/chara007_02.png": "laugh",
+   "npc_duelists_common__jay/faces/chara007_03.png": "angry",
+   "npc_duelists_common__jay/faces/chara007_04.png": "surprised",
+   "npc_duelists_common__jay/faces/chara007_05.png": "sad",
+   "npc_duelists_common__jay/faces/chara007_06.png": "embarrassed"
+  }
+ },
+ "npc_duelists_common__meg": {
+  "faces": {
+   "npc_duelists_common__meg/faces/chara007_01.png": "neutral",
+   "npc_duelists_common__meg/faces/chara007_02.png": "laugh",
+   "npc_duelists_common__meg/faces/chara007_03.png": "angry",
+   "npc_duelists_common__meg/faces/chara007_04.png": "surprised",
+   "npc_duelists_common__meg/faces/chara007_05.png": "sad",
+   "npc_duelists_common__meg/faces/chara007_06.png": "embarrassed"
+  }
+ },
+ "npc_duelists_common__mickey": {
+  "faces": {
+   "npc_duelists_common__mickey/faces/chara007_01.png": "neutral",
+   "npc_duelists_common__mickey/faces/chara007_02.png": "laugh",
+   "npc_duelists_common__mickey/faces/chara007_03.png": "angry",
+   "npc_duelists_common__mickey/faces/chara007_04.png": "surprised",
+   "npc_duelists_common__mickey/faces/chara007_05.png": "sad",
+   "npc_duelists_common__mickey/faces/chara007_06.png": "embarrassed"
+  }
+ },
+ "npc_duelists_common__nick": {
+  "faces": {
+   "npc_duelists_common__nick/faces/chara007_01.png": "neutral",
+   "npc_duelists_common__nick/faces/chara007_02.png": "laugh",
+   "npc_duelists_common__nick/faces/chara007_03.png": "angry",
+   "npc_duelists_common__nick/faces/chara007_04.png": "surprised",
+   "npc_duelists_common__nick/faces/chara007_05.png": "sad",
+   "npc_duelists_common__nick/faces/chara007_06.png": "embarrassed"
+  }
+ },
+ "npc_duelists_dm__andrew": {
+  "faces": {
+   "npc_duelists_dm__andrew/faces/chara007_01.png": "neutral",
+   "npc_duelists_dm__andrew/faces/chara007_02.png": "laugh",
+   "npc_duelists_dm__andrew/faces/chara007_03.png": "angry",
+   "npc_duelists_dm__andrew/faces/chara007_04.png": "surprised",
+   "npc_duelists_dm__andrew/faces/chara007_05.png": "sad",
+   "npc_duelists_dm__andrew/faces/chara007_06.png": "embarrassed"
+  }
+ },
+ "npc_duelists_dm__christine": {
+  "faces": {
+   "npc_duelists_dm__christine/faces/chara007_01.png": "neutral",
+   "npc_duelists_dm__christine/faces/chara007_02.png": "laugh",
+   "npc_duelists_dm__christine/faces/chara007_03.png": "angry",
+   "npc_duelists_dm__christine/faces/chara007_04.png": "surprised",
+   "npc_duelists_dm__christine/faces/chara007_05.png": "sad",
+   "npc_duelists_dm__christine/faces/chara007_06.png": "embarrassed"
+  }
+ },
+ "npc_duelists_dm__daniel": {
+  "faces": {
+   "npc_duelists_dm__daniel/faces/chara007_01.png": "neutral",
+   "npc_duelists_dm__daniel/faces/chara007_02.png": "laugh",
+   "npc_duelists_dm__daniel/faces/chara007_03.png": "angry",
+   "npc_duelists_dm__daniel/faces/chara007_04.png": "surprised",
+   "npc_duelists_dm__daniel/faces/chara007_05.png": "sad",
+   "npc_duelists_dm__daniel/faces/chara007_06.png": "embarrassed"
+  }
+ },
+ "npc_duelists_dm__hailey": {
+  "faces": {
+   "npc_duelists_dm__hailey/faces/chara007_01.png": "neutral",
+   "npc_duelists_dm__hailey/faces/chara007_02.png": "laugh",
+   "npc_duelists_dm__hailey/faces/chara007_03.png": "angry",
+   "npc_duelists_dm__hailey/faces/chara007_04.png": "surprised",
+   "npc_duelists_dm__hailey/faces/chara007_05.png": "sad",
+   "npc_duelists_dm__hailey/faces/chara007_06.png": "embarrassed"
+  }
+ },
+ "npc_duelists_dm__jess": {
+  "faces": {
+   "npc_duelists_dm__jess/faces/chara007_01.png": "neutral",
+   "npc_duelists_dm__jess/faces/chara007_02.png": "laugh",
+   "npc_duelists_dm__jess/faces/chara007_03.png": "angry",
+   "npc_duelists_dm__jess/faces/chara007_04.png": "surprised",
+   "npc_duelists_dm__jess/faces/chara007_05.png": "sad",
+   "npc_duelists_dm__jess/faces/chara007_06.png": "embarrassed"
+  }
+ },
+ "npc_duelists_dm__josh": {
+  "faces": {
+   "npc_duelists_dm__josh/faces/chara007_01.png": "neutral",
+   "npc_duelists_dm__josh/faces/chara007_02.png": "laugh",
+   "npc_duelists_dm__josh/faces/chara007_03.png": "angry",
+   "npc_duelists_dm__josh/faces/chara007_04.png": "surprised",
+   "npc_duelists_dm__josh/faces/chara007_05.png": "sad",
+   "npc_duelists_dm__josh/faces/chara007_06.png": "embarrassed"
+  }
+ },
+ "odion": {
+  "faces": {
+   "odion/faces/chara007_01.png": "neutral",
+   "odion/faces/chara007_02.png": "laugh",
+   "odion/faces/chara007_03.png": "angry",
+   "odion/faces/chara007_04.png": "surprised",
+   "odion/faces/chara007_05.png": "sad",
+   "odion/faces/chara007_06.png": "embarrassed"
+  }
+ },
+ "princess_adena": {
+  "faces": {
+   "princess_adena/faces/chara007_01.png": "neutral",
+   "princess_adena/faces/chara007_02.png": "laugh",
+   "princess_adena/faces/chara007_03.png": "angry",
+   "princess_adena/faces/chara007_04.png": "surprised",
+   "princess_adena/faces/chara007_05.png": "sad",
+   "princess_adena/faces/chara007_06.png": "embarrassed"
+  }
+ },
+ "rare_hunter": {
+  "faces": {
+   "rare_hunter/faces/chara007_01.png": "neutral",
+   "rare_hunter/faces/chara007_02.png": "laugh",
+   "rare_hunter/faces/chara007_03.png": "angry",
+   "rare_hunter/faces/chara007_04.png": "worried",
+   "rare_hunter/faces/chara007_05.png": "sad",
+   "rare_hunter/faces/chara007_06.png": "embarrassed",
+   "rare_hunter/faces/chara007_07.png": "scared"
+  }
+ },
+ "rebecca_hawkins": {
+  "faces": {
+   "rebecca_hawkins/faces/chara007_01.png": "neutral",
+   "rebecca_hawkins/faces/chara007_02.png": "laugh",
+   "rebecca_hawkins/faces/chara007_03.png": "angry",
+   "rebecca_hawkins/faces/chara007_04.png": "surprised",
+   "rebecca_hawkins/faces/chara007_05.png": "sad",
+   "rebecca_hawkins/faces/chara007_06.png": "embarrassed",
+   "rebecca_hawkins/faces/chara007_07.png": "worried",
+   "rebecca_hawkins/faces/chara007_08.png": "happy",
+   "rebecca_hawkins/faces/chara007_09.png": "shout",
+   "rebecca_hawkins/faces/chara007_11.png": "determined",
+   "rebecca_hawkins/faces/chara007_12.png": "smug"
+  }
+ },
+ "rex_raptor": {
+  "faces": {
+   "rex_raptor/faces/chara007_01.png": "neutral",
+   "rex_raptor/faces/chara007_02.png": "laugh",
+   "rex_raptor/faces/chara007_03.png": "angry",
+   "rex_raptor/faces/chara007_04.png": "surprised",
+   "rex_raptor/faces/chara007_05.png": "sad",
+   "rex_raptor/faces/chara007_06.png": "embarrassed"
+  }
+ },
+ "roland": {
+  "faces": {
+   "roland/faces/chara007_01.png": "neutral",
+   "roland/faces/chara007_07.png": "serious",
+   "roland/faces/chara007_08.png": "surprised"
+  }
+ },
+ "serenity_wheeler": {
+  "faces": {
+   "serenity_wheeler/faces/chara007_01.png": "neutral",
+   "serenity_wheeler/faces/chara007_02.png": "laugh",
+   "serenity_wheeler/faces/chara007_03.png": "angry",
+   "serenity_wheeler/faces/chara007_04.png": "surprised",
+   "serenity_wheeler/faces/chara007_05.png": "sad",
+   "serenity_wheeler/faces/chara007_06.png": "embarrassed",
+   "serenity_wheeler/faces/chara007_07.png": "worried",
+   "serenity_wheeler/faces/chara007_08.png": "happy",
+   "serenity_wheeler/faces/chara007_09.png": "happy"
+  }
+ },
+ "seto_kaiba": {
+  "faces": {
+   "seto_kaiba/faces/chara007_01.png": "neutral",
+   "seto_kaiba/faces/chara007_02.png": "laugh",
+   "seto_kaiba/faces/chara007_03.png": "angry",
+   "seto_kaiba/faces/chara007_04.png": "surprised",
+   "seto_kaiba/faces/chara007_05.png": "sad",
+   "seto_kaiba/faces/chara007_06.png": "embarrassed",
+   "seto_kaiba/faces/chara007_07.png": "worried"
+  }
+ },
+ "seto_kaiba_dsod": {
+  "faces": {
+   "seto_kaiba_dsod/faces/chara007_01.png": "neutral",
+   "seto_kaiba_dsod/faces/chara007_02.png": "laugh",
+   "seto_kaiba_dsod/faces/chara007_03.png": "angry",
+   "seto_kaiba_dsod/faces/chara007_04.png": "surprised",
+   "seto_kaiba_dsod/faces/chara007_05.png": "sad",
+   "seto_kaiba_dsod/faces/chara007_06.png": "embarrassed",
+   "seto_kaiba_dsod/faces/chara007_07.png": "worried",
+   "seto_kaiba_dsod/faces/chara007_08.png": "smug",
+   "seto_kaiba_dsod/faces/chara007_09.png": "scared"
+  }
+ },
+ "seto_kaiba_urban": {
+  "faces": {
+   "seto_kaiba_urban/faces/chara007_01.png": "neutral",
+   "seto_kaiba_urban/faces/chara007_02.png": "laugh",
+   "seto_kaiba_urban/faces/chara007_03.png": "angry",
+   "seto_kaiba_urban/faces/chara007_04.png": "surprised",
+   "seto_kaiba_urban/faces/chara007_05.png": "sad",
+   "seto_kaiba_urban/faces/chara007_06.png": "embarrassed",
+   "seto_kaiba_urban/faces/chara007_07.png": "worried",
+   "seto_kaiba_urban/faces/chara007_08.png": "happy",
+   "seto_kaiba_urban/faces/chara007_09.png": "thinking"
+  }
+ },
+ "solomon_muto": {
+  "faces": {
+   "solomon_muto/faces/chara007_01.png": "neutral",
+   "solomon_muto/faces/chara007_02.png": "laugh",
+   "solomon_muto/faces/chara007_03.png": "angry",
+   "solomon_muto/faces/chara007_04.png": "surprised",
+   "solomon_muto/faces/chara007_05.png": "sad",
+   "solomon_muto/faces/chara007_06.png": "embarrassed",
+   "solomon_muto/faces/chara007_07.png": "worried",
+   "solomon_muto/faces/chara007_08.png": "thinking",
+   "solomon_muto/faces/chara007_09.png": "smug",
+   "solomon_muto/faces/chara007_10.png": "scared"
+  }
+ },
+ "tea_gardner": {
+  "faces": {
+   "tea_gardner/faces/chara007_01.png": "neutral",
+   "tea_gardner/faces/chara007_02.png": "laugh",
+   "tea_gardner/faces/chara007_03.png": "angry",
+   "tea_gardner/faces/chara007_04.png": "surprised",
+   "tea_gardner/faces/chara007_05.png": "sad",
+   "tea_gardner/faces/chara007_06.png": "embarrassed"
+  }
+ },
+ "tea_gardner_casual": {
+  "faces": {
+   "tea_gardner_casual/faces/chara007_01.png": "neutral",
+   "tea_gardner_casual/faces/chara007_02.png": "laugh",
+   "tea_gardner_casual/faces/chara007_03.png": "angry",
+   "tea_gardner_casual/faces/chara007_04.png": "surprised",
+   "tea_gardner_casual/faces/chara007_05.png": "sad",
+   "tea_gardner_casual/faces/chara007_06.png": "embarrassed",
+   "tea_gardner_casual/faces/chara007_07.png": "worried",
+   "tea_gardner_casual/faces/chara007_08.png": "happy",
+   "tea_gardner_casual/faces/chara007_09.png": "scared",
+   "tea_gardner_casual/faces/chara007_10.png": "smug"
+  }
+ },
+ "tea_gardner_dsod": {
+  "faces": {
+   "tea_gardner_dsod/faces/chara007_01.png": "neutral",
+   "tea_gardner_dsod/faces/chara007_02.png": "laugh",
+   "tea_gardner_dsod/faces/chara007_03.png": "angry",
+   "tea_gardner_dsod/faces/chara007_04.png": "surprised",
+   "tea_gardner_dsod/faces/chara007_05.png": "sad",
+   "tea_gardner_dsod/faces/chara007_06.png": "embarrassed",
+   "tea_gardner_dsod/faces/chara007_07.png": "happy",
+   "tea_gardner_dsod/faces/chara007_08.png": "smug"
+  }
+ },
+ "the_gore": {
+  "excluded": true,
+  "faces": {}
+ },
+ "tristan_taylor": {
+  "faces": {
+   "tristan_taylor/faces/chara007_01.png": "neutral",
+   "tristan_taylor/faces/chara007_02.png": "laugh",
+   "tristan_taylor/faces/chara007_03.png": "angry",
+   "tristan_taylor/faces/chara007_04.png": "surprised",
+   "tristan_taylor/faces/chara007_05.png": "sad",
+   "tristan_taylor/faces/chara007_06.png": "embarrassed",
+   "tristan_taylor/faces/chara007_07.png": "happy"
+  }
+ },
+ "weevil_underwood": {
+  "faces": {
+   "weevil_underwood/faces/chara007_01.png": "neutral",
+   "weevil_underwood/faces/chara007_02.png": "laugh",
+   "weevil_underwood/faces/chara007_03.png": "angry",
+   "weevil_underwood/faces/chara007_04.png": "surprised",
+   "weevil_underwood/faces/chara007_05.png": "sad",
+   "weevil_underwood/faces/chara007_06.png": "embarrassed"
+  }
+ },
+ "yami_bakura": {
+  "faces": {
+   "yami_bakura/faces/chara007_01.png": "neutral",
+   "yami_bakura/faces/chara007_02.png": "laugh",
+   "yami_bakura/faces/chara007_03.png": "angry",
+   "yami_bakura/faces/chara007_04.png": "surprised",
+   "yami_bakura/faces/chara007_05.png": "sad",
+   "yami_bakura/faces/chara007_06.png": "embarrassed"
+  }
+ },
+ "yami_marik": {
+  "faces": {
+   "yami_marik/faces/chara007_01.png": "neutral",
+   "yami_marik/faces/chara007_02.png": "laugh",
+   "yami_marik/faces/chara007_03.png": "angry",
+   "yami_marik/faces/chara007_04.png": "surprised",
+   "yami_marik/faces/chara007_05.png": "sad",
+   "yami_marik/faces/chara007_06.png": "embarrassed",
+   "yami_marik/faces/chara007_07.png": "happy"
+  }
+ },
+ "yami_yugi": {
+  "faces": {
+   "yami_yugi/faces/chara007_01.png": "neutral",
+   "yami_yugi/faces/chara007_01_alt1.png": "neutral",
+   "yami_yugi/faces/chara007_02.png": "laugh",
+   "yami_yugi/faces/chara007_02_alt1.png": "laugh",
+   "yami_yugi/faces/chara007_03.png": "angry",
+   "yami_yugi/faces/chara007_03_alt1.png": "angry",
+   "yami_yugi/faces/chara007_04.png": "surprised",
+   "yami_yugi/faces/chara007_04_alt1.png": "surprised",
+   "yami_yugi/faces/chara007_05.png": "sad",
+   "yami_yugi/faces/chara007_05_alt1.png": "sad",
+   "yami_yugi/faces/chara007_06.png": "embarrassed",
+   "yami_yugi/faces/chara007_06_alt1.png": "embarrassed",
+   "yami_yugi/faces/chara007_07.png": "worried",
+   "yami_yugi/faces/chara007_07_alt1.png": "worried",
+   "yami_yugi/faces/chara007_08.png": "scared",
+   "yami_yugi/faces/chara007_08_alt1.png": "scared"
+  }
+ },
+ "yami_yugi_street": {
+  "faces": {
+   "yami_yugi_street/faces/chara007_01.png": "neutral",
+   "yami_yugi_street/faces/chara007_02.png": "happy",
+   "yami_yugi_street/faces/chara007_03.png": "angry",
+   "yami_yugi_street/faces/chara007_04.png": "surprised",
+   "yami_yugi_street/faces/chara007_05.png": "sad",
+   "yami_yugi_street/faces/chara007_06.png": "embarrassed",
+   "yami_yugi_street/faces/chara007_07.png": "worried",
+   "yami_yugi_street/faces/chara007_08.png": "scared",
+   "yami_yugi_street/faces/chara007_09.png": "smug",
+   "yami_yugi_street/faces/chara007_10.png": "worried"
+  }
+ },
+ "yugi_muto": {
+  "faces": {
+   "yugi_muto/faces/chara007_01.png": "neutral",
+   "yugi_muto/faces/chara007_02.png": "laugh",
+   "yugi_muto/faces/chara007_03.png": "angry",
+   "yugi_muto/faces/chara007_04.png": "surprised",
+   "yugi_muto/faces/chara007_05.png": "sad",
+   "yugi_muto/faces/chara007_06.png": "embarrassed"
+  }
+ }
+}
