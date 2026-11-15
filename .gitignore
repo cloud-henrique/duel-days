@@ -46,3 +46,5 @@ public/characters/
 public/cards/
 public/scripts.json
 public/card-icons/
+# Recortes do atlas de ações do Tag Force; só o manifest e os rótulos entram no git
+assets/action-icons/*.png

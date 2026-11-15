@@ -15,6 +15,7 @@ Visual novel + duelos de Yu-Gi-Oh! (era Duel Monsters) como PWA, para uso pessoa
 assets/characters/   sprites (NÃO versionados) + manifest.json e labels.json (versionados)
 scripts/filter_dm.py filtra os personagens para só Duel Monsters
 tools/labeler/       site local para mapear as expressões de cada personagem
+tools/icon-labeler/  site local para escolher o ícone (atlas do Tag Force) de cada ação do duelo
 raw/                 zips originais baixados (NÃO versionado)
 ```
 
@@ -22,6 +23,7 @@ raw/                 zips originais baixados (NÃO versionado)
 
 ```bash
 python3 tools/labeler/server.py
+.venv/bin/python scripts/extract_action_icons.py && npm run icon-labeler   # ícones de ação (porta 5174)
 ```
 
 Abra <http://127.0.0.1:5173>. Escolha o personagem, clique num rosto e aperte a tecla da expressão
@@ -44,7 +46,7 @@ python3 scripts/fetch_pool.py      # 33 caixas de 2002-2005 (YGOPRODeck): quais 
 python3 scripts/export_data.py     # public/data/{cards,pool}.json + public/scripts.json (só cartas que o motor roda)
 python3 scripts/fetch_card_text_pt.py   # nomes e efeitos em português (o resto cai para inglês)
 .venv/bin/python scripts/fetch_card_art.py  # arte (small/large/cropped + verso, WebP); ~95 MB
-.venv/bin/python scripts/copy_card_icons.py # ícones de atributo/tipo/Magia Rápida, copiados do app nativo (fora do git)
+.venv/bin/python scripts/copy_card_icons.py # ícones de atributo/tipo/Magia/Armadilha do app nativo e propriedades do atlas do Tag Force 3 no PPSSPP (fora do git)
 npx tsx proto/smoke.ts 500         # CPU x CPU com decks aleatórios: mede travas e erros de Lua
 npx tsx proto/economy-smoke.ts     # packs e coleção inicial
 npm run dev                        # PWA (use --port se o labeler estiver aberto)

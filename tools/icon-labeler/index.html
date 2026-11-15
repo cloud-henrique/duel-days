@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Labeler de Ícones</title>
+<style>
+  :root {
+    --bg: #f4f4f6; --panel: #ffffff; --text: #1b1b1f; --muted: #6b6b76; --line: #dcdce2;
+    --accent: #5b4bdb; --accent-soft: #e9e6fb; --ok: #1f9d55; --danger: #c0392b;
+    --stage: #0d1f45; --hud: #1747b0; --hud-edge: #7fb6ff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #121216; --panel: #1b1b21; --text: #ececf1; --muted: #9a9aa6; --line: #2d2d36;
+      --accent: #8b7dff; --accent-soft: #2a2748; --ok: #3ecf80; --danger: #ff6b5b;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #121216; --panel: #1b1b21; --text: #ececf1; --muted: #9a9aa6; --line: #2d2d36;
+    --accent: #8b7dff; --accent-soft: #2a2748; --ok: #3ecf80; --danger: #ff6b5b;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+  body { background: var(--bg); color: var(--text); font: 14px/1.4 system-ui, -apple-system, Segoe UI, sans-serif; display: flex; flex-direction: column; }
+  header { display: flex; align-items: center; gap: 16px; padding: 10px 16px; background: var(--panel); border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+  header h1 { font-size: 16px; margin: 0; }
+  .progress { flex: 1; min-width: 160px; max-width: 360px; }
+  .bar { height: 8px; background: var(--line); border-radius: 4px; overflow: hidden; }
+  .bar > i { display: block; height: 100%; background: var(--ok); width: 0; transition: width .2s; }
+  .progress small { color: var(--muted); }
+  #status { margin-left: auto; color: var(--muted); font-size: 12px; }
+  #status.err { color: var(--danger); }
+  main { flex: 1; display: grid; grid-template-columns: 320px 1fr; min-height: 0; }
+  aside { background: var(--panel); border-right: 1px solid var(--line); overflow: auto; }
+  aside h3 { margin: 0; padding: 10px 12px 4px; font-size: 11px; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); }
+  .m { display: flex; align-items: center; gap: 10px; padding: 6px 12px; cursor: pointer; border-bottom: 1px solid var(--line); }
+  .m:hover { background: var(--accent-soft); }
+  .m.sel { background: var(--accent-soft); box-shadow: inset 3px 0 0 var(--accent); }
+  .m .thumb { width: 34px; height: 34px; border-radius: 6px; background: var(--stage); display: grid; place-items: center; flex-shrink: 0; }
+  .m .thumb img { max-width: 28px; max-height: 28px; }
+  .m .nm { flex: 1; min-width: 0; }
+  .m .nm small { display: block; color: var(--muted); font-size: 11px; }
+  .m.done .nm b::after { content: ' ✓'; color: var(--ok); }
+  .m .clear { visibility: hidden; border: 0; background: none; color: var(--muted); font-size: 16px; cursor: pointer; padding: 0 4px; }
+  .m.done:hover .clear { visibility: visible; }
+  section#view { overflow: auto; padding: 16px; min-width: 0; }
+  .hint { color: var(--muted); font-size: 12px; margin: 0 0 12px; }
+  .preview { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; padding: 12px; margin-bottom: 14px; border-radius: 8px; background: var(--stage); }
+  .preview .hb { display: inline-flex; align-items: center; gap: 6px; height: 40px; padding: 0 14px; color: #fff; font: 700 14px system-ui; background: linear-gradient(180deg, #2a6fe0, var(--hud)); box-shadow: inset 0 0 0 2px var(--hud-edge); clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px); }
+  .preview .hb img { width: 22px; height: 22px; object-fit: contain; }
+  .preview .label { color: #9fb4d9; font-size: 12px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 10px; }
+  .card { background: var(--panel); border: 2px solid var(--line); border-radius: 8px; padding: 6px; display: grid; gap: 4px; cursor: pointer; text-align: center; }
+  .card:hover { border-color: var(--accent); }
+  .card.used { border-color: var(--ok); }
+  .card.cur { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+  .pic { aspect-ratio: 1; display: grid; place-items: center; border-radius: 6px; background: var(--stage); overflow: hidden; }
+  .pic img { max-width: 80%; max-height: 80%; object-fit: contain; }
+  .cap { color: var(--muted); font-size: 10px; line-height: 1.25; min-height: 2.5em; }
+  .cap b { color: var(--ok); font-weight: 600; }
+  .empty { color: var(--muted); padding: 40px; text-align: center; }
+  @media (max-width: 760px) { main { grid-template-columns: 1fr; } aside { max-height: 40vh; border-right: 0; border-bottom: 1px solid var(--line); } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Labeler de Ícones</h1>
+  <div class="progress">
+    <div class="bar"><i id="bar"></i></div>
+    <small id="ptext">carregando…</small>
+  </div>
+  <span id="status">—</span>
+</header>
+<main>
+  <aside id="meanings"></aside>
+  <section id="view"><div class="empty">Carregando…</div></section>
+</main>
+
+<script>
+// Significados que a interface do duelo usa. id (inglês) vai para o labels.json; o resto é só da interface.
+const GROUPS = [
+  ['Ações da carta', [
+    ['activate', 'Ativar efeito', 'Ativar'],
+    ['summon', 'Invocar', 'Invocação-Normal'],
+    ['special_summon', 'Invocação-Especial', 'Invocar por efeito'],
+    ['flip_summon', 'Invocação-Virada', 'virar para cima'],
+    ['set', 'Baixar', 'carta virada para baixo'],
+    ['change_position', 'Mudar posição', 'ataque ⇄ defesa'],
+    ['attack_mode', 'Modo de ataque', 'posição de ataque'],
+    ['defense_mode', 'Modo de defesa', 'posição de defesa'],
+  ]],
+  ['Batalha', [
+    ['attack', 'Atacar', 'declarar ataque'],
+    ['direct_attack', 'Ataque direto', 'nos PV do oponente'],
+    ['defense', 'Defesa', 'valor de DEF / defender'],
+    ['piercing', 'Dano perfurante', 'atravessa a defesa'],
+    ['battle_phase', 'Fase de batalha', 'botão BATALHA'],
+  ]],
+  ['Zonas', [
+    ['deck', 'Deck', ''],
+    ['extra_deck', 'Extra Deck', ''],
+    ['graveyard', 'Cemitério', ''],
+    ['banished', 'Banidas', ''],
+    ['hand', 'Mão', ''],
+  ]],
+  ['Escolhas e respostas', [
+    ['chain', 'Corrente', 'responder em corrente'],
+    ['target', 'Escolher alvo', 'título da escolha'],
+    ['view_field', 'Ver campo', 'só olhando'],
+    ['confirm', 'Confirmar', ''],
+    ['cancel', 'Cancelar', ''],
+    ['sort', 'Ordenar', 'topo do Deck'],
+    ['warning', 'Aviso', 'oponente ativou algo'],
+  ]],
+  ['Duelo', [
+    ['end_turn', 'Fim do turno', ''],
+    ['surrender', 'Desistir', 'menu do duelo'],
+    ['menu', 'Menu', 'hambúrguer'],
+    ['history', 'Histórico', 'registro de eventos'],
+    ['zoom', 'Ampliar carta', 'folha da carta'],
+  ]],
+];
+const MEANINGS = GROUPS.flatMap(([, ms]) => ms);
+const LABEL = Object.fromEntries(MEANINGS.map(([id, l]) => [id, l]));
+
+let icons = [], labels = {}, current = MEANINGS[0][0], saveTimer = null;
+const $ = s => document.querySelector(s);
+const iconUrl = id => '/icons/' + encodeURIComponent(icons.find(i => i.id === id)?.file || '');
+const meaningsOf = iconId => Object.entries(labels).filter(([, v]) => v === iconId).map(([k]) => k);
+
+function setStatus(msg, err) { const s = $('#status'); s.textContent = msg; s.className = err ? 'err' : ''; }
+function scheduleSave() { setStatus('alterações pendentes…'); clearTimeout(saveTimer); saveTimer = setTimeout(save, 400); }
+async function save() {
+  saveTimer = null;
+  try {
+    const r = await fetch('/api/labels', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(labels) });
+    if (!r.ok) throw new Error(r.status);
+    setStatus('salvo ✓ ' + new Date().toLocaleTimeString());
+  } catch (e) { setStatus('ERRO ao salvar (' + e.message + ')', true); }
+}
+window.addEventListener('beforeunload', () => { if (saveTimer) { clearTimeout(saveTimer); save(); } });
+
+function assign(meaning, iconId) {
+  if (iconId) labels[meaning] = iconId; else delete labels[meaning];
+  scheduleSave(); render();
+}
+
+function render() {
+  const done = MEANINGS.filter(([id]) => labels[id]).length;
+  $('#bar').style.width = (100 * done / MEANINGS.length) + '%';
+  $('#ptext').textContent = `${done}/${MEANINGS.length} significados com ícone`;
+
+  const side = $('#meanings'); side.textContent = '';
+  for (const [title, ms] of GROUPS) {
+    const h = document.createElement('h3'); h.textContent = title; side.append(h);
+    for (const [id, label, hint] of ms) {
+      const el = document.createElement('div');
+      el.className = 'm' + (id === current ? ' sel' : '') + (labels[id] ? ' done' : '');
+      const th = document.createElement('div'); th.className = 'thumb';
+      if (labels[id]) { const im = document.createElement('img'); im.src = iconUrl(labels[id]); th.append(im); }
+      const nm = document.createElement('div'); nm.className = 'nm';
+      const b = document.createElement('b'); b.textContent = label; nm.append(b);
+      if (hint) { const sm = document.createElement('small'); sm.textContent = hint; nm.append(sm); }
+      const clr = document.createElement('button'); clr.className = 'clear'; clr.title = 'Tirar o ícone'; clr.textContent = '×';
+      clr.onclick = e => { e.stopPropagation(); assign(id, null); };
+      el.append(th, nm, clr);
+      el.onclick = () => { current = id; render(); };
+      side.append(el);
+    }
+  }
+
+  const v = $('#view'); v.textContent = '';
+  const tip = document.createElement('p'); tip.className = 'hint';
+  tip.textContent = 'Escolha um significado à esquerda e clique no ícone que o representa. Setas ↑↓ trocam o significado; Backspace tira o ícone. Um ícone pode servir a mais de um significado.';
+  v.append(tip);
+
+  const pv = document.createElement('div'); pv.className = 'preview';
+  const hb = document.createElement('span'); hb.className = 'hb';
+  if (labels[current]) { const im = document.createElement('img'); im.src = iconUrl(labels[current]); hb.append(im); }
+  hb.append(LABEL[current]);
+  const lb = document.createElement('span'); lb.className = 'label'; lb.textContent = labels[current] ? `prévia no botão do duelo (${labels[current]})` : 'sem ícone ainda';
+  pv.append(hb, lb); v.append(pv);
+
+  const grid = document.createElement('div'); grid.className = 'grid';
+  for (const ic of icons) {
+    const card = document.createElement('div');
+    const used = meaningsOf(ic.id);
+    card.className = 'card' + (used.length ? ' used' : '') + (labels[current] === ic.id ? ' cur' : '');
+    card.title = `${ic.id} · ${ic.w}×${ic.h} em (${ic.x}, ${ic.y})`;
+    const pic = document.createElement('div'); pic.className = 'pic';
+    const im = document.createElement('img'); im.src = '/icons/' + encodeURIComponent(ic.file); im.alt = ic.id; pic.append(im);
+    const cap = document.createElement('div'); cap.className = 'cap';
+    if (used.length) { const b = document.createElement('b'); b.textContent = used.map(u => LABEL[u]).join(', '); cap.append(b); }
+    else cap.textContent = ic.id;
+    card.append(pic, cap);
+    card.onclick = () => {
+      assign(current, labels[current] === ic.id ? null : ic.id);
+      // Depois de escolher, passa para o próximo significado ainda sem ícone.
+      if (labels[current]) { const next = MEANINGS.find(([id]) => !labels[id]); if (next) { current = next[0]; render(); } }
+    };
+    grid.append(card);
+  }
+  v.append(grid);
+}
+
+document.addEventListener('keydown', e => {
+  if (e.metaKey || e.ctrlKey || e.altKey) return;
+  const i = MEANINGS.findIndex(([id]) => id === current);
+  if (e.key === 'ArrowDown') { e.preventDefault(); current = MEANINGS[Math.min(i + 1, MEANINGS.length - 1)][0]; render(); }
+  else if (e.key === 'ArrowUp') { e.preventDefault(); current = MEANINGS[Math.max(i - 1, 0)][0]; render(); }
+  else if (e.key === 'Backspace' || e.key === 'Delete') { e.preventDefault(); assign(current, null); }
+});
+
+(async () => {
+  try {
+    const d = await (await fetch('/api/data')).json();
+    icons = d.manifest.icons; labels = d.labels || {};
+    current = (MEANINGS.find(([id]) => !labels[id]) || MEANINGS[0])[0];
+    render(); setStatus('pronto');
+  } catch (e) { setStatus('erro ao carregar dados: ' + e.message, true); $('#ptext').textContent = 'servidor não respondeu'; }
+})();
+</script>
+</body>
+</html>
