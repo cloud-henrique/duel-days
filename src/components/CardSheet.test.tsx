@@ -22,10 +22,10 @@ describe('CardSheet', () => {
     expect(container.querySelector('.atkdef')?.textContent).toBe('ATK 1800DEF 1600');
   });
 
-  it('Magia: propriedade com o nome oficial e ícone só para Magia Rápida', () => {
+  it('Magia: propriedade com o nome oficial e o ícone da propriedade', () => {
     const field = render(<CardSheet code={2} cards={cards} onClose={() => {}} />).container;
     expect(field.querySelector('.kv')?.textContent).toBe('Magia de Campo');
-    expect(field.querySelector('.kv .cardicon')).toBeNull();
+    expect(field.querySelector('.kv .cardicon')?.getAttribute('src')).toContain('property-field.svg');
     cleanup();
     const quick = render(<CardSheet code={3} cards={cards} onClose={() => {}} />).container;
     expect(quick.querySelector('.kv .cardicon')?.getAttribute('src')).toContain('property-quick-play.svg');

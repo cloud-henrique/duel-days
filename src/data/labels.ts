@@ -21,8 +21,15 @@ export const raceName = (r: string) => raceOf(r)?.[1] ?? '';
 /** Nome do ícone (sem extensão) em `public/card-icons/`, ou null se não houver. */
 export const attrIcon = (a: number) => (ATTR[a] ? `attribute-${ATTR[a][1]}` : null);
 export const raceIcon = (r: string) => { const slug = raceOf(r)?.[2]; return slug ? `type-${slug}` : null; };
-/** O nativo só tem o ícone de Magia Rápida entre as propriedades de Magia/Armadilha. */
-export const propertyIcon = (type: number) => (type & OcgType.SPELL && type & OcgType.QUICKPLAY ? 'property-quick-play' : null);
+/** Propriedade de Magia/Armadilha para o ícone ao lado da linha do tipo (Normal não tem ícone, como nas cartas). */
+export const propertyIcon = (type: number) => { const p = propertyOf(type); return p ? `property-${p}` : null; };
+export type Property = 'quick-play' | 'continuous' | 'field' | 'equip' | 'ritual' | 'counter';
+const PROPERTY: [number, Property][] = [
+  [OcgType.QUICKPLAY, 'quick-play'], [OcgType.CONTINUOUS, 'continuous'], [OcgType.FIELD, 'field'],
+  [OcgType.EQUIP, 'equip'], [OcgType.RITUAL, 'ritual'], [OcgType.COUNTER, 'counter'],
+];
+export const propertyOf = (type: number): Property | null =>
+  type & (OcgType.SPELL | OcgType.TRAP) ? PROPERTY.find(([bit]) => type & bit)?.[1] ?? null : null;
 
 /** Propriedade de Magia/Armadilha como no Manual Oficial (Equipamento, Campo, Rápida, Ritual, Contínua, Resposta). */
 const SPELL_KIND: [number, string][] = [
@@ -63,7 +70,14 @@ const ATTR_GLYPH: Record<string, [string, string]> = {
   LUZ: ['光', '#d9b43a'], TREVAS: ['闇', '#7a3fa8'], DIVINO: ['神', '#c9a227'],
 };
 const KIND_GLYPH: Partial<Record<Frame, [string, string]>> = { spell: ['魔', '#1d9a7a'], trap: ['罠', '#b0337e'] };
-/** Selo redondo do canto da carta: kanji e cor do atributo (monstro) ou de Magia/Armadilha. */
+/** Ícone oficial do selo do canto da carta (`public/card-icons`): atributo do monstro ou Magia/Armadilha. */
+export function faceIcon(type: number, attribute: number): string | null {
+  const frame = frameOf(type);
+  if (frame === 'spell') return 'card-spell';
+  if (frame === 'trap') return 'card-trap';
+  return attrIcon(attribute);
+}
+/** Selo redondo do canto da carta sem os ícones oficiais (não versionados): kanji e cor do atributo ou de Magia/Armadilha. */
 export function attrGlyph(type: number, attribute: number): [string, string] {
   return KIND_GLYPH[frameOf(type)] ?? ATTR_GLYPH[attrName(attribute)] ?? ['?', '#555'];
 }

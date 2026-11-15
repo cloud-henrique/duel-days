@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { CardRecord } from '../engine/session';
-import { attrGlyph, formatStat, frameOf, isMonster, raceName, typeLine } from '../data/labels';
-import { art } from './CardSheet';
+import { attrGlyph, faceIcon, formatStat, frameOf, isMonster, raceName, typeLine } from '../data/labels';
+import { BASE, art } from './CardSheet';
 import './cardface.css';
 
 /**
@@ -28,10 +28,12 @@ export function nameFontSize(name: string): number {
 
 export function CardFace({ code, card, detail = 'compact' }: { code: number; card: CardRecord | undefined; detail?: 'compact' | 'full' }) {
   const [cropped, setCropped] = useState(true);
+  const [iconMissing, setIconMissing] = useState(false);
   if (!card) return <div className="cardface cf-token" />;
   const frame = frameOf(card.type);
   const monster = isMonster(card.type);
   const [glyph, glyphBg] = attrGlyph(card.type, card.attribute);
+  const icon = iconMissing ? null : faceIcon(card.type, card.attribute);
   const kind = frame === 'spell' ? 'MAGIA' : frame === 'trap' ? 'ARMADILHA' : null;
   const stats = `${formatStat(card.attack)} / ${formatStat(card.defense)}`;
   return (
@@ -39,7 +41,10 @@ export function CardFace({ code, card, detail = 'compact' }: { code: number; car
       <div className="cf-frame" />
       <div className="cf-name" style={{ ['--name-size' as string]: nameFontSize(card.name) }}>
         <span>{card.name}</span>
-        <i className="cf-attr" style={{ background: glyphBg }}>{glyph}</i>
+        {/* Ícone oficial; sem ele (não versionado), o selo desenhado com o kanji. */}
+        {icon
+          ? <img className="cf-attr img" src={`${BASE}card-icons/${icon}.svg`} alt="" draggable={false} onError={() => setIconMissing(true)} />
+          : <i className="cf-attr" style={{ background: glyphBg }}>{glyph}</i>}
       </div>
       <div className="cf-level">
         {monster ? Array.from({ length: Math.min(card.level, MAX_STARS) }, (_, i) => <i key={i} />) : <span>[{kind}]</span>}

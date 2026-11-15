@@ -24,6 +24,9 @@ describe('CardFace', () => {
   it('Magia e Armadilha: tarja com MAGIA / ARMADILHA e selo próprio', () => {
     const spell = render(<CardFace code={2} card={card({ type: T.SPELL })} />).container;
     expect(spell.querySelector('.cf-text .cf-kind')?.textContent).toBe('MAGIA');
+    expect(spell.querySelector('img.cf-attr')?.getAttribute('src')).toContain('card-icons/card-spell.svg');
+    // Sem o ícone oficial (não versionado), o selo desenhado com o kanji.
+    fireEvent.error(spell.querySelector('img.cf-attr')!);
     expect(spell.querySelector('.cf-attr')?.textContent).toBe('魔');
     cleanup();
     const trap = render(<CardFace code={3} card={card({ type: T.TRAP })} />).container;

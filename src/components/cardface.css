@@ -38,6 +38,7 @@
   color: #fff; font-style: normal; font-weight: 800; font-size: calc(var(--attr) * .62 * var(--u)); font-family: system-ui, sans-serif;
   box-shadow: 0 0 0 calc(1.5 * var(--u)) rgba(255, 255, 255, .6);
 }
+.cf-attr.img { border-radius: 0; box-shadow: none; object-fit: contain; }
 .cf-level {
   left: calc(var(--level-x) * var(--u)); top: calc(var(--level-y) * var(--u)); width: calc(var(--level-w) * var(--u)); height: calc(var(--level-h) * var(--u));
   display: flex; justify-content: flex-end; align-items: center; gap: calc(1 * var(--u));

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { OcgType as T } from 'ocgcore-wasm';
-import { attrGlyph, attrIcon, formatStat, frameOf, isMonster, propertyIcon, raceIcon, typeLine } from './labels';
+import { attrGlyph, attrIcon, faceIcon, formatStat, frameOf, isMonster, propertyIcon, propertyOf, raceIcon, typeLine } from './labels';
 
 describe('labels', () => {
   it('reconhece monstro pelo bit de tipo', () => {
@@ -52,7 +52,15 @@ describe('ícones de carta', () => {
     expect(raceIcon(String(0x100000))).toBeNull(); // Psíquico: o nativo não tem
   });
   it('só Magia Rápida tem ícone de propriedade', () => {
-    expect(propertyIcon(T.SPELL | T.QUICKPLAY)).toBe('property-quick-play');
-    expect(propertyIcon(T.SPELL | T.CONTINUOUS)).toBeNull();
+    expect(propertyOf(T.SPELL | T.QUICKPLAY)).toBe('quick-play');
+    expect(propertyOf(T.SPELL | T.CONTINUOUS)).toBe('continuous');
+    expect(propertyOf(T.SPELL | T.FIELD)).toBe('field');
+    expect(propertyOf(T.TRAP | T.COUNTER)).toBe('counter');
+    expect(propertyOf(T.SPELL)).toBeNull();
+    expect(propertyIcon(T.TRAP | T.CONTINUOUS)).toBe('property-continuous');
+    expect(propertyOf(T.MONSTER | T.RITUAL)).toBeNull();
+    expect(faceIcon(T.MONSTER, 32)).toBe('attribute-dark');
+    expect(faceIcon(T.SPELL, 0)).toBe('card-spell');
+    expect(faceIcon(T.TRAP | T.CONTINUOUS, 0)).toBe('card-trap');
   });
 });
