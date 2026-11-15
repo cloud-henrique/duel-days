@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { OcgLocation, type OcgResponse } from 'ocgcore-wasm';
+import { OcgLocation, OcgMessageType, OcgPhase, type OcgResponse } from 'ocgcore-wasm';
 import type { Show } from '../../engine/protocol';
 import type { DeckList } from '../../engine/session';
 import type { Cards } from '../../data/cards';
@@ -8,7 +8,9 @@ import { Backdrop, CardSheet, ICONS, art } from '../../components/CardSheet';
 import { CardFace } from '../../components/CardFace';
 import { LOSS_COINS, WIN_COINS } from '../../game/economy';
 import { debugOn } from '../../debug/remote';
-import { cardActions, highlighted, sideActions, type CardRef } from './prompt';
+import { cardActions, highlighted, refKey, sideActions, type CardRef } from './prompt';
+import { choiceMarks, choiceOf, tapOption } from './choice';
+import { ChoiceBar } from './ChoicePanels';
 import { useDuelEngine } from './useDuelEngine';
 import { promptPanel } from './PromptPanel';
 import { Plate, type Duelist } from './Plate';
@@ -23,6 +25,9 @@ export type { Duelist } from './Plate';
 
 /** Tempo de cada carta no destaque de ativação. */
 const SHOWCASE_MS = 1300;
+/** Fase de batalha (todos os sub-passos): o alvo escolhido depois de "Atacar" é o de ataque. */
+const BATTLE = OcgPhase.BATTLE_START | OcgPhase.BATTLE_STEP | OcgPhase.DAMAGE | OcgPhase.DAMAGE_CAL | OcgPhase.BATTLE;
+const isBattle = (phase: number) => (phase & BATTLE) !== 0;
 /** Linhas de evento que começam assim são separadores (ex.: troca de turno) e não vão para o narrador. */
 const SEPARATOR = '—';
 
@@ -36,6 +41,8 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id:
   const [evText, setEvText] = useState('');
   const [showQ, setShowQ] = useState<{ code: number; controller: number; k: number }[]>([]);
   const showK = useRef(0);
+  /** A carta que age: a última que o jogador mandou agir (ou a última ativada). `attack` quando foi "Atacar". */
+  const [actor, setActor] = useState<{ code: number; attack: boolean } | null>(null);
 
   const name = (code: number) => cards[String(code)]?.name ?? `#${code}`;
   const pushEvents = (ev: string[]) => {
@@ -44,7 +51,11 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id:
     const last = ev.filter((e) => !e.startsWith(SEPARATOR)).slice(-1)[0];
     if (last) setEvText(last);
   };
-  const enqueue = (sh?: Show[]) => { if (sh?.length) setShowQ((q) => [...q, ...sh.map((x) => ({ ...x, k: ++showK.current }))]); };
+  const enqueue = (sh?: Show[]) => {
+    if (!sh?.length) return;
+    setShowQ((q) => [...q, ...sh.map((x) => ({ ...x, k: ++showK.current }))]);
+    setActor({ code: sh[sh.length - 1].code, attack: false });
+  };
 
   const engine = useDuelEngine({
     mine, foe: foeDeck, foeName: opponent.name,
@@ -60,8 +71,11 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id:
   }, [curShow?.k]);
 
   const reply = (response: OcgResponse) => { setSheet(null); engine.reply(response); };
-  const hl = useMemo(() => highlighted(prompt), [prompt]);
-  const panel = useMemo(() => promptPanel(prompt, { name, cards, evText, sel, setSel, reply, peek: () => setPeek(true), autoPass: engine.autoPass }), [prompt, sel, cards]);
+  const choice = useMemo(() => choiceOf(prompt), [prompt]);
+  const boardChoice = choice?.mode === 'board' ? choice : null;
+  const marks = useMemo(() => choiceMarks(boardChoice, sel), [boardChoice, sel]);
+  const hl = useMemo(() => (boardChoice ? marks.glow : highlighted(prompt)), [prompt, boardChoice, marks]);
+  const panel = useMemo(() => promptPanel(prompt, { name, cards, evText, sel, setSel, reply, autoPass: engine.autoPass }), [prompt, sel, cards]);
 
   const side = useMemo(() => {
     const acts = sideActions(prompt);
@@ -70,7 +84,15 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id:
     return null;
   }, [prompt, ended]);
 
-  const tap = (code: number, ref: CardRef, hidden: boolean) => { if (!hidden) setSheet({ code, ref }); };
+  const tap = (code: number, ref: CardRef, hidden: boolean) => {
+    // Escolha no tabuleiro: tocar numa carta que vale marca (ou desmarca); o toque que completa já responde.
+    const picked = boardChoice && !sheet ? tapOption(boardChoice, sel, ref) : null;
+    if (picked) { setSel(picked.sel); if (picked.response) reply(picked.response); return; }
+    if (hidden) return;
+    // Tocar de novo na carta aberta fecha a folha.
+    if (sheet && refKey(sheet.ref) === refKey(ref)) { setSheet(null); return; }
+    setSheet({ code, ref });
+  };
   const iconFor = (label: string, code: number) => {
     const t = cards[String(code)]?.type ?? 0;
     if (label === 'Invocar' || label === 'Invocar por efeito') return ICONS.card;
@@ -80,30 +102,33 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id:
     if (label === 'Mudar posição') return ICONS.swap;
     return ICONS.bolt;
   };
-  const sheetActions = sheet ? cardActions(prompt, sheet.ref).map((a) => ({ label: a.label, primary: a.primary, icon: iconFor(a.label, sheet.code), onClick: () => reply(a.response) })) : [];
+  const sheetActions = sheet ? cardActions(prompt, sheet.ref).map((a) => ({ label: a.label, primary: a.primary, icon: iconFor(a.label, sheet.code), onClick: () => { setActor({ code: sheet.code, attack: a.label === 'Atacar' }); reply(a.response); } })) : [];
 
   const dbgBox = debugOn ? <div className="dbg">worker: última resposta há {engine.lastPongAgo()} s{engine.dbg.map((l, i) => <div key={i}>{l}</div>)}</div> : null;
   if (!board) return <div className="duel hexbg"><div className="stats">Carregando motor…</div>{dbgBox}{fail && <p className="errtext">{fail}</p>}</div>;
   const [me, foe] = board.players;
   const selHand = sheet && sheet.ref.location === OcgLocation.HAND && sheet.ref.controller === 0 ? sheet.ref.sequence : -1;
-  const showPanel = panel && !sheet && !peek && !curShow;
+  // Escondido (e não desmontado) enquanto se olha o campo: o painel guarda o que estava marcado ou ordenado.
+  const panelHidden = !!sheet || peek || !!curShow;
+  const isChain = prompt?.type === OcgMessageType.SELECT_CHAIN;
   const myTurn = board.turnPlayer === 0;
   const phasebar = <PhaseBar turn={board.turn} phase={board.phase} narration={evText || `Turno ${board.turn}: ${myTurn ? player.name : opponent.name}`} />;
 
+  const pickAttack = !!boardChoice && !!actor?.attack && isBattle(board.phase);
   return (
-    <div className="duel hexbg">
+    <div className={`duel hexbg${pickAttack ? ' pick-attack' : ''}`}>
       <div className="foebar">
         {!ended && <DuelMenu onSurrender={engine.surrender} />}
         <Plate side="foe" who={opponent} lp={foe.lp} deck={foe.deck} hand={foe.hand.length} grave={foe.grave} turn={!myTurn} onGrave={() => setGraveOf(1)} />
       </div>
       <FoeHand count={foe.hand.length} />
-      <Field board={board} cards={cards} hl={hl} onTap={tap} center={phasebar} />
+      <Field board={board} cards={cards} hl={hl} picked={marks.picked} onTap={tap} center={phasebar} />
       <div className="mybar">
         <Plate side="me" who={player} lp={me.lp} deck={me.deck} hand={me.hand.length} grave={me.grave} turn={myTurn} onGrave={() => setGraveOf(0)} />
         <div className="sidebtns">{side}</div>
       </div>
       <div className="spacer" />
-      <Hand hand={me.hand} cards={cards} hl={hl} selected={selHand} onTap={tap} />
+      <Hand hand={me.hand} cards={cards} hl={hl} picked={marks.picked} selected={selHand} onTap={tap} />
       {curShow && (
         <button key={curShow.k} className="showcase" onClick={() => setShowQ((q) => q.slice(1))}>
           <div className="showcard"><CardFace code={curShow.code} card={cards[String(curShow.code)]} detail="full" /></div>
@@ -113,8 +138,21 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id:
       {debugOn && <div className="stats" style={{ textAlign: 'center' }}>{engine.info} · <button style={{ all: 'unset', textDecoration: 'underline' }} onClick={() => setLogOpen(true)}>histórico</button></div>}
       {!debugOn && <button className="logbtn" aria-label="Histórico" onClick={() => setLogOpen(true)}>⋯</button>}
 
-      {showPanel && <div className="scrim uphand"><div className="sheet hud panel">{panel}</div></div>}
-      {panel && peek && !sheet && <button className="hud-btn primary peekback" onClick={() => setPeek(false)}>{ICONS.bolt}<span>Voltar à resposta</span></button>}
+      {panel && (
+        <div className={`scrim uphand${panelHidden ? ' gone' : ''}`} aria-hidden={panelHidden}>
+          <div className="sheet hud panel">
+            {panel}
+            <button className="hud-btn wide" onClick={() => setPeek(true)}>{ICONS.eye}<span>Ver campo</span></button>
+          </div>
+        </div>
+      )}
+      {boardChoice && !sheet && !curShow && <ChoiceBar c={boardChoice} sel={sel} cards={cards} actor={actor?.code ?? null} attack={pickAttack} reply={reply} />}
+      {panel && peek && !sheet && (
+        <div className="peekbar hud panel">
+          <span>{ICONS.eye}Só olhando: toque numa carta para ampliar</span>
+          <button className="hud-btn primary" onClick={() => setPeek(false)}>{isChain ? 'Voltar à resposta' : 'Voltar à escolha'}</button>
+        </div>
+      )}
       {sheet && !curShow && <CardSheet code={sheet.code} cards={cards} actions={sheetActions} aboveHand onClose={() => setSheet(null)} />}
       {graveOf !== null && (
         <div className="scrim center">

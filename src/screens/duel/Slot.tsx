@@ -4,16 +4,22 @@ import type { BoardCard } from '../../engine/protocol';
 import type { Cards } from '../../data/cards';
 import { formatStat, isMonster } from '../../data/labels';
 import { CardBack, CardFace } from '../../components/CardFace';
-import type { CardRef } from './prompt';
+import { refKey, type CardRef } from './prompt';
 
 const DEFENSE = OcgPosition.FACEUP_DEFENSE | OcgPosition.FACEDOWN_DEFENSE;
 
 export type ZoneKind = 'm' | 's' | 'f';
 export type OnTapCard = (code: number, ref: CardRef, hidden: boolean) => void;
+/** Destaque de uma carta: `hl` brilha (tem ação ou pode ser escolhida); `picked` já está marcada numa escolha. */
+export type Mark = 'hl' | 'picked';
+export const markOf = (ref: CardRef, hl: Set<string>, picked?: Set<string>): Mark | undefined => {
+  const k = refKey(ref);
+  return picked?.has(k) ? 'picked' : hl.has(k) ? 'hl' : undefined;
+};
 
 /** Uma carta (ou zona vazia) no campo ou na mão. */
-export function Slot({ c, cards, cref, foe, hl, onTap, style, zone, lift }: {
-  c: BoardCard | null; cards: Cards; cref: CardRef; foe?: boolean; hl?: boolean; zone?: ZoneKind;
+export function Slot({ c, cards, cref, foe, mark, onTap, style, zone, lift }: {
+  c: BoardCard | null; cards: Cards; cref: CardRef; foe?: boolean; mark?: Mark; zone?: ZoneKind;
   onTap: OnTapCard; style?: CSSProperties; lift?: boolean;
 }) {
   if (!c) return <div className={`zone empty ${zone ?? 'm'}`} style={style} />;
@@ -24,9 +30,9 @@ export function Slot({ c, cards, cref, foe, hl, onTap, style, zone, lift }: {
   const hidden = !!foe && (facedown || inHand);
   const mon = !!info && isMonster(info.type);
   const showStats = !facedown && !inHand && c.attack != null && mon;
-  const cls = `${zone ? `zone ${zone}` : 'slot'}${def ? ' def' : ''}${facedown ? ' down' : ''}${hl ? ' hl' : ''}${lift ? ' lift' : ''}`;
+  const cls = `${zone ? `zone ${zone}` : 'slot'}${def ? ' def' : ''}${facedown ? ' down' : ''}${mark ? ` ${mark}` : ''}${lift ? ' lift' : ''}`;
   return (
-    <button className={cls} style={style} disabled={hidden} aria-label={hidden ? 'Carta virada' : info?.name} onClick={() => onTap(c.code, cref, hidden)}>
+    <button className={cls} style={style} disabled={hidden && !mark} aria-label={hidden ? 'Carta virada' : info?.name} onClick={() => onTap(c.code, cref, hidden)}>
       {hidden ? <CardBack /> : <CardFace code={c.code} card={info} />}
       {showStats && <i className="num"><span className="atk">{formatStat(c.attack)}</span>/<span className="def">{formatStat(c.defense)}</span></i>}
     </button>

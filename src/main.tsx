@@ -10,6 +10,7 @@ registerSW({ immediate: true });
 for (const ev of ['gesturestart', 'gesturechange', 'gestureend']) document.addEventListener(ev, (e) => e.preventDefault());
 navigator.storage?.persist?.().catch(() => {});
 const root = createRoot(document.getElementById('root')!);
-// Desenvolvimento: ?cardfaces abre a página de conferência da face das cartas.
+// Desenvolvimento: ?cardfaces abre a conferência da face das cartas; ?choices, a das escolhas de cartas no duelo.
 if (import.meta.env.DEV && location.search.includes('cardfaces')) import('./dev/CardFaceGallery').then(({ CardFaceGallery }) => root.render(<CardFaceGallery />));
+else if (import.meta.env.DEV && location.search.includes('choices')) import('./dev/ChoiceGallery').then(({ ChoiceGallery }) => root.render(<ChoiceGallery />));
 else root.render(<App />);

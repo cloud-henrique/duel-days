@@ -67,6 +67,9 @@ Regra deste change: **nenhuma mudança de comportamento sem um teste que a cubra
 - [x] 8.4 Texto da carta em `ui-serif` black (New York, como o nativo); PhaseBar na largura toda da faixa central; painéis de resposta menores; Phosphor (`@phosphor-icons/react`) para os ícones de interface.
 - [x] 8.5 Ícone e texto na mesma linha nos botões de ação; hambúrguer (Phosphor `List`) centralizado no menu (o padding do `.hud-btn` sobrescrevia o do menu).
 - [x] 8.6 Ordenar cartas (SORT_CARD, ex.: Classificar Livro de Magia): painel com arrastar e setas; patch no `ocgcore-wasm` (byte de tamanho a mais na resposta). Testes em `sort.test.ts` e `SortCards.test.tsx`; conferência no motor em `proto/sort-check.ts`.
+- [x] 8.7 Tocar de novo na carta aberta fecha a folha.
+- [x] 8.8 "Ver campo" em todos os painéis de resposta e escolha; no lugar do painel, a barra "Só olhando" (PeekBar do nativo). O painel fica escondido sem desmontar, então guarda o que estava marcado ou ordenado.
+- [x] 8.9 Escolha de cartas como no nativo (`choice.ts`, `ChoicePanels.tsx`): com tudo no campo ou na mão, barra compacta (carta que age, título, dica, contador) e toque nas cartas que brilham (alvo de ataque em vermelho); com cartas fora do campo, fileira de cartas com a origem. Testes em `choice.test.ts`; conferência visual em dev com `?choices`.
 
 ## Workflow follow-up
 

@@ -40,7 +40,8 @@ Pipeline de dados (gera arquivos NÃO versionados; veja README): `npm run fetch-
   - `prompt.ts` (puro: ações por carta, destaques, botões de fase, chips) com fixtures reais em `__fixtures__/`
     (`npx tsx proto/capture-fixtures.ts` regrava).
   - `Field`, `Hand`, `Slot`, `Plate` (+ `lp.ts`: contagem e cor do LP), `PhaseBar` (chips + narrador), `DuelMenu`
-    (Desistir), `PromptPanel`.
+    (Desistir), `PromptPanel`, `choice.ts` + `ChoicePanels` (escolha de cartas: no tabuleiro quando tudo está no campo/mão,
+    senão em fileira; conferência em dev com `?choices`), `SortCards`.
   - `duel.css`: **métricas do BoardMetrics nativo como tokens** no topo (`.duel` é contêiner; `cqw`/`cqh`). Mude
     medidas ali, não com números soltos; `node proto/layout-e2e.mjs` confere a spec `duel-hud` em 4 viewports.
 - `src/screens/`: `StoryScreen`, `HubScreen`, `DeckBuilder`, `ShopScreen`. `src/components/`: `CardSheet.tsx` (folha da

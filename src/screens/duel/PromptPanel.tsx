@@ -1,12 +1,13 @@
 import type { ReactNode } from 'react';
-import { OcgLocation, OcgMessageType, OcgPosition, OcgResponseType, type OcgMessage, type OcgResponse } from 'ocgcore-wasm';
+import { OcgMessageType, OcgPosition, OcgResponseType, type OcgMessage, type OcgResponse } from 'ocgcore-wasm';
 import { Warning } from '@phosphor-icons/react';
 import { freePlaces } from '../../engine/cpu';
 import { ICONS } from '../../components/CardSheet';
 import type { Cards } from '../../data/cards';
 import { SortCards } from './SortCards';
+import { choiceOf } from './choice';
+import { CardChoiceList } from './ChoicePanels';
 
-const LOC: Record<number, string> = { [OcgLocation.HAND]: 'mão', [OcgLocation.MZONE]: 'campo', [OcgLocation.SZONE]: 'M/A', [OcgLocation.GRAVE]: 'cemitério', [OcgLocation.DECK]: 'deck' };
 const POSITIONS: [number, string][] = [
   [OcgPosition.FACEUP_ATTACK, 'Ataque'], [OcgPosition.FACEUP_DEFENSE, 'Defesa'],
   [OcgPosition.FACEDOWN_DEFENSE, 'Defesa (baixada)'], [OcgPosition.FACEDOWN_ATTACK, 'Ataque (baixada)'],
@@ -18,12 +19,11 @@ const POSITIONS: [number, string][] = [
  */
 export function promptPanel(m: OcgMessage | null, ctx: {
   name: (code: number) => string; cards: Cards; evText: string; sel: number[];
-  setSel: (f: (s: number[]) => number[]) => void; reply: (r: OcgResponse) => void; peek: () => void; autoPass: () => void;
+  setSel: (f: (s: number[]) => number[]) => void; reply: (r: OcgResponse) => void; autoPass: () => void;
 }): ReactNode {
   if (!m) return null;
   const { name, reply, sel } = ctx;
   const btn = (label: string, r: OcgResponse, primary = false) => <button key={label + JSON.stringify(r)} className={`hud-btn ${primary ? 'primary' : ''}`} onClick={() => reply(r)}>{label}</button>;
-  const where = (x: { location: number; code: number }) => `${name(x.code)} (${LOC[x.location] ?? ''})`;
   switch (m.type) {
     case OcgMessageType.SELECT_CHAIN:
       return <>
@@ -31,7 +31,6 @@ export function promptPanel(m: OcgMessage | null, ctx: {
         <p className="sub">Você pode responder.</p>
         {m.selects.map((c, i) => <button key={i} className="hud-btn wide primary" onClick={() => reply({ type: OcgResponseType.SELECT_CHAIN, index: i })}>{ICONS.bolt}<span>{name(c.code)}</span></button>)}
         {!m.forced && <button className="hud-btn wide" onClick={() => reply({ type: OcgResponseType.SELECT_CHAIN, index: null })}><span>Passar</span></button>}
-        <button className="hud-btn wide" onClick={ctx.peek}>{ICONS.eye}<span>Ver campo</span></button>
         {!m.forced && <button className="linkbtn" onClick={() => { ctx.autoPass(); reply({ type: OcgResponseType.SELECT_CHAIN, index: null }); }}>Não perguntar mais neste duelo</button>}
       </>;
     case OcgMessageType.SELECT_YESNO:
@@ -47,22 +46,12 @@ export function promptPanel(m: OcgMessage | null, ctx: {
     case OcgMessageType.SELECT_DISFIELD:
       return <><h4>Zona escolhida automaticamente</h4>{btn('Confirmar', { type: m.type === OcgMessageType.SELECT_PLACE ? OcgResponseType.SELECT_PLACE : OcgResponseType.SELECT_DISFIELD, places: freePlaces(m.field_mask, m.player, m.count) }, true)}</>;
     case OcgMessageType.SELECT_CARD:
-    case OcgMessageType.SELECT_TRIBUTE: {
-      const list = m.selects as { code: number; location: number }[];
-      // Tributo: cada carta pode valer 1 ou 2; confere a soma, não a quantidade.
-      const weight = (i: number) => (m.type === OcgMessageType.SELECT_TRIBUTE ? (m.selects[i] as { release_param?: number }).release_param || 1 : 1);
-      const got = sel.reduce((a, i) => a + weight(i), 0);
-      const ok = got >= m.min && got <= m.max;
-      const t = m.type === OcgMessageType.SELECT_CARD ? OcgResponseType.SELECT_CARD : OcgResponseType.SELECT_TRIBUTE;
-      return <>
-        <h4>{m.type === OcgMessageType.SELECT_TRIBUTE ? 'Escolha os tributos' : 'Escolha as cartas'} ({m.min}–{m.max})</h4>
-        {list.map((c, i) => <button key={i} className={`hud-btn ${sel.includes(i) ? 'on' : ''}`} onClick={() => ctx.setSel((s) => s.includes(i) ? s.filter((x) => x !== i) : [...s, i])}>{where(c)}</button>)}
-        <button className="hud-btn primary" disabled={!ok} onClick={() => reply({ type: t, indicies: sel } as OcgResponse)}>Confirmar</button>
-        {m.can_cancel && btn('Cancelar', { type: t, indicies: null } as OcgResponse)}
-      </>;
+    case OcgMessageType.SELECT_TRIBUTE:
+    case OcgMessageType.SELECT_UNSELECT_CARD: {
+      // No tabuleiro, a escolha é a barra (ChoiceBar) e o toque nas cartas; aqui só a lista de cartas fora do campo.
+      const c = choiceOf(m);
+      return c?.mode === 'list' ? <CardChoiceList c={c} sel={sel} setSel={ctx.setSel} cards={ctx.cards} reply={reply} /> : null;
     }
-    case OcgMessageType.SELECT_UNSELECT_CARD:
-      return <><h4>Escolha uma carta</h4>{m.select_cards.map((c, i) => btn(where(c), { type: OcgResponseType.SELECT_UNSELECT_CARD, index: i }))}{m.can_finish && btn('Concluir', { type: OcgResponseType.SELECT_UNSELECT_CARD, index: null }, true)}</>;
     case OcgMessageType.SORT_CARD:
       return <SortCards key={m.cards.map((c) => c.code).join()} cards={ctx.cards} list={m.cards} reply={reply} />;
     case OcgMessageType.SELECT_IDLECMD:
