@@ -21,6 +21,12 @@ describe('choiceOf', () => {
     expect(choiceOf(selectCard([mz(1, 0), mz(1, 2)]))?.mode).toBe('board');
   });
 
+  it('carta na mão do oponente (ex.: Troca): lista, porque a mão dele são versos sem toque', () => {
+    const hand = (controller: 0 | 1, sequence: number) => ({ code: 200 + sequence, controller, location: OcgLocation.HAND, sequence, position: 1 });
+    expect(choiceOf(selectCard([hand(1, 0), hand(1, 1)]))?.mode).toBe('list');
+    expect(choiceOf(selectCard([hand(0, 0), mz(1, 1)]))?.mode).toBe('board');
+  });
+
   it('alguma carta fora do campo (cemitério, deck): lista', () => {
     expect(choiceOf(selectCard([mz(1, 0), { code: 5, controller: 0, location: OcgLocation.DECK, sequence: 3, position: 1 }]))?.mode).toBe('list');
   });

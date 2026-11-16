@@ -1,7 +1,8 @@
 /**
  * Escolha de cartas (SELECT_CARD, SELECT_TRIBUTE, SELECT_UNSELECT_CARD) sem React. Como no nativo:
- * - no **tabuleiro** quando todas as opções estão no campo ou na mão: as cartas brilham e o jogador toca nelas;
- * - em **lista** (fileira de cartas) quando alguma está fora do campo (deck, cemitério, banidas, Extra).
+ * - no **tabuleiro** quando todas as opções estão no campo ou na mão do jogador: as cartas brilham e o jogador toca nelas;
+ * - em **lista** (fileira de cartas) quando alguma está fora do campo (deck, cemitério, banidas, Extra) ou na mão do
+ *   oponente (ex.: Troca), que a tela desenha só com versos e sem toque.
  */
 import { OcgLocation, OcgMessageType, OcgResponseType, type OcgMessage, type OcgResponse } from 'ocgcore-wasm';
 import { refKey, type CardRef } from './prompt';
@@ -20,8 +21,9 @@ export interface Choice {
   canFinish: boolean;
 }
 
-/** Onde a escolha pode ser feita tocando na carta. */
-const ON_BOARD = OcgLocation.MZONE | OcgLocation.SZONE | OcgLocation.HAND;
+/** Onde a escolha pode ser feita tocando na carta: o campo dos dois lados e a mão do jogador (a do oponente são versos). */
+const ON_FIELD = OcgLocation.MZONE | OcgLocation.SZONE;
+const tappable = (r: CardRef) => (r.location & ON_FIELD) !== 0 || (r.location === OcgLocation.HAND && r.controller === 0);
 
 type Loc = { code: number; controller: number; location: number; sequence: number };
 const opt = (x: Loc, weight = 1): ChoiceOption => ({ ref: { controller: x.controller as 0 | 1, location: x.location, sequence: x.sequence }, code: x.code, weight });
@@ -36,7 +38,7 @@ export function choiceOf(m: OcgMessage | null): Choice | null {
   else if (m.type === OcgMessageType.SELECT_UNSELECT_CARD) { options = m.select_cards.map((x) => opt(x)); marked = m.unselect_cards.map((x) => opt(x)); }
   else return null;
   const all = [...options, ...marked];
-  const mode = all.every((o) => (o.ref.location & ON_BOARD) !== 0) ? 'board' : 'list';
+  const mode = all.every((o) => tappable(o.ref)) ? 'board' : 'list';
   return {
     type: m.type, mode, options, marked, min: m.min, max: m.max, canCancel: m.can_cancel,
     canFinish: m.type === OcgMessageType.SELECT_UNSELECT_CARD && m.can_finish,
