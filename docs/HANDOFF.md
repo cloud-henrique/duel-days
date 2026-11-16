@@ -27,6 +27,8 @@ Documento para continuar o projeto numa sessão nova. Leia também o `CLAUDE.md`
   vitórias/derrotas/aproveitamento), ajustes; o jogador aparece com o próprio avatar (não mais o Yugi); DP no lugar de
   "moedas"; Chakra Petch nos números e títulos; ícones Phosphor por conceito; moeda e dado desenhados, com "Cara ou
   coroa?", "Você disse cara" e "Acertou!/Errou!"; "DUELO!"/"VITÓRIA!" em serifada itálica com degradê.
+  Fundo de colmeia com circuito como o do nativo e brilho ciano no tabuleiro, nas placas e nos retratos; zonas de campo
+  ao lado da barra de fases e a arte da Magia de Campo a 50% no tabuleiro (como no Tag Force).
 - **Referência do nativo**: `docs/nativo/README.md` (índice; prints fora do git em `docs/nativo/prints/`).
 - **Produção**: https://dueldays.pages.dev (Cloudflare Pages atrás do Access, só os e-mails da política "Amigos"); o
   envio é pelo `dist/` local (veja o `CLAUDE.md`).

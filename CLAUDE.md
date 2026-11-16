@@ -29,6 +29,8 @@ Pipeline de dados (gera arquivos NÃO versionados; veja README): `npm run fetch-
 `.venv/bin/python scripts/extract_action_icons.py` (recorta o `actions.png` do Tag Force; o ícone de cada ação se escolhe em `npm run icon-labeler`, porta 5174, e fica em `assets/action-icons/labels.json`), `npm run build-characters`, `.venv/bin/python scripts/build_sprites.py`.
 Ícones do PWA (ankh em HUD azul; arte própria, os binários são versionados): edite `assets/app-icon/*.svg` e rode `node scripts/build_app_icons.mjs`
 (Playwright; se faltar o Chromium da revisão certa, `CHROMIUM_PATH=<chrome-headless-shell>`) → `public/icons/*` e `public/favicon.ico`.
+Fundo de colmeia com circuito (arte própria, versionada): `node scripts/build_circuit.mjs` → `src/ui/circuit.svg`, usado
+pelo `.hexbg` do `styles.css`.
 
 ## Arquitetura
 
@@ -52,6 +54,8 @@ Pipeline de dados (gera arquivos NÃO versionados; veja README): `npm run fetch-
   - `Field`, `Hand`, `Slot`, `Plate` (+ `lp.ts`: contagem e cor do LP), `PhaseBar` (chips + narrador), `DuelMenu`
     (Desistir), `PromptPanel`, `choice.ts` + `ChoicePanels` (escolha de cartas: no tabuleiro quando tudo está no campo/mão,
     senão em fileira; conferência em dev com `?choices`), `SortCards`.
+  - Zonas de campo (szone 5) nas pontas da faixa central (`.midrow`), a barra de fases entre elas; `fieldArt.ts`
+    (`fieldBackdrop`) escolhe a Magia de Campo cuja arte recortada cobre o `.field` a 50% (`.fieldart`).
   - `duel.css`: **métricas do BoardMetrics nativo como tokens** no topo (`.duel` é contêiner; `cqw`/`cqh`). Mude
     medidas ali, não com números soltos; `node proto/layout-e2e.mjs` confere a spec `duel-hud` em 4 viewports.
   - `anim/`: a encenação (change `animar-duelo`). `pacing.ts` é a **única fonte dos tempos** (`PACING`, teto de 1,5 s por

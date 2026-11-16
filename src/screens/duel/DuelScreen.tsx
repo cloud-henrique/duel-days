@@ -33,6 +33,7 @@ import { PhaseBar } from './PhaseBar';
 import { DuelMenu } from './DuelMenu';
 import './duel.css';
 import { DEFAULT_AVATAR } from '../../story/profile';
+import { FIELD_SEQ, fieldBackdrop, type FieldPlayed } from './fieldArt';
 
 export type { Duelist } from './Plate';
 
@@ -55,6 +56,8 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id:
   const [logOpen, setLogOpen] = useState(false);
   const [peek, setPeek] = useState(false);
   const [evText, setEvText] = useState('');
+  /** A última Magia de Campo ativada (a arte dela pinta o tapete). */
+  const [fieldPlayed, setFieldPlayed] = useState<FieldPlayed | null>(null);
   /** A carta que age: a última que o jogador mandou agir (ou a última ativada). `attack` quando foi "Atacar". */
   const [actor, setActor] = useState<{ code: number; attack: boolean } | null>(null);
 
@@ -68,6 +71,7 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id:
   const onStep = ({ beat }: Step) => {
     pushEvents(beatText(beat, name));
     if (beat.k === 'activate') setActor({ code: beat.code, attack: false });
+    if (beat.k === 'activate' && beat.at.zone === 'szone' && beat.at.seq === FIELD_SEQ) setFieldPlayed({ code: beat.code, p: beat.at.p });
   };
 
   // Encenação: a fila toca os acontecimentos do motor na tela de duelo (`root`), com os fantasmas numa camada fixa.
@@ -167,7 +171,7 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id:
         <Plate side="foe" who={opponent} lp={foe.lp} deck={foe.deck} hand={foe.hand.length} grave={foe.grave} turn={!myTurn} onGrave={() => setGraveOf(1)} />
       </div>
       <FoeHand count={foe.hand.length} />
-      <Field board={board} cards={cards} hl={hl} picked={marks.picked} onTap={tap} center={phasebar} />
+      <Field board={board} cards={cards} hl={hl} picked={marks.picked} onTap={tap} center={phasebar} backdrop={fieldBackdrop(board, fieldPlayed)} />
       <div className="mybar">
         <Plate side="me" who={player} lp={me.lp} deck={me.deck} hand={me.hand.length} grave={me.grave} turn={myTurn} onGrave={() => setGraveOf(0)} />
         <div className="sidebtns">{side}</div>

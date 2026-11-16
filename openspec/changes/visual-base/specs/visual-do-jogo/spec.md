@@ -99,3 +99,12 @@ sorteado, e então o resultado aparece em texto.
 #### Scenario: Lance de dado
 - **WHEN** um efeito lança um dado e sai 4
 - **THEN** um dado gira, para mostrando os quatro pontos e o texto do resultado aparece
+
+### Requirement: Fundo de circuito e brilho dos componentes
+O fundo das telas SHALL ser o padrão do app nativo: colmeia de hexágonos com trilhas e pontos de circuito em ciano
+translúcido sobre um degradê radial azul, mais claro no centro. O tabuleiro, as placas e as molduras dos retratos SHALL
+ter um brilho ciano suave; a placa de quem joga o turno brilha mais forte. As cartas da mão MUST NOT ter brilho.
+
+#### Scenario: Duelo aberto
+- **WHEN** o duelo é exibido
+- **THEN** o fundo mostra a colmeia de circuito, o tabuleiro e as placas têm brilho ciano e as cartas da mão não brilham

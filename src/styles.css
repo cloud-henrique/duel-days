@@ -20,9 +20,9 @@
 html, body, #root { height: 100%; margin: 0; }
 body { background: var(--bg); color: var(--txt); font: 14px/1.35 system-ui, -apple-system, sans-serif; user-select: none; -webkit-user-select: none; touch-action: manipulation; overscroll-behavior: none; }
 .hexbg {
-  background:
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='56' height='97'><g fill='none' stroke='%232f7fd8' stroke-opacity='.13' stroke-width='1'><path d='M14 0l14 8v16l-14 8-14-8V8zM42 32l14 8v16l-14 8-14-8V40zM14 64l14 8v16l-14 8-14-8V72zM42 -32l14 8v16l-14 8-14-8v-16z'/></g></svg>"),
-    radial-gradient(110% 70% at 50% 0%, #12306a 0%, var(--bg2) 45%, var(--bg) 100%);
+  /* Fundo do app nativo (GameBackground): brilho azul no centro sumindo no marinho e o padrão de circuito (colmeia com
+     trilhas) por cima, apagado. O SVG sai de scripts/build_circuit.mjs. */
+  background: url('./ui/circuit.svg') 0 0 / 259.81px 450px repeat, radial-gradient(circle 600px at 50% 50%, #1a4066 20px, #050a18 600px) #050a18;
 }
 .hud, .hud-btn {
   /* A borda é um box-shadow interno, que o clip-path corta no chanfro; as duas camadas abaixo desenham a borda diagonal. */

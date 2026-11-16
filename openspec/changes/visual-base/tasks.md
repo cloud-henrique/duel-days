@@ -100,6 +100,17 @@ no fim de cada grupo que mexe em tela, no simulador de iOS.
 - [x] 8.4 Zonas de Magia/Armadilha com a altura das de monstro (`--st-ratio: 1`). Verificar: `node proto/layout-e2e.mjs`
   nos 4 viewports.
 
+## 9. Fundo, brilho e Magia de Campo (pedidos do usuário, 16/11/2026)
+
+- [x] 9.1 Fundo de colmeia com circuito (`scripts/build_circuit.mjs` → `src/ui/circuit.svg`, arte própria) no `.hexbg`,
+  com degradê mais claro. Verificar: print no simulador de iOS.
+- [x] 9.2 Brilho ciano no tabuleiro, nas placas (mais forte no turno) e nas molduras dos retratos; sem brilho nas cartas
+  da mão. Verificar: print no simulador de iOS.
+- [x] 9.3 Zonas de campo nas pontas da faixa central, barra de fases encolhida entre elas. Verificar:
+  `node proto/layout-e2e.mjs` nos 4 viewports e Umi ativada aparecendo na zona.
+- [x] 9.4 Arte recortada da Magia de Campo a 50% no fundo do tabuleiro (`fieldArt.ts`, testes em `fieldArt.test.ts`).
+  Verificar: `npm test` e Umi ativada no navegador.
+
 ## Workflow follow-up
 
 - Teste no iPhone físico pelo usuário, depois arquivar o change.

@@ -40,3 +40,26 @@ visível; só a carta dentro dela é escondida enquanto o efeito a representa.
 #### Scenario: Armadilha virada
 - **WHEN** uma Armadilha baixada é virada para ser ativada
 - **THEN** o tracejado da zona continua no lugar durante o giro
+
+### Requirement: Zonas de campo ao lado da barra de fases
+As duas zonas de Magia de Campo (uma de cada duelista) SHALL ficar visíveis nas pontas da faixa central: a do jogador
+à esquerda e a do oponente à direita (como no tabuleiro oficial), cada uma com a largura de uma carta na altura da faixa. A barra de fases SHALL
+encolher para caber entre elas, sem cobri-las. Uma Magia de Campo ativada SHALL aparecer na zona do dono e ficar lá
+enquanto o motor a mantiver.
+
+#### Scenario: Ativar Umi
+- **WHEN** o jogador ativa uma Magia de Campo
+- **THEN** a carta aparece na zona de campo do jogador, ao lado da barra de fases, e não vai para o cemitério
+
+### Requirement: Arte da Magia de Campo no tabuleiro
+Com uma Magia de Campo virada para cima em jogo, o fundo do tabuleiro (o contêiner de todas as zonas) SHALL mostrar a
+arte recortada da carta, cobrindo o tabuleiro, a 50% de opacidade, por trás das zonas. Com duas em jogo, vale a última
+ativada; quando ela sai, vale a que restar; sem nenhuma, o tabuleiro volta ao fundo padrão.
+
+#### Scenario: Campo trocado
+- **WHEN** o jogador ativa Umi
+- **THEN** o tabuleiro passa a mostrar a arte de Umi a 50% por trás das zonas
+
+#### Scenario: Campo destruído
+- **WHEN** a única Magia de Campo em jogo é destruída
+- **THEN** o tabuleiro volta ao fundo padrão
