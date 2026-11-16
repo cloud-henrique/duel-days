@@ -90,11 +90,12 @@ Regra deste change: **nenhuma mudança de comportamento sem um teste que a cubra
 - [x] 6.1 Rodar `npx tsc --noEmit`, `npm test`, `npx tsx proto/monkey.ts 100`, `npx tsx proto/smoke.ts 500`, `node proto/webkit-e2e.mjs` e `node proto/layout-e2e.mjs`. Verificar: todos passam.
   Resultado: `tsc` e 201 testes ok; monkey 300/300 (0 lugares inválidos; aviso de 30 de 7.105 turnos acima de 15s);
   smoke 500/500; `webkit-e2e.mjs` e `layout-e2e.mjs` ok.
-- [ ] 6.2 Testar no simulador de iOS e no iPhone 11 Pro físico pelo túnel: um duelo inteiro em velocidade normal, sem travadas perceptíveis e sem o jogo preso numa animação. Verificar: anotações e prints no PR.
+- [x] 6.2 Testar no simulador de iOS e no iPhone 11 Pro físico pelo túnel: um duelo inteiro em velocidade normal, sem travadas perceptíveis e sem o jogo preso numa animação. Verificar: anotações e prints no PR.
   Parcial (sem o iPhone físico): `node proto/duel-e2e.mjs` jogou duelos inteiros no WebKit na velocidade normal, todos até o fim
   e sem erros (VITÓRIA nos turnos 9 e 15, DERROTA nos turnos 6, 8, 10 e 12; maior encenação contínua 12,9s; com `--reduzir`,
   VITÓRIA no turno 7, 6,2s). As paradas que apareceram eram do roteiro (folha sem ação conhecida, corrente obrigatória) e foram
   corrigidas nele. No Safari do simulador de iOS: abertura, áudio liberado no primeiro toque e invocação. Falta o iPhone 11 Pro.
+  Testado pelo usuário no iPhone físico em 16/11/2026: tudo certo.
 - [x] 6.3 Atualizar o `docs/HANDOFF.md` (animações, preferências, sons) e o `CLAUDE.md`:
   - protocolo `steps`;
   - `data-loc`/`locKey`;

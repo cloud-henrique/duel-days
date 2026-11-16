@@ -39,7 +39,8 @@ Regra deste change: **nenhuma mudança de comportamento sem um teste que a cubra
 
   Verificar: `npm test`, e uma página de teste com os 20 nomes mais longos do pool nas larguras 24, 61 e 91 sem nada saindo da moldura.
 - [x] 5.4 Usar o `CardFace` na mão, no campo (altura total da zona, defesa a 90° com selos em pé, selo de 10pt) e no destaque de ativação; versos com `back.webp`. Verificar: os cenários "Carta no campo ocupa a zona" e "Mão do oponente" no navegador, e o `webkit-e2e.mjs` passa.
-- [ ] 5.5 Medir o desempenho no iPhone 11 Pro físico (pelo túnel) com o campo cheio e 7 cartas na mão. Verificar: sem travadas perceptíveis, com as anotações no PR.
+- [x] 5.5 Medir o desempenho no iPhone 11 Pro físico (pelo túnel) com o campo cheio e 7 cartas na mão. Verificar: sem travadas perceptíveis, com as anotações no PR.
+  Testado pelo usuário no iPhone físico em 16/11/2026: tudo certo.
 
 ## 6. Placas, barra de fases e botões
 
@@ -56,7 +57,8 @@ Regra deste change: **nenhuma mudança de comportamento sem um teste que a cubra
 ## 7. Integração
 
 - [x] 7.1 Rodar `npx tsc --noEmit`, `npm test`, `npx tsx proto/monkey.ts 100`, `node proto/webkit-e2e.mjs` e `node proto/layout-e2e.mjs`. Verificar: todos passam.
-- [ ] 7.2 Testar no simulador de iOS (Safari e app instalado) e no iPhone físico pelo túnel. Verificar: prints dos cenários da spec `duel-hud` anexados ao PR.
+- [x] 7.2 Testar no simulador de iOS (Safari e app instalado) e no iPhone físico pelo túnel. Verificar: prints dos cenários da spec `duel-hud` anexados ao PR.
+  Testado pelo usuário no iPhone físico em 16/11/2026: tudo certo.
 - [x] 7.3 Atualizar o `docs/HANDOFF.md` (imagens em PT, toast removido, arte recortada) e o `CLAUDE.md` (estrutura de `src/screens/duel/`, testes). Verificar: as seções refletem o código.
 
 ## 8. Ajustes do primeiro teste no iPhone
