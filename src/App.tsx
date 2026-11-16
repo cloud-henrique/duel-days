@@ -15,6 +15,7 @@ import { Welcome } from './screens/profile/Welcome';
 import { ProfileScreen } from './screens/profile/ProfileScreen';
 import { TitleScreen } from './screens/title/TitleScreen';
 import { SettingsScreen } from './screens/title/SettingsScreen';
+import { GameIcon } from './ui/icons';
 
 const BASE = import.meta.env.BASE_URL;
 const hash = (s: string) => [...s].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7);
@@ -27,6 +28,8 @@ export function App() {
   const [deckBack, setDeckBack] = useState<'title' | 'play'>('title');
   const [prog, setProg] = useState<Progress | null>(null);
   const [ready, setReady] = useState(false);
+  // Entrou pelo título com a cena parada num duelo (o app fechou no meio dele): pergunta antes de recomeçá-lo.
+  const [askResume, setAskResume] = useState(false);
 
   useEffect(() => {
     fetch(`${BASE}characters/index.json`).then((r) => r.json())
@@ -51,7 +54,11 @@ export function App() {
   const toTitle = () => setView('title');
   const openDecks = (from: 'title' | 'play') => { setDeckBack(from); setView('decks'); };
 
-  if (view === 'title') return <TitleScreen progress={prog} onPlay={() => setView('play')} onDecks={() => openDecks('title')} onProfile={() => setView('profile')} onSettings={() => setView('settings')} />;
+  if (view === 'title') return <TitleScreen progress={prog} onPlay={() => {
+    const run = prog.run;
+    setAskResume(!!run && sceneById(run.scene).chapter.nodes[run.state.i]?.t === 'duel');
+    setView('play');
+  }} onDecks={() => openDecks('title')} onProfile={() => setView('profile')} onSettings={() => setView('settings')} />;
   if (view === 'profile') return <ProfileScreen progress={prog} onBack={toTitle} onChange={(p) => save({ ...prog, playerName: p.name, avatar: p.avatar, address: p.address })} />;
   if (view === 'settings') {
     return <SettingsScreen settings={withDefaults(prog.settings)} onSettings={(settings) => save({ ...prog, settings })} onBack={toTitle}
@@ -72,6 +79,19 @@ export function App() {
   const st = prog.run.state;
   const setRun = (state: RunState) => save({ ...prog, run: { scene: scene.id, state } });
   const node = ch.nodes[st.i];
+
+  if (node?.t === 'duel' && askResume) {
+    const foeName = chars[node.opponent]?.name ?? 'Oponente';
+    return (
+      <div className="app menu hexbg resume">
+        <h1 className="game-title">Duelo interrompido</h1>
+        <p>O duelo contra <b>{foeName}</b> em {locationOf(scene.location).name} ficou pela metade. Ele recomeça do início.</p>
+        <button className="hud-btn primary" onClick={() => setAskResume(false)}><GameIcon name="duel" size={20} /> Duelar com {foeName}</button>
+        <button className="hud-btn" onClick={() => { setAskResume(false); save({ ...prog, run: null }); }}><GameIcon name="campaign" size={20} /> Voltar ao mapa</button>
+        <button className="hud-btn" onClick={toTitle}>Voltar ao título</button>
+      </div>
+    );
+  }
 
   if (node?.t === 'duel') {
     const mine = prog.decks.find((d) => d.id === prog.activeDeck) ?? prog.decks[0];

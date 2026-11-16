@@ -192,3 +192,5 @@ body { background: var(--bg); color: var(--txt); font: 14px/1.35 system-ui, -app
 .panelbox .menu-opt > span { color: var(--acc); font: 700 13px var(--font-game); text-transform: uppercase; }
 .panelbox .menu-opt .acts { display: flex; gap: 8px; } .panelbox .menu-opt .acts > .hud-btn { flex: 1; text-align: center; padding: 11px 6px; }
 .panelbox .hud-btn.danger { display: flex; justify-content: center; align-items: center; gap: 8px; }
+.resume p { text-align: center; margin: 0 0 6px; color: var(--txt); line-height: 1.4; }
+.resume .hud-btn { display: flex; align-items: center; justify-content: center; gap: 8px; }
