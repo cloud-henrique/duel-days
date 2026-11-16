@@ -21,6 +21,8 @@ import { sfx } from '../../audio/sfx';
 import { Splash } from './anim/Splash';
 import { ChainStack } from './anim/ChainStack';
 import { Toss } from './anim/Toss';
+import { Intro, wantsIntro } from './anim/Intro';
+import { Outro } from './anim/Outro';
 import { promptPanel } from './PromptPanel';
 import { Plate, type Duelist } from './Plate';
 import { Field } from './Field';
@@ -87,7 +89,18 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id:
   const reducedMotion = useReducedMotion();
   // Sons: seguem a preferência do jogador (o áudio é liberado no primeiro toque, em `main.tsx`).
   useEffect(() => { sfx.enabled = settings.sound; }, [settings.sound]);
-  const stage = useBeatQueue({ root, layer, speed: settings.anim, reducedMotion, faceOf });
+  // Abertura: segura a primeira encenação até terminar (ou ser pulada); a moeda cai em quem joga o turno 1.
+  const [intro, setIntro] = useState<{ starter: 0 | 1; done: () => void } | null>(null);
+  const introSeen = useRef(false);
+  const before = (steps: Step[]) => {
+    if (introSeen.current) return Promise.resolve();
+    introSeen.current = true;
+    if (!wantsIntro(settings.anim)) return Promise.resolve();
+    const first = steps.find((s) => s.beat.k === 'turn')?.beat;
+    const starter = first?.k === 'turn' ? first.p : 0;
+    return new Promise<void>((resolve) => setIntro({ starter, done: () => { setIntro(null); resolve(); } }));
+  };
+  const stage = useBeatQueue({ root, layer, speed: settings.anim, reducedMotion, faceOf, before });
 
   const engine = useDuelEngine({
     mine, foe: foeDeck, foeName: opponent.name, stage: stage.run, cancelStage: stage.cancel,
@@ -131,7 +144,8 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id:
   const sheetActions = sheet ? cardActions(prompt, sheet.ref).map((a) => ({ label: a.label, primary: a.primary, icon: iconFor(a.label), onClick: () => { setActor({ code: sheet.code, attack: a.label === 'Atacar' }); reply(a.response); } })) : [];
 
   const dbgBox = debugOn ? <div className="dbg">worker: última resposta há {engine.lastPongAgo()} s{engine.dbg.map((l, i) => <div key={i}>{l}</div>)}</div> : null;
-  if (!board) return <div className="duel hexbg"><div className="stats">Carregando motor…</div>{dbgBox}{fail && <p className="errtext">{fail}</p>}</div>;
+  const introLayer = intro && <Intro me={player} foe={opponent} starter={intro.starter} reduced={reducedMotion} onDone={intro.done} />;
+  if (!board) return <div className="duel hexbg"><div className="stats">Carregando motor…</div>{dbgBox}{fail && <p className="errtext">{fail}</p>}{introLayer}</div>;
   const [me, foe] = board.players;
   const selHand = sheet && sheet.ref.location === OcgLocation.HAND && sheet.ref.controller === 0 ? sheet.ref.sequence : -1;
   // Escondido (e não desmontado) enquanto se olha o campo: o painel guarda o que estava marcado ou ordenado.
@@ -200,7 +214,8 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id:
           <button className="hud-btn" onClick={() => engine.setFail(null)}>Fechar</button>
         </div></div>
       )}
-      {ended && <div className="scrim center"><div className="sheet hud"><h4>{ended.text}</h4><p className="stats" style={{ margin: 0 }}>+{ended.won ? WIN_COINS : LOSS_COINS} moedas</p><button className="hud-btn gold" onClick={() => onEnd(ended.won)}>Continuar</button></div></div>}
+      {introLayer}
+      {ended && <Outro result={ended.result} detail={ended.text} me={player} foe={opponent} coins={ended.won ? WIN_COINS : LOSS_COINS} reduced={reducedMotion} onContinue={() => onEnd(ended.won)} />}
     </div>
   );
 }

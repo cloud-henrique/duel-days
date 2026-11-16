@@ -19,11 +19,13 @@ npx tsx proto/monkey.ts 100         # mesmo código do Worker (DuelDriver) contr
 npx tsx proto/story-smoke.ts        # percorre todos os caminhos de todas as cenas
 npx tsx proto/economy-smoke.ts      # packs (distribuição/garantia) e coleção inicial
 npx tsx proto/sort-check.ts         # ordenar o topo do Deck (SORT_CARD) contra o motor real
-node proto/webkit-e2e.mjs           # fluxo no WebKit (Playwright) contra o preview
+node proto/webkit-e2e.mjs [url] [normal|rápida|desligada] [--reduzir] [--turno]   # fluxo no WebKit (Playwright) contra o preview
+node proto/duel-e2e.mjs [url] [--reduzir]   # duelo inteiro no WebKit, na velocidade normal: mede se fica preso numa encenação
+npx tsx proto/move-reason.ts        # confere o `reason` do MSG_MOVE (patch do ocgcore-wasm)
 ```
 
 Pipeline de dados (gera arquivos NÃO versionados; veja README): `npm run fetch-data`, `python3 scripts/fetch_pool.py`,
-`python3 scripts/export_data.py`, `python3 scripts/fetch_card_text_pt.py`, `.venv/bin/python scripts/fetch_card_art.py` (small/large/cropped + verso), `.venv/bin/python scripts/copy_card_icons.py` (ícones de atributo/tipo do app nativo e propriedades do `cardicons.png` do Tag Force 3 no PPSSPP → `public/card-icons/`),
+`python3 scripts/export_data.py`, `python3 scripts/fetch_card_text_pt.py`, `.venv/bin/python scripts/fetch_card_art.py` (small/large/cropped + verso), `.venv/bin/python scripts/copy_card_icons.py` (ícones de atributo/tipo do app nativo e propriedades do `cardicons.png` do Tag Force 3 no PPSSPP → `public/card-icons/`), `python3 scripts/copy_sounds.py` (efeitos do duelo do app nativo, do Tag Force, convertidos com `afconvert` → `public/sounds/*.m4a`; macOS),
 `.venv/bin/python scripts/extract_action_icons.py` (recorta o `actions.png` do Tag Force; o ícone de cada ação se escolhe em `npm run icon-labeler`, porta 5174, e fica em `assets/action-icons/labels.json`), `npm run build-characters`, `.venv/bin/python scripts/build_sprites.py`.
 Ícones do PWA (ankh em HUD azul; arte própria, os binários são versionados): edite `assets/app-icon/*.svg` e rode `node scripts/build_app_icons.mjs`
 (Playwright; se faltar o Chromium da revisão certa, `CHROMIUM_PATH=<chrome-headless-shell>`) → `public/icons/*` e `public/favicon.ico`.
@@ -34,11 +36,15 @@ Pipeline de dados (gera arquivos NÃO versionados; veja README): `npm run fetch-
   - `session.ts` cria o duelo (modo `MR1`), carrega `constant.lua` e `utility.lua` e **embaralha o deck por conta própria**
     (o core não embaralha; a compra sairia na ordem inversa da lista).
   - `driver.ts` (`DuelDriver`): avança o motor, responde pela CPU (jogador 1) e pelos prompts automáticos, tem orçamento
-    de passos/tempo e devolve `prompt`/`end`/`error`, com os **quadros** do caminho (cada jogada da CPU, cortados também na troca de
-    turno) para a tela tocar com pausas (`screens/duel/pacing.ts`, ritmo do `DuelPacing` nativo: 700 ms por jogada da CPU). É o mesmo código no Worker e nos testes em Node.
+    de passos/tempo e devolve `prompt`/`end`/`error` com os **`steps`**: os beats (acontecimentos visíveis) desde a última
+    mensagem, em ordem. O retrato do tabuleiro vai só no **último beat de cada passo do motor** (a consulta só vê o fim do
+    passo); o primeiro beat depois de cada jogada da CPU leva `think`. É o mesmo código no Worker e nos testes em Node.
+  - `beats.ts` (puro): `toBeats` (mensagem → beat; `MOVE` + `SUMMONING`/`SET` viram um beat só; movimentos seguidos tocam
+    juntos), `classifyMove` (pelo `reason` do `MSG_MOVE`), `beatText` (o **único** texto do narrador e do histórico) e
+    `locKey` (a chave de lugar `p:zone:seq`, também o `data-loc` da tela).
   - `host.ts` trata as mensagens; `worker.ts` é só o invólucro; `inline.ts` roda o motor na thread principal (`?engine=inline`).
   - `cpu.ts`: CPU aleatória com preferências; só responde o que o motor oferece (ex.: `to_ep` pode ser falso).
-  - `narrator.ts`: LP/turno/fase, texto dos eventos e a "foto" do tabuleiro para a UI.
+  - `narrator.ts`: orquestra o `beats.ts`, mantém LP/turno/fase e tira a "foto" do tabuleiro para a UI.
 - `src/screens/duel/`: a tela de duelo, dividida por responsabilidade.
   - `DuelScreen.tsx` compõe; `useDuelEngine.ts` (Worker/inline, mensagens, watchdog, reinício).
   - `prompt.ts` (puro: ações por carta, destaques, botões de fase, chips) com fixtures reais em `__fixtures__/`
@@ -48,11 +54,20 @@ Pipeline de dados (gera arquivos NÃO versionados; veja README): `npm run fetch-
     senão em fileira; conferência em dev com `?choices`), `SortCards`.
   - `duel.css`: **métricas do BoardMetrics nativo como tokens** no topo (`.duel` é contêiner; `cqw`/`cqh`). Mude
     medidas ali, não com números soltos; `node proto/layout-e2e.mjs` confere a spec `duel-hud` em 4 viewports.
+  - `anim/`: a encenação (change `animar-duelo`). `pacing.ts` é a **única fonte dos tempos** (`PACING`, teto de 1,5 s por
+    trava); `effects.ts` (`effectFor`: efeito, durações, trava e som de cada beat, e a regra de "reduzir movimento");
+    `queue.ts` (`runSteps`, pura, testada com relógio falso); `useBeatQueue.ts` (liga a fila à tela: `staging` trava a mão,
+    toque acelera, destaque, pilha da corrente e moeda); `play.ts` (o único que conhece o DOM e a Web Animations: voo dos
+    fantasmas entre os `data-loc` medidos, pilar, giros, ataque, quebra); `Splash`, `ChainStack`, `Toss`, `Intro`, `Outro`.
+  - Lugares na tela: zonas, mãos, deck, cemitério e placa têm `data-loc` = `locKey`. Sem lugar visível (banidas, Extra,
+    fora do jogo), a animação sai da placa do dono.
+- `src/audio/sfx.ts`: efeitos com Web Audio (buffers decodificados uma vez, anti-repetição de 60 ms, `settings.sound`).
 - `src/screens/`: `StoryScreen`, `HubScreen`, `DeckBuilder`, `ShopScreen`. `src/components/`: `CardSheet.tsx` (folha da
   carta + `Backdrop`) e `CardFace.tsx` (face própria da carta em PT, medidas da carta de referência de 320 em
   `cardface.css`; conferência em dev com `?cardfaces`).
 - `src/story/`: `runner.ts` (motor puro da VN), `world.ts` (locais, cenas, `pickScene`), `content.ts` (texto),
-  `progress.ts` (save em IndexedDB via Dexie: nome, corações, vitórias, moedas, coleção, decks, cena em andamento).
+  `progress.ts` (save em IndexedDB via Dexie: nome, corações, vitórias, moedas, coleção, decks, cena em andamento e
+  `settings` de animação/som, lidas sempre com `withDefaults`).
 - `src/game/`: `decks.ts` (regras: 40–60, Extra ≤15, ≤3 cópias, limitado à coleção), `packs.ts`, `economy.ts`.
 - `src/data/`: carregador de cartas (sobrepõe o texto em português) e rótulos (atributo, raça, tipo, moldura, `formatStat`).
 - Estilo: `src/styles.css` (HUD azul: `.hud`, `.hud-btn`, chanfro com `clip-path` + camadas `--cut-tl/--cut-br` que
@@ -63,6 +78,11 @@ Pipeline de dados (gera arquivos NÃO versionados; veja README): `npm run fetch-
 - **Worker em arquivo único** (`vite.config.ts` → `worker.rollupOptions.output.inlineDynamicImports`). Com code-splitting,
   o chunk do WASM importava a entrada do Worker e o Safari do iOS reexecutava o módulo, perdendo o duelo após o primeiro
   pedido. O estado do duelo fica em `globalThis.__duel`.
+- **Áudio no iOS**: o `AudioContext` só é liberado num gesto do usuário. O `installUnlock()` roda no `main.tsx` (qualquer
+  toque no app, já na história); antes disso `sfx.play` não faz nada. O Web Audio segue a chave de silencioso do iPhone.
+- **Os sons e a arte são da Konami**: `public/sounds/` (Tag Force, via app nativo) fica fora do git, como `public/cards/`.
+- **Tempos da encenação só no `PACING`**: as keyframes de CSS não têm duração; quem dispara é a Web Animations com valores
+  do `PACING`. A camada dos fantasmas é um portal no `body` (o `.duel` é contêiner e mudaria a referência do `fixed`).
 - **iOS só entrega toques confiáveis a `<button>`**: fundos que fecham usam `Backdrop`, a cena usa `.tapzone`. Não use
   `onClick` em `div` para ações importantes.
 - O PWA se atualiza sozinho (`registerSW({ immediate: true })`); a arte das cartas (~70 MB) fica fora da pré-carga

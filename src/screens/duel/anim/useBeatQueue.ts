@@ -21,10 +21,12 @@ export interface StageIO {
   apply: (board: Board) => void;
 }
 
-export function useBeatQueue({ root, layer, speed, reducedMotion, faceOf }: {
+export function useBeatQueue({ root, layer, speed, reducedMotion, faceOf, before }: {
   root: RefObject<HTMLElement | null>; layer: RefObject<HTMLElement | null>; speed: AnimSpeed; reducedMotion: boolean;
   /** A face da carta como DOM estático (a mesma do campo). */
   faceOf: (code: number) => HTMLElement | null;
+  /** Esperado antes de encenar (ex.: a abertura do duelo segura a primeira fila). */
+  before?: (steps: Step[]) => Promise<void>;
 }) {
   const [staging, setStaging] = useState(false);
   // Camadas em React (destaque de ativação e pilha da corrente), alimentadas pelos beats que a fila toca.
@@ -36,8 +38,8 @@ export function useBeatQueue({ root, layer, speed, reducedMotion, faceOf }: {
   const later = (fn: () => void, ms: number) => { timers.current.push(window.setTimeout(fn, ms)); };
   const clearLayers = () => { for (const t of timers.current.splice(0)) window.clearTimeout(t); setSplash(null); setChain(NO_CHAIN); setToss(null); };
   // Lidos na hora de tocar: a fila é disparada de um handler criado uma vez (o do motor).
-  const opts = useRef({ speed, reducedMotion, faceOf });
-  opts.current = { speed, reducedMotion, faceOf };
+  const opts = useRef({ speed, reducedMotion, faceOf, before });
+  opts.current = { speed, reducedMotion, faceOf, before };
   const hurried = useRef(false);
   const ctl = useRef<AbortController | null>(null);
   const cleanups = useRef<(() => void)[]>([]);
@@ -49,6 +51,8 @@ export function useBeatQueue({ root, layer, speed, reducedMotion, faceOf }: {
     const c = new AbortController();
     ctl.current = c;
     hurried.current = false;
+    await opts.current.before?.(steps);
+    if (c.signal.aborted) return false;
     const { speed: sp, reducedMotion: rm, faceOf: face } = opts.current;
     if (steps.length && sp !== 'off') setStaging(true);
     try {

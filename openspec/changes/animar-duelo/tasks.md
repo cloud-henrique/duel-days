@@ -78,20 +78,32 @@ Regra deste change: **nenhuma mudança de comportamento sem um teste que a cubra
 
 ## 5. Abertura e fim
 
-- [ ] 5.1 Criar a `Intro` (moeda, faixas com retrato e nome, "DUELO!"), que segura a fila até terminar. Teste de componente: o toque pula e chama `onDone`, e com `anim: 'off'` ela não aparece. Verificar: `npm test` e os cenários "Abertura completa" e "Pular abertura".
-- [ ] 5.2 Criar o `Outro` ("VITÓRIA!", "DERROTA" ou "EMPATE", com pulo do vencedor e perdedor esmaecido), mantendo os botões atuais de saída. Teste de componente: o título por resultado. Verificar: `npm test`, e ganhar e perder um duelo voltando para a história.
+- [x] 5.1 Criar a `Intro` (moeda, faixas com retrato e nome, "DUELO!"), que segura a fila até terminar. Teste de componente: o toque pula e chama `onDone`, e com `anim: 'off'` ela não aparece. Verificar: `npm test` e os cenários "Abertura completa" e "Pular abertura".
+  Conferido no navegador: abertura completa (moeda em quem joga o turno 1, que é sempre o jogador neste motor; faixas;
+  "DUELO!") e a fila só começa depois dela. Testes: toque pula e chama `onDone` uma vez; ~2,9s; `wantsIntro('off')` falso.
+- [x] 5.2 Criar o `Outro` ("VITÓRIA!", "DERROTA" ou "EMPATE", com pulo do vencedor e perdedor esmaecido), mantendo os botões atuais de saída. Teste de componente: o título por resultado. Verificar: `npm test`, e ganhar e perder um duelo voltando para a história.
+  Conferido no navegador: desistir mostra "DERROTA" com o perdedor esmaecido e o vencedor em destaque, e "Continuar" volta
+  à história. A vitória e o empate estão cobertos pelos testes do título; ver a vitória na tela no teste em aparelho (6.2).
 
 ## 6. Integração
 
-- [ ] 6.1 Rodar `npx tsc --noEmit`, `npm test`, `npx tsx proto/monkey.ts 100`, `npx tsx proto/smoke.ts 500`, `node proto/webkit-e2e.mjs` e `node proto/layout-e2e.mjs`. Verificar: todos passam.
+- [x] 6.1 Rodar `npx tsc --noEmit`, `npm test`, `npx tsx proto/monkey.ts 100`, `npx tsx proto/smoke.ts 500`, `node proto/webkit-e2e.mjs` e `node proto/layout-e2e.mjs`. Verificar: todos passam.
+  Resultado: `tsc` e 201 testes ok; monkey 300/300 (0 lugares inválidos; aviso de 30 de 7.105 turnos acima de 15s);
+  smoke 500/500; `webkit-e2e.mjs` e `layout-e2e.mjs` ok.
 - [ ] 6.2 Testar no simulador de iOS e no iPhone 11 Pro físico pelo túnel: um duelo inteiro em velocidade normal, sem travadas perceptíveis e sem o jogo preso numa animação. Verificar: anotações e prints no PR.
-- [ ] 6.3 Atualizar o `docs/HANDOFF.md` (animações, preferências, sons) e o `CLAUDE.md`:
+  Parcial (sem o iPhone físico): `node proto/duel-e2e.mjs` jogou duelos inteiros no WebKit na velocidade normal, todos até o fim
+  e sem erros (VITÓRIA nos turnos 9 e 15, DERROTA nos turnos 6, 8, 10 e 12; maior encenação contínua 12,9s; com `--reduzir`,
+  VITÓRIA no turno 7, 6,2s). As paradas que apareceram eram do roteiro (folha sem ação conhecida, corrente obrigatória) e foram
+  corrigidas nele. No Safari do simulador de iOS: abertura, áudio liberado no primeiro toque e invocação. Falta o iPhone 11 Pro.
+- [x] 6.3 Atualizar o `docs/HANDOFF.md` (animações, preferências, sons) e o `CLAUDE.md`:
   - protocolo `steps`;
   - `data-loc`/`locKey`;
   - `PACING` como única fonte de tempos;
   - armadilha do áudio no iOS.
 
   Verificar: as seções refletem o código.
+  Feito: `CLAUDE.md` (protocolo `steps`, `beats.ts`/`locKey`, `anim/`, `PACING` como fonte única, áudio no iOS, sons fora do git,
+  `copy_sounds.py`, `duel-e2e.mjs`) e `docs/HANDOFF.md` (estado, produção, próximos passos).
 
 ## Workflow follow-up
 

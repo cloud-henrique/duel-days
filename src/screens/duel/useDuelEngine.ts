@@ -16,7 +16,8 @@ const PING_MS = 2_000;
 const SEED_RANGE = 100_000;
 const DEBUG_LINES = 15;
 
-export interface DuelEnd { text: string; won: boolean }
+/** Fim do duelo: `result` escolhe o título; `won` decide as moedas (empate e desistência contam como derrota). */
+export interface DuelEnd { text: string; won: boolean; result: 'win' | 'loss' | 'draw' }
 
 /**
  * Ciclo de vida do motor (Worker ou thread principal): inicia o duelo, recebe tabuleiro/prompt/eventos,
@@ -55,7 +56,9 @@ export function useDuelEngine({ mine, foe, foeName, stage, cancelStage, onPrompt
     setBoard(d.board);
     if (d.t === 'prompt') { setPrompt(d.msg); onPrompt(); if (d.notice) onNotice(d.notice); return; }
     setPrompt(null);
-    setEnded({ text: d.winner === 0 ? 'Você venceu!' : `${foeName} venceu.`, won: d.winner === 0 });
+    // O motor indica empate com um vencedor que não é nenhum dos dois jogadores.
+    const result = d.winner === 0 ? 'win' : d.winner === 1 ? 'loss' : 'draw';
+    setEnded({ text: result === 'win' ? 'Você venceu!' : result === 'loss' ? `${foeName} venceu.` : 'Empate.', won: result === 'win', result });
   };
   const play = async (d: Extract<FromWorker, { t: 'prompt' | 'end' }>) => {
     const done = await stage(d.steps, { announce: onStep, apply: setBoard });
@@ -109,7 +112,7 @@ export function useDuelEngine({ mine, foe, foeName, stage, cancelStage, onPrompt
     }, WATCHDOG_MS);
   };
   const autoPass = () => send({ t: 'autoPass', value: true });
-  const surrender = () => { stopPlayback(); worker.current?.terminate(); setPrompt(null); setEnded({ text: 'Você desistiu.', won: false }); };
+  const surrender = () => { stopPlayback(); worker.current?.terminate(); setPrompt(null); setEnded({ text: 'Você desistiu.', won: false, result: 'loss' }); };
   const restart = () => { setFail(null); setBoard(null); setPrompt(null); start(); };
 
   return { board, prompt, info, ended, fail, setFail, dbg, lastPongAgo: () => Math.round((Date.now() - pong.current) / 1000), reply, autoPass, surrender, restart };

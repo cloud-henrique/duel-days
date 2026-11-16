@@ -36,6 +36,13 @@ export const PACING = {
   turn: { block: 0 },
   /** Fade curto que substitui deslocamento, giro 3D e quebra com "reduzir movimento". */
   fade: { duration: 200, block: 250 },
+  /**
+   * Abertura do duelo (não é trava de beat; fica fora do teto): moeda e quem começa, faixas dos duelistas entrando,
+   * "DUELO!", uma pausa e o fade de saída. Total ~2,9s; um toque pula.
+   */
+  intro: { coin: 900, starter: 400, banners: 450, title: 350, hold: 500, fade: 300 },
+  /** Fim do duelo: o título entra com escala e o vencedor dá um pulo (px). */
+  outro: { title: 500, jump: 600, jumpPx: 10 },
   /** Fator de tempo por velocidade; `hurry` é o toque para acelerar durante a fila. */
   speed: { normal: 1, fast: 0.5, hurry: 0.25 },
   /** O mesmo som não se repete em menos que isto. */

@@ -5,7 +5,7 @@ import { Ico } from './icons';
 import { LP_POPUP_MS, LP_STEPS, LP_STEP_MS, lpDelta, lpPercent, lpTone, lpTween } from './lp';
 
 const BASE = import.meta.env.BASE_URL;
-const avatar = (id: string) => `${BASE}characters/${id}/neutral.webp`;
+export const avatar = (id: string) => `${BASE}characters/${id}/neutral.webp`;
 
 export interface Duelist { id: string; name: string }
 
