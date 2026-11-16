@@ -37,23 +37,33 @@ Regra deste change: **nenhuma mudança de comportamento sem um teste que a cubra
 
 ## 3. Camada de animação
 
-- [ ] 3.1 Marcar com `data-loc` todos os lugares do tabuleiro (zonas, mão, faixa de versos, cemitério, placa, deck) a partir de uma única função `locKey(loc)`, que também é usada por `beats.ts`. Teste de unidade da `locKey`. Verificar: `npm test`, e no navegador `document.querySelectorAll('[data-loc]')` cobre todas as zonas dos dois lados.
-- [ ] 3.2 Criar o `useBeatQueue` (liga `runSteps` ao estado; `staging` trava a mão e os botões; toque para acelerar) e o `play.ts` com o voo do fantasma entre retângulos medidos e o fallback de fade. Verificar: com `anim: 'off'`, o `webkit-e2e.mjs` passa igual a antes; com `normal`, uma invocação da mão e uma destruição em batalha saem e chegam nos lugares certos com o campo inclinado.
-- [ ] 3.3 Adicionar ao `play.ts`, lendo o `effectFor`:
+- [x] 3.1 Marcar com `data-loc` todos os lugares do tabuleiro (zonas, mão, faixa de versos, cemitério, placa, deck) a partir de uma única função `locKey(loc)`, que também é usada por `beats.ts`. Teste de unidade da `locKey`. Verificar: `npm test`, e no navegador `document.querySelectorAll('[data-loc]')` cobre todas as zonas dos dois lados.
+- [x] 3.2 Criar o `useBeatQueue` (liga `runSteps` ao estado; `staging` trava a mão e os botões; toque para acelerar) e o `play.ts` com o voo do fantasma entre retângulos medidos e o fallback de fade. Verificar: com `anim: 'off'`, o `webkit-e2e.mjs` passa igual a antes; com `normal`, uma invocação da mão e uma destruição em batalha saem e chegam nos lugares certos com o campo inclinado.
+- [x] 3.3 Adicionar ao `play.ts`, lendo o `effectFor`:
   - pilar de luz (invocar e equipar);
   - baixar;
   - giro 3D (`reveal`) e giro de 90° (`pos`).
 
   Verificar: os cenários "Invocação", "Baixar carta", "Virar carta" e "Mudança de posição" da spec no viewport de celular.
-- [ ] 3.4 Criar o `Splash` (destaque de ativação com halo pela cor de `frameOf`, substituindo o destaque atual) e a `ChainStack` (elo em resolução, negado e anulado). Teste de componente da `ChainStack` para as três marcas. Verificar: `npm test` e os cenários "Ativação" e "Resolução de corrente".
-- [ ] 3.5 Adicionar ataque (vetor entre centros medidos, flash e tremida), quebra na destruição, banimento, retorno à mão e retorno ao deck. Verificar: os cenários "Ataque", "Destruição" e "Banimento, retorno e equipamento".
-- [ ] 3.6 Criar o `Toss` (moeda e dado). Verificar: um duelo com Time Wizard (ou carta de moeda do pool) mostra o giro e o resultado em até 1,5s.
-- [ ] 3.7 Ligar o "reduzir movimento" (`matchMedia('(prefers-reduced-motion: reduce)')`) ao `effectFor`. Verificar: emular a preferência no Playwright e conferir o cenário "Ataque com reduzir movimento".
+- [x] 3.4 Criar o `Splash` (destaque de ativação com halo pela cor de `frameOf`, substituindo o destaque atual) e a `ChainStack` (elo em resolução, negado e anulado). Teste de componente da `ChainStack` para as três marcas. Verificar: `npm test` e os cenários "Ativação" e "Resolução de corrente".
+  Conferido no navegador: "Ativação" (halo magenta de Armadilha, giro 3D antes do destaque). A corrente de 2 elos não saiu em
+  9 turnos de jogo automático: a pilha está coberta pelos testes (`ChainStack`, `nextChain`); conferir no teste em aparelho (6.2).
+- [x] 3.5 Adicionar ataque (vetor entre centros medidos, flash e tremida), quebra na destruição, banimento, retorno à mão e retorno ao deck. Verificar: os cenários "Ataque", "Destruição" e "Banimento, retorno e equipamento".
+  Conferido no navegador (medindo os fantasmas): ataque direto avançando até a placa com flash, e a quebra (flash, 4 pedaços,
+  fantasma menor ao cemitério). Banimento e retornos não saíram no jogo automático; conferir no simulador (6.2).
+- [x] 3.6 Criar o `Toss` (moeda e dado). Verificar: um duelo com Time Wizard (ou carta de moeda do pool) mostra o giro e o resultado em até 1,5s.
+  Testes do `Toss` (moeda por resultado, legenda) e trava de 1,3s no `PACING`. O Mago do Tempo não chegou à mão em 10 turnos
+  de jogo automático; conferir o giro na tela no simulador (6.2).
+- [x] 3.7 Ligar o "reduzir movimento" (`matchMedia('(prefers-reduced-motion: reduce)')`) ao `effectFor`. Verificar: emular a preferência no Playwright e conferir o cenário "Ataque com reduzir movimento".
+  Conferido com `node proto/webkit-e2e.mjs <url> normal --reduzir --turno`: 0 de 6 efeitos com deslocamento/giro/escala, ataque
+  só com o flash no alvo, sem pilar; sem `--reduzir`, 5 de 5 se movem.
 
 ## 4. Sons
 
-- [ ] 4.1 Converter os `.caf` do nativo com `afconvert` para `public/sounds/*.m4a`: comprar, invocar, baixar, virar, ativar, atacar, dano, cura, destruir, fim de turno, moeda, vitória e derrota. Registrar a origem no README. Verificar: os arquivos tocam no Safari e no Chrome, e o total fica abaixo de 3 MB.
-- [ ] 4.2 Criar `src/audio/sfx.ts`:
+- [x] 4.1 Converter os `.caf` do nativo com `afconvert` para `public/sounds/*.m4a`: comprar, invocar, baixar, virar, ativar, atacar, dano, cura, destruir, fim de turno, moeda, vitória e derrota. Registrar a origem no README. Verificar: os arquivos tocam no Safari e no Chrome, e o total fica abaixo de 3 MB.
+  Feito com `scripts/copy_sounds.py` (13 sons, 111 KB, AAC mono). Os sons são do Tag Force: ficam fora do git (decisão do
+  usuário; ver `design.md`, item 6). Origem registrada no README (pipeline e direitos). Tocar no Safari/Chrome: ver 4.2.
+- [x] 4.2 Criar `src/audio/sfx.ts`:
   - `AudioContext` liberado no primeiro toque;
   - buffers decodificados;
   - volumes do nativo;
@@ -61,6 +71,10 @@ Regra deste change: **nenhuma mudança de comportamento sem um teste que a cubra
   - silenciar por `settings.sound`.
 
   Os sons vêm do campo `sound` de `effectFor`. Verificar: `npm test`; no simulador de iOS, os sons tocam depois do primeiro toque; com o som desligado, nenhum toca.
+
+  Conferido: `npm test` (`shouldPlay`); no navegador, os 13 sons decodificam depois do primeiro toque e nenhum toca com o som
+  desligado; no Safari do simulador de iOS (log do `?debug=1`), o contexto passa de `suspended` a `running` no primeiro toque e
+  o primeiro som toca ao entrar no duelo. O desbloqueio fica no `main.tsx` (qualquer toque no app, já na história).
 
 ## 5. Abertura e fim
 

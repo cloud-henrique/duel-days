@@ -1,4 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { createPortal, flushSync } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { OcgLocation, OcgMessageType, OcgPhase, type OcgResponse } from 'ocgcore-wasm';
 import type { Step } from '../../engine/protocol';
 import { beatText } from '../../engine/beats';
@@ -13,7 +15,12 @@ import { cardActions, highlighted, refKey, sideActions, type CardRef } from './p
 import { choiceMarks, choiceOf, tapOption } from './choice';
 import { ChoiceBar } from './ChoicePanels';
 import { useDuelEngine } from './useDuelEngine';
-import { SHOWCASE_MS } from './pacing';
+import { useBeatQueue } from './anim/useBeatQueue';
+import { useReducedMotion } from './anim/useReducedMotion';
+import { sfx } from '../../audio/sfx';
+import { Splash } from './anim/Splash';
+import { ChainStack } from './anim/ChainStack';
+import { Toss } from './anim/Toss';
 import { promptPanel } from './PromptPanel';
 import { Plate, type Duelist } from './Plate';
 import { Field } from './Field';
@@ -44,8 +51,6 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id:
   const [logOpen, setLogOpen] = useState(false);
   const [peek, setPeek] = useState(false);
   const [evText, setEvText] = useState('');
-  const [showQ, setShowQ] = useState<{ code: number; controller: number; k: number }[]>([]);
-  const showK = useRef(0);
   /** A carta que age: a última que o jogador mandou agir (ou a última ativada). `attack` quando foi "Atacar". */
   const [actor, setActor] = useState<{ code: number; attack: boolean } | null>(null);
 
@@ -58,23 +63,37 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id:
   };
   const onStep = ({ beat }: Step) => {
     pushEvents(beatText(beat, name));
-    if (beat.k !== 'activate') return;
-    setShowQ((q) => [...q, { code: beat.code, controller: beat.p, k: ++showK.current }]);
-    setActor({ code: beat.code, attack: false });
+    if (beat.k === 'activate') setActor({ code: beat.code, attack: false });
   };
 
+  // Encenação: a fila toca os acontecimentos do motor na tela de duelo (`root`), com os fantasmas numa camada fixa.
+  const root = useRef<HTMLDivElement>(null);
+  const layer = useRef<HTMLDivElement>(null);
+  // Faces das cartas para os fantasmas: o CardFace renderizado uma vez por código e guardado como DOM estático.
+  const faces = useRef(new Map<number, HTMLElement>());
+  const faceOf = (code: number) => {
+    let el = faces.current.get(code);
+    if (!el) {
+      const host = document.createElement('div');
+      const r = createRoot(host);
+      flushSync(() => r.render(<CardFace code={code} card={cards[String(code)]} />));
+      el = host.firstElementChild as HTMLElement | null ?? undefined;
+      r.unmount();
+      if (!el) return null;
+      faces.current.set(code, el);
+    }
+    return el.cloneNode(true) as HTMLElement;
+  };
+  const reducedMotion = useReducedMotion();
+  // Sons: seguem a preferência do jogador (o áudio é liberado no primeiro toque, em `main.tsx`).
+  useEffect(() => { sfx.enabled = settings.sound; }, [settings.sound]);
+  const stage = useBeatQueue({ root, layer, speed: settings.anim, reducedMotion, faceOf });
+
   const engine = useDuelEngine({
-    mine, foe: foeDeck, foeName: opponent.name,
+    mine, foe: foeDeck, foeName: opponent.name, stage: stage.run, cancelStage: stage.cancel,
     onPrompt: () => { setSel([]); setPeek(false); }, onStep, onNotice: (t) => pushEvents([t]), onLog: (line) => setLog((l) => [...l, line]),
   });
   const { board, prompt, ended, fail } = engine;
-
-  const curShow = showQ[0];
-  useEffect(() => {
-    if (!curShow) return;
-    const id = window.setTimeout(() => setShowQ((q) => q.slice(1)), SHOWCASE_MS);
-    return () => window.clearTimeout(id);
-  }, [curShow?.k]);
 
   const reply = (response: OcgResponse) => { setSheet(null); engine.reply(response); };
   const choice = useMemo(() => choiceOf(prompt), [prompt]);
@@ -91,6 +110,7 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id:
   }, [prompt, ended]);
 
   const tap = (code: number, ref: CardRef, hidden: boolean) => {
+    if (stage.staging) return; // durante a encenação, nenhuma folha abre
     // Escolha no tabuleiro: tocar numa carta que vale marca (ou desmarca); o toque que completa já responde.
     const picked = boardChoice && !sheet ? tapOption(boardChoice, sel, ref) : null;
     if (picked) { setSel(picked.sel); if (picked.response) reply(picked.response); return; }
@@ -115,14 +135,14 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id:
   const [me, foe] = board.players;
   const selHand = sheet && sheet.ref.location === OcgLocation.HAND && sheet.ref.controller === 0 ? sheet.ref.sequence : -1;
   // Escondido (e não desmontado) enquanto se olha o campo: o painel guarda o que estava marcado ou ordenado.
-  const panelHidden = !!sheet || peek || !!curShow;
+  const panelHidden = !!sheet || peek || !!stage.splash;
   const isChain = prompt?.type === OcgMessageType.SELECT_CHAIN;
   const myTurn = board.turnPlayer === 0;
   const phasebar = <PhaseBar turn={board.turn} phase={board.phase} narration={evText || `Turno ${board.turn}: ${myTurn ? player.name : opponent.name}`} />;
 
   const pickAttack = !!boardChoice && !!actor?.attack && isBattle(board.phase);
   return (
-    <div className={`duel hexbg${pickAttack ? ' pick-attack' : ''}`}>
+    <div ref={root} className={`duel hexbg${pickAttack ? ' pick-attack' : ''}${stage.staging ? ' staging' : ''}`}>
       <div className="foebar">
         {!ended && <DuelMenu onSurrender={engine.surrender} settings={settings} onSettings={onSettings} />}
         <Plate side="foe" who={opponent} lp={foe.lp} deck={foe.deck} hand={foe.hand.length} grave={foe.grave} turn={!myTurn} onGrave={() => setGraveOf(1)} />
@@ -135,12 +155,12 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id:
       </div>
       <div className="spacer" />
       <Hand hand={me.hand} cards={cards} hl={hl} picked={marks.picked} selected={selHand} onTap={tap} />
-      {curShow && (
-        <button key={curShow.k} className="showcase" onClick={() => setShowQ((q) => q.slice(1))}>
-          <div className="showcard"><CardFace code={curShow.code} card={cards[String(curShow.code)]} detail="full" /></div>
-          <span>{curShow.controller === 0 ? player.name : opponent.name} ativou {name(curShow.code)}</span>
-        </button>
-      )}
+      {/* Durante a encenação, um toque em qualquer lugar acelera (e nada embaixo recebe o toque). */}
+      {stage.staging && <button className="stagecatch" aria-label="Acelerar" onClick={stage.hurry} />}
+      {createPortal(<div ref={layer} className="fxlayer" aria-hidden="true" />, document.body)}
+      <ChainStack chain={stage.chain} cards={cards} />
+      {stage.toss && <Toss key={stage.toss.key} t={stage.toss} who={(p) => (p === 0 ? player.name : opponent.name)} />}
+      {stage.splash && <Splash key={stage.splash.key} s={stage.splash} cards={cards} who={(p) => (p === 0 ? player.name : opponent.name)} />}
       {debugOn && <div className="stats" style={{ textAlign: 'center' }}>{engine.info} · <button style={{ all: 'unset', textDecoration: 'underline' }} onClick={() => setLogOpen(true)}>histórico</button></div>}
       {!debugOn && <button className="logbtn" aria-label="Histórico" onClick={() => setLogOpen(true)}>⋯</button>}
 
@@ -152,14 +172,14 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id:
           </div>
         </div>
       )}
-      {boardChoice && !sheet && !curShow && <ChoiceBar c={boardChoice} sel={sel} cards={cards} actor={actor?.code ?? null} attack={pickAttack} reply={reply} />}
+      {boardChoice && !sheet && !stage.splash && <ChoiceBar c={boardChoice} sel={sel} cards={cards} actor={actor?.code ?? null} attack={pickAttack} reply={reply} />}
       {panel && peek && !sheet && (
         <div className="peekbar hud panel">
           <span>{ICONS.eye}Só olhando: toque numa carta para ampliar</span>
           <button className="hud-btn primary" onClick={() => setPeek(false)}>{isChain ? 'Voltar à resposta' : 'Voltar à escolha'}</button>
         </div>
       )}
-      {sheet && !curShow && <CardSheet code={sheet.code} cards={cards} actions={sheetActions} aboveHand onClose={() => setSheet(null)} />}
+      {sheet && !stage.splash && <CardSheet code={sheet.code} cards={cards} actions={sheetActions} aboveHand onClose={() => setSheet(null)} />}
       {graveOf !== null && (
         <div className="scrim center">
           <Backdrop onClose={() => setGraveOf(null)} />

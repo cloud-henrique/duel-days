@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { OcgLocation, OcgMessageType, type OcgMessage } from 'ocgcore-wasm';
-import { beatText, classifyMove, newBeatCtx, toBeats, flushBeats, type BeatCtx } from './beats';
+import { beatText, classifyMove, locKey, newBeatCtx, toBeats, toLoc, flushBeats, type BeatCtx } from './beats';
 import type { Beat, Step } from './protocol';
 
 const T = OcgMessageType, L = OcgLocation;
@@ -186,5 +186,22 @@ describe('beatText', () => {
       { k: 'toss', what: 'coin', p: 0, results: [1] },
       { k: 'phase', phase: 4 },
     ] as Beat[]) expect(t(b)).toEqual([]);
+  });
+});
+
+describe('locKey', () => {
+  it('mão e zonas levam a sequência; pilhas não', () => {
+    expect(locKey({ p: 0, zone: 'hand', seq: 3 })).toBe('0:hand:3');
+    expect(locKey({ p: 1, zone: 'mzone', seq: 0 })).toBe('1:mzone:0');
+    expect(locKey({ p: 0, zone: 'szone', seq: 5 })).toBe('0:szone:5');
+    expect(locKey({ p: 1, zone: 'grave', seq: 7 })).toBe('1:grave');
+    expect(locKey({ p: 0, zone: 'deck', seq: 39 })).toBe('0:deck');
+    expect(locKey({ p: 0, zone: 'removed', seq: 1 })).toBe('0:removed');
+    expect(locKey({ p: 1, zone: 'extra', seq: 0 })).toBe('1:extra');
+    expect(locKey({ p: 0, zone: 'none', seq: 0 })).toBe('0:none');
+  });
+  it('a mesma chave sai da posição do motor (o que a tela usa) e do beat', () => {
+    expect(locKey(toLoc({ controller: 1, location: L.SZONE, sequence: 2 }))).toBe('1:szone:2');
+    expect(locKey(toLoc({ controller: 0, location: L.GRAVE, sequence: 4 }))).toBe('0:grave');
   });
 });

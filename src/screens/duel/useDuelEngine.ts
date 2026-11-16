@@ -5,7 +5,7 @@ import type { DeckList } from '../../engine/session';
 import { InlineEngine } from '../../engine/inline';
 import { debugOn, engineInline, rlog } from '../../debug/remote';
 import { art } from '../../components/CardSheet';
-import { playbackDelays } from './pacing';
+import type { StageIO } from './anim/useBeatQueue';
 
 const BASE = import.meta.env.BASE_URL;
 /** Sem resposta do motor por este tempo depois de uma jogada, a tela mostra o erro em vez de ficar parada. */
@@ -22,8 +22,11 @@ export interface DuelEnd { text: string; won: boolean }
  * Ciclo de vida do motor (Worker ou thread principal): inicia o duelo, recebe tabuleiro/prompt/eventos,
  * envia respostas e vigia travamentos.
  */
-export function useDuelEngine({ mine, foe, foeName, onPrompt, onStep, onNotice, onLog }: {
+export function useDuelEngine({ mine, foe, foeName, stage, cancelStage, onPrompt, onStep, onNotice, onLog }: {
   mine: DeckList; foe: DeckList; foeName: string;
+  /** Encena os steps (a fila de animação); `false` se foi cancelada. */
+  stage: (steps: Step[], io: StageIO) => Promise<boolean>;
+  cancelStage: () => void;
   /** Chamado a cada novo pedido de jogada (antes de mostrar o prompt). */
   onPrompt: () => void;
   /** Cada acontecimento do motor, na ordem em que a tela o toca (o tabuleiro dele já aplicado). */
@@ -46,32 +49,17 @@ export function useDuelEngine({ mine, foe, foeName, onPrompt, onStep, onNotice, 
   const clearDog = () => { window.clearTimeout(watchdog.current); watchdog.current = undefined; };
   const send = (m: ToWorker) => worker.current?.postMessage(m);
 
-  // Reprodução: os steps do motor entram um por vez, com as pausas do `pacing`; o pedido de jogada (ou o fim) só
-  // aparece depois do último.
-  const playTimer = useRef<number | undefined>(undefined);
-  const stopPlayback = () => { window.clearTimeout(playTimer.current); playTimer.current = undefined; };
-  const showStep = (st: Step) => { if (st.board) setBoard(st.board); onStep(st); };
+  // Encenação: os steps do motor passam pela fila de animação; o pedido de jogada (ou o fim) só aparece depois dela.
+  const stopPlayback = () => cancelStage();
   const finish = (d: Extract<FromWorker, { t: 'prompt' | 'end' }>) => {
     setBoard(d.board);
     if (d.t === 'prompt') { setPrompt(d.msg); onPrompt(); if (d.notice) onNotice(d.notice); return; }
     setPrompt(null);
     setEnded({ text: d.winner === 0 ? 'Você venceu!' : `${foeName} venceu.`, won: d.winner === 0 });
   };
-  const play = (d: Extract<FromWorker, { t: 'prompt' | 'end' }>) => {
-    stopPlayback();
-    const steps = d.steps;
-    const delays = playbackDelays(steps);
-    const step = (i: number) => {
-      if (i < steps.length) showStep(steps[i]);
-      else { playTimer.current = undefined; finish(d); return; }
-      next(i + 1);
-    };
-    const next = (i: number) => {
-      // Sem espera, aplica na hora (as jogadas do próprio jogador não ficam para depois).
-      if (delays[i] === 0) step(i);
-      else playTimer.current = window.setTimeout(() => step(i), delays[i]);
-    };
-    next(0);
+  const play = async (d: Extract<FromWorker, { t: 'prompt' | 'end' }>) => {
+    const done = await stage(d.steps, { announce: onStep, apply: setBoard });
+    if (done) finish(d);
   };
 
   const start = () => {
@@ -89,7 +77,7 @@ export function useDuelEngine({ mine, foe, foeName, onPrompt, onStep, onNotice, 
       clearDog();
       if (d.t !== 'ready') rlog(`<- ${d.t}${d.t === 'prompt' ? ' ' + d.msg.type : d.t === 'error' ? ' ' + d.text : ''}`);
       if (d.t === 'ready') setInfo(`ocgcore ${d.version.join('.')} · ${d.loadMs} ms`);
-      else if (d.t === 'prompt' || d.t === 'end') play(d);
+      else if (d.t === 'prompt' || d.t === 'end') void play(d);
       else if (d.t === 'error') { onLog(`ERRO: ${d.text}`); setFail(d.text); }
     };
     send({ t: 'start', seed: Date.now() % SEED_RANGE, mine, foe, base: BASE, debug: debugOn });

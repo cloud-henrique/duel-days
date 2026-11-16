@@ -223,8 +223,11 @@ pulada.
 
 ### 6. Sons
 
-- Origem: os `.caf` do nativo (livres) em `duel-academy/App/DuelAcademy/Sounds/`, convertidos com `afconvert` para
-  AAC `.m4a` (Safari e Chrome tocam) em `public/sounds/`, numa pré-carga separada.
+- Origem: os `.caf` do nativo em `duel-academy/App/DuelAcademy/Sounds/`, convertidos com `afconvert` para AAC `.m4a`
+  (Safari e Chrome tocam) em `public/sounds/` pelo `scripts/copy_sounds.py`.
+- **Correção da implementação (tarefa 4.1):** os efeitos do nativo não são livres: desde 28/10 vêm do *ARC-V Tag Force
+  Special* (Konami). Por decisão do usuário, ficam os mesmos sons, **fora do git** (`public/sounds/` no `.gitignore`, como
+  a arte), e vão para produção pelo `dist/`. São 13 arquivos, ~111 KB no total, e entram na pré-carga do PWA (offline).
 - Reprodução: um `AudioContext` com buffers decodificados. O contexto é liberado no primeiro toque do jogador, porque
   o iOS exige um gesto.
 - O mesmo som não se repete em menos de 60ms. Os volumes são os do nativo (fim de turno a 0,7).

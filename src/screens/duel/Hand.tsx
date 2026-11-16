@@ -17,7 +17,7 @@ export function Hand({ hand, cards, hl, picked, selected, onTap }: { hand: Board
   const n = hand.length;
   const mid = (n - 1) / 2;
   return (
-    <div className="handfan" style={{ ['--n' as string]: n }}>
+    <div className="handfan" data-loc="0:hand" style={{ ['--n' as string]: n }}>
       {hand.map((c, i) => {
         const up = i === selected;
         const cref = { controller: 0 as const, location: OcgLocation.HAND, sequence: i };
@@ -32,8 +32,8 @@ export function Hand({ hand, cards, hl, picked, selected, onTap }: { hand: Board
 export function FoeHand({ count }: { count: number }) {
   const mid = (count - 1) / 2;
   return (
-    <div className="foehand">{Array.from({ length: count }, (_, i) => (
-      <div key={i} className="foecard" style={{ transform: `rotate(${(i - mid) * FOE_DEG_PER_CARD}deg) translateY(${Math.abs(i - mid) * FOE_DROP}px)` }}><CardBack /></div>
+    <div className="foehand" data-loc="1:hand">{Array.from({ length: count }, (_, i) => (
+      <div key={i} className="foecard" data-loc={`1:hand:${i}`} style={{ transform: `rotate(${(i - mid) * FOE_DEG_PER_CARD}deg) translateY(${Math.abs(i - mid) * FOE_DROP}px)` }}><CardBack /></div>
     ))}</div>
   );
 }

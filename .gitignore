@@ -46,5 +46,7 @@ public/characters/
 public/cards/
 public/scripts.json
 public/card-icons/
+# Efeitos sonoros do duelo (Tag Force, via app nativo): python3 scripts/copy_sounds.py
+public/sounds/
 # Recortes do atlas de ações do Tag Force; só o manifest e os rótulos entram no git
 assets/action-icons/*.png

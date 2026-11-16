@@ -16,7 +16,15 @@ const zoneOf = (location: number): Zone => ZONES[location] ?? 'none';
 const side = (p: number) => (p === 1 ? 1 : 0) as Side;
 export const toLoc = (l: { controller: number; location: number; sequence: number }): Loc => ({ p: side(l.controller), zone: zoneOf(l.location), seq: l.sequence });
 const onField = (z: Zone) => z === 'mzone' || z === 'szone';
-const sameLoc = (a: Loc, b: Loc) => a.p === b.p && a.zone === b.zone && a.seq === b.seq;
+/** Zonas com lugar próprio por sequência; as demais são pilhas (deck, cemitério, banidas, Extra) ou estão fora do jogo. */
+const SEQUENCED = new Set<Zone>(['hand', 'mzone', 'szone']);
+
+/**
+ * Chave de um lugar na tela (o `data-loc` dos elementos): `p:zone:seq` para mão e zonas, `p:zone` para as pilhas. É a
+ * mesma chave para o tabuleiro e para os beats, então a animação acha a origem e o destino de cada beat.
+ */
+export const locKey = (l: Loc) => (SEQUENCED.has(l.zone) ? `${l.p}:${l.zone}:${l.seq}` : `${l.p}:${l.zone}`);
+const sameLoc = (a: Loc, b: Loc) => locKey(a) === locKey(b);
 
 /** Motivo de um movimento que não é compra, invocação nem baixa, pelo destino e pelo `reason` do core (`design.md`, item 2). */
 export function classifyMove(to: Zone, reason: number): MoveWhy {

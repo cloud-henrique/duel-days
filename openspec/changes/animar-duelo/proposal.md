@@ -35,7 +35,7 @@ nativo nos momentos de virar e destruir. Este change depende do `polir-hud-duelo
   - um toque na tela acelera a fila em andamento;
   - ajuste "Animações: normal / rápida / desligada", salvo no progresso;
   - o "reduzir movimento" do sistema é respeitado (sem avanço, tremida nem escalas grandes).
-- **Sons**: os efeitos do nativo (livres), convertidos para a web: comprar, invocar, baixar, virar, ativar, atacar,
+- **Sons**: os efeitos do nativo (do Tag Force, fora do git), convertidos para a web: comprar, invocar, baixar, virar, ativar, atacar,
   dano, cura, destruir, fim de turno, moeda, vitória e derrota. Têm volume e opção de silenciar. Não há vibração no
   iPhone, porque o Safari do iOS não oferece essa API.
 
@@ -68,7 +68,7 @@ nativo nos momentos de virar e destruir. Este change depende do `polir-hud-duelo
 - Save:
   - `src/story/progress.ts`: preferências de animação e de som, com valor padrão para saves antigos.
 - Assets:
-  - `public/sounds/*.m4a` (~2–3 MB, versionados, porque são livres);
+  - `public/sounds/*.m4a` (~110 KB, fora do git: são do Tag Force, via app nativo; `scripts/copy_sounds.py`);
   - os retratos dos duelistas que já existem em `public/characters`.
 - Dependência: talvez seja preciso ler o motivo do movimento (destruição, tributo, descarte), que o `ocgcore-wasm`
   descarta no `MSG_MOVE`. Ver `design.md`.

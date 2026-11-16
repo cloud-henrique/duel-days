@@ -5,6 +5,7 @@ import type { Cards } from '../../data/cards';
 import { formatStat, isMonster } from '../../data/labels';
 import { CardBack, CardFace } from '../../components/CardFace';
 import { refKey, type CardRef } from './prompt';
+import { locKey, toLoc } from '../../engine/beats';
 
 const DEFENSE = OcgPosition.FACEUP_DEFENSE | OcgPosition.FACEDOWN_DEFENSE;
 
@@ -22,7 +23,8 @@ export function Slot({ c, cards, cref, foe, mark, onTap, style, zone, lift }: {
   c: BoardCard | null; cards: Cards; cref: CardRef; foe?: boolean; mark?: Mark; zone?: ZoneKind;
   onTap: OnTapCard; style?: CSSProperties; lift?: boolean;
 }) {
-  if (!c) return <div className={`zone empty ${zone ?? 'm'}`} style={style} />;
+  const loc = locKey(toLoc(cref));
+  if (!c) return <div className={`zone empty ${zone ?? 'm'}`} style={style} data-loc={loc} />;
   const inHand = cref.location === OcgLocation.HAND;
   const facedown = !inHand && (c.position & OcgPosition.FACEDOWN) !== 0;
   const info = cards[String(c.code)];
@@ -32,7 +34,7 @@ export function Slot({ c, cards, cref, foe, mark, onTap, style, zone, lift }: {
   const showStats = !facedown && !inHand && c.attack != null && mon;
   const cls = `${zone ? `zone ${zone}` : 'slot'}${def ? ' def' : ''}${facedown ? ' down' : ''}${mark ? ` ${mark}` : ''}${lift ? ' lift' : ''}`;
   return (
-    <button className={cls} style={style} disabled={hidden && !mark} aria-label={hidden ? 'Carta virada' : info?.name} onClick={() => onTap(c.code, cref, hidden)}>
+    <button className={cls} style={style} data-loc={loc} disabled={hidden && !mark} aria-label={hidden ? 'Carta virada' : info?.name} onClick={() => onTap(c.code, cref, hidden)}>
       {hidden ? <CardBack /> : <CardFace code={c.code} card={info} />}
       {showStats && <i className="num"><span className="atk">{formatStat(c.attack)}</span>/<span className="def">{formatStat(c.defense)}</span></i>}
     </button>

@@ -38,7 +38,7 @@ export default defineConfig({
       },
       includeAssets: ['favicon.ico', 'icons/icon.svg', 'icons/apple-touch-icon.png'],
       workbox: {
-        globPatterns: ['**/*.{js,css,html,wasm,json,webp,woff2,svg,png,ico}'],
+        globPatterns: ['**/*.{js,css,html,wasm,json,webp,woff2,svg,png,ico,m4a}'],
         // A arte das cartas (dezenas de MB) não entra na pré-carga: é guardada conforme é vista.
         globIgnores: ['cards/**'],
         runtimeCaching: [{

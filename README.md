@@ -47,6 +47,7 @@ python3 scripts/export_data.py     # public/data/{cards,pool}.json + public/scri
 python3 scripts/fetch_card_text_pt.py   # nomes e efeitos em português (o resto cai para inglês)
 .venv/bin/python scripts/fetch_card_art.py  # arte (small/large/cropped + verso, WebP); ~95 MB
 .venv/bin/python scripts/copy_card_icons.py # ícones de atributo/tipo/Magia/Armadilha do app nativo e propriedades do atlas do Tag Force 3 no PPSSPP (fora do git)
+python3 scripts/copy_sounds.py     # efeitos sonoros do duelo do app nativo (Tag Force), convertidos para .m4a em public/sounds (fora do git; macOS)
 npx tsx proto/smoke.ts 500         # CPU x CPU com decks aleatórios: mede travas e erros de Lua
 npx tsx proto/economy-smoke.ts     # packs e coleção inicial
 npm run dev                        # PWA (use --port se o labeler estiver aberto)
@@ -107,5 +108,6 @@ npx tsx proto/story-smoke.ts               # percorre todos os caminhos de todas
 
 ## Direitos
 
-Sprites do Duel Links e artes de cartas pertencem à Konami. Repositório e site são de uso pessoal;
+Sprites do Duel Links, artes de cartas e os efeitos sonoros do duelo (do *Yu-Gi-Oh! ARC-V Tag Force Special*, extraídos pelo
+app nativo `duel-academy`) pertencem à Konami. Repositório e site são de uso pessoal;
 não publique os assets, não coloque o repo como público com eles e não distribua o app fora do grupo.
