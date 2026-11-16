@@ -24,8 +24,8 @@ const draws: string[] = [];
 const d = new DuelDriver(core, cards, (n) => scripts[n] ?? null, mine, foe, 1);
 let out = d.run();
 for (let k = 0; k < 400 && out.t === 'prompt' && draws.length < 3; k++) {
-  // Os eventos vêm nos quadros (cada passo do motor) e no resto que acompanha o pedido.
-  if (chosen) for (const e of [...(out.frames ?? []).flatMap((f) => f.events), ...out.events]) if (e.startsWith('Você comprou ')) draws.push(e.slice('Você comprou '.length));
+  // As compras do jogador vêm nos beats `draw` dos steps que acompanham o pedido.
+  if (chosen) for (const { beat } of out.steps) if (beat.k === 'draw' && beat.p === 0) draws.push(...beat.codes.map((c) => nameOf(c) ?? String(c)));
   const m: OcgMessage = out.msg;
   if (m.type === OcgMessageType.SORT_CARD && !chosen) {
     const codes = m.cards.map((c) => c.code);

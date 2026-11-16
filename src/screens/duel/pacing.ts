@@ -1,38 +1,31 @@
 /**
- * Ritmo da encenação, como o `DuelPacing` do nativo: a CPU "pensa" antes de cada jogada e a carta ativada fica em
- * destaque antes do próximo passo. Sem isso, o turno do oponente inteiro chegava de uma vez (o motor resolve tudo
- * até o próximo pedido do jogador).
+ * Ritmo provisório da encenação, como o `DuelPacing` do nativo: a CPU "pensa" antes de cada jogada e a carta ativada
+ * fica em destaque antes do próximo passo. Toca os `steps` do motor com pausas, em vez de pular direto ao resultado.
+ * Será substituído pela fila de animação (`anim/queue.ts`, change `animar-duelo`), com os tempos no `PACING`.
  */
-import type { Frame } from '../../engine/protocol';
+import type { Step } from '../../engine/protocol';
+import { PACING } from './anim/pacing';
 
 /** A CPU "pensa" antes de cada jogada (`cpuThink` do nativo). */
-export const CPU_THINK_MS = 700;
+export const CPU_THINK_MS = PACING.think.block;
 /** Tempo de cada carta no destaque de ativação. */
 export const SHOWCASE_MS = 1300;
 
-const OPPONENT = 1;
-
 /**
- * O quadro é da CPU agindo: no turno dela, ou uma resposta dela no turno do jogador (armadilha). As jogadas do próprio
- * jogador não têm pausa: a resposta ao toque continua imediata.
+ * Espera antes de cada step e antes do resultado final (último item). O primeiro beat de cada jogada da CPU (`think`)
+ * espera o tempo de pensar; depois de uma ativação, o próximo espera o destaque, para o tabuleiro não mudar por baixo
+ * dele. Se a CPU agiu, o resultado final também espera o tempo de pensar, para a última jogada dela ser vista. As
+ * jogadas do próprio jogador não têm pausa: a resposta ao toque continua imediata.
  */
-export const isOpponentStep = (f: Frame) => f.board.turnPlayer === OPPONENT || f.shows.some((s) => s.controller === OPPONENT);
-
-/**
- * Espera antes de cada quadro e antes do resultado final (último item). Um passo da CPU espera o tempo de pensar antes
- * dele, e o passo seguinte (dela ou do jogador) espera o mesmo para o resultado ser visto; depois de um quadro com
- * ativação, soma o tempo do destaque, para o tabuleiro não mudar por baixo dele.
- */
-export function playbackDelays(frames: Frame[]): number[] {
+export function playbackDelays(steps: Step[]): number[] {
   const delays: number[] = [];
   let showing = 0;
-  let afterOpponent = false;
-  for (const f of frames) {
-    const opponent = isOpponentStep(f);
-    delays.push((opponent || afterOpponent ? CPU_THINK_MS : 0) + showing);
-    showing = f.shows.length * SHOWCASE_MS;
-    afterOpponent = opponent;
+  let cpu = false;
+  for (const s of steps) {
+    delays.push((s.think ? CPU_THINK_MS : 0) + showing);
+    cpu ||= !!s.think;
+    showing = s.beat.k === 'activate' ? SHOWCASE_MS : 0;
   }
-  delays.push((afterOpponent ? CPU_THINK_MS : 0) + showing);
+  delays.push((cpu ? CPU_THINK_MS : 0) + showing);
   return delays;
 }

@@ -33,6 +33,10 @@
 }
 .foebar { display: flex; gap: var(--gap); align-items: flex-start; flex-shrink: 0; }
 .menubtn.hud-btn { --menu-w: 44px; --menu-h: 40px; flex: 0 0 var(--menu-w); width: var(--menu-w); height: var(--menu-h); padding: 0; display: grid; place-items: center; color: #9fd0ff; }
+/* Opções do menu do duelo (animações, som): rótulo e uma fileira de botões exclusivos. */
+.menu-opt { display: grid; gap: 6px; }
+.menu-opt > span { font-size: 13px; color: #9fd0ff; }
+.menu-opt .acts > .hud-btn { padding: 8px 6px; font-size: 14px; text-align: center; justify-content: center; }
 /* Placa do duelista (DuelistPlate.swift): ~60 de altura; borda ciano que acende no duelista da vez. */
 .plate {
   --plate-pad: 8px; --avatar: 44px; --lp-size: 22px; --lp-delta-size: 16px; --lp-delta-w: 3.4em; --bar-w: 120px; --bar-h: 7px;

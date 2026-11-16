@@ -76,8 +76,9 @@ Pipeline de dados (gera arquivos NÃO versionados; veja README): `npm run fetch-
   use as constantes `OcgType`, nunca máscaras soltas (os bits já estiveram trocados).
 - A face da carta usa `ui-serif` (New York no iOS, igual ao nativo); fora do Safari cai para Georgia.
 - **`ocgcore-wasm` tem um patch** (`patches/`, aplicado no `postinstall` pelo patch-package): a resposta de SORT_CARD
-  levava um byte de tamanho antes da ordem e o motor a recusava (Classificar Livro de Magia não fazia nada).
-  Atualizou o pacote? Refaça o patch e rode `proto/sort-check.ts`.
+  levava um byte de tamanho antes da ordem e o motor a recusava (Classificar Livro de Magia não fazia nada); e o
+  `MSG_MOVE` passa a trazer o `reason` (o pacote o descartava). Atualizou o pacote? Refaça o patch e rode
+  `proto/sort-check.ts` e `proto/move-reason.ts`.
 - Botões da tela de duelo que também são `.hud-btn` precisam de seletor com as duas classes: o `styles.css` carrega
   depois do `duel.css` e o padding do `.hud-btn` ganharia.
 - Cartas que o motor não aguenta vão em `raw/pool/blocklist.json` (rode `export_data.py` depois).

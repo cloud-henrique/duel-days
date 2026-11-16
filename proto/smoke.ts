@@ -7,6 +7,7 @@ import { randomDeck } from '../src/game/decks';
 import { openCore, startDuel, type CardRecord } from '../src/engine/session';
 import type { OcgCardData } from 'ocgcore-wasm';
 import { Narrator } from '../src/engine/narrator';
+import { checkLocs } from './beat-check';
 
 const N = Number(process.argv[2] ?? 100), SEED0 = Number(process.argv[3] ?? 1);
 const cards = JSON.parse(readFileSync('public/data/cards.json', 'utf8')) as Record<string, CardRecord>;
@@ -20,6 +21,9 @@ const retryDumps: string[] = [];
 const snapErr = new Map<string, number>();
 const luaErr = new Map<string, number>(), stall = new Map<string, number>();
 let turns = 0;
+// Beats (change `animar-duelo`): lugares válidos com o motor cru e decks do pool inteiro.
+let beatCount = 0;
+const beatErr = new Map<string, number>();
 const t0 = performance.now();
 for (let i = 0; i < N; i++) {
   const logs: string[] = [];
@@ -28,14 +32,19 @@ for (let i = 0; i < N; i++) {
     s = startDuel(core, { cards, script: (n) => scripts[n] ?? null }, [randomDeck(cards, poolIds, SEED0 + i * 2), randomDeck(cards, poolIds, SEED0 + i * 2 + 1)], { seed: BigInt(SEED0 + i), log: (t) => logs.push(t) });
   } catch (e) { stat.erro++; console.log('erro ao criar duelo', String(e)); continue; }
   const rng = makeRng(SEED0 + i);
-  const nar = new Narrator((c) => cards[c]?.name ?? String(c));
+  const nar = new Narrator();
   let outcome = 'passos', steps = 0, lastTypes = '', lastPrompt = '', lastMsg: unknown = null, lastResp: unknown = null;
   while (steps++ < 4000) {
     let step;
     try { step = s.step(); } catch (e) { outcome = 'laco'; bad.push(`seed ${SEED0 + i}: ${String(e)} (último prompt ${lastPrompt})`); break; }
     const { status, messages } = step;
     // A "foto" do tabuleiro e o texto dos eventos também rodam aqui, como no app.
-    try { for (const m of messages) nar.describe(m, [], s); nar.snapshot(s); } catch (e) { const k = String((e as Error)?.message ?? e).slice(0, 120); snapErr.set(`seed ${SEED0 + i}: ${k}`, 1 + (snapErr.get(k) ?? 0)); }
+    try {
+      const bs = [...messages.flatMap((m) => nar.feed(m, s)), ...nar.flush()];
+      beatCount += bs.length;
+      for (const e of checkLocs(bs)) beatErr.set(e, (beatErr.get(e) ?? 0) + 1);
+      nar.snapshot(s);
+    } catch (e) { const k = String((e as Error)?.message ?? e).slice(0, 120); snapErr.set(`seed ${SEED0 + i}: ${k}`, 1 + (snapErr.get(k) ?? 0)); }
     let won = false;
     for (const m of messages) { if (m.type === OcgMessageType.NEW_TURN) turns++; if (m.type === OcgMessageType.WIN) won = true; }
     if (won || status === OcgProcessResult.END) { outcome = 'fim'; break; }
@@ -61,6 +70,7 @@ const top = [...luaErr].sort((a, b) => b[1] - a[1]).slice(0, 15);
 console.log('cartas com erro de Lua (duelos afetados):', top.map(([c, n]) => `${cards[c]?.name ?? c} [${c}] x${n}`));
 console.log('erros na foto do tabuleiro/eventos:', [...snapErr].slice(0, 8), 'total', snapErr.size);
 console.log('duelos problemáticos:', bad.slice(0, 8));
+console.log(`beats: ${beatCount}, lugares inválidos: ${[...beatErr.values()].reduce((a, b) => a + b, 0)}`, [...beatErr].slice(0, 8));
 console.log('travas sem resposta:', [...stall].slice(0, 8));
 
 retryDumps.forEach((d) => console.log('RETRY>', d));

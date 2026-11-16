@@ -1,31 +1,26 @@
 import { describe, expect, it } from 'vitest';
-import type { Board, Frame } from '../../engine/protocol';
-import { CPU_THINK_MS, SHOWCASE_MS, isOpponentStep, playbackDelays } from './pacing';
+import type { Beat, Step } from '../../engine/protocol';
+import { CPU_THINK_MS, SHOWCASE_MS, playbackDelays } from './pacing';
 
-const board = (turnPlayer: number) => ({ turnPlayer } as Board);
-const frame = (turnPlayer: number, showsBy: number[] = []): Frame => ({ board: board(turnPlayer), events: ['x'], shows: showsBy.map((controller) => ({ code: 1, controller })) });
+const turn: Beat = { k: 'turn', p: 1, n: 2 };
+const act = (p: 0 | 1): Beat => ({ k: 'activate', at: { p, zone: 'szone', seq: 0 }, code: 1, p });
+const step = (beat: Beat, think = false): Step => ({ beat, ...(think ? { think: true } : {}) });
 
 describe('ritmo da encenação', () => {
-  it('passo da CPU: no turno dela ou uma resposta dela no turno do jogador', () => {
-    expect(isOpponentStep(frame(1))).toBe(true);
-    expect(isOpponentStep(frame(0, [1]))).toBe(true);
-    expect(isOpponentStep(frame(0, [0]))).toBe(false);
-  });
-
   it('jogadas do próprio jogador não esperam', () => {
-    expect(playbackDelays([frame(0), frame(0)])).toEqual([0, 0, 0]);
+    expect(playbackDelays([step(turn), step(turn)])).toEqual([0, 0, 0]);
   });
 
-  it('a CPU pensa antes de cada jogada', () => {
-    expect(playbackDelays([frame(1), frame(1)])).toEqual([CPU_THINK_MS, CPU_THINK_MS, CPU_THINK_MS]);
-  });
-
-  it('o passo seguinte a um da CPU espera o resultado ser visto, mesmo sendo do jogador', () => {
-    expect(playbackDelays([frame(1), frame(0)])).toEqual([CPU_THINK_MS, CPU_THINK_MS, 0]);
+  it('a CPU pensa antes de cada jogada, e o resultado final espera a última ser vista', () => {
+    expect(playbackDelays([step(turn, true), step(turn), step(turn, true)])).toEqual([CPU_THINK_MS, 0, CPU_THINK_MS, CPU_THINK_MS]);
   });
 
   it('depois de uma ativação, o próximo passo espera o destaque', () => {
-    expect(playbackDelays([frame(1, [1]), frame(1)])).toEqual([CPU_THINK_MS, CPU_THINK_MS + SHOWCASE_MS, CPU_THINK_MS]);
-    expect(playbackDelays([frame(0, [0])])).toEqual([0, SHOWCASE_MS]);
+    expect(playbackDelays([step(act(1), true), step(turn, true)])).toEqual([CPU_THINK_MS, CPU_THINK_MS + SHOWCASE_MS, CPU_THINK_MS]);
+    expect(playbackDelays([step(act(0))])).toEqual([0, SHOWCASE_MS]);
+  });
+
+  it('sem steps, o resultado sai na hora', () => {
+    expect(playbackDelays([])).toEqual([0]);
   });
 });

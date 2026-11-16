@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import type { OcgMessage, OcgResponse } from 'ocgcore-wasm';
-import type { Board, Frame, FromWorker, Show, ToWorker } from '../../engine/protocol';
+import type { Board, FromWorker, Step, ToWorker } from '../../engine/protocol';
 import type { DeckList } from '../../engine/session';
 import { InlineEngine } from '../../engine/inline';
 import { debugOn, engineInline, rlog } from '../../debug/remote';
@@ -22,11 +22,14 @@ export interface DuelEnd { text: string; won: boolean }
  * Ciclo de vida do motor (Worker ou thread principal): inicia o duelo, recebe tabuleiro/prompt/eventos,
  * envia respostas e vigia travamentos.
  */
-export function useDuelEngine({ mine, foe, foeName, onPrompt, onEvents, onShows, onLog }: {
+export function useDuelEngine({ mine, foe, foeName, onPrompt, onStep, onNotice, onLog }: {
   mine: DeckList; foe: DeckList; foeName: string;
   /** Chamado a cada novo pedido de jogada (antes de mostrar o prompt). */
   onPrompt: () => void;
-  onEvents: (events: string[]) => void; onShows: (shows: Show[] | undefined) => void;
+  /** Cada acontecimento do motor, na ordem em que a tela o toca (o tabuleiro dele já aplicado). */
+  onStep: (step: Step) => void;
+  /** Aviso para o narrador (ex.: jogada inválida). */
+  onNotice: (text: string) => void;
   /** Linha só para o histórico (ex.: erro do motor). */
   onLog: (line: string) => void;
 }) {
@@ -43,22 +46,23 @@ export function useDuelEngine({ mine, foe, foeName, onPrompt, onEvents, onShows,
   const clearDog = () => { window.clearTimeout(watchdog.current); watchdog.current = undefined; };
   const send = (m: ToWorker) => worker.current?.postMessage(m);
 
-  // Reprodução: os quadros do motor (ex.: cada jogada da CPU) entram um por vez, com as pausas do `pacing`; o pedido
-  // de jogada (ou o fim) só aparece depois do último.
+  // Reprodução: os steps do motor entram um por vez, com as pausas do `pacing`; o pedido de jogada (ou o fim) só
+  // aparece depois do último.
   const playTimer = useRef<number | undefined>(undefined);
   const stopPlayback = () => { window.clearTimeout(playTimer.current); playTimer.current = undefined; };
-  const showFrame = (f: Frame) => { setBoard(f.board); onEvents(f.events); onShows(f.shows); };
+  const showStep = (st: Step) => { if (st.board) setBoard(st.board); onStep(st); };
   const finish = (d: Extract<FromWorker, { t: 'prompt' | 'end' }>) => {
-    if (d.t === 'prompt') { setBoard(d.board); setPrompt(d.msg); onPrompt(); onEvents(d.events); onShows(d.shows); return; }
-    setBoard(d.board); setPrompt(null); onEvents(d.events); onShows(d.shows);
+    setBoard(d.board);
+    if (d.t === 'prompt') { setPrompt(d.msg); onPrompt(); if (d.notice) onNotice(d.notice); return; }
+    setPrompt(null);
     setEnded({ text: d.winner === 0 ? 'Você venceu!' : `${foeName} venceu.`, won: d.winner === 0 });
   };
   const play = (d: Extract<FromWorker, { t: 'prompt' | 'end' }>) => {
     stopPlayback();
-    const frames = d.frames ?? [];
-    const delays = playbackDelays(frames);
+    const steps = d.steps;
+    const delays = playbackDelays(steps);
     const step = (i: number) => {
-      if (i < frames.length) showFrame(frames[i]);
+      if (i < steps.length) showStep(steps[i]);
       else { playTimer.current = undefined; finish(d); return; }
       next(i + 1);
     };

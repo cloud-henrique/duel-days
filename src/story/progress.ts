@@ -4,6 +4,20 @@ import type { Deck } from '../game/decks';
 import { START_COINS } from '../game/economy';
 
 export const MAX_HEARTS = 4;
+
+/** Preferências do jogador (menu do duelo). */
+export interface Settings {
+  /** Velocidade das animações do duelo. */
+  anim: 'normal' | 'fast' | 'off';
+  sound: boolean;
+}
+export const DEFAULT_SETTINGS: Settings = { anim: 'normal', sound: true };
+const ANIM: readonly Settings['anim'][] = ['normal', 'fast', 'off'];
+/** Preferências salvas completadas com o padrão (saves antigos não têm `settings`; valores estranhos voltam ao padrão). */
+export const withDefaults = (saved?: Partial<Settings> | null): Settings => ({
+  anim: saved?.anim && ANIM.includes(saved.anim) ? saved.anim : DEFAULT_SETTINGS.anim,
+  sound: typeof saved?.sound === 'boolean' ? saved.sound : DEFAULT_SETTINGS.sound,
+});
 export interface Progress {
   playerName: string;
   hearts: Record<string, number>;
@@ -18,6 +32,8 @@ export interface Progress {
   activeDeck: string;
   /** Cena em andamento (null = no mapa). */
   run: { scene: string; state: RunState } | null;
+  /** Preferências; ausente em saves antigos (leia com `withDefaults`). */
+  settings?: Partial<Settings>;
 }
 export const newProgress = (playerName: string, starter: Record<string, number>): Progress => {
   const main = Object.entries(starter).flatMap(([id, n]) => Array<number>(n).fill(Number(id)));

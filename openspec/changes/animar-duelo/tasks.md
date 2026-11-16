@@ -6,21 +6,24 @@ Regra deste change: **nenhuma mudança de comportamento sem um teste que a cubra
 
 ## 1. Beats no motor
 
-- [ ] 1.1 Escrever os testes de caracterização do texto atual do narrador: para cada mensagem tratada hoje por `Narrator.describe`, o texto produzido. Verificar: `npm test` passa contra o código atual.
-- [ ] 1.2 Spike para ler o `reason` do `MSG_MOVE`, estendendo o parser do `ocgcore-wasm` (patch-package ou leitura do buffer cru). Verificar: um script em `proto/` imprime `reason` com DESTROY/BATTLE num duelo com batalha. Se não der, registrar a decisão de usar heurística no `design.md`.
-- [ ] 1.3 Definir `Beat`/`Step` em `src/engine/protocol.ts`. Criar `src/engine/beats.ts` com `toBeats`, `classifyMove` e `beatText`, todos testados por unidade com mensagens sintéticas (um caso por tipo da união, agrupamento de `MOVE`, cada regra de `classifyMove`). `beatText` deve passar nos testes do 1.1. Verificar: `npm test`.
-- [ ] 1.4 Fazer o `Narrator` usar `beats.ts`, guardando o retrato depois de cada beat que muda o tabuleiro. Trocar `events` + `shows` por `steps` nas mensagens `prompt`/`end`, e remover o `shows` e o texto duplicado do `describe`. Verificar: `tsc`, `npm test` e o histórico do duelo com os mesmos textos de antes.
-- [ ] 1.5 Validar os beats no `proto/monkey.ts` e no `proto/smoke.ts`:
+- [x] 1.1 Escrever os testes de caracterização do texto atual do narrador: para cada mensagem tratada hoje por `Narrator.describe`, o texto produzido. Verificar: `npm test` passa contra o código atual.
+- [x] 1.2 Spike para ler o `reason` do `MSG_MOVE`, estendendo o parser do `ocgcore-wasm` (patch-package ou leitura do buffer cru). Verificar: um script em `proto/` imprime `reason` com DESTROY/BATTLE num duelo com batalha. Se não der, registrar a decisão de usar heurística no `design.md`.
+- [x] 1.3 Definir `Beat`/`Step` em `src/engine/protocol.ts`. Criar `src/engine/beats.ts` com `toBeats`, `classifyMove` e `beatText`, todos testados por unidade com mensagens sintéticas (um caso por tipo da união, agrupamento de `MOVE`, cada regra de `classifyMove`). `beatText` deve passar nos testes do 1.1. Verificar: `npm test`.
+- [x] 1.4 Fazer o `Narrator` usar `beats.ts`, guardando o retrato depois de cada beat que muda o tabuleiro. Trocar `events` + `shows` por `steps` nas mensagens `prompt`/`end`, e remover o `shows` e o texto duplicado do `describe`. Verificar: `tsc`, `npm test` e o histórico do duelo com os mesmos textos de antes.
+- [x] 1.5 Validar os beats no `proto/monkey.ts` e no `proto/smoke.ts`:
   - localizações válidas;
   - o último `board` dos steps é igual ao `board` final;
   - a soma das travas do `PACING` por turno alerta acima de 15s.
+
+  Feito em `proto/beat-check.ts`. A disposição do último retrato é comparada sem ATK/DEF (efeitos contínuos os recalculam
+  em passos sem beat). Medido: 300/300 duelos, 0 lugares inválidos, 30 de 7.105 turnos acima de 15s (máx. 26,4s).
 
   Verificar: `npx tsx proto/monkey.ts 100` e `npx tsx proto/smoke.ts 500` passam.
 
 ## 2. Ritmo e fila (puros primeiro)
 
-- [ ] 2.1 Criar `anim/pacing.ts` (a tabela do design como dados com nome, mais `MAX_BLOCK_MS`) e `anim/effects.ts` (`effectFor(beat, { reducedMotion })`), com testes: um caso por beat, o "reduzir movimento" trocando por fade e nenhuma trava acima de 1,5s. Verificar: `npm test`.
-- [ ] 2.2 Criar `anim/queue.ts` (`runSteps` com `play` e `apply` injetados), com testes de relógio falso:
+- [x] 2.1 Criar `anim/pacing.ts` (a tabela do design como dados com nome, mais `MAX_BLOCK_MS`) e `anim/effects.ts` (`effectFor(beat, { reducedMotion })`), com testes: um caso por beat, o "reduzir movimento" trocando por fade e nenhuma trava acima de 1,5s. Verificar: `npm test`.
+- [x] 2.2 Criar `anim/queue.ts` (`runSteps` com `play` e `apply` injetados), com testes de relógio falso:
   - ordem;
   - `apply` depois de cada `play`;
   - 0,5×;
@@ -30,7 +33,7 @@ Regra deste change: **nenhuma mudança de comportamento sem um teste que a cubra
   - beats simultâneos juntos.
 
   Verificar: `npm test`.
-- [ ] 2.3 Adicionar `settings: { anim, sound }` com `withDefaults(saved)` em `progress.ts`, com testes (save sem `settings`, parcial e completo), e os ajustes no `DuelMenu`. Verificar: `npm test`, e mudar para "rápida", recarregar e ver a escolha mantida.
+- [x] 2.3 Adicionar `settings: { anim, sound }` com `withDefaults(saved)` em `progress.ts`, com testes (save sem `settings`, parcial e completo), e os ajustes no `DuelMenu`. Verificar: `npm test`, e mudar para "rápida", recarregar e ver a escolha mantida.
 
 ## 3. Camada de animação
 

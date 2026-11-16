@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { OcgLocation, OcgMessageType, OcgPhase, type OcgResponse } from 'ocgcore-wasm';
-import type { Show } from '../../engine/protocol';
+import type { Step } from '../../engine/protocol';
+import { beatText } from '../../engine/beats';
 import type { DeckList } from '../../engine/session';
+import { DEFAULT_SETTINGS, type Settings } from '../../story/progress';
 import type { Cards } from '../../data/cards';
 import { Backdrop, CardSheet, ICONS, art } from '../../components/CardSheet';
 import { CardFace } from '../../components/CardFace';
@@ -29,7 +31,12 @@ const isBattle = (phase: number) => (phase & BATTLE) !== 0;
 /** Linhas de evento que começam assim são separadores (ex.: troca de turno) e não vão para o narrador. */
 const SEPARATOR = '—';
 
-export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id: 'yugi_muto', name: 'Você' }, onEnd }: { cards: Cards; mine: DeckList; foe: DeckList; opponent: Duelist; player?: Duelist; onEnd: (won: boolean) => void }) {
+export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id: 'yugi_muto', name: 'Você' }, settings = DEFAULT_SETTINGS, onSettings = () => {}, onEnd }: {
+  cards: Cards; mine: DeckList; foe: DeckList; opponent: Duelist; player?: Duelist;
+  /** Preferências do jogador (animações, som) e como salvá-las. */
+  settings?: Settings; onSettings?: (s: Settings) => void;
+  onEnd: (won: boolean) => void;
+}) {
   const [log, setLog] = useState<string[]>([]);
   const [sel, setSel] = useState<number[]>([]);
   const [sheet, setSheet] = useState<{ code: number; ref: CardRef } | null>(null);
@@ -49,15 +56,16 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id:
     const last = ev.filter((e) => !e.startsWith(SEPARATOR)).slice(-1)[0];
     if (last) setEvText(last);
   };
-  const enqueue = (sh?: Show[]) => {
-    if (!sh?.length) return;
-    setShowQ((q) => [...q, ...sh.map((x) => ({ ...x, k: ++showK.current }))]);
-    setActor({ code: sh[sh.length - 1].code, attack: false });
+  const onStep = ({ beat }: Step) => {
+    pushEvents(beatText(beat, name));
+    if (beat.k !== 'activate') return;
+    setShowQ((q) => [...q, { code: beat.code, controller: beat.p, k: ++showK.current }]);
+    setActor({ code: beat.code, attack: false });
   };
 
   const engine = useDuelEngine({
     mine, foe: foeDeck, foeName: opponent.name,
-    onPrompt: () => { setSel([]); setPeek(false); }, onEvents: pushEvents, onShows: enqueue, onLog: (line) => setLog((l) => [...l, line]),
+    onPrompt: () => { setSel([]); setPeek(false); }, onStep, onNotice: (t) => pushEvents([t]), onLog: (line) => setLog((l) => [...l, line]),
   });
   const { board, prompt, ended, fail } = engine;
 
@@ -116,7 +124,7 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id:
   return (
     <div className={`duel hexbg${pickAttack ? ' pick-attack' : ''}`}>
       <div className="foebar">
-        {!ended && <DuelMenu onSurrender={engine.surrender} />}
+        {!ended && <DuelMenu onSurrender={engine.surrender} settings={settings} onSettings={onSettings} />}
         <Plate side="foe" who={opponent} lp={foe.lp} deck={foe.deck} hand={foe.hand.length} grave={foe.grave} turn={!myTurn} onGrave={() => setGraveOf(1)} />
       </div>
       <FoeHand count={foe.hand.length} />

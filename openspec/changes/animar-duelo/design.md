@@ -74,6 +74,11 @@ type Beat =
 interface Step { beat: Beat; board?: Board }   // board: só nos beats que mudam o tabuleiro
 ```
 
+- **Ajustes da implementação (tarefa 1.3)**, para o texto do narrador sair só do beat: `draw` leva `codes` (o texto
+  do jogador nomeia cada carta), `attack` e `equip` levam o `code` (consultado no motor), `lp` leva `why`
+  (`damage`/`recover`/`cost`), `chainSolve` leva `of` (tamanho da corrente, para tocar a pilha só com 2+ elos) e há um
+  beat `win`. `Loc` é `{ p, zone, seq }`, com `zone` em texto (`hand`, `mzone`…; `none` para ficha criada). O
+  `Step` ganha `together` para os movimentos consecutivos do mesmo momento.
 - **O texto sai do beat.** Uma função pura `beatText(beat, name)` substitui o `switch` de texto do `describe`. Ela é a
   única fonte do narrador e do histórico. Os textos atuais são preservados por testes de caracterização escritos antes
   da troca.
@@ -86,6 +91,15 @@ interface Step { beat: Beat; board?: Board }   // board: só nos beats que mudam
   fica num módulo puro, `src/engine/beats.ts`, com as funções `toBeats(msg, ctx)` e `classifyMove`. Assim ela pode ser
   testada sem WASM, com mensagens sintéticas, e o `Narrator` só orquestra.
 
+- **Decisão da implementação (tarefa 1.4): o retrato é por passo do motor.** A consulta ao motor só vê o estado do fim
+  de cada passo (`step()`), e um passo traz várias mudanças de uma vez (ex.: 6 destruições e a Magia indo ao cemitério).
+  Por isso só o **último beat de cada passo** leva o `board`; a tela anima o grupo a partir do tabuleiro anterior e
+  aplica o novo no fim dele. Os demais beats do passo não têm `board`.
+- **Decisão da implementação (tarefa 1.4): os `steps` substituem os quadros (`frames`).** O mecanismo de quadros com
+  a pausa de 700ms por jogada da CPU (`screens/duel/pacing.ts`), que entrou depois deste design, sai. O driver marca
+  com `think: true` o primeiro beat depois de cada resposta da CPU (no turno dela, ou uma ativação dela no turno do
+  jogador), e a fila espera o tempo de "pensar" antes dele. Esse tempo passa a morar no `PACING` (`PACING.think`).
+  Até a fila do grupo 2 existir, a tela toca os steps com as pausas de hoje.
 - *Por que o tabuleiro em cada beat:* a tela anima a partir da posição medida no tabuleiro anterior e só então aplica
   o tabuleiro seguinte. Não precisa reconstruir o estado com deltas na interface, e o motor já sabe o estado exato.
   Um retrato tem ~40 cartas, e um turno de CPU dá ~10–40 beats, o que é pouco para `postMessage`.
@@ -105,6 +119,12 @@ descarta. Ordem de preferência:
    - `MOVE` campo → cemitério logo depois de `BATTLE` ou dentro da resolução de um elo é `destroy`;
    - na Main Phase, com `SUMMONING` em seguida, é `grave` (tributo);
    - mão → cemitério é `grave` (descarte).
+
+**Resultado do spike (tarefa 1.2): opção 1 adotada.** O patch do `ocgcore-wasm` (`patches/`) passou a ler
+`reason: u32` depois de `to` no `MSG_MOVE` (e o tipo `OcgMessageMove` ganhou o campo). O `proto/move-reason.ts`
+confirmou em 30 duelos: 1.604 `MOVE`, todos com `reason`, com `DESTROY|BATTLE`, `DESTROY|EFFECT`,
+`RELEASE|MATERIAL|SUMMON` (tributo), `EFFECT|DISCARD` e `COST|DISCARD` bem separados. A heurística acima fica só como
+reserva, sem uso. Regra do `classifyMove` para o cemitério: com `REASON_DESTROY` é `destroy`; senão é `grave`.
 
 O resto vem direto das localizações:
 

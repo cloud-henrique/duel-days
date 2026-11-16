@@ -8,7 +8,7 @@ import { LOSS_COINS, WIN_COINS } from './game/economy';
 import { HubScreen } from './screens/HubScreen';
 import { StoryScreen, type CharInfo } from './screens/StoryScreen';
 import { advance, choose, isEnd, newState, resolveDuel, skip, type RunState } from './story/runner';
-import { MAX_HEARTS, clearProgress, loadProgress, newProgress, writeProgress, type Progress } from './story/progress';
+import { MAX_HEARTS, clearProgress, loadProgress, newProgress, withDefaults, writeProgress, type Progress } from './story/progress';
 import { heartsOf, locationOf, pickScene, sceneById } from './story/world';
 
 const BASE = import.meta.env.BASE_URL;
@@ -81,6 +81,7 @@ export function App() {
       mine={{ main: mine.main, extra: mine.extra }} foe={randomDeck(data.cards, data.poolIds, hash(node.opponent))}
       opponent={{ id: node.opponent, name: chars[node.opponent]?.name ?? 'Oponente' }}
       player={{ id: 'yugi_muto', name: prog.playerName }}
+      settings={withDefaults(prog.settings)} onSettings={(settings) => save({ ...prog, settings })}
       onEnd={(won) => save({
         ...prog,
         coins: prog.coins + (won ? WIN_COINS : LOSS_COINS),
