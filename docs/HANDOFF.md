@@ -11,7 +11,7 @@ Documento para continuar o projeto numa sessão nova. Leia também o `CLAUDE.md`
   largura (`duel.css`), campo inclinado 22°, zonas M/A da altura das de monstro, um botão de fase só (sem atalho entre fases), **face própria da carta em português** com arte
   recortada, placas de 60 com contagem e "−500" no LP, barra de fases com o narrador (sem balão), botão de fase 64×60,
   menu com Desistir, mão em leque como no nativo. Testes de unidade (Vitest) e `proto/layout-e2e.mjs`.
-- **Encenação do duelo** (change OpenSpec `animar-duelo`, 19/22 tarefas; falta o teste no iPhone físico e arquivar):
+- **Encenação do duelo** (change OpenSpec `animar-duelo`, arquivada):
   o motor devolve os acontecimentos (beats) e a tela os toca em ordem, inclusive no turno do oponente. Tem:
   - voo das cartas entre os lugares medidos no campo inclinado;
   - pilar de luz ao invocar/equipar, giro 3D ao virar, giro de 90° ao mudar de posição;
@@ -22,7 +22,7 @@ Documento para continuar o projeto numa sessão nova. Leia também o `CLAUDE.md`
     durante a encenação acelera. O "reduzir movimento" do sistema troca deslocamento/giro/quebra por fade.
   - **Sons** do Tag Force (via app nativo, `python3 scripts/copy_sounds.py`, fora do git), com Web Audio liberado no
     primeiro toque.
-- **Visual base do nativo** (change OpenSpec `visual-base`): tela de título (logo, "DUEL DAYS" metálico, orbe com o
+- **Visual base do nativo** (change OpenSpec `visual-base`, arquivada em 16/11/2026): tela de título (logo, "DUEL DAYS" metálico, orbe com o
   leque, Jogar/Continuar, Meu deck), boas-vindas e perfil (nome, 14 avatares genéricos, tratamento ele/ela/neutro,
   vitórias/derrotas/aproveitamento), ajustes; o jogador aparece com o próprio avatar (não mais o Yugi); DP no lugar de
   "moedas"; Chakra Petch nos números e títulos; ícones Phosphor por conceito; moeda e dado desenhados, com "Cara ou

@@ -132,11 +132,17 @@ sobre o monstro equipado.
 - **THEN** a carta voa da zona até a faixa de versos do oponente
 
 ### Requirement: Moeda e dado
-Quando um efeito lança moeda ou dado, a tela SHALL mostrar a moeda ou o dado girando e depois o resultado em texto.
+Quando um efeito lança moeda ou dado, a tela SHALL mostrar a moeda ou o dado desenhados do jogo girando e depois o
+resultado em texto. Se o jogador escolheu um lado antes do lance, a escolha SHALL aparecer acima da moeda, e o acerto ou
+o erro, depois que ela para.
 
 #### Scenario: Moeda
 - **WHEN** um efeito lança uma moeda
-- **THEN** uma moeda gira no centro e termina mostrando "Cara" ou "Coroa", em até 1,5 segundo
+- **THEN** a moeda dourada gira no centro e termina mostrando "CARA" ou "COROA", em até 1,5 segundo
+
+#### Scenario: Moeda com escolha
+- **WHEN** o jogador escolhe "Coroa" e a moeda cai em coroa
+- **THEN** aparece "Você disse coroa" e, depois que a moeda para, "Acertou!"
 
 ### Requirement: Duração limitada das animações
 Nenhum acontecimento isolado SHALL travar o jogo por mais de 1,5 segundo, na velocidade normal. A abertura do duelo é a
@@ -194,9 +200,9 @@ menos de 60ms.
 
 ### Requirement: Abertura do duelo
 Ao começar o duelo, SHALL ser mostrada uma abertura com:
-- uma moeda que decide quem começa;
-- as faixas dos dois duelistas;
-- o título "DUELO!".
+- a moeda dourada do jogo, que decide quem começa;
+- as faixas dos dois duelistas, a do jogador com o avatar e o nome do perfil;
+- o título "DUELO!" no estilo de destaque do jogo.
 
 Um toque SHALL pular a abertura. O primeiro acontecimento do duelo SHALL ser encenado só depois que a abertura termina.
 
@@ -208,10 +214,19 @@ Um toque SHALL pular a abertura. O primeiro acontecimento do duelo SHALL ser enc
 - **WHEN** o jogador toca na tela durante a abertura
 - **THEN** a abertura termina imediatamente e o duelo segue
 
+#### Scenario: Faixa do jogador
+- **WHEN** a abertura mostra as faixas
+- **THEN** a faixa do jogador tem o rosto do avatar escolhido e o nome do perfil
+
 ### Requirement: Fim do duelo
-Ao terminar o duelo, SHALL ser mostrado um encerramento com o título do resultado ("VITÓRIA!", "DERROTA" ou "EMPATE"),
-com o retrato do vencedor em destaque e o do perdedor esmaecido.
+Ao terminar o duelo, SHALL ser mostrado um encerramento com o título do resultado ("VITÓRIA!", "DERROTA" ou "EMPATE") no
+estilo de destaque do jogo, com o retrato do vencedor em destaque e o do perdedor esmaecido. O retrato do jogador é o do
+avatar escolhido. O encerramento SHALL mostrar o ganho em DP.
 
 #### Scenario: Vitória
 - **WHEN** o LP do oponente chega a 0
 - **THEN** a encenação do último dano termina, aparece "VITÓRIA!" e o retrato do jogador dá um pulo
+
+#### Scenario: Ganho em DP
+- **WHEN** o encerramento aparece depois de uma derrota
+- **THEN** ele mostra o ganho como "+30 DP" com o ícone de moedas
