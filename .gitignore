@@ -50,3 +50,6 @@ public/card-icons/
 public/sounds/
 # Recortes do atlas de ações do Tag Force; só o manifest e os rótulos entram no git
 assets/action-icons/*.png
+
+# Prints do app nativo (mostram arte e sprites da Konami): só o índice docs/nativo/README.md entra no git
+docs/nativo/prints/
