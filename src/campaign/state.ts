@@ -1,0 +1,83 @@
+/**
+ * O estado da campanha (o save), espelhando o `CampaignState` do nativo na parte que vale para o Duel Monsters.
+ * As regras ficam em funções puras nos outros arquivos de `src/campaign/`; elas recebem um estado e devolvem outro
+ * (nunca mudam o que receberam).
+ */
+import type { Deck } from '../game/decks';
+import { CAMPAIGN } from './data/types';
+import { starterDeck } from './decks';
+
+export type Period = 0 | 1 | 2;
+export const PERIOD_NAMES = ['Manhã', 'Tarde', 'Noite'] as const;
+export type PeriodKey = 'morning' | 'afternoon' | 'evening';
+export const PERIOD_KEYS: readonly PeriodKey[] = ['morning', 'afternoon', 'evening'];
+
+export type Route = 'friendship' | 'romance';
+export type DuelKind = 'regular' | 'bondEvent';
+
+export interface CampaignState {
+  version: 1;
+  seed: number;
+  day: number;
+  period: Period;
+  dp: number;
+  /** Cartas possuídas: passcode → cópias. */
+  collection: Record<string, number>;
+  decks: Deck[];
+  activeDeck: string;
+  /** Vitórias contra cada duelista. */
+  victories: Record<string, number>;
+  /** Números dos tiers cujo chefe já foi vencido. */
+  defeatedBosses: number[];
+  /** Pacotes ganhos ainda fechados (chaves), abertos na loja. */
+  unopenedPacks: string[];
+  packsOpened: number;
+  wins: number;
+  losses: number;
+  totalDPEarned: number;
+  concluded: boolean;
+  affinity: Record<string, number>;
+  bondEventsDone: Record<string, number>;
+  bondRoutes: Record<string, Route>;
+  lastConversationDay: Record<string, number>;
+  lastBondEventLossDay: Record<string, number>;
+  /** Duelistas já encontrados (para a tela de Laços). */
+  met: string[];
+  /** Duelo começado e ainda sem resultado: o app fechou no meio dele (não gasta o período). */
+  pendingDuel: { duelist: string; kind: DuelKind } | null;
+}
+
+export const STARTER_DECK_ID = 'deck1';
+
+export function newCampaign(seed: number): CampaignState {
+  const starter = starterDeck();
+  const collection: Record<string, number> = {};
+  for (const id of starter.main) collection[id] = (collection[id] ?? 0) + 1;
+  return {
+    version: 1, seed: seed >>> 0, day: 1, period: 0, dp: 0,
+    collection,
+    decks: [{ id: STARTER_DECK_ID, name: CAMPAIGN.starterDeck.name, main: starter.main, extra: [] }],
+    activeDeck: STARTER_DECK_ID,
+    victories: {}, defeatedBosses: [], unopenedPacks: [...CAMPAIGN.startingPacks], packsOpened: 0,
+    wins: 0, losses: 0, totalDPEarned: 0, concluded: false,
+    affinity: {}, bondEventsDone: {}, bondRoutes: {}, lastConversationDay: {}, lastBondEventLossDay: {}, met: [],
+    pendingDuel: null,
+  };
+}
+
+/** Cópia funda para as regras mudarem à vontade sem tocar no estado recebido. */
+export const clone = (s: CampaignState): CampaignState => structuredClone(s);
+
+export const copies = (s: CampaignState, id: number) => s.collection[String(id)] ?? 0;
+
+/** Põe cartas na coleção (muda `s`; use num clone). */
+export function addCards(s: CampaignState, ids: number[]) {
+  for (const id of ids) s.collection[String(id)] = (s.collection[String(id)] ?? 0) + 1;
+}
+
+export function earnDP(s: CampaignState, amount: number) {
+  s.dp += amount;
+  s.totalDPEarned += amount;
+}
+
+export const activeDeckOf = (s: CampaignState): Deck => s.decks.find((d) => d.id === s.activeDeck) ?? s.decks[0];

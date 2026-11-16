@@ -50,6 +50,9 @@ public/card-icons/
 public/sounds/
 # Logo "Yu-Gi-Oh!" da tela de título (Konami, via app nativo): python3 scripts/copy_brand.py
 public/brand/
+# Mapa, fundos, capas dos pacotes e música da campanha (Konami, via app nativo): python3 scripts/copy_campaign_assets.py
+public/campaign/
+public/music/
 # Recortes do atlas de ações do Tag Force; só o manifest e os rótulos entram no git
 assets/action-icons/*.png
 

@@ -9,7 +9,6 @@ import { DEFAULT_SETTINGS, type Settings } from '../../story/progress';
 import type { Cards } from '../../data/cards';
 import { Backdrop, CardSheet, ICONS, art } from '../../components/CardSheet';
 import { CardFace } from '../../components/CardFace';
-import { LOSS_COINS, WIN_COINS } from '../../game/economy';
 import { debugOn } from '../../debug/remote';
 import { cardActions, highlighted, refKey, sideActions, type CardRef } from './prompt';
 import { choiceMarks, choiceOf, tapOption } from './choice';
@@ -18,11 +17,12 @@ import { useDuelEngine } from './useDuelEngine';
 import { useBeatQueue } from './anim/useBeatQueue';
 import { useReducedMotion } from './anim/useReducedMotion';
 import { sfx } from '../../audio/sfx';
+import { music } from '../../audio/music';
 import { Splash } from './anim/Splash';
 import { ChainStack } from './anim/ChainStack';
 import { Toss } from './anim/Toss';
 import { Intro, wantsIntro } from './anim/Intro';
-import { Outro } from './anim/Outro';
+import { Outro, type OutroReward } from './anim/Outro';
 import { promptPanel } from './PromptPanel';
 import { Plate, type Duelist } from './Plate';
 import { Field } from './Field';
@@ -43,11 +43,16 @@ const isBattle = (phase: number) => (phase & BATTLE) !== 0;
 /** Linhas de evento que começam assim são separadores (ex.: troca de turno) e não vão para o narrador. */
 const SEPARATOR = '—';
 
-export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id: DEFAULT_AVATAR, name: 'Você' }, settings = DEFAULT_SETTINGS, onSettings = () => {}, onEnd }: {
+/** O resumo do fim do duelo, do ponto de vista do jogador (para as recompensas da campanha). */
+export interface DuelSummary { result: 'win' | 'lose' | 'draw' | 'forfeit'; turns: number; lifePoints: number }
+
+export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id: DEFAULT_AVATAR, name: 'Você' }, settings = DEFAULT_SETTINGS, onSettings = () => {}, rewardFor, onEnd }: {
   cards: Cards; mine: DeckList; foe: DeckList; opponent: Duelist; player?: Duelist;
   /** Preferências do jogador (animações, som) e como salvá-las. */
   settings?: Settings; onSettings?: (s: Settings) => void;
-  onEnd: (won: boolean) => void;
+  /** O que o duelo rendeu, calculado uma vez quando ele acaba (mostrado no encerramento). */
+  rewardFor?: (summary: DuelSummary) => OutroReward | null;
+  onEnd: (summary: DuelSummary) => void;
 }) {
   const [log, setLog] = useState<string[]>([]);
   const [sel, setSel] = useState<number[]>([]);
@@ -116,6 +121,15 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id:
     onPrompt: () => { setSel([]); setPeek(false); }, onStep, onNotice: (t) => pushEvents([t]), onLog: (line) => setLog((l) => [...l, line]),
   });
   const { board, prompt, ended, fail } = engine;
+  // O resumo e a recompensa saem uma vez só, quando o duelo acaba.
+  const summary = useMemo<DuelSummary | null>(() => {
+    if (!ended || !board) return null;
+    const result = ended.surrendered ? 'forfeit' : ended.result === 'win' ? 'win' : ended.result === 'draw' ? 'draw' : 'lose';
+    return { result, turns: board.turn, lifePoints: Math.max(0, board.players[0].lp) };
+  }, [ended]); // eslint-disable-line react-hooks/exhaustive-deps
+  const reward = useMemo(() => (summary && rewardFor ? rewardFor(summary) : null), [summary]); // eslint-disable-line react-hooks/exhaustive-deps
+  // No encerramento, a faixa de vitória ou de derrota (o App volta à do lugar ao sair do duelo).
+  useEffect(() => { if (ended) music.setTrack(ended.result === 'win' ? 'victory' : 'defeat'); }, [ended]);
 
   const reply = (response: OcgResponse) => { setSheet(null); engine.reply(response); };
   const choice = useMemo(() => choiceOf(prompt), [prompt]);
@@ -224,7 +238,7 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id:
         </div></div>
       )}
       {introLayer}
-      {ended && <Outro result={ended.result} detail={ended.text} me={player} foe={opponent} coins={ended.won ? WIN_COINS : LOSS_COINS} reduced={reducedMotion} onContinue={() => onEnd(ended.won)} />}
+      {ended && summary && <Outro result={ended.result} detail={ended.text} me={player} foe={opponent} reward={reward} reduced={reducedMotion} onContinue={() => onEnd(summary)} />}
     </div>
   );
 }

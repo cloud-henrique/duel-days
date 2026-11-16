@@ -1,5 +1,6 @@
 import type { CardRecord } from '../engine/session';
-import type { Tier } from '../game/packs';
+/** Raridade no pool (a da primeira impressão): N comum, R rara, SR super, UR ultra. */
+export type Tier = 'N' | 'R' | 'SR' | 'UR';
 
 export type Cards = Record<string, CardRecord>;
 const BASE = import.meta.env.BASE_URL;

@@ -23,7 +23,7 @@ Documento para continuar o projeto numa sessão nova. Leia também o `CLAUDE.md`
   - **Sons** do Tag Force (via app nativo, `python3 scripts/copy_sounds.py`, fora do git), com Web Audio liberado no
     primeiro toque.
 - **Visual base do nativo** (change OpenSpec `visual-base`, arquivada em 16/11/2026): tela de título (logo, "DUEL DAYS" metálico, orbe com o
-  leque, Jogar/Continuar, Meu deck), boas-vindas e perfil (nome, 14 avatares genéricos, tratamento ele/ela/neutro,
+  leque, Campanha/Continuar, Meu deck), boas-vindas e perfil (nome, 14 avatares genéricos, tratamento ele/ela/neutro,
   vitórias/derrotas/aproveitamento), ajustes; o jogador aparece com o próprio avatar (não mais o Yugi); DP no lugar de
   "moedas"; Chakra Petch nos números e títulos; ícones Phosphor por conceito; moeda e dado desenhados, com "Cara ou
   coroa?", "Você disse cara" e "Acertou!/Errou!"; "DUELO!"/"VITÓRIA!" em serifada itálica com degradê.
@@ -32,10 +32,17 @@ Documento para continuar o projeto numa sessão nova. Leia também o `CLAUDE.md`
 - **Referência do nativo**: `docs/nativo/README.md` (índice; prints fora do git em `docs/nativo/prints/`).
 - **Produção**: https://dueldays.pages.dev (Cloudflare Pages atrás do Access, só os e-mails da política "Amigos"); o
   envio é pelo `dist/` local (veja o `CLAUDE.md`).
-- **História**: mapa com 3 locais (Colégio Domino/Joey, Parque/Bakura, Kaiba Corp/Kaiba), corações de amizade (0–4),
-  cenas `intro` → `bond` (4 corações) → `rematch`, nome do jogador (`{nome}`), botão Pular, save em IndexedDB.
-- **Economia**: 300 moedas e 40 cartas iniciais; vitória +100, derrota +30; loja com pack de 5 cartas (1 rara garantida),
-  resumo com selo NOVA e borda por raridade; deck builder (até 5 decks, filtros, regras reais).
+- **Campanha Duel Monsters, Tier 1** (change OpenSpec `campanha-dm`), portada do app nativo, no lugar da história antiga:
+  - 30 dias × manhã/tarde/noite (só o duelo gasta período); mapa de Domino (panorama do Tag Force, rola para os lados,
+    tom por período) com Tristan, Tea, Joey, Bakura e o chefe Yugi (depois de vencer os 4);
+  - encontro com as falas do nativo (`{nome}` e tratamento), conversa de 4 temas (uma por dia), laços de 4 corações com
+    4 eventos por duelista (duelo obrigatório), escolha amizade/romance no 3º, carta do laço no 4º, tela de Laços;
+  - economia do nativo: começa com 0 DP, o deck inicial de 40 e 3 LOB; vitória 300 DP + bônus (teto +50%), derrota 60;
+    carta do deck do oponente por vitória e a assinatura na 10ª; loja (visual antigo) com LOB/MRD/MRL (dia 11)/PSV (dia 21),
+    caixa de 20 e pacotes de personagem (5 vitórias);
+  - decks dos oponentes do nativo; epílogo e tela de fim; "duelo interrompido" sem gastar o período;
+  - música por tela (8 faixas do nativo, fora do git) com interruptor e volume.
+  - O modelo é puro em `src/campaign/` (testes + `proto/story-smoke.ts`); conferência com `?campaign=last-evening|bond|boss`.
 - **Textos das cartas em português** (YGOPRODeck) para ~1.590 cartas; o resto cai para inglês.
 
 ## Ambiente em execução (pode não estar mais de pé)
@@ -57,12 +64,13 @@ Documento para continuar o projeto numa sessão nova. Leia também o `CLAUDE.md`
 
 ## Próximos passos sugeridos (em ordem)
 
-1. **Campanha DM Tier 1 do nativo** (próximo change): calendário de 30 dias e períodos, mapa ilustrado, cena de
-   encontro com falas, conversas, laço (eventos, amizade/romance, presente), chefe Yugi, economia em DP do nativo e
-   pacotes de personagem. Substitui a história atual (3 locais, corações, intro/bond/rematch).
-2. **Músicas por tela** do nativo (título, mapa, encontro, loja, duelo, chefe, vitória, derrota), fora do git, com ajuste.
-3. **Loja e editor de deck** no padrão do nativo (grade de pacotes, balconista, caixa; deck em cima e maleta embaixo).
-4. **Decks temáticos dos oponentes** (do nativo) e **CPU mais esperta** (heurísticas do WindBot sobre o ocgcore).
+1. **Teste da campanha no iPhone físico** (uma semana de jogo, um evento de laço, a loja, a música) e arquivar o
+   change `campanha-dm`.
+2. **Loja e editor de deck** no padrão do nativo (balconista com falas do `dialogue.json`, detalhes do pacote, rasgar o
+   pacote, deck em cima e maleta embaixo).
+3. **CPU mais esperta** (heurísticas do WindBot sobre o ocgcore): os decks dos oponentes já são os do nativo.
+4. **Encenações longas**: o `duel-e2e` com os decks da campanha mediu trechos contínuos de encenação de 9–12 s (turnos
+   com muitas ações da CPU); o `monkey` também alerta turnos de mais de 15 s.
 5. **Prompts que travam ou são automáticos**: auditar os pedidos do motor como o da Troca (carta anunciada, soma de
    ritual, escolha de zona).
 6. **Offline completo**: botão "baixar toda a arte" (hoje a arte é guardada conforme vista).

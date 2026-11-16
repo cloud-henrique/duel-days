@@ -17,7 +17,7 @@ const SEED_RANGE = 100_000;
 const DEBUG_LINES = 15;
 
 /** Fim do duelo: `result` escolhe o título; `won` decide o DP (empate e desistência contam como derrota). */
-export interface DuelEnd { text: string; won: boolean; result: 'win' | 'loss' | 'draw' }
+export interface DuelEnd { text: string; won: boolean; result: 'win' | 'loss' | 'draw'; surrendered?: boolean }
 
 /**
  * Ciclo de vida do motor (Worker ou thread principal): inicia o duelo, recebe tabuleiro/prompt/eventos,
@@ -121,7 +121,7 @@ export function useDuelEngine({ mine, foe, foeName, stage, cancelStage, onPrompt
     }, WATCHDOG_MS);
   };
   const autoPass = () => send({ t: 'autoPass', value: true });
-  const surrender = () => { stopPlayback(); worker.current?.terminate(); setPrompt(null); setEnded({ text: 'Você desistiu.', won: false, result: 'loss' }); };
+  const surrender = () => { stopPlayback(); worker.current?.terminate(); setPrompt(null); setEnded({ text: 'Você desistiu.', won: false, result: 'loss', surrendered: true }); };
   const restart = () => { setFail(null); setBoard(null); setPrompt(null); start(); };
 
   return { board, prompt, info, ended, fail, setFail, dbg, lastPongAgo: () => Math.round((Date.now() - pong.current) / 1000), reply, autoPass, surrender, restart };

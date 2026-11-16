@@ -34,12 +34,13 @@ const state = () => page.evaluate(() => ({
 try {
   await page.goto(url);
   await page.fill('input[placeholder="Seu nome"]', 'WebKit');
-  // Boas-vindas (nome; avatar e tratamento padrão) → tela de título → Jogar.
+  // Boas-vindas (nome; avatar e tratamento padrão) → título → Campanha → um lugar com gente → Encontrar → Duelar.
   await btn('Começar').click();
   await page.locator('.titleplay').click();
-  await page.locator('.charchip').first().click();
+  await page.locator('.mappin:not(.empty):not(.shop)').first().click({ force: true });
+  await page.locator('.placepanel .person').first().click();
   await btn('Pular').click();
-  await btn('Aceitar o duelo').click();
+  await page.locator('.scene-menu button', { hasText: /^\s*Duelar\s*$/ }).click();
   await btn('Pular').click();
   // espera o primeiro pedido e responde correntes com "Não" até chegar ao menu principal
   for (let i = 0; i < 20; i++) {

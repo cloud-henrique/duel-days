@@ -33,12 +33,13 @@ const t0 = Date.now();
 try {
   await page.goto(url);
   await page.fill('input[placeholder="Seu nome"]', 'WebKit');
-  // Boas-vindas (nome; avatar e tratamento padrão) → tela de título → Jogar.
+  // Boas-vindas (nome; avatar e tratamento padrão) → título → Campanha → um lugar com gente → Encontrar → Duelar.
   await btn('Começar').click();
   await page.locator('.titleplay').click();
-  await page.locator('.charchip').first().click();
+  await page.locator('.mappin:not(.empty):not(.shop)').first().click({ force: true });
+  await page.locator('.placepanel .person').first().click();
   await btn('Pular').click();
-  await btn('Aceitar o duelo').click();
+  await page.locator('.scene-menu button', { hasText: /^\s*Duelar\s*$/ }).click();
   await btn('Pular').click();
   while (Date.now() - t0 < MAX_MINUTES * 60_000) {
     await page.waitForTimeout(250);
@@ -91,6 +92,15 @@ try {
   const end = (await has('.outro')) ? await page.locator('.outro h2').innerText() : 'SEM FIM (tempo esgotado)';
   const turn = await page.evaluate(() => document.querySelector('.phasebar')?.textContent?.match(/T(\d+)/)?.[1]);
   console.log(`fim: ${end} | turno ${turn} | ${actions} ações | ${Math.round((Date.now() - t0) / 1000)}s | maior encenação contínua: ${(maxStaging / 1000).toFixed(1)}s`);
+  // Campanha: Continuar → fala de depois → mapa no período seguinte, com o DP do duelo.
+  if (await has('.outro')) {
+    await page.locator('.outro button', { hasText: 'Continuar' }).click();
+    await btn('Pular').click();
+    await page.locator('.camphead').waitFor({ timeout: 5000 });
+    const head = (await page.locator('.camphead').innerText()).replace(/\s+/g, ' ');
+    console.log('mapa depois do duelo:', head.slice(0, 40));
+    if (!/Tarde/.test(head) || !/[1-9]\d* DP/.test(head)) throw new Error(`o período ou o DP não mudou: ${head}`);
+  }
 } catch (e) { console.log('FALHA:', e.message); }
 console.log(errors.length ? `erros na página (${errors.length}): ${errors.slice(0, 5).join(' | ')}` : 'sem erros na página');
 await browser.close();

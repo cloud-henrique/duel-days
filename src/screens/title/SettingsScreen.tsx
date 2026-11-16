@@ -5,7 +5,7 @@ import { TopBar } from '../../ui/TopBar';
 import { Backdrop } from '../../components/CardSheet';
 import { GameIcon } from '../../ui/icons';
 
-/** Ajustes do app inteiro: animações e som (os mesmos do menu do duelo) e apagar o save, com confirmação. */
+/** Ajustes do app inteiro: animações, efeitos e música (os mesmos do menu do duelo) e apagar o save, com confirmação. */
 export function SettingsScreen({ settings, onSettings, onErase, onBack }: { settings: Settings; onSettings: (s: Settings) => void; onErase: () => void; onBack: () => void }) {
   const [confirm, setConfirm] = useState(false);
   return (
@@ -17,7 +17,7 @@ export function SettingsScreen({ settings, onSettings, onErase, onBack }: { sett
         </section>
         <section className="hud panelbox">
           <span className="field-label game-title">Save</span>
-          <p className="stats" style={{ margin: 0 }}>Apaga o perfil, a coleção, os decks e o progresso da história.</p>
+          <p className="stats" style={{ margin: 0 }}>Apaga o perfil e a campanha (coleção, decks, DP e laços).</p>
           <button className="hud-btn danger" onClick={() => setConfirm(true)}><GameIcon name="delete" /> Apagar save</button>
         </section>
       </div>

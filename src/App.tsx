@@ -1,138 +1,253 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { DeckBuilder } from './screens/DeckBuilder';
-import { DuelScreen } from './screens/duel/DuelScreen';
+import { DuelScreen, type DuelSummary } from './screens/duel/DuelScreen';
+import type { OutroReward } from './screens/duel/anim/Outro';
 import { ShopScreen } from './screens/ShopScreen';
 import { loadData, type GameData } from './data/cards';
-import { randomDeck, starterCollection, validateDeck } from './game/decks';
-import { LOSS_COINS, WIN_COINS } from './game/economy';
-import { HubScreen } from './screens/HubScreen';
-import { StoryScreen, type CharInfo } from './screens/StoryScreen';
-import { advance, choose, isEnd, newState, resolveDuel, skip, type RunState } from './story/runner';
-import { MAX_HEARTS, clearProgress, loadProgress, newProgress, withDefaults, writeProgress, type Progress } from './story/progress';
-import { heartsOf, locationOf, pickScene, sceneById } from './story/world';
+import { validateDeck } from './game/decks';
+import { clearProgress, loadProgress, newProgress, withDefaults, writeProgress, type Progress } from './story/progress';
 import { profileOf, type Profile } from './story/profile';
 import { Welcome } from './screens/profile/Welcome';
 import { ProfileScreen } from './screens/profile/ProfileScreen';
 import { TitleScreen } from './screens/title/TitleScreen';
 import { SettingsScreen } from './screens/title/SettingsScreen';
 import { GameIcon } from './ui/icons';
+import { music, type Track } from './audio/music';
+import { BALANCE } from './campaign/balance';
+import { epilogue, eventReview } from './campaign/bond';
+import { debugPreset } from './campaign/debug';
+import type { Scene } from './campaign/data/types';
+import { duelist as duelistData, duelistDeck } from './campaign/decks';
+import { abandonDuel, beginDuel, meet } from './campaign/flow';
+import { BOSS, locationOf } from './campaign/map';
+import { packByKey } from './campaign/packs';
+import { applyDuel, BONUS_NAMES, type DuelReward } from './campaign/rewards';
+import { newSeed } from './campaign/rng';
+import { activeDeckOf, newCampaign, PERIOD_KEYS, type CampaignState, type DuelKind } from './campaign/state';
+import { placeBg } from './screens/campaign/assets';
+import { CHAR_ID, type CharInfo } from './screens/campaign/chars';
+import { Dialogue } from './screens/campaign/Dialogue';
+import { EncounterScreen } from './screens/campaign/EncounterScreen';
+import { MapScreen } from './screens/campaign/MapScreen';
+import { BondsScreen } from './screens/campaign/BondsScreen';
+import { StatusScreen } from './screens/campaign/StatusScreen';
+import { CampaignEnd } from './screens/campaign/CampaignEnd';
 
 const BASE = import.meta.env.BASE_URL;
-const hash = (s: string) => [...s].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7);
+const BOSS_KEY = BOSS?.key;
+
+/** A faixa de cada tela (a do fim do duelo, vitória ou derrota, quem escolhe é o `DuelScreen`). */
+function trackFor(s: Screen): Track {
+  switch (s.v) {
+    case 'map': case 'decks': case 'bonds': case 'status': case 'end': return 'map';
+    case 'shop': return 'shop';
+    case 'encounter': case 'scene': return 'encounter';
+    case 'duel': return s.duelist === BOSS_KEY ? 'boss-duel' : 'duel';
+    default: return 'title';
+  }
+}
+
+type Screen =
+  | { v: 'title' } | { v: 'profile' } | { v: 'settings' } | { v: 'nodeck' }
+  | { v: 'map' } | { v: 'shop' } | { v: 'bonds' } | { v: 'status' } | { v: 'end' } | { v: 'resume' }
+  | { v: 'decks'; back: Screen }
+  | { v: 'encounter'; duelist: string; after?: Scene }
+  | { v: 'duel'; duelist: string; kind: DuelKind }
+  /** Uma cena avulsa (rever evento, epílogo) no lugar do duelista; depois, `then`. */
+  | { v: 'scene'; duelist: string; scene: Scene; then: Screen };
+
+/** A recompensa do modelo no formato do encerramento do duelo. */
+export function outroReward(r: DuelReward, duelistName: string): OutroReward {
+  const labels = { drop: undefined, signature: 'Carta-assinatura', bondGift: 'Carta do laço' } as const;
+  const notes: string[] = [];
+  if (r.prizePack) notes.push(`Pacote ${packByKey(r.prizePack)?.name ?? r.prizePack} ganho (abra na loja)`);
+  if (r.unlockedPack) notes.push(`Pacote de ${duelistName} liberado na loja`);
+  const b = r.bond;
+  const note = b?.completedTitle ? `Evento concluído: ${b.completedTitle}`
+    : b?.openedTitle ? `Novo evento: ${b.openedTitle}`
+    : b?.pendingTitle && !r.won ? `${b.pendingTitle}: tente de novo amanhã` : undefined;
+  return {
+    baseDP: r.baseDP, totalDP: r.totalDP,
+    bonuses: r.bonuses.map((x) => ({ label: BONUS_NAMES[x.kind], dp: x.dp })),
+    cards: r.cards.map((c) => ({ id: c.id, isNew: c.isNew, label: labels[c.kind] })),
+    bond: b ? { before: b.before, after: b.after, perHeart: BALANCE.pointsPerHeart, note } : null,
+    notes,
+  };
+}
 
 export function App() {
   const [chars, setChars] = useState<Record<string, CharInfo> | null>(null);
   const [data, setData] = useState<GameData | null>(null);
-  // Telas fora da história; `play` é o mapa, a cena ou o duelo. O deck volta para onde foi aberto (título ou mapa).
-  const [view, setView] = useState<'title' | 'profile' | 'settings' | 'play' | 'decks' | 'shop'>('title');
-  const [deckBack, setDeckBack] = useState<'title' | 'play'>('title');
+  const [screen, setScreen] = useState<Screen>({ v: 'title' });
   const [prog, setProg] = useState<Progress | null>(null);
   const [ready, setReady] = useState(false);
-  // Entrou pelo título com a cena parada num duelo (o app fechou no meio dele): pergunta antes de recomeçá-lo.
-  const [askResume, setAskResume] = useState(false);
+  /** O resultado do duelo que acabou, calculado no encerramento e gravado no "Continuar". */
+  const applied = useRef<ReturnType<typeof applyDuel> | null>(null);
 
   useEffect(() => {
     fetch(`${BASE}characters/index.json`).then((r) => r.json())
       .then((d: { characters: CharInfo[] }) => setChars(Object.fromEntries(d.characters.map((c) => [c.id, c]))))
       .catch(() => setChars({}));
     loadData().then(setData);
-    loadProgress().then((p) => { setProg(p); setReady(true); });
+    loadProgress().then((p) => {
+      // Conferência (dev ou ?debug=1): ?campaign=last-evening|bond|boss muda a campanha ao abrir.
+      const q = new URLSearchParams(location.search);
+      const preset = q.get('campaign');
+      if (p && preset && (import.meta.env.DEV || q.has('debug'))) {
+        const c = debugPreset(preset, p.campaign);
+        if (c) { p = { ...p, campaign: c }; void writeProgress(p); }
+      }
+      setProg(p); setReady(true);
+    });
   }, []);
 
   const save = (p: Progress) => { setProg(p); void writeProgress(p); };
+  // Música: a faixa da tela e os ajustes (sem save, as boas-vindas usam a do título).
+  useEffect(() => { music.setTrack(trackFor(screen)); }, [screen]);
+  const ms = withDefaults(prog?.settings);
+  useEffect(() => { music.setSettings(ms.music, ms.musicVolume); }, [ms.music, ms.musicVolume]);
 
   if (!ready || !chars || !data) return <div className="app hexbg"><div className="stats">Carregando…</div></div>;
 
   // Primeira abertura: boas-vindas (nome, avatar e tratamento) antes de qualquer outra tela.
   if (!prog) {
-    return <Welcome onDone={(p: Profile) => {
-      save({ ...newProgress(p.name, starterCollection(data.cards, data.tiers, Date.now() % 100000)), avatar: p.avatar, address: p.address });
-      setView('title');
-    }} />;
+    return <Welcome onDone={(p: Profile) => { save({ ...newProgress(p.name), avatar: p.avatar, address: p.address }); setScreen({ v: 'title' }); }} />;
   }
   const profile = profileOf(prog);
-  const toTitle = () => setView('title');
-  const openDecks = (from: 'title' | 'play') => { setDeckBack(from); setView('decks'); };
+  const settings = withDefaults(prog.settings);
+  const c = prog.campaign;
+  const setCampaign = (campaign: CampaignState) => save({ ...prog, campaign });
+  const go = (s: Screen) => setScreen(s);
+  const toTitle = () => go({ v: 'title' });
+  const toMap = () => go({ v: 'map' });
 
-  if (view === 'title') return <TitleScreen progress={prog} onPlay={() => {
-    const run = prog.run;
-    setAskResume(!!run && sceneById(run.scene).chapter.nodes[run.state.i]?.t === 'duel');
-    setView('play');
-  }} onDecks={() => openDecks('title')} onProfile={() => setView('profile')} onSettings={() => setView('settings')} />;
-  if (view === 'profile') return <ProfileScreen progress={prog} onBack={toTitle} onChange={(p) => save({ ...prog, playerName: p.name, avatar: p.avatar, address: p.address })} />;
-  if (view === 'settings') {
-    return <SettingsScreen settings={withDefaults(prog.settings)} onSettings={(settings) => save({ ...prog, settings })} onBack={toTitle}
-      onErase={async () => { await clearProgress(); setProg(null); setView('title'); }} />;
+  /** Entrar na campanha pelo título: começa uma se não houver; o fim, se acabou; a pergunta do duelo interrompido. */
+  const enterCampaign = () => {
+    if (!c) { setCampaign(newCampaign(newSeed())); return toMap(); }
+    if (c.concluded) return go({ v: 'end' });
+    if (c.pendingDuel) return go({ v: 'resume' });
+    toMap();
+  };
+
+  // --- Fora da campanha ---
+  if (screen.v === 'title') {
+    return <TitleScreen progress={prog} onPlay={enterCampaign} onDecks={() => go(c ? { v: 'decks', back: { v: 'title' } } : { v: 'nodeck' })}
+      onProfile={() => go({ v: 'profile' })} onSettings={() => go({ v: 'settings' })} />;
   }
-  if (view === 'decks') return <DeckBuilder progress={prog} data={data} onChange={save} onBack={() => setView(deckBack)} />;
-  if (view === 'shop') return <ShopScreen progress={prog} data={data} onChange={save} onBack={() => setView('play')} />;
-
-  // Mapa
-  if (!prog.run) {
-    return <HubScreen progress={prog} chars={chars} onTitle={toTitle} onDecks={() => openDecks('play')} onShop={() => setView('shop')}
-      onPick={(char) => { const sc = pickScene(char, prog); save({ ...prog, run: { scene: sc.id, state: newState(sc.chapter) } }); }} />;
+  if (screen.v === 'profile') return <ProfileScreen progress={prog} onBack={toTitle} onChange={(p) => save({ ...prog, playerName: p.name, avatar: p.avatar, address: p.address })} />;
+  if (screen.v === 'settings') {
+    return <SettingsScreen settings={settings} onSettings={(s) => save({ ...prog, settings: s })} onBack={toTitle}
+      onErase={async () => { await clearProgress(); setProg(null); toTitle(); }} />;
   }
-
-  // Cena
-  const scene = sceneById(prog.run.scene);
-  const ch = scene.chapter;
-  const st = prog.run.state;
-  const setRun = (state: RunState) => save({ ...prog, run: { scene: scene.id, state } });
-  const node = ch.nodes[st.i];
-
-  if (node?.t === 'duel' && askResume) {
-    const foeName = chars[node.opponent]?.name ?? 'Oponente';
+  if (screen.v === 'nodeck' || !c) {
     return (
-      <div className="app menu hexbg resume">
-        <h1 className="game-title">Duelo interrompido</h1>
-        <p>O duelo contra <b>{foeName}</b> em {locationOf(scene.location).name} ficou pela metade. Ele recomeça do início.</p>
-        <button className="hud-btn primary" onClick={() => setAskResume(false)}><GameIcon name="duel" size={20} /> Duelar com {foeName}</button>
-        <button className="hud-btn" onClick={() => { setAskResume(false); save({ ...prog, run: null }); }}><GameIcon name="campaign" size={20} /> Voltar ao mapa</button>
+      <div className="app menu hexbg nodeck">
+        <GameIcon name="deck" size={56} big />
+        <h1 className="game-title">Meu deck</h1>
+        <p>O seu deck nasce na campanha: ao começar, você recebe o deck inicial de 40 cartas e 3 pacotes para abrir.</p>
+        <button className="hud-btn primary" onClick={enterCampaign}><GameIcon name="campaign" size={20} /> Começar a campanha</button>
         <button className="hud-btn" onClick={toTitle}>Voltar ao título</button>
       </div>
     );
   }
 
-  if (node?.t === 'duel') {
-    const mine = prog.decks.find((d) => d.id === prog.activeDeck) ?? prog.decks[0];
-    const problems = validateDeck(mine, data.cards, prog.collection);
-    if (problems.length) {
+  // --- Campanha ---
+  const restart = () => { setCampaign(newCampaign(newSeed())); toMap(); };
+  /** Depois da fala de fim de duelo: o epílogo e o fim, se a campanha acabou; senão, o mapa. */
+  const afterEncounter = () => {
+    if (c.concluded) {
+      const ep = epilogue(c);
+      return go(ep ? { v: 'scene', duelist: ep.duelist.key, scene: ep.scene, then: { v: 'end' } } : { v: 'end' });
+    }
+    toMap();
+  };
+
+  switch (screen.v) {
+    case 'decks':
+      return <DeckBuilder progress={c} data={data} onChange={setCampaign} onBack={() => go(screen.back)} />;
+    case 'shop':
+      return <ShopScreen campaign={c} data={data} onChange={setCampaign} onBack={toMap} />;
+    case 'bonds':
+      return <BondsScreen s={c} onBack={toMap} onReview={(k, n) => go({ v: 'scene', duelist: k, scene: eventReview(c, k, n) ?? [], then: { v: 'bonds' } })} />;
+    case 'status':
+      return <StatusScreen s={c} onBack={toMap} onRestart={restart} />;
+    case 'scene': {
+      const { duelist, scene, then } = screen;
       return (
-        <div className="app menu hexbg">
-          <h1>Deck inválido</h1>
-          <div className="problems">{problems.slice(0, 4).map((p) => <div key={p}>• {p}</div>)}</div>
-          <button className="hud-btn primary" onClick={() => openDecks('play')}>Montar deck</button>
+        <Dialogue key={`${duelist}:${scene.length}`} scene={scene} chars={chars} profile={profile} onDone={() => go(then)}
+          top={{ title: locationOf(duelistData(duelist).location)?.name ?? '', subtitle: duelistData(duelist).name }}
+          stage={{ bg: placeBg(duelistData(duelist).location), period: PERIOD_KEYS[c.period], duelist }} />
+      );
+    }
+    case 'end': {
+      const ep = epilogue(c);
+      return <CampaignEnd s={c} onTitle={toTitle} onRestart={restart} onCollection={() => go({ v: 'decks', back: { v: 'end' } })}
+        onEpilogue={() => ep && go({ v: 'scene', duelist: ep.duelist.key, scene: ep.scene, then: { v: 'end' } })} />;
+    }
+    case 'resume': {
+      const pd = c.pendingDuel;
+      if (!pd) return mapView();
+      const d = duelistData(pd.duelist);
+      return (
+        <div className="app menu hexbg resume">
+          <h1 className="game-title">Duelo interrompido</h1>
+          <p>O duelo contra <b>{d.name}</b> ficou pela metade. Ele recomeça do início, e o período não foi gasto.</p>
+          <button className="hud-btn primary" onClick={() => go({ v: 'duel', duelist: pd.duelist, kind: pd.kind })}><GameIcon name="duel" size={20} /> Duelar com {d.name}</button>
+          <button className="hud-btn" onClick={() => { setCampaign(abandonDuel(c)); toMap(); }}><GameIcon name="campaign" size={20} /> Voltar ao mapa</button>
           <button className="hud-btn" onClick={toTitle}>Voltar ao título</button>
         </div>
       );
     }
-    return <DuelScreen key={`${scene.id}:${st.i}`} cards={data.cards}
-      mine={{ main: mine.main, extra: mine.extra }} foe={randomDeck(data.cards, data.poolIds, hash(node.opponent))}
-      opponent={{ id: node.opponent, name: chars[node.opponent]?.name ?? 'Oponente' }}
-      player={{ id: profile.avatar, name: profile.name }}
-      settings={withDefaults(prog.settings)} onSettings={(settings) => save({ ...prog, settings })}
-      onEnd={(won) => save({
-        ...prog,
-        coins: prog.coins + (won ? WIN_COINS : LOSS_COINS),
-        wins: won ? { ...prog.wins, [node.opponent]: (prog.wins[node.opponent] ?? 0) + 1 } : prog.wins,
-        losses: won ? prog.losses : { ...prog.losses, [node.opponent]: (prog.losses[node.opponent] ?? 0) + 1 },
-        run: { scene: scene.id, state: resolveDuel(ch, st, won) },
-      })} />;
+    case 'encounter':
+      return (
+        <EncounterScreen key={`${screen.duelist}:${screen.after ? 'after' : 'greet'}`} s={c} duelist={screen.duelist} chars={chars} profile={profile}
+          afterDuel={screen.after} onChange={setCampaign}
+          onLeave={screen.after ? afterEncounter : toMap}
+          onDuel={(kind) => {
+            const problems = validateDeck(activeDeckOf(c), data.cards, c.collection);
+            if (problems.length) return go({ v: 'decks', back: { v: 'map' } });
+            setCampaign(beginDuel(c, screen.duelist, kind));
+            go({ v: 'duel', duelist: screen.duelist, kind });
+          }} />
+      );
+    case 'duel': {
+      const { duelist, kind } = screen;
+      const d = duelistData(duelist);
+      const mine = activeDeckOf(c);
+      const foeId = CHAR_ID[duelist] ?? duelist;
+      return (
+        <DuelScreen key={`${c.day}:${c.period}:${duelist}`} cards={data.cards}
+          mine={{ main: mine.main, extra: mine.extra }} foe={duelistDeck(duelist)}
+          opponent={{ id: foeId, name: d.name }}
+          player={{ id: profile.avatar, name: profile.name }}
+          settings={settings} onSettings={(s) => save({ ...prog, settings: s })}
+          rewardFor={(summary: DuelSummary) => {
+            applied.current = applyDuel(c, duelist, kind, summary);
+            return outroReward(applied.current.reward, d.name);
+          }}
+          onEnd={(summary) => {
+            const r = applied.current ?? applyDuel(c, duelist, kind, summary);
+            applied.current = null;
+            const won = summary.result === 'win';
+            save({
+              ...prog, campaign: r.state,
+              wins: won ? { ...prog.wins, [duelist]: (prog.wins[duelist] ?? 0) + 1 } : prog.wins,
+              losses: won ? prog.losses : { ...prog.losses, [duelist]: (prog.losses[duelist] ?? 0) + 1 },
+            });
+            go({ v: 'encounter', duelist, after: r.after });
+          }} />
+      );
+    }
+    case 'map':
+    default:
+      return mapView();
   }
 
-  const finish = () => {
-    const hearts = { ...prog.hearts };
-    for (const [who, d] of Object.entries(st.gain)) hearts[who] = Math.min(MAX_HEARTS, (hearts[who] ?? 0) + d);
-    save({ ...prog, hearts, seen: scene.once && !prog.seen.includes(scene.id) ? [...prog.seen, scene.id] : prog.seen, run: null });
-  };
-  const wins = prog.wins[scene.char] ?? 0;
-  const charName = chars[scene.char]?.name ?? scene.char;
-
-  return (
-    <StoryScreen chapter={ch} state={st} chars={chars} playerName={prog.playerName}
-      header={{ place: locationOf(scene.location).name, sub: `${charName} · ${wins === 0 ? 'nenhuma vitória' : `${wins} vitória${wins > 1 ? 's' : ''}`}`, hearts: heartsOf(prog, scene.char) }}
-      bg={locationOf(scene.location).bg}
-      onNext={() => setRun(advance(ch, st))} onChoose={(i) => setRun(choose(ch, st, i))} onSkip={() => setRun(skip(ch, st))}
-      onFinish={() => (isEnd(ch, st) ? finish() : undefined)} onTitle={toTitle} />
-  );
+  function mapView() {
+    return (
+      <MapScreen s={c!} onMenu={toTitle} onShop={() => go({ v: 'shop' })} onDecks={() => go({ v: 'decks', back: { v: 'map' } })}
+        onBonds={() => go({ v: 'bonds' })} onStatus={() => go({ v: 'status' })}
+        onMeet={(k) => { setCampaign(meet(c!, k)); go({ v: 'encounter', duelist: k }); }} />
+    );
+  }
 }

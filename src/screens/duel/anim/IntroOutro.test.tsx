@@ -56,4 +56,17 @@ describe('Outro', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Continuar' }));
     expect(onContinue).toHaveBeenCalledOnce();
   });
+
+  it('recompensa da campanha: total, bônus, carta NOVA e o laço', () => {
+    const reward = {
+      baseDP: 300, bonuses: [{ label: 'Vitória rápida', dp: 60 }], totalDP: 360,
+      cards: [{ id: 46986414, isNew: true }], bond: { before: 40, after: 70, perHeart: 100 }, notes: ['Pacote do Joey liberado na loja'],
+    };
+    const { container } = render(<Outro result="win" detail="Você venceu!" me={me} foe={foe} reward={reward} reduced onContinue={() => {}} />);
+    expect(container.querySelector('[aria-label="+360 DP"]')).toBeTruthy();
+    expect(container.textContent).toContain('Vitória rápida');
+    expect(container.querySelector('.earned figure.new .newtag')?.textContent).toBe('NOVA');
+    expect(container.textContent).toContain('Laço +30');
+    expect(container.textContent).toContain('Pacote do Joey liberado');
+  });
 });

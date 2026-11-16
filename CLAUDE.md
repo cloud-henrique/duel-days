@@ -15,9 +15,9 @@ npx vite preview --port 5181 --host 127.0.0.1   # serve o dist/ (é o que o tún
 
 npx vite build && npx wrangler pages deploy dist --project-name dueldays --branch main   # produção: https://dueldays.pages.dev (Cloudflare Pages + Access)
 npx tsx proto/smoke.ts 500          # CPU x CPU com decks aleatórios do pool: travas, laços, erros de Lua
-npx tsx proto/monkey.ts 100         # mesmo código do Worker (DuelDriver) contra os decks reais dos personagens
-npx tsx proto/story-smoke.ts        # percorre todos os caminhos de todas as cenas
-npx tsx proto/economy-smoke.ts      # packs (distribuição/garantia) e coleção inicial
+npx tsx proto/monkey.ts 100         # mesmo código do Worker (DuelDriver) com os decks da campanha (5 duelistas + inicial)
+npx tsx proto/story-smoke.ts        # 200 campanhas de 30 dias pelo modelo: cenas, eventos, rotas, chefe e epílogo
+npx tsx proto/economy-smoke.ts      # pacotes da campanha (70/20/10 no slot) e decks válidos (inicial e oponentes)
 npx tsx proto/sort-check.ts         # ordenar o topo do Deck (SORT_CARD) contra o motor real
 node proto/webkit-e2e.mjs [url] [normal|rápida|desligada] [--reduzir] [--turno]   # fluxo no WebKit (Playwright) contra o preview
 node proto/duel-e2e.mjs [url] [--reduzir]   # duelo inteiro no WebKit, na velocidade normal: mede se fica preso numa encenação
@@ -26,7 +26,9 @@ npx tsx proto/move-reason.ts        # confere o `reason` do MSG_MOVE (patch do o
 
 Pipeline de dados (gera arquivos NÃO versionados; veja README): `npm run fetch-data`, `python3 scripts/fetch_pool.py`,
 `python3 scripts/export_data.py`, `python3 scripts/fetch_card_text_pt.py`, `.venv/bin/python scripts/fetch_card_art.py` (small/large/cropped + verso), `.venv/bin/python scripts/copy_card_icons.py` (ícones de atributo/tipo do app nativo e propriedades do `cardicons.png` do Tag Force 3 no PPSSPP → `public/card-icons/`), `python3 scripts/copy_sounds.py` (efeitos do duelo do app nativo, do Tag Force, convertidos com `afconvert` → `public/sounds/*.m4a`; macOS), `python3 scripts/copy_brand.py` (logo "Yu-Gi-Oh!" do título → `public/brand/`, fora do git),
-`.venv/bin/python scripts/extract_action_icons.py` (recorta o `actions.png` do Tag Force; o ícone de cada ação se escolhe em `npm run icon-labeler`, porta 5174, e fica em `assets/action-icons/labels.json`), `npm run build-characters`, `.venv/bin/python scripts/build_sprites.py`.
+`python3 scripts/copy_campaign_data.py` (dados da campanha do nativo → `src/campaign/data/`, versionados; troca arte
+alternativa pelo id original), `python3 scripts/copy_campaign_assets.py` (mapa, fundos dos lugares, capas dos pacotes e as 8
+músicas do nativo → `public/campaign/` e `public/music/`, fora do git), `.venv/bin/python scripts/extract_action_icons.py` (recorta o `actions.png` do Tag Force; o ícone de cada ação se escolhe em `npm run icon-labeler`, porta 5174, e fica em `assets/action-icons/labels.json`), `npm run build-characters`, `.venv/bin/python scripts/build_sprites.py`.
 Ícones do PWA (ankh em HUD azul; arte própria, os binários são versionados): edite `assets/app-icon/*.svg` e rode `node scripts/build_app_icons.mjs`
 (Playwright; se faltar o Chromium da revisão certa, `CHROMIUM_PATH=<chrome-headless-shell>`) → `public/icons/*` e `public/favicon.ico`.
 Fundo de colmeia com circuito (arte própria, versionada): `node scripts/build_circuit.mjs` → `src/ui/circuit.svg`, usado
@@ -66,23 +68,41 @@ pelo `.hexbg` do `styles.css`.
   - Lugares na tela: zonas, mãos, deck, cemitério e placa têm `data-loc` = `locKey`. Sem lugar visível (banidas, Extra,
     fora do jogo), a animação sai da placa do dono.
 - `src/audio/sfx.ts`: efeitos com Web Audio (buffers decodificados uma vez, anti-repetição de 60 ms, `settings.sound`).
+  `src/audio/music.ts`: uma faixa em laço por tela (`<audio>` com fade; no iOS, volume por um `GainNode` do contexto dos
+  efeitos; pausa em segundo plano; silêncio sem o arquivo). A faixa sai do `trackFor(screen)` do `App.tsx`; vitória/derrota,
+  do `DuelScreen`.
 - `src/ui/` (change `visual-base`): o visual compartilhado. `icons.tsx` (`GameIcon`: **um conceito, um ícone**, a tabela
   do `GAME_ICONS` do nativo, Phosphor `fill` + a lápide do MDI; `big` dá o degradê branco → ciano), `Dp.tsx` (o único jeito
-  de mostrar dinheiro: ícone de moedas + número + "DP"; o save continua `coins`), `titles.tsx` (`DisplayTitle` para
+  de mostrar dinheiro: ícone de moedas + número + "DP"), `titles.tsx` (`DisplayTitle` para
   DUELO!/VITÓRIA!/DERROTA/EMPATE e o `Wordmark` metálico), `coin.tsx` (`Coin` e `Die` desenhados), `Choice.tsx`
-  (`SettingsChoices`, os mesmos ajustes no título e no duelo), `TopBar.tsx`. Fontes: `--font-game` (Chakra Petch, classe
+  (`SettingsChoices`, os mesmos ajustes no título e no duelo), `TopBar.tsx` (a `GameTopBar` do nativo: título na fonte
+  do jogo com brilho ciano e subtítulo), `BondHearts.tsx` (corações do laço do nativo, enchidos pela fração), `.hud-btn.secondary`. Fontes: `--font-game` (Chakra Petch, classe
   `.num` para números e `.game-title`/`.sheet h4` para títulos) e `--font-display` (serifada preta itálica).
 - Entrada do app (`App.tsx`): sem save → `Welcome` (nome, avatar entre os 14 duelistas genéricos, tratamento); com save →
-  `TitleScreen` (Jogar/Continuar, Meu deck, perfil e ajustes) → `ProfileScreen`, `SettingsScreen` ou o mapa da história.
-  O jogador é sempre o avatar do perfil (`src/story/profile.ts`: `profileOf`, `PLAYER_AVATARS`, `playerStats`, `say`),
-  nunca o Yugi.
-- `src/screens/`: `StoryScreen`, `HubScreen`, `DeckBuilder`, `ShopScreen`, `title/`, `profile/`. `src/components/`: `CardSheet.tsx` (folha da
-  carta + `Backdrop`) e `CardFace.tsx` (face própria da carta em PT, medidas da carta de referência de 320 em
-  `cardface.css`; conferência em dev com `?cardfaces`).
-- `src/story/`: `runner.ts` (motor puro da VN), `world.ts` (locais, cenas, `pickScene`), `content.ts` (texto),
-  `progress.ts` (save em IndexedDB via Dexie: nome, corações, vitórias, moedas, coleção, decks, cena em andamento e
-  `settings` de animação/som, lidas sempre com `withDefaults`).
-- `src/game/`: `decks.ts` (regras: 40–60, Extra ≤15, ≤3 cópias, limitado à coleção), `packs.ts`, `economy.ts`.
+  `TitleScreen` (Campanha/Continuar com dia, período e DP; Meu deck; perfil e ajustes). O `App` guarda a tela atual
+  (`Screen`): mapa, encontro, duelo, loja, deck, laços, status, cena avulsa (rever evento, epílogo), fim e "duelo
+  interrompido". O jogador é sempre o avatar do perfil (`src/story/profile.ts`: `profileOf`, `PLAYER_AVATARS`,
+  `playerStats`, `say`), nunca o Yugi.
+- `src/campaign/` (change `campanha-dm`): a campanha Duel Monsters Tier 1 do nativo, **modelo puro** (funções que recebem
+  um `CampaignState` e devolvem outro, testadas):
+  - `data/` (`campaign.json`, `dialogue.json`, `packs.json` copiados do nativo + `types.ts`);
+  - `state.ts` (o save), `rng.ts` (**todo sorteio sai da semente**: `generator(PURPOSE.x, seed, dia, …)`), `balance.ts`;
+  - `calendar.ts` (30 dias × manhã/tarde/noite; **só o duelo gasta período**), `map.ts` (2 a 4 por período, chefe depois
+    dos 4), `encounter.ts` (qual fala toca), `bond.ts` (afinidade com teto/piso, conversa, eventos, rota, epílogo),
+    `rewards.ts` (`applyDuel`: DP com bônus, carta, assinatura, chefe, laço e o período), `packs.ts` (loja e sorteio 4+1),
+    `flow.ts` (conhecer, `pendingDuel`), `text.ts` (`{nome}` e `{m|f|n}`), `debug.ts` (`?campaign=last-evening|bond|boss`
+    em dev ou com `?debug=1`).
+- `src/screens/campaign/`: `MapScreen` (+ `CampaignHeader`, `Hearts`), `EncounterScreen`, `Dialogue` (o palco do
+  nativo: `TopBar` com lugar e subtítulo, placa de corações, fundo desfocado com o filtro do período e o circuito,
+  personagem a 60% da altura abaixo da barra, folha de baixo com placa do nome e brilho na cor de quem fala, "Pular"), `BondsScreen`, `StatusScreen`, `CampaignEnd`, `chars.ts`
+  (chave do nativo → sprite; expressões), `assets.ts` (arte com degradê de reserva), `campaign.css`.
+- `src/screens/`: `DeckBuilder` e `ShopScreen` (sobre o `CampaignState`), `title/`, `profile/`. `src/components/`:
+  `CardSheet.tsx` (folha da carta + `Backdrop`) e `CardFace.tsx` (face própria da carta em PT, medidas da carta de
+  referência de 320 em `cardface.css`; conferência em dev com `?cardfaces`).
+- `src/story/`: `progress.ts` (save em IndexedDB via Dexie: perfil, estatísticas, `settings` de animação/som/música, lidas
+  sempre com `withDefaults`, e a `campaign`; `migrate` lê o save da história antiga mantendo o perfil) e `profile.ts`.
+- `src/game/decks.ts`: regras do deck (40–60, Extra ≤15, ≤3 cópias, limitadas a 1, limitado à coleção) e `randomDeck`
+  (só nos protótipos).
 - `src/data/`: carregador de cartas (sobrepõe o texto em português) e rótulos (atributo, raça, tipo, moldura, `formatStat`).
 - Estilo: `src/styles.css` (HUD azul: `.hud`, `.hud-btn`, chanfro com `clip-path` + camadas `--cut-tl/--cut-br` que
   desenham a borda diagonal; `--fill` troca o fundo de um `.hud`).
@@ -121,6 +141,12 @@ pelo `.hexbg` do `styles.css`.
 - Botões da tela de duelo que também são `.hud-btn` precisam de seletor com as duas classes: o `styles.css` carrega
   depois do `duel.css` e o padding do `.hud-btn` ganharia.
 - Cartas que o motor não aguenta vão em `raw/pool/blocklist.json` (rode `export_data.py` depois).
+- **Cartas da campanha usam o id original**, não o da arte alternativa (sem script no ocgcore): o `copy_campaign_data.py`
+  troca pelo `alias`, e o `fetch_pool.py` acrescenta ao pool os ids da campanha que faltam.
+- **A arte e a música da campanha são da Konami** (`public/campaign/`, `public/music/`, fora do git e da pré-carga do PWA;
+  a música usa cache com `rangeRequests`). Sem os arquivos, fundos em degradê e silêncio.
+- **`overflow: clip` na cena** (`.story.campaign-scene`): com `hidden`, o foco num botão rolava o contêiner para o lado.
+- Os seletores da campanha que disputam com o `styles.css` (carrega depois) precisam de duas classes (ex.: `.pack.shoppack`).
 
 ## Diagnóstico
 

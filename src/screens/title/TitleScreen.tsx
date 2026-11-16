@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { Progress } from '../../story/progress';
 import { profileOf } from '../../story/profile';
-import { locationOf, sceneById } from '../../story/world';
+import { PERIOD_NAMES } from '../../campaign/state';
 import { GameIcon } from '../../ui/icons';
 import { Dp } from '../../ui/Dp';
 import { Wordmark } from '../../ui/titles';
@@ -10,11 +10,12 @@ import './title.css';
 
 const BASE = import.meta.env.BASE_URL;
 
-/** Onde o jogador parou: o lugar da cena em andamento, ou o mapa. */
-export function whereLeft(p: Progress): string {
-  if (!p.run) return 'No mapa da cidade';
-  const scene = sceneById(p.run.scene);
-  return scene ? `Em ${locationOf(scene.location).name}` : 'Cena em andamento';
+/** O botão principal: sem campanha, "Campanha"; em andamento, "Continuar" com o dia e o período; terminada, o fim. */
+export function campaignEntry(p: Progress): { label: string; sub: string; dp: number | null } {
+  const c = p.campaign;
+  if (!c) return { label: 'Campanha', sub: 'Comece o dia 1 em Domino', dp: null };
+  if (c.concluded) return { label: 'Campanha', sub: 'Os 30 dias acabaram', dp: c.dp };
+  return { label: 'Continuar', sub: `Dia ${c.day} · ${PERIOD_NAMES[c.period]}`, dp: c.dp };
 }
 
 /** O orbe azul com o leque de cartas atrás do logo, como na tela de título do *Duel Links*. */
@@ -32,14 +33,14 @@ function TitleOrb() {
 
 /**
  * Tela de título: o orbe com o leque, o logo "Yu-Gi-Oh!" (arte fora do git; some se não carregar), "DUEL DAYS" metálico,
- * o perfil e os ajustes no topo, "Jogar"/"Continuar" e "Meu deck". Só entradas para o que já existe.
+ * o perfil e os ajustes no topo, "Campanha"/"Continuar" e "Meu deck". Só entradas para o que já existe.
  */
 export function TitleScreen({ progress, onPlay, onDecks, onProfile, onSettings }: {
   progress: Progress; onPlay: () => void; onDecks: () => void; onProfile: () => void; onSettings: () => void;
 }) {
   const [logoOk, setLogoOk] = useState(true);
   const profile = profileOf(progress);
-  const started = !!progress.run || Object.keys(progress.wins).length + Object.keys(progress.losses).length > 0;
+  const entry = campaignEntry(progress);
   return (
     <div className="app titlescreen hexbg">
       <div className="titletop">
@@ -58,9 +59,9 @@ export function TitleScreen({ progress, onPlay, onDecks, onProfile, onSettings }
         <button className="hud-btn primary titleplay" onClick={onPlay}>
           <GameIcon name="campaign" size={32} big />
           <span className="titleplay-text">
-            <b className="game-title">{started ? 'Continuar' : 'Jogar'}</b>
-            <small>{started ? whereLeft(progress) : 'Comece pela cidade'}</small>
-            <Dp value={progress.coins} className="titleplay-dp" />
+            <b className="game-title">{entry.label}</b>
+            <small>{entry.sub}</small>
+            {entry.dp !== null && <Dp value={entry.dp} className="titleplay-dp" />}
           </span>
           <GameIcon name="chevron" size={20} />
         </button>

@@ -10,6 +10,7 @@
 import type { Sound } from '../screens/duel/anim/effects';
 import { PACING } from '../screens/duel/anim/pacing';
 import { rlog } from '../debug/remote';
+import { music, setAudioContextSource } from './music';
 
 /** Arquivo de cada som em `public/sounds/` (nomes do app nativo; `scripts/copy_sounds.py`). */
 export const SOUND_FILES: Record<Sound, string> = {
@@ -40,6 +41,8 @@ class Sfx {
   private played = false;
   /** Preferência do jogador (`settings.sound`). */
   enabled = true;
+  /** O contexto (depois do primeiro toque); a música passa por ele no iOS. */
+  get context(): Ctx | null { return this.ctx; }
 
   /** Cria (ou retoma) o contexto; deve rodar dentro de um gesto do usuário. */
   unlock() {
@@ -83,10 +86,11 @@ class Sfx {
 }
 
 export const sfx = new Sfx();
+setAudioContextSource(() => sfx.context);
 
-/** Liga o desbloqueio do áudio ao primeiro toque/tecla (e aos seguintes, caso o iOS suspenda o contexto). */
+/** Liga o desbloqueio do áudio (efeitos e música) ao primeiro toque/tecla (e aos seguintes, caso o iOS suspenda o contexto). */
 export function installUnlock(): () => void {
-  const on = () => sfx.unlock();
+  const on = () => { sfx.unlock(); music.unlock(); };
   const opts = { capture: true, passive: true } as const;
   for (const ev of ['pointerdown', 'touchend', 'keydown'] as const) document.addEventListener(ev, on, opts);
   return () => { for (const ev of ['pointerdown', 'touchend', 'keydown'] as const) document.removeEventListener(ev, on, opts); };

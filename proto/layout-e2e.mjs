@@ -25,9 +25,10 @@ async function enterDuel(page) {
   // Boas-vindas (nome; avatar e tratamento padrão) → tela de título → Jogar.
   await btn('Começar').click();
   await page.locator('.titleplay').click();
-  await page.locator('.charchip').first().click();
+  await page.locator('.mappin:not(.empty):not(.shop)').first().click({ force: true });
+  await page.locator('.placepanel .person').first().click();
   await btn('Pular').click();
-  await btn('Aceitar o duelo').click();
+  await page.locator('.scene-menu button', { hasText: /^\s*Duelar\s*$/ }).click();
   await btn('Pular').click();
   await page.locator('.field').waitFor();
   await page.locator('.handfan button').first().waitFor({ timeout: 15000 });

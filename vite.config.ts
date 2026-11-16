@@ -39,12 +39,21 @@ export default defineConfig({
       includeAssets: ['favicon.ico', 'icons/icon.svg', 'icons/apple-touch-icon.png'],
       workbox: {
         globPatterns: ['**/*.{js,css,html,wasm,json,webp,woff2,svg,png,ico,m4a}'],
-        // A arte das cartas (dezenas de MB) não entra na pré-carga: é guardada conforme é vista.
-        globIgnores: ['cards/**'],
+        // A arte das cartas (dezenas de MB), o mapa/fundos e a música da campanha não entram na pré-carga: são guardados
+        // conforme são vistos/tocados. A música aceita pedidos parciais (o Safari pede o áudio em pedaços).
+        globIgnores: ['cards/**', 'campaign/**', 'music/**'],
         runtimeCaching: [{
           urlPattern: ({ url }) => url.pathname.includes('/cards/'),
           handler: 'CacheFirst',
           options: { cacheName: 'card-art', expiration: { maxEntries: 5000 }, cacheableResponse: { statuses: [0, 200] } },
+        }, {
+          urlPattern: ({ url }) => url.pathname.includes('/campaign/'),
+          handler: 'CacheFirst',
+          options: { cacheName: 'campaign-art', cacheableResponse: { statuses: [0, 200] } },
+        }, {
+          urlPattern: ({ url }) => url.pathname.includes('/music/'),
+          handler: 'CacheFirst',
+          options: { cacheName: 'music', rangeRequests: true, cacheableResponse: { statuses: [0, 200] } },
         }],
         maximumFileSizeToCacheInBytes: 8 * 1024 * 1024,
       },

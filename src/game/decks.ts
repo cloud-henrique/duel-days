@@ -2,6 +2,15 @@ import type { CardRecord, DeckList } from '../engine/session';
 import { makeRng } from '../engine/cpu';
 
 export const MAIN_MIN = 40, MAIN_MAX = 60, EXTRA_MAX = 15, MAX_COPIES = 3;
+/** Cartas limitadas a 1 cópia, como no nativo (`DeckRules.classic`). */
+export const LIMITED: ReadonlySet<number> = new Set([
+  55144522, // Pot of Greed
+  12580477, // Raigeki
+  53129443, // Dark Hole
+  83764718, // Monster Reborn
+  44095762, // Mirror Force
+]);
+export const maxCopiesOf = (code: number) => (LIMITED.has(code) ? 1 : MAX_COPIES);
 export interface Deck extends DeckList { id: string; name: string }
 type Cards = Record<string, CardRecord>;
 
@@ -20,7 +29,7 @@ export function validateDeck(d: DeckList, cards: Cards, owned?: Record<string, n
   for (const [code, n] of Object.entries(all)) {
     const c = cards[code];
     if (!c) { out.push(`Carta desconhecida: ${code}.`); continue; }
-    if (n > MAX_COPIES) out.push(`${c.name}: ${n} cópias (máximo ${MAX_COPIES}).`);
+    if (n > maxCopiesOf(Number(code))) out.push(`${c.name}: ${n} cópias (máximo ${maxCopiesOf(Number(code))}).`);
     if (owned && n > (owned[code] ?? 0)) out.push(`${c.name}: você tem só ${owned[code] ?? 0}.`);
   }
   for (const code of d.main) if (cards[code] && isExtraCard(cards[code])) { out.push(`${cards[code].name} deve ir no Extra Deck.`); break; }

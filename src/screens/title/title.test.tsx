@@ -1,31 +1,38 @@
 // @vitest-environment happy-dom
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen, within } from '@testing-library/react';
 import { TitleScreen } from './TitleScreen';
 import { SettingsScreen } from './SettingsScreen';
 import { DEFAULT_SETTINGS, type Progress } from '../../story/progress';
+import { newCampaign } from '../../campaign/state';
 
 afterEach(cleanup);
-const base = { playerName: 'Ana', coins: 450, wins: {}, losses: {}, run: null } as unknown as Progress;
+const base: Progress = { playerName: 'Ana', wins: {}, losses: {}, campaign: null };
 const handlers = () => ({ onPlay: vi.fn(), onDecks: vi.fn(), onProfile: vi.fn(), onSettings: vi.fn() });
 
 describe('TitleScreen', () => {
-  it('jogo novo: "Jogar"; entradas só do que existe', () => {
+  it('sem campanha: "Campanha"; entradas só do que existe', () => {
     render(<TitleScreen progress={base} {...handlers()} />);
-    expect(screen.getByRole('button', { name: /Jogar/ })).toBeTruthy();
+    expect(screen.getByRole('button', { name: /^Campanha/ })).toBeTruthy();
     expect(screen.getByRole('button', { name: /Meu deck/ })).toBeTruthy();
     expect(screen.queryByText(/Duelo rápido/)).toBeNull();
     expect(screen.queryByText(/Histórico/)).toBeNull();
     expect(screen.getByRole('heading', { name: 'Duel Days' })).toBeTruthy();
   });
 
-  it('jogo em andamento: "Continuar" com o saldo em DP', () => {
+  it('campanha em andamento: "Continuar", o dia, o período e o saldo em DP', () => {
     const h = handlers();
-    render(<TitleScreen progress={{ ...base, wins: { joey_wheeler: 1 } }} {...h} />);
+    render(<TitleScreen progress={{ ...base, campaign: { ...newCampaign(1), day: 5, period: 1, dp: 450 } }} {...h} />);
     const play = screen.getByRole('button', { name: /Continuar/ });
+    expect(play.textContent).toContain('Dia 5 · Tarde');
     expect(play.querySelector('[aria-label="450 DP"]')).toBeTruthy();
     fireEvent.click(play);
     expect(h.onPlay).toHaveBeenCalledOnce();
+  });
+
+  it('campanha terminada: volta a dizer "Campanha"', () => {
+    render(<TitleScreen progress={{ ...base, campaign: { ...newCampaign(1), day: 30, concluded: true } }} {...handlers()} />);
+    expect(screen.getByRole('button', { name: /^Campanha/ }).textContent).toContain('30 dias acabaram');
   });
 
   it('perfil e ajustes no topo', () => {
@@ -58,6 +65,18 @@ describe('SettingsScreen', () => {
     const onSettings = vi.fn();
     render(<SettingsScreen settings={DEFAULT_SETTINGS} onSettings={onSettings} onErase={vi.fn()} onBack={vi.fn()} />);
     fireEvent.click(screen.getByRole('button', { name: 'Desligado' }));
-    expect(onSettings).toHaveBeenLastCalledWith({ anim: 'normal', sound: false });
+    expect(onSettings).toHaveBeenLastCalledWith({ ...DEFAULT_SETTINGS, sound: false });
+  });
+
+  it('música: interruptor e volume próprios', () => {
+    const onSettings = vi.fn();
+    const { rerender } = render(<SettingsScreen settings={DEFAULT_SETTINGS} onSettings={onSettings} onErase={vi.fn()} onBack={vi.fn()} />);
+    expect(screen.getByRole('button', { name: 'Médio' }).getAttribute('aria-pressed')).toBe('true');
+    fireEvent.click(screen.getByRole('button', { name: 'Alto' }));
+    expect(onSettings).toHaveBeenLastCalledWith({ ...DEFAULT_SETTINGS, musicVolume: 1 });
+    fireEvent.click(within(screen.getByRole('group', { name: 'Música' })).getByRole('button', { name: 'Desligada' }));
+    expect(onSettings).toHaveBeenLastCalledWith({ ...DEFAULT_SETTINGS, music: false });
+    rerender(<SettingsScreen settings={{ ...DEFAULT_SETTINGS, music: false }} onSettings={onSettings} onErase={vi.fn()} onBack={vi.fn()} />);
+    expect(screen.queryByRole('button', { name: 'Alto' })).toBeNull();
   });
 });

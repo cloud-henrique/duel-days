@@ -5,7 +5,7 @@ de 2002 a 2005 e grava raw/pool/pool.json  {id: {name, tier, set}}.
 Raridade (tier) = a da primeira impressão dentro dessas caixas:  N comum, R rara, SR super, UR ultra/secret.
 Respostas cruas ficam em raw/pool/sets/ (cache); pausa entre requisições.
 """
-import json, os, time, urllib.parse, urllib.request
+import hashlib, json, os, time, urllib.parse, urllib.request
 R = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
 POOL = f'{R}/raw/pool'
 # (código, nome exato da caixa na API)
@@ -47,6 +47,34 @@ for code, name in SETS:
         if cur is None or date < cur['date']:   # primeira impressão manda
             pool[str(c['id'])] = {'name': c['name'], 'tier': t, 'set': code, 'date': date}
     print(code, name, len(pool), flush=True)
+
+# Cartas da campanha (dados copiados do app nativo): decks, pacotes, assinaturas e cartas do laço que não vieram das
+# caixas acima, com o id que o nativo usa (ex.: o Dark Magician 46986414, e não a arte alternativa).
+CAMP = f'{R}/src/campaign/data'
+RAR = {'common': 'N', 'rare': 'R', 'super': 'SR', 'ultra': 'UR'}
+extra = {}
+if os.path.exists(f'{CAMP}/campaign.json'):
+    camp = json.load(open(f'{CAMP}/campaign.json'))
+    for e in camp['starterDeck']['main']: extra.setdefault(e['id'], ('N', 'CMP'))
+    for d in camp['tier']['duelists']:
+        for e in d['deck']['main'] + d['deck'].get('extra', []): extra.setdefault(e['id'], ('N', 'CMP'))
+        for k in ('signatureCard', 'bondGift'):
+            if d.get(k): extra[d[k]['id']] = ('UR', 'CMP')
+    for p in json.load(open(f'{CAMP}/packs.json')):
+        for c in p['cards']: extra[c['id']] = (RAR[c['rarity']], p['key'].upper())
+missing = sorted(i for i in extra if str(i) not in pool)
+for i in range(0, len(missing), 40):
+    chunk = missing[i:i + 40]
+    cache = f'{POOL}/sets/campaign-' + hashlib.md5(','.join(map(str, chunk)).encode()).hexdigest()[:10] + '.json'
+    if not os.path.exists(cache):
+        url = 'https://db.ygoprodeck.com/api/v7/cardinfo.php?id=' + ','.join(map(str, chunk))
+        req = urllib.request.Request(url, headers={'User-Agent': 'personal-pool-fetch'})
+        open(cache, 'wb').write(urllib.request.urlopen(req, timeout=60).read()); time.sleep(0.4)
+    for c in json.load(open(cache)).get('data', []):
+        cid = c['id'] if c['id'] in extra else next((im['id'] for im in c.get('card_images', []) if im['id'] in extra), c['id'])
+        t, code = extra.get(cid, ('N', 'CMP'))
+        pool[str(cid)] = {'name': c['name'], 'tier': t, 'set': code, 'date': '2002-01-01'}
+print('campanha:', len(missing), 'cartas a mais')
 json.dump(pool, open(f'{POOL}/pool.json', 'w'), ensure_ascii=False)
 from collections import Counter
 print(len(pool), 'cartas;', dict(Counter(v['tier'] for v in pool.values())))

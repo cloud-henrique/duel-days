@@ -1,9 +1,9 @@
 import { useMemo, useState } from 'react';
 import { CardSheet, art } from '../components/CardSheet';
 import type { GameData } from '../data/cards';
-import { MAIN_MAX, MAIN_MIN, EXTRA_MAX, MAX_COPIES, count, isExtraCard, validateDeck, type Deck } from '../game/decks';
-import type { Tier } from '../game/packs';
-import type { Progress } from '../story/progress';
+import { MAIN_MAX, MAIN_MIN, EXTRA_MAX, count, isExtraCard, maxCopiesOf, validateDeck, type Deck } from '../game/decks';
+import type { Tier } from '../data/cards';
+import type { CampaignState } from '../campaign/state';
 import { GameIcon } from '../ui/icons';
 
 type Kind = 'all' | 'mon' | 'mag' | 'arm' | 'fus';
@@ -12,7 +12,7 @@ const KINDS: [Kind, string][] = [['all', 'Todas'], ['mon', 'Monstros'], ['mag', 
 const TIER_ORDER: Record<Tier, number> = { N: 0, R: 1, SR: 2, UR: 3 };
 export const MAX_DECKS = 5;
 
-export function DeckBuilder({ progress, data, onChange, onBack }: { progress: Progress; data: GameData; onChange: (p: Progress) => void; onBack: () => void }) {
+export function DeckBuilder({ progress, data, onChange, onBack }: { progress: CampaignState; data: GameData; onChange: (p: CampaignState) => void; onBack: () => void }) {
   const { cards, tiers } = data;
   const [editId, setEditId] = useState(progress.activeDeck);
   const [tab, setTab] = useState<'colecao' | 'deck'>('colecao');
@@ -30,7 +30,7 @@ export function DeckBuilder({ progress, data, onChange, onBack }: { progress: Pr
     const c = cards[code];
     const own = progress.collection[code] ?? 0;
     const full = isExtraCard(c) ? deck.extra.length >= EXTRA_MAX : deck.main.length >= MAIN_MAX;
-    return (used[code] ?? 0) < Math.min(MAX_COPIES, own) && !full;
+    return (used[code] ?? 0) < Math.min(maxCopiesOf(code), own) && !full;
   };
   const add = (code: number) => canAdd(code) && save(isExtraCard(cards[code]) ? { ...deck, extra: [...deck.extra, code] } : { ...deck, main: [...deck.main, code] });
   const remove = (code: number) => {
@@ -115,7 +115,7 @@ export function DeckBuilder({ progress, data, onChange, onBack }: { progress: Pr
         {list.map((code) => (
           <button key={code} className={`cell r-${tiers[code]}`} onClick={() => setOpen(code)}>
             <img loading="lazy" src={art(code, 'small')} alt={cards[code].name} draggable={false} />
-            <i className={(used[code] ?? 0) >= Math.min(MAX_COPIES, progress.collection[code] ?? 0) ? 'full' : ''}>
+            <i className={(used[code] ?? 0) >= Math.min(maxCopiesOf(code), progress.collection[code] ?? 0) ? 'full' : ''}>
               {tab === 'colecao' ? `${used[code] ?? 0}/${progress.collection[code]}` : `×${used[code]}`}
             </i>
           </button>
@@ -124,7 +124,7 @@ export function DeckBuilder({ progress, data, onChange, onBack }: { progress: Pr
 
       {open != null && (
         <CardSheet code={open} cards={cards} onClose={() => setOpen(null)} actions={[
-          { label: `Adicionar (${used[open] ?? 0}/${Math.min(MAX_COPIES, progress.collection[open] ?? 0)})`, primary: true, disabled: !canAdd(open), onClick: () => add(open) },
+          { label: `Adicionar (${used[open] ?? 0}/${Math.min(maxCopiesOf(open), progress.collection[open] ?? 0)})`, primary: true, disabled: !canAdd(open), onClick: () => add(open) },
           { label: 'Remover', disabled: !(used[open] > 0), onClick: () => remove(open) },
         ]} />
       )}

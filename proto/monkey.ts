@@ -1,11 +1,12 @@
 // "Jogador macaco": duelos completos com o MESMO código do Worker (DuelDriver), contra os decks reais dos personagens,
-// com o jogador usando decks iniciais. Mede erros, laços e o tempo máximo de uma resposta.
+// da campanha (do nativo), com o jogador usando o deck inicial da campanha. Mede erros, laços e o tempo máximo de uma resposta.
 // Uso: npx tsx proto/monkey.ts [duelosPorOponente=100] [seedInicial=1]
 import { readFileSync } from 'node:fs';
 import { cpuRespond, makeRng } from '../src/engine/cpu';
 import { DuelDriver } from '../src/engine/driver';
 import { openCore, type CardRecord } from '../src/engine/session';
-import { randomDeck, starterCollection } from '../src/game/decks';
+import { CAMPAIGN } from '../src/campaign/data/types';
+import { duelistDeck, starterDeck } from '../src/campaign/decks';
 import type { OcgMessage } from 'ocgcore-wasm';
 import { checkLocs, lastBoardMatches, turnTimer, LONG_TURN_MS } from './beat-check';
 import type { DriverOut } from '../src/engine/driver';
@@ -13,9 +14,6 @@ import type { DriverOut } from '../src/engine/driver';
 const N = Number(process.argv[2] ?? 100), SEED0 = Number(process.argv[3] ?? 1);
 const cards = JSON.parse(readFileSync('public/data/cards.json', 'utf8')) as Record<string, CardRecord>;
 const scripts = JSON.parse(readFileSync('public/scripts.json', 'utf8')) as Record<string, string>;
-const tiers = JSON.parse(readFileSync('public/data/pool.json', 'utf8')) as Record<string, string>;
-const poolIds = Object.keys(tiers).map(Number);
-const hash = (s: string) => [...s].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7);
 const core = await openCore();
 const res = { fim: 0, erro: 0, limite: 0 };
 const errors: string[] = [];
@@ -35,12 +33,13 @@ const checkOut = (out: DriverOut, where: string) => {
   if (ok === true) beat.boardOk++;
   else if (ok === false) { beat.boardErr++; if (beatErrors.length < 10) beatErrors.push(`${where}: último retrato difere do tabuleiro final`); }
 };
-for (const opp of ['joey_wheeler', 'bakura', 'seto_kaiba']) {
-  const foe = randomDeck(cards, poolIds, hash(opp));
+for (const opp of CAMPAIGN.tier.duelists.map((d) => d.key)) {
+  const foe = duelistDeck(opp);
   for (let i = 0; i < N; i++) {
     const seed = SEED0 + i;
-    const col = starterCollection(cards, tiers, seed * 7);
-    const mine = { main: Object.entries(col).flatMap(([id, n]) => Array<number>(n).fill(Number(id))), extra: [] };
+    // Metade dos duelos com o deck inicial, metade com o deck de outro duelista (cobre as cartas dos dois lados).
+    const others = CAMPAIGN.tier.duelists.map((d) => d.key).filter((k) => k !== opp);
+    const mine = i % 2 === 0 ? starterDeck() : duelistDeck(others[i % others.length]);
     const d = new DuelDriver(core, cards, (n) => scripts[n] ?? null, mine, foe, seed);
     const rng = makeRng(seed * 13);
     timer = turnTimer();

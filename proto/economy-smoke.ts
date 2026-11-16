@@ -1,26 +1,34 @@
-// Valida packs (distribuição e garantia) e a coleção inicial (deck válido de 40 cartas).
+// Valida a economia da campanha (change `campanha-dm`): pacotes de cada coleção e de personagem (tamanho, raridade do
+// slot perto de 70/20/10, toda carta existe no cards.json) e o deck inicial e os decks dos oponentes (válidos).
+// Uso: npx tsx proto/economy-smoke.ts
 import { readFileSync } from 'node:fs';
-import { makeRng } from '../src/engine/cpu';
-import { openPack, PACK_SIZE, type Tier } from '../src/game/packs';
-import { starterCollection, validateDeck } from '../src/game/decks';
+import { PACKS, CAMPAIGN } from '../src/campaign/data/types';
+import { duelistDeck, starterDeck } from '../src/campaign/decks';
+import { draw } from '../src/campaign/packs';
+import { generator } from '../src/campaign/rng';
+import { validateDeck } from '../src/game/decks';
 import type { CardRecord } from '../src/engine/session';
 
 const cards = JSON.parse(readFileSync('public/data/cards.json', 'utf8')) as Record<string, CardRecord>;
-const tiers = JSON.parse(readFileSync('public/data/pool.json', 'utf8')) as Record<string, Tier>;
-const rng = makeRng(123);
-const counts: Record<string, number> = { N: 0, R: 0, SR: 0, UR: 0 };
-let noRare = 0; const N = 20000;
-for (let i = 0; i < N; i++) {
-  const p = openPack(tiers, rng);
-  if (p.length !== PACK_SIZE) throw new Error('tamanho do pack errado');
-  p.forEach((c) => { counts[c.tier]++; if (tiers[c.code] !== c.tier) throw new Error('raridade inconsistente'); });
-  if (!p.some((c) => c.tier !== 'N')) noRare++;
+const N = 10000;
+let fail = false;
+for (const pack of PACKS) {
+  const slot: Record<string, number> = { rare: 0, super: 0, ultra: 0 };
+  for (let i = 0; i < N; i++) {
+    const pulls = draw(pack, generator(7, i));
+    if (pulls.length !== 5) throw new Error(`${pack.key}: pacote com ${pulls.length} cartas`);
+    for (const p of pulls) if (!cards[p.id]) throw new Error(`${pack.key}: carta ${p.id} fora do cards.json`);
+    slot[pulls[4].rarity]++;
+  }
+  const pct = Object.fromEntries(Object.entries(slot).map(([k, v]) => [k, +(100 * v / N).toFixed(1)]));
+  console.log(pack.key.padEnd(8), pack.name.padEnd(36), pct);
+  if (Math.abs(pct.rare - 70) > 2 || Math.abs(pct.super - 20) > 2 || Math.abs(pct.ultra - 10) > 2) fail = true;
 }
-const total = N * PACK_SIZE;
-console.log('raridade por carta:', Object.fromEntries(Object.entries(counts).map(([k, v]) => [k, (100 * v / total).toFixed(1) + '%'])), '| packs sem nenhuma rara:', noRare);
-if (noRare) throw new Error('garantia de raridade falhou');
-const col = starterCollection(cards, tiers, 7);
-const main = Object.entries(col).flatMap(([id, n]) => Array(n).fill(Number(id)));
-const problems = validateDeck({ main, extra: [] }, cards, col);
-console.log('coleção inicial:', main.length, 'cartas,', Object.keys(col).length, 'distintas | problemas:', problems);
-if (problems.length) throw new Error('deck inicial inválido');
+const check = (name: string, d: { main: number[]; extra: number[] }) => {
+  const problems = validateDeck(d, cards);
+  console.log(name.padEnd(10), d.main.length, '+', d.extra.length, problems.length ? problems : 'ok');
+  if (problems.length) fail = true;
+};
+check('inicial', starterDeck());
+for (const d of CAMPAIGN.tier.duelists) check(d.key, duelistDeck(d.key));
+if (fail) throw new Error('economia com problemas');
