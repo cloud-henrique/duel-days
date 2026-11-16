@@ -95,11 +95,20 @@ export function useDuelEngine({ mine, foe, foeName, stage, cancelStage, onPrompt
     return () => window.clearInterval(id);
   }, []);
 
+  // Arte das cartas deste duelo já baixada e decodificada: a carta comprada aparece inteira, sem a ilustração chegar
+  // depois. É a variante que a face da carta usa (`cropped`); as imagens ficam referenciadas até o fim do duelo para o
+  // navegador não descartar a versão decodificada. O service worker guarda os arquivos para os próximos duelos.
+  const warmArt = useRef<HTMLImageElement[]>([]);
   useEffect(() => {
-    // Aquece o cache offline com a arte das cartas deste duelo.
-    for (const code of new Set([...mine.main, ...mine.extra, ...foe.main, ...foe.extra])) fetch(art(code, 'small')).catch(() => {});
+    warmArt.current = [...new Set([...mine.main, ...mine.extra, ...foe.main, ...foe.extra])].map((code) => {
+      const img = new Image();
+      img.decoding = 'async';
+      img.src = art(code, 'cropped');
+      img.decode().catch(() => {});
+      return img;
+    });
     start();
-    return () => { stopPlayback(); worker.current?.terminate(); };
+    return () => { stopPlayback(); worker.current?.terminate(); warmArt.current = []; };
   }, []);
 
   const reply = (response: OcgResponse) => {
