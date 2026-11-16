@@ -1,13 +1,15 @@
 import { useEffect, useRef } from 'react';
 import { avatar, type Duelist } from '../Plate';
 import { PACING } from './pacing';
+import { Dp } from '../../../ui/Dp';
+import { DisplayTitle } from '../../../ui/titles';
 
 export type DuelResult = 'win' | 'loss' | 'draw';
 export const OUTRO_TITLE: Record<DuelResult, string> = { win: 'VITÓRIA!', loss: 'DERROTA', draw: 'EMPATE' };
 
 /**
  * Fim do duelo: fundo na cor do resultado, o título entrando com escala, o retrato do vencedor dando um pulo e o do
- * perdedor esmaecido; embaixo, o detalhe (ex.: "Você desistiu."), as moedas e "Continuar".
+ * perdedor esmaecido; embaixo, o detalhe (ex.: "Você desistiu."), o ganho em DP e "Continuar".
  */
 export function Outro({ result, detail, me, foe, coins, reduced, onContinue }: {
   result: DuelResult; detail: string; me: Duelist; foe: Duelist; coins: number; reduced: boolean; onContinue: () => void;
@@ -31,9 +33,9 @@ export function Outro({ result, detail, me, foe, coins, reduced, onContinue }: {
   );
   return (
     <div className={`outro ${result}`}>
-      <h2 ref={title}>{OUTRO_TITLE[result]}</h2>
+      <DisplayTitle tone={result} titleRef={title}>{OUTRO_TITLE[result]}</DisplayTitle>
       <div className="outrofaces">{face(me, result === 'win')}{face(foe, result === 'loss')}</div>
-      <p className="stats">{detail} · +{coins} moedas</p>
+      <p className="stats">{detail} · <Dp value={coins} delta /></p>
       <button className="hud-btn gold" onClick={onContinue}>Continuar</button>
     </div>
   );

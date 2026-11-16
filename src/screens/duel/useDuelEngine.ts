@@ -16,7 +16,7 @@ const PING_MS = 2_000;
 const SEED_RANGE = 100_000;
 const DEBUG_LINES = 15;
 
-/** Fim do duelo: `result` escolhe o título; `won` decide as moedas (empate e desistência contam como derrota). */
+/** Fim do duelo: `result` escolhe o título; `won` decide o DP (empate e desistência contam como derrota). */
 export interface DuelEnd { text: string; won: boolean; result: 'win' | 'loss' | 'draw' }
 
 /**

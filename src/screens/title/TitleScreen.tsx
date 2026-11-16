@@ -1,0 +1,72 @@
+import { useState } from 'react';
+import type { Progress } from '../../story/progress';
+import { profileOf } from '../../story/profile';
+import { locationOf, sceneById } from '../../story/world';
+import { GameIcon } from '../../ui/icons';
+import { Dp } from '../../ui/Dp';
+import { Wordmark } from '../../ui/titles';
+import { avatarFace } from '../profile/ProfileFields';
+import './title.css';
+
+const BASE = import.meta.env.BASE_URL;
+
+/** Onde o jogador parou: o lugar da cena em andamento, ou o mapa. */
+export function whereLeft(p: Progress): string {
+  if (!p.run) return 'No mapa da cidade';
+  const scene = sceneById(p.run.scene);
+  return scene ? `Em ${locationOf(scene.location).name}` : 'Cena em andamento';
+}
+
+/** O orbe azul com o leque de cartas atrás do logo, como na tela de título do *Duel Links*. */
+function TitleOrb() {
+  return (
+    <div className="titleorb" aria-hidden="true">
+      <div className="orb-halo" /><div className="orb-ball" /><div className="orb-ring r1" /><div className="orb-ring r2" />
+      {[0, 1, 2, 3, 4].map((i) => <i key={i} className={`orb-spark s${i}`} />)}
+      <div className="fan">
+        {[-1, 0, 1].map((d) => <div key={d} className="fancard" style={{ ['--d' as string]: d }}><GameIcon name="logo" size={26} /></div>)}
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Tela de título: o orbe com o leque, o logo "Yu-Gi-Oh!" (arte fora do git; some se não carregar), "DUEL DAYS" metálico,
+ * o perfil e os ajustes no topo, "Jogar"/"Continuar" e "Meu deck". Só entradas para o que já existe.
+ */
+export function TitleScreen({ progress, onPlay, onDecks, onProfile, onSettings }: {
+  progress: Progress; onPlay: () => void; onDecks: () => void; onProfile: () => void; onSettings: () => void;
+}) {
+  const [logoOk, setLogoOk] = useState(true);
+  const profile = profileOf(progress);
+  const started = !!progress.run || Object.keys(progress.wins).length + Object.keys(progress.losses).length > 0;
+  return (
+    <div className="app titlescreen hexbg">
+      <div className="titletop">
+        <button className="profilechip hud" onClick={onProfile} aria-label={`Perfil: ${profile.name}`}>
+          <img src={avatarFace(profile.avatar)} alt="" draggable={false} />
+          <span><b>{profile.name}</b><small>Perfil</small></span>
+        </button>
+        <button className="hud-btn iconbtn big" onClick={onSettings} aria-label="Ajustes"><GameIcon name="settings" size={28} big /></button>
+      </div>
+      <div className="titlehero">
+        <TitleOrb />
+        {logoOk && <img className="titlelogo" src={`${BASE}brand/logo-yugioh.png`} alt="Yu-Gi-Oh!" draggable={false} onError={() => setLogoOk(false)} />}
+        <Wordmark shine />
+      </div>
+      <div className="titlebtns">
+        <button className="hud-btn primary titleplay" onClick={onPlay}>
+          <GameIcon name="campaign" size={32} big />
+          <span className="titleplay-text">
+            <b className="game-title">{started ? 'Continuar' : 'Jogar'}</b>
+            <small>{started ? whereLeft(progress) : 'Comece pela cidade'}</small>
+            <Dp value={progress.coins} className="titleplay-dp" />
+          </span>
+          <GameIcon name="chevron" size={20} />
+        </button>
+        <button className="hud-btn titledeck" onClick={onDecks}><GameIcon name="deck" size={20} /> Meu deck</button>
+      </div>
+      <p className="titlefoot stats">Projeto pessoal, sem fins comerciais</p>
+    </div>
+  );
+}

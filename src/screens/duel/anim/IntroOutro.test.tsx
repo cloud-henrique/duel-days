@@ -5,7 +5,7 @@ import { Intro, introTimeline, wantsIntro } from './Intro';
 import { OUTRO_TITLE, Outro } from './Outro';
 
 afterEach(() => { cleanup(); vi.useRealTimers(); });
-const me = { id: 'yugi_muto', name: 'Ana' }, foe = { id: 'joey_wheeler', name: 'Joey' };
+const me = { id: 'npc_duelists_dm__hailey', name: 'Ana' }, foe = { id: 'joey_wheeler', name: 'Joey' };
 
 describe('Intro', () => {
   it('o toque pula a abertura e chama onDone uma vez só', () => {
@@ -52,7 +52,7 @@ describe('Outro', () => {
     const { container } = render(<Outro result="win" detail="Você venceu!" me={me} foe={foe} coins={100} reduced onContinue={onContinue} />);
     expect(container.querySelector('figure.won figcaption')?.textContent).toBe('Ana');
     expect(container.querySelector('figure.lost figcaption')?.textContent).toBe('Joey');
-    expect(container.textContent).toContain('+100 moedas');
+    expect(container.querySelector('[aria-label="+100 DP"]')).toBeTruthy();
     fireEvent.click(screen.getByRole('button', { name: 'Continuar' }));
     expect(onContinue).toHaveBeenCalledOnce();
   });

@@ -33,7 +33,9 @@ const t0 = Date.now();
 try {
   await page.goto(url);
   await page.fill('input[placeholder="Seu nome"]', 'WebKit');
-  await btn('Novo jogo').click();
+  // Boas-vindas (nome; avatar e tratamento padrão) → tela de título → Jogar.
+  await btn('Começar').click();
+  await page.locator('.titleplay').click();
   await page.locator('.charchip').first().click();
   await btn('Pular').click();
   await btn('Aceitar o duelo').click();

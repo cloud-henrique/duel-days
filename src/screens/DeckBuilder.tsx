@@ -4,6 +4,7 @@ import type { GameData } from '../data/cards';
 import { MAIN_MAX, MAIN_MIN, EXTRA_MAX, MAX_COPIES, count, isExtraCard, validateDeck, type Deck } from '../game/decks';
 import type { Tier } from '../game/packs';
 import type { Progress } from '../story/progress';
+import { GameIcon } from '../ui/icons';
 
 type Kind = 'all' | 'mon' | 'mag' | 'arm' | 'fus';
 type Sort = 'nome' | 'atk' | 'nivel' | 'raridade';
@@ -77,23 +78,23 @@ export function DeckBuilder({ progress, data, onChange, onBack }: { progress: Pr
   return (
     <div className="app deckb hexbg">
       <div className="hubtop">
-        <button className="hud-btn" onClick={onBack}>←</button>
+        <button className="hud-btn" onClick={onBack} aria-label="Voltar"><GameIcon name="back" size={20} /></button>
         <b className="hubname">Decks</b>
         <span className="stats">{Object.keys(progress.collection).length} cartas diferentes</span>
       </div>
 
       <div className="deckbar hud">
         <select value={deck.id} onChange={(e) => setEditId(e.target.value)}>
-          {progress.decks.map((d) => <option key={d.id} value={d.id}>{d.name}{d.id === progress.activeDeck ? ' ★' : ''}</option>)}
+          {progress.decks.map((d) => <option key={d.id} value={d.id}>{d.name}{d.id === progress.activeDeck ? ' (em uso)' : ''}</option>)}
         </select>
         <input value={deck.name} maxLength={20} onChange={(e) => save({ ...deck, name: e.target.value })} />
-        <button className="hud-btn" onClick={newDeck} disabled={progress.decks.length >= MAX_DECKS}>＋</button>
-        <button className="hud-btn" onClick={del} disabled={progress.decks.length <= 1}>🗑</button>
+        <button className="hud-btn" onClick={newDeck} disabled={progress.decks.length >= MAX_DECKS} aria-label="Novo deck"><GameIcon name="plus" size={20} /></button>
+        <button className="hud-btn" onClick={del} disabled={progress.decks.length <= 1} aria-label="Apagar deck"><GameIcon name="delete" size={20} /></button>
       </div>
       <div className="deckstat">
-        <span className={deck.main.length >= MAIN_MIN && deck.main.length <= MAIN_MAX ? 'ok' : 'bad'}>Principal {deck.main.length}/{MAIN_MIN}–{MAIN_MAX}</span>
-        <span className={deck.extra.length <= EXTRA_MAX ? 'ok' : 'bad'}>Extra {deck.extra.length}/{EXTRA_MAX}</span>
-        <button className={`hud-btn ${isActive ? 'gold' : ''}`} onClick={() => onChange({ ...progress, activeDeck: deck.id })} disabled={isActive || problems.length > 0}>{isActive ? '★ Em uso' : 'Usar'}</button>
+        <span className={`num ${deck.main.length >= MAIN_MIN && deck.main.length <= MAIN_MAX ? 'ok' : 'bad'}`}>Principal {deck.main.length}/{MAIN_MIN}–{MAIN_MAX}</span>
+        <span className={`num ${deck.extra.length <= EXTRA_MAX ? 'ok' : 'bad'}`}>Extra {deck.extra.length}/{EXTRA_MAX}</span>
+        <button className={`hud-btn ${isActive ? 'gold' : ''}`} onClick={() => onChange({ ...progress, activeDeck: deck.id })} disabled={isActive || problems.length > 0}>{isActive ? <><GameIcon name="check" /> Em uso</> : 'Usar'}</button>
       </div>
       {problems.length > 0 && <div className="problems">{problems.slice(0, 3).map((p) => <div key={p}>• {p}</div>)}{problems.length > 3 && <div>… e mais {problems.length - 3}</div>}</div>}
 

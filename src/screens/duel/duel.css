@@ -8,7 +8,7 @@
   /* constantes */
   --zone-max: 96px; --hand-card-max: 96px; --mat-max: 500px; --hand-max: 520px;
   --mat-inset: 40px; --hand-inset: 24px; --mat-pad: 10px; --gap: 6px; --center-gap: 46px; --side: 12px;
-  --st-ratio: .78; --card-ratio: .686; --zone-h-ratio: .10; --hand-card-ratio: .25;
+  --st-ratio: 1; --card-ratio: .686; --zone-h-ratio: .10; --hand-card-ratio: .25;
   --tilt: 22deg; --tilt-depth: 2.2;           /* perspectiva = largura do campo × profundidade */
   --plate-h: 60px; --foehand-h: 38px; --lift: 34px; --fan-corner: 4px; --fan-sink-max: 20px; /* queda das pontas com a mão cheia */
   --fan-angle-max: 4deg; --fan-angle-total: 16deg; --fan-drop: 4px; --fan-pad: 32px; --fan-step-ratio: .8;
@@ -32,7 +32,7 @@
   padding: calc(var(--gap) + env(safe-area-inset-top)) var(--side) calc(var(--gap) + env(safe-area-inset-bottom));
 }
 .foebar { display: flex; gap: var(--gap); align-items: flex-start; flex-shrink: 0; }
-.menubtn.hud-btn { --menu-w: 44px; --menu-h: 40px; flex: 0 0 var(--menu-w); width: var(--menu-w); height: var(--menu-h); padding: 0; display: grid; place-items: center; color: #9fd0ff; }
+.menubtn.hud-btn { --menu-w: 44px; --menu-h: var(--plate-h); flex: 0 0 var(--menu-w); width: var(--menu-w); height: var(--menu-h); padding: 0; display: grid; place-items: center; color: #9fd0ff; }
 /* Opções do menu do duelo (animações, som): rótulo e uma fileira de botões exclusivos. */
 .menu-opt { display: grid; gap: 6px; }
 .menu-opt > span { font-size: 13px; color: #9fd0ff; }
@@ -87,7 +87,7 @@
 .phasebar { position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%); z-index: 3; padding: 4px 8px; text-align: center; --fill: linear-gradient(180deg, rgba(8,24,56,.96), rgba(5,14,36,.96)); --edge: #3a86e0; }
 .phasebar .chips { display: flex; justify-content: center; align-items: center; gap: 3px; }
 .phasebar .tn { font-size: 11px; color: #9fb4d8; margin-right: 2px; }
-.phasebar .chip { padding: 2px 6px; font: 700 11px/1 system-ui; color: #6fb2ff; background: #0a1a3a; border: 1px solid #2f7fd8; border-radius: 3px; }
+.phasebar .chip { padding: 2px 6px; font: 700 11px/1 var(--font-game); color: #6fb2ff; background: #0a1a3a; border: 1px solid #2f7fd8; border-radius: 3px; }
 .phasebar .chip.on { background: var(--c-select); color: #2a1b00; border-color: var(--c-select); }
 /* Narrador: uma linha de 16; o texto novo sobe empurrando o anterior. */
 .phasebar .narr { --narr-h: 16px; height: var(--narr-h); margin-top: 3px; overflow: hidden; font-size: 11px; line-height: var(--narr-h); color: #dbe8ff; }
@@ -108,9 +108,9 @@
 .mybar { display: flex; align-items: stretch; gap: var(--gap); flex-shrink: 0; }
 /* Botão de fase (PhaseButton.swift): 64×60, rótulo 11 black; o secundário compacto ("Encerrar"/"MAIN 2") fica logo acima. */
 .sidebtns { --side-w: 64px; position: relative; width: var(--side-w); flex: 0 0 var(--side-w); display: flex; }
-.side-big { appearance: none; border: 0; flex: 1; display: grid; place-items: center; padding: 0 4px; color: #fff; font: 900 11px/1.1 system-ui; letter-spacing: .3px; text-align: center; background: linear-gradient(180deg, #2a6fe0, #1747b0); box-shadow: inset 0 0 0 1.5px #5fa8ff; clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%, 0 10px); }
-.side-sm { appearance: none; border: 0; position: absolute; right: 0; bottom: calc(100% + var(--gap)); width: var(--side-w); padding: 4px 2px; color: #dbe8ff; font: 700 11px/1 system-ui; background: linear-gradient(180deg, #0c2150, #071536); box-shadow: inset 0 0 0 1px #2f7fd8; border-radius: 3px; }
-.side-big:active, .side-sm:active { filter: brightness(1.25); }
+.side-big { appearance: none; border: 0; flex: 1; display: grid; place-items: center; padding: 0 4px; color: #fff; font: 900 11px/1.1 system-ui; letter-spacing: .3px; text-align: center; /* A borda azul-clara do chanfro (o box-shadow interno é cortado pelo clip-path): uma linha diagonal no canto. */
+  background: linear-gradient(to bottom right, transparent calc(50% - 1px), #5fa8ff calc(50% - 1px), #5fa8ff calc(50% + 1px), transparent calc(50% + 1px)) top left / 10px 10px no-repeat, linear-gradient(180deg, #2a6fe0, #1747b0); box-shadow: inset 0 0 0 1.5px #5fa8ff; clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%, 0 10px); }
+.side-big:active { filter: brightness(1.25); }
 .side-big.wait { background: linear-gradient(180deg, #3b4658, #2a3342); box-shadow: inset 0 0 0 1.5px #596579; }
 .side-big.wait svg { width: 26px; height: 26px; }
 .spin { animation: spin .9s steps(8) infinite; } @keyframes spin { to { transform: rotate(360deg); } }
@@ -225,35 +225,25 @@
 .toss { position: absolute; inset: 0; z-index: 21; pointer-events: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px;
   background: rgba(2,6,18,.45); color: #fff; font: 700 16px system-ui; text-shadow: 0 2px 6px #000; }
 .tossrow { display: flex; gap: 18px; perspective: 600px; }
-.coin { position: relative; width: 84px; height: 84px; transform-style: preserve-3d; }
-.coin > b { position: absolute; inset: 0; border-radius: 50%; display: grid; place-items: center; font: 800 15px system-ui; color: #5a3a00; backface-visibility: hidden; -webkit-backface-visibility: hidden;
-  background: radial-gradient(circle at 35% 30%, #fff3b0, #e8b628 55%, #a87400); box-shadow: inset 0 0 0 4px #c99413, 0 6px 18px #000a; }
-.coin > .tails { transform: rotateY(180deg); background: radial-gradient(circle at 35% 30%, #f4f4f4, #b9c1cc 55%, #6d7684); color: #2a3240; box-shadow: inset 0 0 0 4px #8d96a3, 0 6px 18px #000a; }
-.die { width: 72px; height: 72px; border-radius: 14px; display: grid; place-items: center; background: linear-gradient(145deg, #fff, #d9dee8); color: #10204a; box-shadow: 0 6px 18px #000a, inset 0 -4px 0 #b8c0cf; }
-.die > b { font: 900 34px system-ui; }
 /* Abertura do duelo: botão em tela cheia (um toque pula). */
 .intro { position: absolute; inset: 0; z-index: 40; border: 0; padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px;
   background: radial-gradient(circle at 50% 45%, rgba(40,90,190,.55), rgba(2,6,18,.96) 70%); color: #fff; font: 700 16px system-ui; overflow: hidden; perspective: 600px; }
-.introcoin { position: relative; width: 76px; height: 76px; transform-style: preserve-3d; }
-.introcoin > b { position: absolute; inset: 0; border-radius: 50%; display: grid; place-items: center; font: 800 14px system-ui; color: #5a3a00; backface-visibility: hidden; -webkit-backface-visibility: hidden;
-  background: radial-gradient(circle at 35% 30%, #fff3b0, #e8b628 55%, #a87400); box-shadow: inset 0 0 0 4px #c99413, 0 6px 18px #000a; }
-.introcoin > .tails { transform: rotateY(180deg); background: radial-gradient(circle at 35% 30%, #f4f4f4, #b9c1cc 55%, #6d7684); color: #2a3240; box-shadow: inset 0 0 0 4px #8d96a3, 0 6px 18px #000a; }
 .introstarter { color: var(--c-select); text-shadow: 0 2px 6px #000; }
 .introbanners { width: 100%; display: grid; gap: 10px; }
 .intro .banner { display: flex; align-items: center; gap: 12px; padding: 8px 16px; font: 800 20px system-ui; text-shadow: 0 2px 6px #000; }
 .intro .banner img { width: 64px; height: 64px; border-radius: 6px; border: 2px solid #9fd0ff; background: #0b1a3a; object-fit: cover; }
 .intro .banner.me { justify-content: flex-start; background: linear-gradient(90deg, rgba(42,120,230,.85), transparent); }
 .intro .banner.foe { justify-content: flex-end; background: linear-gradient(270deg, rgba(220,60,60,.85), transparent); }
-.introtitle { margin: 6px 0 0; font: 900 52px/1 system-ui; letter-spacing: 2px; color: var(--c-select); text-shadow: 0 0 18px rgba(255,198,26,.7), 0 4px 0 #8a5a00; }
 /* Fim do duelo. */
 .outro { position: absolute; inset: 0; z-index: 30; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; padding: 24px; color: #fff; text-align: center;
   background: radial-gradient(circle at 50% 40%, var(--res), transparent 70%), rgba(2,6,18,.9); }
 .outro.win { --res: rgba(255,198,26,.45); } .outro.loss { --res: rgba(200,40,60,.45); } .outro.draw { --res: rgba(140,160,190,.4); }
-.outro h2 { margin: 0; font: 900 48px/1 system-ui; letter-spacing: 2px; text-shadow: 0 4px 18px #000; }
-.outro.win h2 { color: var(--c-select); }
 .outrofaces { display: flex; gap: 28px; }
 .outrofaces figure { margin: 0; display: grid; gap: 6px; justify-items: center; font: 700 14px system-ui; }
 .outrofaces img { width: 84px; height: 84px; border-radius: 8px; border: 2px solid #9fd0ff; background: #0b1a3a; object-fit: cover; }
 .outrofaces .won img { border-color: var(--c-select); box-shadow: 0 0 18px rgba(255,198,26,.6); }
 .outrofaces .lost { opacity: .5; }
 .outro .stats { margin: 0; }
+/* Escolha e acerto na moeda dos efeitos. */
+.tosscall { font-size: 20px; color: #fff; text-shadow: 0 2px 6px #000; }
+.tossresult { font-size: 24px; color: var(--c-select); text-shadow: 0 0 12px rgba(255,198,26,.6), 0 2px 6px #000; }

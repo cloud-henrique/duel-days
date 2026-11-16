@@ -10,6 +10,11 @@ import { StoryScreen, type CharInfo } from './screens/StoryScreen';
 import { advance, choose, isEnd, newState, resolveDuel, skip, type RunState } from './story/runner';
 import { MAX_HEARTS, clearProgress, loadProgress, newProgress, withDefaults, writeProgress, type Progress } from './story/progress';
 import { heartsOf, locationOf, pickScene, sceneById } from './story/world';
+import { profileOf, type Profile } from './story/profile';
+import { Welcome } from './screens/profile/Welcome';
+import { ProfileScreen } from './screens/profile/ProfileScreen';
+import { TitleScreen } from './screens/title/TitleScreen';
+import { SettingsScreen } from './screens/title/SettingsScreen';
 
 const BASE = import.meta.env.BASE_URL;
 const hash = (s: string) => [...s].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7);
@@ -17,10 +22,10 @@ const hash = (s: string) => [...s].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >
 export function App() {
   const [chars, setChars] = useState<Record<string, CharInfo> | null>(null);
   const [data, setData] = useState<GameData | null>(null);
-  const [screen, setScreen] = useState<'main' | 'decks' | 'shop'>('main');
+  // Telas fora da história; `play` é o mapa, a cena ou o duelo. O deck volta para onde foi aberto (título ou mapa).
+  const [view, setView] = useState<'title' | 'profile' | 'settings' | 'play' | 'decks' | 'shop'>('title');
+  const [deckBack, setDeckBack] = useState<'title' | 'play'>('title');
   const [prog, setProg] = useState<Progress | null>(null);
-  const [playing, setPlaying] = useState(false); // false = tela de título
-  const [name, setName] = useState('');
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
@@ -28,32 +33,36 @@ export function App() {
       .then((d: { characters: CharInfo[] }) => setChars(Object.fromEntries(d.characters.map((c) => [c.id, c]))))
       .catch(() => setChars({}));
     loadData().then(setData);
-    loadProgress().then((p) => { setProg(p); setName(p?.playerName ?? ''); setReady(true); });
+    loadProgress().then((p) => { setProg(p); setReady(true); });
   }, []);
 
   const save = (p: Progress) => { setProg(p); void writeProgress(p); };
 
   if (!ready || !chars || !data) return <div className="app hexbg"><div className="stats">Carregando…</div></div>;
 
-  if (!playing || !prog) {
-    return (
-      <div className="app menu hexbg">
-        <h1>Duel Days</h1>
-        <p className="stats">protótipo</p>
-        {prog && <button className="hud-btn primary" onClick={() => setPlaying(true)}>Continuar</button>}
-        <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Seu nome" maxLength={14} />
-        <button className={`hud-btn ${prog ? '' : 'primary'}`} disabled={!name.trim()} onClick={() => { save(newProgress(name.trim(), starterCollection(data.cards, data.tiers, Date.now() % 100000))); setScreen('main'); setPlaying(true); }}>Novo jogo</button>
-        {prog && <button className="hud-btn" onClick={async () => { await clearProgress(); setProg(null); }}>Apagar save</button>}
-      </div>
-    );
+  // Primeira abertura: boas-vindas (nome, avatar e tratamento) antes de qualquer outra tela.
+  if (!prog) {
+    return <Welcome onDone={(p: Profile) => {
+      save({ ...newProgress(p.name, starterCollection(data.cards, data.tiers, Date.now() % 100000)), avatar: p.avatar, address: p.address });
+      setView('title');
+    }} />;
   }
+  const profile = profileOf(prog);
+  const toTitle = () => setView('title');
+  const openDecks = (from: 'title' | 'play') => { setDeckBack(from); setView('decks'); };
 
-  if (screen === 'decks') return <DeckBuilder progress={prog} data={data} onChange={save} onBack={() => setScreen('main')} />;
-  if (screen === 'shop') return <ShopScreen progress={prog} data={data} onChange={save} onBack={() => setScreen('main')} />;
+  if (view === 'title') return <TitleScreen progress={prog} onPlay={() => setView('play')} onDecks={() => openDecks('title')} onProfile={() => setView('profile')} onSettings={() => setView('settings')} />;
+  if (view === 'profile') return <ProfileScreen progress={prog} onBack={toTitle} onChange={(p) => save({ ...prog, playerName: p.name, avatar: p.avatar, address: p.address })} />;
+  if (view === 'settings') {
+    return <SettingsScreen settings={withDefaults(prog.settings)} onSettings={(settings) => save({ ...prog, settings })} onBack={toTitle}
+      onErase={async () => { await clearProgress(); setProg(null); setView('title'); }} />;
+  }
+  if (view === 'decks') return <DeckBuilder progress={prog} data={data} onChange={save} onBack={() => setView(deckBack)} />;
+  if (view === 'shop') return <ShopScreen progress={prog} data={data} onChange={save} onBack={() => setView('play')} />;
 
   // Mapa
   if (!prog.run) {
-    return <HubScreen progress={prog} chars={chars} onTitle={() => setPlaying(false)} onDecks={() => setScreen('decks')} onShop={() => setScreen('shop')}
+    return <HubScreen progress={prog} chars={chars} onTitle={toTitle} onDecks={() => openDecks('play')} onShop={() => setView('shop')}
       onPick={(char) => { const sc = pickScene(char, prog); save({ ...prog, run: { scene: sc.id, state: newState(sc.chapter) } }); }} />;
   }
 
@@ -72,15 +81,15 @@ export function App() {
         <div className="app menu hexbg">
           <h1>Deck inválido</h1>
           <div className="problems">{problems.slice(0, 4).map((p) => <div key={p}>• {p}</div>)}</div>
-          <button className="hud-btn primary" onClick={() => setScreen('decks')}>Montar deck</button>
-          <button className="hud-btn" onClick={() => setPlaying(false)}>Voltar ao título</button>
+          <button className="hud-btn primary" onClick={() => openDecks('play')}>Montar deck</button>
+          <button className="hud-btn" onClick={toTitle}>Voltar ao título</button>
         </div>
       );
     }
     return <DuelScreen key={`${scene.id}:${st.i}`} cards={data.cards}
       mine={{ main: mine.main, extra: mine.extra }} foe={randomDeck(data.cards, data.poolIds, hash(node.opponent))}
       opponent={{ id: node.opponent, name: chars[node.opponent]?.name ?? 'Oponente' }}
-      player={{ id: 'yugi_muto', name: prog.playerName }}
+      player={{ id: profile.avatar, name: profile.name }}
       settings={withDefaults(prog.settings)} onSettings={(settings) => save({ ...prog, settings })}
       onEnd={(won) => save({
         ...prog,
@@ -104,6 +113,6 @@ export function App() {
       header={{ place: locationOf(scene.location).name, sub: `${charName} · ${wins === 0 ? 'nenhuma vitória' : `${wins} vitória${wins > 1 ? 's' : ''}`}`, hearts: heartsOf(prog, scene.char) }}
       bg={locationOf(scene.location).bg}
       onNext={() => setRun(advance(ch, st))} onChoose={(i) => setRun(choose(ch, st, i))} onSkip={() => setRun(skip(ch, st))}
-      onFinish={() => (isEnd(ch, st) ? finish() : undefined)} onTitle={() => setPlaying(false)} />
+      onFinish={() => (isEnd(ch, st) ? finish() : undefined)} onTitle={toTitle} />
   );
 }

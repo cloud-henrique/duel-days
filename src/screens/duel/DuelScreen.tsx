@@ -27,10 +27,12 @@ import { promptPanel } from './PromptPanel';
 import { Plate, type Duelist } from './Plate';
 import { Field } from './Field';
 import { FoeHand, Hand } from './Hand';
-import { Ico } from './icons';
+import { Spinner } from './icons';
+import { GameIcon } from '../../ui/icons';
 import { PhaseBar } from './PhaseBar';
 import { DuelMenu } from './DuelMenu';
 import './duel.css';
+import { DEFAULT_AVATAR } from '../../story/profile';
 
 export type { Duelist } from './Plate';
 
@@ -40,7 +42,7 @@ const isBattle = (phase: number) => (phase & BATTLE) !== 0;
 /** Linhas de evento que começam assim são separadores (ex.: troca de turno) e não vão para o narrador. */
 const SEPARATOR = '—';
 
-export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id: 'yugi_muto', name: 'Você' }, settings = DEFAULT_SETTINGS, onSettings = () => {}, onEnd }: {
+export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id: DEFAULT_AVATAR, name: 'Você' }, settings = DEFAULT_SETTINGS, onSettings = () => {}, onEnd }: {
   cards: Cards; mine: DeckList; foe: DeckList; opponent: Duelist; player?: Duelist;
   /** Preferências do jogador (animações, som) e como salvá-las. */
   settings?: Settings; onSettings?: (s: Settings) => void;
@@ -100,7 +102,10 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id:
     const starter = first?.k === 'turn' ? first.p : 0;
     return new Promise<void>((resolve) => setIntro({ starter, done: () => { setIntro(null); resolve(); } }));
   };
-  const stage = useBeatQueue({ root, layer, speed: settings.anim, reducedMotion, faceOf, before });
+  // Cara ou coroa: a escolha do jogador vai do painel até o próximo lance de moeda dele.
+  const coinCall = useRef<'heads' | 'tails' | undefined>(undefined);
+  const takeCoinCall = () => { const c = coinCall.current; coinCall.current = undefined; return c; };
+  const stage = useBeatQueue({ root, layer, speed: settings.anim, reducedMotion, faceOf, before, takeCoinCall });
 
   const engine = useDuelEngine({
     mine, foe: foeDeck, foeName: opponent.name, stage: stage.run, cancelStage: stage.cancel,
@@ -113,12 +118,12 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id:
   const boardChoice = choice?.mode === 'board' ? choice : null;
   const marks = useMemo(() => choiceMarks(boardChoice, sel), [boardChoice, sel]);
   const hl = useMemo(() => (boardChoice ? marks.glow : highlighted(prompt)), [prompt, boardChoice, marks]);
-  const panel = useMemo(() => promptPanel(prompt, { name, cards, evText, sel, setSel, reply, autoPass: engine.autoPass }), [prompt, sel, cards]);
+  const panel = useMemo(() => promptPanel(prompt, { name, cards, evText, sel, setSel, reply, autoPass: engine.autoPass, onCoinCall: (c) => { coinCall.current = c; } }), [prompt, sel, cards]);
 
   const side = useMemo(() => {
     const acts = sideActions(prompt);
     if (acts.length) return acts.map((a) => <button key={a.label} className={a.size === 'big' ? 'side-big' : 'side-sm'} onClick={() => reply(a.response)}>{a.label}</button>);
-    if (!prompt && !ended) return <div className="side-big wait">{Ico.spin}</div>; // aguardando o oponente/motor
+    if (!prompt && !ended) return <div className="side-big wait"><Spinner /></div>; // aguardando o oponente/motor
     return null;
   }, [prompt, ended]);
 
@@ -176,7 +181,7 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id:
       {stage.toss && <Toss key={stage.toss.key} t={stage.toss} who={(p) => (p === 0 ? player.name : opponent.name)} />}
       {stage.splash && <Splash key={stage.splash.key} s={stage.splash} cards={cards} who={(p) => (p === 0 ? player.name : opponent.name)} />}
       {debugOn && <div className="stats" style={{ textAlign: 'center' }}>{engine.info} · <button style={{ all: 'unset', textDecoration: 'underline' }} onClick={() => setLogOpen(true)}>histórico</button></div>}
-      {!debugOn && <button className="logbtn" aria-label="Histórico" onClick={() => setLogOpen(true)}>⋯</button>}
+      {!debugOn && <button className="logbtn" aria-label="Histórico" onClick={() => setLogOpen(true)}><GameIcon name="history" size={18} /></button>}
 
       {panel && (
         <div className={`scrim uphand${panelHidden ? ' gone' : ''}`} aria-hidden={panelHidden}>

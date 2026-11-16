@@ -21,12 +21,14 @@ export interface StageIO {
   apply: (board: Board) => void;
 }
 
-export function useBeatQueue({ root, layer, speed, reducedMotion, faceOf, before }: {
+export function useBeatQueue({ root, layer, speed, reducedMotion, faceOf, before, takeCoinCall }: {
   root: RefObject<HTMLElement | null>; layer: RefObject<HTMLElement | null>; speed: AnimSpeed; reducedMotion: boolean;
   /** A face da carta como DOM estático (a mesma do campo). */
   faceOf: (code: number) => HTMLElement | null;
   /** Esperado antes de encenar (ex.: a abertura do duelo segura a primeira fila). */
   before?: (steps: Step[]) => Promise<void>;
+  /** A escolha de cara ou coroa do jogador, se houver (consumida pelo próximo lance de moeda dele). */
+  takeCoinCall?: () => 'heads' | 'tails' | undefined;
 }) {
   const [staging, setStaging] = useState(false);
   // Camadas em React (destaque de ativação e pilha da corrente), alimentadas pelos beats que a fila toca.
@@ -38,8 +40,8 @@ export function useBeatQueue({ root, layer, speed, reducedMotion, faceOf, before
   const later = (fn: () => void, ms: number) => { timers.current.push(window.setTimeout(fn, ms)); };
   const clearLayers = () => { for (const t of timers.current.splice(0)) window.clearTimeout(t); setSplash(null); setChain(NO_CHAIN); setToss(null); };
   // Lidos na hora de tocar: a fila é disparada de um handler criado uma vez (o do motor).
-  const opts = useRef({ speed, reducedMotion, faceOf, before });
-  opts.current = { speed, reducedMotion, faceOf, before };
+  const opts = useRef({ speed, reducedMotion, faceOf, before, takeCoinCall });
+  opts.current = { speed, reducedMotion, faceOf, before, takeCoinCall };
   const hurried = useRef(false);
   const ctl = useRef<AbortController | null>(null);
   const cleanups = useRef<(() => void)[]>([]);
@@ -76,7 +78,8 @@ export function useBeatQueue({ root, layer, speed, reducedMotion, faceOf, before
             if (beat.k === 'toss') {
               const spinMs = (e.durations.spin ?? 0) * factor, captionMs = (e.durations.caption ?? 0) * factor;
               const key = ++splashKey.current;
-              setToss({ what: beat.what, p: beat.p, results: beat.results, key, spinMs, captionMs });
+              const call = beat.what === 'coin' && beat.p === 0 ? opts.current.takeCoinCall?.() : undefined;
+              setToss({ what: beat.what, p: beat.p, results: beat.results, key, spinMs, captionMs, ...(call ? { call } : {}) });
               later(() => setToss((t) => (t?.key === key ? null : t)), Math.max(spinMs + captionMs, e.block * factor));
             }
             // O elo 1 resolvido encerra a corrente: a pilha some depois do destaque dele.

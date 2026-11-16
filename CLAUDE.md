@@ -25,7 +25,7 @@ npx tsx proto/move-reason.ts        # confere o `reason` do MSG_MOVE (patch do o
 ```
 
 Pipeline de dados (gera arquivos NÃO versionados; veja README): `npm run fetch-data`, `python3 scripts/fetch_pool.py`,
-`python3 scripts/export_data.py`, `python3 scripts/fetch_card_text_pt.py`, `.venv/bin/python scripts/fetch_card_art.py` (small/large/cropped + verso), `.venv/bin/python scripts/copy_card_icons.py` (ícones de atributo/tipo do app nativo e propriedades do `cardicons.png` do Tag Force 3 no PPSSPP → `public/card-icons/`), `python3 scripts/copy_sounds.py` (efeitos do duelo do app nativo, do Tag Force, convertidos com `afconvert` → `public/sounds/*.m4a`; macOS),
+`python3 scripts/export_data.py`, `python3 scripts/fetch_card_text_pt.py`, `.venv/bin/python scripts/fetch_card_art.py` (small/large/cropped + verso), `.venv/bin/python scripts/copy_card_icons.py` (ícones de atributo/tipo do app nativo e propriedades do `cardicons.png` do Tag Force 3 no PPSSPP → `public/card-icons/`), `python3 scripts/copy_sounds.py` (efeitos do duelo do app nativo, do Tag Force, convertidos com `afconvert` → `public/sounds/*.m4a`; macOS), `python3 scripts/copy_brand.py` (logo "Yu-Gi-Oh!" do título → `public/brand/`, fora do git),
 `.venv/bin/python scripts/extract_action_icons.py` (recorta o `actions.png` do Tag Force; o ícone de cada ação se escolhe em `npm run icon-labeler`, porta 5174, e fica em `assets/action-icons/labels.json`), `npm run build-characters`, `.venv/bin/python scripts/build_sprites.py`.
 Ícones do PWA (ankh em HUD azul; arte própria, os binários são versionados): edite `assets/app-icon/*.svg` e rode `node scripts/build_app_icons.mjs`
 (Playwright; se faltar o Chromium da revisão certa, `CHROMIUM_PATH=<chrome-headless-shell>`) → `public/icons/*` e `public/favicon.ico`.
@@ -62,7 +62,17 @@ Pipeline de dados (gera arquivos NÃO versionados; veja README): `npm run fetch-
   - Lugares na tela: zonas, mãos, deck, cemitério e placa têm `data-loc` = `locKey`. Sem lugar visível (banidas, Extra,
     fora do jogo), a animação sai da placa do dono.
 - `src/audio/sfx.ts`: efeitos com Web Audio (buffers decodificados uma vez, anti-repetição de 60 ms, `settings.sound`).
-- `src/screens/`: `StoryScreen`, `HubScreen`, `DeckBuilder`, `ShopScreen`. `src/components/`: `CardSheet.tsx` (folha da
+- `src/ui/` (change `visual-base`): o visual compartilhado. `icons.tsx` (`GameIcon`: **um conceito, um ícone**, a tabela
+  do `GAME_ICONS` do nativo, Phosphor `fill` + a lápide do MDI; `big` dá o degradê branco → ciano), `Dp.tsx` (o único jeito
+  de mostrar dinheiro: ícone de moedas + número + "DP"; o save continua `coins`), `titles.tsx` (`DisplayTitle` para
+  DUELO!/VITÓRIA!/DERROTA/EMPATE e o `Wordmark` metálico), `coin.tsx` (`Coin` e `Die` desenhados), `Choice.tsx`
+  (`SettingsChoices`, os mesmos ajustes no título e no duelo), `TopBar.tsx`. Fontes: `--font-game` (Chakra Petch, classe
+  `.num` para números e `.game-title`/`.sheet h4` para títulos) e `--font-display` (serifada preta itálica).
+- Entrada do app (`App.tsx`): sem save → `Welcome` (nome, avatar entre os 14 duelistas genéricos, tratamento); com save →
+  `TitleScreen` (Jogar/Continuar, Meu deck, perfil e ajustes) → `ProfileScreen`, `SettingsScreen` ou o mapa da história.
+  O jogador é sempre o avatar do perfil (`src/story/profile.ts`: `profileOf`, `PLAYER_AVATARS`, `playerStats`, `say`),
+  nunca o Yugi.
+- `src/screens/`: `StoryScreen`, `HubScreen`, `DeckBuilder`, `ShopScreen`, `title/`, `profile/`. `src/components/`: `CardSheet.tsx` (folha da
   carta + `Backdrop`) e `CardFace.tsx` (face própria da carta em PT, medidas da carta de referência de 320 em
   `cardface.css`; conferência em dev com `?cardfaces`).
 - `src/story/`: `runner.ts` (motor puro da VN), `world.ts` (locais, cenas, `pickScene`), `content.ts` (texto),
@@ -80,7 +90,12 @@ Pipeline de dados (gera arquivos NÃO versionados; veja README): `npm run fetch-
   pedido. O estado do duelo fica em `globalThis.__duel`.
 - **Áudio no iOS**: o `AudioContext` só é liberado num gesto do usuário. O `installUnlock()` roda no `main.tsx` (qualquer
   toque no app, já na história); antes disso `sfx.play` não faz nada. O Web Audio segue a chave de silencioso do iPhone.
-- **Os sons e a arte são da Konami**: `public/sounds/` (Tag Force, via app nativo) fica fora do git, como `public/cards/`.
+- **Os sons e a arte são da Konami**: `public/sounds/` (Tag Force) e `public/brand/` (logo), via app nativo, ficam fora do
+  git, como `public/cards/`. O título esconde o logo se o arquivo faltar.
+- **Nada de caractere fazendo papel de ícone** (◎, ☰, ⋯, ▼, ♥): use o `GameIcon`. Dinheiro é sempre `Dp`; um teste procura
+  "moedas" nas telas.
+- **Classe `.field` é o campo do duelo** (`duel.css`): os campos do perfil usam `.pfield`.
+- **`filter` numa face 3D quebra o `backface-visibility`** (a moeda mostrava a coroa pela frente): sombra no contêiner.
 - **Tempos da encenação só no `PACING`**: as keyframes de CSS não têm duração; quem dispara é a Web Animations com valores
   do `PACING`. A camada dos fantasmas é um portal no `body` (o `.duel` é contêiner e mudaria a referência do `fixed`).
 - **iOS só entrega toques confiáveis a `<button>`**: fundos que fecham usam `Backdrop`, a cena usa `.tapzone`. Não use

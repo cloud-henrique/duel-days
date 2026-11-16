@@ -34,7 +34,9 @@ const state = () => page.evaluate(() => ({
 try {
   await page.goto(url);
   await page.fill('input[placeholder="Seu nome"]', 'WebKit');
-  await btn('Novo jogo').click();
+  // Boas-vindas (nome; avatar e tratamento padrão) → tela de título → Jogar.
+  await btn('Começar').click();
+  await page.locator('.titleplay').click();
   await page.locator('.charchip').first().click();
   await btn('Pular').click();
   await btn('Aceitar o duelo').click();
@@ -68,7 +70,15 @@ try {
   }
   for (let t = 0; t < 16; t++) { await page.waitForTimeout(1000); const s = await state(); if (s.side.length || s.painel) { console.log(`depois da ação (${t + 1}s):`, s); break; } if (t === 15) console.log('NADA depois de 16s:', s); }
   if (flags.has('--turno')) {
-    await btn('FIM DO TURNO').click().catch(() => btn('Encerrar').click());
+    // Um botão só, fase a fase (BATALHA → MAIN 2 → FIM DO TURNO), até o turno passar ao oponente.
+    for (let k = 0; k < 4; k++) {
+      const side = page.locator('.sidebtns button:not(.wait)');
+      if (!(await side.count())) break;
+      const label = await side.first().innerText();
+      await side.first().click();
+      if (/FIM DO TURNO/.test(label)) break;
+      await page.waitForTimeout(1200);
+    }
     for (let t = 0; t < 40; t++) {
       await page.waitForTimeout(1000);
       const s = await state();

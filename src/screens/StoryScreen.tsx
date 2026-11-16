@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { MAX_HEARTS } from '../story/progress';
 import type { Chapter, RunState } from '../story/runner';
+import { GameIcon } from '../ui/icons';
 
 export interface CharInfo { id: string; name: string; body: { w: number; h: number }; face: { x: number; y: number; w: number; h: number }; expressions: string[] }
 const BASE = import.meta.env.BASE_URL;
@@ -42,7 +43,7 @@ export function StoryScreen({ chapter, state, chars, playerName, header, bg, onN
       <div className="story-bg" style={{ background: bg }} />
       <div className="shead">
         <div className="place hud"><b>{header.place}</b><span>{header.sub}</span></div>
-        <div className="hearts hud">{Array.from({ length: MAX_HEARTS }, (_, i) => <span key={i} className={`heart${i < header.hearts ? '' : ' off'}`}>♥</span>)}</div>
+        <div className="hearts hud">{Array.from({ length: MAX_HEARTS }, (_, i) => <span key={i} className={`heart${i < header.hearts ? '' : ' off'}`}><GameIcon name="heart" size={20} /></span>)}</div>
       </div>
       <div className="stage">
         {state.stage.map((s) => chars[s.id] && <Sprite key={s.id} c={chars[s.id]} expr={s.expr} side={s.side} active={state.speaker === s.id} />)}
@@ -51,11 +52,11 @@ export function StoryScreen({ chapter, state, chars, playerName, header, bg, onN
         <>
           {/* Área de toque para avançar: <button> porque o iOS não entrega toques a <div>. */}
           <button type="button" className="tapzone" aria-label="Avançar" onClick={tap} />
-          <button className="hud-btn skip" onClick={(e) => { e.stopPropagation(); onSkip(); }}>⏭ Pular</button>
+          <button className="hud-btn skip" onClick={(e) => { e.stopPropagation(); onSkip(); }}><GameIcon name="skip" /> Pular</button>
           <div className="dialog">
             {node.name && <div className="nametag">{tr(node.name)}</div>}
             <p>{text.slice(0, shown)}</p>
-            {shown >= text.length && <span className="more">▼</span>}
+            {shown >= text.length && <span className="more"><GameIcon name="next" size={16} /></span>}
           </div>
         </>
       )}
@@ -69,7 +70,7 @@ export function StoryScreen({ chapter, state, chars, playerName, header, bg, onN
           <button className="hud-btn gold" onClick={onFinish}>Voltar ao mapa</button>
         </div>
       )}
-      <button className="hud-btn menu-btn" onClick={(e) => { e.stopPropagation(); onTitle(); }}>☰</button>
+      <button className="hud-btn menu-btn" onClick={(e) => { e.stopPropagation(); onTitle(); }} aria-label="Menu"><GameIcon name="menu" size={22} /></button>
     </div>
   );
 }

@@ -122,7 +122,15 @@ function ghostAt(ctx: PlayCtx, box: Box, child: HTMLElement, cls = 'ghost'): HTM
 
 /** O que a limpeza desfaz: fantasmas a remover e cartas reais escondidas durante a encenação. */
 interface Undo { nodes: HTMLElement[]; anims: Animation[]; hidden: HTMLElement[] }
-const hide = (u: Undo, el: HTMLElement | null) => { if (el && isCard(el)) { el.style.visibility = 'hidden'; u.hidden.push(el); } };
+/**
+ * Esconde a carta real enquanto o fantasma a representa. Numa zona, só a carta (e o ATK/DEF) some: a zona tracejada
+ * continua no lugar.
+ */
+const hide = (u: Undo, el: HTMLElement | null) => {
+  if (!el || !isCard(el)) return;
+  const targets = isZone(el) ? [...el.children].filter((c): c is HTMLElement => c instanceof HTMLElement) : [el];
+  for (const t of targets) { t.style.visibility = 'hidden'; u.hidden.push(t); }
+};
 
 interface FlightOpts { code?: number; faceDown?: boolean; fade?: boolean; endTurn?: number; delay?: number; scale?: number; fadeOut?: boolean }
 

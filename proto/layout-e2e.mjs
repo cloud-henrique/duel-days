@@ -9,7 +9,7 @@ const TOL = 2; // px de tolerância
 // Fórmulas do BoardMetrics do app nativo (design.md, item 1).
 const MAT_INSET = 40, MAT_MAX = 500, MAT_PAD = 10, GAP = 6, ZONE_MAX = 96, ZONE_H_RATIO = 0.1;
 const HAND_INSET = 24, HAND_MAX = 520, HAND_CARD_MAX = 96, HAND_CARD_RATIO = 0.25;
-const ST_RATIO = 0.78, CENTER_GAP = 46, SIDE_MARGIN = 12, MIN_HAND_CARD = 60;
+const ST_RATIO = 1, CENTER_GAP = 46, SIDE_MARGIN = 12, MIN_HAND_CARD = 60;
 
 const expected = (w, h) => {
   const mat = Math.min(w - MAT_INSET, MAT_MAX);
@@ -22,7 +22,9 @@ async function enterDuel(page) {
   const btn = (t) => page.locator('button', { hasText: t }).first();
   await page.goto(url);
   await page.fill('input[placeholder="Seu nome"]', 'Layout');
-  await btn('Novo jogo').click();
+  // Boas-vindas (nome; avatar e tratamento padrão) → tela de título → Jogar.
+  await btn('Começar').click();
+  await page.locator('.titleplay').click();
   await page.locator('.charchip').first().click();
   await btn('Pular').click();
   await btn('Aceitar o duelo').click();

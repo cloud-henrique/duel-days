@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import type { BoardCard } from '../../engine/protocol';
 import { art } from '../../components/CardSheet';
-import { Ico } from './icons';
+import { GameIcon } from '../../ui/icons';
 import { LP_POPUP_MS, LP_STEPS, LP_STEP_MS, lpDelta, lpPercent, lpTone, lpTween } from './lp';
 
 const BASE = import.meta.env.BASE_URL;
@@ -51,8 +51,8 @@ export function Plate({ side, who, lp, deck, hand, grave, turn, onGrave }: { sid
         <div className={`bar ${lpTone(lp)}`}><i style={{ width: `${lpPercent(lp)}%` }} /></div>
       </div>
       <div className="counts num">
-        <span className="c-deck" aria-label="Deck" data-loc={`${p}:deck`}>{Ico.deck}{deck}</span>
-        {side === 'foe' && <span className="c-hand" aria-label="Mão">{Ico.hand}{hand}</span>}
+        <span className="c-deck" aria-label="Deck" data-loc={`${p}:deck`}><GameIcon name="deck" size={22} />{deck}</span>
+        {side === 'foe' && <span className="c-hand" aria-label="Mão"><GameIcon name="hand" size={22} />{hand}</span>}
       </div>
       <button className="gravebox" onClick={onGrave} aria-label="Cemitério" data-loc={`${p}:grave`}>
         <span className={`gslot${top ? '' : ' empty'}`}>{top && <img src={art(top.code, 'small')} alt="" draggable={false} />}</span>

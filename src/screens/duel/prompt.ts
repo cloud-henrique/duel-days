@@ -46,22 +46,22 @@ export function highlighted(m: OcgMessage | null): Set<string> {
   return set;
 }
 
-/** Botões laterais de avanço de fase para o prompt atual (vazio se o prompt não é de fase). */
+/**
+ * O botão lateral de avanço de fase para o prompt atual (vazio se o prompt não é de fase). Um botão só, para a fase
+ * seguinte: M1 → BATALHA → MAIN 2 → FIM DO TURNO, sem atalho que pule uma fase (pedido do usuário, 16/11/2026).
+ */
 export function sideActions(m: OcgMessage | null): SideAction[] {
   if (m?.type === OcgMessageType.SELECT_IDLECMD) {
     const idle = (action: SelectIdleCMDAction): OcgResponse => ({ type: OcgResponseType.SELECT_IDLECMD, action, index: null });
-    const out: SideAction[] = [];
-    if (m.to_bp && m.to_ep) out.push({ label: 'Encerrar', size: 'small', response: idle(SelectIdleCMDAction.TO_EP) });
-    if (m.to_bp) out.push({ label: 'BATALHA', size: 'big', response: idle(SelectIdleCMDAction.TO_BP) });
-    else if (m.to_ep) out.push({ label: 'FIM DO TURNO', size: 'big', response: idle(SelectIdleCMDAction.TO_EP) });
-    return out;
+    if (m.to_bp) return [{ label: 'BATALHA', size: 'big', response: idle(SelectIdleCMDAction.TO_BP) }];
+    if (m.to_ep) return [{ label: 'FIM DO TURNO', size: 'big', response: idle(SelectIdleCMDAction.TO_EP) }];
+    return [];
   }
   if (m?.type === OcgMessageType.SELECT_BATTLECMD) {
     const bat = (action: SelectBattleCMDAction): OcgResponse => ({ type: OcgResponseType.SELECT_BATTLECMD, action, index: null });
-    const out: SideAction[] = [];
-    if (m.to_m2) out.push({ label: 'MAIN 2', size: 'small', response: bat(SelectBattleCMDAction.TO_M2) });
-    if (m.to_ep) out.push({ label: 'FIM DO TURNO', size: 'big', response: bat(SelectBattleCMDAction.TO_EP) });
-    return out;
+    if (m.to_m2) return [{ label: 'MAIN 2', size: 'big', response: bat(SelectBattleCMDAction.TO_M2) }];
+    if (m.to_ep) return [{ label: 'FIM DO TURNO', size: 'big', response: bat(SelectBattleCMDAction.TO_EP) }];
+    return [];
   }
   return [];
 }

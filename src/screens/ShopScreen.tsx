@@ -4,6 +4,8 @@ import type { GameData } from '../data/cards';
 import { PACK_PRICE } from '../game/economy';
 import { PACK_SIZE, TIER_NAME, openPack, type Pulled } from '../game/packs';
 import type { Progress } from '../story/progress';
+import { GameIcon } from '../ui/icons';
+import { Dp } from '../ui/Dp';
 
 interface Result { pulls: (Pulled & { isNew: boolean })[]; packs: number }
 
@@ -37,7 +39,7 @@ export function ShopScreen({ progress, data, onChange, onBack }: { progress: Pro
             </button>
           ))}
         </div>
-        <button className="hud-btn primary" style={{ flexShrink: 0 }} onClick={() => setResult(null)}>✓ Pronto</button>
+        <button className="hud-btn primary" style={{ flexShrink: 0 }} onClick={() => setResult(null)}><GameIcon name="check" /> Pronto</button>
         {zoom != null && <CardSheet code={zoom} cards={cards} onClose={() => setZoom(null)} />}
       </div>
     );
@@ -46,20 +48,20 @@ export function ShopScreen({ progress, data, onChange, onBack }: { progress: Pro
   return (
     <div className="app deckb hexbg">
       <div className="hubtop">
-        <button className="hud-btn" onClick={onBack}>←</button>
+        <button className="hud-btn" onClick={onBack} aria-label="Voltar"><GameIcon name="back" size={20} /></button>
         <b className="hubname">Loja</b>
-        <span className="coins">◎ {progress.coins}</span>
+        <Dp value={progress.coins} className="coins" />
       </div>
       <section className="pack hud">
         <div className="packart"><span>DUEL</span><span>MONSTERS</span><small>{Object.keys(tiers).length} cartas</small></div>
         <p>Cada pack tem {PACK_SIZE} cartas, com pelo menos 1 rara garantida.</p>
         <div className="odds stats">{`Normal 61% · ${TIER_NAME.R} 28% · ${TIER_NAME.SR} 9% · ${TIER_NAME.UR} 2%`}</div>
         <div className="acts">
-          <button className="hud-btn primary" disabled={progress.coins < PACK_PRICE} onClick={() => buy(1)}>Abrir 1 · ◎ {PACK_PRICE}</button>
-          <button className="hud-btn primary" disabled={progress.coins < PACK_PRICE * 5} onClick={() => buy(5)}>Abrir 5 · ◎ {PACK_PRICE * 5}</button>
+          <button className="hud-btn primary" disabled={progress.coins < PACK_PRICE} onClick={() => buy(1)}>Abrir 1 · <Dp value={PACK_PRICE} /></button>
+          <button className="hud-btn primary" disabled={progress.coins < PACK_PRICE * 5} onClick={() => buy(5)}>Abrir 5 · <Dp value={PACK_PRICE * 5} /></button>
         </div>
       </section>
-      <p className="stats" style={{ textAlign: 'center' }}>Ganhe moedas vencendo duelos.</p>
+      <p className="stats" style={{ textAlign: 'center' }}>Ganhe DP vencendo duelos.</p>
     </div>
   );
 }

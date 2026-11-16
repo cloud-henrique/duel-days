@@ -11,6 +11,7 @@ import { ChoiceBar, CardChoiceList } from '../screens/duel/ChoicePanels';
 import { choiceMarks, choiceOf, tapOption } from '../screens/duel/choice';
 import { ICONS } from '../components/CardSheet';
 import '../screens/duel/duel.css';
+import { DEFAULT_AVATAR } from '../story/profile';
 
 const board = fixtures.battle_attack.board as unknown as Board;
 const [me, foe] = board.players;
@@ -39,7 +40,7 @@ export function ChoiceGallery() {
   if (!cards) return <p>Carregando…</p>;
   const reply = (r: unknown) => { setLast(JSON.stringify(r)); setSel([]); };
   const tap = (_: number, ref: Parameters<typeof tapOption>[2]) => { const r = bc && tapOption(bc, sel, ref); if (r) { setSel(r.sel); if (r.response) reply(r.response); } };
-  const who = { id: 'yugi_muto', name: 'Você' };
+  const who = { id: DEFAULT_AVATAR, name: 'Você' };
   return (
     <div className={`duel hexbg${s.attack ? ' pick-attack' : ''}`}>
       <div style={{ position: 'absolute', top: 4, left: 4, right: 4, zIndex: 50, display: 'flex', flexWrap: 'wrap', gap: 4 }}>

@@ -32,6 +32,10 @@ export interface Progress {
   activeDeck: string;
   /** Cena em andamento (null = no mapa). */
   run: { scene: string; state: RunState } | null;
+  /** Avatar do jogador (pasta em `public/characters`); ausente em saves antigos (leia com `profileOf`). */
+  avatar?: string;
+  /** Tratamento nos textos com gênero; ausente em saves antigos (`profileOf` dá "neutral"). */
+  address?: 'he' | 'she' | 'neutral';
   /** Preferências; ausente em saves antigos (leia com `withDefaults`). */
   settings?: Partial<Settings>;
 }

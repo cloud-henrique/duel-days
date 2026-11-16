@@ -2,6 +2,8 @@ import { useEffect, useRef } from 'react';
 import type { Settings } from '../../../story/progress';
 import { avatar, type Duelist } from '../Plate';
 import { PACING } from './pacing';
+import { Coin } from '../../../ui/coin';
+import { DisplayTitle } from '../../../ui/titles';
 
 /** A abertura só aparece com animações (com "desligada", o duelo começa direto). */
 export const wantsIntro = (anim: Settings['anim']) => anim !== 'off';
@@ -25,7 +27,6 @@ export function Intro({ me, foe, starter, reduced, onDone }: { me: Duelist; foe:
   const t = introTimeline(reduced);
   const P = PACING.intro;
   const root = useRef<HTMLButtonElement>(null);
-  const coin = useRef<HTMLDivElement>(null);
   const caption = useRef<HTMLSpanElement>(null);
   const left = useRef<HTMLDivElement>(null);
   const right = useRef<HTMLDivElement>(null);
@@ -36,7 +37,6 @@ export function Intro({ me, foe, starter, reduced, onDone }: { me: Duelist; foe:
     const fill = 'both' as const;
     const anims = [
       // Cara (0°) para o jogador, coroa (180°) para o oponente.
-      reduced ? null : coin.current?.animate([{ transform: 'rotateY(0)' }, { transform: `rotateY(${3 * 360 + (starter === 0 ? 0 : 180)}deg)` }], { duration: P.coin, easing: 'cubic-bezier(.2,.7,.3,1)', fill }),
       caption.current?.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 200, delay: t.coin, fill }),
       left.current?.animate(reduced ? [{ opacity: 0 }, { opacity: 1 }] : [{ transform: 'translateX(-110%)' }, { transform: 'translateX(4%)', offset: 0.7 }, { transform: 'none' }], { duration: P.banners, delay: t.banners, easing: 'ease-out', fill }),
       right.current?.animate(reduced ? [{ opacity: 0 }, { opacity: 1 }] : [{ transform: 'translateX(110%)' }, { transform: 'translateX(-4%)', offset: 0.7 }, { transform: 'none' }], { duration: P.banners, delay: t.banners, easing: 'ease-out', fill }),
@@ -48,13 +48,13 @@ export function Intro({ me, foe, starter, reduced, onDone }: { me: Duelist; foe:
   }, []);
   return (
     <button ref={root} className="intro" aria-label="Pular abertura" onClick={finish}>
-      <div className="introcoin" ref={coin}><b className="heads">Cara</b><b className="tails">Coroa</b></div>
+      <Coin side={starter === 0 ? 'heads' : 'tails'} spinMs={P.coin} reduced={reduced} size={76} />
       <span ref={caption} className="introstarter">{starter === 0 ? `${me.name} começa` : `${foe.name} começa`}</span>
       <div className="introbanners">
         <div ref={left} className="banner me"><img src={avatar(me.id)} alt="" /><b>{me.name}</b></div>
         <div ref={right} className="banner foe"><b>{foe.name}</b><img src={avatar(foe.id)} alt="" /></div>
       </div>
-      <h2 ref={title} className="introtitle">DUELO!</h2>
+      <DisplayTitle tone="duel" titleRef={title}>DUELO!</DisplayTitle>
     </button>
   );
 }

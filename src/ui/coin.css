@@ -1,0 +1,12 @@
+/* Moeda e dado desenhados (src/ui/coin.tsx). */
+.coin3d { perspective: 600px; flex: none; filter: drop-shadow(0 6px 12px rgba(0, 0, 0, .55)); }
+.coinspin { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; }
+.coinside { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+/* Sem `filter` nas faces: ele achata o 3D e a face de trás aparecia pela frente. */
+.coinside.tails { transform: rotateY(180deg); }
+.coinface { width: 100%; height: 100%; display: block; }
+.coinlabel { font-family: var(--font-game); font-weight: 700; fill: #6b3d00; letter-spacing: .5px; paint-order: stroke; stroke: #ffe9a8; stroke-width: .8px; }
+.die3d { flex: none; filter: drop-shadow(0 6px 12px rgba(0, 0, 0, .55)); }
+.die3d svg { width: 100%; height: 100%; display: block; }
+.diebody { fill: #f5f7fb; stroke: #b8c0cf; stroke-width: 3; }
+.diepip { fill: #10204a; }

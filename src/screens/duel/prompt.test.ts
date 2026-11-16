@@ -70,9 +70,8 @@ describe('highlighted', () => {
 });
 
 describe('sideActions', () => {
-  it('Main Phase 1 com batalha: Encerrar (pequeno) + BATALHA', () => {
+  it('Main Phase 1 com batalha: só BATALHA (sem atalho para encerrar)', () => {
     expect(sideActions(msg('idle_bp_ep'))).toEqual([
-      { label: 'Encerrar', size: 'small', response: { type: OcgResponseType.SELECT_IDLECMD, action: SelectIdleCMDAction.TO_EP, index: null } },
       { label: 'BATALHA', size: 'big', response: { type: OcgResponseType.SELECT_IDLECMD, action: SelectIdleCMDAction.TO_BP, index: null } },
     ]);
   });
@@ -81,11 +80,15 @@ describe('sideActions', () => {
     expect(sideActions(msg('idle_ep_only')).map((a) => [a.label, a.size])).toEqual([['FIM DO TURNO', 'big']]);
   });
 
-  it('Battle Phase: MAIN 2 (pequeno) + FIM DO TURNO', () => {
+  it('Battle Phase: só MAIN 2 (sem atalho para o fim do turno)', () => {
     expect(sideActions(msg('battle_attack'))).toEqual([
-      { label: 'MAIN 2', size: 'small', response: { type: OcgResponseType.SELECT_BATTLECMD, action: SelectBattleCMDAction.TO_M2, index: null } },
-      { label: 'FIM DO TURNO', size: 'big', response: { type: OcgResponseType.SELECT_BATTLECMD, action: SelectBattleCMDAction.TO_EP, index: null } },
+      { label: 'MAIN 2', size: 'big', response: { type: OcgResponseType.SELECT_BATTLECMD, action: SelectBattleCMDAction.TO_M2, index: null } },
     ]);
+  });
+
+  it('Battle Phase sem Main Phase 2: FIM DO TURNO', () => {
+    const m = { ...msg('battle_attack'), to_m2: false, to_ep: true } as unknown as OcgMessage;
+    expect(sideActions(m).map((a) => a.label)).toEqual(['FIM DO TURNO']);
   });
 
   it('outros prompts e nenhum prompt: sem botões', () => {

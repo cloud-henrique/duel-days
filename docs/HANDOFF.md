@@ -8,7 +8,7 @@ Documento para continuar o projeto numa sessão nova. Leia também o `CLAUDE.md`
   (caixas de 2002–2005) com Extra Deck e fichas. Testado em massa (1.500 duelos CPU x CPU sem trava) e no **iPhone 11 Pro
   físico** (Safari e app instalado).
 - **Interface do duelo** com as proporções do app nativo (change OpenSpec `polir-hud-duelo`): métricas derivadas da
-  largura (`duel.css`), campo inclinado 22°, zonas M/A em 0,78, **face própria da carta em português** com arte
+  largura (`duel.css`), campo inclinado 22°, zonas M/A da altura das de monstro, um botão de fase só (sem atalho entre fases), **face própria da carta em português** com arte
   recortada, placas de 60 com contagem e "−500" no LP, barra de fases com o narrador (sem balão), botão de fase 64×60,
   menu com Desistir, mão em leque como no nativo. Testes de unidade (Vitest) e `proto/layout-e2e.mjs`.
 - **Encenação do duelo** (change OpenSpec `animar-duelo`, 19/22 tarefas; falta o teste no iPhone físico e arquivar):
@@ -22,6 +22,12 @@ Documento para continuar o projeto numa sessão nova. Leia também o `CLAUDE.md`
     durante a encenação acelera. O "reduzir movimento" do sistema troca deslocamento/giro/quebra por fade.
   - **Sons** do Tag Force (via app nativo, `python3 scripts/copy_sounds.py`, fora do git), com Web Audio liberado no
     primeiro toque.
+- **Visual base do nativo** (change OpenSpec `visual-base`): tela de título (logo, "DUEL DAYS" metálico, orbe com o
+  leque, Jogar/Continuar, Meu deck), boas-vindas e perfil (nome, 14 avatares genéricos, tratamento ele/ela/neutro,
+  vitórias/derrotas/aproveitamento), ajustes; o jogador aparece com o próprio avatar (não mais o Yugi); DP no lugar de
+  "moedas"; Chakra Petch nos números e títulos; ícones Phosphor por conceito; moeda e dado desenhados, com "Cara ou
+  coroa?", "Você disse cara" e "Acertou!/Errou!"; "DUELO!"/"VITÓRIA!" em serifada itálica com degradê.
+- **Referência do nativo**: `docs/nativo/README.md` (índice; prints fora do git em `docs/nativo/prints/`).
 - **Produção**: https://dueldays.pages.dev (Cloudflare Pages atrás do Access, só os e-mails da política "Amigos"); o
   envio é pelo `dist/` local (veja o `CLAUDE.md`).
 - **História**: mapa com 3 locais (Colégio Domino/Joey, Parque/Bakura, Kaiba Corp/Kaiba), corações de amizade (0–4),
@@ -49,14 +55,14 @@ Documento para continuar o projeto numa sessão nova. Leia também o `CLAUDE.md`
 
 ## Próximos passos sugeridos (em ordem)
 
-1. **Fechar o `animar-duelo`**: um duelo inteiro no iPhone 11 Pro físico (tarefa 6.2), conferindo também o que o jogo
-   automático não pegou (corrente de 2 elos, moeda/dado, banimento, vitória na tela). Depois, calibrar os tempos no
-   `PACING` e arquivar o change. Ainda falta também o teste em aparelho do `polir-hud-duelo` (5.5 e 7.2).
-2. **Mais conteúdo da história**: mais personagens no mapa (há 44 com sprites/expressões em `public/characters`), mais
-   cenas, fundos por local (hoje são degradês).
-3. **Decks temáticos por oponente** (hoje são aleatórios por personagem, via `randomDeck(hash(id))`).
-4. **Escolha manual de zona** e prompts que hoje são automáticos (anunciar carta/atributo, ordenar, soma de ritual).
-5. **Protagonista**: avatar próprio do jogador (hoje usa o do Yugi como provisório).
+1. **Campanha DM Tier 1 do nativo** (próximo change): calendário de 30 dias e períodos, mapa ilustrado, cena de
+   encontro com falas, conversas, laço (eventos, amizade/romance, presente), chefe Yugi, economia em DP do nativo e
+   pacotes de personagem. Substitui a história atual (3 locais, corações, intro/bond/rematch).
+2. **Músicas por tela** do nativo (título, mapa, encontro, loja, duelo, chefe, vitória, derrota), fora do git, com ajuste.
+3. **Loja e editor de deck** no padrão do nativo (grade de pacotes, balconista, caixa; deck em cima e maleta embaixo).
+4. **Decks temáticos dos oponentes** (do nativo) e **CPU mais esperta** (heurísticas do WindBot sobre o ocgcore).
+5. **Prompts que travam ou são automáticos**: auditar os pedidos do motor como o da Troca (carta anunciada, soma de
+   ritual, escolha de zona).
 6. **Offline completo**: botão "baixar toda a arte" (hoje a arte é guardada conforme vista).
 7. PvP via relay (cada aparelho roda o próprio ocgcore com a mesma semente; só trafegam respostas).
 

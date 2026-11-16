@@ -6,6 +6,7 @@ import type { Cards } from '../../data/cards';
 import { SortCards } from './SortCards';
 import { choiceOf } from './choice';
 import { CardChoiceList } from './ChoicePanels';
+import { coinCallLabel, coinCallOptions, type CoinCall } from './coinCall';
 
 const POSITIONS: [number, string][] = [
   [OcgPosition.FACEUP_ATTACK, 'Ataque'], [OcgPosition.FACEUP_DEFENSE, 'Defesa'],
@@ -19,6 +20,8 @@ const POSITIONS: [number, string][] = [
 export function promptPanel(m: OcgMessage | null, ctx: {
   name: (code: number) => string; cards: Cards; evText: string; sel: number[];
   setSel: (f: (s: number[]) => number[]) => void; reply: (r: OcgResponse) => void; autoPass: () => void;
+  /** O jogador escolheu cara ou coroa (a moeda mostra a escolha e o acerto). */
+  onCoinCall?: (c: CoinCall) => void;
 }): ReactNode {
   if (!m) return null;
   const { name, reply, sel } = ctx;
@@ -37,8 +40,11 @@ export function promptPanel(m: OcgMessage | null, ctx: {
       const t = m.type === OcgMessageType.SELECT_YESNO ? OcgResponseType.SELECT_YESNO : OcgResponseType.SELECT_EFFECTYN;
       return <><h4>{m.type === OcgMessageType.SELECT_EFFECTYN ? `Ativar efeito de ${name(m.code)}?` : 'Confirmar?'}</h4><div className="acts">{btn('Sim', { type: t, yes: true } as OcgResponse, true)}{btn('Não', { type: t, yes: false } as OcgResponse)}</div></>;
     }
-    case OcgMessageType.SELECT_OPTION:
+    case OcgMessageType.SELECT_OPTION: {
+      const coin = coinCallOptions(m);
+      if (coin) return <><h4>Cara ou coroa?</h4><div className="acts">{coin.map((c, i) => <button key={c} className="hud-btn primary" onClick={() => { ctx.onCoinCall?.(c); reply({ type: OcgResponseType.SELECT_OPTION, index: i }); }}>{coinCallLabel(c)}</button>)}</div></>;
       return <><h4>Escolha uma opção</h4>{m.options.map((_, i) => btn(`Opção ${i + 1}`, { type: OcgResponseType.SELECT_OPTION, index: i }))}</>;
+    }
     case OcgMessageType.SELECT_POSITION:
       return <><h4>Posição de {name(m.code)}</h4><div className="acts">{POSITIONS.filter(([p]) => m.positions & p).map(([p, l]) => btn(l, { type: OcgResponseType.SELECT_POSITION, position: p as never }, p === OcgPosition.FACEUP_ATTACK))}</div></>;
     case OcgMessageType.SELECT_PLACE:
