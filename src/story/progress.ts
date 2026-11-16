@@ -29,7 +29,7 @@ export const newProgress = (playerName: string, starter: Record<string, number>)
 };
 
 interface Row { id: string; progress: Progress; updatedAt: number }
-const db = new Dexie('ygo-story') as Dexie & { saves: EntityTable<{ id: string }, 'id'>; progress: EntityTable<Row, 'id'> };
+const db = new Dexie('duel-days') as Dexie & { saves: EntityTable<{ id: string }, 'id'>; progress: EntityTable<Row, 'id'> };
 db.version(1).stores({ saves: 'id' });
 db.version(2).stores({ saves: 'id', progress: 'id' });
 

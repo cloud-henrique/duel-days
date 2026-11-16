@@ -1,4 +1,4 @@
-// Logs do aparelho enviados ao servidor de preview (só com ?debug na URL). O servidor grava em /tmp/ygo-device.log.
+// Logs do aparelho enviados ao servidor de preview (só com ?debug na URL). O servidor grava em /tmp/duel-days-device.log.
 const BASE = import.meta.env.BASE_URL;
 export const debugOn = typeof location !== 'undefined' && location.search.includes('debug');
 export const engineInline = typeof location !== 'undefined' && location.search.includes('engine=inline');

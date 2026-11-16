@@ -1,4 +1,4 @@
-# YGO Story PWA (nome provisório)
+# Duel Days
 
 Visual novel + duelos de Yu-Gi-Oh! (era Duel Monsters) como PWA, para uso pessoal entre amigos.
 

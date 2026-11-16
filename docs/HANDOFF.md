@@ -1,4 +1,4 @@
-# Handoff — YGO Story PWA
+# Handoff — Duel Days
 
 Documento para continuar o projeto numa sessão nova. Leia também o `CLAUDE.md` (arquitetura, comandos e armadilhas).
 
@@ -24,14 +24,14 @@ Documento para continuar o projeto numa sessão nova. Leia também o `CLAUDE.md`
 - Túnel temporário: `cloudflared tunnel --url http://127.0.0.1:5181` → URL `*.trycloudflare.com` (muda a cada execução).
   O usuário pediu para **manter o túnel por enquanto**; derrube (`pkill -f cloudflared`) só quando ele pedir.
 - Depois de mudar código: `npx vite build` (o preview serve o `dist/` novo; o PWA se atualiza sozinho no celular).
-- Logs do celular: abrir a URL com `?debug=1` → `/tmp/ygo-device.log`. `?engine=inline` roda o motor sem Worker.
+- Logs do celular: abrir a URL com `?debug=1` → `/tmp/duel-days-device.log`. `?engine=inline` roda o motor sem Worker.
 - Simulador de iOS: iPhone 17 Pro (`44D43819-C0DF-474A-9D03-C4881D4F9CDF`), Safari em `http://127.0.0.1:5181`.
 
 ## Referências do usuário
 
 - Prints de UI de referência foram enviados (HUD azul, campo em perspectiva, folha da carta com arte + dados + ações,
   resumo de pack com NOVA, cena com local/corações/Pular). O app nativo dele em `/Users/cloudy/Projects/personal/duel-academy`
-  ("Duel Days", SwiftUI, motor próprio em Swift) é referência de **interface e de fluxo** (mapa, loja, abertura animada,
+  (o "Duel Days" original, SwiftUI, motor próprio em Swift) é referência de **interface e de fluxo** (mapa, loja, abertura animada,
   editor de deck, histórico) — o motor de lá não é ocgcore.
 - O usuário prefere ser consultado antes de decisões grandes ("faça perguntas antes se necessário") e usa pt-BR.
 

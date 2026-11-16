@@ -85,7 +85,7 @@ Pipeline de dados (gera arquivos NÃO versionados; veja README): `npm run fetch-
 ## Diagnóstico
 
 - `?debug=1` mostra no duelo um painel com as etapas do Worker e manda os logs para o servidor (dev/preview), que grava em
-  `/tmp/ygo-device.log`. Serve para depurar o iPhone físico pelo túnel.
+  `/tmp/duel-days-device.log`. Serve para depurar o iPhone físico pelo túnel.
 - Simulador de iOS (Safari real) reproduz bugs de WebKit que o Chrome e o Playwright não pegam.
 
 ## Regras do projeto

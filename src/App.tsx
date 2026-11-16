@@ -38,7 +38,7 @@ export function App() {
   if (!playing || !prog) {
     return (
       <div className="app menu hexbg">
-        <h1>YGO Story</h1>
+        <h1>Duel Days</h1>
         <p className="stats">protótipo</p>
         {prog && <button className="hud-btn primary" onClick={() => setPlaying(true)}>Continuar</button>}
         <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Seu nome" maxLength={14} />
