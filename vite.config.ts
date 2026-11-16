@@ -25,6 +25,8 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
+      // Atrás do Cloudflare Access o manifest só carrega com o cookie de login (crossorigin="use-credentials").
+      useCredentials: true,
       manifest: {
         name: 'YGO Story', short_name: 'YGO Story', display: 'standalone', orientation: 'portrait',
         background_color: '#050c1f', theme_color: '#050c1f',

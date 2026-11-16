@@ -13,6 +13,7 @@ npm test                            # testes de unidade (Vitest; arquivos src/**
 npx vite build                      # build de produção (PWA)
 npx vite preview --port 5181 --host 127.0.0.1   # serve o dist/ (é o que o túnel do celular aponta)
 
+npx vite build && npx wrangler pages deploy dist --project-name dueldays --branch main   # produção: https://dueldays.pages.dev (Cloudflare Pages + Access)
 npx tsx proto/smoke.ts 500          # CPU x CPU com decks aleatórios do pool: travas, laços, erros de Lua
 npx tsx proto/monkey.ts 100         # mesmo código do Worker (DuelDriver) contra os decks reais dos personagens
 npx tsx proto/story-smoke.ts        # percorre todos os caminhos de todas as cenas
@@ -91,7 +92,9 @@ Pipeline de dados (gera arquivos NÃO versionados; veja README): `npm run fetch-
 
 - **Nunca versione material da Konami**: `raw/`, `assets/characters/*/`, `public/{cards,characters,data}`,
   `public/scripts.json` estão no `.gitignore`. Só metadados leves (manifest, labels, characters.json) entram no git.
-- Hospedagem só com acesso protegido (ex.: Cloudflare Access); repositório privado. O túnel `cloudflared` é temporário.
+- Hospedagem só com acesso protegido (ex.: Cloudflare Access); repositório privado. Produção: Cloudflare Pages `dueldays` (conta
+  00claudio; perfil `cf` `claudio` ligado a esta pasta), com Access liberando só os e-mails da política "Amigos" (código por e-mail).
+  O envio é direto do `dist/` local, porque a arte das cartas não vai ao Git. O manifest usa `useCredentials` por causa do Access. O túnel `cloudflared` é temporário.
 - Personagens: só Duel Monsters (e variações como DSoD); sprites do Duel Links, variante `chara007`, rosto 240×240
   sobreposto ao corpo em (260, 120).
 - Antes de mudanças grandes ou ambíguas, pergunte. Teste no navegador (viewport de celular) e, para iOS, no simulador.
