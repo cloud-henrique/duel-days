@@ -14,8 +14,8 @@
 ## 3. Verificação e publicação
 
 - [x] 3.1 Rodar `npx tsc --noEmit`, `npm test` e `npx vite build` e conferir no preview a tela inicial e o título; verificar que todos passam
-- [ ] 3.2 Commitar, publicar com `wrangler pages deploy` e conferir que `https://dueldays.pages.dev` continua protegido pelo Access
-- [ ] 3.3 Criar o repositório privado `duel-days` no GitHub, configurar o `origin` e subir a branch; verificar com `git ls-files` que nada da Konami (cards, characters, data, raw) está versionado e com `git remote -v` e `gh repo view`
+- [x] 3.2 Commitar, publicar com `wrangler pages deploy` e conferir que `https://dueldays.pages.dev` continua protegido pelo Access
+- [x] 3.3 Criar o repositório privado `duel-days` no GitHub, configurar o `origin` e subir a branch; verificar com `git ls-files` que nada da Konami (cards, characters, data, raw) está versionado e com `git remote -v` e `gh repo view`
 
 ## Workflow follow-up
 
