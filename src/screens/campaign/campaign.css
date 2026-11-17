@@ -28,25 +28,19 @@
 .mapcanvas { position: relative; height: min(100cqh, 130vw); aspect-ratio: 2 / 1; flex-shrink: 0; }
 .mapcanvas.noimg { background: radial-gradient(ellipse at 50% 60%, #1f4a7a, #0a1a3a 70%); }
 .mapimg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; user-select: none; }
-.mappin { position: absolute; z-index: 2; transform: translate(-50%, -50%); background: none; border: 0; padding: 0; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; color: inherit; }
-.pinlabel { display: inline-flex; align-items: center; gap: 5px; padding: 5px 10px; font: 700 13px var(--font-game); white-space: nowrap; }
-.mappin.empty .pinlabel { opacity: .75; }
-.mappin.shop .pinlabel { --edge: #f6d36a; }
-.pincount { min-width: 18px; padding: 0 5px; border-radius: 9px; background: #2ab8ff; color: #04203a; font-size: 12px; text-align: center; }
-.mappin.empty .pincount { background: #3a4a66; color: #9cb0d0; }
-.pinface, .pinboss { position: relative; width: 52px; height: 52px; border-radius: 50%; border: 2px solid #8fd8ff; box-shadow: 0 0 10px rgba(42, 184, 255, .7); background: #0a1a3a; overflow: visible; }
-.pinface img, .pinboss img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
-.pinface b { position: absolute; top: -6px; right: -6px; width: 22px; height: 22px; border-radius: 50%; background: #ff4d6a; color: #fff; font: 800 15px/22px var(--font-game); text-align: center; animation: bob 1s infinite; }
-.pinboss { border-color: #f6d36a; box-shadow: 0 0 14px rgba(246, 211, 106, .8); }
-.pinboss svg { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); color: #f6d36a; filter: drop-shadow(0 1px 2px #000); }
+/* As cabeças de quem está por perto (como no Tag Force Special): centradas no ponto, flutuando. */
+.pinhead { position: absolute; z-index: 2; transform: translate(-50%, -50%); width: 52px; height: 52px; padding: 0; border-radius: 50%; border: 2px solid #8fd8ff; background: #0a1a3a;
+  box-shadow: 0 0 10px rgba(42, 184, 255, .7), 0 6px 8px rgba(0, 0, 0, .45); cursor: pointer; animation: pin-float 2.4s ease-in-out infinite; }
+.pinhead img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block; }
+.pinhead > b { position: absolute; top: -6px; right: -6px; width: 22px; height: 22px; border-radius: 50%; background: #ff4d6a; color: #fff; font: 800 15px/22px var(--font-game); text-align: center; }
+.pinhead.boss { border-color: #f6d36a; box-shadow: 0 0 14px rgba(246, 211, 106, .8), 0 6px 8px rgba(0, 0, 0, .45); }
+.pinhead.boss svg { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); color: #f6d36a; filter: drop-shadow(0 1px 2px #000); }
+@keyframes pin-float { 50% { translate: 0 -5px; } }
+@media (prefers-reduced-motion: reduce) { .pinhead { animation: none; } }
 .mapnav { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; padding: 8px 10px calc(10px + env(safe-area-inset-bottom)); flex-shrink: 0; }
 .mapnav .hud-btn { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 2px; font-size: 12px; }
 
-/* Painel do lugar */
-.placepanel .person { display: flex; align-items: center; gap: 10px; text-align: left; padding: 8px 12px; }
-.placepanel .person img { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; border: 2px solid #8fd8ff; flex-shrink: 0; }
-.placepanel .person > span:first-of-type { display: flex; flex-direction: column; gap: 2px; flex: 1; }
-.placepanel .person .go { display: inline-flex; align-items: center; gap: 2px; font-size: 13px; }
+/* Selo do "!" (encontro com evento pendente). */
 .alert { width: 22px; height: 22px; border-radius: 50%; background: #ff4d6a; color: #fff; font: 800 15px/22px var(--font-game); text-align: center; flex-shrink: 0; }
 
 /* Corações */
@@ -160,4 +154,3 @@
 .nodeck { align-items: center; text-align: center; }
 .nodeck p { margin: 0; color: #cfe2ff; line-height: 1.4; }
 .campend .display-title { font-size: min(8vw, 40px); white-space: nowrap; }
-.placepanel > .hud-btn:last-child { text-align: center; }

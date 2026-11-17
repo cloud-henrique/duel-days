@@ -1,0 +1,206 @@
+{
+ "_comment": "Falas curtas do Tier 2 (change campanha-tiers), escritas para a PWA no tom das do Tier 1. O copy_campaign_data.py junta ao dialogue.json. {nome} = nome do jogador; {a|b|c} = masculino|feminino|neutro.",
+ "duelists": {
+  "weevil": {
+   "firstGreeting": [
+    [{ "speaker": "weevil", "expression": "happy", "text": "Ora, ora... um rosto novo. Eu sou Weevil Underwood, campeão regional. Pode ficar com medo à vontade." },
+     { "speaker": "weevil", "expression": "neutral", "text": "{nome}, é? Vou lembrar. Os insetos sempre lembram de quem pisam." }],
+    [{ "speaker": "weevil", "expression": "neutral", "text": "Hm? Você também veio pela ilha? Que fofo. Acha que tem chance contra um campeão?" }]
+   ],
+   "greeting": [
+    [{ "speaker": "weevil", "expression": "happy", "text": "Hehehe... {nome} de novo. Meus insetos estavam com saudade." }],
+    [{ "speaker": "weevil", "expression": "neutral", "text": "Estratégia, {nome}. Estratégia. Coisa que falta pra quase todo mundo nesta ilha." }],
+    [{ "speaker": "weevil", "expression": "angry", "text": "Se veio rir de mim, pode dar meia-volta. Hoje eu não tô de bom humor." }]
+   ],
+   "beforeDuel": [
+    [{ "speaker": "weevil", "expression": "happy", "text": "Quer um duelo? Perfeito. Cada carta sua já está na minha teia." }],
+    [{ "speaker": "weevil", "expression": "neutral", "text": "Os insetos sobreviveram a tudo neste planeta. Você não vai ser diferente." }],
+    [{ "speaker": "weevil", "expression": "happy", "text": "Hehe... Vou te ensinar por que me chamam de campeão." }]
+   ],
+   "playerWins": [
+    [{ "speaker": "weevil", "expression": "angry", "text": "Impossível! Minha estratégia era perfeita!" }],
+    [{ "speaker": "weevil", "expression": "sad", "text": "Tsc... Sorte de principiante. Só isso." }],
+    [{ "speaker": "weevil", "expression": "angry", "text": "Você esmagou meus insetos... Isso não vai ficar assim, {nome}!" }]
+   ],
+   "playerLoses": [
+    [{ "speaker": "weevil", "expression": "happy", "text": "Hehehe! Presa na teia, como eu disse." }],
+    [{ "speaker": "weevil", "expression": "happy", "text": "Não fique triste, {nome}. Perder pra mim é quase uma honra." }],
+    [{ "speaker": "weevil", "expression": "neutral", "text": "Previsível. Estude mais e volte. Talvez dure um turno a mais." }]
+   ],
+   "firstWin": [
+    { "speaker": "weevil", "expression": "surprised", "text": "Você... venceu o campeão regional?" },
+    { "speaker": "player", "expression": "happy", "text": "Sua estratégia é boa, Weevil. Só não foi boa o bastante hoje." },
+    { "speaker": "weevil", "expression": "angry", "text": "Hmpf! Da próxima vez, a Rainha dos Insetos não vai perdoar." }
+   ]
+  },
+  "rex": {
+   "firstGreeting": [
+    [{ "speaker": "rex", "expression": "happy", "text": "Ei, você! É duelista? Eu sou Rex Raptor, e meus dinossauros não perdem pra ninguém!" },
+     { "speaker": "rex", "expression": "neutral", "text": "{nome}, né? Beleza. Só não chora quando for pisoteado." }],
+    [{ "speaker": "rex", "expression": "neutral", "text": "Mais um querendo estrelas? Vai ter que passar pelo Rex Raptor primeiro." }]
+   ],
+   "greeting": [
+    [{ "speaker": "rex", "expression": "happy", "text": "{nome}! Veio sentir o chão tremer de novo?" }],
+    [{ "speaker": "rex", "expression": "angry", "text": "Aquele Weevil ficou se gabando o dia inteiro... Preciso esmagar alguém." }],
+    [{ "speaker": "rex", "expression": "neutral", "text": "Força bruta, {nome}. É a única estratégia que eu preciso." }]
+   ],
+   "beforeDuel": [
+    [{ "speaker": "rex", "expression": "happy", "text": "Hora do duelo! Meus dinossauros estão com fome!" }],
+    [{ "speaker": "rex", "expression": "angry", "text": "Sem truques, sem frescura. Só ataque!" }],
+    [{ "speaker": "rex", "expression": "happy", "text": "Prepara o deck, {nome}. Vai ser pré-histórico!" }]
+   ],
+   "playerWins": [
+    [{ "speaker": "rex", "expression": "angry", "text": "Grrr! Meus dinossauros foram extintos de novo?!" }],
+    [{ "speaker": "rex", "expression": "sad", "text": "Tá bom, tá bom... Você é {bom|boa|bom} nisso." }],
+    [{ "speaker": "rex", "expression": "angry", "text": "Isso foi só um meteoro de azar! Revanche!" }]
+   ],
+   "playerLoses": [
+    [{ "speaker": "rex", "expression": "happy", "text": "Hahaha! Esmagado! É assim que um rei dos dinossauros joga!" }],
+    [{ "speaker": "rex", "expression": "happy", "text": "Viu? Força bruta sempre vence." }],
+    [{ "speaker": "rex", "expression": "neutral", "text": "Volta quando tiver um monstro de verdade, {nome}." }]
+   ],
+   "firstWin": [
+    { "speaker": "rex", "expression": "surprised", "text": "Você derrubou meus dinossauros todos...?" },
+    { "speaker": "player", "expression": "happy", "text": "Seus monstros batem forte, Rex. Foi por pouco." },
+    { "speaker": "rex", "expression": "happy", "text": "Hehe, é verdade. Mas espera até ver o meu Dragão-Serpente da Noite!" }
+   ]
+  },
+  "mako": {
+   "firstGreeting": [
+    [{ "speaker": "mako", "expression": "happy", "text": "Ahoy! Sou Mako Tsunami, duelista do mar! O oceano me trouxe até aqui." },
+     { "speaker": "mako", "expression": "neutral", "text": "{nome}... nome de quem tem coragem. Será que aguenta uma onda gigante?" }],
+    [{ "speaker": "mako", "expression": "neutral", "text": "Sente o cheiro do mar? Num lugar assim, minhas cartas ficam imbatíveis." }]
+   ],
+   "greeting": [
+    [{ "speaker": "mako", "expression": "happy", "text": "{nome}! A maré está boa hoje. Perfeita pra um duelo!" }],
+    [{ "speaker": "mako", "expression": "neutral", "text": "Meu pai sempre dizia: respeite o mar e ele vai te respeitar." }],
+    [{ "speaker": "mako", "expression": "happy", "text": "Pesquei um peixe deste tamanho hoje cedo! Bom sinal, não acha?" }]
+   ],
+   "beforeDuel": [
+    [{ "speaker": "mako", "expression": "happy", "text": "Que venha o duelo! Vou te levar pro fundo do oceano!" }],
+    [{ "speaker": "mako", "expression": "neutral", "text": "No mar não existe trapaça. Só força e honra. Vamos lá!" }],
+    [{ "speaker": "mako", "expression": "happy", "text": "Segura firme, {nome}. A tempestade está chegando!" }]
+   ],
+   "playerWins": [
+    [{ "speaker": "mako", "expression": "surprised", "text": "Você atravessou a minha tempestade... Belo duelo!" }],
+    [{ "speaker": "mako", "expression": "sad", "text": "Até o melhor pescador volta de mãos vazias às vezes." }],
+    [{ "speaker": "mako", "expression": "happy", "text": "Perdi, mas com honra. Aperta aqui, {nome}!" }]
+   ],
+   "playerLoses": [
+    [{ "speaker": "mako", "expression": "happy", "text": "Afundou! O mar sempre vence no final." }],
+    [{ "speaker": "mako", "expression": "neutral", "text": "Você lutou bem, {nome}. Mas o oceano é fundo demais." }],
+    [{ "speaker": "mako", "expression": "happy", "text": "Volte quando souber nadar contra a corrente!" }]
+   ],
+   "firstWin": [
+    { "speaker": "mako", "expression": "surprised", "text": "Venceu um filho do mar na beira da praia... Que coragem!" },
+    { "speaker": "player", "expression": "happy", "text": "Foi difícil, Mako. Seu deck parecia uma onda atrás da outra." },
+    { "speaker": "mako", "expression": "happy", "text": "Então da próxima vez eu chamo O Pescador Lendário. Aí sim você vai ver!" }
+   ]
+  },
+  "keith": {
+   "firstGreeting": [
+    [{ "speaker": "keith", "expression": "neutral", "text": "Hã? Quem deixou criança entrar aqui? Eu sou Bandit Keith, campeão dos Estados Unidos." },
+     { "speaker": "keith", "expression": "happy", "text": "{nome}? Tá, tá. Se quiser perder suas estrelas, fala comigo." }],
+    [{ "speaker": "keith", "expression": "angry", "text": "Sai da frente, pirralho. Tenho negócios pra resolver nesta ilha." }]
+   ],
+   "greeting": [
+    [{ "speaker": "keith", "expression": "happy", "text": "Olha só quem voltou. Gostou de apanhar, é?" }],
+    [{ "speaker": "keith", "expression": "neutral", "text": "Duelo é negócio, {nome}. E eu nunca perco dinheiro." }],
+    [{ "speaker": "keith", "expression": "angry", "text": "Se for falar daquele Pegasus, guarda pra você." }]
+   ],
+   "beforeDuel": [
+    [{ "speaker": "keith", "expression": "happy", "text": "Vamos acabar logo com isso. Minhas máquinas não cansam." }],
+    [{ "speaker": "keith", "expression": "neutral", "text": "Na América, a gente chama isso de massacre. Pronto?" }],
+    [{ "speaker": "keith", "expression": "happy", "text": "Pode embaralhar, {nome}. Não vai fazer diferença." }]
+   ],
+   "playerWins": [
+    [{ "speaker": "keith", "expression": "angry", "text": "Que droga! Isso foi pura sorte, moleque!" }],
+    [{ "speaker": "keith", "expression": "angry", "text": "Minhas máquinas... travaram? Não, não, não!" }],
+    [{ "speaker": "keith", "expression": "sad", "text": "Tsc. Some daqui antes que eu mude de ideia." }]
+   ],
+   "playerLoses": [
+    [{ "speaker": "keith", "expression": "happy", "text": "Hahaha! Isso é o que acontece com amador." }],
+    [{ "speaker": "keith", "expression": "happy", "text": "Bem-vindo à liga profissional, {nome}." }],
+    [{ "speaker": "keith", "expression": "neutral", "text": "Volta pra casa. Esta ilha não é pra você." }]
+   ],
+   "firstWin": [
+    { "speaker": "keith", "expression": "surprised", "text": "Você... me venceu? Eu, o campeão dos Estados Unidos?" },
+    { "speaker": "player", "expression": "neutral", "text": "Campeão ou não, um duelo se ganha na mesa, Keith." },
+    { "speaker": "keith", "expression": "angry", "text": "Grr... Da próxima vez o Dragão Revólver vai mirar direto em você." }
+   ]
+  },
+  "mai": {
+   "firstGreeting": [
+    [{ "speaker": "mai", "expression": "happy", "text": "Hm? Que carinha nova. Eu sou Mai Valentine. Já ouviu falar de mim, não é?" },
+     { "speaker": "mai", "expression": "neutral", "text": "{nome}... Vamos ver se você vale o meu tempo." }],
+    [{ "speaker": "mai", "expression": "neutral", "text": "Mais um duelista atrás de estrelas. Só cuidado com as minhas Harpias, {nome}." }]
+   ],
+   "greeting": [
+    [{ "speaker": "mai", "expression": "happy", "text": "{nome}! Que bom. Estava ficando entediada com os amadores desta ilha." }],
+    [{ "speaker": "mai", "expression": "neutral", "text": "Nesta ilha, ninguém é amigo de ninguém. Lembre-se disso." }],
+    [{ "speaker": "mai", "expression": "happy", "text": "Sente esse perfume? É o cheiro da vitória, querid{o|a|e}." }]
+   ],
+   "beforeDuel": [
+    [{ "speaker": "mai", "expression": "happy", "text": "Quer duelar? Minhas Harpias adoram uma presa nova." }],
+    [{ "speaker": "mai", "expression": "neutral", "text": "Sem piedade, {nome}. Eu não sei duelar de outro jeito." }],
+    [{ "speaker": "mai", "expression": "happy", "text": "Pode vir com tudo. Eu sempre sei qual carta vem a seguir." }]
+   ],
+   "playerWins": [
+    [{ "speaker": "mai", "expression": "surprised", "text": "Minhas Harpias... derrotadas?" }],
+    [{ "speaker": "mai", "expression": "sad", "text": "Hmpf. Você é melhor do que parece, {nome}." }],
+    [{ "speaker": "mai", "expression": "angry", "text": "Não se acostume. Isso não vai se repetir." }]
+   ],
+   "playerLoses": [
+    [{ "speaker": "mai", "expression": "happy", "text": "Ah, que pena. Mas foi divertido... pra mim." }],
+    [{ "speaker": "mai", "expression": "happy", "text": "Treine mais um pouco, {nome}. Aí sim vai ser um duelo de verdade." }],
+    [{ "speaker": "mai", "expression": "neutral", "text": "As Harpias não erram. Nunca." }]
+   ],
+   "firstWin": [
+    { "speaker": "mai", "expression": "surprised", "text": "Você venceu Mai Valentine... Não é qualquer um que pode dizer isso." },
+    { "speaker": "player", "expression": "happy", "text": "Foi o duelo mais difícil da ilha até agora, Mai." },
+    { "speaker": "mai", "expression": "happy", "text": "Hm. Talvez eu tenha subestimado você. Mas as Irmãs de Lady Harpia ainda vão te dar trabalho." }
+   ]
+  },
+  "pegasus": {
+   "firstGreeting": [
+    [{ "speaker": "pegasus", "expression": "happy", "text": "Oh, que maravilha! Um convidado no meu castelo. Sou Maximillion Pegasus, o criador de Duel Monsters." },
+     { "speaker": "pegasus", "expression": "neutral", "text": "{nome}... Que nome encantador. Eu já sei tudo o que você vai jogar, sabia?" }]
+   ],
+   "greeting": [
+    [{ "speaker": "pegasus", "expression": "happy", "text": "Bem-vind{o|a|e} de volta, {nome}! Aceita um pouco de vinho? Ah, não, você ainda é muito jovem." }],
+    [{ "speaker": "pegasus", "expression": "neutral", "text": "Os desenhos animados são a arte mais pura que existe. Não concorda?" }],
+    [{ "speaker": "pegasus", "expression": "happy", "text": "Que coincidência encontrar você aqui... ou será que eu já sabia?" }]
+   ],
+   "beforeDuel": [
+    [{ "speaker": "pegasus", "expression": "happy", "text": "Vamos brincar, {nome}! Meus Toons estão ansiosos." }],
+    [{ "speaker": "pegasus", "expression": "neutral", "text": "Eu criei este jogo. Cada regra, cada carta. Ainda quer duelar?" }],
+    [{ "speaker": "pegasus", "expression": "happy", "text": "Que comece o espetáculo!" }]
+   ],
+   "playerWins": [
+    [{ "speaker": "pegasus", "expression": "surprised", "text": "Que surpresa deliciosa! Você conseguiu me enganar." }],
+    [{ "speaker": "pegasus", "expression": "sad", "text": "Hmm... Até o criador do jogo perde de vez em quando." }],
+    [{ "speaker": "pegasus", "expression": "happy", "text": "Bravo, {nome}! Bravo! Que desenho animado lindo foi esse duelo." }]
+   ],
+   "playerLoses": [
+    [{ "speaker": "pegasus", "expression": "happy", "text": "Hahaha! Eu disse que já sabia cada jogada sua." }],
+    [{ "speaker": "pegasus", "expression": "neutral", "text": "Não fique triste. Perder para o criador do jogo não é vergonha nenhuma." }],
+    [{ "speaker": "pegasus", "expression": "happy", "text": "Que final adorável! Vamos de novo?" }]
+   ],
+   "firstWin": [
+    { "speaker": "pegasus", "expression": "surprised", "text": "Venceu mais uma vez... Você é mesmo especial, {nome}." }
+   ],
+   "bossEntrance": [
+    { "speaker": "pegasus", "expression": "happy", "text": "Então é você que venceu Weevil, Rex, Mako, Keith e até a Mai. Que talento!" },
+    { "speaker": "player", "expression": "neutral", "text": "Vim até o castelo para duelar com você, Pegasus." },
+    { "speaker": "pegasus", "expression": "neutral", "text": "Claro que veio. Eu sabia disso antes mesmo de você chegar à ilha." },
+    { "speaker": "pegasus", "expression": "happy", "text": "Bem-vind{o|a|e} ao meu mundo, {nome}. Um mundo onde eu escrevo todas as regras!" }
+   ],
+   "bossDefeat": [
+    { "speaker": "pegasus", "expression": "surprised", "text": "Impossível... Eu vi cada carta, cada jogada. E mesmo assim..." },
+    { "speaker": "player", "expression": "happy", "text": "Algumas jogadas não dá pra prever, Pegasus." },
+    { "speaker": "pegasus", "expression": "sad", "text": "Parece que não. Que lição inesperada para o criador do jogo." },
+    { "speaker": "pegasus", "expression": "happy", "text": "Você mereceu esta vitória, {nome}. Foi o melhor duelo deste torneio." }
+   ]
+  }
+ }
+}

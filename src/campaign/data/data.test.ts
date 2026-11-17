@@ -1,6 +1,9 @@
 import { existsSync, readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { CAMPAIGN, DIALOGUE, PACKS } from './types';
+import type { CardRecord } from '../../engine/session';
+import { validateDeck } from '../../game/decks';
+import { expand } from '../decks';
+import { CAMPAIGN, DIALOGUE, DUELISTS, PACKS, TIERS } from './types';
 
 const CARDS = 'public/data/cards.json';
 
@@ -8,7 +11,7 @@ const CARDS = 'public/data/cards.json';
 function campaignIds(): Set<number> {
   const ids = new Set<number>();
   CAMPAIGN.starterDeck.main.forEach((e) => ids.add(e.id));
-  for (const d of CAMPAIGN.tier.duelists) {
+  for (const d of DUELISTS) {
     [...d.deck.main, ...d.deck.extra].forEach((e) => ids.add(e.id));
     ids.add(d.signatureCard.id);
     if (d.bondGift) ids.add(d.bondGift.id);
@@ -18,21 +21,53 @@ function campaignIds(): Set<number> {
 }
 
 describe('dados da campanha', () => {
-  it('têm os 5 duelistas, 5 lugares e o diálogo de cada um', () => {
-    expect(CAMPAIGN.tier.duelists.map((d) => d.key)).toEqual(['tristan', 'tea', 'joey', 'bakura', 'yugi']);
-    expect(CAMPAIGN.tier.locations).toHaveLength(5);
-    for (const d of CAMPAIGN.tier.duelists) expect(DIALOGUE.duelists[d.key]?.bondEvents).toHaveLength(4);
+  it('Tier 1 com os 5 do nativo, com laço e o diálogo de cada um', () => {
+    expect(TIERS[0].duelists.map((d) => d.key)).toEqual(['tristan', 'tea', 'joey', 'bakura', 'yugi']);
+    for (const d of TIERS[0].duelists) {
+      expect(d.bond).toBe(true);
+      expect(DIALOGUE.duelists[d.key]?.bondEvents).toHaveLength(4);
+    }
   });
 
-  it('decks com 40 cartas no Main, e o deck inicial também', () => {
-    const total = (es: { count: number }[]) => es.reduce((s, e) => s + e.count, 0);
-    expect(total(CAMPAIGN.starterDeck.main)).toBe(40);
-    for (const d of CAMPAIGN.tier.duelists) expect(total(d.deck.main), d.key).toBe(40);
+  it('Tier 2: 5 comuns e o Pegasus de chefe, sem laço, com falas e cena', () => {
+    const t2 = TIERS[1];
+    expect(t2).toMatchObject({ number: 2, name: 'Reino dos Duelistas', firstDay: 8, lastDay: 14 });
+    expect(t2.duelists.filter((d) => !d.isBoss).map((d) => d.key)).toEqual(['weevil', 'rex', 'mako', 'keith', 'mai']);
+    expect(t2.duelists.find((d) => d.isBoss)?.key).toBe('pegasus');
+    for (const d of t2.duelists) {
+      expect(d.bond, d.key).toBe(false);
+      expect(d.bondGift, d.key).toBeUndefined();
+      expect(d.scene.bg && d.scene.place, d.key).toBeTruthy();
+      expect(DIALOGUE.duelists[d.key]?.greeting.length, d.key).toBeGreaterThan(0);
+    }
+    expect(DIALOGUE.duelists.pegasus.bossEntrance?.length).toBeGreaterThan(0);
+    expect(DIALOGUE.duelists.pegasus.bossDefeat?.length).toBeGreaterThan(0);
+  });
+
+  it('janelas dos tiers: 1–7, 8–14, 15–22, 23–30', () => {
+    expect(TIERS.map((t) => [t.firstDay, t.lastDay])).toEqual([[1, 7], [8, 14], [15, 22], [23, 30]]);
+  });
+
+  it('pontos do mapa suficientes para todo mundo de um período', () => {
+    // 4 comuns + 2 amigos + 2 chefes.
+    expect(CAMPAIGN.mapPoints.length).toBeGreaterThanOrEqual(8);
+    expect(new Set(CAMPAIGN.mapPoints.map((p) => `${p.x},${p.y}`)).size).toBe(CAMPAIGN.mapPoints.length);
+  });
+
+  it('o deck inicial tem 40 cartas', () => {
+    expect(CAMPAIGN.starterDeck.main.reduce((s, e) => s + e.count, 0)).toBe(40);
   });
 
   it.skipIf(!existsSync(CARDS))('toda carta da campanha está no cards.json exportado', () => {
     const cards = JSON.parse(readFileSync(CARDS, 'utf8')) as Record<string, unknown>;
     const missing = [...campaignIds()].filter((id) => !cards[String(id)]);
     expect(missing).toEqual([]);
+  });
+
+  it.skipIf(!existsSync(CARDS))('o deck de cada duelista é válido', () => {
+    const cards = JSON.parse(readFileSync(CARDS, 'utf8')) as Record<string, CardRecord>;
+    for (const d of DUELISTS) {
+      expect(validateDeck({ main: expand(d.deck.main), extra: expand(d.deck.extra) }, cards), d.key).toEqual([]);
+    }
   });
 });

@@ -33,11 +33,10 @@ const t0 = Date.now();
 try {
   await page.goto(url);
   await page.fill('input[placeholder="Seu nome"]', 'WebKit');
-  // Boas-vindas (nome; avatar e tratamento padrão) → título → Campanha → um lugar com gente → Encontrar → Duelar.
+  // Boas-vindas (nome; avatar e tratamento padrão) → título → Campanha → uma cabeça no mapa → Duelar.
   await btn('Começar').click();
   await page.locator('.titleplay').click();
-  await page.locator('.mappin:not(.empty):not(.shop)').first().click({ force: true });
-  await page.locator('.placepanel .person').first().click();
+  await page.locator('.pinhead:not(.boss)').first().click({ force: true });
   await btn('Pular').click();
   await page.locator('.scene-menu button', { hasText: /^\s*Duelar\s*$/ }).click();
   await btn('Pular').click();

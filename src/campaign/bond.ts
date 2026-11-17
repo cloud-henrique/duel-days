@@ -1,6 +1,6 @@
 /** Laços: afinidade em corações, conversa, eventos de laço, rota amizade/romance e epílogo (`Campaign+Bond` do nativo). */
 import { BALANCE } from './balance';
-import { CAMPAIGN, DIALOGUE, type BondEvent, type DuelistData, type Scene } from './data/types';
+import { DIALOGUE, DUELISTS, duelistByKey, type BondEvent, type DuelistData, type Scene } from './data/types';
 import { isPresent, seedPosition } from './map';
 import { PURPOSE, generator, pick } from './rng';
 import { clone, type CampaignState, type Route } from './state';
@@ -13,10 +13,10 @@ export const ROUTE_NAMES: Record<Route, string> = { friendship: 'Amizade', roman
 
 const MAX = BALANCE.pointsPerHeart * BALANCE.bondEvents;
 
-/** Duelista com história: os que têm carta do laço (todos os 5 do Tier 1). */
-export const hasStory = (d: DuelistData | undefined) => !!d?.bondGift;
-export const storyDuelists = () => CAMPAIGN.tier.duelists.filter(hasStory);
-const find = (key: string) => CAMPAIGN.tier.duelists.find((d) => d.key === key);
+/** Duelista com história: os com laço e carta do laço (os 5 do Tier 1). Os dos tiers seguintes não têm. */
+export const hasStory = (d: DuelistData | undefined) => !!d?.bond && !!d.bondGift;
+export const storyDuelists = () => DUELISTS.filter(hasStory);
+const find = duelistByKey;
 
 export const affinityOf = (s: CampaignState, key: string) => s.affinity[key] ?? 0;
 export const eventsDone = (s: CampaignState, key: string) => s.bondEventsDone[key] ?? 0;
@@ -76,13 +76,14 @@ export function talk(s0: CampaignState, key: string, topic: Topic): { state: Cam
 }
 
 export function conversationScene(key: string, result: ConversationResult): Scene {
-  const t = DIALOGUE.duelists[key].conversation[result.topic];
+  const t = DIALOGUE.duelists[key].conversation?.[result.topic];
+  if (!t) return [];
   return result.liked ? t.liked : t.disliked ?? t.liked;
 }
 
 // --- Eventos ---
 
-export const bondEvent = (key: string, n: number): BondEvent | undefined => DIALOGUE.duelists[key]?.bondEvents[n - 1];
+export const bondEvent = (key: string, n: number): BondEvent | undefined => DIALOGUE.duelists[key]?.bondEvents?.[n - 1];
 export const eventTitle = (key: string, n: number) => bondEvent(key, n)?.title ?? '';
 
 /** As cenas de antes e depois de um evento, pela rota (o 4º evento tem uma versão por rota). */
@@ -135,5 +136,5 @@ export function epilogue(s: CampaignState): { duelist: DuelistData; route: Route
   const d = epilogueDuelist(s);
   if (!d) return null;
   const route: Route = s.bondRoutes[d.key] === 'romance' ? 'romance' : 'friendship';
-  return { duelist: d, route, scene: DIALOGUE.duelists[d.key].epilogue[route] };
+  return { duelist: d, route, scene: DIALOGUE.duelists[d.key].epilogue?.[route] ?? [] };
 }

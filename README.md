@@ -44,7 +44,11 @@ npm install
 npm run fetch-data                 # clona CardScripts e BabelCDB (ProjectIgnis) em raw/data
 python3 scripts/import_dm.py       # era DM (YGOPRODeck): cartas com data OCG até 2004-09-30, raridades, caixas TCG e texto em português
 python3 scripts/export_data.py     # public/data/{cards,pool,boosters,text.pt}.json + public/scripts.json (só o que o motor roda) e raw/import/report.md
-python3 scripts/copy_campaign_data.py   # dados da campanha do nativo; os pacotes LOB/MRD/MRL/PSV vêm do boosters.json
+python3 scripts/fetch_deck_recipes.py   # receitas "Anime Decks" do YGOPRODeck por duelista → raw/decks/candidates.json
+npx tsx proto/deck-pick.ts 40           # torneio CPU x CPU entre as candidatas → raw/decks/picks.json (+ relatório)
+python3 scripts/build_decks.py          # receitas vencedoras → src/campaign/data/decks.json (versionado)
+python3 scripts/copy_campaign_data.py   # Tier 1 do nativo + tiers.json + decks.json + falas do T2; coleções de todos os tiers do boosters.json
+.venv/bin/python scripts/copy_tfs_backgrounds.py  # fundos das cenas (zip "Events" do Tag Force Special em raw/tfs/) → public/campaign/bg-*.jpg (fora do git)
 .venv/bin/python scripts/fetch_card_art.py  # arte (small/large/cropped + verso, WebP); ~95 MB
 .venv/bin/python scripts/copy_card_icons.py # ícones de atributo/tipo/Magia/Armadilha do app nativo e propriedades do atlas do Tag Force 3 no PPSSPP (fora do git)
 python3 scripts/copy_sounds.py     # efeitos sonoros do duelo do app nativo (Tag Force), convertidos para .m4a em public/sounds (fora do git; macOS)

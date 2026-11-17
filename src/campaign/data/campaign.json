@@ -134,895 +134,1880 @@
   "lob",
   "lob"
  ],
- "tier": {
-  "number": 1,
-  "name": "Antes do Reino dos Duelistas",
-  "firstDay": 1,
-  "lastDay": 7,
-  "packs": [
-   "lob",
-   "mrd",
-   {
-    "key": "mrl",
-    "opensFrom": 11
-   },
-   {
-    "key": "psv",
-    "opensFrom": 21
-   }
-  ],
-  "locations": [
-   {
-    "key": "escola",
-    "name": "Escola Domino",
-    "icon": "school",
-    "x": 0.15,
-    "y": 0.22
-   },
-   {
-    "key": "burger",
-    "name": "Burger World",
-    "icon": "burger",
-    "x": 0.55,
-    "y": 0.62
-   },
-   {
-    "key": "fliperama",
-    "name": "Fliperama",
-    "icon": "arcade",
-    "x": 0.3,
-    "y": 0.6
-   },
-   {
-    "key": "parque",
-    "name": "Parque",
-    "icon": "park",
-    "x": 0.4,
-    "y": 0.3
-   },
-   {
-    "key": "kame-game",
-    "name": "Loja de Jogos do Vovô",
-    "icon": "gameShop",
-    "x": 0.75,
-    "y": 0.4,
-    "isShop": true
-   }
-  ],
-  "duelists": [
-   {
-    "key": "tristan",
-    "name": "Tristan",
-    "isBoss": false,
-    "location": "escola",
-    "signatureCard": {
-     "id": 76232340,
-     "comment": "Sengenjin"
+ "mapPoints": [
+  {
+   "x": 0.37,
+   "y": 0.27
+  },
+  {
+   "x": 0.46,
+   "y": 0.24
+  },
+  {
+   "x": 0.55,
+   "y": 0.28
+  },
+  {
+   "x": 0.635,
+   "y": 0.25
+  },
+  {
+   "x": 0.41,
+   "y": 0.45
+  },
+  {
+   "x": 0.5,
+   "y": 0.42
+  },
+  {
+   "x": 0.59,
+   "y": 0.46
+  },
+  {
+   "x": 0.36,
+   "y": 0.62
+  },
+  {
+   "x": 0.45,
+   "y": 0.63
+  },
+  {
+   "x": 0.54,
+   "y": 0.6
+  },
+  {
+   "x": 0.63,
+   "y": 0.64
+  },
+  {
+   "x": 0.645,
+   "y": 0.43
+  }
+ ],
+ "tiers": [
+  {
+   "number": 1,
+   "name": "Antes do Reino dos Duelistas",
+   "firstDay": 1,
+   "lastDay": 7,
+   "packs": [
+    {
+     "key": "lob",
+     "offset": 0
     },
-    "bondGift": {
-     "id": 6400512,
-     "comment": "Cyber Commander"
+    {
+     "key": "mrd",
+     "offset": 0
     },
-    "deck": {
+    {
+     "key": "mrl",
+     "offset": 2
+    },
+    {
+     "key": "psv",
+     "offset": 4
+    }
+   ],
+   "duelists": [
+    {
+     "key": "tristan",
      "name": "Tristan",
-     "main": [
-      {
-       "id": 6400512,
-       "count": 2,
-       "comment": "Cyber Commander"
-      },
-      {
-       "id": 38916461,
-       "count": 2,
-       "comment": "Roboyarou"
-      },
-      {
-       "id": 92421852,
-       "count": 2,
-       "comment": "Robolady"
-      },
-      {
-       "id": 75953262,
-       "count": 2,
-       "comment": "Warrior Dai Grepher"
-      },
-      {
-       "id": 47372349,
-       "count": 1,
-       "comment": "Acrobat Monkey"
-      },
-      {
-       "id": 67532912,
-       "count": 1,
-       "comment": "Science Soldier"
-      },
-      {
-       "id": 87322377,
-       "count": 1,
-       "comment": "Launcher Spider"
-      },
-      {
-       "id": 76232340,
-       "count": 1,
-       "comment": "Sengenjin"
-      },
-      {
-       "id": 66362965,
-       "count": 1,
-       "comment": "The Fiend Megacyber"
-      },
-      {
-       "id": 69015963,
-       "count": 1,
-       "comment": "Cyber-Stein"
-      },
-      {
-       "id": 24094653,
-       "count": 2,
-       "comment": "Polymerization"
-      },
-      {
-       "id": 83764718,
-       "count": 1,
-       "comment": "Monster Reborn"
-      },
-      {
-       "id": 55144522,
-       "count": 1,
-       "comment": "Pot of Greed"
-      },
-      {
-       "id": 53129443,
-       "count": 1,
-       "comment": "Dark Hole"
-      },
-      {
-       "id": 4206964,
-       "count": 2,
-       "comment": "Trap Hole"
-      },
-      {
-       "id": 56120475,
-       "count": 2,
-       "comment": "Sakuretsu Armor"
-      },
-      {
-       "id": 14315573,
-       "count": 1,
-       "comment": "Negate Attack"
-      },
-      {
-       "id": 20394040,
-       "count": 1,
-       "comment": "Lava Battleguard"
-      },
-      {
-       "id": 40453765,
-       "count": 1,
-       "comment": "Swamp Battleguard"
-      },
-      {
-       "id": 74131780,
-       "count": 1,
-       "comment": "Exiled Force"
-      },
-      {
-       "id": 79571449,
-       "count": 1,
-       "comment": "Graceful Charity"
-      },
-      {
-       "id": 23171610,
-       "count": 2,
-       "comment": "Limiter Removal"
-      },
-      {
-       "id": 36361633,
-       "count": 1,
-       "comment": "Threatening Roar"
-      },
-      {
-       "id": 63102017,
-       "count": 1,
-       "comment": "Stop Defense"
-      },
-      {
-       "id": 40619825,
-       "count": 2,
-       "comment": "Axe of Despair"
-      },
-      {
-       "id": 27967615,
-       "count": 2,
-       "comment": "Fusion Weapon"
-      },
-      {
-       "id": 51345461,
-       "count": 1,
-       "comment": "Sword Hunter"
-      },
-      {
-       "id": 66788016,
-       "count": 1,
-       "comment": "Fissure"
-      },
-      {
-       "id": 62279055,
-       "count": 1,
-       "comment": "Magic Cylinder"
-      },
-      {
-       "id": 48305365,
-       "count": 1,
-       "comment": "Axe Raider"
-      }
-     ],
-     "extra": [
-      {
-       "id": 1412158,
-       "count": 2,
-       "comment": "Super Roboyarou"
-      },
-      {
-       "id": 75923050,
-       "count": 2,
-       "comment": "Super Robolady"
-      }
-     ]
-    }
-   },
-   {
-    "key": "tea",
-    "name": "Tea",
-    "isBoss": false,
-    "location": "burger",
-    "signatureCard": {
-     "id": 38033121,
-     "comment": "Dark Magician Girl"
+     "isBoss": false,
+     "signatureCard": {
+      "id": 76232340,
+      "comment": "Sengenjin"
+     },
+     "bondGift": {
+      "id": 6400512,
+      "comment": "Cyber Commander"
+     },
+     "deck": {
+      "name": "Tristan Taylor's character deck (Virtual World version)",
+      "main": [
+       {
+        "id": 87322377,
+        "count": 2,
+        "comment": "Launcher Spider"
+       },
+       {
+        "id": 92421852,
+        "count": 3,
+        "comment": "Robolady"
+       },
+       {
+        "id": 38916461,
+        "count": 3,
+        "comment": "Roboyarou"
+       },
+       {
+        "id": 76232340,
+        "count": 1,
+        "comment": "Sengenjin"
+       },
+       {
+        "id": 10375182,
+        "count": 2,
+        "comment": "Command Knight"
+       },
+       {
+        "id": 20394040,
+        "count": 2,
+        "comment": "Lava Battleguard"
+       },
+       {
+        "id": 2460565,
+        "count": 2,
+        "comment": "Marauding Captain"
+       },
+       {
+        "id": 40453765,
+        "count": 1,
+        "comment": "Swamp Battleguard"
+       },
+       {
+        "id": 25880422,
+        "count": 3,
+        "comment": "Block Attack"
+       },
+       {
+        "id": 3682106,
+        "count": 1,
+        "comment": "Double Snare"
+       },
+       {
+        "id": 83764718,
+        "count": 1,
+        "comment": "Monster Reborn"
+       },
+       {
+        "id": 24094653,
+        "count": 3,
+        "comment": "Polymerization"
+       },
+       {
+        "id": 55144522,
+        "count": 1,
+        "comment": "Pot of Greed"
+       },
+       {
+        "id": 32807846,
+        "count": 2,
+        "comment": "Reinforcement of the Army"
+       },
+       {
+        "id": 403847,
+        "count": 3,
+        "comment": "The A. Forces"
+       },
+       {
+        "id": 95281259,
+        "count": 2,
+        "comment": "The Warrior Returning Alive"
+       },
+       {
+        "id": 37580756,
+        "count": 2,
+        "comment": "Michizure"
+       },
+       {
+        "id": 14315573,
+        "count": 2,
+        "comment": "Negate Attack"
+       },
+       {
+        "id": 95286165,
+        "count": 1,
+        "comment": "De-Fusion"
+       },
+       {
+        "id": 70046172,
+        "count": 2,
+        "comment": "Rush Recklessly; no lugar de Battle Fusion (fora da era); no lugar de Battle Fusion (fora da era)"
+       },
+       {
+        "id": 79571449,
+        "count": 1,
+        "comment": "Graceful Charity; no lugar de Pot of Greed (cópia acima do limite) (fora da era)"
+       }
+      ],
+      "extra": [
+       {
+        "id": 1412158,
+        "count": 1,
+        "comment": "Super Roboyarou"
+       }
+      ]
+     },
+     "bond": true,
+     "scene": {
+      "bg": "escola",
+      "place": "Escola Domino"
+     }
     },
-    "bondGift": {
-     "id": 82085619,
-     "comment": "Shining Friendship"
-    },
-    "deck": {
+    {
+     "key": "tea",
      "name": "Tea",
-     "main": [
-      {
-       "id": 46986414,
-       "count": 1,
-       "comment": "Dark Magician"
-      },
-      {
-       "id": 83764718,
-       "count": 1,
-       "comment": "Monster Reborn"
-      },
-      {
-       "id": 66788016,
-       "count": 1,
-       "comment": "Fissure"
-      },
-      {
-       "id": 44095762,
-       "count": 1,
-       "comment": "Mirror Force"
-      },
-      {
-       "id": 4206964,
-       "count": 1,
-       "comment": "Trap Hole"
-      },
-      {
-       "id": 68401546,
-       "count": 3,
-       "comment": "Fairy's Gift"
-      },
-      {
-       "id": 82085619,
-       "count": 3,
-       "comment": "Shining Friendship"
-      },
-      {
-       "id": 93221206,
-       "count": 3,
-       "comment": "Ancient Elf"
-      },
-      {
-       "id": 14315573,
-       "count": 1,
-       "comment": "Negate Attack"
-      },
-      {
-       "id": 38142739,
-       "count": 3,
-       "comment": "Petit Angel"
-      },
-      {
-       "id": 98582704,
-       "count": 2,
-       "comment": "Wing Egg Elf"
-      },
-      {
-       "id": 15025844,
-       "count": 2,
-       "comment": "Mystical Elf"
-      },
-      {
-       "id": 80770678,
-       "count": 2,
-       "comment": "Spirit of the Harp"
-      },
-      {
-       "id": 84257639,
-       "count": 1,
-       "comment": "Dian Keto the Cure Master"
-      },
-      {
-       "id": 16972957,
-       "count": 1,
-       "comment": "Doma The Angel of Silence"
-      },
-      {
-       "id": 69140098,
-       "count": 1,
-       "comment": "Gemini Elf"
-      },
-      {
-       "id": 38033121,
-       "count": 1,
-       "comment": "Dark Magician Girl"
-      },
-      {
-       "id": 93013676,
-       "count": 3,
-       "comment": "Maha Vailo"
-      },
-      {
-       "id": 60694662,
-       "count": 2,
-       "comment": "Skelengel"
-      },
-      {
-       "id": 19159413,
-       "count": 1,
-       "comment": "De-Spell"
-      },
-      {
-       "id": 99030164,
-       "count": 1,
-       "comment": "Happy Lover"
-      },
-      {
-       "id": 12607053,
-       "count": 1,
-       "comment": "Waboku"
-      },
-      {
-       "id": 39897277,
-       "count": 3,
-       "comment": "Elf's Light"
-      },
-      {
-       "id": 67227834,
-       "count": 1,
-       "comment": "Magic Formula"
-      }
-     ],
-     "extra": []
-    }
-   },
-   {
-    "key": "joey",
-    "name": "Joey",
-    "isBoss": false,
-    "location": "fliperama",
-    "signatureCard": {
-     "id": 74677422,
-     "comment": "Red-Eyes Black Dragon"
+     "isBoss": false,
+     "signatureCard": {
+      "id": 38033121,
+      "comment": "Dark Magician Girl"
+     },
+     "bondGift": {
+      "id": 82085619,
+      "comment": "Shining Friendship"
+     },
+     "deck": {
+      "name": "Téa Gardner - Millennium Resurrection",
+      "main": [
+       {
+        "id": 77527210,
+        "count": 3,
+        "comment": "Soul of Purity and Light"
+       },
+       {
+        "id": 70797118,
+        "count": 3,
+        "comment": "Thunder Nyan Nyan"
+       },
+       {
+        "id": 21297224,
+        "count": 3,
+        "comment": "Hysteric Fairy"
+       },
+       {
+        "id": 93013676,
+        "count": 3,
+        "comment": "Maha Vailo"
+       },
+       {
+        "id": 95956346,
+        "count": 3,
+        "comment": "Shining Angel"
+       },
+       {
+        "id": 31560081,
+        "count": 3,
+        "comment": "Magician of Faith"
+       },
+       {
+        "id": 67629977,
+        "count": 3,
+        "comment": "Hoshiningen"
+       },
+       {
+        "id": 12607053,
+        "count": 2,
+        "comment": "Waboku"
+       },
+       {
+        "id": 59344077,
+        "count": 1,
+        "comment": "Magic Drain"
+       },
+       {
+        "id": 44095762,
+        "count": 1,
+        "comment": "Mirror Force"
+       },
+       {
+        "id": 83746708,
+        "count": 3,
+        "comment": "Mage Power"
+       },
+       {
+        "id": 56747793,
+        "count": 3,
+        "comment": "United We Stand"
+       },
+       {
+        "id": 81777047,
+        "count": 2,
+        "comment": "Luminous Spark"
+       },
+       {
+        "id": 97687912,
+        "count": 2,
+        "comment": "Fairy Meteor Crush"
+       },
+       {
+        "id": 69954399,
+        "count": 1,
+        "comment": "Ekibyo Drakmord"
+       },
+       {
+        "id": 55144522,
+        "count": 1,
+        "comment": "Pot of Greed"
+       },
+       {
+        "id": 83764718,
+        "count": 1,
+        "comment": "Monster Reborn"
+       },
+       {
+        "id": 18144506,
+        "count": 1,
+        "comment": "Harpie's Feather Duster"
+       },
+       {
+        "id": 5318639,
+        "count": 1,
+        "comment": "Mystical Space Typhoon"
+       }
+      ],
+      "extra": []
+     },
+     "bond": true,
+     "scene": {
+      "bg": "rua-domino",
+      "place": "Rua de Domino"
+     }
     },
-    "bondGift": {
-     "id": 45231177,
-     "comment": "Flame Swordsman"
-    },
-    "deck": {
+    {
+     "key": "joey",
      "name": "Joey",
-     "main": [
-      {
-       "id": 74677422,
-       "count": 1,
-       "comment": "Red-Eyes Black Dragon"
-      },
-      {
-       "id": 88819587,
-       "count": 1,
-       "comment": "Baby Dragon"
-      },
-      {
-       "id": 71625222,
-       "count": 1,
-       "comment": "Time Wizard"
-      },
-      {
-       "id": 89904598,
-       "count": 1,
-       "comment": "Anthrosaurus"
-      },
-      {
-       "id": 15480588,
-       "count": 2,
-       "comment": "Armored Lizard"
-      },
-      {
-       "id": 73481154,
-       "count": 2,
-       "comment": "Destroyer Golem"
-      },
-      {
-       "id": 1184620,
-       "count": 2,
-       "comment": "Kojikocy"
-      },
-      {
-       "id": 10538007,
-       "count": 2,
-       "comment": "Leogun"
-      },
-      {
-       "id": 44287299,
-       "count": 1,
-       "comment": "Masaki the Legendary Swordsman"
-      },
-      {
-       "id": 83764718,
-       "count": 1,
-       "comment": "Monster Reborn"
-      },
-      {
-       "id": 66788016,
-       "count": 2,
-       "comment": "Fissure"
-      },
-      {
-       "id": 4206964,
-       "count": 2,
-       "comment": "Trap Hole"
-      },
-      {
-       "id": 56120475,
-       "count": 3,
-       "comment": "Sakuretsu Armor"
-      },
-      {
-       "id": 48305365,
-       "count": 3,
-       "comment": "Axe Raider"
-      },
-      {
-       "id": 24094653,
-       "count": 1,
-       "comment": "Polymerization"
-      },
-      {
-       "id": 49791927,
-       "count": 2,
-       "comment": "Tiger Axe"
-      },
-      {
-       "id": 70781052,
-       "count": 1,
-       "comment": "Summoned Skull"
-      },
-      {
-       "id": 18246479,
-       "count": 1,
-       "comment": "Battle Steer"
-      },
-      {
-       "id": 14977074,
-       "count": 2,
-       "comment": "Garoozis"
-      },
-      {
-       "id": 26378150,
-       "count": 2,
-       "comment": "Rude Kaiser"
-      },
-      {
-       "id": 20394040,
-       "count": 1,
-       "comment": "Lava Battleguard"
-      },
-      {
-       "id": 40453765,
-       "count": 1,
-       "comment": "Swamp Battleguard"
-      },
-      {
-       "id": 52097679,
-       "count": 1,
-       "comment": "Shield & Sword"
-      },
-      {
-       "id": 75902998,
-       "count": 1,
-       "comment": "Trap Hole of Spikes"
-      },
-      {
-       "id": 61854111,
-       "count": 1,
-       "comment": "Legendary Sword"
-      },
-      {
-       "id": 32268901,
-       "count": 1,
-       "comment": "Salamandra"
-      },
-      {
-       "id": 37390589,
-       "count": 1,
-       "comment": "Kunai with Chain"
-      }
-     ],
-     "extra": [
-      {
-       "id": 45231177,
-       "count": 1,
-       "comment": "Flame Swordsman"
-      },
-      {
-       "id": 51828629,
-       "count": 1,
-       "comment": "Giltia the D. Knight"
-      },
-      {
-       "id": 41462083,
-       "count": 1,
-       "comment": "Thousand Dragon"
-      }
-     ]
-    }
-   },
-   {
-    "key": "bakura",
-    "name": "Bakura",
-    "isBoss": false,
-    "location": "parque",
-    "signatureCard": {
-     "id": 54652250,
-     "comment": "Man-Eater Bug"
+     "isBoss": false,
+     "signatureCard": {
+      "id": 74677422,
+      "comment": "Red-Eyes Black Dragon"
+     },
+     "bondGift": {
+      "id": 45231177,
+      "comment": "Flame Swordsman"
+     },
+     "deck": {
+      "name": "Joey Wheeler (Battle City Deck)",
+      "main": [
+       {
+        "id": 48305365,
+        "count": 1,
+        "comment": "Axe Raider"
+       },
+       {
+        "id": 64428736,
+        "count": 1,
+        "comment": "Alligator's Sword"
+       },
+       {
+        "id": 49791927,
+        "count": 1,
+        "comment": "Tiger Axe"
+       },
+       {
+        "id": 44287299,
+        "count": 1,
+        "comment": "Masaki the Legendary Swordsman"
+       },
+       {
+        "id": 88819587,
+        "count": 1,
+        "comment": "Baby Dragon"
+       },
+       {
+        "id": 55550921,
+        "count": 1,
+        "comment": "Battle Warrior"
+       },
+       {
+        "id": 3573512,
+        "count": 1,
+        "comment": "Swordsman of Landstar"
+       },
+       {
+        "id": 36354007,
+        "count": 1,
+        "comment": "Gilford the Lightning"
+       },
+       {
+        "id": 91512835,
+        "count": 1,
+        "comment": "Insect Queen"
+       },
+       {
+        "id": 77585513,
+        "count": 1,
+        "comment": "Jinzo"
+       },
+       {
+        "id": 3643300,
+        "count": 1,
+        "comment": "The Legendary Fisherman"
+       },
+       {
+        "id": 78658564,
+        "count": 1,
+        "comment": "Goblin Attack Force"
+       },
+       {
+        "id": 42035044,
+        "count": 1,
+        "comment": "Panther Warrior"
+       },
+       {
+        "id": 423705,
+        "count": 2,
+        "comment": "Gearfried the Iron Knight; no lugar de Gearfried the Swordmaster (fora da era)"
+       },
+       {
+        "id": 30860696,
+        "count": 1,
+        "comment": "Rocket Warrior"
+       },
+       {
+        "id": 90790253,
+        "count": 1,
+        "comment": "Little-Winguard"
+       },
+       {
+        "id": 21015833,
+        "count": 1,
+        "comment": "Hayabusa Knight"
+       },
+       {
+        "id": 71625222,
+        "count": 1,
+        "comment": "Time Wizard"
+       },
+       {
+        "id": 42703248,
+        "count": 1,
+        "comment": "Giant Trunade"
+       },
+       {
+        "id": 83764718,
+        "count": 1,
+        "comment": "Monster Reborn"
+       },
+       {
+        "id": 24094653,
+        "count": 1,
+        "comment": "Polymerization"
+       },
+       {
+        "id": 55144522,
+        "count": 1,
+        "comment": "Pot of Greed"
+       },
+       {
+        "id": 52097679,
+        "count": 1,
+        "comment": "Shield & Sword"
+       },
+       {
+        "id": 60764581,
+        "count": 1,
+        "comment": "Stray Lambs"
+       },
+       {
+        "id": 74137509,
+        "count": 2,
+        "comment": "Graceful Dice; no lugar de Release Restraint (fora da era)"
+       },
+       {
+        "id": 73915051,
+        "count": 2,
+        "comment": "Scapegoat"
+       },
+       {
+        "id": 21598948,
+        "count": 1,
+        "comment": "Fairy Box"
+       },
+       {
+        "id": 37313786,
+        "count": 1,
+        "comment": "Gamble"
+       },
+       {
+        "id": 61705417,
+        "count": 1,
+        "comment": "Graverobber"
+       },
+       {
+        "id": 37390589,
+        "count": 1,
+        "comment": "Kunai with Chain"
+       },
+       {
+        "id": 96008713,
+        "count": 1,
+        "comment": "Magical Arm Shield"
+       },
+       {
+        "id": 56120475,
+        "count": 1,
+        "comment": "Sakuretsu Armor"
+       },
+       {
+        "id": 126218,
+        "count": 2,
+        "comment": "Skull Dice; no lugar de Roulette Spider (fora da era)"
+       },
+       {
+        "id": 75902998,
+        "count": 1,
+        "comment": "Trap Hole of Spikes"
+       },
+       {
+        "id": 74677422,
+        "count": 1,
+        "comment": "Red-Eyes Black Dragon"
+       },
+       {
+        "id": 55226821,
+        "count": 1,
+        "comment": "Lightning Blade"
+       }
+      ],
+      "extra": [
+       {
+        "id": 11901678,
+        "count": 1,
+        "comment": "Black Skull Dragon"
+       },
+       {
+        "id": 41462083,
+        "count": 1,
+        "comment": "Thousand Dragon"
+       },
+       {
+        "id": 51828629,
+        "count": 1,
+        "comment": "Giltia the D. Knight"
+       },
+       {
+        "id": 45231177,
+        "count": 1,
+        "comment": "Flame Swordsman"
+       },
+       {
+        "id": 3366982,
+        "count": 1,
+        "comment": "Alligator's Sword Dragon"
+       }
+      ]
+     },
+     "bond": true,
+     "scene": {
+      "bg": "parque",
+      "place": "Parque"
+     }
     },
-    "bondGift": {
-     "id": 84257639,
-     "comment": "Dian Keto the Cure Master"
-    },
-    "deck": {
+    {
+     "key": "bakura",
      "name": "Bakura",
-     "main": [
-      {
-       "id": 35282433,
-       "count": 1,
-       "comment": "Blue-Eyed Silver Zombie"
-      },
-      {
-       "id": 92667214,
-       "count": 2,
-       "comment": "Clown Zombie"
-      },
-      {
-       "id": 41949033,
-       "count": 1,
-       "comment": "Dark Assailant"
-      },
-      {
-       "id": 25882881,
-       "count": 1,
-       "comment": "Dokuroizo the Grim Reaper"
-      },
-      {
-       "id": 53581214,
-       "count": 1,
-       "comment": "Fire Reaper"
-      },
-      {
-       "id": 95265975,
-       "count": 2,
-       "comment": "Ghoul with an Appetite"
-      },
-      {
-       "id": 27094595,
-       "count": 1,
-       "comment": "Graveyard and the Hand of Invitation"
-      },
-      {
-       "id": 46474915,
-       "count": 1,
-       "comment": "Magical Ghost"
-      },
-      {
-       "id": 732302,
-       "count": 1,
-       "comment": "Temple of Skulls"
-      },
-      {
-       "id": 32864,
-       "count": 1,
-       "comment": "The 13th Grave"
-      },
-      {
-       "id": 29491031,
-       "count": 3,
-       "comment": "The Snake Hair"
-      },
-      {
-       "id": 33734439,
-       "count": 1,
-       "comment": "Three-Legged Zombies"
-      },
-      {
-       "id": 17733394,
-       "count": 1,
-       "comment": "Wood Remains"
-      },
-      {
-       "id": 71280811,
-       "count": 1,
-       "comment": "Yaranzo"
-      },
-      {
-       "id": 77827521,
-       "count": 1,
-       "comment": "Trial of Nightmare"
-      },
-      {
-       "id": 36304921,
-       "count": 1,
-       "comment": "Witty Phantom"
-      },
-      {
-       "id": 53129443,
-       "count": 1,
-       "comment": "Dark Hole"
-      },
-      {
-       "id": 83764718,
-       "count": 1,
-       "comment": "Monster Reborn"
-      },
-      {
-       "id": 55144522,
-       "count": 1,
-       "comment": "Pot of Greed"
-      },
-      {
-       "id": 66788016,
-       "count": 2,
-       "comment": "Fissure"
-      },
-      {
-       "id": 60082869,
-       "count": 1,
-       "comment": "Dust Tornado"
-      },
-      {
-       "id": 4206964,
-       "count": 1,
-       "comment": "Trap Hole"
-      },
-      {
-       "id": 14315573,
-       "count": 1,
-       "comment": "Negate Attack"
-      },
-      {
-       "id": 66672569,
-       "count": 2,
-       "comment": "Dragon Zombie"
-      },
-      {
-       "id": 20277860,
-       "count": 2,
-       "comment": "Armored Zombie"
-      },
-      {
-       "id": 56120475,
-       "count": 2,
-       "comment": "Sakuretsu Armor"
-      },
-      {
-       "id": 69455834,
-       "count": 1,
-       "comment": "King of Yamimakai"
-      },
-      {
-       "id": 32274490,
-       "count": 1,
-       "comment": "Skull Servant"
-      },
-      {
-       "id": 54652250,
-       "count": 1,
-       "comment": "Man-Eater Bug"
-      },
-      {
-       "id": 40619825,
-       "count": 1,
-       "comment": "Axe of Despair"
-      },
-      {
-       "id": 65169794,
-       "count": 1,
-       "comment": "Black Pendant"
-      },
-      {
-       "id": 84257639,
-       "count": 1,
-       "comment": "Dian Keto the Cure Master"
-      }
-     ],
-     "extra": []
-    }
-   },
-   {
-    "key": "yugi",
-    "name": "Yugi",
-    "isBoss": true,
-    "location": "kame-game",
-    "signatureCard": {
-     "id": 46986414,
-     "comment": "Dark Magician"
+     "isBoss": false,
+     "signatureCard": {
+      "id": 54652250,
+      "comment": "Man-Eater Bug"
+     },
+     "bondGift": {
+      "id": 84257639,
+      "comment": "Dian Keto the Cure Master"
+     },
+     "deck": {
+      "name": "Bakura (Battle City) Deck",
+      "main": [
+       {
+        "id": 67105242,
+        "count": 2,
+        "comment": "Earthbound Spirit"
+       },
+       {
+        "id": 5434080,
+        "count": 2,
+        "comment": "Headless Knight"
+       },
+       {
+        "id": 4920010,
+        "count": 1,
+        "comment": "Souls of the Forgotten"
+       },
+       {
+        "id": 66989694,
+        "count": 1,
+        "comment": "The Earl of Demise"
+       },
+       {
+        "id": 68049471,
+        "count": 2,
+        "comment": "The Gross Ghost of Fled Dreams"
+       },
+       {
+        "id": 32541773,
+        "count": 2,
+        "comment": "The Portrait's Secret"
+       },
+       {
+        "id": 31829185,
+        "count": 2,
+        "comment": "Dark Necrofear"
+       },
+       {
+        "id": 53982768,
+        "count": 2,
+        "comment": "Dark Ruler Ha Des"
+       },
+       {
+        "id": 77936940,
+        "count": 2,
+        "comment": "Gernia"
+       },
+       {
+        "id": 41855169,
+        "count": 1,
+        "comment": "Jowgen the Spiritualist"
+       },
+       {
+        "id": 63665875,
+        "count": 2,
+        "comment": "Goblin Zombie"
+       },
+       {
+        "id": 41442341,
+        "count": 1,
+        "comment": "Puppet Master"
+       },
+       {
+        "id": 26202165,
+        "count": 1,
+        "comment": "Sangan"
+       },
+       {
+        "id": 97342942,
+        "count": 1,
+        "comment": "Ectoplasmer"
+       },
+       {
+        "id": 5556668,
+        "count": 1,
+        "comment": "Exchange"
+       },
+       {
+        "id": 83764718,
+        "count": 1,
+        "comment": "Monster Reborn"
+       },
+       {
+        "id": 70828912,
+        "count": 1,
+        "comment": "Premature Burial"
+       },
+       {
+        "id": 30606547,
+        "count": 1,
+        "comment": "The Dark Door"
+       },
+       {
+        "id": 43434803,
+        "count": 1,
+        "comment": "The Shallow Grave"
+       },
+       {
+        "id": 30170981,
+        "count": 1,
+        "comment": "Spirit Message \"L\""
+       },
+       {
+        "id": 94772232,
+        "count": 1,
+        "comment": "Spirit Message \"A\""
+       },
+       {
+        "id": 67287533,
+        "count": 1,
+        "comment": "Spirit Message \"N\""
+       },
+       {
+        "id": 31893528,
+        "count": 1,
+        "comment": "Spirit Message \"I\""
+       },
+       {
+        "id": 93599951,
+        "count": 2,
+        "comment": "Dark Spirit of the Silent"
+       },
+       {
+        "id": 94212438,
+        "count": 2,
+        "comment": "Destiny Board"
+       },
+       {
+        "id": 78053598,
+        "count": 1,
+        "comment": "Dark Designator"
+       },
+       {
+        "id": 59197169,
+        "count": 2,
+        "comment": "Yami; no lugar de Dark Sanctuary (fora da era); no lugar de Dark Sanctuary (fora da era)"
+       },
+       {
+        "id": 12607053,
+        "count": 2,
+        "comment": "Waboku; no lugar de Multiple Destruction (fora da era); no lugar de Multiple Destruction (fora da era)"
+       }
+      ],
+      "extra": []
+     },
+     "bond": true,
+     "scene": {
+      "bg": "rua-arborizada",
+      "place": "Rua arborizada"
+     }
     },
-    "bondGift": {
-     "id": 44095762,
-     "comment": "Mirror Force"
-    },
-    "deck": {
+    {
+     "key": "yugi",
      "name": "Yugi",
-     "main": [
-      {
-       "id": 6368038,
-       "count": 3,
-       "comment": "Gaia The Fierce Knight"
-      },
-      {
-       "id": 28279543,
-       "count": 3,
-       "comment": "Curse of Dragon"
-      },
-      {
-       "id": 32452818,
-       "count": 1,
-       "comment": "Beaver Warrior"
-      },
-      {
-       "id": 91152256,
-       "count": 2,
-       "comment": "Celtic Guardian"
-      },
-      {
-       "id": 41392891,
-       "count": 2,
-       "comment": "Feral Imp"
-      },
-      {
-       "id": 90357090,
-       "count": 1,
-       "comment": "Silver Fang"
-      },
-      {
-       "id": 67724379,
-       "count": 2,
-       "comment": "Koumori Dragon"
-      },
-      {
-       "id": 40374923,
-       "count": 1,
-       "comment": "Mammoth Graveyard"
-      },
-      {
-       "id": 87796900,
-       "count": 3,
-       "comment": "Winged Dragon, Guardian of the Fortress #1"
-      },
-      {
-       "id": 15025844,
-       "count": 2,
-       "comment": "Mystical Elf"
-      },
-      {
-       "id": 46986414,
-       "count": 1,
-       "comment": "Dark Magician"
-      },
-      {
-       "id": 13039848,
-       "count": 1,
-       "comment": "Giant Soldier of Stone"
-      },
-      {
-       "id": 13429800,
-       "count": 1,
-       "comment": "Great White"
-      },
-      {
-       "id": 24094653,
-       "count": 3,
-       "comment": "Polymerization"
-      },
-      {
-       "id": 53129443,
-       "count": 1,
-       "comment": "Dark Hole"
-      },
-      {
-       "id": 66788016,
-       "count": 1,
-       "comment": "Fissure"
-      },
-      {
-       "id": 83764718,
-       "count": 1,
-       "comment": "Monster Reborn"
-      },
-      {
-       "id": 55144522,
-       "count": 1,
-       "comment": "Pot of Greed"
-      },
-      {
-       "id": 84257639,
-       "count": 1,
-       "comment": "Dian Keto the Cure Master"
-      },
-      {
-       "id": 4206964,
-       "count": 2,
-       "comment": "Trap Hole"
-      },
-      {
-       "id": 14315573,
-       "count": 1,
-       "comment": "Negate Attack"
-      },
-      {
-       "id": 62279055,
-       "count": 1,
-       "comment": "Magic Cylinder"
-      },
-      {
-       "id": 72892473,
-       "count": 1,
-       "comment": "Card Destruction"
-      },
-      {
-       "id": 19159413,
-       "count": 1,
-       "comment": "De-Spell"
-      },
-      {
-       "id": 17814387,
-       "count": 1,
-       "comment": "Reinforcements"
-      },
-      {
-       "id": 83887306,
-       "count": 1,
-       "comment": "Two-Pronged Attack"
-      },
-      {
-       "id": 12607053,
-       "count": 1,
-       "comment": "Waboku"
-      }
-     ],
-     "extra": [
-      {
-       "id": 66889139,
-       "count": 3,
-       "comment": "Gaia the Dragon Champion"
-      }
-     ]
+     "isBoss": true,
+     "signatureCard": {
+      "id": 46986414,
+      "comment": "Dark Magician"
+     },
+     "bondGift": {
+      "id": 44095762,
+      "comment": "Mirror Force"
+     },
+     "deck": {
+      "name": "Yugi muto 40 card Deck",
+      "main": [
+       {
+        "id": 38033121,
+        "count": 1,
+        "comment": "Dark Magician Girl"
+       },
+       {
+        "id": 40737112,
+        "count": 1,
+        "comment": "Dark Magician of Chaos"
+       },
+       {
+        "id": 72989439,
+        "count": 1,
+        "comment": "Black Luster Soldier - Envoy of the Beginning"
+       },
+       {
+        "id": 78193831,
+        "count": 1,
+        "comment": "Buster Blader"
+       },
+       {
+        "id": 70781052,
+        "count": 1,
+        "comment": "Summoned Skull"
+       },
+       {
+        "id": 50287060,
+        "count": 1,
+        "comment": "Archfiend of Gilfer"
+       },
+       {
+        "id": 5818798,
+        "count": 1,
+        "comment": "Gazelle the King of Mythical Beasts"
+       },
+       {
+        "id": 77207191,
+        "count": 1,
+        "comment": "Berfomet"
+       },
+       {
+        "id": 75347539,
+        "count": 1,
+        "comment": "Valkyrion the Magna Warrior"
+       },
+       {
+        "id": 99785935,
+        "count": 1,
+        "comment": "Alpha The Magnet Warrior"
+       },
+       {
+        "id": 39256679,
+        "count": 1,
+        "comment": "Beta The Magnet Warrior"
+       },
+       {
+        "id": 11549357,
+        "count": 1,
+        "comment": "Gamma The Magnet Warrior"
+       },
+       {
+        "id": 64788463,
+        "count": 1,
+        "comment": "King's Knight"
+       },
+       {
+        "id": 25652259,
+        "count": 1,
+        "comment": "Queen's Knight"
+       },
+       {
+        "id": 90876561,
+        "count": 1,
+        "comment": "Jack's Knight"
+       },
+       {
+        "id": 41172955,
+        "count": 1,
+        "comment": "Green Gadget"
+       },
+       {
+        "id": 86445415,
+        "count": 1,
+        "comment": "Red Gadget"
+       },
+       {
+        "id": 13839120,
+        "count": 1,
+        "comment": "Yellow Gadget"
+       },
+       {
+        "id": 52077741,
+        "count": 1,
+        "comment": "Obnoxious Celtic Guard"
+       },
+       {
+        "id": 15025844,
+        "count": 1,
+        "comment": "Mystical Elf"
+       },
+       {
+        "id": 71413901,
+        "count": 1,
+        "comment": "Breaker the Magical Warrior"
+       },
+       {
+        "id": 40640057,
+        "count": 2,
+        "comment": "Kuriboh; no lugar de Electromagnetic Turtle (fora da era)"
+       },
+       {
+        "id": 83764718,
+        "count": 1,
+        "comment": "Monster Reborn"
+       },
+       {
+        "id": 55144522,
+        "count": 1,
+        "comment": "Pot of Greed"
+       },
+       {
+        "id": 24094653,
+        "count": 1,
+        "comment": "Polymerization"
+       },
+       {
+        "id": 72302403,
+        "count": 1,
+        "comment": "Swords of Revealing Light"
+       },
+       {
+        "id": 2314238,
+        "count": 1,
+        "comment": "Dark Magic Attack"
+       },
+       {
+        "id": 99789342,
+        "count": 2,
+        "comment": "Dark Magic Curtain; no lugar de Bond Between Teacher and Student (fora da era)"
+       },
+       {
+        "id": 13604200,
+        "count": 1,
+        "comment": "Sage's Stone"
+       },
+       {
+        "id": 40703222,
+        "count": 1,
+        "comment": "Multiply"
+       },
+       {
+        "id": 63391643,
+        "count": 1,
+        "comment": "Thousand Knives"
+       },
+       {
+        "id": 44095762,
+        "count": 1,
+        "comment": "Mirror Force"
+       },
+       {
+        "id": 18807108,
+        "count": 1,
+        "comment": "Spellbinding Circle"
+       },
+       {
+        "id": 46986414,
+        "count": 1,
+        "comment": "Dark Magician"
+       },
+       {
+        "id": 79571449,
+        "count": 1,
+        "comment": "Graceful Charity"
+       },
+       {
+        "id": 62279055,
+        "count": 1,
+        "comment": "Magic Cylinder"
+       },
+       {
+        "id": 81210420,
+        "count": 1,
+        "comment": "Magical Hats; no lugar de Black Illusion (fora da era)"
+       },
+       {
+        "id": 35563539,
+        "count": 1,
+        "comment": "Mystical Refpanel; no lugar de Dark Renewal (fora da era)"
+       }
+      ],
+      "extra": [
+       {
+        "id": 98502113,
+        "count": 1,
+        "comment": "Dark Paladin"
+       },
+       {
+        "id": 4796100,
+        "count": 1,
+        "comment": "Chimera the Flying Mythical Beast"
+       }
+      ]
+     },
+     "bond": true,
+     "scene": {
+      "bg": "loja-de-jogos",
+      "place": "Loja de Jogos do Vovô"
+     }
     }
-   }
-  ]
- }
+   ]
+  },
+  {
+   "number": 2,
+   "name": "Reino dos Duelistas",
+   "firstDay": 8,
+   "lastDay": 14,
+   "packs": [
+    {
+     "key": "lon",
+     "offset": 0
+    },
+    {
+     "key": "lod",
+     "offset": 2
+    },
+    {
+     "key": "pgd",
+     "offset": 4
+    }
+   ],
+   "duelists": [
+    {
+     "key": "weevil",
+     "name": "Weevil Underwood",
+     "isBoss": false,
+     "scene": {
+      "bg": "floresta-ilha",
+      "place": "Floresta da ilha"
+     },
+     "signatureCard": {
+      "id": 91512835,
+      "comment": "Insect Queen"
+     },
+     "bond": false,
+     "deck": {
+      "name": "Weevil Underwood (Duelist Kingdom) Deck",
+      "main": [
+       {
+        "id": 89091579,
+        "count": 3,
+        "comment": "Basic Insect"
+       },
+       {
+        "id": 3134241,
+        "count": 2,
+        "comment": "Flying Kamakiri #2"
+       },
+       {
+        "id": 15367030,
+        "count": 3,
+        "comment": "Gokibore"
+       },
+       {
+        "id": 52584282,
+        "count": 3,
+        "comment": "Hercules Beetle"
+       },
+       {
+        "id": 88979991,
+        "count": 3,
+        "comment": "Killer Needle"
+       },
+       {
+        "id": 40240595,
+        "count": 3,
+        "comment": "Cocoon of Evolution"
+       },
+       {
+        "id": 14141448,
+        "count": 3,
+        "comment": "Great Moth"
+       },
+       {
+        "id": 87756343,
+        "count": 3,
+        "comment": "Larvae Moth"
+       },
+       {
+        "id": 48579379,
+        "count": 2,
+        "comment": "Perfectly Ultimate Great Moth"
+       },
+       {
+        "id": 87430998,
+        "count": 3,
+        "comment": "Forest"
+       },
+       {
+        "id": 73628505,
+        "count": 2,
+        "comment": "Terraforming"
+       },
+       {
+        "id": 3492538,
+        "count": 3,
+        "comment": "Insect Armor with Laser Cannon"
+       },
+       {
+        "id": 77007920,
+        "count": 3,
+        "comment": "Laser Cannon Armor"
+       },
+       {
+        "id": 83764718,
+        "count": 1,
+        "comment": "Monster Reborn"
+       },
+       {
+        "id": 54109233,
+        "count": 3,
+        "comment": "Infinite Dismissal"
+       }
+      ],
+      "extra": []
+     }
+    },
+    {
+     "key": "rex",
+     "name": "Rex Raptor",
+     "isBoss": false,
+     "scene": {
+      "bg": "ilha",
+      "place": "Reino dos Duelistas"
+     },
+     "signatureCard": {
+      "id": 66516792,
+      "comment": "Serpent Night Dragon"
+     },
+     "bond": false,
+     "deck": {
+      "name": "Rex Raptor (Duelist Kingdom) Deck",
+      "main": [
+       {
+        "id": 38289717,
+        "count": 3,
+        "comment": "Crawling Dragon #2"
+       },
+       {
+        "id": 42625254,
+        "count": 3,
+        "comment": "Little D"
+       },
+       {
+        "id": 75390004,
+        "count": 3,
+        "comment": "Megazowler"
+       },
+       {
+        "id": 74677422,
+        "count": 2,
+        "comment": "Red-Eyes Black Dragon"
+       },
+       {
+        "id": 66516792,
+        "count": 2,
+        "comment": "Serpent Night Dragon"
+       },
+       {
+        "id": 13069066,
+        "count": 3,
+        "comment": "Sword Arm of Dragon"
+       },
+       {
+        "id": 46457856,
+        "count": 2,
+        "comment": "Tomozaurus"
+       },
+       {
+        "id": 42348802,
+        "count": 3,
+        "comment": "Trakodon"
+       },
+       {
+        "id": 94119974,
+        "count": 3,
+        "comment": "Two-Headed King Rex"
+       },
+       {
+        "id": 1784619,
+        "count": 3,
+        "comment": "Uraby"
+       },
+       {
+        "id": 79870141,
+        "count": 2,
+        "comment": "Mad Sword Beast"
+       },
+       {
+        "id": 1435851,
+        "count": 3,
+        "comment": "Dragon Treasure"
+       },
+       {
+        "id": 83764718,
+        "count": 1,
+        "comment": "Monster Reborn"
+       },
+       {
+        "id": 55144522,
+        "count": 1,
+        "comment": "Pot of Greed"
+       },
+       {
+        "id": 23424603,
+        "count": 3,
+        "comment": "Wasteland"
+       },
+       {
+        "id": 73628505,
+        "count": 2,
+        "comment": "Terraforming"
+       },
+       {
+        "id": 97077563,
+        "count": 1,
+        "comment": "Call of the Haunted; no lugar de Monster Reborn (cópia acima do limite) (fora da era)"
+       }
+      ],
+      "extra": []
+     }
+    },
+    {
+     "key": "mako",
+     "name": "Mako Tsunami",
+     "isBoss": false,
+     "scene": {
+      "bg": "praia-ilha",
+      "place": "Praia da ilha"
+     },
+     "signatureCard": {
+      "id": 3643300,
+      "comment": "The Legendary Fisherman"
+     },
+     "bond": false,
+     "deck": {
+      "name": "Mako Tsunami Character Deck",
+      "main": [
+       {
+        "id": 67371383,
+        "count": 2,
+        "comment": "Amphibian Beast"
+       },
+       {
+        "id": 43793530,
+        "count": 1,
+        "comment": "Giga Gagagigo"
+       },
+       {
+        "id": 76634149,
+        "count": 1,
+        "comment": "Kairyu-Shin"
+       },
+       {
+        "id": 49003308,
+        "count": 2,
+        "comment": "Gagagigo; no lugar de Gogiga Gagagigo (fora da era)"
+       },
+       {
+        "id": 23771716,
+        "count": 1,
+        "comment": "7 Colored Fish"
+       },
+       {
+        "id": 58831685,
+        "count": 1,
+        "comment": "Giant Red Seasnake"
+       },
+       {
+        "id": 13429800,
+        "count": 2,
+        "comment": "Great White"
+       },
+       {
+        "id": 14851496,
+        "count": 3,
+        "comment": "Jellyfish"
+       },
+       {
+        "id": 77456781,
+        "count": 2,
+        "comment": "Fiend Kraken"
+       },
+       {
+        "id": 31987274,
+        "count": 1,
+        "comment": "Flying Fish"
+       },
+       {
+        "id": 63120904,
+        "count": 2,
+        "comment": "Orca Mega-Fortress of Darkness"
+       },
+       {
+        "id": 3643300,
+        "count": 1,
+        "comment": "The Legendary Fisherman"
+       },
+       {
+        "id": 64342551,
+        "count": 1,
+        "comment": "Amphibious Bugroth MK-3"
+       },
+       {
+        "id": 90337190,
+        "count": 2,
+        "comment": "Torpedo Fish"
+       },
+       {
+        "id": 95614612,
+        "count": 2,
+        "comment": "Cannonball Spear Shellfish"
+       },
+       {
+        "id": 62337487,
+        "count": 1,
+        "comment": "Fortress Whale"
+       },
+       {
+        "id": 22702055,
+        "count": 3,
+        "comment": "Umi; +1 no lugar de A Legendary Ocean; +1 no lugar de Lemuria, the Forgotten City"
+       },
+       {
+        "id": 19827717,
+        "count": 1,
+        "comment": "Return of the Doomed"
+       },
+       {
+        "id": 96947648,
+        "count": 1,
+        "comment": "Salvage"
+       },
+       {
+        "id": 73628505,
+        "count": 1,
+        "comment": "Terraforming"
+       },
+       {
+        "id": 77454922,
+        "count": 1,
+        "comment": "Fortress Whale's Oath"
+       },
+       {
+        "id": 18605135,
+        "count": 2,
+        "comment": "Tornado Wall"
+       },
+       {
+        "id": 77414722,
+        "count": 1,
+        "comment": "Magic Jammer"
+       },
+       {
+        "id": 19252988,
+        "count": 1,
+        "comment": "Trap Jammer"
+       },
+       {
+        "id": 62279055,
+        "count": 1,
+        "comment": "Magic Cylinder"
+       },
+       {
+        "id": 44095762,
+        "count": 1,
+        "comment": "Mirror Force"
+       },
+       {
+        "id": 53582587,
+        "count": 1,
+        "comment": "Torrential Tribute"
+       },
+       {
+        "id": 12607053,
+        "count": 1,
+        "comment": "Waboku"
+       }
+      ],
+      "extra": []
+     }
+    },
+    {
+     "key": "keith",
+     "name": "Bandit Keith",
+     "isBoss": false,
+     "scene": {
+      "bg": "caverna-ilha",
+      "place": "Caverna da ilha"
+     },
+     "signatureCard": {
+      "id": 81480460,
+      "comment": "Barrel Dragon"
+     },
+     "bond": false,
+     "deck": {
+      "name": "Bandit Keith's Duelist Kingdom Deck",
+      "main": [
+       {
+        "id": 50705071,
+        "count": 1,
+        "comment": "Metalzoa"
+       },
+       {
+        "id": 24311372,
+        "count": 1,
+        "comment": "Zoa"
+       },
+       {
+        "id": 81480460,
+        "count": 1,
+        "comment": "Barrel Dragon"
+       },
+       {
+        "id": 87322377,
+        "count": 1,
+        "comment": "Launcher Spider"
+       },
+       {
+        "id": 24433920,
+        "count": 1,
+        "comment": "Pendulum Machine"
+       },
+       {
+        "id": 3797883,
+        "count": 1,
+        "comment": "Slot Machine"
+       },
+       {
+        "id": 39239728,
+        "count": 1,
+        "comment": "Royal Guard"
+       },
+       {
+        "id": 73911410,
+        "count": 1,
+        "comment": "Sword Slasher"
+       },
+       {
+        "id": 49587396,
+        "count": 1,
+        "comment": "Ancient Tool"
+       },
+       {
+        "id": 38116136,
+        "count": 1,
+        "comment": "Machine Attacker"
+       },
+       {
+        "id": 19737320,
+        "count": 1,
+        "comment": "Gatekeeper"
+       },
+       {
+        "id": 33621868,
+        "count": 1,
+        "comment": "Giganto"
+       },
+       {
+        "id": 58314394,
+        "count": 3,
+        "comment": "Ground Attacker Bugroth"
+       },
+       {
+        "id": 26302522,
+        "count": 3,
+        "comment": "Blast Sphere"
+       },
+       {
+        "id": 75559356,
+        "count": 3,
+        "comment": "Cyber Soldier of Darkworld"
+       },
+       {
+        "id": 48094997,
+        "count": 2,
+        "comment": "Battle Footballer"
+       },
+       {
+        "id": 29172562,
+        "count": 2,
+        "comment": "Steel Ogre Grotto #1"
+       },
+       {
+        "id": 55444629,
+        "count": 2,
+        "comment": "Lesser Dragon"
+       },
+       {
+        "id": 86198326,
+        "count": 3,
+        "comment": "7 Completed"
+       },
+       {
+        "id": 63102017,
+        "count": 2,
+        "comment": "Stop Defense"
+       },
+       {
+        "id": 83764718,
+        "count": 1,
+        "comment": "Monster Reborn"
+       },
+       {
+        "id": 55144522,
+        "count": 1,
+        "comment": "Pot of Greed"
+       },
+       {
+        "id": 68540058,
+        "count": 2,
+        "comment": "Metalmorph"
+       },
+       {
+        "id": 80987696,
+        "count": 1,
+        "comment": "Time Machine"
+       },
+       {
+        "id": 24094653,
+        "count": 1,
+        "comment": "Polymerization"
+       },
+       {
+        "id": 97077563,
+        "count": 1,
+        "comment": "Call of the Haunted; no lugar de Monster Reborn (cópia acima do limite) (fora da era)"
+       },
+       {
+        "id": 79571449,
+        "count": 1,
+        "comment": "Graceful Charity; no lugar de Pot of Greed (cópia acima do limite) (fora da era)"
+       }
+      ],
+      "extra": [
+       {
+        "id": 9293977,
+        "count": 1,
+        "comment": "Metal Dragon"
+       }
+      ]
+     }
+    },
+    {
+     "key": "mai",
+     "name": "Mai Valentine",
+     "isBoss": false,
+     "scene": {
+      "bg": "conves-navio",
+      "place": "Convés do navio"
+     },
+     "signatureCard": {
+      "id": 12206212,
+      "comment": "Harpie Lady Sisters"
+     },
+     "bond": false,
+     "deck": {
+      "name": "Kujaku Mai - Battle City",
+      "main": [
+       {
+        "id": 90219263,
+        "count": 2,
+        "comment": "Elegant Egotist"
+       },
+       {
+        "id": 67987611,
+        "count": 2,
+        "comment": "Amazoness Archers"
+       },
+       {
+        "id": 76812113,
+        "count": 3,
+        "comment": "Harpie Lady; no lugar de Cyber Harpie Lady (fora da era); no lugar de Cyber Harpie Lady (fora da era)"
+       },
+       {
+        "id": 65475294,
+        "count": 1,
+        "comment": "The Unfriendly Amazon"
+       },
+       {
+        "id": 47480070,
+        "count": 1,
+        "comment": "Amazoness Paladin"
+       },
+       {
+        "id": 45547649,
+        "count": 3,
+        "comment": "Birdface; no lugar de Amazoness Trainee (fora da era); no lugar de Harpie Dancer (fora da era)"
+       },
+       {
+        "id": 12800777,
+        "count": 1,
+        "comment": "Garuda the Wind Spirit"
+       },
+       {
+        "id": 30914564,
+        "count": 1,
+        "comment": "Sacred Crane"
+       },
+       {
+        "id": 29654737,
+        "count": 1,
+        "comment": "Amazoness Chain Master"
+       },
+       {
+        "id": 55821894,
+        "count": 1,
+        "comment": "Amazoness Fighter"
+       },
+       {
+        "id": 94004268,
+        "count": 1,
+        "comment": "Amazoness Swords Woman"
+       },
+       {
+        "id": 91869203,
+        "count": 1,
+        "comment": "Amazoness Archer"
+       },
+       {
+        "id": 73574678,
+        "count": 1,
+        "comment": "Amazoness Blowpiper"
+       },
+       {
+        "id": 71283180,
+        "count": 1,
+        "comment": "Tornado Bird"
+       },
+       {
+        "id": 12206212,
+        "count": 2,
+        "comment": "Harpie Lady Sisters"
+       },
+       {
+        "id": 18144506,
+        "count": 1,
+        "comment": "Harpie's Feather Duster"
+       },
+       {
+        "id": 55144522,
+        "count": 1,
+        "comment": "Pot of Greed"
+       },
+       {
+        "id": 79571449,
+        "count": 1,
+        "comment": "Graceful Charity"
+       },
+       {
+        "id": 81325903,
+        "count": 1,
+        "comment": "Amazoness Spellcaster"
+       },
+       {
+        "id": 83764718,
+        "count": 1,
+        "comment": "Monster Reborn"
+       },
+       {
+        "id": 81510157,
+        "count": 1,
+        "comment": "Soul Taker"
+       },
+       {
+        "id": 5318639,
+        "count": 1,
+        "comment": "Mystical Space Typhoon"
+       },
+       {
+        "id": 63224564,
+        "count": 1,
+        "comment": "Cyber Shield"
+       },
+       {
+        "id": 98252586,
+        "count": 1,
+        "comment": "Follow Wind"
+       },
+       {
+        "id": 99597615,
+        "count": 1,
+        "comment": "Malevolent Nuzzler"
+       },
+       {
+        "id": 32437102,
+        "count": 1,
+        "comment": "Dragonic Attack"
+       },
+       {
+        "id": 45778932,
+        "count": 1,
+        "comment": "Rising Air Current"
+       },
+       {
+        "id": 58621589,
+        "count": 1,
+        "comment": "Shadow of Eyes"
+       },
+       {
+        "id": 80193355,
+        "count": 1,
+        "comment": "Dramatic Rescue"
+       },
+       {
+        "id": 22359980,
+        "count": 1,
+        "comment": "Mirror Wall"
+       },
+       {
+        "id": 85742772,
+        "count": 1,
+        "comment": "Gravity Bind"
+       },
+       {
+        "id": 52040216,
+        "count": 1,
+        "comment": "Harpie's Pet Dragon"
+       },
+       {
+        "id": 12493482,
+        "count": 1,
+        "comment": "Dunames Dark Witch"
+       }
+      ],
+      "extra": []
+     }
+    },
+    {
+     "key": "pegasus",
+     "name": "Pegasus",
+     "isBoss": true,
+     "scene": {
+      "bg": "castelo-pegasus",
+      "place": "Castelo do Pegasus"
+     },
+     "signatureCard": {
+      "id": 15259703,
+      "comment": "Toon World"
+     },
+     "bond": false,
+     "deck": {
+      "name": "Pegasus anime deck",
+      "main": [
+       {
+        "id": 27125110,
+        "count": 1,
+        "comment": "Thousand-Eyes Idol"
+       },
+       {
+        "id": 59383041,
+        "count": 1,
+        "comment": "Toon Alligator"
+       },
+       {
+        "id": 91842653,
+        "count": 1,
+        "comment": "Toon Summoned Skull"
+       },
+       {
+        "id": 65458948,
+        "count": 1,
+        "comment": "Toon Mermaid"
+       },
+       {
+        "id": 16392422,
+        "count": 2,
+        "comment": "Toon Masked Sorcerer"
+       },
+       {
+        "id": 15270885,
+        "count": 3,
+        "comment": "Toon Goblin Attack Force"
+       },
+       {
+        "id": 42386471,
+        "count": 3,
+        "comment": "Toon Gemini Elf"
+       },
+       {
+        "id": 90960358,
+        "count": 1,
+        "comment": "Toon Dark Magician Girl"
+       },
+       {
+        "id": 79875176,
+        "count": 1,
+        "comment": "Toon Cannon Soldier"
+       },
+       {
+        "id": 53183600,
+        "count": 1,
+        "comment": "Blue-Eyes Toon Dragon"
+       },
+       {
+        "id": 95492061,
+        "count": 2,
+        "comment": "Manju of the Ten Thousand Hands; no lugar de Toon World (cópia acima do limite) (fora da era)"
+       },
+       {
+        "id": 64631466,
+        "count": 1,
+        "comment": "Relinquished"
+       },
+       {
+        "id": 82878489,
+        "count": 1,
+        "comment": "Shine Palace"
+       },
+       {
+        "id": 23265313,
+        "count": 1,
+        "comment": "Cost Down"
+       },
+       {
+        "id": 66788016,
+        "count": 1,
+        "comment": "Fissure"
+       },
+       {
+        "id": 19613556,
+        "count": 1,
+        "comment": "Heavy Storm"
+       },
+       {
+        "id": 83764718,
+        "count": 1,
+        "comment": "Monster Reborn"
+       },
+       {
+        "id": 24094653,
+        "count": 1,
+        "comment": "Polymerization"
+       },
+       {
+        "id": 55144522,
+        "count": 1,
+        "comment": "Pot of Greed"
+       },
+       {
+        "id": 70828912,
+        "count": 1,
+        "comment": "Premature Burial"
+       },
+       {
+        "id": 45986603,
+        "count": 1,
+        "comment": "Snatch Steal"
+       },
+       {
+        "id": 89997728,
+        "count": 3,
+        "comment": "Toon Table of Contents"
+       },
+       {
+        "id": 15259703,
+        "count": 3,
+        "comment": "Toon World"
+       },
+       {
+        "id": 41420027,
+        "count": 1,
+        "comment": "Solemn Judgment"
+       },
+       {
+        "id": 43509019,
+        "count": 1,
+        "comment": "Toon Defense"
+       },
+       {
+        "id": 38369349,
+        "count": 2,
+        "comment": "Manga Ryu-Ran"
+       },
+       {
+        "id": 79571449,
+        "count": 1,
+        "comment": "Graceful Charity; no lugar de Card of Sanctity (fora da era)"
+       },
+       {
+        "id": 4031928,
+        "count": 1,
+        "comment": "Change of Heart; Change of Heart no lugar do Black Illusion Ritual (a CPU não monta o Ritual)"
+       },
+       {
+        "id": 44095762,
+        "count": 1,
+        "comment": "Mirror Force; Mirror Force no lugar do Ultimate Offering"
+       },
+       {
+        "id": 12580477,
+        "count": 1,
+        "comment": "Raigeki; Raigeki no lugar de um Jar of Greed"
+       },
+       {
+        "id": 53129443,
+        "count": 1,
+        "comment": "Dark Hole; Dark Hole no lugar de um Jar of Greed"
+       }
+      ],
+      "extra": [
+       {
+        "id": 63519819,
+        "count": 1,
+        "comment": "Thousand-Eyes Restrict"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "number": 3,
+   "name": "Batalha da Cidade",
+   "firstDay": 15,
+   "lastDay": 22,
+   "packs": [],
+   "duelists": []
+  },
+  {
+   "number": 4,
+   "name": "Finais",
+   "firstDay": 23,
+   "lastDay": 30,
+   "packs": [],
+   "duelists": []
+  }
+ ]
 }

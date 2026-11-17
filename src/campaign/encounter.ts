@@ -1,10 +1,11 @@
 /** Qual fala toca no encontro: saudação, antes e depois do duelo (`Campaign+Dialogue` do nativo). */
 import { BALANCE } from './balance';
 import { bondEvent, eventScenes, openBondEvent } from './bond';
-import { CAMPAIGN, DIALOGUE, type Scene } from './data/types';
+import { DIALOGUE, duelistByKey, type Scene } from './data/types';
 import { seedPosition } from './map';
 import { PURPOSE, generator, randInt } from './rng';
 import type { CampaignState, DuelKind } from './state';
+import { bossBeaten, tierOf } from './tiers';
 
 /** Os "momentos" entram no sorteio da variante (dois momentos do mesmo período não saem sempre iguais). */
 const MOMENT = { greeting: 0, beforeDuel: 1, playerWins: 2, playerLoses: 3, close: 100, friendship: 101, romance: 102 } as const;
@@ -15,8 +16,8 @@ function variant(s: CampaignState, key: string, scenes: Scene[], moment: number)
   return scenes[randInt(g, scenes.length)];
 }
 
-const bossBeaten = (s: CampaignState) => s.defeatedBosses.includes(CAMPAIGN.tier.number);
-const isBoss = (key: string) => CAMPAIGN.tier.duelists.find((d) => d.key === key)?.isBoss ?? false;
+/** Chefe ainda não vencido (a entrada e a derrota de chefe só tocam até a primeira vitória). */
+const unbeatenBoss = (s: CampaignState, key: string) => !!duelistByKey(key)?.isBoss && !bossBeaten(s, tierOf(key));
 
 export type GreetingBand = 'close' | 'friendship' | 'romance' | null;
 
@@ -27,10 +28,12 @@ export function greetingBand(s: CampaignState, key: string): GreetingBand {
   return (s.affinity[key] ?? 0) >= BALANCE.closeGreetingHearts * BALANCE.pointsPerHeart ? 'close' : null;
 }
 
-export function greetingScene(s: CampaignState, key: string): Scene {
+/** A saudação: a de primeiro encontro (quem tem), senão a da faixa do laço, senão a comum. */
+export function greetingScene(s: CampaignState, key: string, first = !s.met.includes(key)): Scene {
   const dl = DIALOGUE.duelists[key];
+  if (first && dl.firstGreeting?.length) return variant(s, key, dl.firstGreeting, MOMENT.greeting);
   const band = greetingBand(s, key);
-  const banded = band ? dl.bondGreetings[band] : undefined;
+  const banded = band ? dl.bondGreetings?.[band] : undefined;
   if (band && banded?.length) return variant(s, key, banded, MOMENT[band]);
   return variant(s, key, dl.greeting, MOMENT.greeting);
 }
@@ -48,7 +51,7 @@ export function preDuelScene(s: CampaignState, key: string, kind: DuelKind): Sce
   const ev = eventFor(s, key, kind);
   if (ev) return ev.before;
   const dl = DIALOGUE.duelists[key];
-  if (isBoss(key) && !bossBeaten(s) && dl.bossEntrance) return dl.bossEntrance;
+  if (unbeatenBoss(s, key) && dl.bossEntrance) return dl.bossEntrance;
   return variant(s, key, dl.beforeDuel, MOMENT.beforeDuel);
 }
 
@@ -63,7 +66,7 @@ export function postDuelScene(s: CampaignState, key: string, result: DuelResult,
   if (result !== 'win') return variant(s, key, dl.playerLoses, MOMENT.playerLoses);
   const ev = eventFor(s, key, kind);
   if (ev) return ev.after;
-  if (isBoss(key) && !bossBeaten(s) && dl.bossDefeat) return dl.bossDefeat;
+  if (unbeatenBoss(s, key) && dl.bossDefeat) return dl.bossDefeat;
   if ((s.victories[key] ?? 0) === 0 && dl.firstWin?.length) return dl.firstWin;
   return variant(s, key, dl.playerWins, MOMENT.playerWins);
 }

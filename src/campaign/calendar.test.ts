@@ -1,6 +1,9 @@
 import { describe, expect, it } from 'vitest';
 import { advancePeriod, daysLeft } from './calendar';
-import { BOSS, REGULARS, isBossAvailable, present, tierProgress } from './map';
+import { isBossAvailable, present, tierProgress } from './map';
+import { FIRST_TIER, bossOf, regularsOf } from './tiers';
+
+const REGULARS = regularsOf(FIRST_TIER), BOSS = bossOf(FIRST_TIER);
 import { generator, mix, shuffle } from './rng';
 import { clone, newCampaign, type CampaignState, type Period } from './state';
 
@@ -48,8 +51,8 @@ describe('calendário', () => {
 });
 
 describe('mapa', () => {
-  it('de 2 a 4 comuns por período, sempre os mesmos para o mesmo dia e período', () => {
-    for (let day = 1; day <= 30; day++) for (const p of [0, 1, 2] as Period[]) {
+  it('no Tier 1: de 2 a 4 comuns por período, sempre os mesmos para o mesmo dia e período', () => {
+    for (let day = 1; day <= 7; day++) for (const p of [0, 1, 2] as Period[]) {
       const here = present(at(day, p));
       expect(here.length).toBeGreaterThanOrEqual(2);
       expect(here.length).toBeLessThanOrEqual(4);

@@ -28,8 +28,7 @@ try {
   await page.fill('input[placeholder="Seu nome"]', 'Offline');
   await btn('Começar').click();
   await page.locator('.titleplay').click();
-  await page.locator('.mappin.shop').click({ force: true });
-  await btn('Entrar na loja').click();
+  await page.locator('.mapnav button', { hasText: 'Loja' }).click();
   await btn('Abrir').click();
   await page.waitForTimeout(2500);
   const shop = await arts('.cardgrid');
@@ -50,8 +49,7 @@ try {
   await ctx.setOffline(true);
   await page.reload();
   await page.locator('.titleplay').click();
-  await page.locator('.mappin:not(.empty):not(.shop)').first().click({ force: true });
-  await page.locator('.placepanel .person').first().click();
+  await page.locator('.pinhead:not(.boss)').first().click({ force: true });
   await btn('Pular').click();
   await page.locator('.scene-menu button', { hasText: /^\s*Duelar\s*$/ }).click();
   await btn('Pular').click();

@@ -19,12 +19,11 @@ import { debugPreset } from './campaign/debug';
 import type { Scene } from './campaign/data/types';
 import { duelist as duelistData, duelistDeck } from './campaign/decks';
 import { abandonDuel, beginDuel, meet } from './campaign/flow';
-import { BOSS, locationOf } from './campaign/map';
 import { packByKey } from './campaign/packs';
 import { applyDuel, BONUS_NAMES, type DuelReward } from './campaign/rewards';
 import { newSeed } from './campaign/rng';
 import { activeDeckOf, newCampaign, PERIOD_KEYS, type CampaignState, type DuelKind } from './campaign/state';
-import { placeBg } from './screens/campaign/assets';
+import { sceneBg } from './screens/campaign/assets';
 import { CHAR_ID, type CharInfo } from './screens/campaign/chars';
 import { Dialogue } from './screens/campaign/Dialogue';
 import { EncounterScreen } from './screens/campaign/EncounterScreen';
@@ -34,7 +33,6 @@ import { StatusScreen } from './screens/campaign/StatusScreen';
 import { CampaignEnd } from './screens/campaign/CampaignEnd';
 
 const BASE = import.meta.env.BASE_URL;
-const BOSS_KEY = BOSS?.key;
 
 /** A faixa de cada tela (a do fim do duelo, vitória ou derrota, quem escolhe é o `DuelScreen`). */
 function trackFor(s: Screen): Track {
@@ -42,7 +40,7 @@ function trackFor(s: Screen): Track {
     case 'map': case 'decks': case 'bonds': case 'status': case 'end': return 'map';
     case 'shop': return 'shop';
     case 'encounter': case 'scene': return 'encounter';
-    case 'duel': return s.duelist === BOSS_KEY ? 'boss-duel' : 'duel';
+    case 'duel': return duelistData(s.duelist).isBoss ? 'boss-duel' : 'duel';
     default: return 'title';
   }
 }
@@ -51,7 +49,7 @@ type Screen =
   | { v: 'title' } | { v: 'profile' } | { v: 'settings' } | { v: 'nodeck' }
   | { v: 'map' } | { v: 'shop' } | { v: 'bonds' } | { v: 'status' } | { v: 'end' } | { v: 'resume' }
   | { v: 'decks'; back: Screen }
-  | { v: 'encounter'; duelist: string; after?: Scene }
+  | { v: 'encounter'; duelist: string; after?: Scene; first?: boolean }
   | { v: 'duel'; duelist: string; kind: DuelKind }
   /** Uma cena avulsa (rever evento, epílogo) no lugar do duelista; depois, `then`. */
   | { v: 'scene'; duelist: string; scene: Scene; then: Screen };
@@ -175,8 +173,8 @@ export function App() {
       const { duelist, scene, then } = screen;
       return (
         <Dialogue key={`${duelist}:${scene.length}`} scene={scene} chars={chars} profile={profile} onDone={() => go(then)}
-          top={{ title: locationOf(duelistData(duelist).location)?.name ?? '', subtitle: duelistData(duelist).name }}
-          stage={{ bg: placeBg(duelistData(duelist).location), period: PERIOD_KEYS[c.period], duelist }} />
+          top={{ title: duelistData(duelist).scene.place, subtitle: duelistData(duelist).name }}
+          stage={{ bg: sceneBg(duelistData(duelist).scene.bg), period: PERIOD_KEYS[c.period], duelist }} />
       );
     }
     case 'end': {
@@ -201,7 +199,7 @@ export function App() {
     case 'encounter':
       return (
         <EncounterScreen key={`${screen.duelist}:${screen.after ? 'after' : 'greet'}`} s={c} duelist={screen.duelist} chars={chars} profile={profile}
-          afterDuel={screen.after} onChange={setCampaign}
+          afterDuel={screen.after} firstMeeting={screen.first} onChange={setCampaign}
           onLeave={screen.after ? afterEncounter : toMap}
           onDuel={(kind) => {
             const problems = validateDeck(activeDeckOf(c), data.cards, c.collection);
@@ -247,7 +245,7 @@ export function App() {
     return (
       <MapScreen s={c!} onMenu={toTitle} onShop={() => go({ v: 'shop' })} onDecks={() => go({ v: 'decks', back: { v: 'map' } })}
         onBonds={() => go({ v: 'bonds' })} onStatus={() => go({ v: 'status' })}
-        onMeet={(k) => { setCampaign(meet(c!, k)); go({ v: 'encounter', duelist: k }); }} />
+        onMeet={(k) => { setCampaign(meet(c!, k)); go({ v: 'encounter', duelist: k, first: !c!.met.includes(k) }); }} />
     );
   }
 }

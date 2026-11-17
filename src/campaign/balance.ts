@@ -1,24 +1,27 @@
-/** Os números da campanha, os mesmos do `CampaignBalance` do nativo (série Duel Monsters, Tier 1). */
+/** Os números da campanha: os do `CampaignBalance` do nativo (série Duel Monsters, Tier 1) e os dos tiers seguintes. */
 export const BALANCE = {
   days: 30,
   /** Duelistas comuns por período (limitado aos que existem). */
   opponentsMin: 2,
   opponentsMax: 4,
+  /** Amigos do Tier 1 por período a partir do Tier 2. */
+  friendsMin: 1,
+  friendsMax: 2,
 
-  /** DP de uma vitória contra o Tier 1. */
-  baseDP: 300,
+  /** DP de uma vitória pelo tier do oponente (não pelo tier atual). */
+  baseDPByTier: { 1: 300, 2: 400, 3: 500, 4: 600 } as Record<number, number>,
+  /** Derrota, empate ou desistência: esta porcentagem da base do Tier 1 (60 DP), sem bônus. */
   healthyFinishThreshold: 50,
   healthyFinishBonus: 20,
   quickWinMaxTurns: 10,
   quickWinBonus: 20,
   flawlessBonus: 10,
   maxBonus: 50,
-  /** Derrota, empate ou desistência: esta porcentagem da base, sem bônus. */
   consolationRate: 20,
 
   commonsPerPack: 4,
   slotOdds: [['rare', 70], ['super', 20], ['ultra', 10]] as const,
-  packPrices: { lob: 150, mrd: 200, mrl: 200, psv: 225 } as Record<string, number>,
+  packPrices: { lob: 150, mrd: 200, mrl: 200, psv: 225, lon: 250, lod: 250, pgd: 250 } as Record<string, number>,
   characterPackPrice: 250,
   characterPackWins: 5,
   signatureWins: 10,

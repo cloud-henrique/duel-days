@@ -8,6 +8,9 @@ import { newCampaign, type CampaignState } from '../../campaign/state';
 import { ShopScreen } from '../ShopScreen';
 import { DeckBuilder } from '../DeckBuilder';
 import { expressionFor } from './chars';
+import { MapScreen } from './MapScreen';
+import { EncounterScreen } from './EncounterScreen';
+import { present } from '../../campaign/map';
 
 afterEach(cleanup);
 
@@ -33,10 +36,11 @@ describe('expressões', () => {
 describe('ShopScreen', () => {
   const base = (extra: Partial<CampaignState> = {}): CampaignState => ({ ...newCampaign(5), ...extra });
 
-  it('mostra os pacotes ganhos, as coleções com preço e a próxima bloqueada', () => {
-    render(<ShopScreen campaign={base({ day: 6 })} data={fakeData()} onChange={vi.fn()} onBack={vi.fn()} />);
+  it('mostra os pacotes ganhos, as coleções com preço, a próxima bloqueada e o próximo tier', () => {
+    render(<ShopScreen campaign={base({ day: 2 })} data={fakeData()} onChange={vi.fn()} onBack={vi.fn()} />);
     expect(screen.getByText('3 para abrir, sem custo')).toBeTruthy();
-    expect(screen.getByText('Spell Ruler').closest('section')!.textContent).toContain('Dia 11');
+    expect(screen.getByText('Spell Ruler').closest('section')!.textContent).toContain('Dia 3');
+    expect(screen.getByText('Labyrinth of Nightmare').closest('section')!.textContent).toContain('Tier 2 · dia 8');
     expect(screen.getByText('Ferro e Músculo').closest('section')!.textContent).toContain('0/5');
   });
 
@@ -63,5 +67,44 @@ describe('DeckBuilder na campanha', () => {
     const onChange = vi.fn();
     render(<DeckBuilder progress={s} data={fakeData()} onChange={onChange} onBack={vi.fn()} />);
     expect(screen.getByText(/cartas diferentes/).textContent).toContain(String(Object.keys(s.collection).length));
+  });
+});
+
+describe('MapScreen', () => {
+  const noop = () => {};
+  const props = { onShop: noop, onDecks: noop, onBonds: noop, onStatus: noop, onMenu: noop };
+
+  it('só as cabeças, sem nome de lugar; tocar numa cabeça vai direto ao encontro', () => {
+    const s = newCampaign(5);
+    const here = present(s);
+    const onMeet = vi.fn();
+    render(<MapScreen s={s} onMeet={onMeet} {...props} />);
+    expect(document.querySelectorAll('.pinhead')).toHaveLength(here.length);
+    expect(screen.queryByText('Fliperama')).toBeNull();
+    fireEvent.click(screen.getByRole('button', { name: `Encontrar ${here[0].name}` }));
+    expect(onMeet).toHaveBeenCalledWith(here[0].key);
+  });
+
+  it('chefe com coroa; a loja fica no atalho de baixo', () => {
+    const s = { ...newCampaign(5), victories: { tristan: 1, tea: 1, joey: 1, bakura: 1 } };
+    const onShop = vi.fn();
+    render(<MapScreen s={s} onMeet={vi.fn()} {...props} onShop={onShop} />);
+    expect(document.querySelector('.pinhead.boss svg')).toBeTruthy();
+    fireEvent.click(screen.getByRole('button', { name: /Loja/ }));
+    expect(onShop).toHaveBeenCalled();
+  });
+});
+
+describe('EncounterScreen sem laço', () => {
+  const profile = { name: 'Ana', avatar: 'x', address: 'she' as const };
+  it('Rex (Tier 2): cena da ilha, sem corações nem Conversar; depois da saudação, Duelar e Voltar', () => {
+    const s = { ...newCampaign(5), day: 9 };
+    render(<EncounterScreen s={s} duelist="rex" chars={{}} profile={profile} onChange={vi.fn()} onDuel={vi.fn()} onLeave={vi.fn()} />);
+    expect(screen.getByText('Reino dos Duelistas')).toBeTruthy();
+    expect(document.querySelector('.scene-hearts')).toBeNull();
+    fireEvent.click(screen.getByRole('button', { name: /Pular/ }));
+    expect(screen.queryByRole('button', { name: /Conversar/ })).toBeNull();
+    expect(screen.getByRole('button', { name: /Duelar/ })).toBeTruthy();
+    expect(screen.getByRole('button', { name: /Voltar ao mapa/ })).toBeTruthy();
   });
 });

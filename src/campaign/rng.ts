@@ -5,7 +5,7 @@
  */
 
 /** Para que serve o sorteio: entra na mistura para dois sorteios do mesmo dia não saírem iguais. */
-export const PURPOSE = { opponents: 1, dialogue: 2, conversation: 3, cardDrop: 4, pack: 5 } as const;
+export const PURPOSE = { opponents: 1, dialogue: 2, conversation: 3, cardDrop: 4, pack: 5, friends: 6, mapPoints: 7 } as const;
 
 /** Mistura de inteiros num hash de 32 bits (finalizador do Murmur3 a cada parte). */
 export function mix(...parts: number[]): number {

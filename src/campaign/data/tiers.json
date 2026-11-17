@@ -1,0 +1,41 @@
+{
+ "_comment": "Escrito à mão (change campanha-tiers). mapPoints: só na faixa central (x 0,36–0,64), a que aparece na tela do celular ao abrir o mapa. O copy_campaign_data.py junta com o Tier 1 do nativo e com o decks.json no campaign.json. scene.bg = public/campaign/bg-<bg>.jpg (scripts/copy_tfs_backgrounds.py).",
+ "mapPoints": [
+  { "x": 0.37, "y": 0.27 }, { "x": 0.46, "y": 0.24 }, { "x": 0.55, "y": 0.28 }, { "x": 0.635, "y": 0.25 },
+  { "x": 0.41, "y": 0.45 }, { "x": 0.5, "y": 0.42 }, { "x": 0.59, "y": 0.46 }, { "x": 0.36, "y": 0.62 },
+  { "x": 0.45, "y": 0.63 }, { "x": 0.54, "y": 0.6 }, { "x": 0.63, "y": 0.64 }, { "x": 0.645, "y": 0.43 }
+ ],
+ "tier1": {
+  "packs": [{ "key": "lob", "offset": 0 }, { "key": "mrd", "offset": 0 }, { "key": "mrl", "offset": 2 }, { "key": "psv", "offset": 4 }],
+  "scenes": {
+   "tristan": { "bg": "escola", "place": "Escola Domino" },
+   "tea": { "bg": "rua-domino", "place": "Rua de Domino" },
+   "joey": { "bg": "parque", "place": "Parque" },
+   "bakura": { "bg": "rua-arborizada", "place": "Rua arborizada" },
+   "yugi": { "bg": "loja-de-jogos", "place": "Loja de Jogos do Vovô" }
+  }
+ },
+ "tiers": [
+  {
+   "number": 2, "name": "Reino dos Duelistas", "firstDay": 8, "lastDay": 14,
+   "packs": [{ "key": "lon", "offset": 0 }, { "key": "lod", "offset": 2 }, { "key": "pgd", "offset": 4 }],
+   "duelists": [
+    { "key": "weevil", "name": "Weevil Underwood", "isBoss": false, "scene": { "bg": "floresta-ilha", "place": "Floresta da ilha" },
+      "signatureCard": { "id": 91512835, "comment": "Insect Queen" } },
+    { "key": "rex", "name": "Rex Raptor", "isBoss": false, "scene": { "bg": "ilha", "place": "Reino dos Duelistas" },
+      "signatureCard": { "id": 66516792, "comment": "Serpent Night Dragon" } },
+    { "key": "mako", "name": "Mako Tsunami", "isBoss": false, "scene": { "bg": "praia-ilha", "place": "Praia da ilha" },
+      "signatureCard": { "id": 3643300, "comment": "The Legendary Fisherman" } },
+    { "key": "keith", "name": "Bandit Keith", "isBoss": false, "scene": { "bg": "caverna-ilha", "place": "Caverna da ilha" },
+      "signatureCard": { "id": 81480460, "comment": "Barrel Dragon" } },
+    { "key": "mai", "name": "Mai Valentine", "isBoss": false, "scene": { "bg": "conves-navio", "place": "Convés do navio" },
+      "signatureCard": { "id": 12206212, "comment": "Harpie Lady Sisters" } },
+    { "key": "pegasus", "name": "Pegasus", "isBoss": true, "scene": { "bg": "castelo-pegasus", "place": "Castelo do Pegasus" },
+      "signatureCard": { "id": 15259703, "comment": "Toon World" } }
+   ]
+  },
+  { "number": 3, "name": "Batalha da Cidade", "firstDay": 15, "lastDay": 22, "packs": [], "duelists": [] },
+  { "number": 4, "name": "Finais", "firstDay": 23, "lastDay": 30, "packs": [], "duelists": [] }
+ ],
+ "packNames": { "lon": "Labyrinth of Nightmare", "lod": "Legacy of Darkness", "pgd": "Pharaonic Guardian" }
+}

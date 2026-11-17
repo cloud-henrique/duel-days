@@ -29,6 +29,8 @@ export interface CampaignState {
   victories: Record<string, number>;
   /** Números dos tiers cujo chefe já foi vencido. */
   defeatedBosses: number[];
+  /** Tier → dia em que o chefe dele foi vencido pela primeira vez (change `campanha-tiers`; saves antigos não têm). */
+  bossDefeatedOn?: Record<number, number>;
   /** Pacotes ganhos ainda fechados (chaves), abertos na loja. */
   unopenedPacks: string[];
   packsOpened: number;
@@ -58,7 +60,7 @@ export function newCampaign(seed: number): CampaignState {
     collection,
     decks: [{ id: STARTER_DECK_ID, name: CAMPAIGN.starterDeck.name, main: starter.main, extra: [] }],
     activeDeck: STARTER_DECK_ID,
-    victories: {}, defeatedBosses: [], unopenedPacks: [...CAMPAIGN.startingPacks], packsOpened: 0,
+    victories: {}, defeatedBosses: [], bossDefeatedOn: {}, unopenedPacks: [...CAMPAIGN.startingPacks], packsOpened: 0,
     wins: 0, losses: 0, totalDPEarned: 0, concluded: false,
     affinity: {}, bondEventsDone: {}, bondRoutes: {}, lastConversationDay: {}, lastBondEventLossDay: {}, met: [],
     pendingDuel: null,

@@ -1,7 +1,6 @@
 import { existsSync, readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import campaign from './data/campaign.json';
-import packs from './data/packs.json';
+import { CAMPAIGN as campaign, DUELISTS, PACKS as packs } from './data/types';
 
 // Os dados das cartas (public/data) ficam fora do git: sem eles (ex.: CI), o teste é pulado.
 const CARDS = 'public/data/cards.json';
@@ -17,7 +16,7 @@ describe.skipIf(!has)('dados da campanha contra a base de cartas', () => {
   it('todo id de deck, assinatura, presente do laço e pacote existe e não é ficha', () => {
     const ids = [
       ...campaign.starterDeck.main.map((e) => e.id),
-      ...campaign.tier.duelists.flatMap((d) => [
+      ...DUELISTS.flatMap((d) => [
         ...d.deck.main.map((e) => e.id), ...(d.deck.extra ?? []).map((e) => e.id),
         ...(['signatureCard', 'bondGift'] as const).flatMap((k) => (d[k] ? [d[k]!.id] : [])),
       ]),
@@ -26,8 +25,8 @@ describe.skipIf(!has)('dados da campanha contra a base de cartas', () => {
     expect(ids.filter((id) => !playable(id))).toEqual([]);
   });
 
-  it('os 4 pacotes de coleção do Tier 1 são as listas das caixas TCG', () => {
-    for (const key of ['lob', 'mrd', 'mrl', 'psv']) {
+  it('as coleções dos tiers (T1: LOB, MRD, MRL, PSV; T2: LON, LOD, PGD) são as listas das caixas TCG', () => {
+    for (const key of ['lob', 'mrd', 'mrl', 'psv', 'lon', 'lod', 'pgd']) {
       const pack = packs.find((p) => p.key === key)!;
       const box = boosters.find((b) => b.key === key)!;
       expect(pack.cards).toEqual(box.cards);

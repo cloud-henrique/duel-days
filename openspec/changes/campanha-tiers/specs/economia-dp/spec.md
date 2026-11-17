@@ -1,0 +1,80 @@
+# Spec Delta
+
+## MODIFIED Requirements
+
+### Requirement: DP por duelo
+Uma vitória SHALL pagar uma base pelo tier do oponente (Tier 1: 300 DP; Tier 2: 400 DP; Tier 3: 500 DP; Tier 4: 600 DP),
+mais os bônus que valerem:
+- +20% se o jogador terminou com ao menos metade dos LP;
+- +20% se venceu até o turno 10;
+- +10% se terminou sem perder LP.
+
+O bônus somado MUST NOT passar de +50%. O tier que vale é o do duelista, não o tier atual da campanha: vencer um amigo do
+Tier 1 durante o Tier 2 paga a base do Tier 1. Derrota, empate e desistência SHALL pagar 60 DP, sem bônus. O duelo contra
+o chefe e o duelo de evento seguem a mesma tabela. O fim do duelo SHALL mostrar a base e cada bônus.
+
+#### Scenario: Vitória rápida e limpa
+- **WHEN** o jogador vence o Joey no turno 7 sem perder LP
+- **THEN** ganha 450 DP (300 + 50%, no teto), com os três bônus listados
+
+#### Scenario: Vitória no Tier 2
+- **WHEN** o jogador vence o Rex Raptor no turno 12 terminando com 5000 LP
+- **THEN** ganha 480 DP (400 + 20%)
+
+#### Scenario: Derrota
+- **WHEN** o jogador perde um duelo
+- **THEN** ganha 60 DP
+
+### Requirement: Carta por vitória
+Cada vitória SHALL dar uma carta sorteada entre as cópias do deck do oponente. Ficam de fora as cartas limitadas e as
+que o jogador já tem em 3 cópias. Na 10ª vitória contra o mesmo duelista, o jogador SHALL ganhar também a
+carta-assinatura dele:
+- Tristan: Sengenjin;
+- Tea: Dark Magician Girl;
+- Joey: Red-Eyes Black Dragon;
+- Bakura: Man-Eater Bug;
+- Yugi: Dark Magician;
+- Weevil Underwood: Insect Queen;
+- Rex Raptor: Serpent Night Dragon;
+- Mako Tsunami: The Legendary Fisherman;
+- Bandit Keith: Barrel Dragon;
+- Mai Valentine: Harpie Lady Sisters;
+- Maximillion Pegasus: Toon World.
+
+A carta ganha SHALL aparecer no fim do duelo, com o selo NOVA se o jogador não a tinha.
+
+#### Scenario: Assinatura
+- **WHEN** o jogador vence o Joey pela 10ª vez
+- **THEN** o fim do duelo mostra a carta sorteada e o Red-Eyes Black Dragon
+
+#### Scenario: Assinatura do Tier 2
+- **WHEN** o jogador vence o Bandit Keith pela 10ª vez
+- **THEN** o fim do duelo mostra a carta sorteada e o Barrel Dragon
+
+### Requirement: Pacotes à venda
+A loja SHALL vender as coleções TCG da época, liberadas pelo tier e, dentro dele, em ordem cronológica a partir do dia em
+que o tier abriu:
+- Tier 1 (aberto no dia 1): LOB, 150 DP, e MRD, 200 DP, no dia 1; MRL, 200 DP, no dia 3; PSV, 225 DP, no dia 5;
+- Tier 2: LON, 250 DP, no dia em que o tier abre; LOD, 250 DP, 2 dias depois; PGD, 250 DP, 4 dias depois.
+
+As coleções dos tiers anteriores SHALL continuar à venda. Uma coleção do tier atual ainda fechada SHALL aparecer
+bloqueada com o dia em que abre; as do próximo tier SHALL aparecer bloqueadas com o nome do tier e o dia em que ele abre
+pelo prazo. Sem DP suficiente, o pacote SHALL dizer quantos DP faltam. Cada coleção SHALL poder ser comprada em pacote
+avulso ou na caixa de 20, com 10% de desconto arredondado para baixo na dezena.
+
+#### Scenario: Antes do dia 3
+- **WHEN** o jogador abre a loja no dia 2
+- **THEN** o MRL aparece bloqueado com "Dia 3"
+
+#### Scenario: Tier 2 adiantado
+- **WHEN** o jogador vence o Yugi no dia 5 e abre a loja na manhã do dia 6
+- **THEN** o LON está à venda, o LOD aparece bloqueado com "Dia 7" e o PGD com "Dia 9", e LOB, MRD, MRL e PSV continuam
+  à venda
+
+#### Scenario: Próximo tier na vitrine
+- **WHEN** o tier atual é o Tier 1 no dia 4
+- **THEN** LON, LOD e PGD aparecem bloqueados com "Tier 2 · dia 8"
+
+#### Scenario: Sem DP
+- **WHEN** o jogador tem 120 DP e olha o LOB
+- **THEN** o LOB diz que faltam 30 DP e não deixa comprar

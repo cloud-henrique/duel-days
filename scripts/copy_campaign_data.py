@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-"""Copia do app nativo (duel-academy) os dados da campanha Duel Monsters, Tier 1, para src/campaign/data/.
+"""Monta os dados da campanha em src/campaign/data/: o Tier 1 do app nativo (duel-academy) e os tiers seguintes do
+tiers.json (escrito à mão), com os decks do decks.json (as receitas escolhidas pelo proto/deck-pick.ts) e as falas do
+dialogue-tier2.json.
 
 São texto escrito para o nativo e ids de cartas (metadados), por isso versionados. Rode de novo quando o nativo mudar:
 
@@ -7,9 +9,9 @@ São texto escrito para o nativo e ids de cartas (metadados), por isso versionad
 
 Trocas de cartas que o motor da PWA não aguenta ficam em SWAPS (id do nativo → id da PWA), com o motivo.
 
-Os pacotes de coleção (LOB, MRD, MRL, PSV) levam as cartas e raridades das caixas TCG reais, de
-public/data/boosters.json (gerado por import_dm.py + export_data.py); nome, preço e dia continuam os do nativo. Os
-pacotes de personagem continuam vindo do nativo.
+As coleções de todos os tiers (LOB, MRD, MRL, PSV; LON, LOD, PGD…) levam as cartas e raridades das caixas TCG reais,
+de public/data/boosters.json (gerado por import_dm.py + export_data.py); o dia de cada uma é relativo à abertura do
+tier (`offset`, no tiers.json). Os pacotes de personagem continuam vindo do nativo (só o Tier 1 tem).
 """
 import json
 import sqlite3
@@ -48,38 +50,70 @@ def swap(entries):
     return [{**e, 'id': canon(e['id'])} for e in entries]
 
 
+def deck_of(key: str, decks: dict, native: dict | None):
+    """O deck da receita escolhida (decks.json); sem ela, o do nativo (Tier 1). Tiers novos exigem a receita."""
+    if key in decks:
+        d = decks[key]
+        return {'name': d['name'], 'main': swap(d['main']), 'extra': swap(d.get('extra', []))}
+    if native is None:
+        sys.exit(f'falta o deck de {key} em src/campaign/data/decks.json (rode proto/deck-pick.ts)')
+    return {**native, 'main': swap(native['main']), 'extra': swap(native.get('extra', []))}
+
+
 def main():
     camp = json.loads((SRC / 'campaign.json').read_text())
-    tier = camp['tiers'][0]
-    for d in tier['duelists']:
-        d['deck']['main'] = swap(d['deck']['main'])
-        d['deck']['extra'] = swap(d['deck'].get('extra', []))
+    extra_data = json.loads((OUT / 'tiers.json').read_text())
+    decks_file = OUT / 'decks.json'
+    decks = json.loads(decks_file.read_text())['decks'] if decks_file.exists() else {}
+
+    t1 = camp['tiers'][0]
+    for d in t1['duelists']:
+        d['deck'] = deck_of(d['key'], decks, d['deck'])
+        d['bond'] = True
+        d['scene'] = extra_data['tier1']['scenes'][d['key']]
+        d.pop('location', None)
         for k in ('signatureCard', 'bondGift'):
             if d.get(k):
                 d[k]['id'] = canon(d[k]['id'])
+    tier1 = {k: v for k, v in t1.items() if k != 'locations'}
+    tier1['packs'] = extra_data['tier1']['packs']
+    tiers = [tier1]
+    for t in extra_data['tiers']:
+        for d in t['duelists']:
+            d['bond'] = False
+            d['deck'] = deck_of(d['key'], decks, None)
+            d['signatureCard']['id'] = canon(d['signatureCard']['id'])
+        tiers.append(t)
     camp['starterDeck']['main'] = swap(camp['starterDeck']['main'])
-    campaign = {'starterDeck': camp['starterDeck'], 'startingPacks': camp['startingPacks'], 'tier': tier}
+    campaign = {'starterDeck': camp['starterDeck'], 'startingPacks': camp['startingPacks'],
+                'mapPoints': extra_data['mapPoints'], 'tiers': tiers}
 
     dialogue = json.loads((SRC / 'dialogue.json').read_text())
+    t2_lines = OUT / 'dialogue-tier2.json'
+    if t2_lines.exists():
+        dialogue['duelists'].update(json.loads(t2_lines.read_text())['duelists'])
+    for t in tiers[1:]:
+        for d in t['duelists']:
+            if d['key'] not in dialogue['duelists']:
+                sys.exit(f'faltam as falas de {d["key"]} em src/campaign/data/dialogue-tier2.json')
 
-    wanted = set()
-    for p in tier['packs']:
-        wanted.add(p if isinstance(p, str) else p['key'])
-    wanted |= {d['key'] for d in tier['duelists']}
-    packs = [p for p in json.loads((SRC / 'packs.json').read_text()) if p['key'] in wanted]
+    collections = [p['key'] for t in tiers for p in t['packs']]
+    native_packs = {p['key']: p for p in json.loads((SRC / 'packs.json').read_text())}
     boosters_file = ROOT / 'public/data/boosters.json'
     if not boosters_file.exists():
         sys.exit('falta public/data/boosters.json: rode scripts/import_dm.py e scripts/export_data.py')
     boosters = {b['key']: b for b in json.loads(boosters_file.read_text())}
-    for p in packs:
-        if not p.get('duelist'):
-            if p['key'] not in boosters:
-                sys.exit(f'caixa {p["key"]} sem lista em boosters.json')
-            p['cards'] = [{'id': c['id'], 'rarity': c['rarity']} for c in boosters[p['key']]['cards']]
-        p['cards'] = swap(p['cards'])
-    missing = wanted - {p['key'] for p in packs}
-    if missing:
-        sys.exit(f'pacotes não encontrados no nativo: {sorted(missing)}')
+    packs = []
+    for key in collections:
+        if key not in boosters:
+            sys.exit(f'caixa {key} sem lista em boosters.json')
+        base = native_packs.get(key) or {'key': key, 'name': extra_data['packNames'].get(key, boosters[key]['name'])}
+        packs.append({**base, 'cards': swap([{'id': c['id'], 'rarity': c['rarity']} for c in boosters[key]['cards']])})
+    for d in t1['duelists']:  # pacotes de personagem: só os do Tier 1, do nativo
+        p = native_packs.get(d['key'])
+        if p is None:
+            sys.exit(f'pacote de personagem {d["key"]} não encontrado no nativo')
+        packs.append({**p, 'cards': swap(p['cards'])})
 
     OUT.mkdir(parents=True, exist_ok=True)
     for name, data in (('campaign', campaign), ('dialogue', dialogue), ('packs', packs)):
@@ -88,7 +122,8 @@ def main():
         print('aviso: sem raw/data/BabelCDB/cards.cdb (npm run fetch-data); ids de arte alternativa não trocados')
     if canon_log:
         print('arte alternativa → original:', ', '.join(f'{a}→{b}' for a, b in sorted(canon_log.items())))
-    print(f'ok: {len(tier["duelists"])} duelistas, {len(packs)} pacotes → {OUT.relative_to(ROOT)}')
+    n = sum(len(t['duelists']) for t in tiers)
+    print(f'ok: {len(tiers)} tiers, {n} duelistas ({len(decks)} decks de receita), {len(packs)} pacotes → {OUT.relative_to(ROOT)}')
 
 
 if __name__ == '__main__':

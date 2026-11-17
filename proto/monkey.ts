@@ -5,7 +5,7 @@ import { readFileSync } from 'node:fs';
 import { cpuRespond, makeRng } from '../src/engine/cpu';
 import { DuelDriver } from '../src/engine/driver';
 import { openCore, type CardRecord } from '../src/engine/session';
-import { CAMPAIGN } from '../src/campaign/data/types';
+import { DUELISTS } from '../src/campaign/data/types';
 import { duelistDeck, starterDeck } from '../src/campaign/decks';
 import type { OcgMessage } from 'ocgcore-wasm';
 import { checkLocs, lastBoardMatches, turnTimer, LONG_TURN_MS } from './beat-check';
@@ -33,12 +33,12 @@ const checkOut = (out: DriverOut, where: string) => {
   if (ok === true) beat.boardOk++;
   else if (ok === false) { beat.boardErr++; if (beatErrors.length < 10) beatErrors.push(`${where}: último retrato difere do tabuleiro final`); }
 };
-for (const opp of CAMPAIGN.tier.duelists.map((d) => d.key)) {
+for (const opp of DUELISTS.map((d) => d.key)) {
   const foe = duelistDeck(opp);
   for (let i = 0; i < N; i++) {
     const seed = SEED0 + i;
     // Metade dos duelos com o deck inicial, metade com o deck de outro duelista (cobre as cartas dos dois lados).
-    const others = CAMPAIGN.tier.duelists.map((d) => d.key).filter((k) => k !== opp);
+    const others = DUELISTS.map((d) => d.key).filter((k) => k !== opp);
     const mine = i % 2 === 0 ? starterDeck() : duelistDeck(others[i % others.length]);
     const d = new DuelDriver(core, cards, (n) => scripts[n] ?? null, mine, foe, seed);
     const rng = makeRng(seed * 13);

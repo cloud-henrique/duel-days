@@ -62,8 +62,9 @@ describe('cartas por vitória', () => {
     const all = { tristan: 1, tea: 1, joey: 1, bakura: 1 };
     const s = { ...base({ victories: all }), day: 6 };
     const r = applyDuel(s, 'yugi', 'regular', { result: 'win', turns: 12, lifePoints: 100 });
-    expect(r.reward).toMatchObject({ defeatedBossForFirstTime: true, prizePack: 'mrd' });
-    expect(r.state.unopenedPacks.at(-1)).toBe('mrd');
+    // No dia 6, a coleção mais recente à venda é o PSV (chega no dia 5).
+    expect(r.reward).toMatchObject({ defeatedBossForFirstTime: true, prizePack: 'psv' });
+    expect(r.state.unopenedPacks.at(-1)).toBe('psv');
     expect(r.state.concluded).toBe(false);
     const late = applyDuel({ ...s, day: 9 }, 'yugi', 'regular', { result: 'win', turns: 12, lifePoints: 100 });
     expect(late.reward.prizePack).toBeNull();
@@ -87,11 +88,13 @@ describe('loja', () => {
     expect(boxPrice(packByKey('psv')!)).toBe(4050);
   });
 
-  it('no dia 6: LOB e MRD à venda e o MRL apagado com "Dia 11"; no dia 21, o PSV chega e é novo', () => {
+  it('no dia 2: LOB e MRD à venda, MRL "Dia 3", PSV "Dia 5" e o Tier 2 na vitrine; no dia 6, o PSV é novo', () => {
+    const d2 = collectionListing(base({ day: 2 }));
+    const tier2 = { kind: 'tier', tier: 2, day: 8 };
+    expect(d2.map((e) => [e.pack.key, e.lock])).toEqual([['lob', null], ['mrd', null], ['mrl', { kind: 'day', day: 3 }],
+      ['psv', { kind: 'day', day: 5 }], ['lon', tier2], ['lod', tier2], ['pgd', tier2]]);
     const d6 = collectionListing(base({ day: 6 }));
-    expect(d6.map((e) => [e.pack.key, e.lock])).toEqual([['lob', null], ['mrd', null], ['mrl', { kind: 'day', day: 11 }]]);
-    const d21 = collectionListing(base({ day: 21 }));
-    expect(d21.find((e) => e.pack.key === 'psv')).toMatchObject({ lock: null, isNew: true });
+    expect(d6.find((e) => e.pack.key === 'psv')).toMatchObject({ lock: null, isNew: true });
   });
 
   it('sem DP diz quanto falta e não compra', () => {

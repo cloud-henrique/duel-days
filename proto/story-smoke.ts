@@ -1,6 +1,8 @@
-// Percorre a campanha (change `campanha-dm`) pelo modelo puro, sem tela: muitas campanhas de 30 dias com resultados
+// Percorre a campanha (changes `campanha-dm` e `campanha-tiers`) pelo modelo puro, sem tela: muitas campanhas de 30 dias com resultados
 // sorteados, conversas, eventos de laço e as duas rotas. Confere que toda cena sai com falas, que todos os eventos e
-// rotas de todos os duelistas são alcançados, que o chefe aparece e é vencido e que a campanha termina no dia 30.
+// rotas de todos os duelistas são alcançados, que o chefe aparece e é vencido e que a campanha termina no dia 30. Conta
+// também os tiers abertos (pelo chefe ou pelo prazo), os chefes de cada tier vencidos, os pacotes-prêmio e quem do Tier 2
+// apareceu.
 // Uso: npx tsx proto/story-smoke.ts [campanhas=200]
 import { BALANCE } from '../src/campaign/balance';
 import {
@@ -14,11 +16,16 @@ import { openUnopened, buy, canBuy, collectionPacks } from '../src/campaign/pack
 import { applyDuel, type DuelOutcome } from '../src/campaign/rewards';
 import { generator, pick, randInt } from '../src/campaign/rng';
 import { newCampaign, type CampaignState, type Route } from '../src/campaign/state';
+import { TIERS } from '../src/campaign/data/types';
+import { currentTier, tierOf, tierOpenDay } from '../src/campaign/tiers';
 import { fillText } from '../src/campaign/text';
 
 const N = Number(process.argv[2] ?? 200);
 const seen = new Set<string>();
-let scenes = 0, bossWins = 0, ended = 0, epilogues = 0;
+let scenes = 0, bossWins = 0, ended = 0, epilogues = 0, prizes = 0;
+const tier2 = { chefe: 0, prazo: 0, nunca: 0 };
+const bossByTier: Record<number, number> = {};
+const metT2 = new Set<string>();
 const fail = (msg: string) => { throw new Error(msg); };
 const check = (scene: Scene, where: string) => {
   if (!scene.length) fail(`cena vazia: ${where}`);
@@ -36,6 +43,7 @@ for (let n = 0; n < N; n++) {
   while (!s.concluded) {
     if (++guard > 200) fail(`campanha ${n} não terminou`);
     const here = present(s);
+    for (const d of here) if (TIERS[1].duelists.some((x) => x.key === d.key)) metT2.add(d.key);
     if (!here.length) fail(`dia ${s.day} período ${s.period}: ninguém no mapa`);
     // Conversa com todo mundo que der (não gasta período).
     for (const d of here) {
@@ -68,7 +76,8 @@ for (let n = 0; n < N; n++) {
       : { result: pick(g, ['lose', 'lose', 'draw', 'forfeit'] as const)!, turns: 3 + randInt(g, 15), lifePoints: 0 };
     const r = applyDuel(s, foe.key, kind, o);
     check(r.after, `depois ${foe.key} ${o.result}`);
-    if (r.reward.defeatedBossForFirstTime) bossWins++;
+    if (r.reward.defeatedBossForFirstTime) { bossWins++; const t = tierOf(foe.key).number; bossByTier[t] = (bossByTier[t] ?? 0) + 1; }
+    if (r.reward.prizePack) prizes++;
     s = r.state;
     if (s.pendingDuel) fail('duelo pendente depois do resultado');
     // Compra o que der.
@@ -76,6 +85,9 @@ for (let n = 0; n < N; n++) {
   }
   if (s.day !== BALANCE.days || s.period !== 2) fail(`campanha ${n} terminou no dia ${s.day}`);
   ended++;
+  const open2 = tierOpenDay(s, 2);
+  if (open2 === null) tier2.nunca++; else if (open2 < TIERS[1].firstDay) tier2.chefe++; else tier2.prazo++;
+  if (currentTier(s).number !== 2) fail(`campanha ${n} terminou no tier ${currentTier(s).number}`);
   const ep = epilogue(s);
   if (ep) { check(ep.scene, `epílogo ${ep.duelist.key}`); epilogues++; seen.add(`${ep.duelist.key}:epilogo:${ep.route}`); }
 }
@@ -87,5 +99,9 @@ for (const k of keys) {
   for (const r of ['friendship', 'romance']) if (!seen.has(`${k}:rota:${r}`)) missing.push(`${k} rota ${r}`);
 }
 console.log(`${ended}/${N} campanhas até o dia 30 | ${scenes} cenas | chefe vencido em ${bossWins} | epílogos ${epilogues}`);
+console.log(`Tier 2 aberto pelo chefe em ${tier2.chefe}, pelo prazo em ${tier2.prazo}, nunca em ${tier2.nunca} | chefes vencidos por tier:`,
+  bossByTier, `| pacotes-prêmio ${prizes}`);
+const absent = TIERS[1].duelists.map((d) => d.key).filter((k) => !metT2.has(k));
+if (absent.length) { console.log('do Tier 2, nunca apareceram:', absent.join(', ')); process.exitCode = 1; }
 console.log(`eventos e rotas alcançados: ${seen.size}`, missing.length ? `| faltam: ${missing.join(', ')}` : '| todos');
 if (missing.length) process.exitCode = 1;

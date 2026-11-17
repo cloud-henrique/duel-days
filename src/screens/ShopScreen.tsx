@@ -13,8 +13,12 @@ import { Dp } from '../ui/Dp';
 import { packImage } from './campaign/assets';
 
 const TIER_CLASS: Record<Rarity, string> = { common: 'N', rare: 'R', super: 'SR', ultra: 'UR' };
-const lockText = (l: Lock) => (l.kind === 'day' ? `Dia ${l.day}` : `${l.wins}/${l.goal}`);
-const lockHint = (l: Lock) => (l.kind === 'day' ? `Chega à loja no dia ${l.day}` : `Vença ${l.name} ${l.goal} vezes`);
+const lockText = (l: Lock) =>
+  l.kind === 'day' ? `Dia ${l.day}` : l.kind === 'tier' ? `Tier ${l.tier} · dia ${l.day}` : `${l.wins}/${l.goal}`;
+const lockHint = (l: Lock) =>
+  l.kind === 'day' ? `Chega à loja no dia ${l.day}`
+  : l.kind === 'tier' ? `Chega com o Tier ${l.tier} (no dia ${l.day}, ou antes se vencer o chefe)`
+  : `Vença ${l.name} ${l.goal} vezes`;
 
 /**
  * Loja da campanha (Loja de Jogos do Vovô), com o visual de antes: pacotes ganhos para abrir, coleções à venda (e a

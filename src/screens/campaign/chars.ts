@@ -11,6 +11,13 @@ export const CHAR_ID: Record<string, string> = {
   bakura: 'bakura',
   yugi: 'yugi_muto',
   solomon: 'solomon_muto',
+  // Tier 2 (change `campanha-tiers`)
+  weevil: 'weevil_underwood',
+  rex: 'rex_raptor',
+  mako: 'mako_tsunami',
+  keith: 'bandit_keith',
+  mai: 'mai_valentine',
+  pegasus: 'maximillion_pegasus',
 };
 
 /** Expressão do nativo → a da PWA; sem par, cai para `neutral`. */
@@ -31,5 +38,6 @@ export function expressionFor(available: string[], e: Expression | string): stri
 /** A cor de quem fala (a do `DuelistStyle` do nativo): o filete da placa do nome e o brilho da caixa de fala. */
 export const SPEAKER_COLOR: Record<string, string> = {
   tristan: '#ff9500', tea: '#ff2d55', joey: '#34c759', bakura: '#bfd9ff', yugi: '#af52de', solomon: '#a2845e', player: '#2ab8ff',
+  weevil: '#8bc34a', rex: '#e0603a', mako: '#1e88e5', keith: '#b0b7c0', mai: '#c86bd8', pegasus: '#e8d27a',
 };
 export const speakerColor = (key: string) => SPEAKER_COLOR[key] ?? '#2ab8ff';

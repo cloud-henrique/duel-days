@@ -8,11 +8,10 @@ import type { Scene } from '../../campaign/data/types';
 import { greetingScene, preDuelScene } from '../../campaign/encounter';
 import { duelist as duelistData } from '../../campaign/decks';
 import { canDuel } from '../../campaign/flow';
-import { locationOf } from '../../campaign/map';
 import { PERIOD_KEYS, type CampaignState, type DuelKind, type Route } from '../../campaign/state';
 import type { Profile } from '../../story/profile';
 import { GameIcon } from '../../ui/icons';
-import { placeBg } from './assets';
+import { sceneBg } from './assets';
 import type { CharInfo } from './chars';
 import { Dialogue } from './Dialogue';
 import { Hearts } from './MapScreen';
@@ -28,28 +27,30 @@ type Phase =
   | { k: 'then'; scene: Scene };
 
 /**
- * O encontro com um duelista no lugar dele: saudação → menu (evento, Conversar, Duelar, Voltar) → conversa, fala de
+ * O encontro com um duelista na cena dele (fundo e lugar pelo tier): saudação → menu (evento, Conversar, Duelar, Voltar) → conversa, fala de
  * antes do duelo, ou a escolha amizade/romance. Depois de um duelo, o App abre o encontro direto na fala de depois.
  */
-export function EncounterScreen({ s, duelist, chars, profile, afterDuel, onChange, onDuel, onLeave }: {
+export function EncounterScreen({ s, duelist, chars, profile, afterDuel, firstMeeting, onChange, onDuel, onLeave }: {
   s: CampaignState; duelist: string; chars: Record<string, CharInfo>; profile: Profile;
   /** A fala de depois do duelo (o encontro abre nela). */
   afterDuel?: Scene;
+  /** Primeiro encontro com o duelista (o App já o marcou como conhecido): toca a saudação de primeiro encontro. */
+  firstMeeting?: boolean;
   onChange: (s: CampaignState) => void; onDuel: (kind: DuelKind) => void; onLeave: () => void;
 }) {
   const [phase, setPhase] = useState<Phase>(afterDuel ? { k: 'after', scene: afterDuel } : { k: 'greet' });
-  const [greeting] = useState(() => greetingScene(s, duelist));
+  const [greeting] = useState(() => greetingScene(s, duelist, firstMeeting));
   const data = duelistData(duelist);
   const name = data.name;
-  const loc = locationOf(data.location);
-  const stage = { bg: placeBg(loc?.key ?? 'escola'), period: PERIOD_KEYS[s.period], duelist };
+  const stage = { bg: sceneBg(data.scene.bg), period: PERIOD_KEYS[s.period], duelist };
   const wins = s.victories[duelist] ?? 0;
   // Voltar pela barra só fora das falas que levam ao duelo (como o nativo, que esconde o voltar nessas etapas).
   const canLeave = phase.k === 'greet' || phase.k === 'menu' || phase.k === 'topics' || phase.k === 'talk';
   const top = {
-    title: loc?.name ?? '',
+    title: data.scene.place,
     subtitle: `${name} · ${wins === 0 ? 'nenhuma vitória' : `${wins} vitória${wins > 1 ? 's' : ''}`}`,
-    hearts: hearts(s, duelist),
+    // Corações e conversa só para quem tem laço (os do Tier 1).
+    hearts: data.bond ? hearts(s, duelist) : undefined,
     onBack: canLeave ? onLeave : undefined,
   };
 
@@ -67,9 +68,11 @@ export function EncounterScreen({ s, duelist, chars, profile, afterDuel, onChang
           <GameIcon name="heart" size={20} /> {eventTitle(duelist, event)}
         </button>
       )}
-      <button className="hud-btn secondary" disabled={!canTalk(s, duelist)} onClick={() => setPhase({ k: 'topics' })}>
-        <GameIcon name="talk" size={20} /> {talkedToday(s, duelist) ? 'Conversar · volte amanhã' : 'Conversar'}
-      </button>
+      {data.bond && (
+        <button className="hud-btn secondary" disabled={!canTalk(s, duelist)} onClick={() => setPhase({ k: 'topics' })}>
+          <GameIcon name="talk" size={20} /> {talkedToday(s, duelist) ? 'Conversar · volte amanhã' : 'Conversar'}
+        </button>
+      )}
       <button className={`hud-btn ${event !== null || choicePending ? 'secondary' : 'primary'}`} disabled={!canDuel(s, duelist, 'regular')}
         onClick={() => setPhase({ k: 'pre', kind: 'regular', scene: preDuelScene(s, duelist, 'regular') })}>
         <GameIcon name="duel" size={20} /> Duelar

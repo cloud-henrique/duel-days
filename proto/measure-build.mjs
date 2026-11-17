@@ -1,11 +1,12 @@
 // Mede o build de produção: tamanho do bundle (por arquivo, bruto e gzip) e da pré-carga do PWA (por pasta).
-// Uso: npx vite build && node proto/measure-build.mjs [rótulo]   → acrescenta uma seção em openspec/changes/colecao-dm/medicoes.md
+// Uso: npx vite build && node proto/measure-build.mjs [rótulo] [arquivo.md]   → imprime; com o arquivo, acrescenta uma seção nele
+// (a colecao-dm usou openspec/changes/archive/2026-11-17-colecao-dm/medicoes.md).
 import { appendFileSync, existsSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
 import { gzipSync } from 'node:zlib';
 import { join } from 'node:path';
 
 const DIST = 'dist';
-const OUT = 'openspec/changes/colecao-dm/medicoes.md';
+const OUT = process.argv[3];
 const label = process.argv[2] ?? 'medição';
 const kb = (n) => `${(n / 1024).toFixed(1)} KB`;
 const mb = (n) => `${(n / 1024 / 1024).toFixed(2)} MB`;
@@ -36,6 +37,9 @@ const lines = [
   `\n### Pré-carga: ${urls.length} entradas, ${mb(total)}\n`, '| Pasta | Entradas | Tamanho |', '|---|---:|---:|',
   ...[...groups].sort((a, b) => b[1].size - a[1].size).map(([g, v]) => `| ${g} | ${v.n} | ${kb(v.size)} |`),
 ];
-if (!existsSync(OUT)) writeFileSync(OUT, '# Medições (colecao-dm)\n\nBuild de produção (`npx vite build`), pré-carga lida do `dist/sw.js`. FPS e memória no simulador do iPhone 17 Pro.\n');
-appendFileSync(OUT, lines.join('\n') + '\n');
+if (OUT) {
+  if (!existsSync(OUT)) writeFileSync(OUT, '# Medições\n\nBuild de produção (`npx vite build`), pré-carga lida do `dist/sw.js`.\n');
+  appendFileSync(OUT, lines.join('\n') + '\n');
+}
+for (const [g, v] of [...groups].filter(([g]) => g.startsWith('characters'))) console.log(`  ${g}: ${v.n} arquivos, ${kb(v.size)}`);
 console.log(`pré-carga: ${urls.length} entradas, ${mb(total)}; maior JS: ${assets[0].f} ${kb(assets[0].raw)}`);

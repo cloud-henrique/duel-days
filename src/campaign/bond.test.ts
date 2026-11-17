@@ -53,7 +53,7 @@ describe('conversa', () => {
   });
 
   it('a cena da conversa é a do gosto ou desgosto', () => {
-    expect(DIALOGUE.duelists.tea.conversation.duels.liked.length).toBeGreaterThan(0);
+    expect(DIALOGUE.duelists.tea.conversation!.duels.liked.length).toBeGreaterThan(0);
   });
 });
 

@@ -1,17 +1,27 @@
 /** Pacotes da campanha: catálogo, preço, liberação, compra e conteúdo (`Campaign+Packs` do nativo). */
 import { BALANCE } from './balance';
-import { CAMPAIGN, PACKS, type PackData, type Rarity } from './data/types';
+import { DUELISTS, PACKS, TIERS, type PackData, type Rarity, type TierData } from './data/types';
 import { PURPOSE, generator, randInt, type Rng } from './rng';
 import { addCards, clone, copies, type CampaignState } from './state';
+import { currentTier, hasContent, isTierOpen, nextTier, tierOpenDay } from './tiers';
 
 export const packByKey = (key: string): PackData | undefined => PACKS.find((p) => p.key === key);
 
-interface Release { key: string; opensFrom: number }
-/** As coleções do tier, na ordem do dia em que chegam (e do arquivo no empate). */
-const RELEASES: Release[] = CAMPAIGN.tier.packs
-  .map((p, i) => ({ r: typeof p === 'string' ? { key: p, opensFrom: 1 } : p, i }))
-  .sort((a, b) => a.r.opensFrom - b.r.opensFrom || a.i - b.i)
-  .map((x) => x.r);
+interface Release { key: string; tier: TierData; offset: number; order: number }
+/** As coleções de todos os tiers, na ordem do arquivo. */
+const RELEASES: Release[] = TIERS.flatMap((tier) => tier.packs.map((p) => ({ key: p.key, tier, offset: p.offset, order: 0 })))
+  .map((r, order) => ({ ...r, order }));
+
+/** O dia em que a coleção chega à loja (tier aberto + `offset`), ou null com o tier fechado. */
+function releaseDay(s: CampaignState, r: Release): number | null {
+  const open = tierOpenDay(s, r.tier.number);
+  return open === null ? null : open + r.offset;
+}
+/** À venda: o tier aberto e chegou o dia (a do dia da abertura vale assim que o tier abre, mesmo num save antigo). */
+const isReleased = (s: CampaignState, r: Release) => {
+  const day = releaseDay(s, r);
+  return day !== null && (r.offset === 0 || s.day >= day);
+};
 
 export const isCharacterPack = (p: PackData) => !!p.duelist;
 
@@ -24,32 +34,46 @@ export function boxPrice(p: PackData): number | null {
   return one === null ? null : Math.floor((one * BALANCE.boxSize * (100 - BALANCE.boxDiscountPercent)) / 100 / 10) * 10;
 }
 
-export type Lock = { kind: 'day'; day: number } | { kind: 'wins'; duelist: string; name: string; wins: number; goal: number };
+export type Lock =
+  | { kind: 'day'; day: number }
+  | { kind: 'tier'; tier: number; day: number }
+  | { kind: 'wins'; duelist: string; name: string; wins: number; goal: number };
 export interface ShopEntry { pack: PackData; lock: Lock | null; isNew: boolean }
 
-const openReleases = (s: CampaignState) => RELEASES.filter((r) => r.opensFrom <= s.day);
+/** As coleções à venda, na ordem em que chegaram (e do arquivo no empate). */
+const openReleases = (s: CampaignState) => RELEASES.filter((r) => isReleased(s, r))
+  .sort((a, b) => releaseDay(s, a)! - releaseDay(s, b)! || a.order - b.order);
 
 /** As coleções à venda hoje (na ordem de chegada). A última é a "mais recente". */
 export const collectionPacks = (s: CampaignState): PackData[] =>
   openReleases(s).map((r) => packByKey(r.key)).filter((p): p is PackData => !!p);
 
-/** Coleções à venda e, apagadas, as do próximo dia de chegada. */
+/**
+ * A vitrine: as coleções à venda; as do tier atual que ainda não chegaram (com o dia); e as do próximo tier, se ele já
+ * tiver conteúdo (com o tier e o dia em que abre pelo prazo).
+ */
 export function collectionListing(s: CampaignState): ShopEntry[] {
+  const entry = (key: string, lock: Lock | null, isNew: boolean): ShopEntry[] => {
+    const pack = packByKey(key);
+    return pack ? [{ pack, lock, isNew }] : [];
+  };
   const forSale = openReleases(s).flatMap((r) => {
-    const pack = packByKey(r.key);
-    return pack ? [{ pack, lock: null, isNew: r.opensFrom > 1 && s.day - r.opensFrom < BALANCE.newCollectionDays }] : [];
+    const day = releaseDay(s, r)!;
+    return entry(r.key, null, day > 1 && s.day - day < BALANCE.newCollectionDays);
   });
-  const next = RELEASES.map((r) => r.opensFrom).filter((d) => d > s.day).sort((a, b) => a - b)[0];
-  const upcoming = next === undefined ? [] : RELEASES.filter((r) => r.opensFrom === next).flatMap((r) => {
-    const pack = packByKey(r.key);
-    return pack ? [{ pack, lock: { kind: 'day' as const, day: r.opensFrom }, isNew: false }] : [];
-  });
-  return [...forSale, ...upcoming];
+  const cur = currentTier(s);
+  const soon = RELEASES.filter((r) => r.tier === cur && !isReleased(s, r))
+    .flatMap((r) => entry(r.key, { kind: 'day', day: releaseDay(s, r)! }, false));
+  const next = nextTier(s);
+  const later = next && hasContent(next) && !isTierOpen(s, next.number)
+    ? RELEASES.filter((r) => r.tier === next).flatMap((r) => entry(r.key, { kind: 'tier', tier: next.number, day: next.firstDay }, false))
+    : [];
+  return [...forSale, ...soon, ...later];
 }
 
 /** Pacotes de personagem, liberados com 5 vitórias contra o dono. */
 export function characterListing(s: CampaignState): ShopEntry[] {
-  return CAMPAIGN.tier.duelists.flatMap((d) => {
+  return DUELISTS.flatMap((d) => {
     const pack = PACKS.find((p) => p.duelist === d.key);
     if (!pack) return [];
     const wins = s.victories[d.key] ?? 0, goal = BALANCE.characterPackWins;

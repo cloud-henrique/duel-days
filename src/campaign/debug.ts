@@ -4,6 +4,8 @@
  * - `last-evening`: noite do dia 30, com a Tea na rota de romance (4 eventos) e o Joey com 2: o próximo duelo encerra.
  * - `bond`: cada duelista num ponto do laço (Tristan com o 1º evento aberto, Tea na escolha, Joey com o 4º aberto).
  * - `boss`: os 4 comuns vencidos (o Yugi aparece) no dia 6, com 900 DP.
+ * - `tier2`: dia 8, Tier 2 aberto pelo prazo, com 1500 DP.
+ * - `pegasus`: dia 10 com os 5 comuns do Tier 2 vencidos (o Pegasus aparece).
  * - `all-cards`: a coleção com 3 cópias de cada carta da base (`poolIds`), para medir a grade do editor cheia.
  */
 import { clone, newCampaign, type CampaignState } from './state';
@@ -29,7 +31,16 @@ export function debugPreset(name: string, s0: CampaignState | null, poolIds: rea
       return s;
     case 'boss':
       beatAll();
-      Object.assign(s, { day: 6, dp: 900 });
+      Object.assign(s, { day: 6, dp: 900, concluded: false });
+      return s;
+    case 'tier2':
+      // Tier 2 aberto pelo prazo (dia 8), com DP para a loja.
+      Object.assign(s, { day: 8, period: 0, dp: 1500, concluded: false });
+      return s;
+    case 'pegasus':
+      // Os 5 comuns do Tier 2 vencidos: o Pegasus no mapa.
+      Object.assign(s, { day: 10, period: 0, dp: 1500, concluded: false });
+      for (const k of ['weevil', 'rex', 'mako', 'keith', 'mai']) s.victories[k] = Math.max(s.victories[k] ?? 0, 1);
       return s;
     case 'all-cards':
       for (const id of poolIds) s.collection[String(id)] = 3;

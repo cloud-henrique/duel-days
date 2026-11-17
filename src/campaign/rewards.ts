@@ -2,13 +2,14 @@
 import { BALANCE, LIMITED, MAX_COPIES } from './balance';
 import { addAffinity, eventTitle, hasStory, openBondEvent } from './bond';
 import { advancePeriod } from './calendar';
-import { CAMPAIGN, type DuelistData, type Scene } from './data/types';
+import { duelistByKey, type DuelistData, type Scene } from './data/types';
 import { duelistDeck } from './decks';
 import { postDuelScene, type DuelResult } from './encounter';
 import { seedPosition } from './map';
 import { characterPacks, collectionPacks } from './packs';
 import { PURPOSE, generator, pick, type Rng } from './rng';
 import { addCards, clone, copies, earnDP, type CampaignState, type DuelKind } from './state';
+import { tierOf } from './tiers';
 
 export interface DuelOutcome { result: DuelResult; turns: number; lifePoints: number; startingLifePoints?: number }
 
@@ -36,10 +37,16 @@ export interface DuelReward {
   concluded: boolean;
 }
 
-/** DP do duelo: na vitória, a base e os bônus (com teto); senão, a consolação. */
-export function duelDP(o: DuelOutcome): { base: number; bonuses: { kind: BonusKind; dp: number }[]; total: number } {
-  const base = BALANCE.baseDP;
-  if (o.result !== 'win') { const total = Math.floor((base * BALANCE.consolationRate) / 100); return { base: total, bonuses: [], total }; }
+/** A base da vitória pelo tier do oponente. */
+export const baseDPFor = (tier: number) => BALANCE.baseDPByTier[tier] ?? BALANCE.baseDPByTier[1];
+
+/**
+ * DP do duelo: na vitória, a base do tier do oponente e os bônus (com teto); senão, a consolação (sobre a base do
+ * Tier 1, a mesma para todos).
+ */
+export function duelDP(o: DuelOutcome, tier = 1): { base: number; bonuses: { kind: BonusKind; dp: number }[]; total: number } {
+  const base = baseDPFor(tier);
+  if (o.result !== 'win') { const total = Math.floor((baseDPFor(1) * BALANCE.consolationRate) / 100); return { base: total, bonuses: [], total }; }
   const start = o.startingLifePoints ?? BALANCE.startingLifePoints;
   const earned: [BonusKind, number][] = [];
   if (o.lifePoints * 100 >= start * BALANCE.healthyFinishThreshold) earned.push(['healthyFinish', BALANCE.healthyFinishBonus]);
@@ -69,7 +76,7 @@ function earn(s: CampaignState, id: number, kind: EarnedCard['kind']): EarnedCar
 }
 
 const duelistData = (key: string): DuelistData => {
-  const d = CAMPAIGN.tier.duelists.find((x) => x.key === key);
+  const d = duelistByKey(key);
   if (!d) throw new Error(`duelista desconhecido: ${key}`);
   return d;
 };
@@ -87,7 +94,8 @@ export function applyDuel(s0: CampaignState, key: string, kind: DuelKind, o: Due
   const openBefore = openBondEvent(s, key);
   if (kind === 'bondEvent' && openBefore === null) throw new Error(`sem evento aberto com ${key}`);
   const won = o.result === 'win';
-  const dp = duelDP(o);
+  const tier = tierOf(key);
+  const dp = duelDP(o, tier.number);
   earnDP(s, dp.total);
 
   const cards: EarnedCard[] = [];
@@ -103,12 +111,14 @@ export function applyDuel(s0: CampaignState, key: string, kind: DuelKind, o: Due
     const before = new Set(characterPacks(s).map((p) => p.key));
     s.victories[key] = nth;
     unlocked = characterPacks(s).find((p) => !before.has(p.key))?.key ?? null;
-    const tier = CAMPAIGN.tier;
+    // Primeira vitória sobre o chefe: abre o próximo tier (pelo `defeatedBosses`) e, dentro da janela do tier do
+    // chefe, dá um pacote da coleção mais recente à venda.
     if (d.isBoss && !s.defeatedBosses.includes(tier.number)) {
       firstBoss = true;
       const newest = collectionPacks(s).at(-1);
       if (s.day <= tier.lastDay && newest) { prize = newest.key; s.unopenedPacks.push(newest.key); }
       s.defeatedBosses.push(tier.number);
+      s.bossDefeatedOn = { ...s.bossDefeatedOn, [tier.number]: s.day };
     }
   } else {
     s.losses += 1;

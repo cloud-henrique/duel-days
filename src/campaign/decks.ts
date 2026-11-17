@@ -1,12 +1,12 @@
-/** Decks da campanha (do nativo) como listas de ids, no formato que o duelo recebe. */
-import { CAMPAIGN, type DeckEntry, type DuelistData } from './data/types';
+/** Decks da campanha (as receitas escolhidas, do `decks.json`) como listas de ids, no formato que o duelo recebe. */
+import { CAMPAIGN, duelistByKey, type DeckEntry, type DuelistData } from './data/types';
 
 export interface DuelDeck { main: number[]; extra: number[] }
 
 export const expand = (entries: DeckEntry[]): number[] => entries.flatMap((e) => Array<number>(e.count).fill(e.id));
 
 export const duelist = (key: string): DuelistData => {
-  const d = CAMPAIGN.tier.duelists.find((x) => x.key === key);
+  const d = duelistByKey(key);
   if (!d) throw new Error(`duelista desconhecido: ${key}`);
   return d;
 };

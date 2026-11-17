@@ -31,6 +31,8 @@ IMAGES = {
     'pack-mrd.jpg': 'pack-mrd.jpg',
     'pack-mrl.jpg': 'pack-mrl.jpg',
     'pack-psv.jpg': 'pack-psv.jpg',
+    'pack-lod.jpg': 'pack-lod.jpg',  # Tier 2 (o nativo não tem a do LON: a loja desenha a capa)
+    'pack-pgd.jpg': 'pack-pgd.jpg',
 }
 MUSIC = ['title', 'map', 'shop', 'encounter', 'duel', 'boss-duel', 'victory', 'defeat']
 

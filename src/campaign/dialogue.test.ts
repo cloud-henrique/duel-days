@@ -44,9 +44,9 @@ describe('falas do encontro', () => {
     expect(DIALOGUE.duelists.tea.greeting).toContain(greetingScene(s, 'tea'));
     const close = { ...s, affinity: { tea: 210 } };
     expect(greetingBand(close, 'tea')).toBe('close');
-    expect(DIALOGUE.duelists.tea.bondGreetings.close).toContain(greetingScene(close, 'tea'));
+    expect(DIALOGUE.duelists.tea.bondGreetings!.close).toContain(greetingScene(close, 'tea'));
     const rom = { ...s, affinity: { tea: 310 }, bondRoutes: { tea: 'romance' as const } };
-    expect(DIALOGUE.duelists.tea.bondGreetings.romance).toContain(greetingScene(rom, 'tea'));
+    expect(DIALOGUE.duelists.tea.bondGreetings!.romance).toContain(greetingScene(rom, 'tea'));
   });
 
   it('a mesma variante no mesmo período', () => {
@@ -69,7 +69,7 @@ describe('falas do encontro', () => {
 
   it('duelo do evento: antes e depois são as cenas do evento', () => {
     const ev = { ...s, affinity: { joey: 100 }, victories: { joey: 1 } };
-    const e1 = DIALOGUE.duelists.joey.bondEvents[0] as { before: Line[]; after: Line[] };
+    const e1 = DIALOGUE.duelists.joey.bondEvents![0] as { before: Line[]; after: Line[] };
     expect(preDuelScene(ev, 'joey', 'bondEvent')).toBe(e1.before);
     expect(postDuelScene(ev, 'joey', 'win', 'bondEvent')).toBe(e1.after);
   });

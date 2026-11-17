@@ -2,7 +2,7 @@
 // slot perto de 70/20/10, toda carta existe no cards.json) e o deck inicial e os decks dos oponentes (válidos).
 // Uso: npx tsx proto/economy-smoke.ts
 import { readFileSync } from 'node:fs';
-import { PACKS, CAMPAIGN } from '../src/campaign/data/types';
+import { PACKS, DUELISTS } from '../src/campaign/data/types';
 import { duelistDeck, starterDeck } from '../src/campaign/decks';
 import { draw } from '../src/campaign/packs';
 import { generator } from '../src/campaign/rng';
@@ -30,5 +30,5 @@ const check = (name: string, d: { main: number[]; extra: number[] }) => {
   if (problems.length) fail = true;
 };
 check('inicial', starterDeck());
-for (const d of CAMPAIGN.tier.duelists) check(d.key, duelistDeck(d.key));
+for (const d of DUELISTS) check(d.key, duelistDeck(d.key));
 if (fail) throw new Error('economia com problemas');

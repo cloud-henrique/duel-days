@@ -27,8 +27,11 @@ npx tsx proto/move-reason.ts        # confere o `reason` do MSG_MOVE (patch do o
 Pipeline de dados (gera arquivos NÃO versionados; veja README): `npm run fetch-data`, `python3 scripts/import_dm.py` (era DM:
 data OCG até 2004-09-30, caixas TCG, português; correções em `raw/overrides/text.pt.json`),
 `python3 scripts/export_data.py` (+ relatório `raw/import/report.md`), `.venv/bin/python scripts/fetch_card_art.py` (small/large/cropped + verso), `.venv/bin/python scripts/copy_card_icons.py` (ícones de atributo/tipo do app nativo e propriedades do `cardicons.png` do Tag Force 3 no PPSSPP → `public/card-icons/`), `python3 scripts/copy_sounds.py` (efeitos do duelo do app nativo, do Tag Force, convertidos com `afconvert` → `public/sounds/*.m4a`; macOS), `python3 scripts/copy_brand.py` (logo "Yu-Gi-Oh!" do título → `public/brand/`, fora do git),
-`python3 scripts/copy_campaign_data.py` (dados da campanha do nativo → `src/campaign/data/`, versionados; troca arte
-alternativa pelo id original), `python3 scripts/copy_campaign_assets.py` (mapa, fundos dos lugares, capas dos pacotes e as 8
+`python3 scripts/copy_campaign_data.py` (Tier 1 do nativo + `tiers.json` + `decks.json` + `dialogue-tier2.json` →
+`src/campaign/data/`, versionados; troca arte alternativa pelo id original), decks dos duelistas (`python3 scripts/fetch_deck_recipes.py`
+→ `npx tsx proto/deck-pick.ts 40` → `python3 scripts/build_decks.py`: receitas "Anime Decks" do YGOPRODeck escolhidas por torneio
+CPU × CPU), `.venv/bin/python scripts/copy_tfs_backgrounds.py` (fundos das cenas do zip "Events" do Tag Force Special, baixado à mão
+em `raw/tfs/events.zip` → `public/campaign/bg-*.jpg`, fora do git), `python3 scripts/copy_campaign_assets.py` (mapa, fundos dos lugares, capas dos pacotes e as 8
 músicas do nativo → `public/campaign/` e `public/music/`, fora do git), `.venv/bin/python scripts/extract_action_icons.py` (recorta o `actions.png` do Tag Force; o ícone de cada ação se escolhe em `npm run icon-labeler`, porta 5174, e fica em `assets/action-icons/labels.json`), `npm run build-characters`, `.venv/bin/python scripts/build_sprites.py`.
 Ícones do PWA (ankh em HUD azul; arte própria, os binários são versionados): edite `assets/app-icon/*.svg` e rode `node scripts/build_app_icons.mjs`
 (Playwright; se faltar o Chromium da revisão certa, `CHROMIUM_PATH=<chrome-headless-shell>`) → `public/icons/*` e `public/favicon.ico`.
@@ -84,16 +87,21 @@ pelo `.hexbg` do `styles.css`.
   (`Screen`): mapa, encontro, duelo, loja, deck, laços, status, cena avulsa (rever evento, epílogo), fim e "duelo
   interrompido". O jogador é sempre o avatar do perfil (`src/story/profile.ts`: `profileOf`, `PLAYER_AVATARS`,
   `playerStats`, `say`), nunca o Yugi.
-- `src/campaign/` (change `campanha-dm`): a campanha Duel Monsters Tier 1 do nativo, **modelo puro** (funções que recebem
-  um `CampaignState` e devolvem outro, testadas):
-  - `data/` (`campaign.json`, `dialogue.json`, `packs.json` copiados do nativo + `types.ts`);
+- `src/campaign/` (changes `campanha-dm` e `campanha-tiers`): a campanha Duel Monsters por tiers, **modelo puro** (funções
+  que recebem um `CampaignState` e devolvem outro, testadas):
+  - `data/` (`campaign.json`, `dialogue.json`, `packs.json` gerados pelo `copy_campaign_data.py`; escritos à mão:
+    `tiers.json` (Tier 2+, cenas, pontos do mapa, dias das coleções) e `dialogue-tier2.json`; `decks.json` gerado; `types.ts`
+    com `TIERS`, `DUELISTS`, `duelistByKey`);
+  - `tiers.ts` (tier atual derivado do dia e dos chefes: o próximo abre pelo chefe vencido ou pelo primeiro dia da janela,
+    só se tiver duelistas; `bossDefeatedOn` opcional no save);
   - `state.ts` (o save), `rng.ts` (**todo sorteio sai da semente**: `generator(PURPOSE.x, seed, dia, …)`), `balance.ts`;
-  - `calendar.ts` (30 dias × manhã/tarde/noite; **só o duelo gasta período**), `map.ts` (2 a 4 por período, chefe depois
-    dos 4), `encounter.ts` (qual fala toca), `bond.ts` (afinidade com teto/piso, conversa, eventos, rota, epílogo),
+  - `calendar.ts` (30 dias × manhã/tarde/noite; **só o duelo gasta período**), `map.ts` (2 a 4 do tier atual + 1 a 2 amigos
+    do T1 a partir do T2, chefes liberados, pontos do panorama sorteados), `encounter.ts` (qual fala toca), `bond.ts` (afinidade com teto/piso, conversa, eventos, rota, epílogo),
     `rewards.ts` (`applyDuel`: DP com bônus, carta, assinatura, chefe, laço e o período), `packs.ts` (loja e sorteio 4+1),
-    `flow.ts` (conhecer, `pendingDuel`), `text.ts` (`{nome}` e `{m|f|n}`), `debug.ts` (`?campaign=last-evening|bond|boss`
+    `flow.ts` (conhecer, `pendingDuel`), `text.ts` (`{nome}` e `{m|f|n}`), `debug.ts` (`?campaign=last-evening|bond|boss|tier2|pegasus`
     em dev ou com `?debug=1`).
-- `src/screens/campaign/`: `MapScreen` (+ `CampaignHeader`, `Hearts`), `EncounterScreen`, `Dialogue` (o palco do
+- `src/screens/campaign/`: `MapScreen` (só as cabeças nos pontos, como no Tag Force Special; + `CampaignHeader`, `Hearts`),
+  `EncounterScreen` (cena do duelista: fundo e lugar; sem corações nem Conversar para quem não tem laço), `Dialogue` (o palco do
   nativo: `TopBar` com lugar e subtítulo, placa de corações, fundo desfocado com o filtro do período e o circuito,
   personagem a 60% da altura abaixo da barra, folha de baixo com placa do nome e brilho na cor de quem fala, "Pular"), `BondsScreen`, `StatusScreen`, `CampaignEnd`, `chars.ts`
   (chave do nativo → sprite; expressões), `assets.ts` (arte com degradê de reserva), `campaign.css`.
@@ -147,6 +155,10 @@ pelo `.hexbg` do `styles.css`.
   ids de arte alternativa pelo original). Os pacotes LOB/MRD/MRL/PSV do `packs.json` vêm do `public/data/boosters.json`.
 - **A arte e a música da campanha são da Konami** (`public/campaign/`, `public/music/`, fora do git e da pré-carga do PWA;
   a música usa cache com `rangeRequests`). Sem os arquivos, fundos em degradê e silêncio.
+- **Decks dos duelistas são gerados** (`decks.json`, pelo `build_decks.py`): troca de carta vai no `REPLACE` do script, não
+  à mão no JSON. O endpoint de decks do YGOPRODeck não é documentado: só o `fetch_deck_recipes.py` o usa, o jogo nunca.
+- **Mapa sem lugares**: os duelistas não têm `location`; a cena do encontro é o `scene` de cada um (`bg-<bg>.jpg`) e as
+  cabeças vão nos `mapPoints` do `tiers.json` (pontos no meio do panorama, onde a tela abre).
 - **`overflow: clip` na cena** (`.story.campaign-scene`): com `hidden`, o foco num botão rolava o contêiner para o lado.
 - Os seletores da campanha que disputam com o `styles.css` (carrega depois) precisam de duas classes (ex.: `.pack.shoppack`).
 
