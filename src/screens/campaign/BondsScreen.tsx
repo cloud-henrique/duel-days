@@ -3,6 +3,7 @@ import { eventsDone, eventTitle, hearts, needsAttention, ROUTE_NAMES, storyDueli
 import type { CampaignState } from '../../campaign/state';
 import { GameIcon } from '../../ui/icons';
 import { faceOf } from './assets';
+import { TopBar } from '../../ui/TopBar';
 import { Hearts } from './MapScreen';
 
 /** Laços: os duelistas já encontrados, com corações, rota e os eventos vencidos (que dá para rever). */
@@ -10,10 +11,8 @@ export function BondsScreen({ s, onReview, onBack }: { s: CampaignState; onRevie
   const met = storyDuelists().filter((d) => s.met.includes(d.key));
   return (
     <div className="app deckb hexbg bonds">
-      <div className="hubtop">
-        <button className="hud-btn" onClick={onBack} aria-label="Voltar"><GameIcon name="back" size={20} /></button>
-        <b className="hubname">Laços</b>
-      </div>
+      <TopBar title="Laços" onBack={onBack}
+        subtitle={met.length ? `${met.length} de ${storyDuelists().length} amigos conhecidos` : 'Amizade e romance'} />
       {met.length === 0 && <p className="stats empty">Encontre os duelistas pela cidade para começar um laço.</p>}
       <div className="bondlist">
         {met.map((d) => {

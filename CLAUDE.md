@@ -71,8 +71,12 @@ pelo `.hexbg` do `styles.css`.
     fantasmas entre os `data-loc` medidos, pilar, giros, ataque, quebra); `Splash`, `ChainStack`, `Toss`, `Intro`, `Outro`.
   - Lugares na tela: zonas, mãos, deck, cemitério e placa têm `data-loc` = `locKey`. Sem lugar visível (banidas, Extra,
     fora do jogo), a animação sai da placa do dono.
-- `src/audio/sfx.ts`: efeitos com Web Audio (buffers decodificados uma vez, anti-repetição de 60 ms, `settings.sound`).
-  `src/audio/music.ts`: uma faixa em laço por tela (`<audio>` com fade; no iOS, volume por um `GainNode` do contexto dos
+- `src/audio/sfx.ts`: efeitos com Web Audio (buffers decodificados uma vez, anti-repetição de 60 ms, `settings.sound`), os do
+  duelo e os da interface (`tap`, `back`, `dialogue`, `purchase`). `buttonSounds.ts`: **todo botão fora do `.duel` toca o
+  som de toque** por um ouvinte só no documento (voltar/fechar/cancelar e `.danger` tocam o `back`; `data-sound` troca ou
+  cala); não chame `sfx.play('tap')` nas telas.
+  `src/audio/music.ts`: uma faixa em laço por tela (`<audio>` com fade cruzado de 1 s, a que sai volta ao começo, o laço
+  desce e sobe pelo `loopEnvelope`; no iOS, volume por um `GainNode` do contexto dos
   efeitos; pausa em segundo plano; silêncio sem o arquivo). A faixa sai do `trackFor(screen)` do `App.tsx`; vitória/derrota,
   do `DuelScreen`.
 - `src/ui/` (change `visual-base`): o visual compartilhado. `icons.tsx` (`GameIcon`: **um conceito, um ícone**, a tabela

@@ -102,9 +102,13 @@ export function EncounterScreen({ s, duelist, chars, profile, afterDuel, firstMe
     case 'topics':
       return (
         <Dialogue {...common} scene={NONE} onDone={() => {}}>
+          {/* Como no nativo: os 4 temas em 2 fileiras, a dica dos Boatos e "Deixa pra lá" (volta ao menu). */}
           <p className="ask">Sobre o que conversar?</p>
-          {TOPICS.map((t) => <button key={t} className="hud-btn secondary" onClick={() => pickTopic(t)}>{TOPIC_NAMES[t]}</button>)}
-          <button className="hud-btn secondary" onClick={() => setPhase({ k: 'menu' })}><GameIcon name="back" size={18} /> Voltar</button>
+          <div className="topicgrid">
+            {TOPICS.map((t) => <button key={t} className="hud-btn secondary" onClick={() => pickTopic(t)}>{TOPIC_NAMES[t]}</button>)}
+          </div>
+          <p className="topichint">Boatos nunca desagradam, mas agradam pouco.</p>
+          <button className="hud-btn danger" onClick={() => setPhase({ k: 'menu' })}><GameIcon name="close" size={18} /> Deixa pra lá</button>
         </Dialogue>
       );
     case 'talk': {
@@ -112,7 +116,8 @@ export function EncounterScreen({ s, duelist, chars, profile, afterDuel, firstMe
       return (
         <Dialogue {...common} scene={conversationScene(duelist, r)} onDone={() => {}}>
           <p className={`bondchange ${pts > 0 ? 'up' : pts < 0 ? 'down' : ''}`}>
-            <Hearts value={r.after / BALANCE.pointsPerHeart} size={18} /> <span className="num">{pts > 0 ? `+${pts}` : pts}</span>
+            {/* Os corações ficam só na placa do alto (que já mostra o valor novo); aqui, a mudança. */}
+            <span className="num">{pts > 0 ? `+${pts}` : pts}</span> de afinidade
             {r.openedEvent !== null && <b> · Novo evento: {eventTitle(duelist, r.openedEvent)}</b>}
           </p>
           <button className="hud-btn primary" onClick={() => setPhase({ k: 'menu' })}>Continuar</button>

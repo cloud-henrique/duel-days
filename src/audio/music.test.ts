@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { FADE_MS, Music, type AudioLike, type MusicDeps } from './music';
+import { FADE_MS, Music, loopEnvelope, type AudioLike, type MusicDeps } from './music';
 
 /** Áudio de mentira e relógio falso: os quadros só rodam quando o teste avança o tempo. */
 function setup() {
@@ -9,7 +9,7 @@ function setup() {
   const deps: MusicDeps = {
     createAudio: (url) => {
       const el = {
-        loop: false, volume: 1, paused: true, plays: 0,
+        loop: false, volume: 1, paused: true, plays: 0, currentTime: 0, duration: NaN,
         play() { this.paused = false; this.plays++; }, pause() { this.paused = true; },
         addEventListener(_: 'error', cb: () => void) { this.onerror = cb; },
       } as AudioLike & { plays: number; onerror?: () => void };
@@ -47,6 +47,26 @@ describe('música', () => {
     advance(FADE_MS);
     expect(m.levelOf('duel')).toBe(1);
     expect(els.get('/music/map.m4a')!.paused).toBe(true);
+  });
+
+  it('a faixa que saiu volta do começo, não de onde parou', () => {
+    const { m, els, advance } = setup();
+    m.unlock(); m.setTrack('map'); advance(FADE_MS + 50);
+    els.get('/music/map.m4a')!.currentTime = 42;
+    m.setTrack('encounter'); advance(FADE_MS + 50);
+    expect(els.get('/music/map.m4a')!.paused).toBe(true);
+    expect(els.get('/music/map.m4a')!.currentTime).toBe(0);
+    m.setTrack('map'); advance(50);
+    expect(els.get('/music/map.m4a')!.paused).toBe(false);
+    expect(m.levelOf('map')).toBeLessThan(0.2);
+  });
+
+  it('laço: desce no fim e sobe no começo', () => {
+    expect(loopEnvelope(0, 60)).toBe(0);
+    expect(loopEnvelope(0.75, 60)).toBeCloseTo(0.5);
+    expect(loopEnvelope(30, 60)).toBe(1);
+    expect(loopEnvelope(59.25, 60)).toBeCloseTo(0.5);
+    expect(loopEnvelope(10, NaN)).toBe(1);
   });
 
   it('a mesma faixa não recomeça', () => {

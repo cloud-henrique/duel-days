@@ -7,6 +7,7 @@ import type { Tier } from '../data/cards';
 import type { CampaignState } from '../campaign/state';
 import { GameIcon } from '../ui/icons';
 import { PerfScroll, perfEnabled } from '../dev/PerfScroll';
+import { TopBar } from '../ui/TopBar';
 import { useVirtualGrid, type GridOptions } from '../ui/virtualGrid';
 
 type Kind = 'all' | 'mon' | 'mag' | 'arm' | 'fus';
@@ -94,11 +95,8 @@ export function DeckBuilder({ progress, data, onChange, onBack }: { progress: Ca
 
   return (
     <div className="app deckb hexbg">
-      <div className="hubtop">
-        <button className="hud-btn" onClick={onBack} aria-label="Voltar"><GameIcon name="back" size={20} /></button>
-        <b className="hubname">Decks</b>
-        <span className="stats">{Object.keys(progress.collection).filter((id) => cards[id]).length} cartas diferentes</span>
-      </div>
+      <TopBar title="Decks" onBack={onBack}
+        subtitle={`${Object.keys(progress.collection).filter((id) => cards[id]).length} cartas diferentes na coleção`} />
 
       <div className="deckbar hud">
         <select value={deck.id} onChange={(e) => setEditId(e.target.value)}>

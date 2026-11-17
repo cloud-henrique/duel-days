@@ -82,10 +82,10 @@ export function Dialogue({ scene, stage, chars, profile, top, onDone, children }
       {line && (
         <>
           {/* Área de toque para avançar: <button> porque o iOS não entrega toques a <div>. */}
-          <button type="button" className="tapzone" aria-label="Avançar" onClick={() => setI(i + 1)} />
+          <button type="button" className="tapzone" aria-label="Avançar" data-sound="dialogue" onClick={() => setI(i + 1)} />
           <div className="scene-bottom">
             <button className="hud-btn secondary skip-btn" onClick={() => setI(scene.length)}><GameIcon name="skip" size={18} /> Pular</button>
-            <div className="scene-sheet-wrap" style={{ ['--glow' as string]: color }}>
+            <div className="scene-sheet-wrap speaking" style={{ ['--glow' as string]: color }}>
               <div className="scene-sheet hud">
                 <div className="nameplate hud" style={{ ['--bar' as string]: color }}>{name}</div>
                 <p key={i} className="scene-text">{fillText(line.text, profile.name, profile.address)}</p>

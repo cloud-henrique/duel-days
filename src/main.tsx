@@ -3,6 +3,7 @@ import { App } from './App';
 import './styles.css';
 import { registerSW } from 'virtual:pwa-register';
 import { installUnlock } from './audio/sfx';
+import { installButtonSounds } from './audio/buttonSounds';
 
 // Atualiza sozinho: quando há versão nova, o service worker assume e a página recarrega (sem precisar abrir duas vezes).
 registerSW({ immediate: true });
@@ -14,6 +15,7 @@ navigator.storage?.persist?.().catch(() => {});
 globalThis.caches?.delete('card-art').catch(() => {});
 // O iOS só libera o áudio num gesto: qualquer toque no app (já na história) deixa os sons do duelo prontos.
 installUnlock();
+installButtonSounds();
 const root = createRoot(document.getElementById('root')!);
 // Desenvolvimento: ?cardfaces abre a conferência da face das cartas; ?choices, a das escolhas de cartas no duelo;
 // ?coins, a da moeda e do dado.

@@ -95,6 +95,14 @@
 .scene-menu .hud-btn { display: flex; align-items: center; gap: 8px; justify-content: flex-start; text-align: left; padding: 12px 16px; font-size: 16px; }
 .scene-menu .hud-btn:disabled { opacity: .5; }
 .ask { margin: 0 0 2px; color: #cfe2ff; font-weight: 700; }
+/* Temas da conversa: 2 fileiras de 2, como no nativo. */
+.scene-menu .topicgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.scene-menu .topicgrid .hud-btn { justify-content: center; text-align: center; }
+.scene-menu .hud-btn.danger { justify-content: center; }
+.topichint { margin: 0; color: #9cb3d6; font-size: 14px; }
+/* Enquanto alguém fala, a folha deixa o toque passar para a área de avançar (um <button>: o iOS não entrega toques a
+   uma <div>); o "Pular" continua tocável. */
+.scene-sheet-wrap.speaking { pointer-events: none; }
 .bondchange { margin: 0; display: flex; align-items: center; gap: 8px; font-weight: 700; }
 .bondchange.up .num { color: #6fe0a0; }
 .bondchange.down .num { color: #ff8a8a; }

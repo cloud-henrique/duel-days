@@ -4,6 +4,7 @@ import { daysLeft } from '../../campaign/calendar';
 import { PERIOD_NAMES, type CampaignState } from '../../campaign/state';
 import { bossBeaten, bossOf, currentTier, hasContent, nextTier, openTiers } from '../../campaign/tiers';
 import { Dp } from '../../ui/Dp';
+import { TopBar } from '../../ui/TopBar';
 import { GameIcon } from '../../ui/icons';
 
 const Row = ({ label, children }: { label: string; children: React.ReactNode }) => (
@@ -28,10 +29,7 @@ export function StatusScreen({ s, onRestart, onBack }: { s: CampaignState; onRes
   const next = nextTierText(s);
   return (
     <div className="app deckb hexbg status">
-      <div className="hubtop">
-        <button className="hud-btn" onClick={onBack} aria-label="Voltar"><GameIcon name="back" size={20} /></button>
-        <b className="hubname">Status</b>
-      </div>
+      <TopBar title="Status" onBack={onBack} subtitle={`Tier ${cur.number}: ${cur.name} · dia ${s.day}`} />
       <ul className="statlist hud">
         <Row label="Dia">{s.day} · {PERIOD_NAMES[s.period]}</Row>
         <Row label="Dias restantes">{s.concluded ? 0 : daysLeft(s)}</Row>

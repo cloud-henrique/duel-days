@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { SOUND_FILES, shouldPlay } from './sfx';
-import type { Sound } from '../screens/duel/anim/effects';
+import type { Sound } from './sfx';
 import { PACING } from '../screens/duel/anim/pacing';
 
 describe('shouldPlay', () => {
@@ -29,9 +29,9 @@ describe('shouldPlay', () => {
 });
 
 describe('SOUND_FILES', () => {
-  it('cobre os 13 sons do duelo com nomes de arquivo distintos', () => {
+  it('cobre os 13 sons do duelo e os 4 da interface, com nomes de arquivo distintos', () => {
     const files = Object.values(SOUND_FILES);
-    expect(files).toHaveLength(13);
-    expect(new Set(files).size).toBe(13);
+    expect(files).toHaveLength(17);
+    expect(new Set(files).size).toBe(17);
   });
 });

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { sfx } from '../audio/sfx';
 import { CardSheet } from '../components/CardSheet';
 import { CardFace } from '../components/CardFace';
 import type { GameData } from '../data/cards';
@@ -10,6 +11,7 @@ import {
 import type { CampaignState } from '../campaign/state';
 import { GameIcon } from '../ui/icons';
 import { Dp } from '../ui/Dp';
+import { TopBar } from '../ui/TopBar';
 import { packImage } from './campaign/assets';
 
 const TIER_CLASS: Record<Rarity, string> = { common: 'N', rare: 'R', super: 'SR', ultra: 'UR' };
@@ -32,15 +34,16 @@ export function ShopScreen({ campaign: s, data, onChange, onBack }: {
   const [zoom, setZoom] = useState<number | null>(null);
 
   const doOpenUnopened = () => { const r = openUnopened(s); onChange(r.state); setResult({ openings: [r.opening], title: 'Pacote ganho' }); };
-  const doBuy = (key: string) => { const r = buy(s, key); onChange(r.state); setResult({ openings: [r.opening], title: packByKey(key)?.name ?? '' }); };
-  const doBox = (key: string) => { const r = buyBox(s, key); onChange(r.state); setResult({ openings: r.openings, title: `Caixa: ${packByKey(key)?.name ?? ''}` }); };
+  // A compra toca o som dela (além do toque do botão), como no nativo.
+  const doBuy = (key: string) => { const r = buy(s, key); sfx.play('purchase'); onChange(r.state); setResult({ openings: [r.opening], title: packByKey(key)?.name ?? '' }); };
+  const doBox = (key: string) => { const r = buyBox(s, key); sfx.play('purchase'); onChange(r.state); setResult({ openings: r.openings, title: `Caixa: ${packByKey(key)?.name ?? ''}` }); };
 
   if (result) {
     const pulls = result.openings.flatMap((o) => o.pulls);
     const novas = pulls.filter((p) => p.isNew).length;
     return (
       <div className="app deckb hexbg">
-        <div className="hubtop"><b className="hubname">{result.title}</b><span className="stats">{result.openings.length} pacote{result.openings.length > 1 ? 's' : ''}</span></div>
+        <TopBar title={result.title} subtitle={`${result.openings.length} pacote${result.openings.length > 1 ? 's' : ''} aberto${result.openings.length > 1 ? 's' : ''}`} />
         <p className="summary">{novas ? `${novas} carta${novas > 1 ? 's' : ''} nova${novas > 1 ? 's' : ''} na coleção!` : 'Nenhuma carta nova desta vez.'}</p>
         <div className="cardgrid">
           {pulls.map((p, i) => (
@@ -84,11 +87,7 @@ export function ShopScreen({ campaign: s, data, onChange, onBack }: {
 
   return (
     <div className="app deckb hexbg shop">
-      <div className="hubtop">
-        <button className="hud-btn" onClick={onBack} aria-label="Voltar"><GameIcon name="back" size={20} /></button>
-        <b className="hubname">Loja do Vovô</b>
-        <Dp value={s.dp} className="coins" />
-      </div>
+      <TopBar title="Loja do Vovô" onBack={onBack} subtitle={<>Coleções e pacotes · <Dp value={s.dp} className="coins" /></>} />
       <div className="shoplist">
         {s.unopenedPacks.length > 0 && (
           <section className="pack shoppack hud gifts">
