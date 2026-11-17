@@ -1,9 +1,11 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { avatar, type Duelist } from '../Plate';
 import { PACING } from './pacing';
 import { Dp } from '../../../ui/Dp';
 import { DisplayTitle } from '../../../ui/titles';
 import { CardFace } from '../../../components/CardFace';
+import { CardZoom } from '../../../components/CardZoom';
 import type { Cards } from '../../../data/cards';
 import { GameIcon } from '../../../ui/icons';
 import { Portrait } from '../../../ui/Portrait';
@@ -78,13 +80,19 @@ export function Outro({ result, detail, me, foe, coins, reward, reduced, onConti
 }
 
 function OutroDetails({ r, cards }: { r: OutroReward; cards: Cards }) {
+  // Tocar numa carta ganha abre o detalhe (o mesmo zoom do editor de deck), num portal: o painel do resumo é um `.hud`,
+  // e o clip-path dele cortaria o zoom.
+  const [open, setOpen] = useState<number | null>(null);
   return (
     <div className="outrodetails">
+      {open != null && createPortal(<CardZoom code={open} cards={cards} onClose={() => setOpen(null)} />, document.body)}
       {r.cards.length > 0 && (
         <div className="earned">
           {r.cards.map((c, i) => (
             <figure key={`${c.id}-${i}`} className={c.isNew ? 'new' : ''}>
-              <CardFace code={c.id} card={cards[String(c.id)]} />
+              <button type="button" className="earnedcard" aria-label={`Ver ${cards[String(c.id)]?.name ?? 'carta'}`} onClick={() => setOpen(c.id)}>
+                <CardFace code={c.id} card={cards[String(c.id)]} />
+              </button>
               {c.isNew && <b className="newtag">NOVA</b>}
               {c.label && <figcaption>{c.label}</figcaption>}
             </figure>

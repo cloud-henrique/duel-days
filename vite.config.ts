@@ -22,13 +22,15 @@ const deviceLog = (): Plugin => {
 /**
  * Entradas extras da pré-carga (fora do `globPatterns`): o essencial para o começo da campanha offline. A arte `thumb`
  * do deck inicial, o verso da carta e os sprites dos avatares do jogador e dos personagens do Tier 1 (os outros
- * personagens e toda a arte da coleção ficam no cache de execução). Revisão = hash do arquivo.
+ * personagens e toda a arte da coleção ficam no cache de execução) e o mapa de Domino nos três períodos. Revisão = hash do arquivo.
  */
 function essentials() {
   const files = [
     'cards/back.webp',
     ...[...new Set(campaign.starterDeck.main.map((e) => e.id))].map((id) => `cards/thumb/${id}.webp`),
     'characters/index.json',
+    // O mapa de Domino (o único do jogo), nos três períodos: a campanha abre sem esperar a rede.
+    ...['morning', 'afternoon', 'evening'].map((k) => `campaign/map-${k}.jpg`),
     ...[...PLAYER_AVATARS.map((a) => a.id), ...Object.values(CHAR_ID)].flatMap((dir) =>
       existsSync(`public/characters/${dir}`) ? readdirSync(`public/characters/${dir}`, { recursive: true }).map(String)
         .filter((f) => /\.(png|webp|json)$/.test(f)).map((f) => `characters/${dir}/${f}`) : []),

@@ -26,6 +26,10 @@
 /* O panorama é 2:1; na altura toda do celular ele ficaria com zoom demais (só 1/7 da cidade à vista). Até 1,3× a largura
    da tela: uns 40% da cidade de uma vez, rolando para os lados. */
 .mapcanvas { position: relative; height: min(100cqh, 130vw); aspect-ratio: 2 / 1; flex-shrink: 0; }
+.mapcanvas.loading { visibility: hidden; }
+.mapcanvas { animation: map-in .25s ease-out both; }
+@keyframes map-in { from { opacity: 0; } }
+.mapcanvas.loading, .mapcanvas.instant { animation: none; }
 .mapcanvas.noimg { background: radial-gradient(ellipse at 50% 60%, #1f4a7a, #0a1a3a 70%); }
 .mapimg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; user-select: none; }
 /* As cabeças de quem está por perto (como no Tag Force Special): centradas no ponto, flutuando. */
@@ -112,6 +116,7 @@
 .outrodetails:empty { display: none; }
 .outrodetails .earned { display: flex; gap: 10px; justify-content: center; }
 .outrodetails .earned figure { position: relative; margin: 4px 0 0; width: 72px; text-align: center; }
+.outrodetails .earnedcard { display: block; width: 100%; padding: 0; border: 0; background: none; }
 .outrodetails .earned .cardface { width: 100%; filter: drop-shadow(0 2px 6px rgba(0, 0, 0, .5)); }
 .outrodetails .earned figure.new .cardface { filter: drop-shadow(0 0 8px rgba(246, 211, 106, .9)); }
 .outrodetails .earned figcaption { font-size: 10px; color: #f6d36a; margin-top: 2px; }

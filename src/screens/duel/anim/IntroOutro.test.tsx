@@ -69,4 +69,14 @@ describe('Outro', () => {
     expect(container.textContent).toContain('Laço +30');
     expect(container.textContent).toContain('Pacote do Joey liberado');
   });
+
+  it('tocar na carta ganha abre o detalhe, e Fechar volta', () => {
+    const reward = { baseDP: 300, bonuses: [], totalDP: 300, cards: [{ id: 46986414, isNew: true }], bond: null, notes: [] };
+    const cards = { 46986414: { name: 'Mago Negro' } } as never;
+    render(<Outro result="win" detail="" me={me} foe={foe} reward={reward} reduced cards={cards} onContinue={() => {}} />);
+    fireEvent.click(screen.getByRole('button', { name: 'Ver Mago Negro' }));
+    expect(screen.getByRole('dialog', { name: 'Mago Negro' })).toBeTruthy();
+    fireEvent.click(screen.getAllByRole('button', { name: /Fechar/ }).at(-1)!);
+    expect(screen.queryByRole('dialog')).toBeNull();
+  });
 });

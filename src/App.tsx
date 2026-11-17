@@ -23,7 +23,7 @@ import { packByKey } from './campaign/packs';
 import { applyDuel, BONUS_NAMES, type DuelReward } from './campaign/rewards';
 import { newSeed } from './campaign/rng';
 import { activeDeckOf, newCampaign, PERIOD_KEYS, type CampaignState, type DuelKind } from './campaign/state';
-import { sceneBg } from './screens/campaign/assets';
+import { preloadMaps, sceneBg } from './screens/campaign/assets';
 import { CHAR_ID, type CharInfo } from './screens/campaign/chars';
 import { Dialogue } from './screens/campaign/Dialogue';
 import { EncounterScreen } from './screens/campaign/EncounterScreen';
@@ -95,6 +95,8 @@ export function App() {
         const c = debugPreset(preset, p.campaign, d.poolIds);
         if (c) { p = { ...p, campaign: c }; void writeProgress(p); }
       }
+      // O mapa da campanha já começa a ser decodificado na tela de título.
+      if (p?.campaign) preloadMaps(PERIOD_KEYS[p.campaign.period]);
       setProg(p); setReady(true);
     });
   }, []);

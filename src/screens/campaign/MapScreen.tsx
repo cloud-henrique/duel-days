@@ -7,7 +7,7 @@ import { PERIOD_KEYS, PERIOD_NAMES, type CampaignState } from '../../campaign/st
 import { Dp } from '../../ui/Dp';
 import { BondHearts } from '../../ui/BondHearts';
 import { GameIcon } from '../../ui/icons';
-import { faceOf, mapImage } from './assets';
+import { faceOf, mapImage, mapSettled, preloadMap } from './assets';
 import './campaign.css';
 
 /** Corações de um duelista (0 a 4, o atual pela fração), no desenho do nativo. */
@@ -48,7 +48,16 @@ export function MapScreen({ s, onMeet, onShop, onDecks, onBonds, onStatus, onMen
 }) {
   const period = PERIOD_KEYS[s.period];
   const people = placements(s);
-  const [imgOk, setImgOk] = useState(true);
+  const [imgOk, setImgOk] = useState(mapSettled(period) !== false);
+  // Já pronto ao montar (o caso comum): aparece direto; senão, entra com um fade quando terminar de carregar.
+  const [instant] = useState(mapSettled(period) !== undefined);
+  // O mapa e as cabeças só aparecem com o panorama já decodificado (normalmente na hora: o App pré-carrega ao abrir).
+  const [shown, setShown] = useState<string | null>(instant ? period : null);
+  useEffect(() => {
+    let live = true;
+    preloadMap(period).then((ok) => { if (!live) return; if (!ok) setImgOk(false); setShown(period); });
+    return () => { live = false; };
+  }, [period]);
   const scroller = useRef<HTMLDivElement>(null);
   // Começa com o centro do panorama à vista (é onde ficam os pontos).
   useEffect(() => {
@@ -60,7 +69,7 @@ export function MapScreen({ s, onMeet, onShop, onDecks, onBonds, onStatus, onMen
     <div className={`app campmap p-${period}`}>
       <CampaignHeader s={s} onMenu={onMenu} />
       <div className="mapscroll" ref={scroller}>
-        <div className={`mapcanvas${imgOk ? '' : ' noimg'}`}>
+        <div className={`mapcanvas${imgOk ? '' : ' noimg'}${shown === period ? '' : ' loading'}${instant ? ' instant' : ''}`}>
           {imgOk && <img className="mapimg" src={mapImage(period)} alt="" draggable={false} onError={() => setImgOk(false)} />}
           <div className="period-tint" />
           {people.map(({ duelist: d, point }, i) => (
