@@ -50,8 +50,8 @@
   padding: calc(var(--art-inset) * var(--u)); border-radius: calc(2 * var(--u)); background: rgba(0, 0, 0, .35);
 }
 .cf-art img { display: block; width: 100%; height: 100%; object-fit: cover; }
-/* Sem a arte recortada: a carta oficial inteira, enquadrada na região da ilustração. */
-.cf-art img.whole { object-position: 50% 30%; }
+/* Sem a arte (offline fora do cache): a cor da moldura, mais escura, no lugar da ilustração. */
+.cf-art.empty::after { content: ''; position: absolute; inset: calc(var(--art-inset) * var(--u)); background: var(--frame); filter: brightness(.55) saturate(.8); }
 .cf-text {
   left: calc(var(--box-x) * var(--u)); top: calc(var(--box-y) * var(--u)); width: calc(var(--box-w) * var(--u)); height: calc(var(--box-h) * var(--u));
   border-radius: calc(2 * var(--u)); background: #9e7333;

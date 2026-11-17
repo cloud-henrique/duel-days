@@ -24,7 +24,7 @@ export function Field({ board, cards, hl, picked, onTap, center, backdrop }: { b
   return (
     <div className="fieldwrap">
       <div className="field">
-        {backdrop ? <div key={backdrop} className="fieldart" aria-hidden="true" style={{ backgroundImage: `url(${art(backdrop, 'cropped')})` }} /> : null}
+        {backdrop ? <div key={backdrop} className="fieldart" aria-hidden="true" style={{ backgroundImage: `url(${art(backdrop, 'full')})` }} /> : null}
         {row(foe.szone, 1, OcgLocation.SZONE, 's')}{row(foe.mzone, 1, OcgLocation.MZONE, 'm')}
         <div className="midrow">{fieldZone(0)}<span />{fieldZone(1)}{center}</div>
         {row(me.mzone, 0, OcgLocation.MZONE, 'm')}{row(me.szone, 0, OcgLocation.SZONE, 's')}

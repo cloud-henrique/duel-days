@@ -4,10 +4,11 @@
  * - `last-evening`: noite do dia 30, com a Tea na rota de romance (4 eventos) e o Joey com 2: o próximo duelo encerra.
  * - `bond`: cada duelista num ponto do laço (Tristan com o 1º evento aberto, Tea na escolha, Joey com o 4º aberto).
  * - `boss`: os 4 comuns vencidos (o Yugi aparece) no dia 6, com 900 DP.
+ * - `all-cards`: a coleção com 3 cópias de cada carta da base (`poolIds`), para medir a grade do editor cheia.
  */
 import { clone, newCampaign, type CampaignState } from './state';
 
-export function debugPreset(name: string, s0: CampaignState | null): CampaignState | null {
+export function debugPreset(name: string, s0: CampaignState | null, poolIds: readonly number[] = []): CampaignState | null {
   const s = clone(s0 ?? newCampaign(12345));
   const beatAll = () => { for (const k of ['tristan', 'tea', 'joey', 'bakura']) s.victories[k] = Math.max(s.victories[k] ?? 0, 1); };
   switch (name) {
@@ -29,6 +30,9 @@ export function debugPreset(name: string, s0: CampaignState | null): CampaignSta
     case 'boss':
       beatAll();
       Object.assign(s, { day: 6, dp: 900 });
+      return s;
+    case 'all-cards':
+      for (const id of poolIds) s.collection[String(id)] = 3;
       return s;
     default:
       return null;

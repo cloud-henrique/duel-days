@@ -1,17 +1,21 @@
-import { useMemo, useState } from 'react';
-import { art } from '../components/CardSheet';
+import { memo, useEffect, useMemo, useRef, useState } from 'react';
+import { CardFace } from '../components/CardFace';
 import { CardZoom } from '../components/CardZoom';
-import type { GameData } from '../data/cards';
+import type { Cards, GameData } from '../data/cards';
 import { MAIN_MAX, MAIN_MIN, EXTRA_MAX, count, isExtraCard, maxCopiesOf, validateDeck, type Deck } from '../game/decks';
 import type { Tier } from '../data/cards';
 import type { CampaignState } from '../campaign/state';
 import { GameIcon } from '../ui/icons';
+import { PerfScroll, perfEnabled } from '../dev/PerfScroll';
+import { useVirtualGrid, type GridOptions } from '../ui/virtualGrid';
 
 type Kind = 'all' | 'mon' | 'mag' | 'arm' | 'fus';
 type Sort = 'nome' | 'atk' | 'nivel' | 'raridade';
 const KINDS: [Kind, string][] = [['all', 'Todas'], ['mon', 'Monstros'], ['mag', 'Magias'], ['arm', 'Armadilhas'], ['fus', 'Fusão']];
 const TIER_ORDER: Record<Tier, number> = { N: 0, R: 1, SR: 2, UR: 3 };
 export const MAX_DECKS = 5;
+/** Grade do editor: 4 colunas, 7 de espaço, 2 + 2 de margem lateral, borda de 2 na célula (o `.cardgrid` do CSS). */
+const GRID: GridOptions = { cols: 4, gap: 7, padX: 4, border: 2, overscan: 2 };
 
 export function DeckBuilder({ progress, data, onChange, onBack }: { progress: CampaignState; data: GameData; onChange: (p: CampaignState) => void; onBack: () => void }) {
   const { cards, tiers } = data;
@@ -21,10 +25,11 @@ export function DeckBuilder({ progress, data, onChange, onBack }: { progress: Ca
   const [kind, setKind] = useState<Kind>('all');
   const [sort, setSort] = useState<Sort>('nome');
   const [open, setOpen] = useState<number | null>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
 
   const deck = progress.decks.find((d) => d.id === editId) ?? progress.decks[0];
   const used = useMemo(() => count([...deck.main, ...deck.extra]), [deck]);
-  const problems = validateDeck(deck, cards, progress.collection);
+  const problems = useMemo(() => validateDeck(deck, cards, progress.collection), [deck, cards, progress.collection]);
   const save = (d: Deck) => onChange({ ...progress, decks: progress.decks.map((x) => (x.id === d.id ? d : x)) });
 
   const canAdd = (code: number) => {
@@ -69,6 +74,9 @@ export function DeckBuilder({ progress, data, onChange, onBack }: { progress: Ca
     const n = tab === 'colecao' ? progress.collection[code] ?? 0 : used[code] ?? 0;
     return Array.from({ length: n }, (_, i) => ({ code, n: i, inDeck: i < (used[code] ?? 0) }));
   }), [list, tab, progress.collection, used]);
+  const range = useVirtualGrid(gridRef, copies.length, GRID);
+  // Trocar de aba, filtro, busca ou ordem volta a grade ao topo.
+  useEffect(() => { if (gridRef.current) gridRef.current.scrollTop = 0; }, [tab, kind, q, sort]);
 
   const newDeck = () => {
     if (progress.decks.length >= MAX_DECKS) return;
@@ -89,7 +97,7 @@ export function DeckBuilder({ progress, data, onChange, onBack }: { progress: Ca
       <div className="hubtop">
         <button className="hud-btn" onClick={onBack} aria-label="Voltar"><GameIcon name="back" size={20} /></button>
         <b className="hubname">Decks</b>
-        <span className="stats">{Object.keys(progress.collection).length} cartas diferentes</span>
+        <span className="stats">{Object.keys(progress.collection).filter((id) => cards[id]).length} cartas diferentes</span>
       </div>
 
       <div className="deckbar hud">
@@ -119,16 +127,17 @@ export function DeckBuilder({ progress, data, onChange, onBack }: { progress: Ca
       </div>
       <div className="chips">{KINDS.map(([k, label]) => <button key={k} className={kind === k ? 'on' : ''} onClick={() => setKind(k)}>{label}</button>)}</div>
 
-      <div className="cardgrid">
-        {copies.length === 0 && <div className="stats" style={{ gridColumn: '1 / -1', textAlign: 'center', padding: 24 }}>{tab === 'deck' ? 'Nenhuma carta neste deck ainda. Adicione pela aba Coleção.' : 'Nenhuma carta encontrada.'}</div>}
-        {copies.map(({ code, n, inDeck }) => (
-          <button key={`${code}-${n}`} className={`cell r-${tiers[code]}${inDeck && tab === 'colecao' ? ' indeck' : ''}`} onClick={() => setOpen(code)}>
-            <img loading="lazy" src={art(code, 'small')} alt={cards[code].name} draggable={false} />
-            {inDeck && tab === 'colecao' && <i aria-label="No deck"><GameIcon name="check" size={12} /></i>}
-          </button>
-        ))}
+      {/* Virtualizada: só as linhas visíveis (e 2 de folga) existem; o resto vira espaço em cima e embaixo. */}
+      <div className="cardgrid virtual" ref={gridRef}>
+        {copies.length === 0 && <div className="stats" style={{ textAlign: 'center', padding: 24 }}>{tab === 'deck' ? 'Nenhuma carta neste deck ainda. Adicione pela aba Coleção.' : 'Nenhuma carta encontrada.'}</div>}
+        <div className="vgrid" style={{ paddingTop: range.padTop, paddingBottom: range.padBottom }}>
+          {copies.slice(range.first, range.end).map(({ code, n, inDeck }) => (
+            <GridCell key={`${code}-${n}`} code={code} card={cards[code]} tier={tiers[code]} mark={inDeck && tab === 'colecao'} onOpen={setOpen} />
+          ))}
+        </div>
       </div>
 
+      {perfEnabled() && <PerfScroll target={gridRef} label={`Grade (${tab}, ${copies.length} cópias)`} />}
       {open != null && (
         <CardZoom code={open} cards={cards} onClose={() => setOpen(null)}>
           <p className="zoom-count num">No deck {used[open] ?? 0} · Você tem {progress.collection[open] ?? 0}</p>
@@ -141,3 +150,13 @@ export function DeckBuilder({ progress, data, onChange, onBack }: { progress: Ca
     </div>
   );
 }
+
+/** Uma cópia na grade. Memorizada: ao rolar, só as células que entram na tela são desenhadas. */
+const GridCell = memo(function GridCell({ code, card, tier, mark, onOpen }: { code: number; card: Cards[string]; tier: Tier; mark: boolean; onOpen: (code: number) => void }) {
+  return (
+    <button className={`cell r-${tier}${mark ? ' indeck' : ''}`} aria-label={card.name} onClick={() => onOpen(code)}>
+      <CardFace code={code} card={card} />
+      {mark && <i aria-label="No deck"><GameIcon name="check" size={12} /></i>}
+    </button>
+  );
+});

@@ -24,8 +24,9 @@ node proto/duel-e2e.mjs [url] [--reduzir]   # duelo inteiro no WebKit, na veloci
 npx tsx proto/move-reason.ts        # confere o `reason` do MSG_MOVE (patch do ocgcore-wasm)
 ```
 
-Pipeline de dados (gera arquivos NÃO versionados; veja README): `npm run fetch-data`, `python3 scripts/fetch_pool.py`,
-`python3 scripts/export_data.py`, `python3 scripts/fetch_card_text_pt.py`, `.venv/bin/python scripts/fetch_card_art.py` (small/large/cropped + verso), `.venv/bin/python scripts/copy_card_icons.py` (ícones de atributo/tipo do app nativo e propriedades do `cardicons.png` do Tag Force 3 no PPSSPP → `public/card-icons/`), `python3 scripts/copy_sounds.py` (efeitos do duelo do app nativo, do Tag Force, convertidos com `afconvert` → `public/sounds/*.m4a`; macOS), `python3 scripts/copy_brand.py` (logo "Yu-Gi-Oh!" do título → `public/brand/`, fora do git),
+Pipeline de dados (gera arquivos NÃO versionados; veja README): `npm run fetch-data`, `python3 scripts/import_dm.py` (era DM:
+data OCG até 2004-09-30, caixas TCG, português; correções em `raw/overrides/text.pt.json`),
+`python3 scripts/export_data.py` (+ relatório `raw/import/report.md`), `.venv/bin/python scripts/fetch_card_art.py` (small/large/cropped + verso), `.venv/bin/python scripts/copy_card_icons.py` (ícones de atributo/tipo do app nativo e propriedades do `cardicons.png` do Tag Force 3 no PPSSPP → `public/card-icons/`), `python3 scripts/copy_sounds.py` (efeitos do duelo do app nativo, do Tag Force, convertidos com `afconvert` → `public/sounds/*.m4a`; macOS), `python3 scripts/copy_brand.py` (logo "Yu-Gi-Oh!" do título → `public/brand/`, fora do git),
 `python3 scripts/copy_campaign_data.py` (dados da campanha do nativo → `src/campaign/data/`, versionados; troca arte
 alternativa pelo id original), `python3 scripts/copy_campaign_assets.py` (mapa, fundos dos lugares, capas dos pacotes e as 8
 músicas do nativo → `public/campaign/` e `public/music/`, fora do git), `.venv/bin/python scripts/extract_action_icons.py` (recorta o `actions.png` do Tag Force; o ícone de cada ação se escolhe em `npm run icon-labeler`, porta 5174, e fica em `assets/action-icons/labels.json`), `npm run build-characters`, `.venv/bin/python scripts/build_sprites.py`.
@@ -142,7 +143,8 @@ pelo `.hexbg` do `styles.css`.
   depois do `duel.css` e o padding do `.hud-btn` ganharia.
 - Cartas que o motor não aguenta vão em `raw/pool/blocklist.json` (rode `export_data.py` depois).
 - **Cartas da campanha usam o id original**, não o da arte alternativa (sem script no ocgcore): o `copy_campaign_data.py`
-  troca pelo `alias`, e o `fetch_pool.py` acrescenta ao pool os ids da campanha que faltam.
+  troca pelo `alias`, e o `import_dm.py` acrescenta ao pool os ids da campanha que faltam (o `export_data.py` também troca
+  ids de arte alternativa pelo original). Os pacotes LOB/MRD/MRL/PSV do `packs.json` vêm do `public/data/boosters.json`.
 - **A arte e a música da campanha são da Konami** (`public/campaign/`, `public/music/`, fora do git e da pré-carga do PWA;
   a música usa cache com `rangeRequests`). Sem os arquivos, fundos em degradê e silêncio.
 - **`overflow: clip` na cena** (`.story.campaign-scene`): com `hidden`, o foco num botão rolava o contêiner para o lado.

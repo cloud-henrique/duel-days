@@ -6,6 +6,10 @@ São texto escrito para o nativo e ids de cartas (metadados), por isso versionad
     python3 scripts/copy_campaign_data.py [caminho do duel-academy]
 
 Trocas de cartas que o motor da PWA não aguenta ficam em SWAPS (id do nativo → id da PWA), com o motivo.
+
+Os pacotes de coleção (LOB, MRD, MRL, PSV) levam as cartas e raridades das caixas TCG reais, de
+public/data/boosters.json (gerado por import_dm.py + export_data.py); nome, preço e dia continuam os do nativo. Os
+pacotes de personagem continuam vindo do nativo.
 """
 import json
 import sqlite3
@@ -63,7 +67,15 @@ def main():
         wanted.add(p if isinstance(p, str) else p['key'])
     wanted |= {d['key'] for d in tier['duelists']}
     packs = [p for p in json.loads((SRC / 'packs.json').read_text()) if p['key'] in wanted]
+    boosters_file = ROOT / 'public/data/boosters.json'
+    if not boosters_file.exists():
+        sys.exit('falta public/data/boosters.json: rode scripts/import_dm.py e scripts/export_data.py')
+    boosters = {b['key']: b for b in json.loads(boosters_file.read_text())}
     for p in packs:
+        if not p.get('duelist'):
+            if p['key'] not in boosters:
+                sys.exit(f'caixa {p["key"]} sem lista em boosters.json')
+            p['cards'] = [{'id': c['id'], 'rarity': c['rarity']} for c in boosters[p['key']]['cards']]
         p['cards'] = swap(p['cards'])
     missing = wanted - {p['key'] for p in packs}
     if missing:

@@ -42,9 +42,9 @@ Formato do `labels.json`:
 ```bash
 npm install
 npm run fetch-data                 # clona CardScripts e BabelCDB (ProjectIgnis) em raw/data
-python3 scripts/fetch_pool.py      # 33 caixas de 2002-2005 (YGOPRODeck): quais cartas e a raridade de cada uma
-python3 scripts/export_data.py     # public/data/{cards,pool}.json + public/scripts.json (só cartas que o motor roda)
-python3 scripts/fetch_card_text_pt.py   # nomes e efeitos em português (o resto cai para inglês)
+python3 scripts/import_dm.py       # era DM (YGOPRODeck): cartas com data OCG até 2004-09-30, raridades, caixas TCG e texto em português
+python3 scripts/export_data.py     # public/data/{cards,pool,boosters,text.pt}.json + public/scripts.json (só o que o motor roda) e raw/import/report.md
+python3 scripts/copy_campaign_data.py   # dados da campanha do nativo; os pacotes LOB/MRD/MRL/PSV vêm do boosters.json
 .venv/bin/python scripts/fetch_card_art.py  # arte (small/large/cropped + verso, WebP); ~95 MB
 .venv/bin/python scripts/copy_card_icons.py # ícones de atributo/tipo/Magia/Armadilha do app nativo e propriedades do atlas do Tag Force 3 no PPSSPP (fora do git)
 python3 scripts/copy_sounds.py     # efeitos sonoros do duelo do app nativo (Tag Force), convertidos para .m4a em public/sounds (fora do git; macOS)
@@ -55,7 +55,12 @@ npm run dev                        # PWA (use --port se o labeler estiver aberto
 ```
 
 - `raw/pool/blocklist.json` lista passcodes que o motor não aguenta (hoje: Rivalry of Warlords). Rode `export_data.py` depois de mudar.
-- O pool tem ~1.700 cartas (61 de fusão, que vão para o Extra Deck). 11 foram cortadas por não terem efeito implementado no script oficial.
+- A base tem ~1.940 cartas da era (73 de Fusão, que vão para o Extra Deck). O relatório `raw/import/report.md` traz os
+  totais por tipo, as caixas TCG (cartas no jogo e cortadas), as cartas sem português, sem suporte do motor e depois do corte.
+- Correções de texto da época: `raw/overrides/text.pt.json` (`{"<id>": {"name": "...", "desc": "..."}}`), aplicadas pelo
+  `export_data.py` por cima do texto da API (vale também para cartas sem tradução). Fica fora do git (texto da Konami).
+- Incluir à mão uma carta fora do corte: `raw/import/incluir.json` (`[id, ...]`) e rodar `import_dm.py` + `export_data.py`.
+- Arte alternativa: o YGOPRODeck às vezes lista o id da arte alternativa; o export troca pelo id original (o que tem script).
 - Teste em massa (800 duelos): 99,4% terminam; o resto são respostas rejeitadas em `SELECT_SUM` e no menu principal.
 - `src/engine/`: sessão do duelo (MR1, regras da era DM), Worker com o ocgcore (build síncrono, sem JSPI) e a CPU. Prompts que a UI não trata são respondidos automaticamente.
 - `public/data`, `public/scripts.json` e `public/cards` não são versionados (regeneráveis). A arte não entra na pré-carga do PWA: é guardada conforme vista.

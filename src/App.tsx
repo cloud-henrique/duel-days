@@ -88,13 +88,13 @@ export function App() {
     fetch(`${BASE}characters/index.json`).then((r) => r.json())
       .then((d: { characters: CharInfo[] }) => setChars(Object.fromEntries(d.characters.map((c) => [c.id, c]))))
       .catch(() => setChars({}));
-    loadData().then(setData);
-    loadProgress().then((p) => {
-      // Conferência (dev ou ?debug=1): ?campaign=last-evening|bond|boss muda a campanha ao abrir.
+    Promise.all([loadData(), loadProgress()]).then(([d, p]) => {
+      setData(d);
+      // Conferência (dev ou ?debug=1): ?campaign=last-evening|bond|boss|all-cards muda a campanha ao abrir.
       const q = new URLSearchParams(location.search);
       const preset = q.get('campaign');
       if (p && preset && (import.meta.env.DEV || q.has('debug'))) {
-        const c = debugPreset(preset, p.campaign);
+        const c = debugPreset(preset, p.campaign, d.poolIds);
         if (c) { p = { ...p, campaign: c }; void writeProgress(p); }
       }
       setProg(p); setReady(true);

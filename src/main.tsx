@@ -10,6 +10,8 @@ registerSW({ immediate: true });
 // Sensação de app nativo: sem zoom por gesto.
 for (const ev of ['gesturestart', 'gesturechange', 'gestureend']) document.addEventListener(ev, (e) => e.preventDefault());
 navigator.storage?.persist?.().catch(() => {});
+// O cache de arte antigo (cartas inteiras em inglês, até a change colecao-dm) não é mais usado: libera o espaço.
+globalThis.caches?.delete('card-art').catch(() => {});
 // O iOS só libera o áudio num gesto: qualquer toque no app (já na história) deixa os sons do duelo prontos.
 installUnlock();
 const root = createRoot(document.getElementById('root')!);

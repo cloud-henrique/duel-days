@@ -2,6 +2,7 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { act, cleanup, fireEvent, render } from '@testing-library/react';
 import { Plate } from './Plate';
+import type { Cards } from '../../data/cards';
 import { LP_POPUP_MS, LP_STEPS, LP_STEP_MS } from './lp';
 
 const who = { id: 'joey_wheeler', name: 'Joey' };
@@ -55,8 +56,9 @@ describe('Plate', () => {
     const onGrave = vi.fn();
     const { container, rerender } = render(<Plate {...props} lp={8000} onGrave={onGrave} />);
     expect(container.querySelector('.gslot')?.classList.contains('empty')).toBe(true);
-    rerender(<Plate {...props} lp={8000} onGrave={onGrave} grave={[{ code: 1, position: 1 }, { code: 2, position: 1 }]} />);
-    expect(container.querySelector('.gslot img')?.getAttribute('src')).toContain('/2.webp');
+    const cards = { 2: { code: 2, alias: 0, setcodes: [], type: 0x11, level: 4, attribute: 1, race: '1', attack: 1000, defense: 1000, lscale: 0, rscale: 0, link_marker: 0, name: 'Topo', desc: '' } } as unknown as Cards;
+    rerender(<Plate {...props} lp={8000} onGrave={onGrave} cards={cards} grave={[{ code: 1, position: 1 }, { code: 2, position: 1 }]} />);
+    expect(container.querySelector('.gslot .cf-art img')?.getAttribute('src')).toContain('cards/thumb/2.webp');
     expect(container.querySelector('.gravebox em')?.textContent).toBe('2');
     fireEvent.click(container.querySelector('.gravebox')!);
     expect(onGrave).toHaveBeenCalledOnce();

@@ -5,375 +5,19 @@
   "shortName": "Legend of Blue Eyes",
   "cards": [
    {
-    "id": 32864,
-    "rarity": "common"
-   },
-   {
-    "id": 1641882,
+    "id": 85639257,
     "rarity": "rare"
-   },
-   {
-    "id": 1784619,
-    "rarity": "common"
-   },
-   {
-    "id": 2863439,
-    "rarity": "common"
-   },
-   {
-    "id": 4206964,
-    "rarity": "super"
-   },
-   {
-    "id": 6368038,
-    "rarity": "ultra"
-   },
-   {
-    "id": 7089711,
-    "rarity": "rare"
-   },
-   {
-    "id": 7902349,
-    "rarity": "ultra"
-   },
-   {
-    "id": 8124921,
-    "rarity": "ultra"
-   },
-   {
-    "id": 9076207,
-    "rarity": "rare"
-   },
-   {
-    "id": 9159938,
-    "rarity": "common"
-   },
-   {
-    "id": 9293977,
-    "rarity": "rare"
-   },
-   {
-    "id": 10202894,
-    "rarity": "common"
-   },
-   {
-    "id": 12580477,
-    "rarity": "super"
-   },
-   {
-    "id": 13039848,
-    "rarity": "rare"
-   },
-   {
-    "id": 15025844,
-    "rarity": "super"
-   },
-   {
-    "id": 15401633,
-    "rarity": "common"
-   },
-   {
-    "id": 16353197,
-    "rarity": "common"
-   },
-   {
-    "id": 17535588,
-    "rarity": "common"
-   },
-   {
-    "id": 17881964,
-    "rarity": "rare"
-   },
-   {
-    "id": 18710707,
-    "rarity": "common"
-   },
-   {
-    "id": 20060230,
-    "rarity": "common"
-   },
-   {
-    "id": 22702055,
-    "rarity": "common"
-   },
-   {
-    "id": 22910685,
-    "rarity": "common"
-   },
-   {
-    "id": 24094653,
-    "rarity": "super"
-   },
-   {
-    "id": 28279543,
-    "rarity": "super"
-   },
-   {
-    "id": 29172562,
-    "rarity": "common"
-   },
-   {
-    "id": 32274490,
-    "rarity": "common"
-   },
-   {
-    "id": 32452818,
-    "rarity": "common"
-   },
-   {
-    "id": 33064647,
-    "rarity": "common"
-   },
-   {
-    "id": 33066139,
-    "rarity": "rare"
-   },
-   {
-    "id": 33178416,
-    "rarity": "common"
-   },
-   {
-    "id": 33396948,
-    "rarity": "ultra"
-   },
-   {
-    "id": 34460851,
-    "rarity": "common"
-   },
-   {
-    "id": 36121917,
-    "rarity": "common"
-   },
-   {
-    "id": 36304921,
-    "rarity": "common"
-   },
-   {
-    "id": 37313348,
-    "rarity": "common"
-   },
-   {
-    "id": 37421579,
-    "rarity": "rare"
-   },
-   {
-    "id": 38142739,
-    "rarity": "common"
-   },
-   {
-    "id": 39004808,
-    "rarity": "common"
-   },
-   {
-    "id": 39111158,
-    "rarity": "ultra"
-   },
-   {
-    "id": 40374923,
-    "rarity": "common"
-   },
-   {
-    "id": 40826495,
-    "rarity": "common"
-   },
-   {
-    "id": 43500484,
-    "rarity": "common"
-   },
-   {
-    "id": 44287299,
-    "rarity": "common"
-   },
-   {
-    "id": 44519536,
-    "rarity": "ultra"
-   },
-   {
-    "id": 45042329,
-    "rarity": "common"
-   },
-   {
-    "id": 45231177,
-    "rarity": "super"
-   },
-   {
-    "id": 46130346,
-    "rarity": "common"
-   },
-   {
-    "id": 46986414,
-    "rarity": "ultra"
-   },
-   {
-    "id": 50913601,
-    "rarity": "common"
-   },
-   {
-    "id": 53129443,
-    "rarity": "super"
    },
    {
     "id": 53153481,
     "rarity": "common"
    },
    {
-    "id": 53293545,
-    "rarity": "common"
-   },
-   {
-    "id": 53375573,
-    "rarity": "common"
-   },
-   {
-    "id": 54541900,
+    "id": 9076207,
     "rarity": "rare"
    },
    {
-    "id": 54652250,
-    "rarity": "super"
-   },
-   {
-    "id": 55144522,
-    "rarity": "rare"
-   },
-   {
-    "id": 55291359,
-    "rarity": "common"
-   },
-   {
-    "id": 55444629,
-    "rarity": "common"
-   },
-   {
-    "id": 56283725,
-    "rarity": "common"
-   },
-   {
-    "id": 56342351,
-    "rarity": "common"
-   },
-   {
-    "id": 57305373,
-    "rarity": "common"
-   },
-   {
-    "id": 58528964,
-    "rarity": "rare"
-   },
-   {
-    "id": 61854111,
-    "rarity": "common"
-   },
-   {
-    "id": 63102017,
-    "rarity": "rare"
-   },
-   {
-    "id": 63308047,
-    "rarity": "common"
-   },
-   {
-    "id": 66788016,
-    "rarity": "rare"
-   },
-   {
-    "id": 66889139,
-    "rarity": "ultra"
-   },
-   {
-    "id": 70681994,
-    "rarity": "rare"
-   },
-   {
-    "id": 70903634,
-    "rarity": "ultra"
-   },
-   {
-    "id": 71407486,
-    "rarity": "common"
-   },
-   {
-    "id": 72302403,
-    "rarity": "super"
-   },
-   {
-    "id": 72842870,
-    "rarity": "common"
-   },
-   {
-    "id": 73051941,
-    "rarity": "common"
-   },
-   {
-    "id": 73134081,
-    "rarity": "rare"
-   },
-   {
-    "id": 74677422,
-    "rarity": "ultra"
-   },
-   {
-    "id": 75356564,
-    "rarity": "common"
-   },
-   {
-    "id": 75376965,
-    "rarity": "common"
-   },
-   {
-    "id": 76103675,
-    "rarity": "common"
-   },
-   {
-    "id": 76184692,
-    "rarity": "common"
-   },
-   {
-    "id": 76211194,
-    "rarity": "common"
-   },
-   {
-    "id": 77027445,
-    "rarity": "common"
-   },
-   {
-    "id": 77827521,
-    "rarity": "common"
-   },
-   {
-    "id": 80770678,
-    "rarity": "rare"
-   },
-   {
-    "id": 83464209,
-    "rarity": "common"
-   },
-   {
-    "id": 83764718,
-    "rarity": "ultra"
-   },
-   {
-    "id": 83887306,
-    "rarity": "rare"
-   },
-   {
-    "id": 84686841,
-    "rarity": "common"
-   },
-   {
-    "id": 85309439,
-    "rarity": "common"
-   },
-   {
-    "id": 85326399,
-    "rarity": "common"
-   },
-   {
-    "id": 85639257,
-    "rarity": "rare"
-   },
-   {
-    "id": 85705804,
+    "id": 17535588,
     "rarity": "common"
    },
    {
@@ -381,15 +25,19 @@
     "rarity": "common"
    },
    {
+    "id": 46009906,
+    "rarity": "common"
+   },
+   {
+    "id": 32452818,
+    "rarity": "common"
+   },
+   {
     "id": 89631139,
     "rarity": "ultra"
    },
    {
-    "id": 90357090,
-    "rarity": "common"
-   },
-   {
-    "id": 90963488,
+    "id": 91595718,
     "rarity": "common"
    },
    {
@@ -397,11 +45,179 @@
     "rarity": "super"
    },
    {
-    "id": 92731455,
+    "id": 37421579,
+    "rarity": "rare"
+   },
+   {
+    "id": 28279543,
+    "rarity": "super"
+   },
+   {
+    "id": 4614116,
     "rarity": "common"
    },
    {
-    "id": 93553943,
+    "id": 9159938,
+    "rarity": "common"
+   },
+   {
+    "id": 53129443,
+    "rarity": "super"
+   },
+   {
+    "id": 53375573,
+    "rarity": "common"
+   },
+   {
+    "id": 17881964,
+    "rarity": "rare"
+   },
+   {
+    "id": 43500484,
+    "rarity": "common"
+   },
+   {
+    "id": 40826495,
+    "rarity": "common"
+   },
+   {
+    "id": 50045299,
+    "rarity": "rare"
+   },
+   {
+    "id": 1435851,
+    "rarity": "common"
+   },
+   {
+    "id": 70681994,
+    "rarity": "rare"
+   },
+   {
+    "id": 16353197,
+    "rarity": "common"
+   },
+   {
+    "id": 37820550,
+    "rarity": "common"
+   },
+   {
+    "id": 75376965,
+    "rarity": "common"
+   },
+   {
+    "id": 33396948,
+    "rarity": "ultra"
+   },
+   {
+    "id": 2863439,
+    "rarity": "common"
+   },
+   {
+    "id": 53293545,
+    "rarity": "common"
+   },
+   {
+    "id": 71407486,
+    "rarity": "common"
+   },
+   {
+    "id": 66788016,
+    "rarity": "rare"
+   },
+   {
+    "id": 58528964,
+    "rarity": "rare"
+   },
+   {
+    "id": 34460851,
+    "rarity": "common"
+   },
+   {
+    "id": 45231177,
+    "rarity": "super"
+   },
+   {
+    "id": 95952802,
+    "rarity": "rare"
+   },
+   {
+    "id": 98252586,
+    "rarity": "common"
+   },
+   {
+    "id": 87430998,
+    "rarity": "common"
+   },
+   {
+    "id": 98818516,
+    "rarity": "common"
+   },
+   {
+    "id": 1641882,
+    "rarity": "rare"
+   },
+   {
+    "id": 66889139,
+    "rarity": "ultra"
+   },
+   {
+    "id": 6368038,
+    "rarity": "ultra"
+   },
+   {
+    "id": 13039848,
+    "rarity": "rare"
+   },
+   {
+    "id": 11868825,
+    "rarity": "rare"
+   },
+   {
+    "id": 82542267,
+    "rarity": "rare"
+   },
+   {
+    "id": 22910685,
+    "rarity": "common"
+   },
+   {
+    "id": 7089711,
+    "rarity": "rare"
+   },
+   {
+    "id": 20060230,
+    "rarity": "common"
+   },
+   {
+    "id": 46130346,
+    "rarity": "common"
+   },
+   {
+    "id": 96851799,
+    "rarity": "common"
+   },
+   {
+    "id": 76184692,
+    "rarity": "common"
+   },
+   {
+    "id": 15401633,
+    "rarity": "common"
+   },
+   {
+    "id": 54541900,
+    "rarity": "rare"
+   },
+   {
+    "id": 84686841,
+    "rarity": "common"
+   },
+   {
+    "id": 56283725,
+    "rarity": "common"
+   },
+   {
+    "id": 85705804,
     "rarity": "common"
    },
    {
@@ -409,15 +225,279 @@
     "rarity": "common"
    },
    {
-    "id": 95952802,
-    "rarity": "rare"
-   },
-   {
-    "id": 96851799,
+    "id": 77007920,
     "rarity": "common"
    },
    {
-    "id": 98818516,
+    "id": 7902349,
+    "rarity": "ultra"
+   },
+   {
+    "id": 44519536,
+    "rarity": "ultra"
+   },
+   {
+    "id": 61854111,
+    "rarity": "common"
+   },
+   {
+    "id": 55444629,
+    "rarity": "common"
+   },
+   {
+    "id": 56342351,
+    "rarity": "common"
+   },
+   {
+    "id": 92731455,
+    "rarity": "common"
+   },
+   {
+    "id": 25769732,
+    "rarity": "common"
+   },
+   {
+    "id": 40374923,
+    "rarity": "common"
+   },
+   {
+    "id": 93553943,
+    "rarity": "common"
+   },
+   {
+    "id": 54652250,
+    "rarity": "super"
+   },
+   {
+    "id": 44287299,
+    "rarity": "common"
+   },
+   {
+    "id": 76211194,
+    "rarity": "common"
+   },
+   {
+    "id": 9293977,
+    "rarity": "rare"
+   },
+   {
+    "id": 33178416,
+    "rarity": "common"
+   },
+   {
+    "id": 36121917,
+    "rarity": "common"
+   },
+   {
+    "id": 83764718,
+    "rarity": "ultra"
+   },
+   {
+    "id": 50913601,
+    "rarity": "common"
+   },
+   {
+    "id": 15025844,
+    "rarity": "super"
+   },
+   {
+    "id": 36607978,
+    "rarity": "common"
+   },
+   {
+    "id": 83464209,
+    "rarity": "common"
+   },
+   {
+    "id": 90963488,
+    "rarity": "common"
+   },
+   {
+    "id": 33064647,
+    "rarity": "common"
+   },
+   {
+    "id": 38142739,
+    "rarity": "common"
+   },
+   {
+    "id": 75356564,
+    "rarity": "common"
+   },
+   {
+    "id": 24094653,
+    "rarity": "super"
+   },
+   {
+    "id": 55144522,
+    "rarity": "rare"
+   },
+   {
+    "id": 77027445,
+    "rarity": "common"
+   },
+   {
+    "id": 12580477,
+    "rarity": "super"
+   },
+   {
+    "id": 51267887,
+    "rarity": "common"
+   },
+   {
+    "id": 85309439,
+    "rarity": "common"
+   },
+   {
+    "id": 33066139,
+    "rarity": "rare"
+   },
+   {
+    "id": 38199696,
+    "rarity": "common"
+   },
+   {
+    "id": 74677422,
+    "rarity": "ultra"
+   },
+   {
+    "id": 51482758,
+    "rarity": "common"
+   },
+   {
+    "id": 70903634,
+    "rarity": "ultra"
+   },
+   {
+    "id": 8124921,
+    "rarity": "ultra"
+   },
+   {
+    "id": 39004808,
+    "rarity": "common"
+   },
+   {
+    "id": 73051941,
+    "rarity": "common"
+   },
+   {
+    "id": 1557499,
+    "rarity": "common"
+   },
+   {
+    "id": 90357090,
+    "rarity": "common"
+   },
+   {
+    "id": 10202894,
+    "rarity": "common"
+   },
+   {
+    "id": 32274490,
+    "rarity": "common"
+   },
+   {
+    "id": 86318356,
+    "rarity": "common"
+   },
+   {
+    "id": 76103675,
+    "rarity": "common"
+   },
+   {
+    "id": 85326399,
+    "rarity": "common"
+   },
+   {
+    "id": 80770678,
+    "rarity": "rare"
+   },
+   {
+    "id": 29172562,
+    "rarity": "common"
+   },
+   {
+    "id": 63102017,
+    "rarity": "rare"
+   },
+   {
+    "id": 55291359,
+    "rarity": "common"
+   },
+   {
+    "id": 72302403,
+    "rarity": "super"
+   },
+   {
+    "id": 63308047,
+    "rarity": "common"
+   },
+   {
+    "id": 32864,
+    "rarity": "common"
+   },
+   {
+    "id": 18710707,
+    "rarity": "common"
+   },
+   {
+    "id": 4206964,
+    "rarity": "super"
+   },
+   {
+    "id": 39111158,
+    "rarity": "ultra"
+   },
+   {
+    "id": 77827521,
+    "rarity": "common"
+   },
+   {
+    "id": 45042329,
+    "rarity": "common"
+   },
+   {
+    "id": 37313348,
+    "rarity": "common"
+   },
+   {
+    "id": 57305373,
+    "rarity": "common"
+   },
+   {
+    "id": 83887306,
+    "rarity": "rare"
+   },
+   {
+    "id": 72842870,
+    "rarity": "common"
+   },
+   {
+    "id": 22702055,
+    "rarity": "common"
+   },
+   {
+    "id": 1784619,
+    "rarity": "common"
+   },
+   {
+    "id": 39774685,
+    "rarity": "common"
+   },
+   {
+    "id": 15052462,
+    "rarity": "common"
+   },
+   {
+    "id": 23424603,
+    "rarity": "common"
+   },
+   {
+    "id": 36304921,
+    "rarity": "common"
+   },
+   {
+    "id": 59197169,
     "rarity": "common"
    }
   ]
@@ -427,203 +507,15 @@
   "name": "Metal Raiders",
   "cards": [
    {
-    "id": 549481,
-    "rarity": "common"
-   },
-   {
-    "id": 1184620,
-    "rarity": "common"
-   },
-   {
-    "id": 2118022,
-    "rarity": "common"
-   },
-   {
-    "id": 2483611,
-    "rarity": "common"
-   },
-   {
-    "id": 4031928,
-    "rarity": "ultra"
-   },
-   {
-    "id": 5758500,
-    "rarity": "common"
-   },
-   {
-    "id": 5818798,
-    "rarity": "common"
-   },
-   {
-    "id": 5901497,
-    "rarity": "common"
-   },
-   {
-    "id": 7489323,
-    "rarity": "rare"
-   },
-   {
-    "id": 7805359,
-    "rarity": "common"
-   },
-   {
-    "id": 8201910,
-    "rarity": "rare"
-   },
-   {
-    "id": 8471389,
-    "rarity": "common"
-   },
-   {
-    "id": 9653271,
-    "rarity": "common"
-   },
-   {
-    "id": 10071456,
-    "rarity": "common"
-   },
-   {
-    "id": 10189126,
-    "rarity": "rare"
-   },
-   {
-    "id": 10538007,
-    "rarity": "common"
-   },
-   {
-    "id": 11384280,
-    "rarity": "rare"
-   },
-   {
-    "id": 11901678,
-    "rarity": "ultra"
-   },
-   {
-    "id": 12206212,
-    "rarity": "super"
-   },
-   {
-    "id": 12472242,
-    "rarity": "common"
-   },
-   {
-    "id": 14851496,
-    "rarity": "common"
-   },
-   {
-    "id": 15150365,
-    "rarity": "rare"
-   },
-   {
-    "id": 15480588,
-    "rarity": "common"
-   },
-   {
-    "id": 16972957,
-    "rarity": "common"
-   },
-   {
-    "id": 17358176,
-    "rarity": "common"
-   },
-   {
-    "id": 18246479,
-    "rarity": "common"
-   },
-   {
-    "id": 19613556,
-    "rarity": "super"
-   },
-   {
-    "id": 20277860,
-    "rarity": "common"
-   },
-   {
-    "id": 20394040,
-    "rarity": "common"
-   },
-   {
-    "id": 21263083,
-    "rarity": "common"
-   },
-   {
-    "id": 21347810,
-    "rarity": "common"
-   },
-   {
-    "id": 21417692,
-    "rarity": "rare"
-   },
-   {
-    "id": 21817254,
-    "rarity": "common"
-   },
-   {
     "id": 23771716,
     "rarity": "common"
    },
    {
-    "id": 24611934,
-    "rarity": "common"
-   },
-   {
-    "id": 25109950,
-    "rarity": "common"
-   },
-   {
-    "id": 25880422,
-    "rarity": "common"
-   },
-   {
-    "id": 26202165,
-    "rarity": "rare"
-   },
-   {
-    "id": 28470714,
-    "rarity": "rare"
-   },
-   {
-    "id": 28546905,
-    "rarity": "common"
-   },
-   {
-    "id": 28593363,
-    "rarity": "common"
-   },
-   {
-    "id": 28933734,
-    "rarity": "rare"
-   },
-   {
-    "id": 30778711,
-    "rarity": "rare"
-   },
-   {
-    "id": 31560081,
-    "rarity": "rare"
-   },
-   {
-    "id": 32809211,
-    "rarity": "common"
-   },
-   {
-    "id": 40453765,
-    "rarity": "common"
-   },
-   {
-    "id": 41392891,
-    "rarity": "common"
-   },
-   {
-    "id": 41396436,
-    "rarity": "common"
-   },
-   {
-    "id": 41462083,
-    "rarity": "ultra"
-   },
-   {
     "id": 42431843,
+    "rarity": "common"
+   },
+   {
+    "id": 93221206,
     "rarity": "common"
    },
    {
@@ -631,183 +523,63 @@
     "rarity": "common"
    },
    {
-    "id": 44095762,
-    "rarity": "ultra"
-   },
-   {
-    "id": 46918794,
+    "id": 15480588,
     "rarity": "common"
    },
    {
-    "id": 49888191,
-    "rarity": "super"
-   },
-   {
-    "id": 51275027,
+    "id": 20277860,
     "rarity": "common"
-   },
-   {
-    "id": 51371017,
-    "rarity": "rare"
-   },
-   {
-    "id": 51828629,
-    "rarity": "common"
-   },
-   {
-    "id": 52097679,
-    "rarity": "rare"
-   },
-   {
-    "id": 55784832,
-    "rarity": "common"
-   },
-   {
-    "id": 58192742,
-    "rarity": "common"
-   },
-   {
-    "id": 58314394,
-    "rarity": "common"
-   },
-   {
-    "id": 58861941,
-    "rarity": "common"
-   },
-   {
-    "id": 60862676,
-    "rarity": "common"
-   },
-   {
-    "id": 64501875,
-    "rarity": "common"
-   },
-   {
-    "id": 66602787,
-    "rarity": "common"
-   },
-   {
-    "id": 67494157,
-    "rarity": "common"
-   },
-   {
-    "id": 67629977,
-    "rarity": "rare"
-   },
-   {
-    "id": 68516705,
-    "rarity": "common"
-   },
-   {
-    "id": 68658728,
-    "rarity": "rare"
-   },
-   {
-    "id": 68846917,
-    "rarity": "common"
-   },
-   {
-    "id": 69455834,
-    "rarity": "common"
-   },
-   {
-    "id": 69572024,
-    "rarity": "common"
-   },
-   {
-    "id": 70781052,
-    "rarity": "ultra"
-   },
-   {
-    "id": 71107816,
-    "rarity": "common"
-   },
-   {
-    "id": 71625222,
-    "rarity": "ultra"
-   },
-   {
-    "id": 73481154,
-    "rarity": "common"
-   },
-   {
-    "id": 74703140,
-    "rarity": "common"
-   },
-   {
-    "id": 76446915,
-    "rarity": "common"
-   },
-   {
-    "id": 76812113,
-    "rarity": "common"
-   },
-   {
-    "id": 78010363,
-    "rarity": "rare"
-   },
-   {
-    "id": 78780140,
-    "rarity": "common"
-   },
-   {
-    "id": 80141480,
-    "rarity": "common"
-   },
-   {
-    "id": 80741828,
-    "rarity": "rare"
-   },
-   {
-    "id": 81386177,
-    "rarity": "common"
-   },
-   {
-    "id": 86088138,
-    "rarity": "common"
-   },
-   {
-    "id": 87322377,
-    "rarity": "common"
-   },
-   {
-    "id": 87564352,
-    "rarity": "common"
-   },
-   {
-    "id": 87796900,
-    "rarity": "common"
-   },
-   {
-    "id": 88279736,
-    "rarity": "rare"
    },
    {
     "id": 88819587,
     "rarity": "common"
    },
    {
-    "id": 88979991,
+    "id": 18246479,
     "rarity": "common"
    },
    {
-    "id": 89272878,
+    "id": 25655502,
     "rarity": "common"
    },
    {
-    "id": 90219263,
+    "id": 16768387,
+    "rarity": "common"
+   },
+   {
+    "id": 11901678,
+    "rarity": "ultra"
+   },
+   {
+    "id": 87564352,
+    "rarity": "common"
+   },
+   {
+    "id": 28470714,
     "rarity": "rare"
    },
    {
-    "id": 93221206,
+    "id": 70138455,
     "rarity": "common"
    },
    {
-    "id": 93900406,
+    "id": 25880422,
     "rarity": "common"
    },
    {
-    "id": 94905343,
+    "id": 41396436,
+    "rarity": "common"
+   },
+   {
+    "id": 81386177,
+    "rarity": "common"
+   },
+   {
+    "id": 11384280,
+    "rarity": "rare"
+   },
+   {
+    "id": 62121,
     "rarity": "common"
    },
    {
@@ -815,7 +587,495 @@
     "rarity": "super"
    },
    {
+    "id": 4031928,
+    "rarity": "ultra"
+   },
+   {
+    "id": 40240595,
+    "rarity": "common"
+   },
+   {
+    "id": 93889755,
+    "rarity": "common"
+   },
+   {
+    "id": 67494157,
+    "rarity": "common"
+   },
+   {
+    "id": 89112729,
+    "rarity": "common"
+   },
+   {
+    "id": 21417692,
+    "rarity": "rare"
+   },
+   {
+    "id": 28593363,
+    "rarity": "common"
+   },
+   {
+    "id": 73481154,
+    "rarity": "common"
+   },
+   {
+    "id": 76446915,
+    "rarity": "common"
+   },
+   {
+    "id": 16972957,
+    "rarity": "common"
+   },
+   {
+    "id": 55763552,
+    "rarity": "common"
+   },
+   {
+    "id": 13215230,
+    "rarity": "common"
+   },
+   {
+    "id": 55875323,
+    "rarity": "common"
+   },
+   {
+    "id": 90219263,
+    "rarity": "rare"
+   },
+   {
+    "id": 15237615,
+    "rarity": "common"
+   },
+   {
+    "id": 3027001,
+    "rarity": "rare"
+   },
+   {
+    "id": 41392891,
+    "rarity": "common"
+   },
+   {
+    "id": 60862676,
+    "rarity": "common"
+   },
+   {
+    "id": 49888191,
+    "rarity": "super"
+   },
+   {
+    "id": 25833572,
+    "rarity": "ultra"
+   },
+   {
+    "id": 5818798,
+    "rarity": "common"
+   },
+   {
+    "id": 24668830,
+    "rarity": "common"
+   },
+   {
+    "id": 8471389,
+    "rarity": "common"
+   },
+   {
+    "id": 51828629,
+    "rarity": "common"
+   },
+   {
+    "id": 14141448,
+    "rarity": "rare"
+   },
+   {
+    "id": 58314394,
+    "rarity": "common"
+   },
+   {
+    "id": 89272878,
+    "rarity": "common"
+   },
+   {
+    "id": 76812113,
+    "rarity": "common"
+   },
+   {
+    "id": 12206212,
+    "rarity": "super"
+   },
+   {
+    "id": 19613556,
+    "rarity": "super"
+   },
+   {
+    "id": 64501875,
+    "rarity": "common"
+   },
+   {
+    "id": 98069388,
+    "rarity": "ultra"
+   },
+   {
+    "id": 67629977,
+    "rarity": "rare"
+   },
+   {
+    "id": 80141480,
+    "rarity": "common"
+   },
+   {
+    "id": 2118022,
+    "rarity": "common"
+   },
+   {
+    "id": 28546905,
+    "rarity": "common"
+   },
+   {
+    "id": 7019529,
+    "rarity": "common"
+   },
+   {
+    "id": 14851496,
+    "rarity": "common"
+   },
+   {
+    "id": 32809211,
+    "rarity": "common"
+   },
+   {
+    "id": 94773007,
+    "rarity": "common"
+   },
+   {
+    "id": 9653271,
+    "rarity": "common"
+   },
+   {
+    "id": 62340868,
+    "rarity": "super"
+   },
+   {
+    "id": 88979991,
+    "rarity": "common"
+   },
+   {
+    "id": 69455834,
+    "rarity": "common"
+   },
+   {
+    "id": 1184620,
+    "rarity": "common"
+   },
+   {
+    "id": 40640057,
+    "rarity": "super"
+   },
+   {
+    "id": 99551425,
+    "rarity": "common"
+   },
+   {
+    "id": 17358176,
+    "rarity": "common"
+   },
+   {
+    "id": 87756343,
+    "rarity": "common"
+   },
+   {
+    "id": 87322377,
+    "rarity": "common"
+   },
+   {
+    "id": 20394040,
+    "rarity": "common"
+   },
+   {
+    "id": 12472242,
+    "rarity": "common"
+   },
+   {
+    "id": 10538007,
+    "rarity": "common"
+   },
+   {
+    "id": 68658728,
+    "rarity": "rare"
+   },
+   {
+    "id": 77414722,
+    "rarity": "ultra"
+   },
+   {
+    "id": 31560081,
+    "rarity": "rare"
+   },
+   {
+    "id": 28933734,
+    "rarity": "rare"
+   },
+   {
+    "id": 10189126,
+    "rarity": "rare"
+   },
+   {
+    "id": 21817254,
+    "rarity": "common"
+   },
+   {
+    "id": 7489323,
+    "rarity": "rare"
+   },
+   {
+    "id": 44095762,
+    "rarity": "ultra"
+   },
+   {
+    "id": 55784832,
+    "rarity": "common"
+   },
+   {
+    "id": 46657337,
+    "rarity": "rare"
+   },
+   {
+    "id": 93900406,
+    "rarity": "common"
+   },
+   {
+    "id": 56907389,
+    "rarity": "common"
+   },
+   {
+    "id": 68516705,
+    "rarity": "common"
+   },
+   {
     "id": 98049915,
+    "rarity": "common"
+   },
+   {
+    "id": 7805359,
+    "rarity": "common"
+   },
+   {
+    "id": 86088138,
+    "rarity": "common"
+   },
+   {
+    "id": 58861941,
+    "rarity": "common"
+   },
+   {
+    "id": 21263083,
+    "rarity": "common"
+   },
+   {
+    "id": 50152549,
+    "rarity": "common"
+   },
+   {
+    "id": 58192742,
+    "rarity": "common"
+   },
+   {
+    "id": 549481,
+    "rarity": "common"
+   },
+   {
+    "id": 51371017,
+    "rarity": "rare"
+   },
+   {
+    "id": 10071456,
+    "rarity": "common"
+   },
+   {
+    "id": 29155212,
+    "rarity": "common"
+   },
+   {
+    "id": 74703140,
+    "rarity": "common"
+   },
+   {
+    "id": 5901497,
+    "rarity": "common"
+   },
+   {
+    "id": 94905343,
+    "rarity": "common"
+   },
+   {
+    "id": 21347810,
+    "rarity": "common"
+   },
+   {
+    "id": 20436034,
+    "rarity": "common"
+   },
+   {
+    "id": 19066538,
+    "rarity": "common"
+   },
+   {
+    "id": 88279736,
+    "rarity": "rare"
+   },
+   {
+    "id": 68846917,
+    "rarity": "common"
+   },
+   {
+    "id": 24611934,
+    "rarity": "common"
+   },
+   {
+    "id": 66602787,
+    "rarity": "common"
+   },
+   {
+    "id": 25955164,
+    "rarity": "super"
+   },
+   {
+    "id": 26202165,
+    "rarity": "rare"
+   },
+   {
+    "id": 3819470,
+    "rarity": "ultra"
+   },
+   {
+    "id": 30778711,
+    "rarity": "rare"
+   },
+   {
+    "id": 56830749,
+    "rarity": "common"
+   },
+   {
+    "id": 52097679,
+    "rarity": "rare"
+   },
+   {
+    "id": 2504891,
+    "rarity": "common"
+   },
+   {
+    "id": 41420027,
+    "rarity": "ultra"
+   },
+   {
+    "id": 5758500,
+    "rarity": "common"
+   },
+   {
+    "id": 8201910,
+    "rarity": "rare"
+   },
+   {
+    "id": 13599884,
+    "rarity": "common"
+   },
+   {
+    "id": 83225447,
+    "rarity": "common"
+   },
+   {
+    "id": 98434877,
+    "rarity": "super"
+   },
+   {
+    "id": 70781052,
+    "rarity": "ultra"
+   },
+   {
+    "id": 40453765,
+    "rarity": "common"
+   },
+   {
+    "id": 98495314,
+    "rarity": "common"
+   },
+   {
+    "id": 28725004,
+    "rarity": "common"
+   },
+   {
+    "id": 71107816,
+    "rarity": "common"
+   },
+   {
+    "id": 41142615,
+    "rarity": "common"
+   },
+   {
+    "id": 84926738,
+    "rarity": "common"
+   },
+   {
+    "id": 25109950,
+    "rarity": "common"
+   },
+   {
+    "id": 51275027,
+    "rarity": "common"
+   },
+   {
+    "id": 41462083,
+    "rarity": "ultra"
+   },
+   {
+    "id": 31786629,
+    "rarity": "common"
+   },
+   {
+    "id": 71625222,
+    "rarity": "ultra"
+   },
+   {
+    "id": 69572024,
+    "rarity": "common"
+   },
+   {
+    "id": 46918794,
+    "rarity": "common"
+   },
+   {
+    "id": 78780140,
+    "rarity": "common"
+   },
+   {
+    "id": 79759861,
+    "rarity": "super"
+   },
+   {
+    "id": 54752875,
+    "rarity": "super"
+   },
+   {
+    "id": 2483611,
+    "rarity": "common"
+   },
+   {
+    "id": 15150365,
+    "rarity": "rare"
+   },
+   {
+    "id": 87796900,
+    "rarity": "common"
+   },
+   {
+    "id": 78010363,
+    "rarity": "rare"
+   },
+   {
+    "id": 80741828,
+    "rarity": "rare"
+   },
+   {
+    "id": 29380133,
     "rarity": "common"
    }
   ]
@@ -825,191 +1085,11 @@
   "name": "Spell Ruler",
   "cards": [
    {
-    "id": 596051,
-    "rarity": "common"
-   },
-   {
-    "id": 1641882,
-    "rarity": "common"
-   },
-   {
-    "id": 2964201,
-    "rarity": "common"
-   },
-   {
-    "id": 3056267,
-    "rarity": "super"
-   },
-   {
-    "id": 3797883,
-    "rarity": "common"
-   },
-   {
-    "id": 4849037,
-    "rarity": "common"
-   },
-   {
-    "id": 5318639,
-    "rarity": "ultra"
-   },
-   {
-    "id": 7089711,
-    "rarity": "common"
-   },
-   {
-    "id": 7892180,
-    "rarity": "common"
-   },
-   {
-    "id": 11324436,
-    "rarity": "common"
-   },
-   {
-    "id": 12470447,
-    "rarity": "common"
-   },
-   {
-    "id": 13723605,
-    "rarity": "common"
+    "id": 95174353,
+    "rarity": "rare"
    },
    {
     "id": 14015067,
-    "rarity": "common"
-   },
-   {
-    "id": 15023985,
-    "rarity": "common"
-   },
-   {
-    "id": 15083728,
-    "rarity": "common"
-   },
-   {
-    "id": 15259703,
-    "rarity": "super"
-   },
-   {
-    "id": 16430187,
-    "rarity": "common"
-   },
-   {
-    "id": 16762927,
-    "rarity": "common"
-   },
-   {
-    "id": 17375316,
-    "rarity": "super"
-   },
-   {
-    "id": 17653779,
-    "rarity": "common"
-   },
-   {
-    "id": 18161786,
-    "rarity": "common"
-   },
-   {
-    "id": 18591904,
-    "rarity": "common"
-   },
-   {
-    "id": 18807108,
-    "rarity": "ultra"
-   },
-   {
-    "id": 19384334,
-    "rarity": "common"
-   },
-   {
-    "id": 19406822,
-    "rarity": "common"
-   },
-   {
-    "id": 19523799,
-    "rarity": "common"
-   },
-   {
-    "id": 20228463,
-    "rarity": "common"
-   },
-   {
-    "id": 20624263,
-    "rarity": "common"
-   },
-   {
-    "id": 21263083,
-    "rarity": "common"
-   },
-   {
-    "id": 21340051,
-    "rarity": "common"
-   },
-   {
-    "id": 22046459,
-    "rarity": "ultra"
-   },
-   {
-    "id": 22567609,
-    "rarity": "rare"
-   },
-   {
-    "id": 23289281,
-    "rarity": "rare"
-   },
-   {
-    "id": 23401839,
-    "rarity": "rare"
-   },
-   {
-    "id": 29692206,
-    "rarity": "common"
-   },
-   {
-    "id": 30243636,
-    "rarity": "common"
-   },
-   {
-    "id": 32452818,
-    "rarity": "common"
-   },
-   {
-    "id": 32539892,
-    "rarity": "common"
-   },
-   {
-    "id": 33064647,
-    "rarity": "common"
-   },
-   {
-    "id": 34124316,
-    "rarity": "rare"
-   },
-   {
-    "id": 34442949,
-    "rarity": "common"
-   },
-   {
-    "id": 35565537,
-    "rarity": "common"
-   },
-   {
-    "id": 36039163,
-    "rarity": "common"
-   },
-   {
-    "id": 38142739,
-    "rarity": "common"
-   },
-   {
-    "id": 38369349,
-    "rarity": "rare"
-   },
-   {
-    "id": 38552107,
-    "rarity": "common"
-   },
-   {
-    "id": 40374923,
     "rarity": "common"
    },
    {
@@ -1017,215 +1097,31 @@
     "rarity": "ultra"
    },
    {
-    "id": 41426869,
-    "rarity": "super"
-   },
-   {
-    "id": 42578427,
-    "rarity": "common"
-   },
-   {
-    "id": 42703248,
-    "rarity": "super"
-   },
-   {
-    "id": 42829885,
-    "rarity": "ultra"
-   },
-   {
-    "id": 43417563,
-    "rarity": "common"
-   },
-   {
-    "id": 43641473,
-    "rarity": "common"
-   },
-   {
-    "id": 44287299,
-    "rarity": "common"
-   },
-   {
-    "id": 44656491,
-    "rarity": "super"
-   },
-   {
-    "id": 44763025,
-    "rarity": "ultra"
-   },
-   {
-    "id": 45231177,
-    "rarity": "common"
-   },
-   {
-    "id": 45778932,
-    "rarity": "common"
-   },
-   {
-    "id": 45986603,
-    "rarity": "ultra"
-   },
-   {
-    "id": 46130346,
-    "rarity": "common"
-   },
-   {
-    "id": 46534755,
-    "rarity": "common"
-   },
-   {
-    "id": 47879985,
-    "rarity": "common"
-   },
-   {
-    "id": 50913601,
-    "rarity": "common"
-   },
-   {
-    "id": 50930991,
-    "rarity": "common"
-   },
-   {
-    "id": 53183600,
-    "rarity": "ultra"
-   },
-   {
-    "id": 54541900,
-    "rarity": "common"
-   },
-   {
-    "id": 54579801,
-    "rarity": "common"
-   },
-   {
-    "id": 55144522,
-    "rarity": "rare"
-   },
-   {
-    "id": 55998462,
-    "rarity": "common"
-   },
-   {
-    "id": 56342351,
-    "rarity": "common"
-   },
-   {
-    "id": 56594520,
-    "rarity": "common"
-   },
-   {
-    "id": 56789759,
-    "rarity": "common"
-   },
-   {
-    "id": 57617178,
-    "rarity": "common"
-   },
-   {
-    "id": 57839750,
-    "rarity": "rare"
-   },
-   {
-    "id": 58551308,
-    "rarity": "common"
-   },
-   {
-    "id": 59784896,
-    "rarity": "common"
-   },
-   {
-    "id": 60806437,
-    "rarity": "rare"
-   },
-   {
     "id": 61528025,
     "rarity": "super"
    },
    {
-    "id": 62397231,
-    "rarity": "rare"
-   },
-   {
-    "id": 63162310,
+    "id": 32452818,
     "rarity": "common"
    },
    {
-    "id": 64047146,
-    "rarity": "rare"
-   },
-   {
-    "id": 64389297,
-    "rarity": "common"
-   },
-   {
-    "id": 64631466,
-    "rarity": "ultra"
+    "id": 41426869,
+    "rarity": "super"
    },
    {
     "id": 65169794,
     "rarity": "super"
    },
    {
-    "id": 65458948,
+    "id": 53183600,
     "rarity": "ultra"
    },
    {
-    "id": 65570596,
+    "id": 21340051,
     "rarity": "common"
    },
    {
-    "id": 66516792,
-    "rarity": "ultra"
-   },
-   {
-    "id": 67284908,
-    "rarity": "common"
-   },
-   {
-    "id": 70046172,
-    "rarity": "rare"
-   },
-   {
-    "id": 70368879,
-    "rarity": "common"
-   },
-   {
-    "id": 70681994,
-    "rarity": "rare"
-   },
-   {
-    "id": 72053645,
-    "rarity": "common"
-   },
-   {
-    "id": 73051941,
-    "rarity": "common"
-   },
-   {
-    "id": 73081602,
-    "rarity": "common"
-   },
-   {
-    "id": 74191942,
-    "rarity": "super"
-   },
-   {
-    "id": 74637266,
-    "rarity": "common"
-   },
-   {
-    "id": 76184692,
-    "rarity": "common"
-   },
-   {
-    "id": 76806714,
-    "rarity": "common"
-   },
-   {
-    "id": 77027445,
-    "rarity": "common"
-   },
-   {
-    "id": 77827521,
+    "id": 20228463,
     "rarity": "common"
    },
    {
@@ -1233,39 +1129,79 @@
     "rarity": "common"
    },
    {
-    "id": 80168720,
-    "rarity": "common"
-   },
-   {
-    "id": 80811661,
-    "rarity": "common"
-   },
-   {
     "id": 81380218,
     "rarity": "common"
    },
    {
-    "id": 81777047,
+    "id": 43417563,
     "rarity": "common"
    },
    {
-    "id": 81863068,
+    "id": 17375316,
+    "rarity": "super"
+   },
+   {
+    "id": 91782219,
+    "rarity": "common"
+   },
+   {
+    "id": 12470447,
+    "rarity": "common"
+   },
+   {
+    "id": 34124316,
     "rarity": "rare"
    },
    {
-    "id": 82003859,
+    "id": 35565537,
     "rarity": "common"
    },
    {
-    "id": 82999629,
+    "id": 59784896,
     "rarity": "common"
    },
    {
-    "id": 83011277,
+    "id": 80168720,
+    "rarity": "super"
+   },
+   {
+    "id": 44763025,
+    "rarity": "ultra"
+   },
+   {
+    "id": 70681994,
     "rarity": "rare"
    },
    {
-    "id": 83464209,
+    "id": 42578427,
+    "rarity": "common"
+   },
+   {
+    "id": 11324436,
+    "rarity": "common"
+   },
+   {
+    "id": 95051344,
+    "rarity": "super"
+   },
+   {
+    "id": 17653779,
+    "rarity": "common"
+   },
+   {
+    "id": 18591904,
+    "rarity": "common"
+   },
+   {
+    "id": 46534755,
+    "rarity": "common"
+   },
+   {
+    "id": 45231177,
+    "rarity": "common"
+   },
+   {
+    "id": 96890582,
     "rarity": "common"
    },
    {
@@ -1273,35 +1209,115 @@
     "rarity": "rare"
    },
    {
-    "id": 85705804,
+    "id": 98818516,
     "rarity": "common"
+   },
+   {
+    "id": 1641882,
+    "rarity": "common"
+   },
+   {
+    "id": 56594520,
+    "rarity": "common"
+   },
+   {
+    "id": 95178994,
+    "rarity": "rare"
+   },
+   {
+    "id": 97017120,
+    "rarity": "rare"
+   },
+   {
+    "id": 42703248,
+    "rarity": "super"
+   },
+   {
+    "id": 96981563,
+    "rarity": "common"
+   },
+   {
+    "id": 16762927,
+    "rarity": "common"
+   },
+   {
+    "id": 95744531,
+    "rarity": "common"
+   },
+   {
+    "id": 47879985,
+    "rarity": "common"
+   },
+   {
+    "id": 80811661,
+    "rarity": "common"
+   },
+   {
+    "id": 7089711,
+    "rarity": "common"
+   },
+   {
+    "id": 54579801,
+    "rarity": "common"
+   },
+   {
+    "id": 46130346,
+    "rarity": "common"
+   },
+   {
+    "id": 81863068,
+    "rarity": "rare"
+   },
+   {
+    "id": 76184692,
+    "rarity": "common"
+   },
+   {
+    "id": 38552107,
+    "rarity": "common"
+   },
+   {
+    "id": 64047146,
+    "rarity": "rare"
+   },
+   {
+    "id": 15083728,
+    "rarity": "common"
+   },
+   {
+    "id": 30243636,
+    "rarity": "common"
+   },
+   {
+    "id": 62397231,
+    "rarity": "rare"
+   },
+   {
+    "id": 3056267,
+    "rarity": "super"
    },
    {
     "id": 90020065,
     "rarity": "common"
    },
    {
-    "id": 91782219,
+    "id": 23289281,
+    "rarity": "rare"
+   },
+   {
+    "id": 54541900,
     "rarity": "common"
    },
    {
-    "id": 91842653,
-    "rarity": "ultra"
-   },
-   {
-    "id": 91996584,
+    "id": 19406822,
     "rarity": "common"
    },
    {
-    "id": 92731455,
+    "id": 85705804,
     "rarity": "common"
    },
    {
-    "id": 93013676,
-    "rarity": "super"
-   },
-   {
-    "id": 93108297,
+    "id": 67284908,
     "rarity": "common"
    },
    {
@@ -1309,43 +1325,279 @@
     "rarity": "common"
    },
    {
-    "id": 95051344,
+    "id": 93108297,
     "rarity": "common"
    },
    {
-    "id": 95174353,
-    "rarity": "rare"
-   },
-   {
-    "id": 95178994,
-    "rarity": "rare"
-   },
-   {
-    "id": 95744531,
+    "id": 81777047,
     "rarity": "common"
+   },
+   {
+    "id": 56342351,
+    "rarity": "common"
+   },
+   {
+    "id": 92731455,
+    "rarity": "common"
+   },
+   {
+    "id": 64389297,
+    "rarity": "common"
+   },
+   {
+    "id": 93013676,
+    "rarity": "super"
+   },
+   {
+    "id": 99597615,
+    "rarity": "common"
+   },
+   {
+    "id": 40374923,
+    "rarity": "common"
+   },
+   {
+    "id": 13723605,
+    "rarity": "common"
+   },
+   {
+    "id": 38369349,
+    "rarity": "rare"
+   },
+   {
+    "id": 44287299,
+    "rarity": "common"
+   },
+   {
+    "id": 34442949,
+    "rarity": "common"
+   },
+   {
+    "id": 22046459,
+    "rarity": "ultra"
+   },
+   {
+    "id": 44656491,
+    "rarity": "super"
+   },
+   {
+    "id": 55998462,
+    "rarity": "common"
+   },
+   {
+    "id": 32539892,
+    "rarity": "common"
+   },
+   {
+    "id": 19384334,
+    "rarity": "common"
+   },
+   {
+    "id": 57839750,
+    "rarity": "rare"
+   },
+   {
+    "id": 50913601,
+    "rarity": "common"
+   },
+   {
+    "id": 18161786,
+    "rarity": "common"
+   },
+   {
+    "id": 83464209,
+    "rarity": "common"
+   },
+   {
+    "id": 5318639,
+    "rarity": "ultra"
+   },
+   {
+    "id": 50930991,
+    "rarity": "common"
+   },
+   {
+    "id": 22567609,
+    "rarity": "rare"
+   },
+   {
+    "id": 74637266,
+    "rarity": "common"
+   },
+   {
+    "id": 33064647,
+    "rarity": "common"
+   },
+   {
+    "id": 19523799,
+    "rarity": "common"
+   },
+   {
+    "id": 74191942,
+    "rarity": "super"
+   },
+   {
+    "id": 21263083,
+    "rarity": "common"
+   },
+   {
+    "id": 20624263,
+    "rarity": "common"
+   },
+   {
+    "id": 36039163,
+    "rarity": "common"
+   },
+   {
+    "id": 4849037,
+    "rarity": "common"
+   },
+   {
+    "id": 38142739,
+    "rarity": "common"
+   },
+   {
+    "id": 55144522,
+    "rarity": "rare"
+   },
+   {
+    "id": 77027445,
+    "rarity": "common"
+   },
+   {
+    "id": 7892180,
+    "rarity": "common"
+   },
+   {
+    "id": 73081602,
+    "rarity": "common"
+   },
+   {
+    "id": 65570596,
+    "rarity": "common"
+   },
+   {
+    "id": 64631466,
+    "rarity": "ultra"
+   },
+   {
+    "id": 45778932,
+    "rarity": "common"
+   },
+   {
+    "id": 70046172,
+    "rarity": "rare"
+   },
+   {
+    "id": 2964201,
+    "rarity": "common"
+   },
+   {
+    "id": 73051941,
+    "rarity": "common"
+   },
+   {
+    "id": 23401839,
+    "rarity": "rare"
+   },
+   {
+    "id": 66516792,
+    "rarity": "ultra"
    },
    {
     "id": 95956346,
     "rarity": "rare"
    },
    {
-    "id": 96890582,
+    "id": 3797883,
+    "rarity": "super"
+   },
+   {
+    "id": 596051,
     "rarity": "common"
    },
    {
-    "id": 96981563,
+    "id": 45986603,
+    "rarity": "ultra"
+   },
+   {
+    "id": 57617178,
     "rarity": "common"
    },
    {
-    "id": 97017120,
+    "id": 58551308,
+    "rarity": "common"
+   },
+   {
+    "id": 15023985,
+    "rarity": "common"
+   },
+   {
+    "id": 43641473,
+    "rarity": "common"
+   },
+   {
+    "id": 42829885,
+    "rarity": "ultra"
+   },
+   {
+    "id": 16430187,
+    "rarity": "common"
+   },
+   {
+    "id": 82003859,
+    "rarity": "super"
+   },
+   {
+    "id": 65458948,
+    "rarity": "ultra"
+   },
+   {
+    "id": 91842653,
+    "rarity": "ultra"
+   },
+   {
+    "id": 15259703,
+    "rarity": "super"
+   },
+   {
+    "id": 77827521,
+    "rarity": "common"
+   },
+   {
+    "id": 76806714,
+    "rarity": "common"
+   },
+   {
+    "id": 29692206,
+    "rarity": "common"
+   },
+   {
+    "id": 56789759,
+    "rarity": "common"
+   },
+   {
+    "id": 60806437,
     "rarity": "rare"
    },
    {
-    "id": 98818516,
+    "id": 82999629,
     "rarity": "common"
    },
    {
-    "id": 99597615,
+    "id": 70368879,
+    "rarity": "common"
+   },
+   {
+    "id": 63162310,
+    "rarity": "common"
+   },
+   {
+    "id": 72053645,
+    "rarity": "common"
+   },
+   {
+    "id": 91996584,
     "rarity": "common"
    }
   ]
@@ -1355,59 +1607,39 @@
   "name": "Pharaoh's Servant",
   "cards": [
    {
-    "id": 296499,
+    "id": 83994646,
     "rarity": "common"
    },
    {
-    "id": 423705,
+    "id": 86198326,
+    "rarity": "common"
+   },
+   {
+    "id": 48539234,
+    "rarity": "rare"
+   },
+   {
+    "id": 36868108,
+    "rarity": "common"
+   },
+   {
+    "id": 63689843,
+    "rarity": "common"
+   },
+   {
+    "id": 36280194,
     "rarity": "super"
    },
    {
-    "id": 473469,
-    "rarity": "common"
-   },
-   {
-    "id": 1248895,
+    "id": 11761845,
     "rarity": "ultra"
    },
    {
-    "id": 1918087,
+    "id": 50122883,
     "rarity": "common"
    },
    {
-    "id": 2130625,
-    "rarity": "common"
-   },
-   {
-    "id": 2311603,
-    "rarity": "common"
-   },
-   {
-    "id": 3134241,
-    "rarity": "common"
-   },
-   {
-    "id": 3643300,
-    "rarity": "ultra"
-   },
-   {
-    "id": 4042268,
-    "rarity": "common"
-   },
-   {
-    "id": 4266839,
-    "rarity": "common"
-   },
-   {
-    "id": 4920010,
-    "rarity": "common"
-   },
-   {
-    "id": 5265750,
-    "rarity": "common"
-   },
-   {
-    "id": 5388481,
+    "id": 57409948,
     "rarity": "common"
    },
    {
@@ -1415,83 +1647,27 @@
     "rarity": "common"
    },
    {
-    "id": 8951260,
-    "rarity": "common"
-   },
-   {
-    "id": 9074847,
-    "rarity": "common"
-   },
-   {
-    "id": 10992251,
-    "rarity": "common"
-   },
-   {
-    "id": 11761845,
-    "rarity": "ultra"
-   },
-   {
-    "id": 12253117,
-    "rarity": "common"
-   },
-   {
-    "id": 16227556,
-    "rarity": "common"
-   },
-   {
-    "id": 17449108,
-    "rarity": "rare"
-   },
-   {
-    "id": 21015833,
-    "rarity": "rare"
-   },
-   {
-    "id": 21237481,
-    "rarity": "common"
-   },
-   {
-    "id": 22359980,
-    "rarity": "super"
-   },
-   {
-    "id": 22959079,
-    "rarity": "rare"
-   },
-   {
-    "id": 23171610,
-    "rarity": "super"
-   },
-   {
-    "id": 23471572,
-    "rarity": "common"
-   },
-   {
-    "id": 23615409,
-    "rarity": "common"
-   },
-   {
-    "id": 24128274,
-    "rarity": "common"
-   },
-   {
     "id": 24294108,
     "rarity": "common"
    },
    {
-    "id": 27125110,
-    "rarity": "common"
+    "id": 78193831,
+    "rarity": "ultra"
    },
    {
-    "id": 27911549,
-    "rarity": "super"
+    "id": 97077563,
+    "rarity": "ultra"
    },
    {
-    "id": 30325729,
-    "rarity": "common"
+    "id": 36468556,
+    "rarity": "ultra"
    },
    {
-    "id": 30532390,
+    "id": 1248895,
+    "rarity": "ultra"
+   },
+   {
+    "id": 60682203,
     "rarity": "common"
    },
    {
@@ -1499,11 +1675,295 @@
     "rarity": "common"
    },
    {
-    "id": 31447217,
+    "id": 67049542,
     "rarity": "common"
    },
    {
+    "id": 5388481,
+    "rarity": "common"
+   },
+   {
+    "id": 78861134,
+    "rarity": "common"
+   },
+   {
+    "id": 24128274,
+    "rarity": "common"
+   },
+   {
+    "id": 22959079,
+    "rarity": "rare"
+   },
+   {
+    "id": 74701381,
+    "rarity": "common"
+   },
+   {
+    "id": 30325729,
+    "rarity": "common"
+   },
+   {
+    "id": 88733579,
+    "rarity": "common"
+   },
+   {
+    "id": 473469,
+    "rarity": "common"
+   },
+   {
+    "id": 60082869,
+    "rarity": "super"
+   },
+   {
+    "id": 60866277,
+    "rarity": "common"
+   },
+   {
+    "id": 96355986,
+    "rarity": "common"
+   },
+   {
+    "id": 97687912,
+    "rarity": "super"
+   },
+   {
+    "id": 42599677,
+    "rarity": "common"
+   },
+   {
+    "id": 3134241,
+    "rarity": "common"
+   },
+   {
+    "id": 74923978,
+    "rarity": "rare"
+   },
+   {
+    "id": 37313786,
+    "rarity": "common"
+   },
+   {
+    "id": 423705,
+    "rarity": "super"
+   },
+   {
+    "id": 98299011,
+    "rarity": "common"
+   },
+   {
+    "id": 84620194,
+    "rarity": "common"
+   },
+   {
+    "id": 78658564,
+    "rarity": "ultra"
+   },
+   {
+    "id": 10992251,
+    "rarity": "common"
+   },
+   {
+    "id": 61705417,
+    "rarity": "super"
+   },
+   {
+    "id": 85742772,
+    "rarity": "rare"
+   },
+   {
+    "id": 90502999,
+    "rarity": "common"
+   },
+   {
+    "id": 73079365,
+    "rarity": "common"
+   },
+   {
+    "id": 21015833,
+    "rarity": "rare"
+   },
+   {
+    "id": 61740673,
+    "rarity": "ultra"
+   },
+   {
+    "id": 54109233,
+    "rarity": "common"
+   },
+   {
+    "id": 23615409,
+    "rarity": "common"
+   },
+   {
+    "id": 96965364,
+    "rarity": "common"
+   },
+   {
+    "id": 16227556,
+    "rarity": "common"
+   },
+   {
+    "id": 52675689,
+    "rarity": "common"
+   },
+   {
+    "id": 4042268,
+    "rarity": "common"
+   },
+   {
+    "id": 77585513,
+    "rarity": "ultra"
+   },
+   {
+    "id": 4266839,
+    "rarity": "common"
+   },
+   {
+    "id": 62867251,
+    "rarity": "common"
+   },
+   {
+    "id": 49587034,
+    "rarity": "rare"
+   },
+   {
+    "id": 23171610,
+    "rarity": "super"
+   },
+   {
+    "id": 79870141,
+    "rarity": "rare"
+   },
+   {
+    "id": 59344077,
+    "rarity": "rare"
+   },
+   {
+    "id": 81210420,
+    "rarity": "super"
+   },
+   {
+    "id": 9074847,
+    "rarity": "common"
+   },
+   {
+    "id": 75646520,
+    "rarity": "common"
+   },
+   {
+    "id": 37580756,
+    "rarity": "rare"
+   },
+   {
+    "id": 1918087,
+    "rarity": "common"
+   },
+   {
+    "id": 22359980,
+    "rarity": "super"
+   },
+   {
+    "id": 93108433,
+    "rarity": "rare"
+   },
+   {
+    "id": 79106360,
+    "rarity": "rare"
+   },
+   {
     "id": 31477025,
+    "rarity": "common"
+   },
+   {
+    "id": 49251811,
+    "rarity": "common"
+   },
+   {
+    "id": 71044499,
+    "rarity": "super"
+   },
+   {
+    "id": 17449108,
+    "rarity": "rare"
+   },
+   {
+    "id": 2130625,
+    "rarity": "common"
+   },
+   {
+    "id": 66927994,
+    "rarity": "common"
+   },
+   {
+    "id": 2311603,
+    "rarity": "common"
+   },
+   {
+    "id": 27911549,
+    "rarity": "super"
+   },
+   {
+    "id": 70828912,
+    "rarity": "ultra"
+   },
+   {
+    "id": 43711255,
+    "rarity": "rare"
+   },
+   {
+    "id": 66719324,
+    "rarity": "common"
+   },
+   {
+    "id": 8951260,
+    "rarity": "common"
+   },
+   {
+    "id": 67532912,
+    "rarity": "common"
+   },
+   {
+    "id": 58621589,
+    "rarity": "common"
+   },
+   {
+    "id": 59560625,
+    "rarity": "rare"
+   },
+   {
+    "id": 98139712,
+    "rarity": "rare"
+   },
+   {
+    "id": 5265750,
+    "rarity": "common"
+   },
+   {
+    "id": 30532390,
+    "rarity": "common"
+   },
+   {
+    "id": 35346968,
+    "rarity": "common"
+   },
+   {
+    "id": 23471572,
+    "rarity": "common"
+   },
+   {
+    "id": 4920010,
+    "rarity": "common"
+   },
+   {
+    "id": 87511987,
+    "rarity": "common"
+   },
+   {
+    "id": 90908427,
+    "rarity": "common"
+   },
+   {
+    "id": 51345461,
     "rarity": "common"
    },
    {
@@ -1515,35 +1975,15 @@
     "rarity": "common"
    },
    {
-    "id": 35316708,
-    "rarity": "common"
-   },
-   {
-    "id": 35346968,
-    "rarity": "common"
-   },
-   {
-    "id": 36280194,
-    "rarity": "super"
-   },
-   {
-    "id": 36468556,
+    "id": 66362965,
     "rarity": "ultra"
    },
    {
-    "id": 36868108,
-    "rarity": "common"
+    "id": 3643300,
+    "rarity": "ultra"
    },
    {
-    "id": 37313786,
-    "rarity": "common"
-   },
-   {
-    "id": 37580756,
-    "rarity": "rare"
-   },
-   {
-    "id": 42599677,
+    "id": 296499,
     "rarity": "common"
    },
    {
@@ -1551,79 +1991,7 @@
     "rarity": "rare"
    },
    {
-    "id": 43711255,
-    "rarity": "rare"
-   },
-   {
-    "id": 48539234,
-    "rarity": "rare"
-   },
-   {
-    "id": 49251811,
-    "rarity": "common"
-   },
-   {
-    "id": 49587034,
-    "rarity": "rare"
-   },
-   {
-    "id": 50122883,
-    "rarity": "common"
-   },
-   {
-    "id": 51345461,
-    "rarity": "common"
-   },
-   {
-    "id": 52675689,
-    "rarity": "common"
-   },
-   {
-    "id": 54109233,
-    "rarity": "common"
-   },
-   {
-    "id": 56387350,
-    "rarity": "rare"
-   },
-   {
-    "id": 57409948,
-    "rarity": "common"
-   },
-   {
-    "id": 58621589,
-    "rarity": "common"
-   },
-   {
-    "id": 59344077,
-    "rarity": "rare"
-   },
-   {
-    "id": 59560625,
-    "rarity": "rare"
-   },
-   {
-    "id": 60082869,
-    "rarity": "super"
-   },
-   {
-    "id": 60682203,
-    "rarity": "common"
-   },
-   {
-    "id": 60866277,
-    "rarity": "common"
-   },
-   {
-    "id": 61705417,
-    "rarity": "super"
-   },
-   {
-    "id": 61740673,
-    "rarity": "ultra"
-   },
-   {
-    "id": 62867251,
+    "id": 27125110,
     "rarity": "common"
    },
    {
@@ -1631,71 +1999,11 @@
     "rarity": "ultra"
    },
    {
-    "id": 63689843,
-    "rarity": "common"
-   },
-   {
-    "id": 66362965,
-    "rarity": "ultra"
-   },
-   {
-    "id": 66719324,
-    "rarity": "common"
-   },
-   {
-    "id": 66927994,
-    "rarity": "common"
-   },
-   {
-    "id": 67049542,
-    "rarity": "common"
-   },
-   {
-    "id": 67532912,
-    "rarity": "common"
-   },
-   {
-    "id": 70828912,
-    "rarity": "ultra"
-   },
-   {
-    "id": 71044499,
-    "rarity": "super"
-   },
-   {
-    "id": 73079365,
-    "rarity": "common"
-   },
-   {
-    "id": 74701381,
-    "rarity": "common"
-   },
-   {
-    "id": 74923978,
-    "rarity": "rare"
-   },
-   {
-    "id": 75646520,
-    "rarity": "common"
-   },
-   {
-    "id": 77585513,
-    "rarity": "ultra"
-   },
-   {
-    "id": 78193831,
-    "rarity": "ultra"
-   },
-   {
     "id": 78423643,
     "rarity": "common"
    },
    {
-    "id": 78658564,
-    "rarity": "ultra"
-   },
-   {
-    "id": 78861134,
+    "id": 35316708,
     "rarity": "common"
    },
    {
@@ -1703,75 +2011,19 @@
     "rarity": "common"
    },
    {
-    "id": 79106360,
+    "id": 21237481,
+    "rarity": "common"
+   },
+   {
+    "id": 56387350,
     "rarity": "rare"
    },
    {
-    "id": 79870141,
-    "rarity": "rare"
-   },
-   {
-    "id": 81210420,
-    "rarity": "super"
-   },
-   {
-    "id": 83994646,
+    "id": 31447217,
     "rarity": "common"
    },
    {
-    "id": 84620194,
-    "rarity": "common"
-   },
-   {
-    "id": 85742772,
-    "rarity": "rare"
-   },
-   {
-    "id": 86198326,
-    "rarity": "common"
-   },
-   {
-    "id": 87511987,
-    "rarity": "common"
-   },
-   {
-    "id": 88733579,
-    "rarity": "common"
-   },
-   {
-    "id": 90502999,
-    "rarity": "common"
-   },
-   {
-    "id": 90908427,
-    "rarity": "common"
-   },
-   {
-    "id": 93108433,
-    "rarity": "rare"
-   },
-   {
-    "id": 96355986,
-    "rarity": "common"
-   },
-   {
-    "id": 96965364,
-    "rarity": "common"
-   },
-   {
-    "id": 97077563,
-    "rarity": "ultra"
-   },
-   {
-    "id": 97687912,
-    "rarity": "super"
-   },
-   {
-    "id": 98139712,
-    "rarity": "rare"
-   },
-   {
-    "id": 98299011,
+    "id": 12253117,
     "rarity": "common"
    }
   ]

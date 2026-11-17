@@ -1,6 +1,6 @@
 // @vitest-environment happy-dom
 import { afterEach, describe, expect, it } from 'vitest';
-import { cleanup, fireEvent, render } from '@testing-library/react';
+import { act, cleanup, fireEvent, render } from '@testing-library/react';
 import { OcgType as T } from 'ocgcore-wasm';
 import type { CardRecord } from '../engine/session';
 import { CardFace, nameFontSize } from './CardFace';
@@ -39,12 +39,20 @@ describe('CardFace', () => {
     expect(container.querySelector('.cf-text .cf-stats')?.textContent).toBe('? / 1500');
   });
 
-  it('sem arte recortada, cai para a imagem oficial', () => {
+  it('compacta usa a miniatura; full usa a arte grande', () => {
+    expect(render(<CardFace code={5} card={card({})} />).container.querySelector('.cf-art img')?.getAttribute('src')).toContain('cards/thumb/5.webp');
+    cleanup();
+    expect(render(<CardFace code={5} card={card({})} detail="full" />).container.querySelector('.cf-art img')?.getAttribute('src')).toContain('cards/full/5.webp');
+  });
+
+  it('sem a arte, mostra o preenchimento (sem imagem quebrada) e tenta de novo quando a rede volta', () => {
     const { container } = render(<CardFace code={5} card={card({})} />);
-    const img = container.querySelector('.cf-art img')!;
-    expect(img.getAttribute('src')).toContain('cards/cropped/5.webp');
-    fireEvent.error(img);
-    expect(container.querySelector('.cf-art img')?.getAttribute('src')).toContain('cards/small/5.webp');
+    fireEvent.error(container.querySelector('.cf-art img')!);
+    expect(container.querySelector('.cf-art img')).toBeNull();
+    expect(container.querySelector('.cf-art')?.className).toContain('empty');
+    expect(container.querySelector('.cf-name span')?.textContent).toBe(card({}).name);
+    act(() => { window.dispatchEvent(new Event('online')); });
+    expect(container.querySelector('.cf-art img')?.getAttribute('src')).toContain('cards/thumb/5.webp');
   });
 
   it('versão full mostra tipo, texto e ATK/DEF', () => {

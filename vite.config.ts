@@ -1,8 +1,12 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
-import { appendFileSync } from 'node:fs';
+import { appendFileSync, existsSync, readFileSync, readdirSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 import type { Connect, Plugin } from 'vite';
+import campaign from './src/campaign/data/campaign.json';
+import { PLAYER_AVATARS } from './src/story/profile';
+import { CHAR_ID } from './src/screens/campaign/chars';
 
 // Recebe os logs de diagnóstico do aparelho (?debug na URL) e grava em /tmp/duel-days-device.log (só dev/preview).
 const deviceLog = (): Plugin => {
@@ -14,6 +18,29 @@ const deviceLog = (): Plugin => {
   };
   return { name: 'device-log', configureServer: (s) => { s.middlewares.use(mw); }, configurePreviewServer: (s) => { s.middlewares.use(mw); } };
 };
+
+/**
+ * Entradas extras da pré-carga (fora do `globPatterns`): o essencial para o começo da campanha offline. A arte `thumb`
+ * do deck inicial, o verso da carta e os sprites dos avatares do jogador e dos personagens do Tier 1 (os outros
+ * personagens e toda a arte da coleção ficam no cache de execução). Revisão = hash do arquivo.
+ */
+function essentials() {
+  const files = [
+    'cards/back.webp',
+    ...[...new Set(campaign.starterDeck.main.map((e) => e.id))].map((id) => `cards/thumb/${id}.webp`),
+    'characters/index.json',
+    ...[...PLAYER_AVATARS.map((a) => a.id), ...Object.values(CHAR_ID)].flatMap((dir) =>
+      existsSync(`public/characters/${dir}`) ? readdirSync(`public/characters/${dir}`, { recursive: true }).map(String)
+        .filter((f) => /\.(png|webp|json)$/.test(f)).map((f) => `characters/${dir}/${f}`) : []),
+  ];
+  return files.filter((f) => existsSync(`public/${f}`))
+    .map((url) => ({ url, revision: createHash('md5').update(readFileSync(`public/${url}`)).digest('hex').slice(0, 12) }));
+}
+/** Cache de execução com limite, expiração e esvaziamento se o aparelho recusar gravar por falta de espaço. */
+const limited = (cacheName: string, maxEntries: number, days: number) => ({
+  cacheName, cacheableResponse: { statuses: [0, 200] },
+  expiration: { maxEntries, maxAgeSeconds: days * 24 * 3600, purgeOnQuotaError: true },
+});
 
 export default defineConfig({
   preview: { allowedHosts: ['.trycloudflare.com'] },
@@ -39,13 +66,22 @@ export default defineConfig({
       includeAssets: ['favicon.ico', 'icons/icon.svg', 'icons/apple-touch-icon.png'],
       workbox: {
         globPatterns: ['**/*.{js,css,html,wasm,json,webp,woff2,svg,png,ico,m4a}'],
-        // A arte das cartas (dezenas de MB), o mapa/fundos e a música da campanha não entram na pré-carga: são guardados
-        // conforme são vistos/tocados. A música aceita pedidos parciais (o Safari pede o áudio em pedaços).
-        globIgnores: ['cards/**', 'campaign/**', 'music/**'],
+        // Fora da pré-carga: a arte das cartas (~75 MB), os sprites (ficam só os do essencial, abaixo), o mapa/fundos e
+        // a música da campanha, e o build JSPI do motor (o app usa o síncrono). São guardados conforme vistos/tocados.
+        globIgnores: ['cards/**', 'characters/**', 'campaign/**', 'music/**', 'assets/ocgcore.jspi-*'],
+        additionalManifestEntries: essentials(),
         runtimeCaching: [{
-          urlPattern: ({ url }) => url.pathname.includes('/cards/'),
+          urlPattern: ({ url }) => url.pathname.includes('/cards/thumb/'),
           handler: 'CacheFirst',
-          options: { cacheName: 'card-art', expiration: { maxEntries: 5000 }, cacheableResponse: { statuses: [0, 200] } },
+          options: limited('card-thumb', 2500, 90),
+        }, {
+          urlPattern: ({ url }) => url.pathname.includes('/cards/full/'),
+          handler: 'CacheFirst',
+          options: limited('card-full', 300, 30),
+        }, {
+          urlPattern: ({ url }) => url.pathname.includes('/characters/'),
+          handler: 'CacheFirst',
+          options: limited('characters', 200, 90),
         }, {
           urlPattern: ({ url }) => url.pathname.includes('/campaign/'),
           handler: 'CacheFirst',

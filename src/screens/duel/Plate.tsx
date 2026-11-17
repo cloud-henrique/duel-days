@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import type { BoardCard } from '../../engine/protocol';
-import { art } from '../../components/CardSheet';
+import { CardFace } from '../../components/CardFace';
+import type { Cards } from '../../data/cards';
 import { GameIcon } from '../../ui/icons';
 import { LP_POPUP_MS, LP_STEPS, LP_STEP_MS, lpDelta, lpPercent, lpTone, lpTween } from './lp';
 
@@ -35,7 +36,7 @@ function useLpDisplay(lp: number) {
  * Placa do duelista: avatar, nome, LP (com variação), barra, contadores e o topo do cemitério. Marca com `data-loc` a
  * placa (`p:plate`, origem e destino das cartas sem lugar visível), o deck e o cemitério, para a animação.
  */
-export function Plate({ side, who, lp, deck, hand, grave, turn, onGrave }: { side: 'me' | 'foe'; who: Duelist; lp: number; deck: number; hand: number; grave: BoardCard[]; turn: boolean; onGrave: () => void }) {
+export function Plate({ side, who, lp, deck, hand, grave, turn, onGrave, cards = {} }: { side: 'me' | 'foe'; who: Duelist; lp: number; deck: number; hand: number; grave: BoardCard[]; turn: boolean; onGrave: () => void; cards?: Cards }) {
   const top = grave[grave.length - 1];
   const { shown, delta } = useLpDisplay(lp);
   const p = side === 'me' ? 0 : 1;
@@ -55,7 +56,7 @@ export function Plate({ side, who, lp, deck, hand, grave, turn, onGrave }: { sid
         {side === 'foe' && <span className="c-hand" aria-label="Mão"><GameIcon name="hand" size={22} />{hand}</span>}
       </div>
       <button className="gravebox" onClick={onGrave} aria-label="Cemitério" data-loc={`${p}:grave`}>
-        <span className={`gslot${top ? '' : ' empty'}`}>{top && <img src={art(top.code, 'small')} alt="" draggable={false} />}</span>
+        <span className={`gslot${top ? '' : ' empty'}`}>{top && <CardFace code={top.code} card={cards[String(top.code)]} />}</span>
         <em className="num">{grave.length}</em>
       </button>
     </div>

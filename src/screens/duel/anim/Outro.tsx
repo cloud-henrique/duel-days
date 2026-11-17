@@ -3,7 +3,8 @@ import { avatar, type Duelist } from '../Plate';
 import { PACING } from './pacing';
 import { Dp } from '../../../ui/Dp';
 import { DisplayTitle } from '../../../ui/titles';
-import { art } from '../../../components/CardSheet';
+import { CardFace } from '../../../components/CardFace';
+import type { Cards } from '../../../data/cards';
 import { GameIcon } from '../../../ui/icons';
 
 export type DuelResult = 'win' | 'loss' | 'draw';
@@ -23,10 +24,12 @@ export const OUTRO_TITLE: Record<DuelResult, string> = { win: 'VITÓRIA!', loss:
  * Fim do duelo: fundo na cor do resultado, o título entrando com escala, o retrato do vencedor dando um pulo e o do
  * perdedor esmaecido; embaixo, o detalhe (ex.: "Você desistiu."), o ganho em DP e "Continuar".
  */
-export function Outro({ result, detail, me, foe, coins, reward, reduced, onContinue }: {
+export function Outro({ result, detail, me, foe, coins, reward, reduced, onContinue, cards = {} }: {
   result: DuelResult; detail: string; me: Duelist; foe: Duelist;
   /** Ganho simples em DP (sem campanha); com `reward`, vale o total dele. */
   coins?: number; reward?: OutroReward | null; reduced: boolean; onContinue: () => void;
+  /** Banco de cartas, para desenhar as cartas ganhas. */
+  cards?: Cards;
 }) {
   const P = PACING.outro;
   const title = useRef<HTMLHeadingElement>(null);
@@ -50,13 +53,13 @@ export function Outro({ result, detail, me, foe, coins, reward, reduced, onConti
       <DisplayTitle tone={result} titleRef={title}>{OUTRO_TITLE[result]}</DisplayTitle>
       <div className="outrofaces">{face(me, result === 'win')}{face(foe, result === 'loss')}</div>
       <p className="stats">{detail}{(reward || coins !== undefined) && <> · <Dp value={reward?.totalDP ?? coins ?? 0} delta /></>}</p>
-      {reward && <OutroDetails r={reward} />}
+      {reward && <OutroDetails r={reward} cards={cards} />}
       <button className="hud-btn gold" onClick={onContinue}>Continuar</button>
     </div>
   );
 }
 
-function OutroDetails({ r }: { r: OutroReward }) {
+function OutroDetails({ r, cards }: { r: OutroReward; cards: Cards }) {
   const hearts = (v: number, per: number) => (v / per).toFixed(1).replace('.0', '').replace('.', ',');
   return (
     <div className="outrodetails">
@@ -70,7 +73,7 @@ function OutroDetails({ r }: { r: OutroReward }) {
         <div className="earned">
           {r.cards.map((c, i) => (
             <figure key={`${c.id}-${i}`} className={c.isNew ? 'new' : ''}>
-              <img src={art(c.id, 'small')} alt="" />
+              <CardFace code={c.id} card={cards[String(c.id)]} />
               {c.isNew && <b className="newtag">NOVA</b>}
               {c.label && <figcaption>{c.label}</figcaption>}
             </figure>

@@ -3,9 +3,11 @@ import { ArrowsClockwise, CompassRose, Crosshair, Eye, EyeSlash, Link, Sparkle, 
 import type { Cards } from '../data/cards';
 import { attrIcon, attrName, formatStat, frameOf, isMonster, propertyIcon, raceIcon, raceName, typeLine } from '../data/labels';
 
-export const BASE = import.meta.env.BASE_URL;
+import { BASE } from './art';
+import { CardFace } from './CardFace';
+
+export { BASE, art, type ArtSize } from './art';
 const MAX_STARS = 12;
-export const art = (code: number, size: 'small' | 'large' | 'cropped') => `${BASE}cards/${size}/${code}.webp`;
 /**
  * Fundo escurecido que fecha ao tocar. É um <button> porque o Safari do iOS não entrega toques a <div> sem
  * tratamento especial; a folha fica por cima dele.
@@ -68,7 +70,7 @@ export function CardSheet({ code, cards, actions = [], onClose, aboveHand = fals
       <Backdrop onClose={onClose} />
       <div className="sheet hud">
         <div className="cardsheet">
-          <img src={art(code, 'large')} alt={c?.name ?? ''} draggable={false} />
+          <div className="sheetface"><CardFace code={code} card={c} detail="full" /></div>
           <CardDetails code={code} cards={cards} />
         </div>
         {actions.length > 0 && <div className="acts">{actions.map((a) => <button key={a.label} className={`hud-btn act ${a.primary ? 'primary' : ''}`} disabled={a.disabled} onClick={a.onClick}>{a.icon}<span>{a.label}</span></button>)}</div>}

@@ -72,7 +72,7 @@
 .gravebox { appearance: none; background: none; border: 0; padding: 0; color: var(--dim); display: flex; flex-direction: column; align-items: center; gap: 1px; flex: 0 0 auto; }
 .gravebox .gslot { display: block; width: var(--grave-w); height: var(--grave-h); border-radius: 2px; overflow: hidden; }
 .gravebox .gslot.empty { border: 1.5px dashed var(--zone-line); }
-.gravebox .gslot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.gravebox .gslot .cardface { width: 100%; display: block; }
 .gravebox em { font-size: 10px; font-style: normal; line-height: 1; }
 .foehand { display: flex; justify-content: center; height: var(--foehand-h); flex-shrink: 0; }
 .foehand { --foe-card: 24px; --foe-overlap: -12px; }

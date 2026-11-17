@@ -96,14 +96,14 @@ export function useDuelEngine({ mine, foe, foeName, stage, cancelStage, onPrompt
   }, []);
 
   // Arte das cartas deste duelo já baixada e decodificada: a carta comprada aparece inteira, sem a ilustração chegar
-  // depois. É a variante que a face da carta usa (`cropped`); as imagens ficam referenciadas até o fim do duelo para o
+  // depois. É a variante que a face da carta usa (`thumb`); as imagens ficam referenciadas até o fim do duelo para o
   // navegador não descartar a versão decodificada. O service worker guarda os arquivos para os próximos duelos.
   const warmArt = useRef<HTMLImageElement[]>([]);
   useEffect(() => {
     warmArt.current = [...new Set([...mine.main, ...mine.extra, ...foe.main, ...foe.extra])].map((code) => {
       const img = new Image();
       img.decoding = 'async';
-      img.src = art(code, 'cropped');
+      img.src = art(code, 'thumb');
       img.decode().catch(() => {});
       return img;
     });

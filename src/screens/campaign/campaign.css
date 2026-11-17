@@ -111,8 +111,8 @@
 .outrodetails .bonuses li { display: flex; justify-content: space-between; padding: 2px 4px; color: #cfe2ff; }
 .outrodetails .earned { display: flex; gap: 10px; justify-content: center; }
 .outrodetails .earned figure { position: relative; margin: 0; width: 64px; text-align: center; }
-.outrodetails .earned img { width: 100%; border-radius: 3px; box-shadow: 0 2px 8px rgba(0, 0, 0, .5); }
-.outrodetails .earned figure.new img { box-shadow: 0 0 10px rgba(246, 211, 106, .9); }
+.outrodetails .earned .cardface { width: 100%; filter: drop-shadow(0 2px 6px rgba(0, 0, 0, .5)); }
+.outrodetails .earned figure.new .cardface { filter: drop-shadow(0 0 8px rgba(246, 211, 106, .9)); }
 .outrodetails .earned figcaption { font-size: 10px; color: #f6d36a; margin-top: 2px; }
 .newtag { position: absolute; top: -6px; right: -8px; background: #f6d36a; color: #2a1b00; font: 800 10px var(--font-game); padding: 1px 4px; border-radius: 2px; }
 .bondline { margin: 0; display: flex; align-items: center; gap: 6px; font-size: 13px; color: #ffd0dc; }

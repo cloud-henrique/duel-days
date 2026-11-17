@@ -7,7 +7,7 @@ import { beatText } from '../../engine/beats';
 import type { DeckList } from '../../engine/session';
 import { DEFAULT_SETTINGS, type Settings } from '../../story/progress';
 import type { Cards } from '../../data/cards';
-import { Backdrop, CardSheet, ICONS, art } from '../../components/CardSheet';
+import { Backdrop, CardSheet, ICONS } from '../../components/CardSheet';
 import { CardFace } from '../../components/CardFace';
 import { debugOn } from '../../debug/remote';
 import { cardActions, highlighted, refKey, sideActions, type CardRef } from './prompt';
@@ -182,12 +182,12 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id:
     <div ref={root} className={`duel hexbg${pickAttack ? ' pick-attack' : ''}${stage.staging ? ' staging' : ''}`}>
       <div className="foebar">
         {!ended && <DuelMenu onSurrender={engine.surrender} settings={settings} onSettings={onSettings} />}
-        <Plate side="foe" who={opponent} lp={foe.lp} deck={foe.deck} hand={foe.hand.length} grave={foe.grave} turn={!myTurn} onGrave={() => setGraveOf(1)} />
+        <Plate side="foe" who={opponent} lp={foe.lp} deck={foe.deck} hand={foe.hand.length} grave={foe.grave} turn={!myTurn} onGrave={() => setGraveOf(1)} cards={cards} />
       </div>
       <FoeHand count={foe.hand.length} />
       <Field board={board} cards={cards} hl={hl} picked={marks.picked} onTap={tap} center={phasebar} backdrop={fieldBackdrop(board, fieldPlayed)} />
       <div className="mybar">
-        <Plate side="me" who={player} lp={me.lp} deck={me.deck} hand={me.hand.length} grave={me.grave} turn={myTurn} onGrave={() => setGraveOf(0)} />
+        <Plate side="me" who={player} lp={me.lp} deck={me.deck} hand={me.hand.length} grave={me.grave} turn={myTurn} onGrave={() => setGraveOf(0)} cards={cards} />
         <div className="sidebtns">{side}</div>
       </div>
       <div className="spacer" />
@@ -223,7 +223,7 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id:
           <div className="sheet hud">
             <h4>Cemitério de {graveOf === 0 ? player.name : opponent.name}</h4>
             {board.players[graveOf].grave.length === 0 ? <span className="stats">vazio</span>
-              : <div className="grid">{board.players[graveOf].grave.map((c, i) => <img key={i} src={art(c.code, 'small')} alt={name(c.code)} onClick={() => { setGraveOf(null); setSheet({ code: c.code, ref: { controller: graveOf, location: OcgLocation.GRAVE, sequence: i } }); }} />)}</div>}
+              : <div className="grid">{board.players[graveOf].grave.map((c, i) => <button key={i} type="button" aria-label={name(c.code)} onClick={() => { setGraveOf(null); setSheet({ code: c.code, ref: { controller: graveOf, location: OcgLocation.GRAVE, sequence: i } }); }}><CardFace code={c.code} card={cards[String(c.code)]} /></button>)}</div>}
           </div>
         </div>
       )}
@@ -238,7 +238,7 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id:
         </div></div>
       )}
       {introLayer}
-      {ended && summary && <Outro result={ended.result} detail={ended.text} me={player} foe={opponent} reward={reward} reduced={reducedMotion} onContinue={() => onEnd(summary)} />}
+      {ended && summary && <Outro result={ended.result} detail={ended.text} me={player} foe={opponent} reward={reward} reduced={reducedMotion} onContinue={() => onEnd(summary)} cards={cards} />}
     </div>
   );
 }

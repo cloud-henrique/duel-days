@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { CardSheet, art } from '../components/CardSheet';
+import { CardSheet } from '../components/CardSheet';
+import { CardFace } from '../components/CardFace';
 import type { GameData } from '../data/cards';
 import type { Rarity } from '../campaign/data/types';
 import {
@@ -40,7 +41,7 @@ export function ShopScreen({ campaign: s, data, onChange, onBack }: {
         <div className="cardgrid">
           {pulls.map((p, i) => (
             <button key={i} className={`cell r-${TIER_CLASS[p.rarity]} pop`} style={{ animationDelay: `${Math.min(i, 24) * 60}ms` }} onClick={() => setZoom(p.id)}>
-              <img src={art(p.id, 'small')} alt={cards[p.id]?.name ?? ''} draggable={false} />
+              <CardFace code={p.id} card={cards[p.id]} />
               {p.isNew && <em className="nova">NOVA</em>}
             </button>
           ))}
