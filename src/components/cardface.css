@@ -63,7 +63,8 @@
 .compact .cf-text b { text-align: center; white-space: nowrap; font-weight: 900; line-height: 1; letter-spacing: 0; }
 .compact .cf-text .cf-stats { font-size: calc(var(--stats-font) * var(--u)); font-variant-numeric: lining-nums tabular-nums; }
 .compact .cf-text .cf-kind { font-size: calc(var(--kind-font) * var(--u)); }
-.full .cf-text { justify-content: flex-start; gap: calc(1 * var(--u)); }
+/* Alinhado à esquerda aqui mesmo: dentro de um <button> (o zoom) o texto herdaria o centro. */
+.full .cf-text { justify-content: flex-start; gap: calc(1 * var(--u)); text-align: left; }
 .full .cf-text em { font-size: calc(10.5 * var(--u)); font-weight: 700; font-style: normal; white-space: nowrap; overflow: hidden; }
 .full .cf-text p { flex: 1; margin: 0; font-size: calc(9 * var(--u)); line-height: 1.15; overflow: hidden; }
 .full .cf-text small { align-self: flex-end; font-size: calc(10 * var(--u)); font-weight: 700; border-top: calc(.8 * var(--u)) solid #000; }

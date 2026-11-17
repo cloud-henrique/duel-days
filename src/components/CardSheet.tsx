@@ -43,25 +43,33 @@ export const ICONS = {
   eye: <Eye {...PH} />,
 };
 
+/** Os dados da carta (nome, estrelas, atributo e tipo, ATK/DEF e texto), na folha do duelo e no zoom. */
+export function CardDetails({ code, cards }: { code: number; cards: Cards }) {
+  const c = cards[String(code)];
+  const monster = !!c && isMonster(c.type);
+  return (
+    <div className="meta">
+      <div className="nm">{c?.name}</div>
+      {monster && c.level > 0 && <div className="stars">{Array.from({ length: Math.min(c.level, MAX_STARS) }, (_, i) => <i key={i} />)}</div>}
+      {monster
+        ? <div className="kv"><CardIcon name={attrIcon(c.attribute)} /><CardIcon name={raceIcon(c.race)} /><span>{attrName(c.attribute)} · {raceName(c.race)}</span></div>
+        : c && <div className={`kv kind ${frameOf(c.type)}`}><CardIcon name={propertyIcon(c.type)} /><span>{typeLine(c.type)}</span></div>}
+      {monster && <div className="atkdef num"><span className="atk">ATK {formatStat(c.attack)}</span><span className="def">DEF {formatStat(c.defense)}</span></div>}
+      <div className="desc">{c?.desc}</div>
+    </div>
+  );
+}
+
 /** Folha de detalhe da carta (arte, dados e texto), com os botões de ação do contexto. Compacta, como no nativo. */
 export function CardSheet({ code, cards, actions = [], onClose, aboveHand = false }: { code: number; cards: Cards; actions?: SheetAction[]; onClose: () => void; aboveHand?: boolean }) {
   const c = cards[String(code)];
-  const monster = !!c && isMonster(c.type);
   return (
     <div className={`scrim${aboveHand ? ' uphand' : ''}`}>
       <Backdrop onClose={onClose} />
       <div className="sheet hud">
         <div className="cardsheet">
           <img src={art(code, 'large')} alt={c?.name ?? ''} draggable={false} />
-          <div className="meta">
-            <div className="nm">{c?.name}</div>
-            {monster && c.level > 0 && <div className="stars">{Array.from({ length: Math.min(c.level, MAX_STARS) }, (_, i) => <i key={i} />)}</div>}
-            {monster
-              ? <div className="kv"><CardIcon name={attrIcon(c.attribute)} /><CardIcon name={raceIcon(c.race)} /><span>{attrName(c.attribute)} · {raceName(c.race)}</span></div>
-              : c && <div className={`kv kind ${frameOf(c.type)}`}><CardIcon name={propertyIcon(c.type)} /><span>{typeLine(c.type)}</span></div>}
-            {monster && <div className="atkdef num"><span className="atk">ATK {formatStat(c.attack)}</span><span className="def">DEF {formatStat(c.defense)}</span></div>}
-            <div className="desc">{c?.desc}</div>
-          </div>
+          <CardDetails code={code} cards={cards} />
         </div>
         {actions.length > 0 && <div className="acts">{actions.map((a) => <button key={a.label} className={`hud-btn act ${a.primary ? 'primary' : ''}`} disabled={a.disabled} onClick={a.onClick}>{a.icon}<span>{a.label}</span></button>)}</div>}
         <button className="close" aria-label="Fechar" onClick={onClose}><X size={22} weight="bold" /></button>

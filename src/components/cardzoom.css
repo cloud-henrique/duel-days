@@ -1,0 +1,36 @@
+/* Zoom da carta (CardZoom.tsx), as medidas do CardZoomView do nativo: carta até 270 de largura, caixa dos dados de
+   altura fixa (200) e no máximo 360 de largura, "Fechar" no rodapé. O conteúdo encosta embaixo (botões colados no
+   "Fechar") e a carta fica com a altura que sobra, encolhendo em telas baixas. */
+.cardzoom {
+  --zoom-info-h: 200px;
+  position: fixed; inset: 0; z-index: 30; display: flex; flex-direction: column; align-items: center;
+  padding: calc(12px + env(safe-area-inset-top)) 16px calc(8px + env(safe-area-inset-bottom));
+  background: rgba(0, 0, 0, .78);
+  animation: zoom-in .22s ease-out;
+}
+@keyframes zoom-in { from { opacity: 0; transform: scale(.94); } }
+@media (prefers-reduced-motion: reduce) { .cardzoom { animation: none; } }
+.zoom-close-area { position: absolute; inset: 0; border: 0; padding: 0; background: transparent; }
+.zoom-body {
+  position: relative; flex: 1; min-height: 0; width: 100%; max-width: 360px;
+  display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 12px;
+}
+.zoom-card {
+  border: 0; padding: 0; background: none; flex-shrink: 0;
+  /* Altura da tela menos o resto (dados, botões, rodapé e margens), convertida em largura pela proporção da carta. */
+  width: min(270px, 72vw, calc((100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - var(--zoom-info-h) - 196px) * 0.686));
+  filter: drop-shadow(0 0 16px rgba(42, 184, 255, .45));
+}
+.zoom-card .cardface { width: 100%; }
+.zoom-info.cardsheet {
+  appearance: none; border: 0; width: 100%; height: var(--zoom-info-h); flex-shrink: 0; padding: 14px; color: var(--txt);
+  text-align: left; font: inherit; --edge: #2ab8ff;
+  --fill: linear-gradient(180deg, rgba(11, 42, 106, .92), rgba(5, 10, 24, .92));
+}
+.zoom-info .meta { height: 100%; }
+.zoom-info .nm { padding-right: 0; font-size: 20px; }
+.zoom-info .desc { flex: 1 1 auto; min-height: 0; max-height: none; font-size: 14px; color: #d6e4fa; }
+.zoom-acc { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.zoom-foot { position: relative; width: 100%; max-width: 360px; padding-top: 10px; }
+.cardzoom .hud-btn { display: flex; align-items: center; justify-content: center; gap: 8px; text-align: center; font-size: 16px; }
+.zoom-foot .hud-btn { width: 100%; }

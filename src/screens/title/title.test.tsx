@@ -71,12 +71,13 @@ describe('SettingsScreen', () => {
   it('música: interruptor e volume próprios', () => {
     const onSettings = vi.fn();
     const { rerender } = render(<SettingsScreen settings={DEFAULT_SETTINGS} onSettings={onSettings} onErase={vi.fn()} onBack={vi.fn()} />);
-    expect(screen.getByRole('button', { name: 'Médio' }).getAttribute('aria-pressed')).toBe('true');
-    fireEvent.click(screen.getByRole('button', { name: 'Alto' }));
-    expect(onSettings).toHaveBeenLastCalledWith({ ...DEFAULT_SETTINGS, musicVolume: 1 });
+    const slider = screen.getByRole('slider', { name: 'Volume da música' }) as HTMLInputElement;
+    expect(slider.value).toBe('60');
+    fireEvent.change(slider, { target: { value: '85' } });
+    expect(onSettings).toHaveBeenLastCalledWith({ ...DEFAULT_SETTINGS, musicVolume: 0.85 });
     fireEvent.click(within(screen.getByRole('group', { name: 'Música' })).getByRole('button', { name: 'Desligada' }));
     expect(onSettings).toHaveBeenLastCalledWith({ ...DEFAULT_SETTINGS, music: false });
     rerender(<SettingsScreen settings={{ ...DEFAULT_SETTINGS, music: false }} onSettings={onSettings} onErase={vi.fn()} onBack={vi.fn()} />);
-    expect(screen.queryByRole('button', { name: 'Alto' })).toBeNull();
+    expect(screen.queryByRole('slider')).toBeNull();
   });
 });

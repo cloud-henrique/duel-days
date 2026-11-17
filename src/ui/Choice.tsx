@@ -17,9 +17,18 @@ export function Choice<T>({ label, options, value, onPick }: { label: string; op
 const ANIM: [Settings['anim'], string][] = [['normal', 'Normal'], ['fast', 'Rápida'], ['off', 'Desligada']];
 const SOUND: [boolean, string][] = [[true, 'Ligado'], [false, 'Desligado']];
 const MUSIC: [boolean, string][] = [[true, 'Ligada'], [false, 'Desligada']];
-const VOLUME: [number, string][] = [[0.3, 'Baixo'], [0.6, 'Médio'], [1, 'Alto']];
-/** O nível mais perto do volume salvo (a escolha é em três degraus). */
-const nearest = (v: number) => VOLUME.reduce((a, b) => (Math.abs(b[0] - v) < Math.abs(a[0] - v) ? b : a))[0];
+
+/** Volume da música: um slider de 0 a 100 % (passos de 5), que muda o volume enquanto o dedo arrasta. */
+function VolumeSlider({ value, onChange }: { value: number; onChange: (v: number) => void }) {
+  const pct = Math.round(value * 100);
+  return (
+    <label className="menu-opt volume">
+      <span>Volume da música <b className="num">{pct}%</b></span>
+      <input type="range" min={0} max={100} step={5} value={pct} aria-label="Volume da música"
+        style={{ ['--pct' as string]: `${pct}%` }} onChange={(e) => onChange(Number(e.target.value) / 100)} />
+    </label>
+  );
+}
 
 /** As preferências do app inteiro (animações, efeitos e música), as mesmas no título e no duelo. */
 export function SettingsChoices({ settings, onSettings }: { settings: Settings; onSettings: (s: Settings) => void }) {
@@ -28,7 +37,7 @@ export function SettingsChoices({ settings, onSettings }: { settings: Settings; 
       <Choice label="Animações" options={ANIM} value={settings.anim} onPick={(anim) => onSettings({ ...settings, anim })} />
       <Choice label="Som" options={SOUND} value={settings.sound} onPick={(sound) => onSettings({ ...settings, sound })} />
       <Choice label="Música" options={MUSIC} value={settings.music} onPick={(m) => onSettings({ ...settings, music: m })} />
-      {settings.music && <Choice label="Volume da música" options={VOLUME} value={nearest(settings.musicVolume)} onPick={(musicVolume) => onSettings({ ...settings, musicVolume })} />}
+      {settings.music && <VolumeSlider value={settings.musicVolume} onChange={(musicVolume) => onSettings({ ...settings, musicVolume })} />}
     </>
   );
 }

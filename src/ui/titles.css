@@ -9,9 +9,11 @@
 .display-title.tone-loss { --tone-fill: linear-gradient(180deg, #ff7a7a 0%, #d62a3a 55%, #6e0c1e 100%); --tone-glow: rgba(214, 42, 58, .7); }
 .display-title.tone-draw { --tone-fill: linear-gradient(180deg, #ffffff 0%, #c4cedc 55%, #7d8899 100%); --tone-glow: rgba(180, 200, 230, .6); }
 
-.wordmark { margin: 0; font-family: var(--font-game); font-weight: 700; font-size: clamp(30px, 12vw, 50px); line-height: 1; letter-spacing: 2px; white-space: nowrap; text-align: center; }
+/* Chakra Petch só vai até 700 e não tem itálico aqui: o Safari inclina a Bold (oblíquo sintetizado, que nesta fonte
+   técnica fica igual ao itálico dela). O espaço à direita do <span> evita que a inclinação corte o "S" no recorte. */
+.wordmark { margin: 0; font-family: var(--font-game); font-weight: 700; font-style: italic; font-synthesis: style; font-size: clamp(32px, 11vw, 56px); line-height: 1; letter-spacing: -.5px; white-space: nowrap; text-align: center; }
 .wordmark > span {
-  position: relative; display: inline-block;
+  position: relative; display: inline-block; padding: 0 .12em;
   background: linear-gradient(180deg, #ffffff 0%, #dfe7f2 38%, #8f9db3 50%, #c9d6e8 62%, #9fe3ff 100%);
   -webkit-background-clip: text; background-clip: text; color: transparent;
   /* Contorno marinho por sombras empilhadas (o text-stroke engrossaria o traço por dentro) e brilho ciano. */

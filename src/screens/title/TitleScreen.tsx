@@ -5,6 +5,7 @@ import { PERIOD_NAMES } from '../../campaign/state';
 import { GameIcon } from '../../ui/icons';
 import { Dp } from '../../ui/Dp';
 import { Wordmark } from '../../ui/titles';
+import { PolyCard } from '../../ui/PolyCard';
 import { avatarFace } from '../profile/ProfileFields';
 import './title.css';
 
@@ -18,14 +19,14 @@ export function campaignEntry(p: Progress): { label: string; sub: string; dp: nu
   return { label: 'Continuar', sub: `Dia ${c.day} · ${PERIOD_NAMES[c.period]}`, dp: c.dp };
 }
 
-/** O orbe azul com o leque de cartas atrás do logo, como na tela de título do *Duel Links*. */
+/** O orbe azul com o leque de cartas (a espiral da Polimerização em silhueta) atrás do logo, como na tela de título do *Duel Links*. */
 function TitleOrb() {
   return (
     <div className="titleorb" aria-hidden="true">
       <div className="orb-halo" /><div className="orb-ball" /><div className="orb-ring r1" /><div className="orb-ring r2" />
       {[0, 1, 2, 3, 4].map((i) => <i key={i} className={`orb-spark s${i}`} />)}
       <div className="fan">
-        {[-1, 0, 1].map((d) => <div key={d} className="fancard" style={{ ['--d' as string]: d }}><GameIcon name="logo" size={26} /></div>)}
+        {[-1, 0, 1].map((d) => <div key={d} className="fancard" style={{ ['--d' as string]: d }}><PolyCard /></div>)}
       </div>
     </div>
   );

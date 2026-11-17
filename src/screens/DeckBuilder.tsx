@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
-import { CardSheet, art } from '../components/CardSheet';
+import { art } from '../components/CardSheet';
+import { CardZoom } from '../components/CardZoom';
 import type { GameData } from '../data/cards';
 import { MAIN_MAX, MAIN_MIN, EXTRA_MAX, count, isExtraCard, maxCopiesOf, validateDeck, type Deck } from '../game/decks';
 import type { Tier } from '../data/cards';
@@ -60,6 +61,14 @@ export function DeckBuilder({ progress, data, onChange, onBack }: { progress: Ca
     const codes = tab === 'colecao' ? Object.keys(progress.collection).map(Number) : Object.keys(used).map(Number);
     return codes.filter(matches).sort(sortFn);
   }, [tab, progress.collection, used, q, kind, sort]);
+  /**
+   * Cada cópia é uma miniatura, as iguais seguidas (mais fácil de ver quantas há do que um contador "2/3"). Na
+   * coleção, as primeiras cópias de cada carta são as que estão no deck: ficam apagadas, com a marca.
+   */
+  const copies = useMemo(() => list.flatMap((code) => {
+    const n = tab === 'colecao' ? progress.collection[code] ?? 0 : used[code] ?? 0;
+    return Array.from({ length: n }, (_, i) => ({ code, n: i, inDeck: i < (used[code] ?? 0) }));
+  }), [list, tab, progress.collection, used]);
 
   const newDeck = () => {
     if (progress.decks.length >= MAX_DECKS) return;
@@ -111,22 +120,23 @@ export function DeckBuilder({ progress, data, onChange, onBack }: { progress: Ca
       <div className="chips">{KINDS.map(([k, label]) => <button key={k} className={kind === k ? 'on' : ''} onClick={() => setKind(k)}>{label}</button>)}</div>
 
       <div className="cardgrid">
-        {list.length === 0 && <div className="stats" style={{ gridColumn: '1 / -1', textAlign: 'center', padding: 24 }}>{tab === 'deck' ? 'Nenhuma carta neste deck ainda. Adicione pela aba Coleção.' : 'Nenhuma carta encontrada.'}</div>}
-        {list.map((code) => (
-          <button key={code} className={`cell r-${tiers[code]}`} onClick={() => setOpen(code)}>
+        {copies.length === 0 && <div className="stats" style={{ gridColumn: '1 / -1', textAlign: 'center', padding: 24 }}>{tab === 'deck' ? 'Nenhuma carta neste deck ainda. Adicione pela aba Coleção.' : 'Nenhuma carta encontrada.'}</div>}
+        {copies.map(({ code, n, inDeck }) => (
+          <button key={`${code}-${n}`} className={`cell r-${tiers[code]}${inDeck && tab === 'colecao' ? ' indeck' : ''}`} onClick={() => setOpen(code)}>
             <img loading="lazy" src={art(code, 'small')} alt={cards[code].name} draggable={false} />
-            <i className={(used[code] ?? 0) >= Math.min(maxCopiesOf(code), progress.collection[code] ?? 0) ? 'full' : ''}>
-              {tab === 'colecao' ? `${used[code] ?? 0}/${progress.collection[code]}` : `×${used[code]}`}
-            </i>
+            {inDeck && tab === 'colecao' && <i aria-label="No deck"><GameIcon name="check" size={12} /></i>}
           </button>
         ))}
       </div>
 
       {open != null && (
-        <CardSheet code={open} cards={cards} onClose={() => setOpen(null)} actions={[
-          { label: `Adicionar (${used[open] ?? 0}/${Math.min(maxCopiesOf(open), progress.collection[open] ?? 0)})`, primary: true, disabled: !canAdd(open), onClick: () => add(open) },
-          { label: 'Remover', disabled: !(used[open] > 0), onClick: () => remove(open) },
-        ]} />
+        <CardZoom code={open} cards={cards} onClose={() => setOpen(null)}>
+          <p className="zoom-count num">No deck {used[open] ?? 0} · Você tem {progress.collection[open] ?? 0}</p>
+          <div className="zoom-acts">
+            <button className="hud-btn secondary" disabled={!(used[open] > 0)} onClick={() => remove(open)}><GameIcon name="minus" size={18} /> Tirar do deck</button>
+            <button className="hud-btn primary" disabled={!canAdd(open)} onClick={() => add(open)}><GameIcon name="plus" size={18} /> Pôr no deck</button>
+          </div>
+        </CardZoom>
       )}
     </div>
   );
