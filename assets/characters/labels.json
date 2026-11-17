@@ -40,10 +40,6 @@
    "bonz/faces/chara007_06.png": "embarrassed"
   }
  },
- "bronk_stone": {
-  "excluded": true,
-  "faces": {}
- },
  "dox": {
   "faces": {
    "dox/faces/chara007_01.png": "neutral",
@@ -53,10 +49,6 @@
    "dox/faces/chara007_05.png": "sad",
    "dox/faces/chara007_06.png": "embarrassed"
   }
- },
- "dr_faker": {
-  "excluded": true,
-  "faces": {}
  },
  "duke_devlin": {
   "faces": {
@@ -81,10 +73,6 @@
    "espa_roba/faces/chara007_06.png": "embarrassed",
    "espa_roba/faces/chara007_07.png": "worried"
   }
- },
- "gong_strong": {
-  "excluded": true,
-  "faces": {}
  },
  "ishizu_ishtar": {
   "faces": {
@@ -151,10 +139,6 @@
    "joey_wheeler_dsod/faces/chara007_08.png": "worried",
    "joey_wheeler_dsod/faces/chara007_09.png": "smug"
   }
- },
- "lester": {
-  "excluded": true,
-  "faces": {}
  },
  "mai_valentine": {
   "faces": {
@@ -550,10 +534,6 @@
    "tea_gardner_dsod/faces/chara007_07.png": "happy",
    "tea_gardner_dsod/faces/chara007_08.png": "smug"
   }
- },
- "the_gore": {
-  "excluded": true,
-  "faces": {}
  },
  "tristan_taylor": {
   "faces": {

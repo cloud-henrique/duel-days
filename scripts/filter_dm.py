@@ -16,7 +16,7 @@ DM = {
     'espa_roba','arkana','bonz','rare_hunter','serenity_wheeler','solomon_muto','rebecca_hawkins','roland',
 }
 # Prováveis DM, mas não verificados: conferir no labeler (campo "excluded" remove depois).
-UNSURE = {'dox','gong_strong','bronk_stone','the_gore','dr_faker','lester','princess_adena'}
+UNSURE = {'dox','princess_adena'}
 
 def series(cid):
     if cid in DM: return 'dm'

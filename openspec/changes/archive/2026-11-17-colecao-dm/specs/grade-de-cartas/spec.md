@@ -20,11 +20,12 @@ cartas que saem dessa faixa MUST deixar de ocupar memória com a imagem.
 - **THEN** as cartas do topo aparecem de novo, e a memória não acumula as imagens de todas as cartas já vistas
 
 ### Requirement: Rolagem lisa
-Rolar a grade com a coleção inteira SHALL manter a animação fluida num iPhone: em medição no simulador de iOS, a média
-MUST ficar perto de 60 quadros por segundo, sem travadas longas visíveis.
+Rolar a grade com a coleção inteira SHALL manter a animação fluida num iPhone: medida no aparelho, a média MUST ficar
+perto de 60 quadros por segundo, sem travadas longas visíveis. (O simulador de iOS desenha mais devagar que o aparelho e
+não serve para esta meta.)
 
 #### Scenario: Medição de FPS
-- **WHEN** a coleção inteira é rolada de ponta a ponta no simulador do iPhone 17 Pro
+- **WHEN** a coleção inteira é rolada de ponta a ponta num iPhone com o medidor `?perf`
 - **THEN** o FPS medido fica em torno de 60 e o relatório de medição registra o resultado
 
 ### Requirement: Comportamento da grade preservado
