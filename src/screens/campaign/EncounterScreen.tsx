@@ -112,17 +112,11 @@ export function EncounterScreen({ s, duelist, chars, profile, afterDuel, firstMe
         </Dialogue>
       );
     case 'talk': {
-      const r = phase.result, pts = r.after - r.before;
-      return (
-        <Dialogue {...common} scene={conversationScene(duelist, r)} onDone={() => {}}>
-          <p className={`bondchange ${pts > 0 ? 'up' : pts < 0 ? 'down' : ''}`}>
-            {/* Os corações ficam só na placa do alto (que já mostra o valor novo); aqui, a mudança. */}
-            <span className="num">{pts > 0 ? `+${pts}` : pts}</span> de afinidade
-            {r.openedEvent !== null && <b> · Novo evento: {eventTitle(duelist, r.openedEvent)}</b>}
-          </p>
-          <button className="hud-btn primary" onClick={() => setPhase({ k: 'menu' })}>Continuar</button>
-        </Dialogue>
-      );
+      // A mudança aparece só como o "+20" animado ao lado dos corações; no fim da fala, volta ao menu (que mostra o
+      // evento de laço que tiver aberto como botão principal).
+      const r = phase.result;
+      return <Dialogue key="talk" {...common} top={{ ...top, heartsDelta: r.after - r.before }}
+        scene={conversationScene(duelist, r)} onDone={() => setPhase({ k: 'menu' })} />;
     }
     case 'pre':
       return <Dialogue key="pre" {...common} scene={phase.scene} onDone={() => onDuel(phase.kind)} />;

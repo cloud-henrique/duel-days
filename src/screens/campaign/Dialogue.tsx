@@ -31,7 +31,11 @@ export interface Stage {
 }
 
 /** O alto da cena: a barra com o lugar e quem está nele, e os corações do laço numa placa embaixo. */
-export interface SceneTop { title: string; subtitle?: ReactNode; hearts?: number; onBack?: () => void }
+export interface SceneTop {
+  title: string; subtitle?: ReactNode; hearts?: number; onBack?: () => void;
+  /** A mudança de afinidade de agora (a conversa): um "+20" que salta ao lado dos corações e some, como o LP no duelo. */
+  heartsDelta?: number;
+}
 
 /** Quem fala a linha: o duelista (ou o vovô, nas falas da loja, que não têm `speaker`) ou o jogador. */
 const speakerOf = (l: Line, stage: Stage) => l.speaker ?? stage.duelist;
@@ -74,7 +78,17 @@ export function Dialogue({ scene, stage, chars, profile, top, onDone, children }
       <div className="scene-wash" />
       <div className="scene-circuit" />
       {top && <TopBar title={top.title} subtitle={top.subtitle} onBack={top.onBack} />}
-      {top?.hearts !== undefined && <div className="scene-hearts hud"><BondHearts value={top.hearts} size={22} /></div>}
+      {top?.hearts !== undefined && (
+        // O "+20" fica fora da placa: a `.hud` corta (clip-path dos cantos) o que sai dela.
+        <div className="scene-hearts-wrap">
+          <div className="scene-hearts hud"><BondHearts value={top.hearts} size={22} /></div>
+          {!!top.heartsDelta && (
+            <span className={`heartsdelta num ${top.heartsDelta > 0 ? 'up' : 'down'}`} aria-live="polite">
+              {top.heartsDelta > 0 ? `+${top.heartsDelta}` : top.heartsDelta}
+            </span>
+          )}
+        </div>
+      )}
       <div className="stage">
         {duelChar && <Sprite c={duelChar} expr={lastDuelist?.expression ?? 'neutral'} side={playerOnStage ? 'duelist' : 'solo'} lit={lit('duelist')} />}
         {playerOnStage && playerChar && <Sprite c={playerChar} expr={lastPlayer?.expression ?? 'neutral'} side="player" lit={lit('player')} />}

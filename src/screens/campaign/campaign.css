@@ -62,14 +62,15 @@
 .scene-wash { position: absolute; inset: 0; background: var(--wash); mix-blend-mode: var(--wash-blend); pointer-events: none; }
 .scene-circuit { position: absolute; inset: 0; background: url('../../ui/circuit.svg') 0 0 / 259.81px 450px repeat; opacity: .8; pointer-events: none; }
 .campaign-scene > .topbar { position: relative; z-index: 6; }
-.scene-hearts { position: relative; z-index: 6; align-self: center; margin-top: 8px; padding: 8px 14px; display: flex;
+.scene-hearts-wrap { position: relative; z-index: 6; align-self: center; margin-top: 8px; }
+.scene-hearts { padding: 8px 14px; display: flex;
   --edge: #2ab8ff; --fill: linear-gradient(180deg, #0b2a6a, #050a18); }
 
-/* Os personagens: 60% da altura do palco (abaixo da barra do topo; o nativo usa 64% de um palco sem a barra de endereço
-   do Safari, e no celular ficava grande demais), base no pé da tela (a caixa cobre a cintura e as pernas). Sozinho, o duelista
+/* Os personagens: a altura toda do palco (abaixo da barra do topo; o sprite tem folga acima do cabelo), base no pé da tela: a cabeça fica logo abaixo da placa
+   de corações e continua à vista com o menu de temas aberto (a caixa cobre a cintura e as pernas). Sozinho, o duelista
    fica no centro; com o jogador em cena, cada um vai 1/5 da largura para o seu lado. Quem não fala fica escurecido. */
 .campaign-scene .stage { position: absolute; inset: calc(52px + env(safe-area-inset-top)) 0 0; z-index: 2; pointer-events: none; overflow: hidden; }
-.actor { position: absolute; bottom: 0; left: 50%; height: 60%; transform: translateX(-50%); transition: transform .3s ease-out, filter .3s;
+.actor { position: absolute; bottom: 0; left: 50%; height: 100%; transform: translateX(-50%); transition: transform .3s ease-out, filter .3s;
   filter: brightness(.65) saturate(.6); animation: actor-in .35s ease-out both; }
 .actor.lit { filter: none; z-index: 1; }
 .actor.duelist { transform: translateX(calc(-50% + 20vw)); }
@@ -103,9 +104,6 @@
 /* Enquanto alguém fala, a folha deixa o toque passar para a área de avançar (um <button>: o iOS não entrega toques a
    uma <div>); o "Pular" continua tocável. */
 .scene-sheet-wrap.speaking { pointer-events: none; }
-.bondchange { margin: 0; display: flex; align-items: center; gap: 8px; font-weight: 700; }
-.bondchange.up .num { color: #6fe0a0; }
-.bondchange.down .num { color: #ff8a8a; }
 
 /* Fim do duelo: detalhes da recompensa */
 .outrodetails { display: flex; flex-direction: column; align-items: center; gap: 8px; width: min(100%, 340px); }
@@ -162,3 +160,12 @@
 .nodeck { align-items: center; text-align: center; }
 .nodeck p { margin: 0; color: #cfe2ff; line-height: 1.4; }
 .campend .display-title { font-size: min(8vw, 40px); white-space: nowrap; }
+
+/* A mudança de afinidade ao lado da placa de corações: salta e some, como o "+500" do LP no duelo. */
+.heartsdelta { position: absolute; left: calc(100% + 8px); top: 50%; translate: 0 -50%; font: 800 20px var(--font-game);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, .8); animation: hd-pop .25s ease-out both, hd-out .5s ease-in 1.8s forwards; pointer-events: none; }
+.heartsdelta.up { color: #3fe6b4; }
+.heartsdelta.down { color: #ff5a5a; }
+@keyframes hd-pop { from { transform: scale(.5) translateY(6px); opacity: 0; } }
+@keyframes hd-out { to { transform: translateY(-10px); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .heartsdelta { animation: hd-out .5s ease-in 1.8s forwards; } }

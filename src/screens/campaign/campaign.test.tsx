@@ -10,6 +10,7 @@ import { DeckBuilder } from '../DeckBuilder';
 import { expressionFor } from './chars';
 import { MapScreen } from './MapScreen';
 import { EncounterScreen } from './EncounterScreen';
+import { Dialogue } from './Dialogue';
 import { present } from '../../campaign/map';
 
 afterEach(cleanup);
@@ -106,5 +107,26 @@ describe('EncounterScreen sem laço', () => {
     expect(screen.queryByRole('button', { name: /Conversar/ })).toBeNull();
     expect(screen.getByRole('button', { name: /Duelar/ })).toBeTruthy();
     expect(screen.getByRole('button', { name: /Voltar ao mapa/ })).toBeTruthy();
+  });
+});
+
+describe('Dialogue: mudança de afinidade', () => {
+  const profile = { name: 'Ana', avatar: 'x', address: 'she' as const };
+  const stage = { bg: 'none', period: 'morning' as const, duelist: 'tea' };
+  it('mostra o "+20" ao lado dos corações e, no fim da fala, volta sem botão de continuar', () => {
+    const onDone = vi.fn();
+    render(<Dialogue scene={[{ speaker: 'tea', expression: 'happy', text: 'Oi!' }]} stage={stage} chars={{}} profile={profile}
+      top={{ title: 'Rua', hearts: 1.2, heartsDelta: 20 }} onDone={onDone} />);
+    expect(document.querySelector('.scene-hearts-wrap .heartsdelta.up')?.textContent).toBe('+20');
+    expect(screen.queryByText(/de afinidade/)).toBeNull();
+    fireEvent.click(screen.getByRole('button', { name: 'Avançar' }));
+    expect(onDone).toHaveBeenCalled();
+    expect(screen.queryByRole('button', { name: /Continuar/ })).toBeNull();
+  });
+
+  it('sem mudança, nada ao lado dos corações', () => {
+    render(<Dialogue scene={[]} stage={stage} chars={{}} profile={profile} top={{ title: 'Rua', hearts: 1, heartsDelta: 0 }} onDone={vi.fn()}>
+      <p>menu</p></Dialogue>);
+    expect(document.querySelector('.heartsdelta')).toBeNull();
   });
 });
