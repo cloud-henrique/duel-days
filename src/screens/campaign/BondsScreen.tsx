@@ -23,7 +23,7 @@ export function BondsScreen({ s, onReview, onBack }: { s: CampaignState; onRevie
                 <img src={faceOf(d.key)} alt="" />
                 <span><b>{d.name}</b><Hearts value={hearts(s, d.key)} size={16} /></span>
                 {route && <em className={`route ${route}`}>{ROUTE_NAMES[route]}</em>}
-                {needsAttention(s, d.key) && <b className="alert">!</b>}
+                {needsAttention(s, d.key) && <b className="bondalert">!</b>}
               </header>
               <ol>
                 {Array.from({ length: BALANCE.bondEvents }, (_, i) => i + 1).map((n) => (

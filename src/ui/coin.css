@@ -10,3 +10,6 @@
 .die3d svg { width: 100%; height: 100%; display: block; }
 .diebody { fill: #f5f7fb; stroke: #b8c0cf; stroke-width: 3; }
 .diepip { fill: #10204a; }
+/* Moeda em pixel art (sprite do WCT 2004): sem suavizar os pixels. */
+.coin3d.pixel { perspective: none; }
+.coinsprite { image-rendering: pixelated; background-repeat: no-repeat; }

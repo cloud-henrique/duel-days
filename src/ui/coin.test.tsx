@@ -1,7 +1,7 @@
 // @vitest-environment happy-dom
 import { afterEach, describe, expect, it } from 'vitest';
 import { cleanup, render } from '@testing-library/react';
-import { Coin, DIE_PIPS, Die, coinAngle } from './coin';
+import { COIN_FRAMES, Coin, DIE_PIPS, Die, coinAngle, coinFrames } from './coin';
 
 afterEach(cleanup);
 
@@ -28,5 +28,16 @@ describe('Die', () => {
     const { container } = render(<Die value={n} spinMs={0} />);
     expect(container.querySelectorAll('.diepip')).toHaveLength(n);
     expect(DIE_PIPS[n]).toHaveLength(n);
+  });
+});
+
+describe('coinFrames (sprite)', () => {
+  it('começa na cara, alterna as faces a cada meia volta e para no lado que caiu', () => {
+    const h = coinFrames('heads', 1), t = coinFrames('tails', 1);
+    expect(h[0]).toBe(COIN_FRAMES.heads);
+    expect(h.at(-1)).toBe(COIN_FRAMES.heads);
+    expect(t.at(-1)).toBe(COIN_FRAMES.tails);
+    expect(h).toEqual([0, 12, 14, 16, 6, 13, 14, 15, 0]);
+    expect(Math.max(...t)).toBeLessThan(COIN_FRAMES.count);
   });
 });

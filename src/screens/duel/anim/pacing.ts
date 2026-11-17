@@ -32,7 +32,8 @@ export const PACING = {
   move: { flight: 400, block: 350 },
   banish: { fade: 350, block: 300 },
   equip: { flight: 400, pillar: 750, block: 650 },
-  toss: { spin: 900, caption: 400, block: 1300 },
+  /** `shineFrame`: cada quadro do brilho que passa na moeda (sprite do WCT 2004) depois de cair; não trava nada. */
+  toss: { spin: 900, caption: 400, block: 1300, shineFrame: 70 },
   turn: { block: 0 },
   /** Fade curto que substitui deslocamento, giro 3D e quebra com "reduzir movimento". */
   fade: { duration: 200, block: 250 },

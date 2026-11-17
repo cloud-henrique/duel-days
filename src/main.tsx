@@ -21,5 +21,6 @@ const root = createRoot(document.getElementById('root')!);
 // ?coins, a da moeda e do dado.
 if (import.meta.env.DEV && location.search.includes('cardfaces')) import('./dev/CardFaceGallery').then(({ CardFaceGallery }) => root.render(<CardFaceGallery />));
 else if (import.meta.env.DEV && location.search.includes('coins')) import('./dev/CoinGallery').then(({ CoinGallery }) => root.render(<CoinGallery />));
+else if (import.meta.env.DEV && location.search.includes('outros')) import('./dev/OutroGallery').then(({ OutroGallery }) => root.render(<OutroGallery />));
 else if (import.meta.env.DEV && location.search.includes('choices')) import('./dev/ChoiceGallery').then(({ ChoiceGallery }) => root.render(<ChoiceGallery />));
 else root.render(<App />);

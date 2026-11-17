@@ -6,6 +6,8 @@ import { DisplayTitle } from '../../../ui/titles';
 import { CardFace } from '../../../components/CardFace';
 import type { Cards } from '../../../data/cards';
 import { GameIcon } from '../../../ui/icons';
+import { Portrait } from '../../../ui/Portrait';
+import { BondHearts } from '../../../ui/BondHearts';
 
 export type DuelResult = 'win' | 'loss' | 'draw';
 
@@ -21,8 +23,9 @@ export interface OutroReward {
 export const OUTRO_TITLE: Record<DuelResult, string> = { win: 'VITÓRIA!', loss: 'DERROTA', draw: 'EMPATE' };
 
 /**
- * Fim do duelo: fundo na cor do resultado, o título entrando com escala, o retrato do vencedor dando um pulo e o do
- * perdedor esmaecido; embaixo, o detalhe (ex.: "Você desistiu."), o ganho em DP e "Continuar".
+ * Fim do duelo: fundo na cor do resultado, o título entrando com escala e o detalhe (ex.: "Você desistiu."); os dois
+ * retratos emoldurados (o do vencedor em dourado, dando um pulo, e o do perdedor esmaecido); o resumo num painel do HUD
+ * (bônus, total em DP, cartas, laço e avisos) e "Continuar".
  */
 export function Outro({ result, detail, me, foe, coins, reward, reduced, onContinue, cards = {} }: {
   result: DuelResult; detail: string; me: Duelist; foe: Duelist;
@@ -33,7 +36,7 @@ export function Outro({ result, detail, me, foe, coins, reward, reduced, onConti
 }) {
   const P = PACING.outro;
   const title = useRef<HTMLHeadingElement>(null);
-  const winner = useRef<HTMLImageElement>(null);
+  const winner = useRef<HTMLSpanElement>(null);
   useEffect(() => {
     if (reduced) return;
     const anims = [
@@ -42,33 +45,41 @@ export function Outro({ result, detail, me, foe, coins, reward, reduced, onConti
     ];
     return () => anims.forEach((a) => a?.cancel());
   }, []);
-  const face = (d: Duelist, won: boolean) => (
-    <figure className={won ? 'won' : result === 'draw' ? '' : 'lost'}>
-      <img ref={won ? winner : undefined} src={avatar(d.id)} alt="" />
-      <figcaption>{d.name}</figcaption>
-    </figure>
-  );
+  const face = (d: Duelist, won: boolean) => {
+    const lost = !won && result !== 'draw';
+    return (
+      <figure className={won ? 'won' : lost ? 'lost' : ''}>
+        <Portrait src={avatar(d.id)} size={92} tone={won ? 'gold' : lost ? 'dim' : 'cyan'} imgRef={won ? winner : undefined} />
+        <figcaption>{d.name}</figcaption>
+      </figure>
+    );
+  };
+  const total = reward?.totalDP ?? coins;
   return (
     <div className={`outro ${result}`}>
       <DisplayTitle tone={result} titleRef={title}>{OUTRO_TITLE[result]}</DisplayTitle>
-      <div className="outrofaces">{face(me, result === 'win')}{face(foe, result === 'loss')}</div>
-      <p className="stats">{detail}{(reward || coins !== undefined) && <> · <Dp value={reward?.totalDP ?? coins ?? 0} delta /></>}</p>
-      {reward && <OutroDetails r={reward} cards={cards} />}
-      <button className="hud-btn gold" onClick={onContinue}>Continuar</button>
+      {detail && <p className="outrodetail">{detail}</p>}
+      <div className="outrofaces">{face(me, result === 'win')}<span className="outrovs">VS</span>{face(foe, result === 'loss')}</div>
+      {(reward || total !== undefined) && (
+        <section className="outrosum hud">
+          {reward && reward.bonuses.length > 0 && (
+            <ul className="bonuses">
+              <li><span>Vitória</span><Dp value={reward.baseDP} /></li>
+              {reward.bonuses.map((b) => <li key={b.label}><span>{b.label}</span><Dp value={b.dp} delta /></li>)}
+            </ul>
+          )}
+          {total !== undefined && <p className="outrototal"><span>Total</span><Dp value={total} delta /></p>}
+          {reward && <OutroDetails r={reward} cards={cards} />}
+        </section>
+      )}
+      <button className="hud-btn primary wide outrocont" onClick={onContinue}>Continuar</button>
     </div>
   );
 }
 
 function OutroDetails({ r, cards }: { r: OutroReward; cards: Cards }) {
-  const hearts = (v: number, per: number) => (v / per).toFixed(1).replace('.0', '').replace('.', ',');
   return (
     <div className="outrodetails">
-      {r.bonuses.length > 0 && (
-        <ul className="bonuses">
-          <li><span>Vitória</span><Dp value={r.baseDP} /></li>
-          {r.bonuses.map((b) => <li key={b.label}><span>{b.label}</span><Dp value={b.dp} delta /></li>)}
-        </ul>
-      )}
       {r.cards.length > 0 && (
         <div className="earned">
           {r.cards.map((c, i) => (
@@ -81,7 +92,7 @@ function OutroDetails({ r, cards }: { r: OutroReward; cards: Cards }) {
         </div>
       )}
       {r.bond && r.bond.after !== r.bond.before && (
-        <p className="bondline"><GameIcon name="heart" size={16} /> Laço <span className="num">{r.bond.after - r.bond.before > 0 ? '+' : ''}{r.bond.after - r.bond.before}</span> ({hearts(r.bond.after, r.bond.perHeart)} corações)</p>
+        <p className="bondline"><span>Laço <b className="num">{r.bond.after - r.bond.before > 0 ? '+' : ''}{r.bond.after - r.bond.before}</b></span><BondHearts value={r.bond.after / r.bond.perHeart} size={16} /></p>
       )}
       {r.bond?.note && <p className="bondline"><GameIcon name="heart" size={16} /> {r.bond.note}</p>}
       {r.notes.map((n) => <p key={n} className="bondline"><GameIcon name="gift" size={16} /> {n}</p>)}

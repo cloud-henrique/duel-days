@@ -9,14 +9,43 @@ import { CHAR_ID, expressionFor, speakerColor, type CharInfo } from './chars';
 
 const BASE = import.meta.env.BASE_URL;
 
-/** Um personagem de corpo inteiro no palco: o corpo e o rosto da expressão por cima. */
+/** Carrega e decodifica uma imagem fora da tela; resolve também no erro (arquivo faltando não trava o palco). */
+function preload(src: string): Promise<void> {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => { (img.decode ? img.decode() : Promise.resolve()).catch(() => {}).then(() => resolve()); };
+    img.onerror = () => resolve();
+    img.src = src;
+  });
+}
+
+/**
+ * Um personagem de corpo inteiro no palco: o corpo e o rosto da expressão por cima. Só aparece quando os dois já estão
+ * carregados (senão o corpo surgia sem rosto por um instante); ao trocar de expressão, o rosto antigo fica até o novo
+ * estar pronto.
+ */
 export function Sprite({ c, expr, side, lit }: { c: CharInfo; expr: string; side: 'solo' | 'duelist' | 'player'; lit: boolean }) {
   const e = expressionFor(c.expressions, expr);
   const { face: f, body: b } = c;
+  const bodySrc = `${BASE}characters/${c.id}/body.webp`;
+  const faceSrc = `${BASE}characters/${c.id}/${e}.webp`;
+  const [bodyReady, setBodyReady] = useState<string | null>(null);
+  const [face, setFace] = useState<string | null>(null);
+  useEffect(() => {
+    let live = true;
+    preload(bodySrc).then(() => { if (live) setBodyReady(bodySrc); });
+    return () => { live = false; };
+  }, [bodySrc]);
+  useEffect(() => {
+    let live = true;
+    preload(faceSrc).then(() => { if (live) setFace(faceSrc); });
+    return () => { live = false; };
+  }, [faceSrc]);
+  const ready = bodyReady === bodySrc && !!face?.startsWith(`${BASE}characters/${c.id}/`);
   return (
-    <div className={`actor ${side}${lit ? ' lit' : ''}`} style={{ aspectRatio: `${b.w} / ${b.h}` }}>
-      <img src={`${BASE}characters/${c.id}/body.webp`} alt="" draggable={false} />
-      <img className="face" src={`${BASE}characters/${c.id}/${e}.webp`} alt="" draggable={false}
+    <div className={`actor ${side}${lit ? ' lit' : ''}${ready ? '' : ' loading'}`} style={{ aspectRatio: `${b.w} / ${b.h}` }}>
+      <img src={bodySrc} alt="" draggable={false} />
+      <img className="face" src={face ?? faceSrc} alt="" draggable={false}
         style={{ left: `${(f.x / b.w) * 100}%`, top: `${(f.y / b.h) * 100}%`, width: `${(f.w / b.w) * 100}%` }} />
     </div>
   );

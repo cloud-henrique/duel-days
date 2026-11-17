@@ -4,6 +4,7 @@ import { avatar, type Duelist } from '../Plate';
 import { PACING } from './pacing';
 import { Coin } from '../../../ui/coin';
 import { DisplayTitle } from '../../../ui/titles';
+import { Portrait } from '../../../ui/Portrait';
 
 /** A abertura só aparece com animações (com "desligada", o duelo começa direto). */
 export const wantsIntro = (anim: Settings['anim']) => anim !== 'off';
@@ -51,8 +52,8 @@ export function Intro({ me, foe, starter, reduced, onDone }: { me: Duelist; foe:
       <Coin side={starter === 0 ? 'heads' : 'tails'} spinMs={P.coin} reduced={reduced} size={76} />
       <span ref={caption} className="introstarter">{starter === 0 ? `${me.name} começa` : `${foe.name} começa`}</span>
       <div className="introbanners">
-        <div ref={left} className="banner me"><img src={avatar(me.id)} alt="" /><b>{me.name}</b></div>
-        <div ref={right} className="banner foe"><b>{foe.name}</b><img src={avatar(foe.id)} alt="" /></div>
+        <div ref={left} className="banner me"><Portrait src={avatar(me.id)} size={68} /><b>{me.name}</b></div>
+        <div ref={right} className="banner foe"><b>{foe.name}</b><Portrait src={avatar(foe.id)} size={68} /></div>
       </div>
       <DisplayTitle tone="duel" titleRef={title}>DUELO!</DisplayTitle>
     </button>

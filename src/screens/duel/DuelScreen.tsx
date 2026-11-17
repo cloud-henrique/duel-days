@@ -11,7 +11,7 @@ import { Backdrop, CardSheet, ICONS } from '../../components/CardSheet';
 import { CardFace } from '../../components/CardFace';
 import { debugOn } from '../../debug/remote';
 import { cardActions, highlighted, refKey, sideActions, type CardRef } from './prompt';
-import { choiceMarks, choiceOf, tapOption } from './choice';
+import { choiceMarks, choiceOf, confirmResponse, tapOption } from './choice';
 import { ChoiceBar } from './ChoicePanels';
 import { useDuelEngine } from './useDuelEngine';
 import { useBeatQueue } from './anim/useBeatQueue';
@@ -65,6 +65,8 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id:
   const [fieldPlayed, setFieldPlayed] = useState<FieldPlayed | null>(null);
   /** A carta que age: a última que o jogador mandou agir (ou a última ativada). `attack` quando foi "Atacar". */
   const [actor, setActor] = useState<{ code: number; attack: boolean } | null>(null);
+  /** "Atacar" acabou de ser tocado: o próximo pedido é o alvo (com um só alvo possível, ele é escolhido sozinho). */
+  const [attackArmed, setAttackArmed] = useState(false);
 
   const name = (code: number) => cards[String(code)]?.name ?? `#${code}`;
   const pushEvents = (ev: string[]) => {
@@ -136,6 +138,14 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id:
   const boardChoice = choice?.mode === 'board' ? choice : null;
   const marks = useMemo(() => choiceMarks(boardChoice, sel), [boardChoice, sel]);
   const hl = useMemo(() => (boardChoice ? marks.glow : highlighted(prompt)), [prompt, boardChoice, marks]);
+  // Um só monstro para atacar: o ataque vai direto nele, sem a barra de escolha. Com ataque direto possível, o motor
+  // pergunta antes (sim/não) e esse pedido não é uma escolha de carta, então nada é pulado.
+  const soleTarget = attackArmed && boardChoice?.type === OcgMessageType.SELECT_CARD && boardChoice.options.length === 1 && boardChoice.min === 1;
+  useEffect(() => {
+    if (!attackArmed || !prompt) return;
+    setAttackArmed(false);
+    if (soleTarget && boardChoice) reply(confirmResponse(boardChoice, [0]));
+  }, [prompt]); // eslint-disable-line react-hooks/exhaustive-deps
   const panel = useMemo(() => promptPanel(prompt, { name, cards, evText, sel, setSel, reply, autoPass: engine.autoPass, onCoinCall: (c) => { coinCall.current = c; } }), [prompt, sel, cards]);
 
   const side = useMemo(() => {
@@ -164,7 +174,7 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id:
     if (label === 'Mudar posição') return ICONS.swap;
     return ICONS.activate;
   };
-  const sheetActions = sheet ? cardActions(prompt, sheet.ref).map((a) => ({ label: a.label, primary: a.primary, icon: iconFor(a.label), onClick: () => { setActor({ code: sheet.code, attack: a.label === 'Atacar' }); reply(a.response); } })) : [];
+  const sheetActions = sheet ? cardActions(prompt, sheet.ref).map((a) => ({ label: a.label, primary: a.primary, icon: iconFor(a.label), onClick: () => { setActor({ code: sheet.code, attack: a.label === 'Atacar' }); setAttackArmed(a.label === 'Atacar'); reply(a.response); } })) : [];
 
   const dbgBox = debugOn ? <div className="dbg">worker: última resposta há {engine.lastPongAgo()} s{engine.dbg.map((l, i) => <div key={i}>{l}</div>)}</div> : null;
   const introLayer = intro && <Intro me={player} foe={opponent} starter={intro.starter} reduced={reducedMotion} onDone={intro.done} />;
@@ -209,7 +219,7 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id:
           </div>
         </div>
       )}
-      {boardChoice && !sheet && !stage.splash && <ChoiceBar c={boardChoice} sel={sel} cards={cards} actor={actor?.code ?? null} attack={pickAttack} reply={reply} />}
+      {boardChoice && !soleTarget && !sheet && !stage.splash && <ChoiceBar c={boardChoice} sel={sel} cards={cards} actor={actor?.code ?? null} attack={pickAttack} reply={reply} />}
       {panel && peek && !sheet && (
         <div className="peekbar hud panel">
           <span>{ICONS.eye}Só olhando: toque numa carta para ampliar</span>

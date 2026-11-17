@@ -16,7 +16,7 @@ const KINDS: [Kind, string][] = [['all', 'Todas'], ['mon', 'Monstros'], ['mag', 
 const TIER_ORDER: Record<Tier, number> = { N: 0, R: 1, SR: 2, UR: 3 };
 export const MAX_DECKS = 5;
 /** Grade do editor: 4 colunas, 7 de espaço, 2 + 2 de margem lateral, borda de 2 na célula (o `.cardgrid` do CSS). */
-const GRID: GridOptions = { cols: 4, gap: 7, padX: 4, border: 2, overscan: 2 };
+const GRID: GridOptions = { cols: 4, gap: 4, padX: 4, border: 2, overscan: 2 };
 
 export function DeckBuilder({ progress, data, onChange, onBack }: { progress: CampaignState; data: GameData; onChange: (p: CampaignState) => void; onBack: () => void }) {
   const { cards, tiers } = data;

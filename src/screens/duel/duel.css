@@ -234,22 +234,37 @@
 /* Abertura do duelo: botão em tela cheia (um toque pula). */
 .intro { position: absolute; inset: 0; z-index: 40; border: 0; padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px;
   background: radial-gradient(circle at 50% 45%, rgba(40,90,190,.55), rgba(2,6,18,.96) 70%); color: #fff; font: 700 16px system-ui; overflow: hidden; perspective: 600px; }
-.introstarter { color: var(--c-select); text-shadow: 0 2px 6px #000; }
+.introstarter { color: var(--c-select); font: 700 18px var(--font-game); letter-spacing: .5px; text-shadow: 0 2px 6px #000; }
 .introbanners { width: 100%; display: grid; gap: 10px; }
-.intro .banner { display: flex; align-items: center; gap: 12px; padding: 8px 16px; font: 800 20px system-ui; text-shadow: 0 2px 6px #000; }
-.intro .banner img { width: 64px; height: 64px; border-radius: 6px; border: 2px solid #9fd0ff; background: #0b1a3a; object-fit: cover; }
+.intro .banner { display: flex; align-items: center; gap: 14px; padding: 10px 18px; font: 700 22px var(--font-game); letter-spacing: .5px; text-shadow: 0 2px 6px #000; }
 .intro .banner.me { justify-content: flex-start; background: linear-gradient(90deg, rgba(42,120,230,.85), transparent); }
 .intro .banner.foe { justify-content: flex-end; background: linear-gradient(270deg, rgba(220,60,60,.85), transparent); }
-/* Fim do duelo. */
-.outro { position: absolute; inset: 0; z-index: 30; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; padding: 24px; color: #fff; text-align: center;
-  background: radial-gradient(circle at 50% 40%, var(--res), transparent 70%), rgba(2,6,18,.9); }
+/* Fim do duelo: uma coluna centrada (título, detalhe, retratos, resumo e Continuar), tudo na fonte do jogo. */
+.outro { position: absolute; inset: 0; z-index: 30; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px;
+  padding: calc(20px + env(safe-area-inset-top)) 20px calc(20px + env(safe-area-inset-bottom)); color: #fff; text-align: center; font-family: var(--font-game); overflow-y: auto;
+  background: radial-gradient(circle at 50% 30%, var(--res), transparent 65%), rgba(2,6,18,.9); }
 .outro.win { --res: rgba(255,198,26,.45); } .outro.loss { --res: rgba(200,40,60,.45); } .outro.draw { --res: rgba(140,160,190,.4); }
-.outrofaces { display: flex; gap: 28px; }
-.outrofaces figure { margin: 0; display: grid; gap: 6px; justify-items: center; font: 700 14px system-ui; }
-.outrofaces img { width: 84px; height: 84px; border-radius: 8px; border: 2px solid #9fd0ff; background: #0b1a3a; object-fit: cover; }
-.outrofaces .won img { border-color: var(--c-select); box-shadow: 0 0 18px rgba(255,198,26,.6); }
-.outrofaces .lost { opacity: .5; }
-.outro .stats { margin: 0; }
+.outro > * { flex-shrink: 0; }
+.outrodetail { margin: -6px 0 0; font-size: 15px; font-weight: 600; color: #cfe2ff; letter-spacing: .3px; }
+.outrofaces { display: flex; align-items: center; gap: 18px; }
+.outrofaces figure { margin: 0; display: grid; gap: 8px; justify-items: center; width: 104px; }
+.outrofaces figcaption { font-size: 15px; font-weight: 700; letter-spacing: .5px; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.outrofaces .won figcaption { color: var(--c-select); }
+.outrofaces .lost figcaption { color: #8fa3c2; }
+.outrovs { font-size: 18px; font-weight: 700; font-style: italic; color: #8fd8ff; text-shadow: 0 0 8px rgba(42,184,255,.7); }
+.outrosum { width: min(100%, 340px); padding: 12px 16px; display: grid; gap: 10px; --edge: #2ab8ff; --fill: linear-gradient(180deg, rgba(18,58,122,.92), rgba(7,20,46,.92)); }
+.outrosum .bonuses { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; font-size: 14px; }
+.outrosum .bonuses li { display: flex; justify-content: space-between; align-items: center; color: #cfe2ff; }
+.outrototal { margin: 0; display: flex; justify-content: space-between; align-items: center; font-size: 16px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--c-select); }
+.outrosum .bonuses + .outrototal { padding-top: 8px; border-top: 1px solid rgba(42,184,255,.35); }
+.outrototal .dp { font-size: 20px; }
+.outrocont.hud-btn { width: min(100%, 340px); font-family: var(--font-game); font-size: 17px; padding: 13px; }
+/* Retrato emoldurado (src/ui/Portrait.tsx): o brilho é um drop-shadow no invólucro, porque o clip-path corta o box-shadow. */
+.portrait { display: inline-block; width: var(--size); height: var(--size); flex: 0 0 var(--size); --frame: #2ab8ff; --glow: rgba(42,184,255,.7); filter: drop-shadow(0 0 8px var(--glow)); }
+.portrait.gold { --frame: #ffc61a; --glow: rgba(255,198,26,.8); }
+.portrait.dim { --frame: #4d6286; --glow: transparent; filter: saturate(.35) brightness(.7); }
+.portrait > .hud { display: block; width: 100%; height: 100%; padding: 4px; --edge: var(--frame); --fill: linear-gradient(180deg, #123a7a, #07142e); }
+.portrait img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; clip-path: polygon(9px 0, 100% 0, 100% calc(100% - 9px), calc(100% - 9px) 100%, 0 100%, 0 9px); }
 /* Escolha e acerto na moeda dos efeitos. */
 .tosscall { font-size: 20px; color: #fff; text-shadow: 0 2px 6px #000; }
 .tossresult { font-size: 24px; color: var(--c-select); text-shadow: 0 0 12px rgba(255,198,26,.6), 0 2px 6px #000; }

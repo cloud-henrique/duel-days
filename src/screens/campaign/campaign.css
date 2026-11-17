@@ -41,7 +41,7 @@
 .mapnav .hud-btn { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 2px; font-size: 12px; }
 
 /* Selo do "!" (encontro com evento pendente). */
-.alert { width: 22px; height: 22px; border-radius: 50%; background: #ff4d6a; color: #fff; font: 800 15px/22px var(--font-game); text-align: center; flex-shrink: 0; }
+.bondalert { width: 22px; height: 22px; border-radius: 50%; background: #ff4d6a; color: #fff; font: 800 15px/22px var(--font-game); text-align: center; flex-shrink: 0; }
 
 /* Corações */
 .hs { display: inline-flex; gap: 2px; }
@@ -73,6 +73,8 @@
 .actor { position: absolute; bottom: 0; left: 50%; height: 100%; transform: translateX(-50%); transition: transform .3s ease-out, filter .3s;
   filter: brightness(.65) saturate(.6); animation: actor-in .35s ease-out both; }
 .actor.lit { filter: none; z-index: 1; }
+/* Até o corpo e o rosto estarem carregados: escondido e sem a entrada, que começa quando ele aparece. */
+.actor.loading { visibility: hidden; animation: none; }
 .actor.duelist { transform: translateX(calc(-50% + 20vw)); }
 .actor.player { transform: translateX(calc(-50% - 20vw)); }
 .actor img { display: block; height: 100%; width: auto; }
@@ -106,16 +108,15 @@
 .scene-sheet-wrap.speaking { pointer-events: none; }
 
 /* Fim do duelo: detalhes da recompensa */
-.outrodetails { display: flex; flex-direction: column; align-items: center; gap: 8px; width: min(100%, 340px); }
-.outrodetails .bonuses { list-style: none; margin: 0; padding: 0; width: 100%; font-size: 13px; }
-.outrodetails .bonuses li { display: flex; justify-content: space-between; padding: 2px 4px; color: #cfe2ff; }
+.outrodetails { display: flex; flex-direction: column; align-items: center; gap: 8px; width: 100%; }
+.outrodetails:empty { display: none; }
 .outrodetails .earned { display: flex; gap: 10px; justify-content: center; }
-.outrodetails .earned figure { position: relative; margin: 0; width: 64px; text-align: center; }
+.outrodetails .earned figure { position: relative; margin: 4px 0 0; width: 72px; text-align: center; }
 .outrodetails .earned .cardface { width: 100%; filter: drop-shadow(0 2px 6px rgba(0, 0, 0, .5)); }
 .outrodetails .earned figure.new .cardface { filter: drop-shadow(0 0 8px rgba(246, 211, 106, .9)); }
 .outrodetails .earned figcaption { font-size: 10px; color: #f6d36a; margin-top: 2px; }
 .newtag { position: absolute; top: -6px; right: -8px; background: #f6d36a; color: #2a1b00; font: 800 10px var(--font-game); padding: 1px 4px; border-radius: 2px; }
-.bondline { margin: 0; display: flex; align-items: center; gap: 6px; font-size: 13px; color: #ffd0dc; }
+.bondline { margin: 0; display: flex; align-items: center; gap: 8px; font-size: 14px; color: #ffd0dc; }
 
 /* Loja */
 .shop .shoplist { flex: 1; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding-bottom: calc(12px + env(safe-area-inset-bottom)); }

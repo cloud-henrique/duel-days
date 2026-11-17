@@ -26,7 +26,7 @@ npx tsx proto/move-reason.ts        # confere o `reason` do MSG_MOVE (patch do o
 
 Pipeline de dados (gera arquivos NÃO versionados; veja README): `npm run fetch-data`, `python3 scripts/import_dm.py` (era DM:
 data OCG até 2004-09-30, caixas TCG, português; correções em `raw/overrides/text.pt.json`),
-`python3 scripts/export_data.py` (+ relatório `raw/import/report.md`), `.venv/bin/python scripts/fetch_card_art.py` (small/large/cropped + verso), `.venv/bin/python scripts/copy_card_icons.py` (ícones de atributo/tipo do app nativo e propriedades do `cardicons.png` do Tag Force 3 no PPSSPP → `public/card-icons/`), `python3 scripts/copy_sounds.py` (efeitos do duelo do app nativo, do Tag Force, convertidos com `afconvert` → `public/sounds/*.m4a`; macOS), `python3 scripts/copy_brand.py` (logo "Yu-Gi-Oh!" do título → `public/brand/`, fora do git),
+`python3 scripts/export_data.py` (+ relatório `raw/import/report.md`), `.venv/bin/python scripts/fetch_card_art.py` (small/large/cropped + verso), `.venv/bin/python scripts/copy_card_icons.py` (ícones de atributo/tipo do app nativo e propriedades do `cardicons.png` do Tag Force 3 no PPSSPP → `public/card-icons/`), `python3 scripts/copy_sounds.py` (efeitos do duelo do app nativo, do Tag Force, convertidos com `afconvert` → `public/sounds/*.m4a`; macOS), `python3 scripts/copy_brand.py` (logo "Yu-Gi-Oh!" do título → `public/brand/`, fora do git), `.venv/bin/python scripts/copy_coin_sprite.py` (moeda do WCT 2004, folha baixada à mão em `raw/wct2004/coin.png` → strip de 17 quadros em `public/sprites/coin.png`, fora do git; sem ela, a moeda desenhada),
 `python3 scripts/copy_campaign_data.py` (Tier 1 do nativo + `tiers.json` + `decks.json` + `dialogue-tier2.json` →
 `src/campaign/data/`, versionados; troca arte alternativa pelo id original), decks dos duelistas (`python3 scripts/fetch_deck_recipes.py`
 → `npx tsx proto/deck-pick.ts 40` → `python3 scripts/build_decks.py`: receitas "Anime Decks" do YGOPRODeck escolhidas por torneio
@@ -174,7 +174,7 @@ pelo `.hexbg` do `styles.css`.
 
 ## Regras do projeto
 
-- **Nunca versione material da Konami**: `raw/`, `assets/characters/*/`, `public/{cards,characters,data}`,
+- **Nunca versione material da Konami**: `raw/`, `public/sprites/`, `assets/characters/*/`, `public/{cards,characters,data}`,
   `public/scripts.json` estão no `.gitignore`. Só metadados leves (manifest, labels, characters.json) entram no git.
 - Hospedagem só com acesso protegido (ex.: Cloudflare Access); repositório privado. Produção: Cloudflare Pages `dueldays` (conta
   00claudio; perfil `cf` `claudio` ligado a esta pasta), com Access liberando só os e-mails da política "Amigos" (código por e-mail).
