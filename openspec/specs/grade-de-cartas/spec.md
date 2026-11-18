@@ -29,9 +29,9 @@ não serve para esta meta.)
 - **THEN** o FPS medido fica em torno de 60 e o relatório de medição registra o resultado
 
 ### Requirement: Comportamento da grade preservado
-A grade virtualizada SHALL manter o que a grade tem hoje: 4 colunas, cópias repetidas uma a uma, borda pela raridade,
-selo de "no deck" na aba Coleção, busca, filtros, ordenação e o zoom ao tocar. Trocar de aba ou de filtro SHALL voltar a
-grade ao topo.
+A grade virtualizada SHALL ser a da maleta do editor e a da tela Coleção, com 4 colunas, cópias repetidas uma a uma,
+borda pela raridade, o selo de "no deck" na maleta, busca, filtros, as ordenações do editor e o zoom ao tocar. Trocar de
+filtro, de ordem ou de busca SHALL voltar a grade ao topo.
 
 #### Scenario: Filtro
 - **WHEN** o jogador filtra por "Fusão" com a grade rolada até o meio
