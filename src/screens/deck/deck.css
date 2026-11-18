@@ -14,9 +14,9 @@
 .deckhead .dcount b.bad { color: #ff9b3d; }
 .deckhead .dcount.extra b { color: #cc8cff; }
 .deckhead .readybadge, .deckhead .issuebadge { margin-left: auto; display: flex; align-items: center; gap: 6px; padding: 7px 12px;
-  font: 700 14px var(--font-game); letter-spacing: .5px; clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px); white-space: nowrap; }
-.deckhead .readybadge { background: linear-gradient(180deg, #1e7a3a, #0b3d1c); color: #fff; box-shadow: inset 0 0 0 2px #6cf08a; }
-.deckhead .issuebadge { appearance: none; border: 0; color: #fff; background: linear-gradient(180deg, #c76a12, #7a3a05); box-shadow: inset 0 0 0 2px #ffb070; }
+  font: 700 14px var(--font-game); letter-spacing: .5px; white-space: nowrap; --cut: 10px; color: #fff; }
+.deckhead .readybadge { --fill: linear-gradient(180deg, #1e7a3a, #0b3d1c); --edge: #6cf08a; }
+.deckhead .issuebadge { appearance: none; --fill: linear-gradient(180deg, #c76a12, #7a3a05); --edge: #ffb070; }
 
 /* Corpo: o deck em cima, a maleta embaixo */
 .deckbody { flex: 1; min-height: 0; display: flex; flex-direction: column; }
@@ -30,7 +30,7 @@
 .deckgrid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 4px; }
 .deckgrid .cell { content-visibility: visible; border-width: 1px; }
 .deckeditor .cell, .collection .cell { -webkit-touch-callout: none; touch-action: manipulation; }
-.deckeditor .cell img, .collection .cell img { -webkit-user-drag: none; pointer-events: none; }
+.deckeditor .cell img, .collection .cell img { pointer-events: none; }
 
 .trunk { flex: 1; min-height: 0; display: flex; flex-direction: column; background: rgba(5, 10, 24, .55); border-top: 2px solid #2ab8ff;
   box-shadow: 0 -6px 16px rgba(0, 0, 0, .45); }
@@ -50,12 +50,15 @@
 .trunkrow .sortbtn b { font-size: 14px; white-space: nowrap; }
 .trunkrow .sortbtn small { color: #2ab8ff; font-size: 11px; font-weight: 600; white-space: nowrap; }
 .trunkrow .invbtn.on { --edge: #2ab8ff; }
-.trunkrow .searchbox { flex: 1; min-width: 0; display: flex; align-items: center; gap: 6px; padding: 0 10px; background: #0a1a3a; border: 2px solid var(--line-dim);
-  clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px); color: var(--dim); }
+.trunkrow .searchbox { flex: 1; min-width: 0; display: flex; align-items: center; gap: 6px; padding: 0 10px; color: var(--dim);
+  --cut: 8px; --edge: var(--line-dim); --fill: #0a1a3a; }
+.trunkrow .searchbox:focus-within { --edge: var(--line); }
 .trunkrow .searchbox input { flex: 1; min-width: 0; background: none; border: 0; color: var(--txt); font: 15px system-ui; padding: 9px 0; outline: none;
   user-select: text; -webkit-user-select: text; }
-.chips.trunkchips button { clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px); border-radius: 0; }
-.chips.trunkchips button.on { background: var(--acc); color: #2a1b00; border-color: var(--acc); }
+/* O .chips do styles.css (carrega depois) põe fundo e borda: aqui as camadas do .cut vão explícitas. */
+.chips.trunkchips button { --cut: 6px; --edge-w: 1px; --edge: var(--line-dim); --fill: #0a1a3a; border: 0; border-radius: 0;
+  background: var(--cut-a), var(--cut-b), var(--fill); }
+.chips.trunkchips button.on { --edge: var(--acc); --fill: var(--acc); color: #2a1b00; background: var(--cut-a), var(--cut-b), var(--fill); }
 
 .trunkgrid { padding: 2px 4px 10px; touch-action: pan-y; overscroll-behavior: contain; }
 .trunkgrid .trunkempty { text-align: center; padding: 24px; }

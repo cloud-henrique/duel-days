@@ -23,14 +23,14 @@ export function TrunkBar({ sort, onSort, kind, onKind, query, onQuery, lead }: {
         <button className={`hud-btn iconbtn invbtn${sort.reversed ? ' on' : ''}`} onClick={() => onSort({ ...sort, reversed: !sort.reversed })} aria-label="Inverter a ordem">
           <GameIcon name="sort" size={20} />
         </button>
-        <label className="searchbox">
+        <label className="searchbox cut">
           <GameIcon name="search" size={18} />
           <input type="search" placeholder="Buscar" value={query} onChange={(e) => onQuery(e.target.value)} aria-label="Buscar pelo nome" />
         </label>
       </div>
       <div className="chips trunkchips" role="tablist">
         {KINDS.map(([k, label]) => (
-          <button key={k} role="tab" aria-selected={kind === k} className={kind === k ? 'on' : ''} onClick={() => onKind(k)}>{label}</button>
+          <button key={k} role="tab" aria-selected={kind === k} className={`cut${kind === k ? ' on' : ''}`} onClick={() => onKind(k)}>{label}</button>
         ))}
       </div>
       {picking && (

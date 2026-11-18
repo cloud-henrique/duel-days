@@ -35,7 +35,7 @@ export function ShopCounter({ size, balance, line, onDismiss, chars, reduced }: 
         </span>
       </div>
       {line && (
-        <button key={line.key} type="button" className="speech" data-sound="none" onClick={onDismiss} aria-label={`Vovô: ${line.text}`}>
+        <button key={line.key} type="button" className="speech cut cut-alt" data-sound="none" onClick={onDismiss} aria-label={`Vovô: ${line.text}`}>
           {line.text}
         </button>
       )}

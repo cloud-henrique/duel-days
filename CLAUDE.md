@@ -136,7 +136,9 @@ pelo `.hexbg` do `styles.css`.
   (só nos protótipos).
 - `src/data/`: carregador de cartas (sobrepõe o texto em português) e rótulos (atributo, raça, tipo, moldura, `formatStat`).
 - Estilo: `src/styles.css` (HUD azul: `.hud`, `.hud-btn`, chanfro com `clip-path` + camadas `--cut-tl/--cut-br` que
-  desenham a borda diagonal; `--fill` troca o fundo de um `.hud`).
+  desenham a borda diagonal; `--fill` troca o fundo de um `.hud`). Chanfro de outro tamanho (selos, chips, campos,
+  balões) é o `.cut` (`--cut`, `--edge`, `--edge-w`, `--fill`; `.cut-alt` corta os outros cantos): **nunca** `clip-path`
+  solto com borda, que perde a borda nos cortes.
 
 ## Armadilhas conhecidas (não regrida)
 

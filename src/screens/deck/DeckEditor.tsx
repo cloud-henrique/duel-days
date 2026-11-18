@@ -82,8 +82,8 @@ export function DeckEditor({ progress: s, data, onChange, onBack }: {
         <span className="dcount"><small>Main</small> <b className={`num${mainOk ? '' : ' bad'}`}>{deck.main.length}</b> <small>{MAIN_MIN}–{MAIN_MAX}</small></span>
         <span className="dcount extra"><small>Extra</small> <b className="num">{deck.extra.length}</b> <small>até {EXTRA_MAX}</small></span>
         {problems.length === 0
-          ? <span className="readybadge"><GameIcon name="check" size={18} /> PRONTO</span>
-          : <button className="issuebadge" onClick={() => setIssues(true)}><GameIcon name="warning" size={18} /> {problems.length} {problems.length === 1 ? 'problema' : 'problemas'}</button>}
+          ? <span className="readybadge cut"><GameIcon name="check" size={18} /> PRONTO</span>
+          : <button className="issuebadge cut" onClick={() => setIssues(true)}><GameIcon name="warning" size={18} /> {problems.length} {problems.length === 1 ? 'problema' : 'problemas'}</button>}
       </header>
 
       <div className="deckbody" ref={body}>
