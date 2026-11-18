@@ -13,7 +13,7 @@ npm test                            # testes de unidade (Vitest; arquivos src/**
 npx vite build                      # build de produção (PWA)
 npx vite preview --port 5181 --host 127.0.0.1   # serve o dist/ (é o que o túnel do celular aponta)
 
-npx vite build && npx wrangler pages deploy dist --project-name dueldays --branch main   # produção: https://dueldays.pages.dev (Cloudflare Pages + Access)
+npx vite build && npx wrangler pages deploy dist --project-name dueldays --branch main   # produção: https://dueldays.pages.dev (Cloudflare Pages + Access); o push NÃO publica
 npx tsx proto/smoke.ts 500          # CPU x CPU com decks aleatórios do pool: travas, laços, erros de Lua (--barata: política da CPU)
 npx tsx proto/monkey.ts 100         # mesmo código do Worker (DuelDriver) com os decks da campanha (--cpu=barata|busca[:N])
 npx tsx proto/difficulty.ts 40      # dificuldade: cada duelista x deck inicial, CPU nova dos dois lados, contra a meta do tier
@@ -224,7 +224,10 @@ pelo `.hexbg` do `styles.css`.
   `public/scripts.json` estão no `.gitignore`. Só metadados leves (manifest, labels, characters.json) entram no git.
 - Hospedagem só com acesso protegido (ex.: Cloudflare Access); repositório privado. Produção: Cloudflare Pages `dueldays` (conta
   00claudio; perfil `cf` `claudio` ligado a esta pasta), com Access liberando só os e-mails da política "Amigos" (código por e-mail).
-  O envio é direto do `dist/` local, porque a arte das cartas não vai ao Git. O manifest usa `useCredentials` por causa do Access. O túnel `cloudflared` é temporário.
+  **O deploy é só pelo `wrangler`** (comando em "Comandos"): o projeto do Pages não tem Git ligado ("Git Provider: No") e o
+  repositório não tem CI, então `git push` não publica nada. O envio é direto do `dist/` local, porque a arte das cartas
+  não vai ao Git; publique depois do push (`npx wrangler pages deployment list --project-name dueldays` mostra o commit
+  de cada deploy). O manifest usa `useCredentials` por causa do Access. O túnel `cloudflared` é temporário.
 - Personagens: só Duel Monsters (e variações como DSoD); sprites do Duel Links, variante `chara007`, rosto 240×240
   sobreposto ao corpo em (260, 120).
 - Antes de mudanças grandes ou ambíguas, pergunte. Teste no navegador (viewport de celular) e, para iOS, no simulador.
