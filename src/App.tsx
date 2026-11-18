@@ -2,7 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import { DeckBuilder } from './screens/DeckBuilder';
 import { DuelScreen, type DuelSummary } from './screens/duel/DuelScreen';
 import type { OutroReward } from './screens/duel/anim/Outro';
-import { ShopScreen } from './screens/ShopScreen';
+import { ShopScreen } from './screens/shop/ShopScreen';
+import { PackDetail } from './screens/shop/PackDetail';
 import { loadData, type GameData } from './data/cards';
 import { validateDeck } from './game/decks';
 import { clearProgress, loadProgress, newProgress, withDefaults, writeProgress, type Progress } from './story/progress';
@@ -38,7 +39,7 @@ const BASE = import.meta.env.BASE_URL;
 function trackFor(s: Screen): Track {
   switch (s.v) {
     case 'map': case 'decks': case 'bonds': case 'status': case 'end': return 'map';
-    case 'shop': return 'shop';
+    case 'shop': case 'shop-pack': return 'shop';
     case 'encounter': case 'scene': return 'encounter';
     case 'duel': return duelistData(s.duelist).isBoss ? 'boss-duel' : 'duel';
     default: return 'title';
@@ -47,7 +48,7 @@ function trackFor(s: Screen): Track {
 
 type Screen =
   | { v: 'title' } | { v: 'profile' } | { v: 'settings' } | { v: 'nodeck' }
-  | { v: 'map' } | { v: 'shop' } | { v: 'bonds' } | { v: 'status' } | { v: 'end' } | { v: 'resume' }
+  | { v: 'map' } | { v: 'shop' } | { v: 'shop-pack'; key: string } | { v: 'bonds' } | { v: 'status' } | { v: 'end' } | { v: 'resume' }
   | { v: 'decks'; back: Screen }
   | { v: 'encounter'; duelist: string; after?: Scene; first?: boolean }
   | { v: 'duel'; duelist: string; kind: DuelKind }
@@ -166,7 +167,11 @@ export function App() {
     case 'decks':
       return <DeckBuilder progress={c} data={data} onChange={setCampaign} onBack={() => go(screen.back)} />;
     case 'shop':
-      return <ShopScreen campaign={c} data={data} onChange={setCampaign} onBack={toMap} />;
+      return <ShopScreen campaign={c} data={data} chars={chars} profile={profile} onChange={setCampaign} onBack={toMap}
+        onPack={(key) => go({ v: 'shop-pack', key })} />;
+    case 'shop-pack':
+      return <PackDetail key={screen.key} packKey={screen.key} campaign={c} data={data} chars={chars} profile={profile}
+        onChange={setCampaign} onBack={() => go({ v: 'shop' })} />;
     case 'bonds':
       return <BondsScreen s={c} onBack={toMap} onReview={(k, n) => go({ v: 'scene', duelist: k, scene: eventReview(c, k, n) ?? [], then: { v: 'bonds' } })} />;
     case 'status':

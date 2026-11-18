@@ -5,7 +5,9 @@ import type { CardRecord } from '../../engine/session';
 import type { GameData } from '../../data/cards';
 import { CAMPAIGN, PACKS } from '../../campaign/data/types';
 import { newCampaign, type CampaignState } from '../../campaign/state';
-import { ShopScreen } from '../ShopScreen';
+import { ShopScreen } from '../shop/ShopScreen';
+import { PackDetail } from '../shop/PackDetail';
+import { packByKey, packStats } from '../../campaign/packs';
 import { DeckBuilder } from '../DeckBuilder';
 import { expressionFor } from './chars';
 import { MapScreen } from './MapScreen';
@@ -36,29 +38,84 @@ describe('expressões', () => {
 
 describe('ShopScreen', () => {
   const base = (extra: Partial<CampaignState> = {}): CampaignState => ({ ...newCampaign(5), ...extra });
+  const profile = { name: 'Ana', avatar: 'x', address: 'she' as const };
+  const shop = (s: CampaignState, extra: { onChange?: () => void; onPack?: (k: string) => void } = {}) =>
+    render(<ShopScreen campaign={s} data={fakeData()} chars={{}} profile={profile} onChange={extra.onChange ?? vi.fn()}
+      onBack={vi.fn()} onPack={extra.onPack ?? vi.fn()} />);
+  const cell = (name: string) => screen.getByRole('button', { name: new RegExp(`^${name}`) });
 
-  it('mostra os pacotes ganhos, as coleções com preço, a próxima bloqueada e o próximo tier', () => {
-    render(<ShopScreen campaign={base({ day: 2 })} data={fakeData()} onChange={vi.fn()} onBack={vi.fn()} />);
-    expect(screen.getByText('3 para abrir, sem custo')).toBeTruthy();
-    expect(screen.getByText('Spell Ruler').closest('section')!.textContent).toContain('Dia 3');
-    expect(screen.getByText('Labyrinth of Nightmare').closest('section')!.textContent).toContain('Tier 2 · dia 8');
-    expect(screen.getByText('Ferro e Músculo').closest('section')!.textContent).toContain('0/5');
+  it('balcão com o saldo e a fala, pacotes ganhos, vitrine com os bloqueios', () => {
+    shop(base({ day: 2 }));
+    expect(screen.getByText('3 pacotes esperando por você.')).toBeTruthy();
+    expect(document.querySelector('.shopcounter .speech')).toBeTruthy();
+    expect(cell('Spell Ruler').textContent).toContain('Dia 3');
+    expect(cell('Labyrinth of Nightmare').textContent).toContain('Tier 2 · dia 8');
+    expect(cell('Ferro e Músculo').textContent).toContain('0/5');
   });
 
-  it('sem DP: o botão fica desligado e diz quanto falta', () => {
-    render(<ShopScreen campaign={base({ dp: 120, unopenedPacks: [] })} data={fakeData()} onChange={vi.fn()} onBack={vi.fn()} />);
-    const lob = screen.getByText('Legend of Blue Eyes White Dragon').closest('section')!;
-    expect((within(lob as HTMLElement).getByRole('button', { name: /1 pacote/ }) as HTMLButtonElement).disabled).toBe(true);
-    expect(lob.querySelector('[aria-label="30 DP"]')).toBeTruthy();
+  it('sem DP: a capa diz quanto falta; tocar abre o detalhe', () => {
+    const onPack = vi.fn();
+    shop(base({ dp: 120, unopenedPacks: [] }), { onPack });
+    expect(cell('Legend of Blue Eyes').textContent).toContain('faltam 30 DP');
+    fireEvent.click(cell('Legend of Blue Eyes'));
+    expect(onPack).toHaveBeenCalledWith('lob');
   });
 
-  it('comprar desconta o DP e mostra as 5 cartas', () => {
+  it('bloqueado só balança e mostra o motivo', () => {
+    const onPack = vi.fn();
+    shop(base({ day: 2, unopenedPacks: [] }), { onPack });
+    fireEvent.click(cell('Spell Ruler'));
+    expect(onPack).not.toHaveBeenCalled();
+    expect(screen.getByRole('status').textContent).toContain('Chega à loja no dia 3');
+  });
+
+  it('abrir um pacote ganho: rasgar, revelar tudo e pronto', () => {
     const onChange = vi.fn();
-    render(<ShopScreen campaign={base({ dp: 500, unopenedPacks: [] })} data={fakeData()} onChange={onChange} onBack={vi.fn()} />);
-    const lob = screen.getByText('Legend of Blue Eyes White Dragon').closest('section') as HTMLElement;
-    fireEvent.click(within(lob).getByRole('button', { name: /1 pacote/ }));
+    shop(base(), { onChange });
+    fireEvent.click(screen.getByRole('button', { name: /Abrir pacote grátis/ }));
+    expect(onChange.mock.calls[0][0].unopenedPacks).toHaveLength(2);
+    expect(screen.getByText('Toque no pacote para abrir')).toBeTruthy();
+  });
+});
+
+describe('PackDetail', () => {
+  const profile = { name: 'Ana', avatar: 'x', address: 'she' as const };
+  const detail = (s: CampaignState, onChange = vi.fn()) =>
+    render(<PackDetail packKey="lob" campaign={s} data={fakeData()} chars={{}} profile={profile} onChange={onChange} onBack={vi.fn()} />);
+
+  it('mostra o progresso e as cartas que faltam apagadas', () => {
+    const s = newCampaign(5);
+    detail(s);
+    const st = packStats(s, packByKey('lob')!);
+    expect(screen.getByText(`${st.owned} de ${st.total} cartas`)).toBeTruthy();
+    expect(document.querySelectorAll('.packcards .cell')).toHaveLength(st.total);
+    expect(document.querySelectorAll('.packcards .cell.missing')).toHaveLength(st.total - st.owned);
+  });
+
+  it('sem DP: "faltam" e não compra', () => {
+    const onChange = vi.fn();
+    detail({ ...newCampaign(5), dp: 60 }, onChange);
+    fireEvent.click(screen.getByRole('button', { name: /Comprar 1 pacote/ }));
+    expect(screen.getByRole('button', { name: /Comprar 1 pacote/ }).textContent).toContain('faltam 90 DP');
+    expect(onChange).not.toHaveBeenCalled();
+  });
+
+  it('comprar desconta e abre o pacote', () => {
+    const onChange = vi.fn();
+    detail({ ...newCampaign(5), dp: 500 }, onChange);
+    fireEvent.click(screen.getByRole('button', { name: /Comprar 1 pacote/ }));
     expect(onChange.mock.calls[0][0].dp).toBe(350);
-    expect(document.querySelectorAll('.cardgrid .cell')).toHaveLength(5);
+    fireEvent.click(screen.getByRole('button', { name: 'Abrir o pacote' }));
+  });
+
+  it('a caixa pede confirmação; cancelar não gasta', () => {
+    const onChange = vi.fn();
+    detail({ ...newCampaign(5), dp: 5000 }, onChange);
+    fireEvent.click(screen.getByRole('button', { name: /Caixa · 20 pacotes/ }));
+    expect(screen.getByText('Comprar a caixa?')).toBeTruthy();
+    fireEvent.click(screen.getByRole('button', { name: 'Cancelar' }));
+    expect(onChange).not.toHaveBeenCalled();
+    expect(screen.queryByText('Comprar a caixa?')).toBeNull();
   });
 });
 

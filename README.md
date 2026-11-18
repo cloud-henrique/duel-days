@@ -51,7 +51,7 @@ python3 scripts/copy_campaign_data.py   # Tier 1 do nativo + tiers.json + decks.
 .venv/bin/python scripts/copy_tfs_backgrounds.py  # fundos das cenas (zip "Events" do Tag Force Special em raw/tfs/) → public/campaign/bg-*.jpg (fora do git)
 .venv/bin/python scripts/fetch_card_art.py  # arte (small/large/cropped + verso, WebP); ~95 MB
 .venv/bin/python scripts/copy_card_icons.py # ícones de atributo/tipo/Magia/Armadilha do app nativo e propriedades do atlas do Tag Force 3 no PPSSPP (fora do git)
-python3 scripts/copy_sounds.py     # efeitos sonoros do duelo do app nativo (Tag Force), convertidos para .m4a em public/sounds (fora do git; macOS)
+python3 scripts/copy_sounds.py     # efeitos sonoros do app nativo (duelo, interface e abertura de pacote: tear, rare), convertidos para .m4a em public/sounds (fora do git; macOS)
 python3 scripts/copy_brand.py      # logo "Yu-Gi-Oh!" da tela de título, do app nativo, em public/brand (fora do git)
 .venv/bin/python scripts/copy_coin_sprite.py   # moeda do WCT 2004 (raw/wct2004/coin.png, baixada à mão do spriters-resource) em public/sprites (fora do git)
 npx tsx proto/smoke.ts 500         # CPU x CPU com decks aleatórios: mede travas e erros de Lua
@@ -83,7 +83,7 @@ npm run dev                        # PWA (use --port se o labeler estiver aberto
 
 - Início: 300 moedas e 40 cartas Normais (forma um deck válido). Duelo: vitória +100, derrota +30. Pack: ◎100, 5 cartas, 1 rara garantida (N 61%, R 28%, SR 9%, UR 2%).
 - Deck: 40 a 60 cartas no principal, até 15 no Extra, até 3 cópias, limitado pela coleção. Até 5 decks; o duelo usa o deck ativo e é bloqueado se ele for inválido.
-- `src/game/{decks,packs,economy}.ts` são puros. `src/screens/{DeckBuilder,ShopScreen}.tsx` são as telas.
+- `src/game/{decks,packs,economy}.ts` são puros. `src/screens/DeckBuilder.tsx` e `src/screens/shop/` são as telas.
 
 ## História (visual novel + mapa)
 

@@ -6,6 +6,7 @@
  * - `boss`: os 4 comuns vencidos (o Yugi aparece) no dia 6, com 900 DP.
  * - `tier2`: dia 8, Tier 2 aberto pelo prazo, com 1500 DP.
  * - `pegasus`: dia 10 com os 5 comuns do Tier 2 vencidos (o Pegasus aparece).
+ * - `shop`: dia 4 do Tier 1 com 6000 DP (dá para a caixa) e os 3 pacotes ganhos, para conferir a loja.
  * - `all-cards`: a coleção com 3 cópias de cada carta da base (`poolIds`), para medir a grade do editor cheia.
  */
 import { clone, newCampaign, type CampaignState } from './state';
@@ -41,6 +42,9 @@ export function debugPreset(name: string, s0: CampaignState | null, poolIds: rea
       // Os 5 comuns do Tier 2 vencidos: o Pegasus no mapa.
       Object.assign(s, { day: 10, period: 0, dp: 1500, concluded: false });
       for (const k of ['weevil', 'rex', 'mako', 'keith', 'mai']) s.victories[k] = Math.max(s.victories[k] ?? 0, 1);
+      return s;
+    case 'shop':
+      Object.assign(s, { day: 4, period: 0, dp: 6000, concluded: false, unopenedPacks: ['lob', 'lob', 'lob'] });
       return s;
     case 'all-cards':
       for (const id of poolIds) s.collection[String(id)] = 3;

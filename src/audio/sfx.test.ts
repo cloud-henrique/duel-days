@@ -29,9 +29,9 @@ describe('shouldPlay', () => {
 });
 
 describe('SOUND_FILES', () => {
-  it('cobre os 13 sons do duelo e os 4 da interface, com nomes de arquivo distintos', () => {
+  it('cobre os 13 sons do duelo e os 6 da interface, com nomes de arquivo distintos', () => {
     const files = Object.values(SOUND_FILES);
-    expect(files).toHaveLength(17);
-    expect(new Set(files).size).toBe(17);
+    expect(files).toHaveLength(19);
+    expect(new Set(files).size).toBe(19);
   });
 });

@@ -161,3 +161,34 @@ export function openUnopened(s0: CampaignState): { state: CampaignState; opening
 }
 
 export const isNewCard = (s: CampaignState, id: number) => copies(s, id) === 0;
+
+/** O resumo do pacote no detalhe: quantas cartas de cada raridade e quantas diferentes o jogador já tem. */
+export interface PackStats { byRarity: Record<Rarity, number>; owned: number; total: number }
+export function packStats(s: CampaignState, pack: PackData): PackStats {
+  const byRarity: Record<Rarity, number> = { ultra: 0, super: 0, rare: 0, common: 0 };
+  const ids = new Set<number>();
+  for (const c of pack.cards) { byRarity[c.rarity] += 1; ids.add(c.id); }
+  const owned = [...ids].filter((id) => copies(s, id) > 0).length;
+  return { byRarity, owned, total: ids.size };
+}
+
+/** O que o pacote tem, na ordem da grade do detalhe: Ultra, Super, Rara e Comum (cada id uma vez). */
+export function packCards(pack: PackData): { id: number; rarity: Rarity }[] {
+  const rank: Record<Rarity, number> = { ultra: 0, super: 1, rare: 2, common: 3 };
+  const seen = new Set<number>();
+  return [...pack.cards].sort((a, b) => rank[a.rarity] - rank[b.rarity])
+    .filter((c) => (seen.has(c.id) ? false : (seen.add(c.id), true)));
+}
+
+export const RARITY_NAME: Record<Rarity, string> = { common: 'Comum', rare: 'Rara', super: 'Super Rara', ultra: 'Ultra Rara' };
+
+/** O texto de "Como funcionam os pacotes?", montado dos números do `BALANCE`. */
+export function packRulesText(): string[] {
+  const odds = BALANCE.slotOdds.map(([r, pct]) => `${pct}% ${RARITY_NAME[r]}`).join(', ');
+  return [
+    `Cada pacote tem 5 cartas da coleção: ${BALANCE.commonsPerPack} comuns e 1 carta de raridade.`,
+    `A carta de raridade sai ${odds}.`,
+    `A caixa traz ${BALANCE.boxSize} pacotes com ${BALANCE.boxDiscountPercent}% de desconto: as mesmas cartas de comprar os ${BALANCE.boxSize} um a um.`,
+    `Os pacotes de personagem chegam à loja depois de ${BALANCE.characterPackWins} vitórias contra o dono.`,
+  ];
+}

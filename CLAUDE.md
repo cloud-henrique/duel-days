@@ -19,6 +19,7 @@ npx tsx proto/monkey.ts 100         # mesmo código do Worker (DuelDriver) com o
 npx tsx proto/story-smoke.ts        # 200 campanhas de 30 dias pelo modelo: cenas, eventos, rotas, chefe e epílogo
 npx tsx proto/economy-smoke.ts      # pacotes da campanha (70/20/10 no slot) e decks válidos (inicial e oponentes)
 npx tsx proto/sort-check.ts         # ordenar o topo do Deck (SORT_CARD) contra o motor real
+node proto/shop-e2e.mjs [url] [--reduzir]   # loja no WebKit contra o dev server (?campaign=shop): comprar, abrir, caixa
 node proto/webkit-e2e.mjs [url] [normal|rápida|desligada] [--reduzir] [--turno]   # fluxo no WebKit (Playwright) contra o preview
 node proto/duel-e2e.mjs [url] [--reduzir]   # duelo inteiro no WebKit, na velocidade normal: mede se fica preso numa encenação
 npx tsx proto/move-reason.ts        # confere o `reason` do MSG_MOVE (patch do ocgcore-wasm)
@@ -72,7 +73,7 @@ pelo `.hexbg` do `styles.css`.
   - Lugares na tela: zonas, mãos, deck, cemitério e placa têm `data-loc` = `locKey`. Sem lugar visível (banidas, Extra,
     fora do jogo), a animação sai da placa do dono.
 - `src/audio/sfx.ts`: efeitos com Web Audio (buffers decodificados uma vez, anti-repetição de 60 ms, `settings.sound`), os do
-  duelo e os da interface (`tap`, `back`, `dialogue`, `purchase`). `buttonSounds.ts`: **todo botão fora do `.duel` toca o
+  duelo e os da interface (`tap`, `back`, `dialogue`, `purchase`, e `tear`/`rare` da abertura de pacote). `buttonSounds.ts`: **todo botão fora do `.duel` toca o
   som de toque** por um ouvinte só no documento (voltar/fechar/cancelar e `.danger` tocam o `back`; `data-sound` troca ou
   cala); não chame `sfx.play('tap')` nas telas.
   `src/audio/music.ts`: uma faixa em laço por tela (`<audio>` com fade cruzado de 1 s, a que sai volta ao começo, o laço
@@ -102,14 +103,20 @@ pelo `.hexbg` do `styles.css`.
   - `calendar.ts` (30 dias × manhã/tarde/noite; **só o duelo gasta período**), `map.ts` (2 a 4 do tier atual + 1 a 2 amigos
     do T1 a partir do T2, chefes liberados, pontos do panorama sorteados), `encounter.ts` (qual fala toca), `bond.ts` (afinidade com teto/piso, conversa, eventos, rota, epílogo),
     `rewards.ts` (`applyDuel`: DP com bônus, carta, assinatura, chefe, laço e o período), `packs.ts` (loja e sorteio 4+1),
-    `flow.ts` (conhecer, `pendingDuel`), `text.ts` (`{nome}` e `{m|f|n}`), `debug.ts` (`?campaign=last-evening|bond|boss|tier2|pegasus`
+    `flow.ts` (conhecer, `pendingDuel`), `text.ts` (`{nome}` e `{m|f|n}`), `debug.ts` (`?campaign=last-evening|bond|boss|tier2|pegasus|shop`
     em dev ou com `?debug=1`).
 - `src/screens/campaign/`: `MapScreen` (só as cabeças nos pontos, como no Tag Force Special; + `CampaignHeader`, `Hearts`),
   `EncounterScreen` (cena do duelista: fundo e lugar; sem corações nem Conversar para quem não tem laço), `Dialogue` (o palco do
   nativo: `TopBar` com lugar e subtítulo, placa de corações, fundo desfocado com o filtro do período e o circuito,
   personagem a 60% da altura abaixo da barra, folha de baixo com placa do nome e brilho na cor de quem fala, "Pular"), `BondsScreen`, `StatusScreen`, `CampaignEnd`, `chars.ts`
   (chave do nativo → sprite; expressões), `assets.ts` (arte com degradê de reserva), `campaign.css`.
-- `src/screens/`: `DeckBuilder` e `ShopScreen` (sobre o `CampaignState`), `title/`, `profile/`. `src/components/`:
+- `src/screens/shop/` (change `loja-nativa`): a loja no visual do nativo. `ShopScreen` (balcão + vitrine em grade de capas,
+  pacotes ganhos abertos ali), `PackDetail` (tela `shop-pack` do `App`: raridades, "X de Y", grade com as que faltam
+  apagadas, barra de compra e confirmação da caixa), `OpeningFlow` (abertura em tela cheia: rasgar, virar, "Revelar
+  tudo", caixa pacote a pacote, "Abrir todos" e resumo), `opening.ts` (**estado puro** da abertura e os sons de cada
+  passo), `ShopCounter` (o vovô pelo `Sprite`, saldo contando, balão), `useSpeech` + `src/campaign/shopkeeper.ts` (falas
+  do `shopkeeper` pela semente), `pacing.ts` (`SHOP_PACING`, os tempos da loja). **A compra grava antes da encenação.**
+- `src/screens/`: `DeckBuilder` (sobre o `CampaignState`), `title/`, `profile/`. `src/components/`:
   `CardSheet.tsx` (folha da carta + `Backdrop`) e `CardFace.tsx` (face própria da carta em PT, medidas da carta de
   referência de 320 em `cardface.css`; conferência em dev com `?cardfaces`).
 - `src/story/`: `progress.ts` (save em IndexedDB via Dexie: perfil, estatísticas, `settings` de animação/som/música, lidas
