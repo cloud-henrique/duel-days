@@ -19,7 +19,7 @@ import { BALANCE } from './campaign/balance';
 import { epilogue, eventReview } from './campaign/bond';
 import { debugPreset } from './campaign/debug';
 import type { Scene } from './campaign/data/types';
-import { duelist as duelistData, duelistDeck } from './campaign/decks';
+import { cpuFor, duelist as duelistData, duelistDeck } from './campaign/decks';
 import { abandonDuel, beginDuel, meet } from './campaign/flow';
 import { packByKey } from './campaign/packs';
 import { applyDuel, BONUS_NAMES, type DuelReward } from './campaign/rewards';
@@ -227,7 +227,7 @@ export function App() {
       return (
         <DuelScreen key={`${c.day}:${c.period}:${duelist}`} cards={data.cards}
           mine={{ main: mine.main, extra: mine.extra }} foe={duelistDeck(duelist)}
-          opponent={{ id: foeId, name: d.name }}
+          opponent={{ id: foeId, name: d.name }} cpu={cpuFor(duelist)}
           player={{ id: profile.avatar, name: profile.name }}
           settings={settings} onSettings={(s) => save({ ...prog, settings: s })}
           rewardFor={(summary: DuelSummary) => {

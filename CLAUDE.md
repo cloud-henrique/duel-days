@@ -14,8 +14,10 @@ npx vite build                      # build de produção (PWA)
 npx vite preview --port 5181 --host 127.0.0.1   # serve o dist/ (é o que o túnel do celular aponta)
 
 npx vite build && npx wrangler pages deploy dist --project-name dueldays --branch main   # produção: https://dueldays.pages.dev (Cloudflare Pages + Access)
-npx tsx proto/smoke.ts 500          # CPU x CPU com decks aleatórios do pool: travas, laços, erros de Lua
-npx tsx proto/monkey.ts 100         # mesmo código do Worker (DuelDriver) com os decks da campanha (5 duelistas + inicial)
+npx tsx proto/smoke.ts 500          # CPU x CPU com decks aleatórios do pool: travas, laços, erros de Lua (--barata: política da CPU)
+npx tsx proto/monkey.ts 100         # mesmo código do Worker (DuelDriver) com os decks da campanha (--cpu=barata|busca[:N])
+npx tsx proto/difficulty.ts 40      # dificuldade: cada duelista x deck inicial, CPU nova dos dois lados, contra a meta do tier
+npx tsx proto/tier-balance.ts 12    # pares dentro de cada tier e "chefe vence a maioria" (vários processos)
 npx tsx proto/story-smoke.ts        # 200 campanhas de 30 dias pelo modelo: cenas, eventos, rotas, chefe e epílogo
 npx tsx proto/economy-smoke.ts      # pacotes da campanha (70/20/10 no slot) e decks válidos (inicial e oponentes)
 npx tsx proto/sort-check.ts         # ordenar o topo do Deck (SORT_CARD) contra o motor real
@@ -31,8 +33,8 @@ data OCG até 2004-09-30, caixas TCG, português; correções em `raw/overrides/
 `python3 scripts/export_data.py` (+ relatório `raw/import/report.md`), `.venv/bin/python scripts/fetch_card_art.py` (small/large/cropped + verso), `.venv/bin/python scripts/copy_card_icons.py` (ícones de atributo/tipo do app nativo e propriedades do `cardicons.png` do Tag Force 3 no PPSSPP → `public/card-icons/`), `python3 scripts/copy_sounds.py` (efeitos do duelo do app nativo, do Tag Force, convertidos com `afconvert` → `public/sounds/*.m4a`; macOS), `python3 scripts/copy_brand.py` (logo "Yu-Gi-Oh!" do título → `public/brand/`, fora do git), `.venv/bin/python scripts/copy_coin_sprite.py` (moeda do WCT 2004, folha baixada à mão em `raw/wct2004/coin.png` → strip de 17 quadros em `public/sprites/coin.png`, fora do git; sem ela, a moeda desenhada),
 `python3 scripts/copy_campaign_data.py` (Tier 1 do nativo + `tiers.json` + `decks.json` + `dialogue-tier2.json` →
 `src/campaign/data/`, versionados; troca arte alternativa pelo id original), decks dos duelistas (`python3 scripts/fetch_deck_recipes.py`
-→ `npx tsx proto/deck-pick.ts 40` → `python3 scripts/build_decks.py`: receitas "Anime Decks" do YGOPRODeck escolhidas por torneio
-CPU × CPU), `.venv/bin/python scripts/copy_tfs_backgrounds.py` (fundos das cenas do zip "Events" do Tag Force Special, baixado à mão
+→ `npx tsx proto/deck-pick.ts 20` → `python3 scripts/build_decks.py`: receitas "Anime Decks" do YGOPRODeck escolhidas por torneio
+contra o deck inicial com a CPU nova, perto da meta do tier; confira com `proto/difficulty.ts`), `.venv/bin/python scripts/copy_tfs_backgrounds.py` (fundos das cenas do zip "Events" do Tag Force Special, baixado à mão
 em `raw/tfs/events.zip` → `public/campaign/bg-*.jpg`, fora do git), `python3 scripts/copy_campaign_assets.py` (mapa, fundos dos lugares, capas dos pacotes e as 8
 músicas do nativo → `public/campaign/` e `public/music/`, fora do git), `.venv/bin/python scripts/extract_action_icons.py` (recorta o `actions.png` do Tag Force; o ícone de cada ação se escolhe em `npm run icon-labeler`, porta 5174, e fica em `assets/action-icons/labels.json`), `npm run build-characters`, `.venv/bin/python scripts/build_sprites.py`.
 Ícones do PWA (ankh em HUD azul; arte própria, os binários são versionados): edite `assets/app-icon/*.svg` e rode `node scripts/build_app_icons.mjs`
@@ -45,18 +47,33 @@ pelo `.hexbg` do `styles.css`.
 - `src/engine/`: ocgcore (EDOPro) em WASM, **build síncrono** (`ocgcore-wasm`, sem JSPI).
   - `session.ts` cria o duelo (modo `MR1`), carrega `constant.lua` e `utility.lua` e **embaralha o deck por conta própria**
     (o core não embaralha; a compra sairia na ordem inversa da lista).
-  - `driver.ts` (`DuelDriver`): avança o motor, responde pela CPU (jogador 1) e pelos prompts automáticos, tem orçamento
-    de passos/tempo e devolve `prompt`/`end`/`error` com os **`steps`**: os beats (acontecimentos visíveis) desde a última
+  - `driver.ts` (`DuelDriver`): avança o motor, responde pela CPU (jogador 1, pela busca) e pelos prompts automáticos (pela
+    política barata), **registra todas as respostas** (`session.log`, base das cópias), tem orçamento de passos/tempo (o
+    tempo de pensar da CPU não conta), manda os steps aos poucos (`onProgress` → mensagem `steps`, antes de cada decisão
+    da CPU: a tela encena enquanto ela pensa) e devolve `prompt`/`end`/`error` com os **`steps`**: os beats (acontecimentos visíveis) desde a última
     mensagem, em ordem. O retrato do tabuleiro vai só no **último beat de cada passo do motor** (a consulta só vê o fim do
     passo); o primeiro beat depois de cada jogada da CPU leva `think`. É o mesmo código no Worker e nos testes em Node.
   - `beats.ts` (puro): `toBeats` (mensagem → beat; `MOVE` + `SUMMONING`/`SET` viram um beat só; movimentos seguidos tocam
     juntos), `classifyMove` (pelo `reason` do `MSG_MOVE`), `beatText` (o **único** texto do narrador e do histórico) e
     `locKey` (a chave de lugar `p:zone:seq`, também o `data-loc` da tela).
   - `host.ts` trata as mensagens; `worker.ts` é só o invólucro; `inline.ts` roda o motor na thread principal (`?engine=inline`).
-  - `cpu.ts`: CPU aleatória com preferências; só responde o que o motor oferece (ex.: `to_ep` pode ser falso).
+  - A CPU (change `cpu-estrategica`; nenhum tier erra de propósito):
+    - `search.ts` (`decide`): em cada decisão com escolha real, simula cada opção numa **cópia do duelo** e fica com a de
+      melhor nota; empate fica com passar (sem jogadas inúteis). Perfis em `PROFILES`: `comum` (honesto) e `chefe` (vê a
+      mão e as viradas do jogador; teto maior). O perfil vem da mensagem `start` (`cpuFor` da campanha).
+    - Cópia = `forkDuel` (`session.ts`): o ocgcore não copia estado, mas é determinístico; recria com a mesma semente e
+      reaplica o registro (~12 ms no WebKit). A continuação vai até o fim do turno (ou a próxima jogada livre do oponente),
+      nunca até a compra do jogador.
+    - **Honestidade do comum é pela forma da simulação**: o jogador nunca responde nas continuações (`honestOpponent`), a
+      avaliação só lê o público do lado dele e ataque contra monstro virado tem nota estimada (não simulada).
+    - `cpu.ts`: `cpuRespond`, a política barata determinística (prior da busca, continuações e prompts automáticos), e
+      `randomRespond`, a antiga aleatória, só para os testes de estresse. `evaluate.ts`: a nota (pesos só no `EVAL`).
+      `view.ts`: o tabuleiro lido do motor; `track.ts`: LP/turno/vencedor pelas mensagens.
+    - Testes em quebra-cabeças (`src/engine/__testing__/duel.ts`: cartas já nas zonas, o jogador passa o turno 1).
   - `narrator.ts`: orquestra o `beats.ts`, mantém LP/turno/fase e tira a "foto" do tabuleiro para a UI.
 - `src/screens/duel/`: a tela de duelo, dividida por responsabilidade.
-  - `DuelScreen.tsx` compõe; `useDuelEngine.ts` (Worker/inline, mensagens, watchdog, reinício).
+  - `DuelScreen.tsx` compõe; `useDuelEngine.ts` (Worker/inline, mensagens, watchdog, reinício; as partes `steps` entram numa
+    fila, uma encenação depois da outra, e rearmam o watchdog).
   - `prompt.ts` (puro: ações por carta, destaques, botões de fase, chips) com fixtures reais em `__fixtures__/`
     (`npx tsx proto/capture-fixtures.ts` regrava).
   - `Field`, `Hand`, `Slot`, `Plate` (+ `lp.ts`: contagem e cor do LP), `PhaseBar` (chips + narrador), `DuelMenu`
@@ -174,6 +191,11 @@ pelo `.hexbg` do `styles.css`.
 - Botões da tela de duelo que também são `.hud-btn` precisam de seletor com as duas classes: o `styles.css` carrega
   depois do `duel.css` e o padding do `.hud-btn` ganharia.
 - Cartas que o motor não aguenta vão em `raw/pool/blocklist.json` (rode `export_data.py` depois).
+- **Consulta com `OcgQueryFlags.TYPE` quebra o leitor do `ocgcore-wasm`** (devolve nulo e desalinha o resto): o tipo da
+  carta vem da base (`view.ts`).
+- **Resposta recusada de um prompt automático ou da CPU vira laço** (o driver devolve ao jogador o último prompt dele e o
+  motor continua esperando o outro). Toda resposta automática precisa ser válida: ex. o `SELECT_SUM` "igual ou maior"
+  (Ritual) não aceita carta sobrando.
 - **Cartas da campanha usam o id original**, não o da arte alternativa (sem script no ocgcore): o `copy_campaign_data.py`
   troca pelo `alias`, e o `import_dm.py` acrescenta ao pool os ids da campanha que faltam (o `export_data.py` também troca
   ids de arte alternativa pelo original). Os pacotes LOB/MRD/MRL/PSV do `packs.json` vêm do `public/data/boosters.json`.

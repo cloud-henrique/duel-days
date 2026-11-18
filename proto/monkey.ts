@@ -1,8 +1,8 @@
 // "Jogador macaco": duelos completos com o MESMO código do Worker (DuelDriver), contra os decks reais dos personagens,
 // da campanha (do nativo), com o jogador usando o deck inicial da campanha. Mede erros, laços e o tempo máximo de uma resposta.
-// Uso: npx tsx proto/monkey.ts [duelosPorOponente=100] [seedInicial=1]
+// Uso: npx tsx proto/monkey.ts [duelosPorOponente=100] [seedInicial=1] [--cpu=barata|busca[:N]]
 import { readFileSync } from 'node:fs';
-import { cpuRespond, makeRng } from '../src/engine/cpu';
+import { randomRespond, makeRng } from '../src/engine/cpu';
 import { DuelDriver } from '../src/engine/driver';
 import { openCore, type CardRecord } from '../src/engine/session';
 import { DUELISTS } from '../src/campaign/data/types';
@@ -10,6 +10,10 @@ import { duelistDeck, starterDeck } from '../src/campaign/decks';
 import type { OcgMessage } from 'ocgcore-wasm';
 import { checkLocs, lastBoardMatches, turnTimer, LONG_TURN_MS } from './beat-check';
 import type { DriverOut } from '../src/engine/driver';
+import { cpuMode } from './cpu-mode';
+
+const MODE = cpuMode();
+console.log(MODE.label);
 
 const N = Number(process.argv[2] ?? 100), SEED0 = Number(process.argv[3] ?? 1);
 const cards = JSON.parse(readFileSync('public/data/cards.json', 'utf8')) as Record<string, CardRecord>;
@@ -40,7 +44,7 @@ for (const opp of DUELISTS.map((d) => d.key)) {
     // Metade dos duelos com o deck inicial, metade com o deck de outro duelista (cobre as cartas dos dois lados).
     const others = DUELISTS.map((d) => d.key).filter((k) => k !== opp);
     const mine = i % 2 === 0 ? starterDeck() : duelistDeck(others[i % others.length]);
-    const d = new DuelDriver(core, cards, (n) => scripts[n] ?? null, mine, foe, seed);
+    const d = new DuelDriver(core, cards, (n) => scripts[n] ?? null, mine, foe, seed, undefined, { cpu: DUELISTS.find((x) => x.key === opp)?.isBoss ? 'chefe' : 'comum', budget: MODE.budget });
     const rng = makeRng(seed * 13);
     timer = turnTimer();
     let t = Date.now(); let out = d.run(); let ms = Date.now() - t;
@@ -48,7 +52,7 @@ for (const opp of DUELISTS.map((d) => d.key)) {
     let k = 0;
     for (; k < 3000 && out.t === 'prompt'; k++) {
       if (rng() < 0.05) d.autoPass = !d.autoPass;
-      const r = cpuRespond(out.msg as OcgMessage, rng, {});
+      const r = randomRespond(out.msg as OcgMessage, rng, {});
       if (!r) { out = { t: 'error', text: `macaco sem resposta para ${out.msg.type}` }; break; }
       t = Date.now(); out = d.respond(r); ms = Date.now() - t;
       checkOut(out, `${opp} seed ${seed} jogada ${k}`);
@@ -58,7 +62,7 @@ for (const opp of DUELISTS.map((d) => d.key)) {
     for (const l of longs) { beat.turnosLongos++; maxTurnMs = Math.max(maxTurnMs, l.ms); if (longTurns.length < 5) longTurns.push(`${opp} seed ${seed} turno ${l.turn}: ${(l.ms / 1000).toFixed(1)}s`); }
     if (out.t === 'end') res.fim++;
     else if (out.t === 'error') { res.erro++; errors.push(`${opp} seed ${seed}: ${out.text.slice(0, 300)}`); }
-    else res.limite++;
+    else { res.limite++; errors.push(`LIMITE ${opp} seed ${seed}: turno ${out.t === 'prompt' ? out.board.turn : '?'}, LP ${out.t === 'prompt' ? out.board.players.map((p) => p.lp).join('/') : '?'}`); }
     d.session.destroy();
   }
 }

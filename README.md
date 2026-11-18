@@ -45,8 +45,9 @@ npm run fetch-data                 # clona CardScripts e BabelCDB (ProjectIgnis)
 python3 scripts/import_dm.py       # era DM (YGOPRODeck): cartas com data OCG até 2004-09-30, raridades, caixas TCG e texto em português
 python3 scripts/export_data.py     # public/data/{cards,pool,boosters,text.pt}.json + public/scripts.json (só o que o motor roda) e raw/import/report.md
 python3 scripts/fetch_deck_recipes.py   # receitas "Anime Decks" do YGOPRODeck por duelista → raw/decks/candidates.json
-npx tsx proto/deck-pick.ts 40           # torneio CPU x CPU entre as candidatas → raw/decks/picks.json (+ relatório)
-python3 scripts/build_decks.py          # receitas vencedoras → src/campaign/data/decks.json (versionado)
+npx tsx proto/deck-pick.ts 20           # cada candidata x deck inicial, CPU nova dos dois lados → raw/decks/picks.json (~45 min)
+python3 scripts/build_decks.py          # receitas escolhidas + reforço (TUNE) → src/campaign/data/decks.json (versionado)
+npx tsx proto/difficulty.ts 40          # confere cada duelista contra a meta do tier (ver "Dificuldade dos duelistas")
 python3 scripts/copy_campaign_data.py   # Tier 1 do nativo + tiers.json + decks.json + falas do T2; coleções de todos os tiers do boosters.json
 .venv/bin/python scripts/copy_tfs_backgrounds.py  # fundos das cenas (zip "Events" do Tag Force Special em raw/tfs/) → public/campaign/bg-*.jpg (fora do git)
 .venv/bin/python scripts/fetch_card_art.py  # arte (small/large/cropped + verso, WebP); ~95 MB
@@ -58,6 +59,33 @@ npx tsx proto/smoke.ts 500         # CPU x CPU com decks aleatórios: mede trava
 npx tsx proto/economy-smoke.ts     # packs e coleção inicial
 npm run dev                        # PWA (use --port se o labeler estiver aberto)
 ```
+
+### Dificuldade dos duelistas
+
+A CPU (change `cpu-estrategica`) simula as jogadas no próprio motor; nenhum tier erra de propósito. A dificuldade vem dos
+decks: receitas "Anime Decks" escolhidas contra o deck inicial e reforçadas no `TUNE` do `scripts/build_decks.py` (cartas
+que a CPU não consegue usar, como Rituais, Fusões sem material e Spirit Messages, trocadas por cartas fortes da era,
+dentro do tema de cada personagem). Metas de vitória do duelista contra o deck inicial, com a CPU nova dos dois lados:
+Tier 1 ~55%, Tier 2 ~70%, chefes ~85% (±10 pontos). Com 40 duelos, o erro é de uns ±8 pontos: meça de novo depois de
+mexer num deck.
+
+`npx tsx proto/difficulty.ts 40 --cpu=busca:24` (2026-11-18):
+
+| Duelista | Tier | Vitórias | Meta |
+|---|---|---|---|
+| Tristan | 1 | 57% | 55% |
+| Téa | 1 | 63% | 55% |
+| Joey | 1 | 63% | 55% |
+| Bakura | 1 | 63% | 55% |
+| Yugi (chefe) | 1 | 90% | 85% |
+| Weevil | 2 | 73% | 70% |
+| Rex | 2 | 70% | 70% |
+| Mako | 2 | 78% | 70% |
+| Keith | 2 | 68% | 70% |
+| Mai | 2 | 70% | 70% |
+| Pegasus (chefe) | 2 | 93% | 85% |
+
+`npx tsx proto/tier-balance.ts 12`: Yugi vence 75% contra os comuns do Tier 1; Pegasus, 73% contra os do Tier 2.
 
 - `raw/pool/blocklist.json` lista passcodes que o motor não aguenta (hoje: Rivalry of Warlords). Rode `export_data.py` depois de mudar.
 - A base tem ~1.940 cartas da era (73 de Fusão, que vão para o Extra Deck). O relatório `raw/import/report.md` traz os

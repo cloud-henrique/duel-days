@@ -33,7 +33,8 @@ export function createEngineHandler(post: (m: FromWorker) => void) {
         if (debug) dbg(`dados carregados (${Math.round(performance.now() - t0)} ms)`);
         const core = await openCore();
         if (debug) dbg(`motor criado (${Math.round(performance.now() - t0)} ms)`);
-        const driver = new DuelDriver(core, cards, (n) => scripts.get(n) ?? null, d.mine, d.foe, d.seed);
+        const driver = new DuelDriver(core, cards, (n) => scripts.get(n) ?? null, d.mine, d.foe, d.seed, undefined, { cpu: d.cpu });
+        driver.onProgress = (steps) => post({ t: 'steps', steps });
         G.__duel = driver;
         if (debug) driver.trace = dbg;
         if (debug) dbg(`duelo criado, seed ${d.seed} (${Math.round(performance.now() - t0)} ms)`);

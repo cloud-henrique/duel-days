@@ -36,7 +36,7 @@ try {
   // Boas-vindas (nome; avatar e tratamento padrão) → título → Campanha → uma cabeça no mapa → Duelar.
   await btn('Começar').click();
   await page.locator('.titleplay').click();
-  await page.locator('.pinhead:not(.boss)').first().click({ force: true });
+  await page.locator('.pinhead:not(.boss)').first().evaluate((el) => el.click()); // fora da tela no panorama: o clique forçado acertava outro ponto
   await btn('Pular').click();
   await page.locator('.scene-menu button', { hasText: /^\s*Duelar\s*$/ }).click();
   await btn('Pular').click();

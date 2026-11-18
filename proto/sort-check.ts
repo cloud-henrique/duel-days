@@ -3,7 +3,7 @@
 // Uso: npx tsx proto/sort-check.ts
 import { readFileSync } from 'node:fs';
 import { OcgMessageType, OcgResponseType, SelectIdleCMDAction, type OcgMessage, type OcgResponse } from 'ocgcore-wasm';
-import { cpuRespond, makeRng } from '../src/engine/cpu';
+import { randomRespond, makeRng } from '../src/engine/cpu';
 import { DuelDriver } from '../src/engine/driver';
 import { openCore, type CardRecord } from '../src/engine/session';
 import { sortResponseOrder } from '../src/screens/duel/sort';
@@ -41,7 +41,7 @@ for (let k = 0; k < 400 && out.t === 'prompt' && draws.length < 3; k++) {
     if (i >= 0) { out = d.respond({ type: OcgResponseType.SELECT_IDLECMD, action: SelectIdleCMDAction.SELECT_ACTIVATE, index: i }); continue; }
   }
   // Depois de ordenar, não ativa mais nada: só passa os turnos, para as compras saírem do topo.
-  const r = m.type === OcgMessageType.SELECT_IDLECMD && chosen && m.to_ep ? { type: OcgResponseType.SELECT_IDLECMD, action: SelectIdleCMDAction.TO_EP, index: null } as OcgResponse : cpuRespond(m, rng, {});
+  const r = m.type === OcgMessageType.SELECT_IDLECMD && chosen && m.to_ep ? { type: OcgResponseType.SELECT_IDLECMD, action: SelectIdleCMDAction.TO_EP, index: null } as OcgResponse : randomRespond(m, rng, {});
   if (!r) break;
   out = d.respond(r);
 }

@@ -17,3 +17,6 @@ export const duelistDeck = (key: string): DuelDeck => {
 };
 
 export const starterDeck = (): DuelDeck => ({ main: expand(CAMPAIGN.starterDeck.main), extra: [] });
+
+/** Perfil da CPU no duelo contra este duelista: o chefe do tier joga como `chefe`, os demais como `comum`. */
+export const cpuFor = (key: string): 'comum' | 'chefe' => (duelist(key).isBoss ? 'chefe' : 'comum');

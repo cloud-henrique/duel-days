@@ -1,14 +1,18 @@
-// Teste em massa: CPU x CPU com decks aleatórios do pool inteiro. Uso: npx tsx proto/smoke.ts [duelos=100] [seedInicial=1]
+// Teste em massa: CPU x CPU com decks aleatórios do pool inteiro. Uso: npx tsx proto/smoke.ts [duelos=100] [seedInicial=1] [--barata]
+// Padrão: respostas aleatórias (cobrem mais caminhos do motor). `--barata`: os dois lados com a política barata da CPU
+// (procura laços dela).
 // Mede quantos duelos terminam, onde travam e quais cartas geram erro de Lua.
 import { readFileSync } from 'node:fs';
 import { OcgMessageType, OcgProcessResult } from 'ocgcore-wasm';
-import { cpuRespond, isSelect, makeRng } from '../src/engine/cpu';
+import { cpuRespond, newMemory, randomRespond, isSelect, makeRng } from '../src/engine/cpu';
 import { randomDeck } from '../src/game/decks';
 import { openCore, startDuel, type CardRecord } from '../src/engine/session';
 import type { OcgCardData } from 'ocgcore-wasm';
 import { Narrator } from '../src/engine/narrator';
 import { checkLocs } from './beat-check';
 
+const CHEAP = process.argv.includes('--barata');
+if (CHEAP) process.argv.splice(process.argv.indexOf('--barata'), 1);
 const N = Number(process.argv[2] ?? 100), SEED0 = Number(process.argv[3] ?? 1);
 const cards = JSON.parse(readFileSync('public/data/cards.json', 'utf8')) as Record<string, CardRecord>;
 const scripts = JSON.parse(readFileSync('public/scripts.json', 'utf8')) as Record<string, string>;
@@ -33,6 +37,7 @@ for (let i = 0; i < N; i++) {
   } catch (e) { stat.erro++; console.log('erro ao criar duelo', String(e)); continue; }
   const rng = makeRng(SEED0 + i);
   const nar = new Narrator();
+  const mems = [newMemory(), newMemory()];
   let outcome = 'passos', steps = 0, lastTypes = '', lastPrompt = '', lastMsg: unknown = null, lastResp: unknown = null;
   while (steps++ < 4000) {
     let step;
@@ -51,7 +56,9 @@ for (let i = 0; i < N; i++) {
     const sel = [...messages].reverse().find(isSelect);
     if (!sel && messages.some((m) => m.type === OcgMessageType.RETRY)) { outcome = 'semResposta'; lastTypes = `RETRY depois de ${lastPrompt}`; if (retryDumps.length < 6) retryDumps.push(JSON.stringify({ seed: SEED0 + i, prompt: lastMsg, resp: lastResp }, (_, v) => (typeof v === 'bigint' ? Number(v) : v)).slice(0, 1400)); break; }
     if (sel) { lastPrompt = OcgMessageType[sel.type]; lastMsg = sel; }
-    const r = sel && cpuRespond(sel, rng, { cards: cardList });
+    const r = sel && (CHEAP
+      ? cpuRespond(sel, { session: s, db: cards, cards: cardList, mem: mems[(sel as { player: number }).player & 1], turn: nar.turn })
+      : randomRespond(sel, rng, { cards: cardList }));
     if (!r) { outcome = 'semResposta'; lastTypes = messages.map((m) => OcgMessageType[m.type]).join(','); break; }
     lastResp = r;
     try { s.respond(r); } catch (e) { outcome = 'erro'; lastTypes = String(e); break; }

@@ -222,42 +222,47 @@
       "comment": "Cyber Commander"
      },
      "deck": {
-      "name": "Tristan Taylor's character deck (Virtual World version)",
+      "name": "Tristan Taylor (Anime Deck)",
       "main": [
        {
-        "id": 87322377,
+        "id": 75953262,
         "count": 2,
-        "comment": "Launcher Spider"
+        "comment": "Warrior Dai Grepher"
        },
        {
-        "id": 92421852,
-        "count": 3,
-        "comment": "Robolady"
+        "id": 47372349,
+        "count": 1,
+        "comment": "Acrobat Monkey"
        },
        {
         "id": 38916461,
-        "count": 3,
+        "count": 2,
         "comment": "Roboyarou"
        },
        {
-        "id": 76232340,
+        "id": 67532912,
         "count": 1,
-        "comment": "Sengenjin"
+        "comment": "Science Soldier"
        },
        {
-        "id": 10375182,
-        "count": 2,
-        "comment": "Command Knight"
+        "id": 92421852,
+        "count": 1,
+        "comment": "Robolady"
        },
        {
-        "id": 20394040,
-        "count": 2,
-        "comment": "Lava Battleguard"
+        "id": 6400512,
+        "count": 1,
+        "comment": "Cyber Commander"
        },
        {
-        "id": 2460565,
-        "count": 2,
-        "comment": "Marauding Captain"
+        "id": 51345461,
+        "count": 1,
+        "comment": "Sword Hunter"
+       },
+       {
+        "id": 66362965,
+        "count": 1,
+        "comment": "The Fiend Megacyber"
        },
        {
         "id": 40453765,
@@ -265,14 +270,59 @@
         "comment": "Swamp Battleguard"
        },
        {
-        "id": 25880422,
-        "count": 3,
-        "comment": "Block Attack"
+        "id": 20394040,
+        "count": 1,
+        "comment": "Lava Battleguard"
        },
        {
-        "id": 3682106,
+        "id": 78658564,
         "count": 1,
-        "comment": "Double Snare"
+        "comment": "Goblin Attack Force"
+       },
+       {
+        "id": 4041838,
+        "count": 1,
+        "comment": "Ninja Grandmaster Sasuke"
+       },
+       {
+        "id": 99426834,
+        "count": 1,
+        "comment": "Beastking of the Swamps"
+       },
+       {
+        "id": 74131780,
+        "count": 1,
+        "comment": "Exiled Force"
+       },
+       {
+        "id": 67957315,
+        "count": 2,
+        "comment": "Spirit Ryu"
+       },
+       {
+        "id": 22609617,
+        "count": 1,
+        "comment": "Mataza the Zapper"
+       },
+       {
+        "id": 40619825,
+        "count": 3,
+        "comment": "Axe of Despair; +1 no lugar de Cybernetic Fusion Support"
+       },
+       {
+        "id": 27967615,
+        "count": 3,
+        "comment": "Fusion Weapon; +1 no lugar de Cybernetic Fusion Support"
+       },
+       {
+        "id": 79571449,
+        "count": 1,
+        "comment": "Graceful Charity"
+       },
+       {
+        "id": 19613556,
+        "count": 1,
+        "comment": "Heavy Storm"
        },
        {
         "id": 83764718,
@@ -290,47 +340,47 @@
         "comment": "Pot of Greed"
        },
        {
-        "id": 32807846,
-        "count": 2,
-        "comment": "Reinforcement of the Army"
-       },
-       {
-        "id": 403847,
+        "id": 23171610,
         "count": 3,
-        "comment": "The A. Forces"
+        "comment": "Limiter Removal; +1 no lugar de Cybernetic Zone"
        },
        {
-        "id": 95281259,
-        "count": 2,
-        "comment": "The Warrior Returning Alive"
-       },
-       {
-        "id": 37580756,
-        "count": 2,
-        "comment": "Michizure"
-       },
-       {
-        "id": 14315573,
-        "count": 2,
-        "comment": "Negate Attack"
-       },
-       {
-        "id": 95286165,
+        "id": 73915051,
         "count": 1,
-        "comment": "De-Fusion"
+        "comment": "Scapegoat"
        },
        {
-        "id": 70046172,
-        "count": 2,
-        "comment": "Rush Recklessly; no lugar de Battle Fusion (fora da era); no lugar de Battle Fusion (fora da era)"
-       },
-       {
-        "id": 79571449,
+        "id": 56120475,
         "count": 1,
-        "comment": "Graceful Charity; no lugar de Pot of Greed (cópia acima do limite) (fora da era)"
+        "comment": "Sakuretsu Armor"
+       },
+       {
+        "id": 36361633,
+        "count": 1,
+        "comment": "Threatening Roar"
+       },
+       {
+        "id": 4206964,
+        "count": 1,
+        "comment": "Trap Hole"
+       },
+       {
+        "id": 2460565,
+        "count": 1,
+        "comment": "Marauding Captain; no lugar de Robolady: guerreiro de nível 4 que traz outro"
        }
       ],
       "extra": [
+       {
+        "id": 49868263,
+        "count": 1,
+        "comment": "Ryu Senshi"
+       },
+       {
+        "id": 75923050,
+        "count": 1,
+        "comment": "Super Robolady"
+       },
        {
         "id": 1412158,
         "count": 1,
@@ -357,22 +407,57 @@
       "comment": "Shining Friendship"
      },
      "deck": {
-      "name": "Téa Gardner - Millennium Resurrection",
+      "name": "Téa Gardner - Virtual World Shadowlocke",
       "main": [
        {
-        "id": 77527210,
-        "count": 3,
-        "comment": "Soul of Purity and Light"
+        "id": 46986414,
+        "count": 1,
+        "comment": "Dark Magician"
        },
        {
-        "id": 70797118,
-        "count": 3,
-        "comment": "Thunder Nyan Nyan"
+        "id": 6740720,
+        "count": 1,
+        "comment": "Seiyaryu"
        },
        {
-        "id": 21297224,
+        "id": 35565537,
+        "count": 1,
+        "comment": "Dark Witch"
+       },
+       {
+        "id": 68401546,
+        "count": 1,
+        "comment": "Fairy's Gift"
+       },
+       {
+        "id": 93221206,
         "count": 3,
-        "comment": "Hysteric Fairy"
+        "comment": "Ancient Elf"
+       },
+       {
+        "id": 69140098,
+        "count": 3,
+        "comment": "Gemini Elf"
+       },
+       {
+        "id": 38142739,
+        "count": 1,
+        "comment": "Petit Angel"
+       },
+       {
+        "id": 82085619,
+        "count": 1,
+        "comment": "Shining Friendship"
+       },
+       {
+        "id": 38033121,
+        "count": 3,
+        "comment": "Dark Magician Girl"
+       },
+       {
+        "id": 27132350,
+        "count": 1,
+        "comment": "Fire Sorcerer"
        },
        {
         "id": 93013676,
@@ -380,59 +465,44 @@
         "comment": "Maha Vailo"
        },
        {
-        "id": 95956346,
-        "count": 3,
-        "comment": "Shining Angel"
-       },
-       {
-        "id": 31560081,
-        "count": 3,
-        "comment": "Magician of Faith"
-       },
-       {
-        "id": 67629977,
-        "count": 3,
-        "comment": "Hoshiningen"
-       },
-       {
-        "id": 12607053,
+        "id": 60694662,
         "count": 2,
-        "comment": "Waboku"
+        "comment": "Skelengel"
        },
        {
-        "id": 59344077,
+        "id": 51275027,
         "count": 1,
-        "comment": "Magic Drain"
+        "comment": "The Unhappy Maiden"
        },
        {
-        "id": 44095762,
-        "count": 1,
-        "comment": "Mirror Force"
-       },
-       {
-        "id": 83746708,
+        "id": 39897277,
         "count": 3,
-        "comment": "Mage Power"
+        "comment": "Elf's Light"
        },
        {
-        "id": 56747793,
-        "count": 3,
-        "comment": "United We Stand"
-       },
-       {
-        "id": 81777047,
-        "count": 2,
-        "comment": "Luminous Spark"
-       },
-       {
-        "id": 97687912,
-        "count": 2,
-        "comment": "Fairy Meteor Crush"
-       },
-       {
-        "id": 69954399,
+        "id": 79571449,
         "count": 1,
-        "comment": "Ekibyo Drakmord"
+        "comment": "Graceful Charity"
+       },
+       {
+        "id": 67227834,
+        "count": 1,
+        "comment": "Magic Formula"
+       },
+       {
+        "id": 19159413,
+        "count": 1,
+        "comment": "De-Spell"
+       },
+       {
+        "id": 5318639,
+        "count": 2,
+        "comment": "Mystical Space Typhoon"
+       },
+       {
+        "id": 19230407,
+        "count": 2,
+        "comment": "Offerings to the Doomed"
        },
        {
         "id": 55144522,
@@ -440,19 +510,24 @@
         "comment": "Pot of Greed"
        },
        {
-        "id": 83764718,
+        "id": 13604200,
         "count": 1,
-        "comment": "Monster Reborn"
+        "comment": "Sage's Stone"
        },
        {
-        "id": 18144506,
-        "count": 1,
-        "comment": "Harpie's Feather Duster"
+        "id": 37580756,
+        "count": 3,
+        "comment": "Michizure; +1 no lugar de Mirror Force (cópia acima do limite)"
        },
        {
-        "id": 5318639,
+        "id": 44095762,
         "count": 1,
-        "comment": "Mystical Space Typhoon"
+        "comment": "Mirror Force"
+       },
+       {
+        "id": 12607053,
+        "count": 2,
+        "comment": "Waboku"
        }
       ],
       "extra": []
@@ -754,19 +829,9 @@
         "comment": "Gernia"
        },
        {
-        "id": 41855169,
-        "count": 1,
-        "comment": "Jowgen the Spiritualist"
-       },
-       {
         "id": 63665875,
         "count": 2,
         "comment": "Goblin Zombie"
-       },
-       {
-        "id": 41442341,
-        "count": 1,
-        "comment": "Puppet Master"
        },
        {
         "id": 26202165,
@@ -804,39 +869,19 @@
         "comment": "The Shallow Grave"
        },
        {
-        "id": 30170981,
-        "count": 1,
-        "comment": "Spirit Message \"L\""
-       },
-       {
-        "id": 94772232,
-        "count": 1,
-        "comment": "Spirit Message \"A\""
-       },
-       {
-        "id": 67287533,
-        "count": 1,
-        "comment": "Spirit Message \"N\""
-       },
-       {
-        "id": 31893528,
-        "count": 1,
-        "comment": "Spirit Message \"I\""
-       },
-       {
         "id": 93599951,
         "count": 2,
         "comment": "Dark Spirit of the Silent"
        },
        {
-        "id": 94212438,
-        "count": 2,
-        "comment": "Destiny Board"
-       },
-       {
         "id": 78053598,
         "count": 1,
         "comment": "Dark Designator"
+       },
+       {
+        "id": 94212438,
+        "count": 1,
+        "comment": "Destiny Board"
        },
        {
         "id": 59197169,
@@ -847,6 +892,36 @@
         "id": 12607053,
         "count": 2,
         "comment": "Waboku; no lugar de Multiple Destruction (fora da era); no lugar de Multiple Destruction (fora da era)"
+       },
+       {
+        "id": 57281778,
+        "count": 1,
+        "comment": "Ryu Kokki; no lugar de Spirit Message \"L\": as Spirit Messages só servem ao Destiny Board, que quase nunca completa"
+       },
+       {
+        "id": 49881766,
+        "count": 2,
+        "comment": "Archfiend Soldier; no lugar de Spirit Message \"A\": idem; no lugar de Spirit Message \"N\": idem"
+       },
+       {
+        "id": 23205979,
+        "count": 1,
+        "comment": "Spirit Reaper; no lugar de Spirit Message \"I\": idem"
+       },
+       {
+        "id": 77044671,
+        "count": 1,
+        "comment": "Pyramid Turtle; no lugar de Destiny Board: idem"
+       },
+       {
+        "id": 56120475,
+        "count": 1,
+        "comment": "Sakuretsu Armor; no lugar de Jowgen the Spiritualist: efeito fraco no deck"
+       },
+       {
+        "id": 4206964,
+        "count": 1,
+        "comment": "Trap Hole; no lugar de Puppet Master: nível 6 de 0 ATK"
        }
       ],
       "extra": []
@@ -906,11 +981,6 @@
         "id": 5818798,
         "count": 1,
         "comment": "Gazelle the King of Mythical Beasts"
-       },
-       {
-        "id": 77207191,
-        "count": 1,
-        "comment": "Berfomet"
        },
        {
         "id": 75347539,
@@ -978,11 +1048,6 @@
         "comment": "Breaker the Magical Warrior"
        },
        {
-        "id": 40640057,
-        "count": 2,
-        "comment": "Kuriboh; no lugar de Electromagnetic Turtle (fora da era)"
-       },
-       {
         "id": 83764718,
         "count": 1,
         "comment": "Monster Reborn"
@@ -991,11 +1056,6 @@
         "id": 55144522,
         "count": 1,
         "comment": "Pot of Greed"
-       },
-       {
-        "id": 24094653,
-        "count": 1,
-        "comment": "Polymerization"
        },
        {
         "id": 72302403,
@@ -1011,16 +1071,6 @@
         "id": 99789342,
         "count": 2,
         "comment": "Dark Magic Curtain; no lugar de Bond Between Teacher and Student (fora da era)"
-       },
-       {
-        "id": 13604200,
-        "count": 1,
-        "comment": "Sage's Stone"
-       },
-       {
-        "id": 40703222,
-        "count": 1,
-        "comment": "Multiply"
        },
        {
         "id": 63391643,
@@ -1053,6 +1103,11 @@
         "comment": "Magic Cylinder"
        },
        {
+        "id": 40640057,
+        "count": 1,
+        "comment": "Kuriboh; no lugar de Electromagnetic Turtle (fora da era)"
+       },
+       {
         "id": 81210420,
         "count": 1,
         "comment": "Magical Hats; no lugar de Black Illusion (fora da era)"
@@ -1061,6 +1116,26 @@
         "id": 35563539,
         "count": 1,
         "comment": "Mystical Refpanel; no lugar de Dark Renewal (fora da era)"
+       },
+       {
+        "id": 4031928,
+        "count": 1,
+        "comment": "Change of Heart; no lugar de Multiply: combo com o Kuriboh, que a CPU quase nunca monta"
+       },
+       {
+        "id": 56120475,
+        "count": 2,
+        "comment": "Sakuretsu Armor; no lugar de Kuriboh: idem; no lugar de Berfomet: nível 5 de 1400; a Fusão quase nunca sai"
+       },
+       {
+        "id": 12580477,
+        "count": 1,
+        "comment": "Raigeki; no lugar de Sage's Stone: só com a Maga Negra em campo"
+       },
+       {
+        "id": 4206964,
+        "count": 1,
+        "comment": "Trap Hole; no lugar de Polymerization: a Fusão quase nunca sai"
        }
       ],
       "extra": [
@@ -1118,72 +1193,67 @@
      },
      "bond": false,
      "deck": {
-      "name": "Weevil Underwood (Duelist Kingdom) Deck",
+      "name": "Insector Haga (Weevil) - Battle City",
       "main": [
        {
-        "id": 89091579,
+        "id": 91512835,
+        "count": 1,
+        "comment": "Insect Queen"
+       },
+       {
+        "id": 84620194,
         "count": 3,
-        "comment": "Basic Insect"
+        "comment": "Girochin Kuwagata; no lugar de Parasite Paracide: inseto de 1700; no lugar de Parasite Paracide: idem"
+       },
+       {
+        "id": 41762634,
+        "count": 1,
+        "comment": "Giant Flea"
        },
        {
         "id": 3134241,
-        "count": 2,
+        "count": 1,
         "comment": "Flying Kamakiri #2"
        },
        {
         "id": 15367030,
-        "count": 3,
+        "count": 1,
         "comment": "Gokibore"
        },
        {
-        "id": 52584282,
-        "count": 3,
-        "comment": "Hercules Beetle"
+        "id": 53606874,
+        "count": 1,
+        "comment": "Big Insect"
        },
        {
         "id": 88979991,
-        "count": 3,
+        "count": 1,
         "comment": "Killer Needle"
        },
        {
-        "id": 40240595,
+        "id": 84834865,
         "count": 3,
-        "comment": "Cocoon of Evolution"
+        "comment": "Flying Kamakiri #1; no lugar de Cocoon of Evolution: idem"
        },
        {
-        "id": 14141448,
-        "count": 3,
-        "comment": "Great Moth"
-       },
-       {
-        "id": 87756343,
-        "count": 3,
-        "comment": "Larvae Moth"
-       },
-       {
-        "id": 48579379,
+        "id": 26185991,
         "count": 2,
-        "comment": "Perfectly Ultimate Great Moth"
+        "comment": "Pinch Hopper"
        },
        {
-        "id": 87430998,
-        "count": 3,
-        "comment": "Forest"
+        "id": 42364374,
+        "count": 1,
+        "comment": "Arsenal Bug"
        },
        {
-        "id": 73628505,
-        "count": 2,
-        "comment": "Terraforming"
+        "id": 7019529,
+        "count": 1,
+        "comment": "Insect Soldiers of the Sky"
        },
        {
-        "id": 3492538,
-        "count": 3,
-        "comment": "Insect Armor with Laser Cannon"
-       },
-       {
-        "id": 77007920,
-        "count": 3,
-        "comment": "Laser Cannon Armor"
+        "id": 55144522,
+        "count": 1,
+        "comment": "Pot of Greed"
        },
        {
         "id": 83764718,
@@ -1191,9 +1261,94 @@
         "comment": "Monster Reborn"
        },
        {
-        "id": 54109233,
-        "count": 3,
-        "comment": "Infinite Dismissal"
+        "id": 94716515,
+        "count": 1,
+        "comment": "Eradicating Aerosol"
+       },
+       {
+        "id": 3492538,
+        "count": 2,
+        "comment": "Insect Armor with Laser Cannon"
+       },
+       {
+        "id": 87430998,
+        "count": 1,
+        "comment": "Forest"
+       },
+       {
+        "id": 74701381,
+        "count": 1,
+        "comment": "DNA Surgery"
+       },
+       {
+        "id": 14315573,
+        "count": 1,
+        "comment": "Negate Attack"
+       },
+       {
+        "id": 62867251,
+        "count": 1,
+        "comment": "Light of Intervention"
+       },
+       {
+        "id": 54652250,
+        "count": 2,
+        "comment": "Man-Eater Bug; no lugar de Petit Moth: a evolução da Moth leva turnos que a CPU não espera; no lugar de Cocoon of Evolution: idem"
+       },
+       {
+        "id": 37957847,
+        "count": 1,
+        "comment": "Insect Princess; no lugar de Perfectly Ultimate Great Moth: idem"
+       },
+       {
+        "id": 44095762,
+        "count": 1,
+        "comment": "Mirror Force; no lugar de Great Moth: idem"
+       },
+       {
+        "id": 12580477,
+        "count": 1,
+        "comment": "Raigeki; no lugar de Kiseitai: efeito fraco"
+       },
+       {
+        "id": 4031928,
+        "count": 1,
+        "comment": "Change of Heart; no lugar de Leghul: atacante de 300"
+       },
+       {
+        "id": 56120475,
+        "count": 2,
+        "comment": "Sakuretsu Armor; no lugar de Needle Worm: efeito lento; no lugar de Insect Barrier: só barra insetos"
+       },
+       {
+        "id": 4206964,
+        "count": 2,
+        "comment": "Trap Hole; no lugar de Insect Barrier: idem; no lugar de Jade Insect Whistle: efeito fraco"
+       },
+       {
+        "id": 53582587,
+        "count": 1,
+        "comment": "Torrential Tribute; no lugar de Insect Imitation: combo que a CPU não monta"
+       },
+       {
+        "id": 62279055,
+        "count": 1,
+        "comment": "Magic Cylinder; no lugar de Laser Cannon Armor: repete o Insect Armor"
+       },
+       {
+        "id": 55713623,
+        "count": 1,
+        "comment": "Shrink; no lugar de Multiplication of Ants: efeito fraco"
+       },
+       {
+        "id": 97169186,
+        "count": 1,
+        "comment": "Smashing Ground; no lugar de Skull-Mark Ladybug: atacante de 500"
+       },
+       {
+        "id": 72302403,
+        "count": 1,
+        "comment": "Swords of Revealing Light; no lugar de Cockroach Knight: atacante de 800"
        }
       ],
       "extra": []
@@ -1213,47 +1368,42 @@
      },
      "bond": false,
      "deck": {
-      "name": "Rex Raptor (Duelist Kingdom) Deck",
+      "name": "Rex raptor's Duelist Kingdom Deck",
       "main": [
        {
-        "id": 38289717,
-        "count": 3,
-        "comment": "Crawling Dragon #2"
-       },
-       {
-        "id": 42625254,
-        "count": 3,
-        "comment": "Little D"
-       },
-       {
-        "id": 75390004,
-        "count": 3,
-        "comment": "Megazowler"
-       },
-       {
         "id": 74677422,
-        "count": 2,
+        "count": 1,
         "comment": "Red-Eyes Black Dragon"
        },
        {
         "id": 66516792,
-        "count": 2,
+        "count": 1,
         "comment": "Serpent Night Dragon"
        },
        {
+        "id": 89832901,
+        "count": 2,
+        "comment": "B. Dragon Jungle King"
+       },
+       {
+        "id": 75390004,
+        "count": 1,
+        "comment": "Megazowler"
+       },
+       {
         "id": 13069066,
-        "count": 3,
+        "count": 1,
         "comment": "Sword Arm of Dragon"
        },
        {
-        "id": 46457856,
-        "count": 2,
-        "comment": "Tomozaurus"
+        "id": 67494157,
+        "count": 1,
+        "comment": "Crawling Dragon"
        },
        {
-        "id": 42348802,
+        "id": 38289717,
         "count": 3,
-        "comment": "Trakodon"
+        "comment": "Crawling Dragon #2"
        },
        {
         "id": 94119974,
@@ -1266,19 +1416,14 @@
         "comment": "Uraby"
        },
        {
-        "id": 79870141,
-        "count": 2,
-        "comment": "Mad Sword Beast"
-       },
-       {
-        "id": 1435851,
-        "count": 3,
-        "comment": "Dragon Treasure"
-       },
-       {
-        "id": 83764718,
+        "id": 42348802,
         "count": 1,
-        "comment": "Monster Reborn"
+        "comment": "Trakodon"
+       },
+       {
+        "id": 42625254,
+        "count": 2,
+        "comment": "Little D"
        },
        {
         "id": 55144522,
@@ -1286,22 +1431,73 @@
         "comment": "Pot of Greed"
        },
        {
+        "id": 63102017,
+        "count": 2,
+        "comment": "Stop Defense"
+       },
+       {
+        "id": 83764718,
+        "count": 1,
+        "comment": "Monster Reborn"
+       },
+       {
         "id": 23424603,
         "count": 3,
         "comment": "Wasteland"
        },
        {
-        "id": 73628505,
-        "count": 2,
-        "comment": "Terraforming"
+        "id": 24094653,
+        "count": 1,
+        "comment": "Polymerization"
        },
        {
-        "id": 97077563,
+        "id": 31553716,
+        "count": 2,
+        "comment": "Spear Dragon; no lugar de Tomozaurus: dragão de nível 4 com perfuração; no lugar de Tomozaurus: idem"
+       },
+       {
+        "id": 11091375,
+        "count": 2,
+        "comment": "Luster Dragon; no lugar de Little D: dragão de 1900; no lugar de Trakodon: idem"
+       },
+       {
+        "id": 79870141,
+        "count": 2,
+        "comment": "Mad Sword Beast; no lugar de Trakodon: dinossauro com perfuração; no lugar de Crawling Dragon: nível 5 de 1600 pede tributo"
+       },
+       {
+        "id": 45894482,
         "count": 1,
-        "comment": "Call of the Haunted; no lugar de Monster Reborn (cópia acima do limite) (fora da era)"
+        "comment": "Gilasaurus; no lugar de Crawling Dragon: dinossauro rápido"
+       },
+       {
+        "id": 38670435,
+        "count": 1,
+        "comment": "Black Tyranno; no lugar de Sword Arm of Dragon: dinossauro de 2600"
+       },
+       {
+        "id": 56120475,
+        "count": 2,
+        "comment": "Sakuretsu Armor; no lugar de Terraforming: a Wasteland já está em 3; no lugar de Terraforming: idem"
+       },
+       {
+        "id": 4206964,
+        "count": 2,
+        "comment": "Trap Hole; no lugar de Raise Body Heat: efeito fraco; no lugar de Raise Body Heat: idem"
+       },
+       {
+        "id": 66788016,
+        "count": 1,
+        "comment": "Fissure; no lugar de Polymerization: Fusões quase nunca saem"
        }
       ],
-      "extra": []
+      "extra": [
+       {
+        "id": 16507828,
+        "count": 1,
+        "comment": "Bracchio-raidus"
+       }
+      ]
      }
     },
     {
@@ -1318,46 +1514,16 @@
      },
      "bond": false,
      "deck": {
-      "name": "Mako Tsunami Character Deck",
+      "name": "Mako Tsunami's Duelist Kingdom Deck",
       "main": [
        {
-        "id": 67371383,
-        "count": 2,
-        "comment": "Amphibian Beast"
-       },
-       {
-        "id": 43793530,
-        "count": 1,
-        "comment": "Giga Gagagigo"
-       },
-       {
         "id": 76634149,
-        "count": 1,
+        "count": 3,
         "comment": "Kairyu-Shin"
        },
        {
-        "id": 49003308,
-        "count": 2,
-        "comment": "Gagagigo; no lugar de Gogiga Gagagigo (fora da era)"
-       },
-       {
-        "id": 23771716,
-        "count": 1,
-        "comment": "7 Colored Fish"
-       },
-       {
-        "id": 58831685,
-        "count": 1,
-        "comment": "Giant Red Seasnake"
-       },
-       {
-        "id": 13429800,
-        "count": 2,
-        "comment": "Great White"
-       },
-       {
         "id": 14851496,
-        "count": 3,
+        "count": 2,
         "comment": "Jellyfish"
        },
        {
@@ -1366,102 +1532,133 @@
         "comment": "Fiend Kraken"
        },
        {
-        "id": 31987274,
-        "count": 1,
-        "comment": "Flying Fish"
+        "id": 13429800,
+        "count": 3,
+        "comment": "Great White"
        },
        {
-        "id": 63120904,
+        "id": 23771716,
+        "count": 3,
+        "comment": "7 Colored Fish"
+       },
+       {
+        "id": 53713014,
         "count": 2,
-        "comment": "Orca Mega-Fortress of Darkness"
+        "comment": "Crazy Fish"
        },
        {
-        "id": 3643300,
+        "id": 93343894,
         "count": 1,
-        "comment": "The Legendary Fisherman"
+        "comment": "Water Magician"
        },
        {
-        "id": 64342551,
+        "id": 94022093,
         "count": 1,
-        "comment": "Amphibious Bugroth MK-3"
+        "comment": "Behegon"
        },
        {
-        "id": 90337190,
+        "id": 81386177,
+        "count": 1,
+        "comment": "Bottom Dweller"
+       },
+       {
+        "id": 69572024,
+        "count": 1,
+        "comment": "Tongyo"
+       },
+       {
+        "id": 17968114,
+        "count": 1,
+        "comment": "Amazon of the Seas"
+       },
+       {
+        "id": 2118022,
+        "count": 1,
+        "comment": "Hyosube"
+       },
+       {
+        "id": 24094653,
         "count": 2,
-        "comment": "Torpedo Fish"
+        "comment": "Polymerization"
        },
        {
-        "id": 95614612,
-        "count": 2,
-        "comment": "Cannonball Spear Shellfish"
-       },
-       {
-        "id": 62337487,
+        "id": 55144522,
         "count": 1,
-        "comment": "Fortress Whale"
+        "comment": "Pot of Greed"
        },
        {
         "id": 22702055,
         "count": 3,
-        "comment": "Umi; +1 no lugar de A Legendary Ocean; +1 no lugar de Lemuria, the Forgotten City"
+        "comment": "Umi"
        },
        {
-        "id": 19827717,
+        "id": 83764718,
         "count": 1,
-        "comment": "Return of the Doomed"
+        "comment": "Monster Reborn"
        },
        {
-        "id": 96947648,
+        "id": 77027445,
         "count": 1,
-        "comment": "Salvage"
+        "comment": "Power of Kaishin"
        },
        {
-        "id": 73628505,
-        "count": 1,
-        "comment": "Terraforming"
-       },
-       {
-        "id": 77454922,
-        "count": 1,
-        "comment": "Fortress Whale's Oath"
-       },
-       {
-        "id": 18605135,
+        "id": 17444133,
         "count": 2,
-        "comment": "Tornado Wall"
+        "comment": "Kaiser Sea Horse; no lugar de Mystic Lamp: serpente marinha de 1700; no lugar de Yormungarde: idem"
        },
        {
-        "id": 77414722,
-        "count": 1,
-        "comment": "Magic Jammer"
+        "id": 64342551,
+        "count": 2,
+        "comment": "Amphibious Bugroth MK-3; no lugar de Gruesome Goo: ataque direto com Umi; no lugar de Sea Kamen: idem"
        },
        {
-        "id": 19252988,
+        "id": 93920745,
         "count": 1,
-        "comment": "Trap Jammer"
+        "comment": "Penguin Soldier; no lugar de Jellyfish: efeito de devolver"
        },
        {
-        "id": 62279055,
+        "id": 37721209,
         "count": 1,
-        "comment": "Magic Cylinder"
+        "comment": "Levia-Dragon - Daedalus; no lugar de Fiend Kraken: limpa o campo com Umi"
        },
        {
-        "id": 44095762,
-        "count": 1,
-        "comment": "Mirror Force"
+        "id": 56120475,
+        "count": 2,
+        "comment": "Sakuretsu Armor; no lugar de Terraforming: o Umi já está em 3; no lugar de Terraforming: idem"
+       },
+       {
+        "id": 4206964,
+        "count": 2,
+        "comment": "Trap Hole; no lugar de Salvage: efeito lento; no lugar de Salvage: idem"
        },
        {
         "id": 53582587,
         "count": 1,
-        "comment": "Torrential Tribute"
-       },
-       {
-        "id": 12607053,
-        "count": 1,
-        "comment": "Waboku"
+        "comment": "Torrential Tribute; no lugar de Power of Kaishin: efeito fraco"
        }
       ],
-      "extra": []
+      "extra": [
+       {
+        "id": 19066538,
+        "count": 1,
+        "comment": "Roaring Ocean Snake"
+       },
+       {
+        "id": 80727036,
+        "count": 1,
+        "comment": "Man-eating Black Shark"
+       },
+       {
+        "id": 28593363,
+        "count": 1,
+        "comment": "Deepsea Shark"
+       },
+       {
+        "id": 29929832,
+        "count": 1,
+        "comment": "Marine Beast"
+       }
+      ]
      }
     },
     {
@@ -1478,22 +1675,17 @@
      },
      "bond": false,
      "deck": {
-      "name": "Bandit Keith's Duelist Kingdom Deck",
+      "name": "Bandit Keith Howard Style Deck",
       "main": [
-       {
-        "id": 50705071,
-        "count": 1,
-        "comment": "Metalzoa"
-       },
        {
         "id": 24311372,
         "count": 1,
         "comment": "Zoa"
        },
        {
-        "id": 81480460,
+        "id": 49888191,
         "count": 1,
-        "comment": "Barrel Dragon"
+        "comment": "Garnecia Elefantis"
        },
        {
         "id": 87322377,
@@ -1501,49 +1693,39 @@
         "comment": "Launcher Spider"
        },
        {
-        "id": 24433920,
-        "count": 1,
-        "comment": "Pendulum Machine"
-       },
-       {
-        "id": 3797883,
-        "count": 1,
-        "comment": "Slot Machine"
-       },
-       {
-        "id": 39239728,
-        "count": 1,
-        "comment": "Royal Guard"
-       },
-       {
-        "id": 73911410,
-        "count": 1,
-        "comment": "Sword Slasher"
-       },
-       {
         "id": 49587396,
         "count": 1,
         "comment": "Ancient Tool"
        },
        {
-        "id": 38116136,
+        "id": 7562372,
         "count": 1,
-        "comment": "Machine Attacker"
+        "comment": "Megasonic Eye"
        },
        {
-        "id": 19737320,
-        "count": 1,
-        "comment": "Gatekeeper"
-       },
-       {
-        "id": 33621868,
-        "count": 1,
-        "comment": "Giganto"
+        "id": 7359741,
+        "count": 3,
+        "comment": "Mechanicalchaser; no lugar de Curse of Fiend: efeito fraco"
        },
        {
         "id": 58314394,
-        "count": 3,
+        "count": 1,
         "comment": "Ground Attacker Bugroth"
+       },
+       {
+        "id": 50705071,
+        "count": 1,
+        "comment": "Metalzoa"
+       },
+       {
+        "id": 81480460,
+        "count": 1,
+        "comment": "Barrel Dragon"
+       },
+       {
+        "id": 46700124,
+        "count": 1,
+        "comment": "Machine King"
        },
        {
         "id": 26302522,
@@ -1551,39 +1733,9 @@
         "comment": "Blast Sphere"
        },
        {
-        "id": 75559356,
-        "count": 3,
-        "comment": "Cyber Soldier of Darkworld"
-       },
-       {
-        "id": 48094997,
-        "count": 2,
-        "comment": "Battle Footballer"
-       },
-       {
-        "id": 29172562,
-        "count": 2,
-        "comment": "Steel Ogre Grotto #1"
-       },
-       {
-        "id": 55444629,
-        "count": 2,
-        "comment": "Lesser Dragon"
-       },
-       {
-        "id": 86198326,
-        "count": 3,
-        "comment": "7 Completed"
-       },
-       {
-        "id": 63102017,
-        "count": 2,
-        "comment": "Stop Defense"
-       },
-       {
-        "id": 83764718,
+        "id": 34124316,
         "count": 1,
-        "comment": "Monster Reborn"
+        "comment": "Cyber Jar"
        },
        {
         "id": 55144522,
@@ -1591,8 +1743,33 @@
         "comment": "Pot of Greed"
        },
        {
+        "id": 63102017,
+        "count": 1,
+        "comment": "Stop Defense"
+       },
+       {
+        "id": 79571449,
+        "count": 1,
+        "comment": "Graceful Charity"
+       },
+       {
+        "id": 79759861,
+        "count": 1,
+        "comment": "Tribute to The Doomed"
+       },
+       {
+        "id": 83764718,
+        "count": 1,
+        "comment": "Monster Reborn"
+       },
+       {
+        "id": 25769732,
+        "count": 3,
+        "comment": "Machine Conversion Factory; +1 no lugar de Monster Slots"
+       },
+       {
         "id": 68540058,
-        "count": 2,
+        "count": 1,
         "comment": "Metalmorph"
        },
        {
@@ -1601,28 +1778,62 @@
         "comment": "Time Machine"
        },
        {
-        "id": 24094653,
+        "id": 12503902,
         "count": 1,
-        "comment": "Polymerization"
+        "comment": "Rare Metalmorph"
        },
        {
-        "id": 97077563,
+        "id": 41420027,
         "count": 1,
-        "comment": "Call of the Haunted; no lugar de Monster Reborn (cópia acima do limite) (fora da era)"
+        "comment": "Solemn Judgment"
        },
        {
-        "id": 79571449,
+        "id": 77414722,
         "count": 1,
-        "comment": "Graceful Charity; no lugar de Pot of Greed (cópia acima do limite) (fora da era)"
+        "comment": "Magic Jammer"
+       },
+       {
+        "id": 12470447,
+        "count": 1,
+        "comment": "Curse of Fiend; +1 no lugar de Ancient Rules; +1 no lugar de Ancient Rules"
+       },
+       {
+        "id": 77585513,
+        "count": 1,
+        "comment": "Jinzo; no lugar de Zera Ritual: o Ritual quase nunca sai"
+       },
+       {
+        "id": 62651957,
+        "count": 2,
+        "comment": "X-Head Cannon; no lugar de Zera the Mant: idem; no lugar de 7 Completed: efeito fraco"
+       },
+       {
+        "id": 44203504,
+        "count": 2,
+        "comment": "Robotic Knight; no lugar de 7 Completed: idem; no lugar de 7 Completed: idem"
+       },
+       {
+        "id": 11384280,
+        "count": 1,
+        "comment": "Cannon Soldier; no lugar de Curse of Fiend: idem"
+       },
+       {
+        "id": 56120475,
+        "count": 2,
+        "comment": "Sakuretsu Armor; no lugar de Pendulum Machine: nível 6 de 1750 pede tributo; no lugar de Slot Machine: nível 7 de 2000 pede dois tributos"
+       },
+       {
+        "id": 4206964,
+        "count": 1,
+        "comment": "Trap Hole; no lugar de Giganto: nível 5 de 1700 pede tributo"
+       },
+       {
+        "id": 53582587,
+        "count": 1,
+        "comment": "Torrential Tribute; no lugar de Gatekeeper: nível 5 de 1500 pede tributo"
        }
       ],
-      "extra": [
-       {
-        "id": 9293977,
-        "count": 1,
-        "comment": "Metal Dragon"
-       }
-      ]
+      "extra": []
      }
     },
     {
@@ -1639,97 +1850,37 @@
      },
      "bond": false,
      "deck": {
-      "name": "Kujaku Mai - Battle City",
+      "name": "Mai Valentine (Battle City) Deck",
       "main": [
        {
-        "id": 90219263,
-        "count": 2,
-        "comment": "Elegant Egotist"
-       },
-       {
-        "id": 67987611,
-        "count": 2,
-        "comment": "Amazoness Archers"
-       },
-       {
-        "id": 76812113,
+        "id": 12493482,
         "count": 3,
-        "comment": "Harpie Lady; no lugar de Cyber Harpie Lady (fora da era); no lugar de Cyber Harpie Lady (fora da era)"
-       },
-       {
-        "id": 65475294,
-        "count": 1,
-        "comment": "The Unfriendly Amazon"
-       },
-       {
-        "id": 47480070,
-        "count": 1,
-        "comment": "Amazoness Paladin"
-       },
-       {
-        "id": 45547649,
-        "count": 3,
-        "comment": "Birdface; no lugar de Amazoness Trainee (fora da era); no lugar de Harpie Dancer (fora da era)"
-       },
-       {
-        "id": 12800777,
-        "count": 1,
-        "comment": "Garuda the Wind Spirit"
-       },
-       {
-        "id": 30914564,
-        "count": 1,
-        "comment": "Sacred Crane"
+        "comment": "Dunames Dark Witch"
        },
        {
         "id": 29654737,
-        "count": 1,
+        "count": 3,
         "comment": "Amazoness Chain Master"
        },
        {
         "id": 55821894,
-        "count": 1,
+        "count": 3,
         "comment": "Amazoness Fighter"
        },
        {
         "id": 94004268,
-        "count": 1,
+        "count": 3,
         "comment": "Amazoness Swords Woman"
        },
        {
-        "id": 91869203,
-        "count": 1,
-        "comment": "Amazoness Archer"
-       },
-       {
-        "id": 73574678,
-        "count": 1,
-        "comment": "Amazoness Blowpiper"
-       },
-       {
-        "id": 71283180,
-        "count": 1,
-        "comment": "Tornado Bird"
-       },
-       {
         "id": 12206212,
-        "count": 2,
+        "count": 3,
         "comment": "Harpie Lady Sisters"
        },
        {
-        "id": 18144506,
-        "count": 1,
-        "comment": "Harpie's Feather Duster"
-       },
-       {
-        "id": 55144522,
-        "count": 1,
-        "comment": "Pot of Greed"
-       },
-       {
-        "id": 79571449,
-        "count": 1,
-        "comment": "Graceful Charity"
+        "id": 65475294,
+        "count": 3,
+        "comment": "The Unfriendly Amazon"
        },
        {
         "id": 81325903,
@@ -1737,59 +1888,24 @@
         "comment": "Amazoness Spellcaster"
        },
        {
+        "id": 90219263,
+        "count": 2,
+        "comment": "Elegant Egotist"
+       },
+       {
+        "id": 79571449,
+        "count": 2,
+        "comment": "Graceful Charity"
+       },
+       {
         "id": 83764718,
         "count": 1,
         "comment": "Monster Reborn"
        },
        {
-        "id": 81510157,
-        "count": 1,
-        "comment": "Soul Taker"
-       },
-       {
-        "id": 5318639,
-        "count": 1,
-        "comment": "Mystical Space Typhoon"
-       },
-       {
-        "id": 63224564,
-        "count": 1,
-        "comment": "Cyber Shield"
-       },
-       {
-        "id": 98252586,
-        "count": 1,
-        "comment": "Follow Wind"
-       },
-       {
-        "id": 99597615,
-        "count": 1,
-        "comment": "Malevolent Nuzzler"
-       },
-       {
-        "id": 32437102,
-        "count": 1,
-        "comment": "Dragonic Attack"
-       },
-       {
-        "id": 45778932,
-        "count": 1,
-        "comment": "Rising Air Current"
-       },
-       {
-        "id": 58621589,
-        "count": 1,
-        "comment": "Shadow of Eyes"
-       },
-       {
-        "id": 80193355,
-        "count": 1,
-        "comment": "Dramatic Rescue"
-       },
-       {
-        "id": 22359980,
-        "count": 1,
-        "comment": "Mirror Wall"
+        "id": 67987611,
+        "count": 3,
+        "comment": "Amazoness Archers"
        },
        {
         "id": 85742772,
@@ -1797,14 +1913,49 @@
         "comment": "Gravity Bind"
        },
        {
-        "id": 52040216,
+        "id": 22359980,
         "count": 1,
-        "comment": "Harpie's Pet Dragon"
+        "comment": "Mirror Wall"
        },
        {
-        "id": 12493482,
+        "id": 18144506,
         "count": 1,
-        "comment": "Dunames Dark Witch"
+        "comment": "Harpie's Feather Duster"
+       },
+       {
+        "id": 76812113,
+        "count": 3,
+        "comment": "Harpie Lady; no lugar de Cyber Harpie Lady (fora da era); no lugar de Cyber Harpie Lady (fora da era); no lugar de Cyber Harpie Lady (fora da era)"
+       },
+       {
+        "id": 47480070,
+        "count": 2,
+        "comment": "Amazoness Paladin; no lugar de Dramatic Rescue: efeito que quase nunca vale; no lugar de Dramatic Rescue: idem"
+       },
+       {
+        "id": 12580477,
+        "count": 1,
+        "comment": "Raigeki; no lugar de Dramatic Rescue: idem"
+       },
+       {
+        "id": 4031928,
+        "count": 1,
+        "comment": "Change of Heart; no lugar de Amazoness Spellcaster: efeito fraco"
+       },
+       {
+        "id": 44095762,
+        "count": 1,
+        "comment": "Mirror Force; no lugar de Amazoness Spellcaster: idem"
+       },
+       {
+        "id": 56120475,
+        "count": 1,
+        "comment": "Sakuretsu Armor; no lugar de Elegant Egotist: três é demais"
+       },
+       {
+        "id": 4206964,
+        "count": 1,
+        "comment": "Trap Hole; no lugar de Mirror Wall: três é demais"
        }
       ],
       "extra": []
@@ -1824,32 +1975,12 @@
      },
      "bond": false,
      "deck": {
-      "name": "Pegasus anime deck",
+      "name": "Pegasus Deck",
       "main": [
        {
-        "id": 27125110,
-        "count": 1,
-        "comment": "Thousand-Eyes Idol"
-       },
-       {
-        "id": 59383041,
-        "count": 1,
-        "comment": "Toon Alligator"
-       },
-       {
-        "id": 91842653,
-        "count": 1,
-        "comment": "Toon Summoned Skull"
-       },
-       {
-        "id": 65458948,
-        "count": 1,
-        "comment": "Toon Mermaid"
-       },
-       {
-        "id": 16392422,
-        "count": 2,
-        "comment": "Toon Masked Sorcerer"
+        "id": 42386471,
+        "count": 3,
+        "comment": "Toon Gemini Elf"
        },
        {
         "id": 15270885,
@@ -1857,64 +1988,9 @@
         "comment": "Toon Goblin Attack Force"
        },
        {
-        "id": 42386471,
+        "id": 89997728,
         "count": 3,
-        "comment": "Toon Gemini Elf"
-       },
-       {
-        "id": 90960358,
-        "count": 1,
-        "comment": "Toon Dark Magician Girl"
-       },
-       {
-        "id": 79875176,
-        "count": 1,
-        "comment": "Toon Cannon Soldier"
-       },
-       {
-        "id": 53183600,
-        "count": 1,
-        "comment": "Blue-Eyes Toon Dragon"
-       },
-       {
-        "id": 95492061,
-        "count": 2,
-        "comment": "Manju of the Ten Thousand Hands; no lugar de Toon World (cópia acima do limite) (fora da era)"
-       },
-       {
-        "id": 64631466,
-        "count": 1,
-        "comment": "Relinquished"
-       },
-       {
-        "id": 82878489,
-        "count": 1,
-        "comment": "Shine Palace"
-       },
-       {
-        "id": 23265313,
-        "count": 1,
-        "comment": "Cost Down"
-       },
-       {
-        "id": 66788016,
-        "count": 1,
-        "comment": "Fissure"
-       },
-       {
-        "id": 19613556,
-        "count": 1,
-        "comment": "Heavy Storm"
-       },
-       {
-        "id": 83764718,
-        "count": 1,
-        "comment": "Monster Reborn"
-       },
-       {
-        "id": 24094653,
-        "count": 1,
-        "comment": "Polymerization"
+        "comment": "Toon Table of Contents"
        },
        {
         "id": 55144522,
@@ -1922,19 +1998,24 @@
         "comment": "Pot of Greed"
        },
        {
-        "id": 70828912,
+        "id": 91842653,
         "count": 1,
-        "comment": "Premature Burial"
+        "comment": "Toon Summoned Skull"
        },
        {
-        "id": 45986603,
+        "id": 83764718,
         "count": 1,
-        "comment": "Snatch Steal"
+        "comment": "Monster Reborn"
        },
        {
-        "id": 89997728,
-        "count": 3,
-        "comment": "Toon Table of Contents"
+        "id": 90960358,
+        "count": 1,
+        "comment": "Toon Dark Magician Girl"
+       },
+       {
+        "id": 66788016,
+        "count": 1,
+        "comment": "Fissure"
        },
        {
         "id": 15259703,
@@ -1942,44 +2023,104 @@
         "comment": "Toon World"
        },
        {
+        "id": 45986603,
+        "count": 2,
+        "comment": "Snatch Steal; no lugar de Toon Masked Sorcerer: Toon de 900"
+       },
+       {
         "id": 41420027,
         "count": 1,
         "comment": "Solemn Judgment"
        },
        {
-        "id": 43509019,
+        "id": 19613556,
         "count": 1,
-        "comment": "Toon Defense"
+        "comment": "Heavy Storm; +1 no lugar de Toon World (cópia acima do limite); +1 no lugar de Toon World (cópia acima do limite)"
        },
        {
-        "id": 38369349,
-        "count": 2,
-        "comment": "Manga Ryu-Ran"
-       },
-       {
-        "id": 79571449,
+        "id": 70828912,
         "count": 1,
-        "comment": "Graceful Charity; no lugar de Card of Sanctity (fora da era)"
+        "comment": "Premature Burial; +1 no lugar de Toon World (cópia acima do limite)"
        },
        {
         "id": 4031928,
         "count": 1,
-        "comment": "Change of Heart; Change of Heart no lugar do Black Illusion Ritual (a CPU não monta o Ritual)"
-       },
-       {
-        "id": 44095762,
-        "count": 1,
-        "comment": "Mirror Force; Mirror Force no lugar do Ultimate Offering"
+        "comment": "Change of Heart; no lugar de Relinquished: o Ritual quase nunca sai com a CPU"
        },
        {
         "id": 12580477,
         "count": 1,
-        "comment": "Raigeki; Raigeki no lugar de um Jar of Greed"
+        "comment": "Raigeki; no lugar de Black Illusion Ritual: idem"
        },
        {
-        "id": 53129443,
+        "id": 44095762,
         "count": 1,
-        "comment": "Dark Hole; Dark Hole no lugar de um Jar of Greed"
+        "comment": "Mirror Force; no lugar de Thousand-Eyes Idol: a Fusão quase nunca sai"
+       },
+       {
+        "id": 62279055,
+        "count": 2,
+        "comment": "Magic Cylinder; no lugar de Polymerization: idem; no lugar de Manju of the Ten Thousand Hands: buscava o Ritual"
+       },
+       {
+        "id": 56120475,
+        "count": 2,
+        "comment": "Sakuretsu Armor; no lugar de Jar of Greed: efeito fraco; no lugar de Jar of Greed: idem"
+       },
+       {
+        "id": 4206964,
+        "count": 2,
+        "comment": "Trap Hole; no lugar de Ultimate Offering: idem; no lugar de Cost Down: idem"
+       },
+       {
+        "id": 72302403,
+        "count": 1,
+        "comment": "Swords of Revealing Light; no lugar de Toon Alligator: atacante de 800"
+       },
+       {
+        "id": 53582587,
+        "count": 1,
+        "comment": "Torrential Tribute; no lugar de Heavy Storm: três Heavy Storm destroem o próprio Toon World"
+       },
+       {
+        "id": 14087893,
+        "count": 1,
+        "comment": "Book of Moon; no lugar de Heavy Storm: idem"
+       },
+       {
+        "id": 71044499,
+        "count": 1,
+        "comment": "Nobleman of Crossout; no lugar de Toon Masked Sorcerer: idem"
+       },
+       {
+        "id": 83555666,
+        "count": 1,
+        "comment": "Ring of Destruction; no lugar de Toon Defense: efeito fraco"
+       },
+       {
+        "id": 97169186,
+        "count": 1,
+        "comment": "Smashing Ground; no lugar de Premature Burial: o segundo quase nunca tem alvo"
+       },
+       {
+        "id": 70781052,
+        "count": 1,
+        "comment": "Summoned Skull; no lugar de Toon Cannon Soldier: Toon de 1400 que depende do Toon World"
+       },
+       {
+        "id": 69140098,
+        "count": 2,
+        "comment": "Gemini Elf; no lugar de Toon Mermaid: idem; no lugar de Manga Ryu-Ran: nível 7: dois tributos e o Toon World"
+       },
+       {
+        "id": 14898066,
+        "count": 1,
+        "comment": "Vorse Raider; no lugar de Manga Ryu-Ran: idem"
+       },
+       {
+        "id": 49881766,
+        "count": 1,
+        "comment": "Archfiend Soldier; no lugar de Blue-Eyes Toon Dragon: nível 8: dois tributos e o Toon World"
        }
       ],
       "extra": [

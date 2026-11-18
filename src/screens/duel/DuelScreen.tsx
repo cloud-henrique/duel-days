@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal, flushSync } from 'react-dom';
 import { createRoot } from 'react-dom/client';
+import type { CpuKind } from '../../engine/search';
 import { OcgLocation, OcgMessageType, OcgPhase, type OcgResponse } from 'ocgcore-wasm';
 import type { Step } from '../../engine/protocol';
 import { beatText } from '../../engine/beats';
@@ -46,8 +47,10 @@ const SEPARATOR = '—';
 /** O resumo do fim do duelo, do ponto de vista do jogador (para as recompensas da campanha). */
 export interface DuelSummary { result: 'win' | 'lose' | 'draw' | 'forfeit'; turns: number; lifePoints: number }
 
-export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id: DEFAULT_AVATAR, name: 'Você' }, settings = DEFAULT_SETTINGS, onSettings = () => {}, rewardFor, onEnd }: {
+export function DuelScreen({ cards, mine, foe: foeDeck, opponent, cpu, player = { id: DEFAULT_AVATAR, name: 'Você' }, settings = DEFAULT_SETTINGS, onSettings = () => {}, rewardFor, onEnd }: {
   cards: Cards; mine: DeckList; foe: DeckList; opponent: Duelist; player?: Duelist;
+  /** Perfil da CPU: `chefe` para o chefe do tier (pensa mais e vê o que o jogador esconde). */
+  cpu?: CpuKind;
   /** Preferências do jogador (animações, som) e como salvá-las. */
   settings?: Settings; onSettings?: (s: Settings) => void;
   /** O que o duelo rendeu, calculado uma vez quando ele acaba (mostrado no encerramento). */
@@ -119,7 +122,7 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, player = { id:
   const stage = useBeatQueue({ root, layer, speed: settings.anim, reducedMotion, faceOf, before, takeCoinCall });
 
   const engine = useDuelEngine({
-    mine, foe: foeDeck, foeName: opponent.name, stage: stage.run, cancelStage: stage.cancel,
+    mine, foe: foeDeck, foeName: opponent.name, cpu, stage: stage.run, cancelStage: stage.cancel,
     onPrompt: () => { setSel([]); setPeek(false); }, onStep, onNotice: (t) => pushEvents([t]), onLog: (line) => setLog((l) => [...l, line]),
   });
   const { board, prompt, ended, fail } = engine;

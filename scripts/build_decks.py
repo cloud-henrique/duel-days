@@ -55,20 +55,125 @@ REPLACE: dict[str, dict[str, int]] = {
     },
     'pegasus': {
         'Card of Sanctity': 79571449,         # Graceful Charity: compra
-        'Toon World (cópia acima do limite)': 95492061,  # Manju of the Ten Thousand Hands: busca o Ritual (Toon Table já está em 3)
     },
 }
 
-# Ajustes de força depois da receita, para o cenário "Chefe mais forte" (o chefe vence a maioria contra os comuns do
-# tier no proto/tier-balance.ts): duelista → [(id que sai, id que entra, motivo)]. Cada um vira comentário no deck.
-TUNE: dict[str, list[tuple[int, int, str]]] = {
-    # O Ritual (Black Illusion Ritual) e o Ultimate Offering quase nunca saem com a CPU, e o Jar of Greed pouco faz: no
-    # lugar, cartas fortes da era que combinam com o controle de mente do Pegasus (antes: 46% contra os comuns do T2).
+# Reforço de cada deck (change `cpu-estrategica`): com a CPU nova dos dois lados, as receitas de anime perdiam para o
+# deck inicial (combos que não saem, cartas de efeito fraco). Duelista → [(nome que sai, nome que entra, motivo)], dentro
+# do tema do personagem; a meta de cada um contra o deck inicial está no proto/difficulty.ts (Tier 1 ~55%, Tier 2 ~70%,
+# chefes ~85%). Cada troca vira comentário no deck.
+TUNE: dict[str, list[tuple[str, str, str]]] = {
+    'tristan': [
+        ('Robolady', 'Marauding Captain', 'guerreiro de nível 4 que traz outro'),
+    ],
+    'bakura': [
+        ('Spirit Message "L"', 'Ryu Kokki', 'as Spirit Messages só servem ao Destiny Board, que quase nunca completa'),
+        ('Spirit Message "A"', 'Archfiend Soldier', 'idem'),
+        ('Spirit Message "N"', 'Archfiend Soldier', 'idem'),
+        ('Spirit Message "I"', 'Spirit Reaper', 'idem'),
+        ('Destiny Board', 'Pyramid Turtle', 'idem'),
+        ('Jowgen the Spiritualist', 'Sakuretsu Armor', 'efeito fraco no deck'),
+        ('Puppet Master', 'Trap Hole', 'nível 6 de 0 ATK'),
+    ],
+    'yugi': [
+        ('Multiply', 'Change of Heart', 'combo com o Kuriboh, que a CPU quase nunca monta'),
+        ('Kuriboh', 'Sakuretsu Armor', 'idem'),
+        ('Sage\'s Stone', 'Raigeki', 'só com a Maga Negra em campo'),
+        ('Berfomet', 'Sakuretsu Armor', 'nível 5 de 1400; a Fusão quase nunca sai'),
+        ('Polymerization', 'Trap Hole', 'a Fusão quase nunca sai'),
+    ],
+    'weevil': [
+        ('Parasite Paracide', 'Girochin Kuwagata', 'inseto de 1700'),
+        ('Parasite Paracide', 'Girochin Kuwagata', 'idem'),
+        ('Petit Moth', 'Man-Eater Bug', 'a evolução da Moth leva turnos que a CPU não espera'),
+        ('Cocoon of Evolution', 'Man-Eater Bug', 'idem'),
+        ('Cocoon of Evolution', 'Flying Kamakiri #1', 'idem'),
+        ('Perfectly Ultimate Great Moth', 'Insect Princess', 'idem'),
+        ('Great Moth', 'Mirror Force', 'idem'),
+        ('Kiseitai', 'Raigeki', 'efeito fraco'),
+        ('Leghul', 'Change of Heart', 'atacante de 300'),
+        ('Needle Worm', 'Sakuretsu Armor', 'efeito lento'),
+        ('Insect Barrier', 'Sakuretsu Armor', 'só barra insetos'),
+        ('Insect Barrier', 'Trap Hole', 'idem'),
+        ('Jade Insect Whistle', 'Trap Hole', 'efeito fraco'),
+        ('Insect Imitation', 'Torrential Tribute', 'combo que a CPU não monta'),
+        ('Laser Cannon Armor', 'Magic Cylinder', 'repete o Insect Armor'),
+        ('Multiplication of Ants', 'Shrink', 'efeito fraco'),
+        ('Skull-Mark Ladybug', 'Smashing Ground', 'atacante de 500'),
+        ('Cockroach Knight', 'Swords of Revealing Light', 'atacante de 800'),
+    ],
+    'rex': [
+        ('Tomozaurus', 'Spear Dragon', 'dragão de nível 4 com perfuração'),
+        ('Tomozaurus', 'Spear Dragon', 'idem'),
+        ('Little D', 'Luster Dragon', 'dragão de 1900'),
+        ('Trakodon', 'Luster Dragon', 'idem'),
+        ('Trakodon', 'Mad Sword Beast', 'dinossauro com perfuração'),
+        ('Crawling Dragon', 'Mad Sword Beast', 'nível 5 de 1600 pede tributo'),
+        ('Crawling Dragon', 'Gilasaurus', 'dinossauro rápido'),
+        ('Sword Arm of Dragon', 'Black Tyranno', 'dinossauro de 2600'),
+        ('Terraforming', 'Sakuretsu Armor', 'a Wasteland já está em 3'),
+        ('Terraforming', 'Sakuretsu Armor', 'idem'),
+        ('Raise Body Heat', 'Trap Hole', 'efeito fraco'),
+        ('Raise Body Heat', 'Trap Hole', 'idem'),
+        ('Polymerization', 'Fissure', 'Fusões quase nunca saem'),
+    ],
+    'mako': [
+        ('Mystic Lamp', 'Kaiser Sea Horse', 'serpente marinha de 1700'),
+        ('Yormungarde', 'Kaiser Sea Horse', 'idem'),
+        ('Gruesome Goo', 'Amphibious Bugroth MK-3', 'ataque direto com Umi'),
+        ('Sea Kamen', 'Amphibious Bugroth MK-3', 'idem'),
+        ('Jellyfish', 'Penguin Soldier', 'efeito de devolver'),
+        ('Fiend Kraken', 'Levia-Dragon - Daedalus', 'limpa o campo com Umi'),
+        ('Terraforming', 'Sakuretsu Armor', 'o Umi já está em 3'),
+        ('Terraforming', 'Sakuretsu Armor', 'idem'),
+        ('Salvage', 'Trap Hole', 'efeito lento'),
+        ('Salvage', 'Trap Hole', 'idem'),
+        ('Power of Kaishin', 'Torrential Tribute', 'efeito fraco'),
+    ],
+    'keith': [
+        ('Zera Ritual', 'Jinzo', 'o Ritual quase nunca sai'),
+        ('Zera the Mant', 'X-Head Cannon', 'idem'),
+        ('7 Completed', 'X-Head Cannon', 'efeito fraco'),
+        ('7 Completed', 'Robotic Knight', 'idem'),
+        ('7 Completed', 'Robotic Knight', 'idem'),
+        ('Curse of Fiend', 'Mechanicalchaser', 'efeito fraco'),
+        ('Curse of Fiend', 'Cannon Soldier', 'idem'),
+        ('Pendulum Machine', 'Sakuretsu Armor', 'nível 6 de 1750 pede tributo'),
+        ('Slot Machine', 'Sakuretsu Armor', 'nível 7 de 2000 pede dois tributos'),
+        ('Giganto', 'Trap Hole', 'nível 5 de 1700 pede tributo'),
+        ('Gatekeeper', 'Torrential Tribute', 'nível 5 de 1500 pede tributo'),
+    ],
+    'mai': [
+        ('Dramatic Rescue', 'Amazoness Paladin', 'efeito que quase nunca vale'),
+        ('Dramatic Rescue', 'Amazoness Paladin', 'idem'),
+        ('Dramatic Rescue', 'Raigeki', 'idem'),
+        ('Amazoness Spellcaster', 'Change of Heart', 'efeito fraco'),
+        ('Amazoness Spellcaster', 'Mirror Force', 'idem'),
+        ('Elegant Egotist', 'Sakuretsu Armor', 'três é demais'),
+        ('Mirror Wall', 'Trap Hole', 'três é demais'),
+    ],
     'pegasus': [
-        (41426869, 4031928, 'Change of Heart no lugar do Black Illusion Ritual (a CPU não monta o Ritual)'),
-        (80604091, 44095762, 'Mirror Force no lugar do Ultimate Offering'),
-        (83968380, 12580477, 'Raigeki no lugar de um Jar of Greed'),
-        (83968380, 53129443, 'Dark Hole no lugar de um Jar of Greed'),
+        ('Relinquished', 'Change of Heart', 'o Ritual quase nunca sai com a CPU'),
+        ('Black Illusion Ritual', 'Raigeki', 'idem'),
+        ('Thousand-Eyes Idol', 'Mirror Force', 'a Fusão quase nunca sai'),
+        ('Polymerization', 'Magic Cylinder', 'idem'),
+        ('Manju of the Ten Thousand Hands', 'Magic Cylinder', 'buscava o Ritual'),
+        ('Jar of Greed', 'Sakuretsu Armor', 'efeito fraco'),
+        ('Jar of Greed', 'Sakuretsu Armor', 'idem'),
+        ('Ultimate Offering', 'Trap Hole', 'idem'),
+        ('Cost Down', 'Trap Hole', 'idem'),
+        ('Toon Alligator', 'Swords of Revealing Light', 'atacante de 800'),
+        ('Heavy Storm', 'Torrential Tribute', 'três Heavy Storm destroem o próprio Toon World'),
+        ('Heavy Storm', 'Book of Moon', 'idem'),
+        ('Toon Masked Sorcerer', 'Snatch Steal', 'Toon de 900'),
+        ('Toon Masked Sorcerer', 'Nobleman of Crossout', 'idem'),
+        ('Toon Defense', 'Ring of Destruction', 'efeito fraco'),
+        ('Premature Burial', 'Smashing Ground', 'o segundo quase nunca tem alvo'),
+        ('Toon Cannon Soldier', 'Summoned Skull', 'Toon de 1400 que depende do Toon World'),
+        ('Toon Mermaid', 'Gemini Elf', 'idem'),
+        ('Manga Ryu-Ran', 'Gemini Elf', 'nível 7: dois tributos e o Toon World'),
+        ('Manga Ryu-Ran', 'Vorse Raider', 'idem'),
+        ('Blue-Eyes Toon Dragon', 'Archfiend Soldier', 'nível 8: dois tributos e o Toon World'),
     ],
 }
 
@@ -81,6 +186,8 @@ def main() -> None:
         for key in cands:
             picks.setdefault(key, {'index': 0, 'name': cands[key][0]['name'], 'url': cands[key][0]['url'], 'rate': None})
     name = lambda i: cards[str(i)]['name']
+    pool = json.loads((ROOT / 'public/data/pool.json').read_text())
+    by_name = {cards[i]['name']: int(i) for i in pool if i in cards}
     out = {}
     for key, p in picks.items():
         c = cands[key][p['index']]
@@ -99,10 +206,16 @@ def main() -> None:
             else:
                 notes.setdefault(sw['id'], []).append('+1 para fechar 40')
 
-        for out_id, in_id, why in TUNE.get(key, []):
+        for out_name, in_name, why in TUNE.get(key, []):
+            out_id = next((i for i in main if cards[str(i)]['name'] == out_name), None)
+            if out_id is None:
+                sys.exit(f'{key}: TUNE tira {out_name!r}, que não está no deck')
+            in_id = by_name.get(in_name)
+            if in_id is None:
+                sys.exit(f'{key}: TUNE põe {in_name!r}, que não está no pool')
             main.remove(out_id)
             main.append(in_id)
-            notes.setdefault(in_id, []).append(why)
+            notes.setdefault(in_id, []).append(f'no lugar de {out_name}: {why}')
 
         def entries(ids):
             return [{'id': i, 'count': n, 'comment': '; '.join([name(i), *notes.get(i, [])])}

@@ -3,7 +3,7 @@
 // Uso: npx tsx proto/capture-fixtures.ts
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { OcgMessageType, type OcgMessage } from 'ocgcore-wasm';
-import { cpuRespond, makeRng } from '../src/engine/cpu';
+import { randomRespond, makeRng } from '../src/engine/cpu';
 import { DuelDriver } from '../src/engine/driver';
 import { openCore, type CardRecord } from '../src/engine/session';
 import { randomDeck, starterCollection } from '../src/game/decks';
@@ -45,7 +45,7 @@ for (let seed = 1; seed <= 60 && Object.keys(found).length < 9; seed++) {
   for (let k = 0; k < 400 && out.t === 'prompt'; k++) {
     const name = label(out.msg);
     if (name && !found[name]) found[name] = { msg: out.msg, board: out.board };
-    const r = cpuRespond(out.msg, rng, {});
+    const r = randomRespond(out.msg, rng, {});
     if (!r) break;
     out = d.respond(r);
   }

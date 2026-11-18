@@ -1,68 +1,64 @@
-// Força dos decks da campanha (change `campanha-tiers`), com os decks já no campaign.json: cada duelista contra todos
-// os outros (CPU × CPU no DuelDriver, trocando de lado) e o cenário "Chefe mais forte": o chefe de cada tier precisa
-// vencer a maioria dos duelos contra os comuns do mesmo tier.
-// Uso: npx tsx proto/tier-balance.ts [duelosPorPar=30]
-import { readFileSync } from 'node:fs';
-import { cpuRespond, makeRng } from '../src/engine/cpu';
-import { DuelDriver } from '../src/engine/driver';
-import { openCore, type CardRecord, type DeckList } from '../src/engine/session';
-import { DUELISTS, TIERS } from '../src/campaign/data/types';
-import { duelistDeck } from '../src/campaign/decks';
-import type { OcgMessage } from 'ocgcore-wasm';
+// Força dos decks da campanha (changes `campanha-tiers` e `cpu-estrategica`): cada duelista contra os outros do mesmo
+// tier, com a CPU nova dos dois lados (cada um no seu perfil), trocando quem começa, e o cenário "Chefe mais forte": o
+// chefe de cada tier precisa vencer a maioria dos duelos contra os comuns do tier.
+// Uso: npx tsx proto/tier-balance.ts [duelosPorPar=12] [--cpu=barata|busca[:N]] [--procs=N]
+import { TIERS } from '../src/campaign/data/types';
+import { cpuFor, duelistDeck } from '../src/campaign/decks';
+import { cpuDuel, isChild, parallel, serveChild } from './cpu-duel';
+import { cpuMode } from './cpu-mode';
 
-const N = Number(process.argv[2] ?? 30);
-const cards = JSON.parse(readFileSync('public/data/cards.json', 'utf8')) as Record<string, CardRecord>;
-const scripts = JSON.parse(readFileSync('public/scripts.json', 'utf8')) as Record<string, string>;
-const core = await openCore();
+const MODE = cpuMode('busca:12');
+const pi = process.argv.findIndex((a) => a.startsWith('--procs='));
+const PROCS = pi >= 0 ? Number(process.argv.splice(pi, 1)[0].split('=')[1]) : undefined;
+const N = Number(process.argv[2] ?? 12);
 
-function duel(a: DeckList, b: DeckList, seed: number): number {
-  const d = new DuelDriver(core, cards, (n) => scripts[n] ?? null, a, b, seed);
-  const rng = makeRng(seed * 7 + 3);
-  let out = d.run();
-  for (let k = 0; k < 3000 && out.t === 'prompt'; k++) {
-    const r = cpuRespond(out.msg as OcgMessage, rng, {});
-    if (!r) break;
-    out = d.respond(r);
+interface Job { a: string; b: string; i: number }
+
+/** `a` venceu? (null: sem vencedor). Ímpar: `b` começa. */
+async function work({ a, b, i }: Job): Promise<boolean | null> {
+  const swap = i % 2 === 1;
+  const seed = 7000 + i * 13;
+  const r = swap ? await cpuDuel(duelistDeck(b), cpuFor(b), duelistDeck(a), cpuFor(a), seed, MODE.budget)
+    : await cpuDuel(duelistDeck(a), cpuFor(a), duelistDeck(b), cpuFor(b), seed, MODE.budget);
+  return r.winner < 0 ? null : r.winner === (swap ? 1 : 0);
+}
+
+if (isChild()) serveChild(work);
+else {
+  const pairs: [string, string][] = [];
+  for (const t of TIERS) {
+    const ks = t.duelists.map((d) => d.key);
+    for (let x = 0; x < ks.length; x++) for (let y = x + 1; y < ks.length; y++) pairs.push([ks[x], ks[y]]);
   }
-  d.session.destroy();
-  return out.t === 'end' && (out.winner === 0 || out.winner === 1) ? out.winner : -1;
-}
-/** Taxa de vitória de `a` contra `b`. */
-function rate(a: DeckList, b: DeckList, seed0: number) {
-  let wins = 0, games = 0;
-  for (let i = 0; i < N; i++) {
-    const swap = i % 2 === 1;
-    const w = swap ? duel(b, a, seed0 + i) : duel(a, b, seed0 + i);
-    if (w < 0) continue;
-    games++;
-    if ((w === 0) !== swap) wins++;
+  const jobs: Job[] = pairs.flatMap(([a, b]) => Array.from({ length: N }, (_, i) => ({ a, b, i })));
+  console.log(`${MODE.label}; ${N} duelos por par dentro de cada tier (${jobs.length} duelos)`);
+  const res = await parallel<Job, boolean | null>(jobs, PROCS);
+  const rate = (a: string, b: string) => {
+    let w = 0, g = 0;
+    jobs.forEach((j, k) => {
+      const r = res[k];
+      if (r == null) return;
+      if (j.a === a && j.b === b) { g++; if (r) w++; } else if (j.a === b && j.b === a) { g++; if (!r) w++; }
+    });
+    return g ? w / g : 0;
+  };
+  const pct = (x: number) => `${Math.round(x * 100)}%`.padStart(4);
+  let fail = false;
+  for (const t of TIERS) {
+    if (!t.duelists.length) continue;
+    const boss = t.duelists.find((d) => d.isBoss);
+    console.log(`\nTier ${t.number}:`);
+    for (const d of t.duelists) {
+      const others = t.duelists.filter((o) => o.key !== d.key);
+      const avg = others.reduce((s, o) => s + rate(d.key, o.key), 0) / Math.max(1, others.length);
+      console.log(`  ${pct(avg)}  ${d.key}${d.isBoss ? ' (chefe)' : ''}  ${others.map((o) => `${o.key} ${pct(rate(d.key, o.key))}`).join(', ')}`);
+    }
+    if (boss) {
+      const regs = t.duelists.filter((d) => !d.isBoss);
+      const avg = regs.reduce((s, d) => s + rate(boss.key, d.key), 0) / Math.max(1, regs.length);
+      console.log(`  Chefe ${boss.name} contra os comuns: ${pct(avg)}`);
+      if (avg <= 0.5) fail = true;
+    }
   }
-  return games ? wins / games : 0;
+  if (fail) { console.log('ALERTA: um chefe não vence a maioria contra os comuns do tier'); process.exitCode = 1; }
 }
-
-const keys = DUELISTS.map((d) => d.key);
-const decks = Object.fromEntries(keys.map((k) => [k, duelistDeck(k)]));
-const vs: Record<string, Record<string, number>> = {};
-let seed = 1;
-for (let i = 0; i < keys.length; i++) for (let j = i + 1; j < keys.length; j++) {
-  const r = rate(decks[keys[i]], decks[keys[j]], seed); seed += N;
-  (vs[keys[i]] ??= {})[keys[j]] = r;
-  (vs[keys[j]] ??= {})[keys[i]] = 1 - r;
-}
-const pct = (x: number) => `${Math.round(x * 100)}%`.padStart(4);
-console.log(`\nTaxa de vitória contra todos (${N} duelos por par):`);
-const overall = keys.map((k) => ({ k, r: keys.filter((o) => o !== k).reduce((s, o) => s + vs[k][o], 0) / (keys.length - 1) }));
-for (const { k, r } of overall.sort((a, b) => b.r - a.r)) console.log(`  ${pct(r)}  ${k}`);
-
-let fail = false;
-console.log('\nChefe contra os comuns do tier:');
-for (const t of TIERS) {
-  const boss = t.duelists.find((d) => d.isBoss);
-  if (!boss) continue;
-  const regs = t.duelists.filter((d) => !d.isBoss);
-  const rs = regs.map((d) => vs[boss.key][d.key]);
-  const avg = rs.reduce((s, x) => s + x, 0) / rs.length;
-  console.log(`  Tier ${t.number} · ${boss.name}: ${pct(avg)} (${regs.map((d, i) => `${d.key} ${pct(rs[i])}`).join(', ')})`);
-  if (avg <= 0.5) fail = true;
-}
-if (fail) { console.log('ALERTA: um chefe não vence a maioria contra os comuns do tier'); process.exitCode = 1; }

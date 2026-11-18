@@ -3,7 +3,7 @@
 // Uso: npx tsx proto/move-reason.ts [duelos=20]
 import { readFileSync } from 'node:fs';
 import { OcgLocation, OcgMessageType, type OcgMessage } from 'ocgcore-wasm';
-import { cpuRespond, makeRng } from '../src/engine/cpu';
+import { randomRespond, makeRng } from '../src/engine/cpu';
 import { DuelDriver } from '../src/engine/driver';
 import { openCore, type CardRecord } from '../src/engine/session';
 import { randomDeck } from '../src/game/decks';
@@ -44,7 +44,7 @@ for (let i = 0; i < N; i++) {
   const rng = makeRng(i * 13 + 5);
   let out = d.run();
   for (let k = 0; k < 3000 && out.t === 'prompt'; k++) {
-    const r = cpuRespond(out.msg as OcgMessage, rng, {});
+    const r = randomRespond(out.msg as OcgMessage, rng, {});
     if (!r) break;
     out = d.respond(r);
   }

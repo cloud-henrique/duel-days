@@ -12,9 +12,23 @@ export interface DuelAssets {
   script(name: string): string | null;
 }
 
+/** Carta colocada direto numa zona antes do duelo (quebra-cabeças dos testes). */
+export interface PlacedCard { p: 0 | 1; code: number; location: OcgLocation; seq?: number; position?: OcgPosition }
+export interface DuelOptions {
+  seed?: bigint; flags?: bigint; log?: (t: string) => void;
+  /** Cartas já em jogo (quebra-cabeças). */
+  placed?: PlacedCard[];
+  /** LP inicial de cada lado (padrão 8000). */
+  lp?: [number, number];
+  /** Cartas na mão inicial (padrão 5). */
+  startingDraw?: number;
+}
+
 export interface DuelSession {
   core: OcgCoreSync;
   handle: OcgDuelHandle;
+  /** Todas as respostas enviadas ao motor, em ordem: com a semente e os decks, reproduzem o duelo (`forkDuel`). */
+  readonly log: OcgResponse[];
   /** Avança o motor até pedir uma resposta (ou acabar). Devolve as mensagens do trecho. */
   step(): { status: OcgProcessResult; messages: OcgMessage[] };
   respond(r: OcgResponse): void;
@@ -27,14 +41,14 @@ export async function openCore() {
 
 export function startDuel(
   core: OcgCoreSync, assets: DuelAssets, decks: [DeckList, DeckList],
-  opts: { seed?: bigint; flags?: bigint; log?: (t: string) => void } = {},
+  opts: DuelOptions = {},
 ): DuelSession {
   const log = opts.log ?? (() => {});
   const handle = core.createDuel({
     flags: opts.flags ?? OcgDuelMode.MODE_MR1,
     seed: [opts.seed ?? 1n, 2n, 3n, 4n],
-    team1: { startingLP: 8000, startingDrawCount: 5, drawCountPerTurn: 1 },
-    team2: { startingLP: 8000, startingDrawCount: 5, drawCountPerTurn: 1 },
+    team1: { startingLP: opts.lp?.[0] ?? 8000, startingDrawCount: opts.startingDraw ?? 5, drawCountPerTurn: 1 },
+    team2: { startingLP: opts.lp?.[1] ?? 8000, startingDrawCount: opts.startingDraw ?? 5, drawCountPerTurn: 1 },
     cardReader: (code) => {
       const c = assets.cards[String(code)];
       if (!c) { log(`carta ausente: ${code}`); return null; }
@@ -71,9 +85,15 @@ export function startDuel(
           sequence: 0, position: OcgPosition.FACEDOWN_DEFENSE,
         }));
   }
+  for (const c of opts.placed ?? [])
+    core.duelNewCard(handle, {
+      team: c.p, duelist: 0, code: c.code, controller: c.p, location: c.location,
+      sequence: c.seq ?? 0, position: c.position ?? OcgPosition.FACEUP_ATTACK,
+    });
   core.startDuel(handle);
+  const responses: OcgResponse[] = [];
   return {
-    core, handle,
+    core, handle, log: responses,
     step() {
       const messages: OcgMessage[] = [];
       for (let guard = 0; ; guard++) {
@@ -83,7 +103,29 @@ export function startDuel(
         if (status !== OcgProcessResult.CONTINUE) return { status, messages };
       }
     },
-    respond: (r) => core.duelSetResponse(handle, r),
+    respond: (r) => { responses.push(r); core.duelSetResponse(handle, r); },
     destroy: () => core.destroyDuel(handle),
   };
+}
+
+/**
+ * Cópia de um duelo em andamento. O ocgcore não copia estado, mas o duelo é determinístico: a mesma semente, os mesmos
+ * decks e as mesmas respostas reproduzem o mesmo duelo. Cada resposta do registro veio depois de exatamente um `step()`
+ * (é assim que o `DuelDriver` conduz), então a cópia faz o mesmo e para logo depois da última resposta: o próximo
+ * `step()` devolve o prompt atual. `onMessages` vê as mensagens da reprodução (LP, turno).
+ */
+export function forkDuel(
+  core: OcgCoreSync, assets: DuelAssets, decks: [DeckList, DeckList], opts: DuelOptions, log: readonly OcgResponse[],
+  onMessages?: (ms: OcgMessage[]) => void,
+): DuelSession {
+  const s = startDuel(core, assets, decks, opts);
+  try {
+    for (const r of log) {
+      const { status, messages } = s.step();
+      onMessages?.(messages);
+      if (status === OcgProcessResult.END) break;
+      s.respond(r);
+    }
+  } catch (e) { s.destroy(); throw e; }
+  return s;
 }

@@ -3,7 +3,7 @@
 // Uso: npx tsx proto/coin-call.ts
 import { readFileSync } from 'node:fs';
 import { OcgMessageType, OcgResponseType, SelectIdleCMDAction, type OcgMessage } from 'ocgcore-wasm';
-import { cpuRespond, makeRng } from '../src/engine/cpu';
+import { randomRespond, makeRng } from '../src/engine/cpu';
 import { DuelDriver } from '../src/engine/driver';
 import { openCore, type CardRecord } from '../src/engine/session';
 
@@ -33,7 +33,7 @@ for (let seed = 1; seed <= 20; seed++) {
       if (act >= 0) { out = d.respond({ type: OcgResponseType.SELECT_IDLECMD, action: SelectIdleCMDAction.SELECT_ACTIVATE, index: act }); continue; }
       if (!summoned && tw >= 0) { summoned = true; out = d.respond({ type: OcgResponseType.SELECT_IDLECMD, action: SelectIdleCMDAction.SELECT_SUMMON, index: tw }); continue; }
     }
-    out = d.respond(cpuRespond(m, rng, {})!);
+    out = d.respond(randomRespond(m, rng, {})!);
   }
   d.session.destroy();
   if (done) break;

@@ -1,5 +1,6 @@
 import type { OcgMessage, OcgResponse } from 'ocgcore-wasm';
 import type { DeckList } from './session';
+import type { CpuKind } from './search';
 
 export interface BoardCard { code: number; position: number; attack?: number; defense?: number }
 export interface PlayerBoard {
@@ -50,7 +51,8 @@ export type Beat =
 export interface Step { beat: Beat; board?: Board; together?: boolean; think?: boolean }
 
 export type ToWorker =
-  | { t: 'start'; seed: number; mine: DeckList; foe: DeckList; base: string; debug?: boolean }
+  /** `cpu`: perfil da CPU (o chefe do tier joga como `chefe`); sem ele, `comum`. */
+  | { t: 'start'; seed: number; mine: DeckList; foe: DeckList; base: string; debug?: boolean; cpu?: CpuKind }
   | { t: 'respond'; response: OcgResponse }
   /** Liga/desliga a resposta automática "não" às correntes opcionais do jogador. */
   | { t: 'autoPass'; value: boolean }
@@ -60,6 +62,11 @@ export type FromWorker =
   /** `steps`: o que aconteceu desde a última mensagem, em ordem; `board`: o tabuleiro final; `notice`: aviso (ex.: jogada inválida). */
   | { t: 'prompt'; msg: OcgMessage; board: Board; steps: Step[]; notice?: string }
   | { t: 'end'; winner: number; board: Board; steps: Step[] }
+  /**
+   * Parte dos steps, enviada antes de cada decisão da CPU: a tela encena enquanto ela pensa. Também serve de sinal de
+   * vida para o vigia (pode vir vazia).
+   */
+  | { t: 'steps'; steps: Step[] }
   | { t: 'error'; text: string }
   | { t: 'debug'; text: string }
   | { t: 'pong'; n: number };

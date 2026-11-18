@@ -2,7 +2,7 @@
 // Uso: npx tsx proto/idle-probe.ts [sementes=60]
 import { readFileSync } from 'node:fs';
 import { OcgMessageType, OcgProcessResult, OcgResponseType, SelectIdleCMDAction, type OcgMessage } from 'ocgcore-wasm';
-import { cpuRespond, freePlaces, isSelect, makeRng } from '../src/engine/cpu';
+import { randomRespond, freePlaces, isSelect, makeRng } from '../src/engine/cpu';
 import { randomDeck } from '../src/game/decks';
 import { openCore, startDuel, type CardRecord } from '../src/engine/session';
 
@@ -22,7 +22,7 @@ function toIdle(s: ReturnType<typeof mk>, rng: () => number) {
     const sel = [...messages].reverse().find(isSelect);
     if (!sel) return null;
     if ((sel as { player: number }).player === 0 && sel.type === OcgMessageType.SELECT_IDLECMD) return sel;
-    const r = cpuRespond(sel, rng); if (!r) return null; s.respond(r);
+    const r = randomRespond(sel, rng); if (!r) return null; s.respond(r);
   }
   return null;
 }
@@ -49,7 +49,7 @@ for (let seed = 1; seed <= N; seed++) {
         if (!sel) { verdict = 'sem prompt'; detail = `seed ${seed} idx ${idx} msgs ${messages.map((x) => OcgMessageType[x.type]).join(',')}`; break; }
         if (sel.type === OcgMessageType.SELECT_IDLECMD || sel.type === OcgMessageType.SELECT_CHAIN) break;
         if (sel.type === OcgMessageType.SELECT_PLACE || sel.type === OcgMessageType.SELECT_DISFIELD) { s.respond({ type: sel.type === OcgMessageType.SELECT_PLACE ? OcgResponseType.SELECT_PLACE : OcgResponseType.SELECT_DISFIELD, places: freePlaces(sel.field_mask, sel.player, sel.count) }); continue; }
-        const r = cpuRespond(sel, rng); if (!r) { verdict = `prompt sem resposta ${OcgMessageType[sel.type]}`; break; } s.respond(r);
+        const r = randomRespond(sel, rng); if (!r) { verdict = `prompt sem resposta ${OcgMessageType[sel.type]}`; break; } s.respond(r);
       }
       s.destroy();
       if (verdict === 'ok') ok[label] = (ok[label] ?? 0) + 1; else (bad[`${label}: ${verdict}`] ??= []).push(detail);
