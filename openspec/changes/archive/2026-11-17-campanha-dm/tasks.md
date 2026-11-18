@@ -113,7 +113,7 @@
 - [x] 8.1 `src/audio/music.ts` (`<audio loop>` por faixa ligado a um `GainNode`, fade, mesma faixa não reinicia,
   pausa no `visibilitychange`, silêncio sem arquivo) e `useMusic(track)` nas telas, conforme a tabela do spec.
   Verificar: testes com um relógio falso e um áudio de mentira.
-- [ ] 8.2 Ajustes de música (interruptor e volume) no título e no menu do duelo, salvos nos `settings`. Verificar: teste
+- [x] 8.2 Ajustes de música (interruptor e volume) no título e no menu do duelo, salvos nos `settings`. Verificar: teste
   do `SettingsChoices` e, no simulador de iOS, a troca mapa → duelo → vitória com fade e o volume obedecendo.
 
 ## 9. Integração
