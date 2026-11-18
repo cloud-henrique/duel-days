@@ -19,6 +19,24 @@ export const isExtraCard = (c: CardRecord) => (c.type & (0x40 | 0x2000 | 0x80000
 
 export const count = (list: number[]) => list.reduce<Record<number, number>>((m, c) => ((m[c] = (m[c] ?? 0) + 1), m), {});
 
+/**
+ * Por que a carta não pode entrar no deck agora (as mensagens do nativo), ou `null` se pode. `owned` são as cópias da
+ * coleção; o limite é o menor entre a regra (3, ou 1 nas limitadas) e o que o jogador tem.
+ */
+export function addRefusal(d: DeckList, code: number, cards: Cards, owned: Record<string, number>): string | null {
+  const c = cards[String(code)];
+  if (!c) return 'Carta desconhecida';
+  const inDeck = [...d.main, ...d.extra].filter((x) => x === code).length;
+  const have = owned[String(code)] ?? 0;
+  const rule = maxCopiesOf(code);
+  const plural = (n: number) => `${n} cópia${n === 1 ? '' : 's'}`;
+  if (inDeck >= rule) return `Máximo de ${plural(rule)}`;
+  if (inDeck >= have) return `Você só tem ${plural(have)}`;
+  if (isExtraCard(c) ? d.extra.length >= EXTRA_MAX : d.main.length >= MAIN_MAX)
+    return isExtraCard(c) ? 'O Extra Deck está cheio' : 'O deck principal está cheio';
+  return null;
+}
+
 /** Lista de problemas do deck (vazia = válido). Com `owned`, também confere a coleção. */
 export function validateDeck(d: DeckList, cards: Cards, owned?: Record<string, number>): string[] {
   const out: string[] = [];

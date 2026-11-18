@@ -20,6 +20,7 @@ npx tsx proto/story-smoke.ts        # 200 campanhas de 30 dias pelo modelo: cena
 npx tsx proto/economy-smoke.ts      # pacotes da campanha (70/20/10 no slot) e decks válidos (inicial e oponentes)
 npx tsx proto/sort-check.ts         # ordenar o topo do Deck (SORT_CARD) contra o motor real
 node proto/shop-e2e.mjs [url] [--reduzir]   # loja no WebKit contra o dev server (?campaign=shop): comprar, abrir, caixa
+node proto/deck-e2e.mjs [url] [--reduzir]   # editor no WebKit (dev server): gaveta, ordem, zoom, arrastar, recusa, Coleção
 node proto/webkit-e2e.mjs [url] [normal|rápida|desligada] [--reduzir] [--turno]   # fluxo no WebKit (Playwright) contra o preview
 node proto/duel-e2e.mjs [url] [--reduzir]   # duelo inteiro no WebKit, na velocidade normal: mede se fica preso numa encenação
 npx tsx proto/move-reason.ts        # confere o `reason` do MSG_MOVE (patch do ocgcore-wasm)
@@ -73,7 +74,8 @@ pelo `.hexbg` do `styles.css`.
   - Lugares na tela: zonas, mãos, deck, cemitério e placa têm `data-loc` = `locKey`. Sem lugar visível (banidas, Extra,
     fora do jogo), a animação sai da placa do dono.
 - `src/audio/sfx.ts`: efeitos com Web Audio (buffers decodificados uma vez, anti-repetição de 60 ms, `settings.sound`), os do
-  duelo e os da interface (`tap`, `back`, `dialogue`, `purchase`, e `tear`/`rare` da abertura de pacote). `buttonSounds.ts`: **todo botão fora do `.duel` toca o
+  duelo e os da interface (`tap`, `back`, `dialogue`, `purchase`, `tear`/`rare` da abertura de pacote e
+  `cardAdd`/`cardRemove` do editor). `buttonSounds.ts`: **todo botão fora do `.duel` toca o
   som de toque** por um ouvinte só no documento (voltar/fechar/cancelar e `.danger` tocam o `back`; `data-sound` troca ou
   cala); não chame `sfx.play('tap')` nas telas.
   `src/audio/music.ts`: uma faixa em laço por tela (`<audio>` com fade cruzado de 1 s, a que sai volta ao começo, o laço
@@ -105,7 +107,8 @@ pelo `.hexbg` do `styles.css`.
     `rewards.ts` (`applyDuel`: DP com bônus, carta, assinatura, chefe, laço e o período), `packs.ts` (loja e sorteio 4+1),
     `flow.ts` (conhecer, `pendingDuel`), `text.ts` (`{nome}` e `{m|f|n}`), `debug.ts` (`?campaign=last-evening|bond|boss|tier2|pegasus|shop`
     em dev ou com `?debug=1`).
-- `src/screens/campaign/`: `MapScreen` (só as cabeças nos pontos, como no Tag Force Special; + `CampaignHeader`, `Hearts`),
+- `src/screens/campaign/`: `MapScreen` (só as cabeças nos pontos, como no Tag Force Special; barra Deck/Coleção/Laços/Loja e o
+  menu do cabeçalho abre as Opções com o Status; + `CampaignHeader`, `Hearts`), `CollectionScreen` (totais e a grade da maleta),
   `EncounterScreen` (cena do duelista: fundo e lugar; sem corações nem Conversar para quem não tem laço), `Dialogue` (o palco do
   nativo: `TopBar` com lugar e subtítulo, placa de corações, fundo desfocado com o filtro do período e o circuito,
   personagem a 60% da altura abaixo da barra, folha de baixo com placa do nome e brilho na cor de quem fala, "Pular"), `BondsScreen`, `StatusScreen`, `CampaignEnd`, `chars.ts`
@@ -116,7 +119,15 @@ pelo `.hexbg` do `styles.css`.
   tudo", caixa pacote a pacote, "Abrir todos" e resumo), `opening.ts` (**estado puro** da abertura e os sons de cada
   passo), `ShopCounter` (o vovô pelo `Sprite`, saldo contando, balão), `useSpeech` + `src/campaign/shopkeeper.ts` (falas
   do `shopkeeper` pela semente), `pacing.ts` (`SHOP_PACING`, os tempos da loja). **A compra grava antes da encenação.**
-- `src/screens/`: `DeckBuilder` (sobre o `CampaignState`), `title/`, `profile/`. `src/components/`:
+- `src/screens/deck/` (change `editor-nativo`): o editor "Meu deck" no visual do nativo. `DeckEditor` (cabeçalho com
+  PRONTO/problemas, painel do deck agrupado em 6 colunas, maleta numa gaveta de 3 posições), `DeckSheet` (até 5 decks:
+  Novo, Renomear, Apagar, "Usar este deck"), `TrunkBar` + `TrunkGrid` + `useTrunk` (a maleta: as 10 ordens do nativo,
+  filtros, busca sem acento, cópias uma a uma; também na `CollectionScreen`), `trunk.ts` (**puro**: ordenar, filtrar,
+  grupos do deck), `useDrawer` (gaveta), `useCardDrag` (arrastar), `useStored` (ajustes do aparelho no `localStorage`),
+  `pacing.ts` (`DECK_PACING`). A recusa com motivo é o `addRefusal` do `game/decks.ts`; a ordem de obtenção é o
+  `acquired` do save (gravado no `addCards`).
+- `src/ui/Modal.tsx`: o diálogo do jogo (véu + `Backdrop` + painel), usado pela loja, pelo editor e pelas Opções do mapa.
+- `src/screens/`: `title/`, `profile/`. `src/components/`:
   `CardSheet.tsx` (folha da carta + `Backdrop`) e `CardFace.tsx` (face própria da carta em PT, medidas da carta de
   referência de 320 em `cardface.css`; conferência em dev com `?cardfaces`).
 - `src/story/`: `progress.ts` (save em IndexedDB via Dexie: perfil, estatísticas, `settings` de animação/som/música, lidas
@@ -172,6 +183,10 @@ pelo `.hexbg` do `styles.css`.
   cabeças vão nos `mapPoints` do `tiers.json` (pontos no meio do panorama, onde a tela abre).
 - **`overflow: clip` na cena** (`.story.campaign-scene`): com `hidden`, o foco num botão rolava o contêiner para o lado.
 - Os seletores da campanha que disputam com o `styles.css` (carrega depois) precisam de duas classes (ex.: `.pack.shoppack`).
+- **Arrastar no iOS** (`useCardDrag`): só arma depois de segurar 300 ms sem mexer (mexer antes é rolagem); armado, um
+  `touchmove` **não passivo** no documento impede a rolagem, e o `click` seguinte é engolido. Os ouvintes do `window`
+  saem de uma fábrica criada uma vez (funções novas a cada render não sairiam no `removeEventListener`). A fantasma é
+  um portal no `body`. Cartas com `-webkit-touch-callout: none` (senão o iOS abre o menu da imagem).
 
 ## Diagnóstico
 

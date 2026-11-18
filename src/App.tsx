@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { DeckBuilder } from './screens/DeckBuilder';
+import { DeckEditor } from './screens/deck/DeckEditor';
+import { CollectionScreen } from './screens/campaign/CollectionScreen';
 import { DuelScreen, type DuelSummary } from './screens/duel/DuelScreen';
 import type { OutroReward } from './screens/duel/anim/Outro';
 import { ShopScreen } from './screens/shop/ShopScreen';
@@ -38,7 +39,7 @@ const BASE = import.meta.env.BASE_URL;
 /** A faixa de cada tela (a do fim do duelo, vitória ou derrota, quem escolhe é o `DuelScreen`). */
 function trackFor(s: Screen): Track {
   switch (s.v) {
-    case 'map': case 'decks': case 'bonds': case 'status': case 'end': return 'map';
+    case 'map': case 'decks': case 'collection': case 'bonds': case 'status': case 'end': return 'map';
     case 'shop': case 'shop-pack': return 'shop';
     case 'encounter': case 'scene': return 'encounter';
     case 'duel': return duelistData(s.duelist).isBoss ? 'boss-duel' : 'duel';
@@ -50,6 +51,7 @@ type Screen =
   | { v: 'title' } | { v: 'profile' } | { v: 'settings' } | { v: 'nodeck' }
   | { v: 'map' } | { v: 'shop' } | { v: 'shop-pack'; key: string } | { v: 'bonds' } | { v: 'status' } | { v: 'end' } | { v: 'resume' }
   | { v: 'decks'; back: Screen }
+  | { v: 'collection'; back: Screen }
   | { v: 'encounter'; duelist: string; after?: Scene; first?: boolean }
   | { v: 'duel'; duelist: string; kind: DuelKind }
   /** Uma cena avulsa (rever evento, epílogo) no lugar do duelista; depois, `then`. */
@@ -165,7 +167,9 @@ export function App() {
 
   switch (screen.v) {
     case 'decks':
-      return <DeckBuilder progress={c} data={data} onChange={setCampaign} onBack={() => go(screen.back)} />;
+      return <DeckEditor progress={c} data={data} onChange={setCampaign} onBack={() => go(screen.back)} />;
+    case 'collection':
+      return <CollectionScreen s={c} data={data} onBack={() => go(screen.back)} />;
     case 'shop':
       return <ShopScreen campaign={c} data={data} chars={chars} profile={profile} onChange={setCampaign} onBack={toMap}
         onPack={(key) => go({ v: 'shop-pack', key })} />;
@@ -186,7 +190,7 @@ export function App() {
     }
     case 'end': {
       const ep = epilogue(c);
-      return <CampaignEnd s={c} onTitle={toTitle} onRestart={restart} onCollection={() => go({ v: 'decks', back: { v: 'end' } })}
+      return <CampaignEnd s={c} onTitle={toTitle} onRestart={restart} onCollection={() => go({ v: 'collection', back: { v: 'end' } })}
         onEpilogue={() => ep && go({ v: 'scene', duelist: ep.duelist.key, scene: ep.scene, then: { v: 'end' } })} />;
     }
     case 'resume': {
@@ -250,7 +254,8 @@ export function App() {
 
   function mapView() {
     return (
-      <MapScreen s={c!} onMenu={toTitle} onShop={() => go({ v: 'shop' })} onDecks={() => go({ v: 'decks', back: { v: 'map' } })}
+      <MapScreen s={c!} onTitle={toTitle} onShop={() => go({ v: 'shop' })} onDecks={() => go({ v: 'decks', back: { v: 'map' } })}
+        onCollection={() => go({ v: 'collection', back: { v: 'map' } })}
         onBonds={() => go({ v: 'bonds' })} onStatus={() => go({ v: 'status' })}
         onMeet={(k) => { setCampaign(meet(c!, k)); go({ v: 'encounter', duelist: k, first: !c!.met.includes(k) }); }} />
     );

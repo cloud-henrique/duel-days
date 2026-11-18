@@ -17,9 +17,11 @@ DEFAULT_SRC = Path.home() / 'Projects/personal/duel-academy/App/DuelAcademy/Soun
 OUT = ROOT / 'public/sounds'
 # Os efeitos do duelo e da interface, com o nome do nativo (`sfx-<nome>.caf`); o mesmo nome sai em
 # `public/sounds/<nome>.m4a`. Interface: o toque dos botões (`tap`), o voltar (`back`), avançar a fala, a compra e, na
-# abertura de pacote, rasgar (`tear`) e o brilho da Super/Ultra (`rare`).
+# abertura de pacote, rasgar (`tear`) e o brilho da Super/Ultra (`rare`); no editor, pôr e tirar carta (`card-add`,
+# `card-remove`).
 SOUNDS = ['draw', 'summon', 'set', 'flip', 'activate', 'attack', 'damage', 'heal', 'destroy', 'end-turn', 'coin-toss',
-          'victory', 'defeat', 'tap', 'back', 'dialogue-advance', 'purchase', 'tear', 'rare']
+          'victory', 'defeat', 'tap', 'back', 'dialogue-advance', 'purchase', 'tear', 'rare',
+          'card-add', 'card-remove']
 MAX_TOTAL_BYTES = 3 * 1024 * 1024
 
 

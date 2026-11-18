@@ -8,7 +8,7 @@ import { newCampaign, type CampaignState } from '../../campaign/state';
 import { ShopScreen } from '../shop/ShopScreen';
 import { PackDetail } from '../shop/PackDetail';
 import { packByKey, packStats } from '../../campaign/packs';
-import { DeckBuilder } from '../DeckBuilder';
+import { CollectionScreen } from './CollectionScreen';
 import { expressionFor } from './chars';
 import { MapScreen } from './MapScreen';
 import { EncounterScreen } from './EncounterScreen';
@@ -119,18 +119,21 @@ describe('PackDetail', () => {
   });
 });
 
-describe('DeckBuilder na campanha', () => {
-  it('edita o deck da campanha (coleção do deck inicial)', () => {
+describe('CollectionScreen', () => {
+  it('totais e cada cópia uma miniatura; o zoom não põe no deck', () => {
     const s = newCampaign(5);
-    const onChange = vi.fn();
-    render(<DeckBuilder progress={s} data={fakeData()} onChange={onChange} onBack={vi.fn()} />);
-    expect(screen.getByText(/cartas diferentes/).textContent).toContain(String(Object.keys(s.collection).length));
+    const total = Object.values(s.collection).reduce((a, n) => a + n, 0);
+    const { container } = render(<CollectionScreen s={s} data={fakeData()} onBack={vi.fn()} />);
+    expect(container.querySelector('.colltotals')!.textContent).toContain(`${Object.keys(s.collection).length}Cartas diferentes`);
+    expect(container.querySelector('.colltotals')!.textContent).toContain(`${total}No total`);
+    fireEvent.click(container.querySelector('.trunkgrid .cell')!);
+    expect(screen.queryByRole('button', { name: /Pôr no deck/ })).toBeNull();
   });
 });
 
 describe('MapScreen', () => {
   const noop = () => {};
-  const props = { onShop: noop, onDecks: noop, onBonds: noop, onStatus: noop, onMenu: noop };
+  const props = { onShop: noop, onDecks: noop, onCollection: noop, onBonds: noop, onStatus: noop, onTitle: noop };
 
   it('só as cabeças, sem nome de lugar; tocar numa cabeça vai direto ao encontro', () => {
     const s = newCampaign(5);
@@ -150,6 +153,17 @@ describe('MapScreen', () => {
     expect(document.querySelector('.pinhead.boss svg')).toBeTruthy();
     fireEvent.click(screen.getByRole('button', { name: /Loja/ }));
     expect(onShop).toHaveBeenCalled();
+  });
+
+  it('Coleção na barra; Status pelas Opções do menu', () => {
+    const onCollection = vi.fn(), onStatus = vi.fn();
+    render(<MapScreen s={newCampaign(5)} onMeet={vi.fn()} {...props} onCollection={onCollection} onStatus={onStatus} />);
+    expect(screen.queryByRole('button', { name: /^Status$/ })).toBeNull();
+    fireEvent.click(screen.getByRole('button', { name: /Coleção/ }));
+    expect(onCollection).toHaveBeenCalled();
+    fireEvent.click(screen.getByRole('button', { name: 'Menu' }));
+    fireEvent.click(screen.getByRole('button', { name: /Status da campanha/ }));
+    expect(onStatus).toHaveBeenCalled();
   });
 });
 

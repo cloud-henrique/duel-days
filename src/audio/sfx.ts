@@ -13,7 +13,7 @@ import { rlog } from '../debug/remote';
 import { music, setAudioContextSource } from './music';
 
 /** Sons da interface (fora do duelo), como os do `SoundPlayer` do nativo. */
-export type UiSound = 'tap' | 'back' | 'dialogue' | 'purchase' | 'tear' | 'rare';
+export type UiSound = 'tap' | 'back' | 'dialogue' | 'purchase' | 'tear' | 'rare' | 'cardAdd' | 'cardRemove';
 export type Sound = DuelSound | UiSound;
 
 /** Arquivo de cada som em `public/sounds/` (nomes do app nativo; `scripts/copy_sounds.py`). */
@@ -21,7 +21,7 @@ export const SOUND_FILES: Record<Sound, string> = {
   draw: 'draw', summon: 'summon', set: 'set', flip: 'flip', activate: 'activate', attack: 'attack', damage: 'damage',
   heal: 'heal', destroy: 'destroy', endTurn: 'end-turn', coin: 'coin-toss', victory: 'victory', defeat: 'defeat',
   tap: 'tap', back: 'back', dialogue: 'dialogue-advance', purchase: 'purchase',
-  tear: 'tear', rare: 'rare',
+  tear: 'tear', rare: 'rare', cardAdd: 'card-add', cardRemove: 'card-remove',
 };
 /** Volume próprio de cada som (o do nativo): o fim de turno e a compra a 0,7; os toques da interface a 0,45. */
 export const SOUND_GAIN: Partial<Record<Sound, number>> = { endTurn: 0.7, purchase: 0.7, tap: 0.45, back: 0.45, dialogue: 0.45 };

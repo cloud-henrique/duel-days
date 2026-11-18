@@ -34,6 +34,8 @@ export interface CampaignState {
   /** Pacotes ganhos ainda fechados (chaves), abertos na loja. */
   unopenedPacks: string[];
   packsOpened: number;
+  /** Cartas na ordem em que entraram na coleção (para ordenar por "Obtenção"; saves antigos não têm). */
+  acquired?: number[];
   wins: number;
   losses: number;
   totalDPEarned: number;
@@ -58,6 +60,7 @@ export function newCampaign(seed: number): CampaignState {
   return {
     version: 1, seed: seed >>> 0, day: 1, period: 0, dp: 0,
     collection,
+    acquired: [...new Set(starter.main)],
     decks: [{ id: STARTER_DECK_ID, name: CAMPAIGN.starterDeck.name, main: starter.main, extra: [] }],
     activeDeck: STARTER_DECK_ID,
     victories: {}, defeatedBosses: [], bossDefeatedOn: {}, unopenedPacks: [...CAMPAIGN.startingPacks], packsOpened: 0,
@@ -73,8 +76,12 @@ export const clone = (s: CampaignState): CampaignState => structuredClone(s);
 export const copies = (s: CampaignState, id: number) => s.collection[String(id)] ?? 0;
 
 /** Põe cartas na coleção (muda `s`; use num clone). */
+/** Põe cartas na coleção (muda `s`). A primeira cópia de cada uma entra no fim de `acquired`. */
 export function addCards(s: CampaignState, ids: number[]) {
-  for (const id of ids) s.collection[String(id)] = (s.collection[String(id)] ?? 0) + 1;
+  for (const id of ids) {
+    if (!s.collection[String(id)]) (s.acquired ??= []).push(id);
+    s.collection[String(id)] = (s.collection[String(id)] ?? 0) + 1;
+  }
 }
 
 export function earnDP(s: CampaignState, amount: number) {

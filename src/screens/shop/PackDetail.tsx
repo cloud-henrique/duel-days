@@ -7,13 +7,13 @@ import {
   RARITY_NAME, type PackOpening,
 } from '../../campaign/packs';
 import { copies, type CampaignState } from '../../campaign/state';
-import { Backdrop } from '../../components/CardSheet';
 import { CardFace } from '../../components/CardFace';
 import { CardZoom } from '../../components/CardZoom';
 import type { GameData } from '../../data/cards';
 import type { Profile } from '../../story/profile';
 import { Dp } from '../../ui/Dp';
 import { GameIcon } from '../../ui/icons';
+import { Modal } from '../../ui/Modal';
 import { TopBar } from '../../ui/TopBar';
 import { useReducedMotion } from '../duel/anim/useReducedMotion';
 import type { CharInfo } from '../campaign/chars';
@@ -134,19 +134,15 @@ export function PackDetail({ packKey, campaign: s, data, chars, profile, onChang
       )}
 
       {confirmBox && (
-        <div className="shopmodal" role="dialog" aria-modal="true" aria-labelledby="box-title">
-          <Backdrop onClose={() => setConfirmBox(false)} />
-          <div className="hud panelbox shopdialog">
-            <h4 id="box-title" className="game-title">Comprar a caixa?</h4>
-            <p>{BALANCE.boxSize} pacotes de {name} por <Dp value={box} />.</p>
-            <p>Você economiza <Dp value={saving} /> em relação a {BALANCE.boxSize} pacotes avulsos.</p>
-            <p>Saldo depois: <Dp value={s.dp - box} /></p>
-            <div className="acts">
-              <button className="hud-btn secondary" onClick={() => setConfirmBox(false)}>Cancelar</button>
-              <button className="hud-btn primary" onClick={doBox}><GameIcon name="box" size={18} /> Comprar a caixa</button>
-            </div>
+        <Modal title="Comprar a caixa?" onClose={() => setConfirmBox(false)}>
+          <p>{BALANCE.boxSize} pacotes de {name} por <Dp value={box} />.</p>
+          <p>Você economiza <Dp value={saving} /> em relação a {BALANCE.boxSize} pacotes avulsos.</p>
+          <p>Saldo depois: <Dp value={s.dp - box} /></p>
+          <div className="acts">
+            <button className="hud-btn secondary" onClick={() => setConfirmBox(false)}>Cancelar</button>
+            <button className="hud-btn primary" onClick={doBox}><GameIcon name="box" size={18} /> Comprar a caixa</button>
           </div>
-        </div>
+        </Modal>
       )}
 
       {openings && <OpeningFlow openings={openings} packName={name} cards={data.cards} reduced={reduced} onDone={closeOpening} />}

@@ -102,16 +102,6 @@
 .buybar .acts .hud-btn.short small { color: #ffb070; opacity: 1; }
 .buybar .packcover.mini { width: 26px; aspect-ratio: 1 / 1.6; }
 
-/* Diálogos (ajuda e confirmação da caixa) */
-.shopmodal { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; padding: 20px; background: rgba(2, 6, 18, .7); animation: shop-fade .15s ease-out; }
-.shopmodal .backdrop { position: absolute; }
-.shopmodal .shopdialog { position: relative; z-index: 1; width: min(100%, 420px); }
-.shopmodal .shopdialog h4 { margin: 0; color: var(--acc); font-size: 16px; }
-.shopmodal .shopdialog p { margin: 0; color: #cfe2ff; line-height: 1.4; }
-.shopmodal .shopdialog .dp { display: inline-flex; vertical-align: middle; }
-.shopmodal .shopdialog .acts { display: flex; gap: 8px; }
-.shopmodal .shopdialog .acts > .hud-btn, .shopmodal .shopdialog > .hud-btn { flex: 1; display: flex; gap: 6px; align-items: center; justify-content: center; }
-
 /* Abertura */
 .opening { position: fixed; inset: 0; z-index: 40; background: #050a18; }
 .opening .openingbg { position: absolute; inset: 0; background-size: cover; background-position: center; filter: blur(6px) brightness(.45); transform: scale(1.05); }

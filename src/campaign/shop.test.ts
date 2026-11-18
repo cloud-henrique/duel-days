@@ -41,3 +41,15 @@ describe('falas do vovô', () => {
     expect(new Set(Array.from({ length: 30 }, (_, n) => shopLine('boughtPack', 5, n, who).text)).size).toBeGreaterThan(1);
   });
 });
+
+describe('ordem de obtenção', () => {
+  it('abrir um pacote põe só as cartas novas no fim', async () => {
+    const { openUnopened } = await import('./packs');
+    const s0 = newCampaign(11);
+    const before = s0.acquired!.length;
+    const r = openUnopened(s0);
+    const fresh = [...new Set(r.opening.pulls.filter((p) => p.isNew).map((p) => p.id))];
+    expect(r.state.acquired!.slice(before)).toEqual(fresh);
+    expect(new Set(r.state.acquired).size).toBe(r.state.acquired!.length);
+  });
+});

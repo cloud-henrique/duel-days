@@ -7,6 +7,7 @@ import { PERIOD_KEYS, PERIOD_NAMES, type CampaignState } from '../../campaign/st
 import { Dp } from '../../ui/Dp';
 import { BondHearts } from '../../ui/BondHearts';
 import { GameIcon } from '../../ui/icons';
+import { Modal } from '../../ui/Modal';
 import { faceOf, mapImage, mapSettled, preloadMap } from './assets';
 import './campaign.css';
 
@@ -40,12 +41,15 @@ export function CampaignHeader({ s, onMenu }: { s: CampaignState; onMenu?: () =>
 /**
  * Mapa da Cidade de Domino, como o do Tag Force Special: o panorama (que rola na horizontal) no tom do período e as
  * cabeças de quem está por perto, cada uma num ponto sorteado, sem lugares nem nomes (o "!" de evento, a coroa do
- * chefe). Tocar numa cabeça vai direto ao encontro. Embaixo, os atalhos (a loja fica lá).
+ * chefe). Tocar numa cabeça vai direto ao encontro. Embaixo, os atalhos (Deck, Coleção, Laços, Loja); o menu do
+ * cabeçalho abre as Opções (Status da campanha, Voltar ao título).
  */
-export function MapScreen({ s, onMeet, onShop, onDecks, onBonds, onStatus, onMenu }: {
+export function MapScreen({ s, onMeet, onShop, onDecks, onCollection, onBonds, onStatus, onTitle }: {
   s: CampaignState;
-  onMeet: (duelist: string) => void; onShop: () => void; onDecks: () => void; onBonds: () => void; onStatus: () => void; onMenu: () => void;
+  onMeet: (duelist: string) => void; onShop: () => void; onDecks: () => void; onCollection: () => void; onBonds: () => void;
+  onStatus: () => void; onTitle: () => void;
 }) {
+  const [options, setOptions] = useState(false);
   const period = PERIOD_KEYS[s.period];
   const people = placements(s);
   const [imgOk, setImgOk] = useState(mapSettled(period) !== false);
@@ -67,7 +71,7 @@ export function MapScreen({ s, onMeet, onShop, onDecks, onBonds, onStatus, onMen
 
   return (
     <div className={`app campmap p-${period}`}>
-      <CampaignHeader s={s} onMenu={onMenu} />
+      <CampaignHeader s={s} onMenu={() => setOptions(true)} />
       <div className="mapscroll" ref={scroller}>
         <div className={`mapcanvas${imgOk ? '' : ' noimg'}${shown === period ? '' : ' loading'}${instant ? ' instant' : ''}`}>
           {imgOk && <img className="mapimg" src={mapImage(period)} alt="" draggable={false} onError={() => setImgOk(false)} />}
@@ -85,10 +89,17 @@ export function MapScreen({ s, onMeet, onShop, onDecks, onBonds, onStatus, onMen
       </div>
       <nav className="mapnav">
         <button className="hud-btn" onClick={onDecks}><GameIcon name="deck" size={20} /> Deck</button>
+        <button className="hud-btn" onClick={onCollection}><GameIcon name="collection" size={20} /> Coleção</button>
         <button className="hud-btn" onClick={onBonds}><GameIcon name="heart" size={20} /> Laços</button>
         <button className="hud-btn" onClick={onShop}><GameIcon name="shop" size={20} /> Loja</button>
-        <button className="hud-btn" onClick={onStatus}><GameIcon name="status" size={20} /> Status</button>
       </nav>
+      {options && (
+        <Modal title="Opções" onClose={() => setOptions(false)} className="mapoptions">
+          <button className="hud-btn" onClick={() => { setOptions(false); onStatus(); }}><GameIcon name="status" size={20} /> Status da campanha</button>
+          <button className="hud-btn" onClick={() => { setOptions(false); onTitle(); }}><GameIcon name="back" size={20} /> Voltar ao título</button>
+          <button className="hud-btn danger" onClick={() => setOptions(false)}>Fechar</button>
+        </Modal>
+      )}
     </div>
   );
 }
