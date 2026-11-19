@@ -63,7 +63,7 @@ export interface Step { beat: Beat; board?: Board; together?: boolean; think?: b
 
 export type ToWorker =
   /** `cpu`: perfil da CPU (o chefe do tier joga como `chefe`); sem ele, `comum`. */
-  | { t: 'start'; seed: number; mine: DeckList; foe: DeckList; base: string; debug?: boolean; cpu?: CpuKind }
+  | { t: 'start'; seed: number; mine: DeckList; foe: DeckList; base: string; debug?: boolean; cpu?: CpuKind; autoPass?: boolean }
   | { t: 'respond'; response: OcgResponse }
   /** Liga/desliga a resposta automática "não" às correntes opcionais do jogador. */
   | { t: 'autoPass'; value: boolean }

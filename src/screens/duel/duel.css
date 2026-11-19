@@ -202,6 +202,8 @@
 .stagecatch { position: absolute; inset: 0; z-index: 15; border: 0; padding: 0; background: transparent; }
 /* O menu continua acessível durante a encenação (mudar a velocidade, desistir). */
 .duel.staging .menubtn { position: relative; z-index: 16; }
+/* Véu do menu (portal no .duel): acima da mão (11), da trava da encenação (15), da corrente e do anúncio. */
+.scrim.duelmenu { z-index: 22; }
 /* Fantasmas: camada fixa no body (fora do contêiner .duel, que mudaria a referência do position: fixed). */
 .fxlayer { position: fixed; inset: 0; z-index: 25; pointer-events: none; }
 .ghost { position: fixed; will-change: transform, opacity; filter: drop-shadow(0 6px 12px #000a); }

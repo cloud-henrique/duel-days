@@ -3,8 +3,8 @@ import { newCampaign } from '../campaign/state';
 import { DEFAULT_SETTINGS, migrate, withDefaults, type Settings } from './progress';
 
 describe('withDefaults', () => {
-  it('save antigo, sem settings: animações normais, som e música ligados', () => {
-    expect(withDefaults(undefined)).toEqual({ anim: 'normal', sound: true, music: true, musicVolume: 0.6 });
+  it('save antigo, sem settings: animações normais, som e música ligados, pergunta nas correntes', () => {
+    expect(withDefaults(undefined)).toEqual({ anim: 'normal', sound: true, music: true, musicVolume: 0.6, chain: 'ask' });
     expect(withDefaults(null)).toEqual(DEFAULT_SETTINGS);
   });
 
@@ -14,12 +14,12 @@ describe('withDefaults', () => {
   });
 
   it('completo: mantém', () => {
-    const all: Settings = { anim: 'off', sound: false, music: false, musicVolume: 0.2 };
+    const all: Settings = { anim: 'off', sound: false, music: false, musicVolume: 0.2, chain: 'skip' };
     expect(withDefaults(all)).toEqual(all);
   });
 
   it('valores estranhos voltam ao padrão', () => {
-    expect(withDefaults({ anim: 'turbo', sound: 'sim', music: 1, musicVolume: 3 } as unknown as Partial<Settings>)).toEqual(DEFAULT_SETTINGS);
+    expect(withDefaults({ anim: 'turbo', sound: 'sim', music: 1, musicVolume: 3, chain: 'nunca' } as unknown as Partial<Settings>)).toEqual(DEFAULT_SETTINGS);
   });
 });
 

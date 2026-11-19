@@ -24,10 +24,12 @@ export interface DuelEnd { text: string; won: boolean; result: 'win' | 'loss' | 
  * Ciclo de vida do motor (Worker ou thread principal): inicia o duelo, recebe tabuleiro/prompt/eventos,
  * envia respostas e vigia travamentos.
  */
-export function useDuelEngine({ mine, foe, foeName, cpu, stage, cancelStage, onPrompt, onStep, onNotice, onLog }: {
+export function useDuelEngine({ mine, foe, foeName, cpu, autoPass = false, stage, cancelStage, onPrompt, onStep, onNotice, onLog }: {
   mine: DeckList; foe: DeckList; foeName: string;
   /** Perfil da CPU (chefe do tier ou comum). */
   cpu?: CpuKind;
+  /** Passa sozinho nas correntes opcionais do jogador (ajuste "Correntes"); muda no meio do duelo também. */
+  autoPass?: boolean;
   /** Encena os steps (a fila de animação); `false` se foi cancelada. */
   stage: (steps: Step[], io: StageIO) => Promise<boolean>;
   cancelStage: () => void;
@@ -41,6 +43,8 @@ export function useDuelEngine({ mine, foe, foeName, cpu, stage, cancelStage, onP
   onLog: (line: string) => void;
 }) {
   const worker = useRef<Worker | InlineEngine | null>(null);
+  const autoPassRef = useRef(autoPass);
+  autoPassRef.current = autoPass;
   const [board, setBoard] = useState<Board | null>(null);
   const [prompt, setPrompt] = useState<OcgMessage | null>(null);
   const [info, setInfo] = useState('');
@@ -103,7 +107,7 @@ export function useDuelEngine({ mine, foe, foeName, cpu, stage, cancelStage, onP
       else if (d.t === 'prompt' || d.t === 'end') enqueue(d.steps, () => finish(d));
       else if (d.t === 'error') { onLog(`ERRO: ${d.text}`); setFail(d.text); }
     };
-    send({ t: 'start', seed: Date.now() % SEED_RANGE, mine, foe, base: BASE, debug: debugOn, cpu });
+    send({ t: 'start', seed: Date.now() % SEED_RANGE, mine, foe, base: BASE, debug: debugOn, cpu, autoPass: autoPassRef.current });
     pong.current = Date.now();
   };
 
@@ -136,9 +140,9 @@ export function useDuelEngine({ mine, foe, foeName, cpu, stage, cancelStage, onP
     rlog(`-> respond ${JSON.stringify(response)}`);
     armDog();
   };
-  const autoPass = () => send({ t: 'autoPass', value: true });
+  useEffect(() => { send({ t: 'autoPass', value: autoPass }); }, [autoPass]); // eslint-disable-line react-hooks/exhaustive-deps
   const surrender = () => { stopPlayback(); worker.current?.terminate(); setPrompt(null); setEnded({ text: 'Você desistiu.', won: false, result: 'loss', surrendered: true }); };
   const restart = () => { setFail(null); setBoard(null); setPrompt(null); start(); };
 
-  return { board, prompt, info, ended, fail, setFail, dbg, lastPongAgo: () => Math.round((Date.now() - pong.current) / 1000), reply, autoPass, surrender, restart };
+  return { board, prompt, info, ended, fail, setFail, dbg, lastPongAgo: () => Math.round((Date.now() - pong.current) / 1000), reply, surrender, restart };
 }

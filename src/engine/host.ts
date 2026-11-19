@@ -34,6 +34,7 @@ export function createEngineHandler(post: (m: FromWorker) => void) {
         const core = await openCore();
         if (debug) dbg(`motor criado (${Math.round(performance.now() - t0)} ms)`);
         const driver = new DuelDriver(core, cards, (n) => scripts.get(n) ?? null, d.mine, d.foe, d.seed, undefined, { cpu: d.cpu });
+        driver.autoPass = !!d.autoPass;
         driver.onProgress = (steps) => post({ t: 'steps', steps });
         G.__duel = driver;
         if (debug) driver.trace = dbg;

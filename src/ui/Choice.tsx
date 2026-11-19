@@ -16,6 +16,7 @@ export function Choice<T>({ label, options, value, onPick }: { label: string; op
 
 const ANIM: [Settings['anim'], string][] = [['normal', 'Normal'], ['fast', 'Rápida'], ['off', 'Desligada']];
 const SOUND: [boolean, string][] = [[true, 'Ligado'], [false, 'Desligado']];
+const CHAIN: [Settings['chain'], string][] = [['ask', 'Perguntar'], ['skip', 'Passar sempre']];
 const MUSIC: [boolean, string][] = [[true, 'Ligada'], [false, 'Desligada']];
 
 /** Volume da música: um slider de 0 a 100 % (passos de 5), que muda o volume enquanto o dedo arrasta. */
@@ -30,11 +31,12 @@ function VolumeSlider({ value, onChange }: { value: number; onChange: (v: number
   );
 }
 
-/** As preferências do app inteiro (animações, efeitos e música), as mesmas no título e no duelo. */
+/** As preferências do app inteiro (animações, correntes, efeitos e música), as mesmas no título e no duelo. */
 export function SettingsChoices({ settings, onSettings }: { settings: Settings; onSettings: (s: Settings) => void }) {
   return (
     <>
       <Choice label="Animações" options={ANIM} value={settings.anim} onPick={(anim) => onSettings({ ...settings, anim })} />
+      <Choice label="Responder em corrente" options={CHAIN} value={settings.chain} onPick={(chain) => onSettings({ ...settings, chain })} />
       <Choice label="Som" options={SOUND} value={settings.sound} onPick={(sound) => onSettings({ ...settings, sound })} />
       <Choice label="Música" options={MUSIC} value={settings.music} onPick={(m) => onSettings({ ...settings, music: m })} />
       {settings.music && <VolumeSlider value={settings.musicVolume} onChange={(musicVolume) => onSettings({ ...settings, musicVolume })} />}

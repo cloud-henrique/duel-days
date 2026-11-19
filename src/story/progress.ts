@@ -10,8 +10,10 @@ export interface Settings {
   /** Música de fundo e o volume dela (0 a 1). */
   music: boolean;
   musicVolume: number;
+  /** Correntes opcionais do jogador: perguntar se quer responder ou passar sempre ("não" automático). */
+  chain: 'ask' | 'skip';
 }
-export const DEFAULT_SETTINGS: Settings = { anim: 'normal', sound: true, music: true, musicVolume: 0.6 };
+export const DEFAULT_SETTINGS: Settings = { anim: 'normal', sound: true, music: true, musicVolume: 0.6, chain: 'ask' };
 const ANIM: readonly Settings['anim'][] = ['normal', 'fast', 'off'];
 const isVolume = (v: unknown): v is number => typeof v === 'number' && v >= 0 && v <= 1;
 /** Preferências salvas completadas com o padrão (saves antigos não têm `settings`; valores estranhos voltam ao padrão). */
@@ -20,6 +22,7 @@ export const withDefaults = (saved?: Partial<Settings> | null): Settings => ({
   sound: typeof saved?.sound === 'boolean' ? saved.sound : DEFAULT_SETTINGS.sound,
   music: typeof saved?.music === 'boolean' ? saved.music : DEFAULT_SETTINGS.music,
   musicVolume: isVolume(saved?.musicVolume) ? saved.musicVolume : DEFAULT_SETTINGS.musicVolume,
+  chain: saved?.chain === 'skip' ? 'skip' : 'ask',
 });
 
 /**

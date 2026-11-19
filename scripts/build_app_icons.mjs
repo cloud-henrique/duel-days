@@ -33,9 +33,10 @@ save('apple-touch-icon.png', await raster('icon.svg', 180, { opaque: true }));
 save('icon-192.png', await raster('icon.svg', 192));
 save('icon-512.png', await raster('icon.svg', 512));
 save('icon-maskable-512.png', await raster('icon-maskable.svg', 512, { opaque: true }));
-copyFileSync(join(root, 'assets/app-icon/icon.svg'), join(out, 'icon.svg'));
+// O favicon SVG (aba do navegador) é a versão sem fundo: a carta na altura toda, maior e mais fácil de reconhecer.
+copyFileSync(join(root, 'assets/app-icon/icon-small.svg'), join(out, 'icon.svg'));
 
-// favicon.ico: cabeçalho ICONDIR + entradas PNG (16, 32 e 48 px, versão sem placa).
+// favicon.ico: cabeçalho ICONDIR + entradas PNG (16, 32 e 48 px, versão sem fundo).
 const sizes = [16, 32, 48];
 const pngs = [];
 for (const s of sizes) pngs.push(await raster('icon-small.svg', s));

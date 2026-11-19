@@ -33,7 +33,7 @@ export function promptPanel(m: OcgMessage | null, ctx: {
         <p className="sub">Você pode responder.</p>
         {m.selects.map((c, i) => <button key={i} className="hud-btn wide primary" onClick={() => reply({ type: OcgResponseType.SELECT_CHAIN, index: i })}>{ICONS.activate}<span>{name(c.code)}</span></button>)}
         {!m.forced && <button className="hud-btn wide" onClick={() => reply({ type: OcgResponseType.SELECT_CHAIN, index: null })}><span>Passar</span></button>}
-        {!m.forced && <button className="linkbtn" onClick={() => { ctx.autoPass(); reply({ type: OcgResponseType.SELECT_CHAIN, index: null }); }}>Não perguntar mais neste duelo</button>}
+        {!m.forced && <button className="linkbtn" onClick={() => { ctx.autoPass(); reply({ type: OcgResponseType.SELECT_CHAIN, index: null }); }}>Não perguntar mais (volta no Menu)</button>}
       </>;
     case OcgMessageType.SELECT_YESNO:
     case OcgMessageType.SELECT_EFFECTYN: {

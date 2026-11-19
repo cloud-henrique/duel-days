@@ -52,3 +52,14 @@ describe('DuelMenu', () => {
     expect(onSettings).toHaveBeenLastCalledWith({ ...DEFAULT_SETTINGS, sound: false });
   });
 });
+
+describe('DuelMenu: correntes', () => {
+  it('"Passar sempre" vai para onSettings', () => {
+    const onSettings = vi.fn();
+    menu(vi.fn(), onSettings, DEFAULT_SETTINGS);
+    click('Menu');
+    expect(screen.getByRole('button', { name: 'Perguntar' }).getAttribute('aria-pressed')).toBe('true');
+    click('Passar sempre');
+    expect(onSettings).toHaveBeenLastCalledWith({ ...DEFAULT_SETTINGS, chain: 'skip' });
+  });
+});

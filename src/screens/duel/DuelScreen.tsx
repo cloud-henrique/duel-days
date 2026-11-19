@@ -123,7 +123,7 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, cpu, player = 
   const stage = useBeatQueue({ root, layer, speed: settings.anim, reducedMotion, faceOf, before, takeCoinCall });
 
   const engine = useDuelEngine({
-    mine, foe: foeDeck, foeName: opponent.name, cpu, stage: stage.run, cancelStage: stage.cancel,
+    mine, foe: foeDeck, foeName: opponent.name, cpu, autoPass: settings.chain === 'skip', stage: stage.run, cancelStage: stage.cancel,
     onPrompt: () => { setSel([]); setPeek(false); }, onStep, onNotice: (t) => pushEvents([t]), onLog: (line) => setLog((l) => [...l, line]),
   });
   const { board, prompt, ended, fail } = engine;
@@ -150,7 +150,7 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, cpu, player = 
     setAttackArmed(false);
     if (soleTarget && boardChoice) reply(confirmResponse(boardChoice, [0]));
   }, [prompt]); // eslint-disable-line react-hooks/exhaustive-deps
-  const panel = useMemo(() => promptPanel(prompt, { name, cards, evText, sel, setSel, reply, autoPass: engine.autoPass, onCoinCall: (c) => { coinCall.current = c; } }), [prompt, sel, cards]);
+  const panel = useMemo(() => promptPanel(prompt, { name, cards, evText, sel, setSel, reply, autoPass: () => onSettings({ ...settings, chain: 'skip' }), onCoinCall: (c) => { coinCall.current = c; } }), [prompt, sel, cards, settings]);
 
   const side = useMemo(() => {
     const acts = sideActions(prompt);
@@ -200,7 +200,7 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, cpu, player = 
   return (
     <div ref={root} className={`duel hexbg${pickAttack ? ' pick-attack' : ''}${stage.staging ? ' staging' : ''}`}>
       <div className="foebar">
-        {!ended && <DuelMenu onSurrender={engine.surrender} settings={settings} onSettings={onSettings} />}
+        {!ended && <DuelMenu onSurrender={engine.surrender} settings={settings} onSettings={onSettings} host={root} />}
         <Plate side="foe" who={opponent} lp={foe.lp} deck={foe.deck} hand={foe.hand.length} grave={foe.grave} turn={!myTurn} onGrave={() => setGraveOf(1)} cards={cards} />
       </div>
       <FoeHand count={foe.hand.length} />
