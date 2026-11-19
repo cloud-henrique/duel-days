@@ -49,7 +49,7 @@ describe('maleta virtualizada', () => {
   it('tocar numa carta abre o zoom', () => {
     const { container } = big();
     fireEvent.click(container.querySelector('.trunkgrid .cell')!);
-    expect(container.querySelector('.cardzoom')).not.toBeNull();
+    expect(document.querySelector('.cardzoom')).not.toBeNull(); // portal no <body>
   });
 });
 

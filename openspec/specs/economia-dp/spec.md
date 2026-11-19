@@ -39,7 +39,7 @@ o chefe e o duelo de evento seguem a mesma tabela. O fim do duelo SHALL mostrar 
 
 ### Requirement: Carta por vitória
 Cada vitória SHALL dar uma carta sorteada entre as cópias do deck do oponente. Ficam de fora as cartas limitadas e as
-que o jogador já tem em 3 cópias. Na 10ª vitória contra o mesmo duelista, o jogador SHALL ganhar também a
+que o jogador já tem em 3 cópias. Na 5ª vitória contra o mesmo duelista, o jogador SHALL ganhar também a
 carta-assinatura dele:
 - Tristan: Sengenjin;
 - Tea: Dark Magician Girl;
@@ -56,11 +56,11 @@ carta-assinatura dele:
 A carta ganha SHALL aparecer no fim do duelo, com o selo NOVA se o jogador não a tinha.
 
 #### Scenario: Assinatura
-- **WHEN** o jogador vence o Joey pela 10ª vez
+- **WHEN** o jogador vence o Joey pela 5ª vez
 - **THEN** o fim do duelo mostra a carta sorteada e o Red-Eyes Black Dragon
 
 #### Scenario: Assinatura do Tier 2
-- **WHEN** o jogador vence o Bandit Keith pela 10ª vez
+- **WHEN** o jogador vence o Bandit Keith pela 5ª vez
 - **THEN** o fim do duelo mostra a carta sorteada e o Barrel Dragon
 
 ### Requirement: Pacotes à venda

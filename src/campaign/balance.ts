@@ -4,10 +4,6 @@ export const BALANCE = {
   /** Duelistas comuns por período (limitado aos que existem). */
   opponentsMin: 2,
   opponentsMax: 4,
-  /** Amigos do Tier 1 por período a partir do Tier 2. */
-  friendsMin: 1,
-  friendsMax: 2,
-
   /** DP de uma vitória pelo tier do oponente (não pelo tier atual). */
   baseDPByTier: { 1: 300, 2: 400, 3: 500, 4: 600 } as Record<number, number>,
   /** Derrota, empate ou desistência: esta porcentagem da base do Tier 1 (60 DP), sem bônus. */
@@ -24,7 +20,7 @@ export const BALANCE = {
   packPrices: { lob: 150, mrd: 200, mrl: 200, psv: 225, lon: 250, lod: 250, pgd: 250 } as Record<string, number>,
   characterPackPrice: 250,
   characterPackWins: 5,
-  signatureWins: 10,
+  signatureWins: 5,
   boxSize: 20,
   boxDiscountPercent: 10,
   /** Dias em que uma coleção recém-chegada à loja aparece como nova. */

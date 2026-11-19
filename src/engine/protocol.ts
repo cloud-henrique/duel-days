@@ -2,7 +2,18 @@ import type { OcgMessage, OcgResponse } from 'ocgcore-wasm';
 import type { DeckList } from './session';
 import type { CpuKind } from './search';
 
-export interface BoardCard { code: number; position: number; attack?: number; defense?: number }
+/**
+ * Ligação entre duas cartas do campo: `equip` (Equipamento ↔ monstro equipado) ou `target` (carta que mantém um alvo,
+ * ex. Círculo da Profecia ↔ o monstro preso). `dir`: `by` no monstro afetado, `to` na carta que afeta.
+ */
+export interface CardLink { kind: 'equip' | 'target'; dir: 'by' | 'to'; code: number; controller: 0 | 1; location: number; sequence: number }
+export interface BoardCard {
+  code: number; position: number; attack?: number; defense?: number;
+  /** Equipamentos e alvos mantidos (só no campo). */
+  links?: CardLink[];
+  /** Controlado por quem não é o dono (ex. Mudança de Coração). */
+  stolen?: boolean;
+}
 export interface PlayerBoard {
   lp: number;
   deck: number;

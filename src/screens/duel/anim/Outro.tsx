@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { createPortal } from 'react-dom';
-import { avatar, type Duelist } from '../Plate';
+import type { Duelist } from '../Plate';
+import { BASE } from '../../../components/art';
 import { PACING } from './pacing';
 import { Dp } from '../../../ui/Dp';
 import { DisplayTitle } from '../../../ui/titles';
@@ -22,14 +22,24 @@ export interface OutroReward {
   bond: { before: number; after: number; perHeart: number; note?: string } | null;
   notes: string[];
 }
+/**
+ * A expressão do oponente no fim: perdeu → raiva ou tristeza; venceu → riso ou deboche (`smug`, quando o personagem
+ * tem); empate → surpresa. A sorte só escolhe entre as duas; a primeira que existir no sprite vale (`neutral` no fim).
+ */
+export function foeExpressions(result: DuelResult, coin: number): string[] {
+  if (result === 'win') return coin < 0.5 ? ['angry', 'sad', 'neutral'] : ['sad', 'angry', 'neutral'];
+  if (result === 'loss') return coin < 0.5 ? ['laugh', 'happy', 'neutral'] : ['smug', 'laugh', 'neutral'];
+  return ['surprised', 'neutral'];
+}
+
 export const OUTRO_TITLE: Record<DuelResult, string> = { win: 'VITÓRIA!', loss: 'DERROTA', draw: 'EMPATE' };
 
 /**
- * Fim do duelo: fundo na cor do resultado, o título entrando com escala e o detalhe (ex.: "Você desistiu."); os dois
- * retratos emoldurados (o do vencedor em dourado, dando um pulo, e o do perdedor esmaecido); o resumo num painel do HUD
+ * Fim do duelo: fundo na cor do resultado, o título entrando com escala e o detalhe (ex.: "Você desistiu."); só o
+ * rosto do oponente, com a expressão do resultado (bravo ou triste se perdeu, rindo se venceu), dando um pulo; o resumo num painel do HUD
  * (bônus, total em DP, cartas, laço e avisos) e "Continuar".
  */
-export function Outro({ result, detail, me, foe, coins, reward, reduced, onContinue, cards = {} }: {
+export function Outro({ result, detail, foe, coins, reward, reduced, onContinue, cards = {} }: {
   result: DuelResult; detail: string; me: Duelist; foe: Duelist;
   /** Ganho simples em DP (sem campanha); com `reward`, vale o total dele. */
   coins?: number; reward?: OutroReward | null; reduced: boolean; onContinue: () => void;
@@ -47,21 +57,20 @@ export function Outro({ result, detail, me, foe, coins, reward, reduced, onConti
     ];
     return () => anims.forEach((a) => a?.cancel());
   }, []);
-  const face = (d: Duelist, won: boolean) => {
-    const lost = !won && result !== 'draw';
-    return (
-      <figure className={won ? 'won' : lost ? 'lost' : ''}>
-        <Portrait src={avatar(d.id)} size={92} tone={won ? 'gold' : lost ? 'dim' : 'cyan'} imgRef={won ? winner : undefined} />
-        <figcaption>{d.name}</figcaption>
-      </figure>
-    );
-  };
+  // Só o rosto do oponente, com a expressão do resultado; sem a face pedida no sprite, cai para a próxima.
+  const [exprs] = useState(() => foeExpressions(result, Math.random()));
+  const [tryAt, setTryAt] = useState(0);
+  const foeTone = result === 'loss' ? 'gold' : result === 'win' ? 'dim' : 'cyan';
   const total = reward?.totalDP ?? coins;
   return (
     <div className={`outro ${result}`}>
       <DisplayTitle tone={result} titleRef={title}>{OUTRO_TITLE[result]}</DisplayTitle>
       {detail && <p className="outrodetail">{detail}</p>}
-      <div className="outrofaces">{face(me, result === 'win')}<span className="outrovs">VS</span>{face(foe, result === 'loss')}</div>
+      <figure className={`outrofoe ${result}`}>
+        <Portrait src={`${BASE}characters/${foe.id}/${exprs[tryAt]}.webp`} size={120} tone={foeTone} imgRef={winner}
+          onError={tryAt < exprs.length - 1 ? () => setTryAt(tryAt + 1) : undefined} />
+        <figcaption>{foe.name}</figcaption>
+      </figure>
       {(reward || total !== undefined) && (
         <section className="outrosum hud">
           {reward && reward.bonuses.length > 0 && (
@@ -85,7 +94,7 @@ function OutroDetails({ r, cards }: { r: OutroReward; cards: Cards }) {
   const [open, setOpen] = useState<number | null>(null);
   return (
     <div className="outrodetails">
-      {open != null && createPortal(<CardZoom code={open} cards={cards} onClose={() => setOpen(null)} />, document.body)}
+      {open != null && <CardZoom code={open} cards={cards} onClose={() => setOpen(null)} />}
       {r.cards.length > 0 && (
         <div className="earned">
           {r.cards.map((c, i) => (

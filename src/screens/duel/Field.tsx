@@ -9,17 +9,17 @@ import { art } from '../../components/CardSheet';
 const ROW_ZONES = 5;
 
 /** O campo em perspectiva: M/A e monstros do oponente, faixa central, monstros e M/A do jogador. */
-export function Field({ board, cards, hl, picked, onTap, center, backdrop }: { board: Board; cards: Cards; hl: Set<string>; picked?: Set<string>; onTap: OnTapCard; center: ReactNode; backdrop?: number | null }) {
+export function Field({ board, cards, hl, picked, rel, onTap, center, backdrop }: { board: Board; cards: Cards; hl: Set<string>; picked?: Set<string>; rel?: Set<string>; onTap: OnTapCard; center: ReactNode; backdrop?: number | null }) {
   const [me, foe] = board.players;
   const row = (cs: (BoardCard | null)[], controller: 0 | 1, location: number, zone: ZoneKind) => (
     <div className="row">{cs.slice(0, ROW_ZONES).map((c, i) => {
       const cref = { controller, location, sequence: i };
-      return <Slot key={i} c={c} cards={cards} zone={zone} foe={controller === 1} cref={cref} mark={markOf(cref, hl, picked)} onTap={onTap} />;
+      return <Slot key={i} c={c} cards={cards} zone={zone} foe={controller === 1} cref={cref} mark={markOf(cref, hl, picked, rel)} onTap={onTap} />;
     })}</div>
   );
   const fieldZone = (p: 0 | 1) => {
     const cref = { controller: p, location: OcgLocation.SZONE, sequence: FIELD_SEQ };
-    return <Slot c={board.players[p].szone[FIELD_SEQ] ?? null} cards={cards} zone="f" foe={p === 1} cref={cref} mark={markOf(cref, hl, picked)} onTap={onTap} />;
+    return <Slot c={board.players[p].szone[FIELD_SEQ] ?? null} cards={cards} zone="f" foe={p === 1} cref={cref} mark={markOf(cref, hl, picked, rel)} onTap={onTap} />;
   };
   return (
     <div className="fieldwrap">

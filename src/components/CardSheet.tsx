@@ -63,7 +63,7 @@ export function CardDetails({ code, cards }: { code: number; cards: Cards }) {
 }
 
 /** Folha de detalhe da carta (arte, dados e texto), com os botões de ação do contexto. Compacta, como no nativo. */
-export function CardSheet({ code, cards, actions = [], onClose, aboveHand = false }: { code: number; cards: Cards; actions?: SheetAction[]; onClose: () => void; aboveHand?: boolean }) {
+export function CardSheet({ code, cards, actions = [], notes = [], onClose, aboveHand = false }: { code: number; cards: Cards; actions?: SheetAction[]; notes?: string[]; onClose: () => void; aboveHand?: boolean }) {
   const c = cards[String(code)];
   return (
     <div className={`scrim${aboveHand ? ' uphand' : ''}`}>
@@ -73,6 +73,7 @@ export function CardSheet({ code, cards, actions = [], onClose, aboveHand = fals
           <div className="sheetface"><CardFace code={code} card={c} detail="full" /></div>
           <CardDetails code={code} cards={cards} />
         </div>
+        {notes.length > 0 && <div className="sheetnotes">{notes.map((n) => <span key={n}>{n}</span>)}</div>}
         {actions.length > 0 && <div className="acts">{actions.map((a) => <button key={a.label} className={`hud-btn act ${a.primary ? 'primary' : ''}`} disabled={a.disabled} onClick={a.onClick}>{a.icon}<span>{a.label}</span></button>)}</div>}
         <button className="close" aria-label="Fechar" onClick={onClose}><X size={22} weight="bold" /></button>
       </div>

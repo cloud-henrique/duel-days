@@ -110,6 +110,12 @@
 .zone i { position: absolute; left: 50%; bottom: -4px; transform: translateX(-50%); z-index: 2; background: rgba(0,0,0,.75); font-size: 10px; line-height: 1; padding: 1px 3px; font-style: normal; white-space: nowrap; border-radius: 2px; }
 .zone i .atk { color: var(--c-select); } .zone i .def { color: rgba(255,255,255,.5); }
 .zone.def i .atk { color: rgba(255,255,255,.5); } .zone.def i .def { color: var(--c-cyan); }
+/* Selo da carta afetada (Equipado/Alvo/Tomado) no topo da zona; `rel`: a carta ligada à que está aberta na folha. */
+.zone .tag { position: absolute; left: 50%; top: -5px; transform: translateX(-50%); z-index: 3; font: 800 9px/1 var(--font-game); letter-spacing: .02em; text-transform: uppercase; padding: 2px 4px; border-radius: 2px; white-space: nowrap; color: #fff; box-shadow: 0 1px 3px #000a; pointer-events: none; }
+.zone .tag.equip { background: #1d6fd6; }
+.zone .tag.target { background: #b0359f; }
+.zone .tag.stolen { background: #c2410c; }
+.zone.rel > .cardface, .zone.rel > .cardback-img { box-shadow: 0 0 0 2px #e879f9, 0 0 14px 4px rgba(232,121,249,.8); }
 .spacer { flex: 1; min-height: 0; }
 .mybar { display: flex; align-items: stretch; gap: var(--gap); flex-shrink: 0; }
 /* Botão de fase (PhaseButton.swift): 64×60, rótulo 11 black; o secundário compacto ("Encerrar"/"MAIN 2") fica logo acima. */
@@ -246,11 +252,9 @@
 .outro.win { --res: rgba(255,198,26,.45); } .outro.loss { --res: rgba(200,40,60,.45); } .outro.draw { --res: rgba(140,160,190,.4); }
 .outro > * { flex-shrink: 0; }
 .outrodetail { margin: -6px 0 0; font-size: 15px; font-weight: 600; color: #cfe2ff; letter-spacing: .3px; }
-.outrofaces { display: flex; align-items: center; gap: 18px; }
-.outrofaces figure { margin: 0; display: grid; gap: 8px; justify-items: center; width: 104px; }
-.outrofaces figcaption { font-size: 15px; font-weight: 700; letter-spacing: .5px; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.outrofaces .won figcaption { color: var(--c-select); }
-.outrofaces .lost figcaption { color: #8fa3c2; }
+.outrofoe { margin: 0; display: grid; gap: 8px; justify-items: center; }
+.outrofoe figcaption { font-size: 16px; font-weight: 700; letter-spacing: .5px; color: #cfe2ff; }
+.outrofoe.loss figcaption { color: var(--c-select); }
 .outrovs { font-size: 18px; font-weight: 700; font-style: italic; color: #8fd8ff; text-shadow: 0 0 8px rgba(42,184,255,.7); }
 .outrosum { width: min(100%, 340px); padding: 12px 16px; display: grid; gap: 10px; --edge: #2ab8ff; --fill: linear-gradient(180deg, rgba(18,58,122,.92), rgba(7,20,46,.92)); }
 .outrosum .bonuses { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; font-size: 14px; }

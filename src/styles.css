@@ -253,3 +253,6 @@ img, svg, canvas { -webkit-touch-callout: none; -webkit-user-drag: none; user-se
 
 /* Botões lado a lado nas confirmações (folhas e .confirm): texto sempre centralizado. */
 .sheet .acts > .hud-btn, .confirm .acts > .hud-btn { text-align: center; justify-content: center; }
+/* Ligações da carta no campo (Equipado com…, Alvo de…): chips magenta abaixo dos dados. */
+.sheetnotes { display: flex; flex-wrap: wrap; gap: 6px; }
+.sheetnotes span { font: 700 12px/1.2 var(--font-game); color: #f5d0fe; background: rgba(176,53,159,.28); border: 1px solid rgba(232,121,249,.55); padding: 4px 8px; border-radius: 3px; }

@@ -105,7 +105,6 @@ export function Dialogue({ scene, stage, chars, profile, top, onDone, children }
       <div className="scene-bg" style={{ backgroundImage: stage.bg }} />
       <div className="scene-dim" />
       <div className="scene-wash" />
-      <div className="scene-circuit" />
       {top && <TopBar title={top.title} subtitle={top.subtitle} onBack={top.onBack} />}
       {top?.hearts !== undefined && (
         // O "+20" fica fora da placa: a `.hud` corta (clip-path dos cantos) o que sai dela.

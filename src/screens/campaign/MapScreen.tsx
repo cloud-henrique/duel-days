@@ -40,8 +40,8 @@ export function CampaignHeader({ s, onMenu }: { s: CampaignState; onMenu?: () =>
 
 /**
  * Mapa da Cidade de Domino, como o do Tag Force Special: o panorama (que rola na horizontal) no tom do período e as
- * cabeças de quem está por perto, cada uma num ponto sorteado, sem lugares nem nomes (o "!" de evento, a coroa do
- * chefe). Tocar numa cabeça vai direto ao encontro. Embaixo, os atalhos (Deck, Coleção, Laços, Loja); o menu do
+ * cabeças de quem está por perto, cada uma num ponto sorteado, sem lugares nem nomes (o "!" de evento, a moldura
+ * dourada do chefe). Tocar numa cabeça vai direto ao encontro. Embaixo, os atalhos (Deck, Coleção, Laços, Loja); o menu do
  * cabeçalho abre as Opções (Status da campanha, Voltar ao título).
  */
 export function MapScreen({ s, onMeet, onShop, onDecks, onCollection, onBonds, onStatus, onTitle }: {
@@ -81,7 +81,6 @@ export function MapScreen({ s, onMeet, onShop, onDecks, onCollection, onBonds, o
               style={{ left: `${point.x * 100}%`, top: `${point.y * 100}%`, animationDelay: `${-i * 0.6}s` }}
               onClick={() => onMeet(d.key)} aria-label={`Encontrar ${d.name}`}>
               <img src={faceOf(d.key)} alt="" draggable={false} />
-              {d.isBoss && <GameIcon name="boss" size={16} />}
               {needsAttention(s, d.key) && <b>!</b>}
             </button>
           ))}

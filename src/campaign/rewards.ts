@@ -85,6 +85,9 @@ const duelistData = (key: string): DuelistData => {
  * Aplica o resultado de um duelo: DP, cartas, vitórias, chefe, laço e o período. Devolve também a fala de depois,
  * calculada com o estado de antes (a primeira vitória é a de 0 vitórias antes do duelo).
  */
+/** A assinatura saía na 10ª vitória (antes de passar para a 5ª). */
+const LEGACY_SIGNATURE_WINS = 10;
+
 export function applyDuel(s0: CampaignState, key: string, kind: DuelKind, o: DuelOutcome):
   { state: CampaignState; reward: DuelReward; after: Scene } {
   if (s0.concluded) throw new Error('campanha terminada');
@@ -102,7 +105,9 @@ export function applyDuel(s0: CampaignState, key: string, kind: DuelKind, o: Due
   let unlocked: string | null = null, prize: string | null = null, firstBoss = false;
   if (won) {
     const nth = (s.victories[key] ?? 0) + 1;
-    if (nth === BALANCE.signatureWins) cards.push(earn(s, d.signatureCard.id, 'signature'));
+    // A assinatura sai na 5ª vitória. Saves de quando era na 10ª (entre a 5ª e a 10ª, sem a carta) a ganham na próxima.
+    const lateSignature = nth > BALANCE.signatureWins && nth <= LEGACY_SIGNATURE_WINS && copies(s, d.signatureCard.id) === 0;
+    if (nth === BALANCE.signatureWins || lateSignature) cards.push(earn(s, d.signatureCard.id, 'signature'));
     const deck = duelistDeck(key);
     const g = generator(PURPOSE.cardDrop, s.seed, s.day, s.period, seedPosition(key));
     const drop = drawCard([...deck.main, ...deck.extra], s.collection, g);

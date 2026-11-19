@@ -146,11 +146,12 @@ describe('MapScreen', () => {
     expect(onMeet).toHaveBeenCalledWith(here[0].key);
   });
 
-  it('chefe com coroa; a loja fica no atalho de baixo', () => {
+  it('chefe com a moldura dourada (sem coroa); a loja fica no atalho de baixo', () => {
     const s = { ...newCampaign(5), victories: { tristan: 1, tea: 1, joey: 1, bakura: 1 } };
     const onShop = vi.fn();
     render(<MapScreen s={s} onMeet={vi.fn()} {...props} onShop={onShop} />);
-    expect(document.querySelector('.pinhead.boss svg')).toBeTruthy();
+    expect(document.querySelector('.pinhead.boss')).toBeTruthy();
+    expect(document.querySelector('.pinhead.boss svg')).toBeNull();
     fireEvent.click(screen.getByRole('button', { name: /Loja/ }));
     expect(onShop).toHaveBeenCalled();
   });

@@ -2,7 +2,7 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import { Intro, introTimeline, wantsIntro } from './Intro';
-import { OUTRO_TITLE, Outro } from './Outro';
+import { OUTRO_TITLE, Outro, foeExpressions } from './Outro';
 
 afterEach(() => { cleanup(); vi.useRealTimers(); });
 const me = { id: 'npc_duelists_dm__hailey', name: 'Ana' }, foe = { id: 'joey_wheeler', name: 'Joey' };
@@ -47,14 +47,24 @@ describe('Outro', () => {
     expect(OUTRO_TITLE[result]).toBe(title);
   });
 
-  it('vencedor em destaque e perdedor esmaecido; Continuar sai', () => {
+  it('só o rosto do oponente, com a expressão do resultado; Continuar sai', () => {
     const onContinue = vi.fn();
     const { container } = render(<Outro result="win" detail="Você venceu!" me={me} foe={foe} coins={100} reduced onContinue={onContinue} />);
-    expect(container.querySelector('figure.won figcaption')?.textContent).toBe('Ana');
-    expect(container.querySelector('figure.lost figcaption')?.textContent).toBe('Joey');
+    expect(container.querySelectorAll('.outrofoe').length).toBe(1);
+    expect(container.querySelector('.outrofoe figcaption')?.textContent).toBe('Joey');
+    expect(container.textContent).not.toContain('Ana');
+    expect(container.querySelector('.outrofoe img')?.getAttribute('src')).toMatch(/\/(angry|sad)\.webp$/);
     expect(container.querySelector('[aria-label="+100 DP"]')).toBeTruthy();
     fireEvent.click(screen.getByRole('button', { name: 'Continuar' }));
     expect(onContinue).toHaveBeenCalledOnce();
+  });
+
+  it('expressões: perdeu → raiva/tristeza; venceu → riso/deboche; empate → surpresa', () => {
+    expect(['angry', 'sad']).toContain(foeExpressions('win', 0.2)[0]);
+    expect(['angry', 'sad']).toContain(foeExpressions('win', 0.8)[0]);
+    expect(['laugh', 'smug']).toContain(foeExpressions('loss', 0.8)[0]);
+    expect(foeExpressions('draw', 0)[0]).toBe('surprised');
+    for (const r of ['win', 'loss', 'draw'] as const) expect(foeExpressions(r, 0.5).at(-1)).toBe('neutral');
   });
 
   it('recompensa da campanha: total, bônus, carta NOVA e o laço', () => {

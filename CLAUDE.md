@@ -119,8 +119,8 @@ pelo `.hexbg` do `styles.css`.
   - `tiers.ts` (tier atual derivado do dia e dos chefes: o próximo abre pelo chefe vencido ou pelo primeiro dia da janela,
     só se tiver duelistas; `bossDefeatedOn` opcional no save);
   - `state.ts` (o save), `rng.ts` (**todo sorteio sai da semente**: `generator(PURPOSE.x, seed, dia, …)`), `balance.ts`;
-  - `calendar.ts` (30 dias × manhã/tarde/noite; **só o duelo gasta período**), `map.ts` (2 a 4 do tier atual + 1 a 2 amigos
-    do T1 a partir do T2, chefes liberados, pontos do panorama sorteados), `encounter.ts` (qual fala toca), `bond.ts` (afinidade com teto/piso, conversa, eventos, rota, epílogo),
+  - `calendar.ts` (30 dias × manhã/tarde/noite; **só o duelo gasta período**), `map.ts` (2 a 4 do tier atual + todos os comuns
+    dos tiers anteriores, chefes liberados; T1 nos pontos fixos, depois anéis: tier atual no meio, antigos mais longe), `encounter.ts` (qual fala toca), `bond.ts` (afinidade com teto/piso, conversa, eventos, rota, epílogo),
     `rewards.ts` (`applyDuel`: DP com bônus, carta, assinatura, chefe, laço e o período), `packs.ts` (loja e sorteio 4+1),
     `flow.ts` (conhecer, `pendingDuel`), `text.ts` (`{nome}` e `{m|f|n}`), `debug.ts` (`?campaign=last-evening|bond|boss|tier2|pegasus|shop`
     em dev ou com `?debug=1`).

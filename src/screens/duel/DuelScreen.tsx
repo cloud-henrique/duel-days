@@ -27,6 +27,7 @@ import { Outro, type OutroReward } from './anim/Outro';
 import { promptPanel } from './PromptPanel';
 import { Plate, type Duelist } from './Plate';
 import { Field } from './Field';
+import { linkNotes } from './Slot';
 import { FoeHand, Hand } from './Hand';
 import { Spinner } from './icons';
 import { GameIcon } from '../../ui/icons';
@@ -190,6 +191,11 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, cpu, player = 
   const myTurn = board.turnPlayer === 0;
   const phasebar = <PhaseBar turn={board.turn} phase={board.phase} narration={evText || `Turno ${board.turn}: ${myTurn ? player.name : opponent.name}`} />;
 
+  // A carta aberta na folha: as ligadas a ela (equipamento, alvo) brilham no campo e a folha diz quais são.
+  const sheetCard = sheet && (sheet.ref.location === OcgLocation.MZONE || sheet.ref.location === OcgLocation.SZONE)
+    ? board.players[sheet.ref.controller as 0 | 1][sheet.ref.location === OcgLocation.MZONE ? 'mzone' : 'szone'][sheet.ref.sequence] : null;
+  const rel = new Set((sheetCard?.links ?? []).map((l) => refKey({ controller: l.controller, location: l.location, sequence: l.sequence })));
+  const notes = sheet ? linkNotes(sheetCard, name, sheet.ref.controller === 0) : [];
   const pickAttack = !!boardChoice && !!actor?.attack && isBattle(board.phase);
   return (
     <div ref={root} className={`duel hexbg${pickAttack ? ' pick-attack' : ''}${stage.staging ? ' staging' : ''}`}>
@@ -198,7 +204,7 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, cpu, player = 
         <Plate side="foe" who={opponent} lp={foe.lp} deck={foe.deck} hand={foe.hand.length} grave={foe.grave} turn={!myTurn} onGrave={() => setGraveOf(1)} cards={cards} />
       </div>
       <FoeHand count={foe.hand.length} />
-      <Field board={board} cards={cards} hl={hl} picked={marks.picked} onTap={tap} center={phasebar} backdrop={fieldBackdrop(board, fieldPlayed)} />
+      <Field board={board} cards={cards} hl={hl} picked={marks.picked} rel={rel} onTap={tap} center={phasebar} backdrop={fieldBackdrop(board, fieldPlayed)} />
       <div className="mybar">
         <Plate side="me" who={player} lp={me.lp} deck={me.deck} hand={me.hand.length} grave={me.grave} turn={myTurn} onGrave={() => setGraveOf(0)} cards={cards} />
         <div className="sidebtns">{side}</div>
@@ -229,7 +235,7 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, cpu, player = 
           <button className="hud-btn primary" onClick={() => setPeek(false)}>{isChain ? 'Voltar à resposta' : 'Voltar à escolha'}</button>
         </div>
       )}
-      {sheet && !stage.splash && <CardSheet code={sheet.code} cards={cards} actions={sheetActions} aboveHand onClose={() => setSheet(null)} />}
+      {sheet && !stage.splash && <CardSheet code={sheet.code} cards={cards} actions={sheetActions} notes={notes} aboveHand onClose={() => setSheet(null)} />}
       {graveOf !== null && (
         <div className="scrim center">
           <Backdrop onClose={() => setGraveOf(null)} />

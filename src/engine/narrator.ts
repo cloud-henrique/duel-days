@@ -1,6 +1,6 @@
 import { OcgLocation, OcgMessageType, OcgQueryFlags, type OcgLocPos, type OcgMessage } from 'ocgcore-wasm';
 import { flushBeats, newBeatCtx, toBeats, type BeatCtx } from './beats';
-import type { Board, BoardCard, PlayerBoard, Step } from './protocol';
+import type { Board, BoardCard, CardLink, PlayerBoard, Step } from './protocol';
 import type { DuelSession } from './session';
 
 /** A consulta do motor devolve ATK/DEF sem sinal; "?" (−2) chegaria como 4294967294. Volta para inteiro com sinal. */
@@ -48,9 +48,23 @@ export class Narrator {
 
   snapshot(s: DuelSession): Board {
     const flags = (OcgQueryFlags.CODE | OcgQueryFlags.POSITION | OcgQueryFlags.ATTACK | OcgQueryFlags.DEFENSE) as OcgQueryFlags;
+    // No campo, também quem equipa/mantém alvo e o dono (para marcar "Equipado", "Alvo" e "Tomado" na tela).
+    const fieldFlags = (flags | OcgQueryFlags.EQUIP_CARD | OcgQueryFlags.TARGET_CARD | OcgQueryFlags.OWNER) as OcgQueryFlags;
+    type Raw = ReturnType<DuelSession['core']['duelQueryLocation']>[number];
+    const raw = new Map<string, Raw[]>();
+    const query = (controller: 0 | 1, location: OcgLocation) => {
+      const field = location === OcgLocation.MZONE || location === OcgLocation.SZONE;
+      const r = s.core.duelQueryLocation(s.handle, { flags: field ? fieldFlags : flags, controller, location });
+      if (field) raw.set(`${controller}:${location}`, r);
+      return r;
+    };
     const q = (controller: 0 | 1, location: OcgLocation): (BoardCard | null)[] =>
-      s.core.duelQueryLocation(s.handle, { flags, controller, location }).map((c) =>
-        c && c.code ? { code: c.code, position: c.position ?? 0, attack: signed(c.attack), defense: signed(c.defense) } : null);
+      query(controller, location).map((c) => {
+        if (!c || !c.code) return null;
+        const card: BoardCard = { code: c.code, position: c.position ?? 0, attack: signed(c.attack), defense: signed(c.defense) };
+        if (c.owner != null && c.owner !== controller) card.stolen = true;
+        return card;
+      });
     const pb = (p: 0 | 1): PlayerBoard => ({
       lp: this.lp[p],
       deck: s.core.duelQueryCount(s.handle, p, OcgLocation.DECK),
@@ -59,6 +73,43 @@ export class Narrator {
       szone: q(p, OcgLocation.SZONE),
       grave: q(p, OcgLocation.GRAVE).filter(Boolean) as BoardCard[],
     });
-    return { players: [pb(0), pb(1)], turn: this.turn, turnPlayer: this.turnPlayer, phase: this.phase };
+    const players: [PlayerBoard, PlayerBoard] = [pb(0), pb(1)];
+    linkCards(players, raw);
+    return { players, turn: this.turn, turnPlayer: this.turnPlayer, phase: this.phase };
+  }
+}
+
+type RawCard = { code?: number; equipCard?: { controller: number; location: number; sequence: number } | null; targetCards?: { controller: number; location: number; sequence: number }[] } | null;
+
+/** Liga as cartas do campo pelas consultas de equipamento e alvo: cada ponta ganha um `CardLink` para a outra. */
+export function linkCards(players: [PlayerBoard, PlayerBoard], raw: Map<string, RawCard[]>) {
+  const at = (controller: number, location: number, sequence: number): BoardCard | null => {
+    const pl = players[controller as 0 | 1];
+    if (!pl) return null;
+    if (location === OcgLocation.MZONE) return pl.mzone[sequence] ?? null;
+    if (location === OcgLocation.SZONE) return pl.szone[sequence] ?? null;
+    return null;
+  };
+  const add = (card: BoardCard, l: CardLink) => {
+    const ls = (card.links ??= []);
+    if (!ls.some((x) => x.controller === l.controller && x.location === l.location && x.sequence === l.sequence && x.dir === l.dir)) ls.push(l);
+  };
+  for (const [key, list] of raw) {
+    const [controller, location] = key.split(':').map(Number) as [0 | 1, number];
+    list.forEach((c, sequence) => {
+      const src = at(controller, location, sequence);
+      if (!c || !src) return;
+      const tie = (kind: CardLink['kind'], t: { controller: number; location: number; sequence: number }) => {
+        const dst = at(t.controller, t.location, t.sequence);
+        if (!dst || dst === src) return;
+        add(src, { kind, dir: 'to', code: dst.code, controller: t.controller as 0 | 1, location: t.location, sequence: t.sequence });
+        add(dst, { kind, dir: 'by', code: src.code, controller, location, sequence });
+      };
+      if (c.equipCard) tie('equip', c.equipCard);
+      for (const t of c.targetCards ?? []) {
+        if (c.equipCard && t.controller === c.equipCard.controller && t.location === c.equipCard.location && t.sequence === c.equipCard.sequence) continue;
+        tie('target', t);
+      }
+    });
   }
 }

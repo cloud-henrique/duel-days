@@ -53,13 +53,14 @@ campanha, Voltar ao título e Fechar.
 - **THEN** abre a tela de Status, e Fechar volta ao mapa sem sair dele
 
 ### Requirement: Quem aparece em cada período
-Em cada período, SHALL aparecer de 2 a 4 dos duelistas comuns do tier atual. Depois que o Tier 2 abrir, SHALL aparecer
-também de 1 a 2 dos amigos do Tier 1 (Tristan, Téa, Joey e Bakura). Os chefes já liberados SHALL aparecer em todo
-período. Cada duelista SHALL ocupar um ponto diferente do panorama, sorteado entre os pontos do mapa, sem cabeças
-sobrepostas. O sorteio de quem aparece e dos pontos MUST ser reproduzível pela semente da campanha, pelo dia e pelo
+Em cada período, SHALL aparecer de 2 a 4 dos duelistas comuns do tier atual. Depois que um tier abrir, todos os
+comuns dos tiers anteriores SHALL continuar aparecendo (no Tier 2, os amigos do Tier 1: Tristan, Téa, Joey e Bakura).
+Os chefes já liberados SHALL aparecer em todo período. Cada duelista SHALL ocupar um ponto diferente do panorama, sem
+cabeças sobrepostas: no Tier 1, sorteado entre os pontos do mapa; depois, espalhado pelo panorama, com o tier atual
+perto do centro (a parte que a tela mostra ao abrir) e cada tier anterior mais longe dele. O sorteio de quem aparece e dos pontos MUST ser reproduzível pela semente da campanha, pelo dia e pelo
 período: fechar e abrir o app no mesmo período mostra os mesmos duelistas nos mesmos pontos. Tocar numa cabeça SHALL
 abrir o encontro com aquele duelista. Um duelista com evento de laço aberto SHALL ter um "!" na cabeça; um chefe SHALL
-ter moldura dourada e coroa.
+ter moldura dourada larga, com um anel dourado girando em volta (sem coroa).
 
 #### Scenario: Mesmo período, mesma gente
 - **WHEN** o jogador fecha o app de manhã no dia 2 e o abre de novo
@@ -71,13 +72,13 @@ ter moldura dourada e coroa.
 
 #### Scenario: Amigos no Tier 2
 - **WHEN** o tier atual é o Tier 2
-- **THEN** o mapa mostra de 2 a 4 duelistas do Tier 2 e de 1 a 2 amigos do Tier 1, e o evento de laço aberto da Téa
-  continua com "!" quando ela aparece
+- **THEN** o mapa mostra de 2 a 4 duelistas do Tier 2 perto do centro e os 4 amigos do Tier 1 mais para os lados, e o
+  evento de laço aberto da Téa continua com "!"
 
 ### Requirement: Chefe Yugi
 O Yugi SHALL aparecer no mapa em todo período depois que o jogador vencer cada um dos 4 duelistas comuns do Tier 1 ao
 menos uma vez, e SHALL continuar aparecendo nos tiers seguintes. Antes disso, o progresso do tier SHALL dizer que é
-preciso vencer todos para desafiá-lo. No mapa, o Yugi aparece com moldura dourada e coroa.
+preciso vencer todos para desafiá-lo. No mapa, o Yugi aparece com a moldura dourada de chefe.
 
 #### Scenario: Liberar o chefe
 - **WHEN** o jogador vence o último dos 4 duelistas comuns que ainda não tinha vencido

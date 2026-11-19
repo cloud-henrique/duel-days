@@ -37,8 +37,16 @@
   box-shadow: 0 0 10px rgba(42, 184, 255, .7), 0 6px 8px rgba(0, 0, 0, .45); cursor: pointer; animation: pin-float 2.4s ease-in-out infinite; }
 .pinhead img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block; }
 .pinhead > b { position: absolute; top: -6px; right: -6px; width: 22px; height: 22px; border-radius: 50%; background: #ff4d6a; color: #fff; font: 800 15px/22px var(--font-game); text-align: center; }
-.pinhead.boss { border-color: #f6d36a; box-shadow: 0 0 14px rgba(246, 211, 106, .8), 0 6px 8px rgba(0, 0, 0, .45); }
-.pinhead.boss svg { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); color: #f6d36a; filter: drop-shadow(0 1px 2px #000); }
+.pinhead > b { z-index: 2; }
+/* Chefe: maior, moldura dourada larga e um anel dourado girando em volta (no lugar da coroa). */
+.pinhead.boss { width: 60px; height: 60px; border: 3px solid #ffe08a; z-index: 3;
+  box-shadow: 0 0 0 2px #7a4a00, 0 0 18px 4px rgba(255, 196, 60, .85), 0 6px 8px rgba(0, 0, 0, .45); }
+.pinhead.boss::before { content: ''; position: absolute; inset: -12px; border-radius: 50%; z-index: -1; pointer-events: none;
+  background: conic-gradient(from 0deg, #fff3c4, #f6b73c 20%, transparent 32%, transparent 50%, #fff3c4 50%, #f6b73c 70%, transparent 82%);
+  -webkit-mask: radial-gradient(circle closest-side, transparent 76%, #000 79%, #000 96%, transparent 99%); mask: radial-gradient(circle closest-side, transparent 76%, #000 79%, #000 96%, transparent 99%);
+  animation: boss-ring 3s linear infinite; }
+@keyframes boss-ring { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .pinhead.boss::before { animation: none; } }
 @keyframes pin-float { 50% { translate: 0 -5px; } }
 @media (prefers-reduced-motion: reduce) { .pinhead { animation: none; } }
 .mapnav { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; padding: 8px 10px calc(10px + env(safe-area-inset-bottom)); flex-shrink: 0; }
@@ -56,26 +64,26 @@
 /* Palco das falas (o DialogueStage do nativo). `clip`, e não `hidden`: o foco num botão rolava o contêiner para o lado
    (o personagem é mais largo que a tela). Duas classes: o `.story` do styles.css carrega depois. */
 .story.campaign-scene { position: relative; height: 100%; overflow: clip; display: flex; flex-direction: column; background: #050a18;
-  --tint: rgba(77, 128, 179, .33); --dim: .55; --wash: rgba(204, 230, 255, .16); --wash-blend: normal; }
-.campaign-scene.p-afternoon { --tint: rgba(140, 77, 31, .39); --dim: .65; --wash: rgba(255, 158, 64, .45); --wash-blend: multiply; }
-.campaign-scene.p-evening { --tint: rgba(20, 31, 89, .51); --dim: .85; --wash: rgba(31, 46, 128, .7); --wash-blend: multiply; }
-/* O GameBackground do nativo: a cena desfocada (esconde a baixa resolução), um degradê radial escuro com o brilho da
-   cor do período, o véu do período e o circuito por cima. */
-.scene-bg { position: absolute; inset: -6px; background-size: cover; background-position: center; filter: blur(2px); }
+  --tint: rgba(77, 128, 179, .12); --dim: .3; --wash: rgba(204, 230, 255, .06); --wash-blend: normal; }
+.campaign-scene.p-afternoon { --tint: rgba(140, 77, 31, .15); --dim: .35; --wash: rgba(255, 158, 64, .22); --wash-blend: multiply; }
+.campaign-scene.p-evening { --tint: rgba(20, 31, 89, .25); --dim: .5; --wash: rgba(31, 46, 128, .42); --wash-blend: multiply; }
+/* O GameBackground do nativo, mais leve para o lugar aparecer: a cena pouco desfocada, um degradê radial escuro com o
+   brilho da cor do período e o véu do período (sem o circuito por cima). */
+.scene-bg { position: absolute; inset: -4px; background-size: cover; background-position: center; filter: blur(.8px); }
 .scene-dim { position: absolute; inset: 0; background: radial-gradient(circle 600px at 50% 50%, var(--tint) 20px, rgba(5, 10, 24, var(--dim)) 600px); }
 .scene-wash { position: absolute; inset: 0; background: var(--wash); mix-blend-mode: var(--wash-blend); pointer-events: none; }
-.scene-circuit { position: absolute; inset: 0; background: url('../../ui/circuit.svg') 0 0 / 259.81px 450px repeat; opacity: .8; pointer-events: none; }
 .campaign-scene > .topbar { position: relative; z-index: 6; }
 .scene-hearts-wrap { position: relative; z-index: 6; align-self: center; margin-top: 8px; }
 .scene-hearts { padding: 8px 14px; display: flex;
   --edge: #2ab8ff; --fill: linear-gradient(180deg, #0b2a6a, #050a18); }
 
-/* Os personagens: a altura toda do palco (abaixo da barra do topo; o sprite tem folga acima do cabelo), base no pé da tela: a cabeça fica logo abaixo da placa
-   de corações e continua à vista com o menu de temas aberto (a caixa cobre a cintura e as pernas). Sozinho, o duelista
+/* Os personagens: 80% da altura do palco (abaixo da barra do topo), com a base a 12% do pé da tela, escondida pela
+   caixa de fala: sobra lugar para o fundo aparecer em volta. Sozinho, o duelista
    fica no centro; com o jogador em cena, cada um vai 1/5 da largura para o seu lado. Quem não fala fica escurecido. */
 .campaign-scene .stage { position: absolute; inset: calc(52px + env(safe-area-inset-top)) 0 0; z-index: 2; pointer-events: none; overflow: hidden; }
 .actor { position: absolute; bottom: 0; left: 50%; height: 100%; transform: translateX(-50%); transition: transform .3s ease-out, filter .3s;
   filter: brightness(.65) saturate(.6); animation: actor-in .35s ease-out both; }
+.campaign-scene .stage .actor { bottom: 12%; height: 80%; }
 .actor.lit { filter: none; z-index: 1; }
 /* Até o corpo e o rosto estarem carregados: escondido e sem a entrada, que começa quando ele aparece. */
 .actor.loading { visibility: hidden; animation: none; }

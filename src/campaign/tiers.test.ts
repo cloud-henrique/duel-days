@@ -84,17 +84,28 @@ describe('mapa por tiers', () => {
     for (const p of [0, 1, 2] as Period[]) expect(present(at(4, p)).some((d) => T2.includes(d.key))).toBe(false);
   });
 
-  it('no Tier 2: 2 a 4 do T2 e 1 a 2 amigos do T1, em pontos diferentes, reproduzível', () => {
+  it('no Tier 2: 2 a 4 do T2 e todos os amigos do T1, em pontos diferentes, reproduzível', () => {
     for (let day = 8; day <= 14; day++) for (const p of [0, 1, 2] as Period[]) {
       const s = at(day, p);
       const here = present(s);
       const t2 = here.filter((d) => T2.includes(d.key)).length;
       const friends = here.filter((d) => FRIENDS.some((f) => f.key === d.key)).length;
       expect(t2).toBeGreaterThanOrEqual(2); expect(t2).toBeLessThanOrEqual(4);
-      expect(friends).toBeGreaterThanOrEqual(1); expect(friends).toBeLessThanOrEqual(2);
+      expect(friends).toBe(FRIENDS.length);
       const pts = placements(s).map((x) => `${x.point.x},${x.point.y}`);
       expect(new Set(pts).size).toBe(here.length);
       expect(placements(s)).toEqual(placements(at(day, p)));
+    }
+  });
+
+  it('no Tier 2: o tier atual perto do centro, o T1 mais longe, e ninguém encostado', () => {
+    for (let day = 8; day <= 14; day++) for (const p of [0, 1, 2] as Period[]) {
+      const pl = placements(at(day, p));
+      const dist = (x: number) => Math.abs(x - 0.5);
+      const cur = pl.filter((x) => T2.includes(x.duelist.key)).map((x) => dist(x.point.x));
+      const old = pl.filter((x) => !T2.includes(x.duelist.key)).map((x) => dist(x.point.x));
+      expect(Math.max(...cur)).toBeLessThan(Math.min(...old));
+      for (const a of pl) for (const b of pl) if (a !== b) expect(Math.hypot((a.point.x - b.point.x) * 2, a.point.y - b.point.y)).toBeGreaterThan(0.12);
     }
   });
 
@@ -120,8 +131,8 @@ describe('economia por tiers', () => {
     expect(k.reward.baseDP).toBe(400);
   });
 
-  it('assinatura do Tier 2: 10ª vitória sobre o Keith dá o Barrel Dragon', () => {
-    const r = applyDuel(at(9, 0, { victories: { keith: 9 } }), 'keith', 'regular', win);
+  it('assinatura do Tier 2: 5ª vitória sobre o Keith dá o Barrel Dragon', () => {
+    const r = applyDuel(at(9, 0, { victories: { keith: 4 } }), 'keith', 'regular', win);
     expect(r.reward.cards.find((c) => c.kind === 'signature')?.id).toBe(81480460);
   });
 

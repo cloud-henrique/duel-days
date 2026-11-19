@@ -42,15 +42,23 @@ describe('cartas por vitória', () => {
     expect(LIMITED.has(55144522)).toBe(true);
   });
 
-  it('a vitória paga DP, dá uma carta e soma a vitória; a 10ª dá a assinatura', () => {
-    const s = withPresent('joey', base({ victories: { joey: 9 } }));
+  it('a vitória paga DP, dá uma carta e soma a vitória; a 5ª dá a assinatura', () => {
+    const s = withPresent('joey', base({ victories: { joey: 4 } }));
     const r = applyDuel(s, 'joey', 'regular', { result: 'win', turns: 12, lifePoints: 3000 });
     expect(r.reward.totalDP).toBe(300);
     expect(r.state.dp).toBe(300);
-    expect(r.state.victories.joey).toBe(10);
+    expect(r.state.victories.joey).toBe(5);
     expect(r.reward.cards.map((c) => c.kind)).toEqual(['signature', 'drop']);
     expect(r.reward.cards[0].id).toBe(74677422); // Red-Eyes Black Dragon
     expect(r.state.period).toBe(((s.period + 1) % 3));
+  });
+
+  it('save antigo (assinatura na 10ª): entre a 6ª e a 10ª, sem a carta, ela sai na próxima vitória', () => {
+    const s = withPresent('joey', base({ victories: { joey: 7 } }));
+    const r = applyDuel(s, 'joey', 'regular', { result: 'win', turns: 12, lifePoints: 3000 });
+    expect(r.reward.cards[0]).toMatchObject({ kind: 'signature', id: 74677422 });
+    const again = applyDuel(withPresent('joey', r.state), 'joey', 'regular', { result: 'win', turns: 12, lifePoints: 3000 });
+    expect(again.reward.cards.some((c) => c.kind === 'signature')).toBe(false);
   });
 
   it('a 5ª vitória libera o pacote de personagem', () => {
