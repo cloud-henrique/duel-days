@@ -5083,6 +5083,42 @@
    ],
    "extras": [],
    "series": "dm"
+  },
+  {
+   "id": "strings",
+   "name": "Strings",
+   "sourceAssetId": "manual (zip baixado à mão)",
+   "full": {
+    "variant": "chara007",
+    "file": "strings/full_chara007.png",
+    "w": 760,
+    "h": 800
+   },
+   "bodies": [
+    {
+     "variant": "chara007",
+     "file": "strings/full_chara007.png",
+     "w": 760,
+     "h": 800
+    }
+   ],
+   "faces": [
+    {
+     "variant": "chara007",
+     "index": 1,
+     "file": "strings/faces/chara007_01.png",
+     "w": 240,
+     "h": 240
+    },
+    {
+     "variant": "chara007",
+     "index": 7,
+     "file": "strings/faces/chara007_07.png",
+     "w": 240,
+     "h": 240
+    }
+   ],
+   "series": "dm"
   }
  ]
 }

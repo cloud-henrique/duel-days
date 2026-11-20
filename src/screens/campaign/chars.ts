@@ -18,13 +18,19 @@ export const CHAR_ID: Record<string, string> = {
   keith: 'bandit_keith',
   mai: 'mai_valentine',
   pegasus: 'maximillion_pegasus',
+  // Tier 3 (change `tier3-batalha-da-cidade`); o Strings só tem `neutral` e `worried`
+  espa: 'espa_roba',
+  rarehunter: 'rare_hunter',
+  arkana: 'arkana',
+  strings: 'strings',
+  kaiba: 'seto_kaiba',
 };
 
 /** Expressão do nativo → a da PWA; sem par, cai para `neutral`. */
 const EXPR: Record<Expression, string[]> = {
   neutral: ['neutral'],
   happy: ['happy', 'laugh'],
-  sad: ['sad'],
+  sad: ['sad', 'worried'], // o Strings não tem `sad`
   angry: ['angry'],
   surprised: ['surprised'],
   blushing: ['embarrassed'],
@@ -39,5 +45,6 @@ export function expressionFor(available: string[], e: Expression | string): stri
 export const SPEAKER_COLOR: Record<string, string> = {
   tristan: '#ff9500', tea: '#ff2d55', joey: '#34c759', bakura: '#bfd9ff', yugi: '#af52de', solomon: '#a2845e', player: '#2ab8ff',
   weevil: '#8bc34a', rex: '#e0603a', mako: '#1e88e5', keith: '#b0b7c0', mai: '#c86bd8', pegasus: '#e8d27a',
+  espa: '#4dd0e1', rarehunter: '#8d6e63', arkana: '#7e57c2', strings: '#9e9e9e', kaiba: '#5c9cff',
 };
 export const speakerColor = (key: string) => SPEAKER_COLOR[key] ?? '#2ab8ff';

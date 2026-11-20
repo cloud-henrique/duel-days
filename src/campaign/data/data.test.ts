@@ -64,6 +64,32 @@ describe('dados da campanha', () => {
     expect(missing).toEqual([]);
   });
 
+  it.skipIf(!existsSync('public/campaign'))('a cena de cada duelista tem o fundo copiado (copy_tfs_backgrounds.py)', () => {
+    const missing = DUELISTS.filter((d) => !existsSync(`public/campaign/bg-${d.scene.bg}.jpg`)).map((d) => d.key);
+    expect(missing).toEqual([]);
+  });
+
+  it('nenhuma fala fora dos eventos de laço entrega uma carta (a assinatura só chega na 5ª vitória)', () => {
+    // O presente do laço é dado no 4º evento, onde a fala de entrega está certa; nos outros momentos, não.
+    const gives = /\b(fica|fique|toma|tome|leva|leve|pega|pegue|aceita|aceite)\b( com)? (o|a) (meu|minha)\b/i;
+    const bad: string[] = [];
+    for (const [key, moments] of Object.entries(DIALOGUE.duelists)) {
+      for (const [moment, scenes] of Object.entries(moments as unknown as Record<string, unknown>)) {
+        if (moment === 'bondEvents') continue;
+        for (const text of JSON.stringify(scenes).match(/"text":"(?:[^"\\]|\\.)*"/g) ?? []) {
+          if (gives.test(text)) bad.push(`${key}.${moment}: ${text}`);
+        }
+      }
+    }
+    expect(bad).toEqual([]);
+  });
+
+  it('a carta-assinatura de cada duelista está no deck dele', () => {
+    for (const d of DUELISTS) {
+      expect([...d.deck.main, ...d.deck.extra].some((e) => e.id === d.signatureCard.id), d.key).toBe(true);
+    }
+  });
+
   it.skipIf(!existsSync(CARDS))('o deck de cada duelista é válido', () => {
     const cards = JSON.parse(readFileSync(CARDS, 'utf8')) as Record<string, CardRecord>;
     for (const d of DUELISTS) {

@@ -44,15 +44,14 @@ describe('progressão por tiers', () => {
     expect(r.reward.prizePack).toBeNull();
   });
 
-  it('tier sem conteúdo: Pegasus vencido no dia 12 dá prêmio, o tier continua o 2 e o progresso avisa', () => {
+  it('Pegasus vencido no dia 12: prêmio e o Tier 3 abre no período seguinte (o "tier sem conteúdo" está no tier3.test)', () => {
     const s = at(12, 0, { victories: beat([...T1, ...T2]) });
     const r = applyDuel(s, 'pegasus', 'regular', win);
     expect(r.reward.prizePack).not.toBeNull();
-    expect(currentTier(r.state).number).toBe(2);
-    expect(isTierOpen(r.state, 3)).toBe(false);
-    expect(awaitsNextUpdate(r.state)).toBe(true);
-    expect(awaitsNextUpdate(at(12))).toBe(false);
-    expect(currentTier(at(20)).number).toBe(2);
+    expect(currentTier(r.state).number).toBe(3);
+    expect(tierOpenDay(r.state, 3)).toBe(12);
+    expect(awaitsNextUpdate(r.state)).toBe(false);
+    expect(currentTier(at(20)).number).toBe(3);
   });
 
   it('cabeçalho no Tier 2 com Rex e Weevil vencidos: "2/5"', () => {

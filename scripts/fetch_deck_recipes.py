@@ -12,7 +12,9 @@ armadilha); cópias acima do limite também. Cada troca fica registrada (`swaps`
 
 Saída (fora do git: são receitas de terceiros): raw/decks/recipes.json (tudo) e raw/decks/candidates.json.
 
-Uso: python3 scripts/fetch_deck_recipes.py [--cache]   (--cache reaproveita o recipes.json já baixado)
+Uso: python3 scripts/fetch_deck_recipes.py [--cache] [--only=chave,chave]
+  --cache reaproveita o recipes.json já baixado; --only busca e refaz só esses duelistas e mantém os outros no
+  recipes.json e no candidates.json (os índices das vencedoras em picks.json continuam valendo).
 """
 import json
 import re
@@ -45,6 +47,12 @@ CHARACTERS = {
     'keith': (['Keith'], r'keith', r'posses|marik'),
     'mai': (['Mai', 'Kujaku'], r'\bmai\b|kujaku', r''),
     'pegasus': (['Pegasus'], r'pegasus|pegasus', r'kaiba'),
+    # Tier 3 (change `tier3-batalha-da-cidade`)
+    'espa': (['Espa Roba', 'Esper Roba'], r'esp[ae]r? ?roba', r''),
+    'rarehunter': (['Rare Hunter'], r'rare ?hunter', r'umbra|lumis|strings|pantomim'),  # só o do Exodia
+    'arkana': (['Arkana', 'Pandora'], r'arkana|pandora', r''),
+    'strings': (['Strings'], r'strings', r''),
+    'kaiba': (['Kaiba', 'Seto'], r'kaiba|\bseto\b', r'mokuba|noah|legendary|duelists? kingdom|\bdk\b|1st|pyramid|pegasus|ozzy|gozaburo'),
 }
 
 
@@ -53,8 +61,8 @@ def get(url: str):
     return json.load(urllib.request.urlopen(req, timeout=30))
 
 
-def fetch_all() -> dict:
-    terms = sorted({t for qs, _, _ in CHARACTERS.values() for t in qs})
+def fetch_all(keys) -> dict:
+    terms = sorted({t for k in keys for t in CHARACTERS[k][0]})
     out = {}
     for t in terms:
         decks = []
@@ -80,10 +88,13 @@ def fetch_all() -> dict:
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     raw_file = OUT / 'recipes.json'
+    only = next((a.split('=', 1)[1].split(',') for a in sys.argv if a.startswith('--only=')), None)
+    keys = only or list(CHARACTERS)
     if '--cache' in sys.argv and raw_file.exists():
         raw = json.loads(raw_file.read_text())
     else:
-        raw = fetch_all()
+        raw = json.loads(raw_file.read_text()) if only and raw_file.exists() else {}
+        raw.update(fetch_all(keys))
         raw_file.write_text(json.dumps(raw))
 
     cards = json.loads((ROOT / 'public/data/cards.json').read_text())
@@ -111,7 +122,8 @@ def main() -> None:
 
     names_needed: set[int] = set()
     chosen = {}
-    for key, (terms, must, mustnt) in CHARACTERS.items():
+    for key in keys:
+        terms, must, mustnt = CHARACTERS[key]
         seen, rows = set(), []
         for t in terms:
             for d in raw.get(t, []):
@@ -184,7 +196,8 @@ def main() -> None:
             swaps.append({'out': None, 'in': cards[str(c)]['name'], 'id': c, 'why': 'Main com menos de 40'})
         return main, extra, swaps
 
-    out = {}
+    cand_file = OUT / 'candidates.json'
+    out = json.loads(cand_file.read_text()) if only and cand_file.exists() else {}
     for key, rows in chosen.items():
         out[key] = []
         for cover, d, main_raw, extra_raw in rows:

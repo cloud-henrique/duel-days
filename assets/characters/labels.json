@@ -620,5 +620,11 @@
    "yugi_muto/faces/chara007_05.png": "sad",
    "yugi_muto/faces/chara007_06.png": "embarrassed"
   }
+ },
+ "strings": {
+  "faces": {
+   "strings/faces/chara007_01.png": "neutral",
+   "strings/faces/chara007_07.png": "worried"
+  }
  }
 }

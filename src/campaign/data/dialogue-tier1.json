@@ -1,0 +1,41 @@
+{
+ "_comment": "Correções das falas do Tier 1 do nativo. O copy_campaign_data.py troca só os momentos listados aqui (o resto continua vindo do nativo). A carta-assinatura só chega na 5ª vitória e o prêmio de cada vitória é sorteado do deck do oponente: nenhuma fala de vitória pode entregar uma carta.",
+ "duelists": {
+  "tristan": {
+   "firstWin": [
+    { "speaker": "tristan", "expression": "angry", "text": "Perdi {pro novato|pra novata|pra quem acabou de chegar}?! O Joey vai rir da minha cara por uma semana." },
+    { "speaker": "player", "expression": "happy", "text": "Foi um duelo e tanto. Você não facilitou em nada." },
+    { "speaker": "tristan", "expression": "happy", "text": "Pelo menos isso! Da próxima vez eu volto com o deck afiado. Pode esperar." }
+   ]
+  },
+  "tea": {
+   "firstWin": [
+    { "speaker": "tea", "expression": "surprised", "text": "Você venceu as minhas fadas! Nem o Joey conseguiu isso na primeira vez." },
+    { "speaker": "player", "expression": "blushing", "text": "Você joga muito bem também. Foi difícil do começo ao fim." },
+    { "speaker": "tea", "expression": "happy", "text": "Obrigada! Mas da próxima vez as minhas fadas não vão facilitar, combinado?" }
+   ]
+  },
+  "joey": {
+   "firstWin": [
+    { "speaker": "joey", "expression": "angry", "text": "Não acredito! {nome}, você me derrubou no mano a mano!" },
+    { "speaker": "player", "expression": "happy", "text": "Você também é forte, Joey. Seu deck não dá um segundo de descanso." },
+    { "speaker": "joey", "expression": "happy", "text": "Gostei de você! Mas eu quero revanche, hein! E aí o meu Dragão Negro vai estar com fome." }
+   ]
+  },
+  "bakura": {
+   "firstWin": [
+    { "speaker": "bakura", "expression": "surprised", "text": "Você atravessou o meu deck inteiro... Poucos conseguem, sabia?" },
+    { "speaker": "player", "expression": "neutral", "text": "Seus zumbis não paravam de voltar. Achei que não ia acabar nunca." },
+    { "speaker": "bakura", "expression": "happy", "text": "Fico feliz. É bom duelar com alguém que não desiste. Volte quando quiser." }
+   ]
+  },
+  "yugi": {
+   "bossDefeat": [
+    { "speaker": "yugi", "expression": "surprised", "text": "Você venceu... Meus amigos estavam certos sobre você." },
+    { "speaker": "player", "expression": "happy", "text": "{Obrigado|Obrigada|Valeu} pelo duelo, Yugi. Foi o mais difícil até agora." },
+    { "speaker": "yugi", "expression": "happy", "text": "O Mago Negro e eu ainda temos muito pra aprender. Você acabou de mostrar isso." },
+    { "speaker": "yugi", "expression": "neutral", "text": "A Cidade de Domino ficou pequena pra você. Dizem que um torneio numa ilha vai reunir duelistas do país inteiro..." }
+   ]
+  }
+ }
+}

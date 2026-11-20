@@ -56,6 +56,10 @@ REPLACE: dict[str, dict[str, int]] = {
     'pegasus': {
         'Card of Sanctity': 79571449,         # Graceful Charity: compra
     },
+    'rarehunter': {
+        'Obliterate!!!': 26202165,                   # Sangan: busca uma peça do Exodia (o Obliterate!!! é da era GX)
+        'The Legendary Exodia Incarnate': 78010363,  # Witch of the Black Forest: idem
+    },
 }
 
 # Reforço de cada deck (change `cpu-estrategica`): com a CPU nova dos dois lados, as receitas de anime perdiam para o
@@ -65,6 +69,9 @@ REPLACE: dict[str, dict[str, int]] = {
 TUNE: dict[str, list[tuple[str, str, str]]] = {
     'tristan': [
         ('Robolady', 'Marauding Captain', 'guerreiro de nível 4 que traz outro'),
+        # No lugar do Science Soldier (800), o deck foi de 57% a 70%: troca por outro monstro grande de tributo.
+        ('Sword Hunter', 'Sengenjin', 'a carta-assinatura do Tristan (a receita escolhida não tinha)'),
+        ('Axe of Despair', 'Science Soldier', 'compensa o Sengenjin: só com ele, o deck foi de 57% a 70%'),
     ],
     'bakura': [
         ('Spirit Message "L"', 'Ryu Kokki', 'as Spirit Messages só servem ao Destiny Board, que quase nunca completa'),
@@ -74,6 +81,8 @@ TUNE: dict[str, list[tuple[str, str, str]]] = {
         ('Destiny Board', 'Pyramid Turtle', 'idem'),
         ('Jowgen the Spiritualist', 'Sakuretsu Armor', 'efeito fraco no deck'),
         ('Puppet Master', 'Trap Hole', 'nível 6 de 0 ATK'),
+        # No lugar do Souls of the Forgotten (900), o deck foi de 63% a 73%: troca remoção por remoção.
+        ('Sakuretsu Armor', 'Man-Eater Bug', 'a carta-assinatura do Bakura (a receita escolhida não tinha)'),
     ],
     'yugi': [
         ('Multiply', 'Change of Heart', 'combo com o Kuriboh, que a CPU quase nunca monta'),
@@ -129,6 +138,7 @@ TUNE: dict[str, list[tuple[str, str, str]]] = {
         ('Salvage', 'Trap Hole', 'efeito lento'),
         ('Salvage', 'Trap Hole', 'idem'),
         ('Power of Kaishin', 'Torrential Tribute', 'efeito fraco'),
+        ('Behegon', 'The Legendary Fisherman', 'a carta-assinatura do Mako (a receita escolhida não tinha); combina com os 3 Umi'),
     ],
     'keith': [
         ('Zera Ritual', 'Jinzo', 'o Ritual quase nunca sai'),
@@ -174,6 +184,58 @@ TUNE: dict[str, list[tuple[str, str, str]]] = {
         ('Manga Ryu-Ran', 'Gemini Elf', 'nível 7: dois tributos e o Toon World'),
         ('Manga Ryu-Ran', 'Vorse Raider', 'idem'),
         ('Blue-Eyes Toon Dragon', 'Archfiend Soldier', 'nível 8: dois tributos e o Toon World'),
+    ],
+    # Tier 3 (change `tier3-batalha-da-cidade`)
+    'strings': [  # receita de Fusão e combos de Slime: 8% contra o deck inicial; fica o Revival Jam com aqua e répteis
+        ('Jam Breeding Machine', 'Swords of Revealing Light', 'a CPU não espera os Slimes da máquina'),
+        ('Infinite Cards', 'Jam Defender', 'efeito fraco; o 3º Jam Defender protege o Revival Jam'),
+        ('Behegon', 'Gagagigo', 'aqua/réptil de 1850 no lugar de 1350'),
+        ('Gruesome Goo', 'Gagagigo', 'idem'),
+        ('Liquid Beast', 'Giant Red Seasnake', 'aqua de 1800'),
+        ('Change Slime', 'Giant Red Seasnake', 'idem'),
+        ('Humanoid Slime', 'Mirror Force', 'a Fusão com o Worm Drake quase nunca sai'),
+        ('Humanoid Slime', 'Sakuretsu Armor', 'idem'),
+        ('Worm Drake', 'Torrential Tribute', 'idem'),
+        ('Worm Drake', 'Trap Hole', 'idem'),
+        ('Polymerization', 'Dark Hole', 'a Fusão quase nunca sai'),
+        ('Polymerization', 'Change of Heart', 'idem'),
+        ('Polymerization', 'Trap Hole', 'idem'),
+        ('Fusion Sage', 'Mystical Space Typhoon', 'idem'),
+        ('Ameba', 'Penguin Soldier', 'combo com a Creature Swap que a CPU não monta'),
+        ('Ameba', 'Penguin Soldier', 'idem'),
+        ('Mucus Yolk', 'Granadora', 'aqua/réptil de 1900'),
+        ('Return of the Doomed', 'Call of the Haunted', 'revive o Slime e os aqua'),
+        ('Emergency Provisions', 'Magic Cylinder', 'efeito fraco'),
+        ('Ekibyo Drakmord', 'Shrink', 'efeito lento'),
+        ('Senri Eye', 'Nobleman of Crossout', 'efeito fraco'),
+        ('Mass Driver', 'Smashing Ground', 'depende do combo do Revival Jam'),
+        # 2ª rodada (57% com as trocas acima; com mais monstros e o Levia/Snatch Steal foi a 90–93%)
+        ('Card of Safe Return', 'Book of Moon', 'só compra com monstro revivido'),
+        ("Nightmare's Steelcage", 'Magic Cylinder', 'só adia'),
+        ("Nightmare's Steelcage", 'Waboku', 'idem'),
+        ('Jar of Greed', 'Graceful Charity', 'compra mais'),
+    ],
+    'kaiba': [  # 50% contra o deck inicial; meta de chefe 85%
+        ('Cost Down', 'Dark Hole', 'a CPU quase nunca aproveita o Cost Down'),
+        ('Cost Down', 'Raigeki', 'idem'),
+        ('Cost Down', 'Change of Heart', 'idem'),
+        ('The Flute of Summoning Dragon', 'Mirror Force', 'combo com o Lord of D. que a CPU raramente monta; fica 1'),
+        ('The Flute of Summoning Dragon', 'Trap Hole', 'idem'),
+        ('Lord of D.', 'Sakuretsu Armor', 'idem'),
+        ('Lord of D.', 'Trap Hole', 'idem'),
+        ('Silent Doom', 'Swords of Revealing Light', 'revive só em defesa'),
+        ('Final Attack Orders', 'Torrential Tribute', 'efeito fraco'),
+        ('Interdimensional Matter Transporter', 'Mystical Space Typhoon', 'efeito fraco'),
+        ('Saggi the Dark Clown', 'Kaiser Sea Horse', '600 de ATK; o Kaiser ajuda a invocar o Olhos Azuis'),
+        # 2ª rodada: 83% contra o deck inicial, mas só 38% contra os comuns do T3 (perde para as armadilhas de Arkana e Strings)
+        ('Shrink', 'Heavy Storm', 'limpa as armadilhas dos comuns do T3'),
+        ('Cloning', "Harpie's Feather Duster", 'idem'),
+        ('Soul Exchange', 'Snatch Steal', 'a CPU quase nunca usa a Soul Exchange'),
+        ('Des Feral Imp', 'Luster Dragon', 'dragão de 1900'),
+        ('Ryu-Kishin Powered', 'Spear Dragon', 'dragão de 1900 com perfuração'),
+        ('Battle Ox', 'Luster Dragon', 'dragão de 1900'),
+        ('Crush Card Virus', 'Mystical Space Typhoon', 'pede tributo de trevas que a CPU raramente tem; tira armadilhas'),
+        ('Crush Card Virus', 'Dust Tornado', 'idem'),
     ],
 }
 

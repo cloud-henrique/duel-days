@@ -17,7 +17,7 @@ export const BALANCE = {
 
   commonsPerPack: 4,
   slotOdds: [['rare', 70], ['super', 20], ['ultra', 10]] as const,
-  packPrices: { lob: 150, mrd: 200, mrl: 200, psv: 225, lon: 250, lod: 250, pgd: 250 } as Record<string, number>,
+  packPrices: { lob: 150, mrd: 200, mrl: 200, psv: 225, lon: 250, lod: 250, pgd: 250, mfc: 300, dcr: 300, ioc: 300 } as Record<string, number>,
   characterPackPrice: 250,
   characterPackWins: 5,
   signatureWins: 5,

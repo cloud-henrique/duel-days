@@ -34,8 +34,26 @@
       "signatureCard": { "id": 15259703, "comment": "Toon World" } }
    ]
   },
-  { "number": 3, "name": "Batalha da Cidade", "firstDay": 15, "lastDay": 22, "packs": [], "duelists": [] },
+  {
+   "number": 3, "name": "Batalha da Cidade", "firstDay": 15, "lastDay": 22,
+   "packs": [{ "key": "mfc", "offset": 0 }, { "key": "dcr", "offset": 2 }, { "key": "ioc", "offset": 4 }],
+   "duelists": [
+    { "key": "espa", "name": "Espa Roba", "isBoss": false, "scene": { "bg": "praca-museu", "place": "Praça do museu" },
+      "signatureCard": { "id": 77585513, "comment": "Jinzo" } },
+    { "key": "rarehunter", "name": "Rare Hunter", "isBoss": false, "scene": { "bg": "beco", "place": "Beco" },
+      "signatureCard": { "id": 33396948, "comment": "Exodia the Forbidden One" } },
+    { "key": "arkana", "name": "Arkana", "isBoss": false, "scene": { "bg": "palco", "place": "Palco" },
+      "signatureCard": { "id": 99789342, "comment": "Dark Magic Curtain" } },
+    { "key": "strings", "name": "Strings", "isBoss": false, "scene": { "bg": "rua-neblina", "place": "Rua com neblina" },
+      "signatureCard": { "id": 31709826, "comment": "Revival Jam" } },
+    { "key": "kaiba", "name": "Kaiba", "isBoss": true, "scene": { "bg": "museu", "place": "Museu de Domino" },
+      "signatureCard": { "id": 89631139, "comment": "Blue-Eyes White Dragon" } }
+   ]
+  },
   { "number": 4, "name": "Finais", "firstDay": 23, "lastDay": 30, "packs": [], "duelists": [] }
  ],
- "packNames": { "lon": "Labyrinth of Nightmare", "lod": "Legacy of Darkness", "pgd": "Pharaonic Guardian" }
+ "packNames": {
+  "lon": "Labyrinth of Nightmare", "lod": "Legacy of Darkness", "pgd": "Pharaonic Guardian",
+  "mfc": "Magician's Force", "dcr": "Dark Crisis", "ioc": "Invasion of Chaos"
+ }
 }

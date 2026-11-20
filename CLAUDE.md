@@ -31,12 +31,13 @@ npx tsx proto/move-reason.ts        # confere o `reason` do MSG_MOVE (patch do o
 Pipeline de dados (gera arquivos NÃO versionados; veja README): `npm run fetch-data`, `python3 scripts/import_dm.py` (era DM:
 data OCG até 2004-09-30, caixas TCG, português; correções em `raw/overrides/text.pt.json`),
 `python3 scripts/export_data.py` (+ relatório `raw/import/report.md`), `.venv/bin/python scripts/fetch_card_art.py` (small/large/cropped + verso), `.venv/bin/python scripts/copy_card_icons.py` (ícones de atributo/tipo do app nativo e propriedades do `cardicons.png` do Tag Force 3 no PPSSPP → `public/card-icons/`), `python3 scripts/copy_sounds.py` (efeitos do duelo do app nativo, do Tag Force, convertidos com `afconvert` → `public/sounds/*.m4a`; macOS), `python3 scripts/copy_brand.py` (logo "Yu-Gi-Oh!" do título → `public/brand/`, fora do git), `.venv/bin/python scripts/copy_coin_sprite.py` (moeda do WCT 2004, folha baixada à mão em `raw/wct2004/coin.png` → strip de 17 quadros em `public/sprites/coin.png`, fora do git; sem ela, a moeda desenhada),
-`python3 scripts/copy_campaign_data.py` (Tier 1 do nativo + `tiers.json` + `decks.json` + `dialogue-tier2.json` →
-`src/campaign/data/`, versionados; troca arte alternativa pelo id original), decks dos duelistas (`python3 scripts/fetch_deck_recipes.py`
+`python3 scripts/copy_campaign_data.py` (Tier 1 do nativo + `tiers.json` + `decks.json` + `dialogue-tier*.json` →
+`src/campaign/data/`, versionados; troca arte alternativa pelo id original), decks dos duelistas (`python3 scripts/fetch_deck_recipes.py [--only=chave,…]`
 → `npx tsx proto/deck-pick.ts 20` → `python3 scripts/build_decks.py`: receitas "Anime Decks" do YGOPRODeck escolhidas por torneio
 contra o deck inicial com a CPU nova, perto da meta do tier; confira com `proto/difficulty.ts`), `.venv/bin/python scripts/copy_tfs_backgrounds.py` (fundos das cenas do zip "Events" do Tag Force Special, baixado à mão
 em `raw/tfs/events.zip` → `public/campaign/bg-*.jpg`, fora do git), `python3 scripts/copy_campaign_assets.py` (mapa, fundos dos lugares, capas dos pacotes e as 8
-músicas do nativo → `public/campaign/` e `public/music/`, fora do git), `.venv/bin/python scripts/extract_action_icons.py` (recorta o `actions.png` do Tag Force; o ícone de cada ação se escolhe em `npm run icon-labeler`, porta 5174, e fica em `assets/action-icons/labels.json`), `npm run build-characters`, `.venv/bin/python scripts/build_sprites.py`.
+músicas do nativo → `public/campaign/` e `public/music/`, fora do git), `.venv/bin/python scripts/extract_action_icons.py` (recorta o `actions.png` do Tag Force; o ícone de cada ação se escolhe em `npm run icon-labeler`, porta 5174, e fica em `assets/action-icons/labels.json`), `npm run build-characters`, `.venv/bin/python scripts/build_sprites.py` (o Strings não está no conjunto do Spriters Resource: o zip
+baixado à mão fica em `raw/zips/Strings.zip`, com só `neutral` e `worried`, entrada manual no `manifest.json`/`labels.json`).
 Ícones do PWA (ankh em HUD azul; arte própria, os binários são versionados): edite `assets/app-icon/*.svg` e rode `node scripts/build_app_icons.mjs`
 (Playwright; se faltar o Chromium da revisão certa, `CHROMIUM_PATH=<chrome-headless-shell>`) → `public/icons/*` e `public/favicon.ico`.
 Fundo de colmeia com circuito (arte própria, versionada): `node scripts/build_circuit.mjs` → `src/ui/circuit.svg`, usado
@@ -114,7 +115,8 @@ pelo `.hexbg` do `styles.css`.
 - `src/campaign/` (changes `campanha-dm` e `campanha-tiers`): a campanha Duel Monsters por tiers, **modelo puro** (funções
   que recebem um `CampaignState` e devolvem outro, testadas):
   - `data/` (`campaign.json`, `dialogue.json`, `packs.json` gerados pelo `copy_campaign_data.py`; escritos à mão:
-    `tiers.json` (Tier 2+, cenas, pontos do mapa, dias das coleções) e `dialogue-tier2.json`; `decks.json` gerado; `types.ts`
+    `tiers.json` (Tier 2+, cenas, pontos do mapa, dias das coleções) e `dialogue-tier*.json` (um por tier, juntados momento a momento: o `dialogue-tier1.json` só corrige cenas do nativo;
+    nenhuma fala de vitória entrega carta, a assinatura só chega na 5ª vitória: `data.test.ts`); `decks.json` gerado; `types.ts`
     com `TIERS`, `DUELISTS`, `duelistByKey`);
   - `tiers.ts` (tier atual derivado do dia e dos chefes: o próximo abre pelo chefe vencido ou pelo primeiro dia da janela,
     só se tiver duelistas; `bossDefeatedOn` opcional no save);
@@ -122,7 +124,7 @@ pelo `.hexbg` do `styles.css`.
   - `calendar.ts` (30 dias × manhã/tarde/noite; **só o duelo gasta período**), `map.ts` (2 a 4 do tier atual + todos os comuns
     dos tiers anteriores, chefes liberados; T1 nos pontos fixos, depois anéis: tier atual no meio, antigos mais longe), `encounter.ts` (qual fala toca), `bond.ts` (afinidade com teto/piso, conversa, eventos, rota, epílogo),
     `rewards.ts` (`applyDuel`: DP com bônus, carta, assinatura, chefe, laço e o período), `packs.ts` (loja e sorteio 4+1),
-    `flow.ts` (conhecer, `pendingDuel`), `text.ts` (`{nome}` e `{m|f|n}`), `debug.ts` (`?campaign=last-evening|bond|boss|tier2|pegasus|shop`
+    `flow.ts` (conhecer, `pendingDuel`), `text.ts` (`{nome}` e `{m|f|n}`), `debug.ts` (`?campaign=last-evening|bond|boss|tier2|pegasus|tier3|kaiba|shop`
     em dev ou com `?debug=1`).
 - `src/screens/campaign/`: `MapScreen` (só as cabeças nos pontos, como no Tag Force Special; barra Deck/Coleção/Laços/Loja e o
   menu do cabeçalho abre as Opções com o Status; + `CampaignHeader`, `Hearts`), `CollectionScreen` (totais e a grade da maleta),
@@ -193,8 +195,10 @@ pelo `.hexbg` do `styles.css`.
 - Cartas que o motor não aguenta vão em `raw/pool/blocklist.json` (rode `export_data.py` depois).
 - **Consulta com `OcgQueryFlags.TYPE` quebra o leitor do `ocgcore-wasm`** (devolve nulo e desalinha o resto): o tipo da
   carta vem da base (`view.ts`).
-- **Resposta recusada de um prompt automático ou da CPU vira laço** (o driver devolve ao jogador o último prompt dele e o
-  motor continua esperando o outro). Toda resposta automática precisa ser válida: ex. o `SELECT_SUM` "igual ou maior"
+- **Resposta recusada de um prompt automático ou da CPU virava laço** (o driver devolvia ao jogador o último prompt dele e o
+  motor continuava esperando o outro). Agora o driver tenta outra resposta do mesmo pedido (`alternatives` do `cpu.ts`:
+  ex. "deve atacar" da Amazoness Archers recusa ir para a Main 2, então ataca; `retry.test.ts`); pedidos sem alternativa
+  viram erro visível. Mesmo assim, toda resposta automática precisa ser válida: ex. o `SELECT_SUM` "igual ou maior"
   (Ritual) não aceita carta sobrando.
 - **Cartas da campanha usam o id original**, não o da arte alternativa (sem script no ocgcore): o `copy_campaign_data.py`
   troca pelo `alias`, e o `import_dm.py` acrescenta ao pool os ids da campanha que faltam (o `export_data.py` também troca

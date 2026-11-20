@@ -45,6 +45,43 @@ const PROMPTS = new Set<number>([
   OcgMessageType.ANNOUNCE_NUMBER,
 ]);
 /** A mensagem pede uma resposta do jogador? */
+/**
+ * Outras respostas legais para o mesmo pedido, para quando o motor recusa uma resposta automática (RETRY). Ex.: com
+ * "deve atacar este turno" (Amazoness Archers), o comando de batalha ainda oferece ir para a Main 2/End, mas o motor
+ * recusa; a saída é atacar. Ordem: o que faz o jogo andar primeiro. Vazio para os pedidos sem alternativa simples.
+ */
+export function alternatives(m: OcgMessage): OcgResponse[] {
+  switch (m.type) {
+    case OcgMessageType.SELECT_BATTLECMD: {
+      const B = (action: SelectBattleCMDAction, index: number | null): OcgResponse => ({ type: OcgResponseType.SELECT_BATTLECMD, action, index });
+      return [
+        ...m.attacks.map((_, i) => B(SelectBattleCMDAction.SELECT_BATTLE, i)),
+        ...(m.to_m2 ? [B(SelectBattleCMDAction.TO_M2, null)] : []), ...(m.to_ep ? [B(SelectBattleCMDAction.TO_EP, null)] : []),
+        ...m.chains.map((_, i) => B(SelectBattleCMDAction.SELECT_CHAIN, i)),
+      ];
+    }
+    case OcgMessageType.SELECT_IDLECMD: {
+      const I = (action: SelectIdleCMDAction, index: number | null): OcgResponse => ({ type: OcgResponseType.SELECT_IDLECMD, action, index });
+      return [
+        ...(m.to_bp ? [I(SelectIdleCMDAction.TO_BP, null)] : []), ...(m.to_ep ? [I(SelectIdleCMDAction.TO_EP, null)] : []),
+        ...m.summons.map((_, i) => I(SelectIdleCMDAction.SELECT_SUMMON, i)),
+        ...m.monster_sets.map((_, i) => I(SelectIdleCMDAction.SELECT_MONSTER_SET, i)),
+        ...m.spell_sets.map((_, i) => I(SelectIdleCMDAction.SELECT_SPELL_SET, i)),
+        ...m.activates.map((_, i) => I(SelectIdleCMDAction.SELECT_ACTIVATE, i)),
+      ];
+    }
+    case OcgMessageType.SELECT_CHAIN:
+      return [...(m.forced ? [] : [{ type: OcgResponseType.SELECT_CHAIN, index: null } as OcgResponse]),
+        ...m.selects.map((_, i) => ({ type: OcgResponseType.SELECT_CHAIN, index: i }) as OcgResponse)];
+    case OcgMessageType.SELECT_EFFECTYN:
+      return [{ type: OcgResponseType.SELECT_EFFECTYN, yes: false }, { type: OcgResponseType.SELECT_EFFECTYN, yes: true }];
+    case OcgMessageType.SELECT_YESNO:
+      return [{ type: OcgResponseType.SELECT_YESNO, yes: false }, { type: OcgResponseType.SELECT_YESNO, yes: true }];
+    default:
+      return [];
+  }
+}
+
 export function isSelect(m: OcgMessage) {
   return PROMPTS.has(m.type) && 'player' in m;
 }

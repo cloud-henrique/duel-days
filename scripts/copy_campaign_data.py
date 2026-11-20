@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Monta os dados da campanha em src/campaign/data/: o Tier 1 do app nativo (duel-academy) e os tiers seguintes do
-tiers.json (escrito à mão), com os decks do decks.json (as receitas escolhidas pelo proto/deck-pick.ts) e as falas do
-dialogue-tier2.json.
+tiers.json (escrito à mão), com os decks do decks.json (as receitas escolhidas pelo proto/deck-pick.ts) e as falas dos
+dialogue-tier*.json (um por tier, escritos à mão).
 
 São texto escrito para o nativo e ids de cartas (metadados), por isso versionados. Rode de novo quando o nativo mudar:
 
@@ -89,13 +89,15 @@ def main():
                 'mapPoints': extra_data['mapPoints'], 'tiers': tiers}
 
     dialogue = json.loads((SRC / 'dialogue.json').read_text())
-    t2_lines = OUT / 'dialogue-tier2.json'
-    if t2_lines.exists():
-        dialogue['duelists'].update(json.loads(t2_lines.read_text())['duelists'])
+    # Falas escritas para a PWA, um arquivo por tier. Cada momento listado (firstWin, bossDefeat…) substitui o do nativo e
+    # os outros ficam: o dialogue-tier1.json só corrige algumas cenas do Tier 1.
+    for lines in sorted(OUT.glob('dialogue-tier*.json')):
+        for key, moments in json.loads(lines.read_text())['duelists'].items():
+            dialogue['duelists'].setdefault(key, {}).update(moments)
     for t in tiers[1:]:
         for d in t['duelists']:
             if d['key'] not in dialogue['duelists']:
-                sys.exit(f'faltam as falas de {d["key"]} em src/campaign/data/dialogue-tier2.json')
+                sys.exit(f'faltam as falas de {d["key"]} em src/campaign/data/dialogue-tier{t["number"]}.json')
 
     collections = [p['key'] for t in tiers for p in t['packs']]
     native_packs = {p['key']: p for p in json.loads((SRC / 'packs.json').read_text())}

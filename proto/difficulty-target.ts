@@ -2,6 +2,6 @@
 import { tierOfDuelist } from '../src/campaign/data/types';
 import { cpuFor } from '../src/campaign/decks';
 
-export const TARGETS = { 1: 0.55, 2: 0.7, boss: 0.85 } as const;
+export const TARGETS = { 1: 0.55, 2: 0.7, 3: 0.78, boss: 0.85 } as const;
 export const targetFor = (key: string) =>
-  cpuFor(key) === 'chefe' ? TARGETS.boss : TARGETS[(tierOfDuelist(key)?.number ?? 1) as 1 | 2] ?? TARGETS[2];
+  cpuFor(key) === 'chefe' ? TARGETS.boss : TARGETS[(tierOfDuelist(key)?.number ?? 1) as 1 | 2 | 3] ?? TARGETS[3];

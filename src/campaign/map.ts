@@ -79,7 +79,7 @@ export function placements(s: CampaignState): { duelist: DuelistData; point: Map
   return people.map((duelist) => {
     const k = Math.max(0, cur.number - tierOf(duelist.key).number);
     let best: MapPoint | null = null, bestGap = -1;
-    for (let tries = 0; tries < 60; tries++) {
+    for (let tries = 0; tries < 200; tries++) {
       const p = { x: round(ringX(k, g)), y: round(RING.yMin + g() * (RING.yMax - RING.yMin)) };
       if (far(p, MIN_GAP)) { best = p; break; }
       const gap = Math.min(...placed.map((q) => Math.hypot((p.x - q.x) * 2, p.y - q.y)));

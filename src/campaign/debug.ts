@@ -6,6 +6,8 @@
  * - `boss`: os 4 comuns vencidos (o Yugi aparece) no dia 6, com 900 DP.
  * - `tier2`: dia 8, Tier 2 aberto pelo prazo, com 1500 DP.
  * - `pegasus`: dia 10 com os 5 comuns do Tier 2 vencidos (o Pegasus aparece).
+ * - `tier3`: dia 15, Tier 3 aberto pelo prazo, com 2000 DP.
+ * - `kaiba`: dia 18 com os 4 comuns do Tier 3 vencidos (o Kaiba aparece).
  * - `shop`: dia 4 do Tier 1 com 6000 DP (dá para a caixa) e os 3 pacotes ganhos, para conferir a loja.
  * - `all-cards`: a coleção com 3 cópias de cada carta da base (`poolIds`), para medir a grade do editor cheia.
  */
@@ -42,6 +44,15 @@ export function debugPreset(name: string, s0: CampaignState | null, poolIds: rea
       // Os 5 comuns do Tier 2 vencidos: o Pegasus no mapa.
       Object.assign(s, { day: 10, period: 0, dp: 1500, concluded: false });
       for (const k of ['weevil', 'rex', 'mako', 'keith', 'mai']) s.victories[k] = Math.max(s.victories[k] ?? 0, 1);
+      return s;
+    case 'tier3':
+      // Tier 3 aberto pelo prazo (dia 15), com DP para a loja.
+      Object.assign(s, { day: 15, period: 0, dp: 2000, concluded: false });
+      return s;
+    case 'kaiba':
+      // Os 4 comuns do Tier 3 vencidos: o Kaiba no mapa.
+      Object.assign(s, { day: 18, period: 0, dp: 2000, concluded: false });
+      for (const k of ['espa', 'rarehunter', 'arkana', 'strings']) s.victories[k] = Math.max(s.victories[k] ?? 0, 1);
       return s;
     case 'shop':
       Object.assign(s, { day: 4, period: 0, dp: 6000, concluded: false, unopenedPacks: ['lob', 'lob', 'lob'] });

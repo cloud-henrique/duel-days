@@ -23,8 +23,8 @@
     },
     {
      "id": 67532912,
-     "count": 1,
-     "comment": "Science Soldier"
+     "count": 2,
+     "comment": "Science Soldier; no lugar de Axe of Despair: compensa o Sengenjin: só com ele, o deck foi de 57% a 70%"
     },
     {
      "id": 92421852,
@@ -35,11 +35,6 @@
      "id": 6400512,
      "count": 1,
      "comment": "Cyber Commander"
-    },
-    {
-     "id": 51345461,
-     "count": 1,
-     "comment": "Sword Hunter"
     },
     {
      "id": 66362965,
@@ -88,7 +83,7 @@
     },
     {
      "id": 40619825,
-     "count": 3,
+     "count": 2,
      "comment": "Axe of Despair; +1 no lugar de Cybernetic Fusion Support"
     },
     {
@@ -150,6 +145,11 @@
      "id": 2460565,
      "count": 1,
      "comment": "Marauding Captain; no lugar de Robolady: guerreiro de nível 4 que traz outro"
+    },
+    {
+     "id": 76232340,
+     "count": 1,
+     "comment": "Sengenjin; no lugar de Sword Hunter: a carta-assinatura do Tristan (a receita escolhida não tinha)"
     }
    ],
    "extra": [
@@ -648,14 +648,14 @@
      "comment": "Pyramid Turtle; no lugar de Destiny Board: idem"
     },
     {
-     "id": 56120475,
-     "count": 1,
-     "comment": "Sakuretsu Armor; no lugar de Jowgen the Spiritualist: efeito fraco no deck"
-    },
-    {
      "id": 4206964,
      "count": 1,
      "comment": "Trap Hole; no lugar de Puppet Master: nível 6 de 0 ATK"
+    },
+    {
+     "id": 54652250,
+     "count": 1,
+     "comment": "Man-Eater Bug; no lugar de Sakuretsu Armor: a carta-assinatura do Bakura (a receita escolhida não tinha)"
     }
    ],
    "extra": []
@@ -1207,11 +1207,6 @@
      "comment": "Water Magician"
     },
     {
-     "id": 94022093,
-     "count": 1,
-     "comment": "Behegon"
-    },
-    {
      "id": 81386177,
      "count": 1,
      "comment": "Bottom Dweller"
@@ -1290,6 +1285,11 @@
      "id": 53582587,
      "count": 1,
      "comment": "Torrential Tribute; no lugar de Power of Kaishin: efeito fraco"
+    },
+    {
+     "id": 3643300,
+     "count": 1,
+     "comment": "The Legendary Fisherman; no lugar de Behegon: a carta-assinatura do Mako (a receita escolhida não tinha); combina com os 3 Umi"
     }
    ],
    "extra": [
@@ -1747,6 +1747,693 @@
      "id": 63519819,
      "count": 1,
      "comment": "Thousand-Eyes Restrict"
+    }
+   ]
+  },
+  "espa": {
+   "name": "Espa Roba (Battle City)",
+   "source": "https://ygoprodeck.com/deck/espa-roba-battle-city-332029",
+   "winRate": 0.917,
+   "main": [
+    {
+     "id": 34743446,
+     "count": 3,
+     "comment": "Blocker"
+    },
+    {
+     "id": 82065276,
+     "count": 3,
+     "comment": "Oscillo Hero"
+    },
+    {
+     "id": 77585513,
+     "count": 2,
+     "comment": "Jinzo"
+    },
+    {
+     "id": 66362965,
+     "count": 2,
+     "comment": "The Fiend Megacyber"
+    },
+    {
+     "id": 2851070,
+     "count": 3,
+     "comment": "Reflect Bounder"
+    },
+    {
+     "id": 39978267,
+     "count": 3,
+     "comment": "Cyber Raider"
+    },
+    {
+     "id": 32809211,
+     "count": 3,
+     "comment": "Jinzo #7"
+    },
+    {
+     "id": 31560081,
+     "count": 1,
+     "comment": "Magician of Faith"
+    },
+    {
+     "id": 303660,
+     "count": 3,
+     "comment": "Amplifier; +1 no lugar de Brain Control; +1 no lugar de Brain Control"
+    },
+    {
+     "id": 45986603,
+     "count": 3,
+     "comment": "Snatch Steal"
+    },
+    {
+     "id": 4031928,
+     "count": 1,
+     "comment": "Change of Heart"
+    },
+    {
+     "id": 48642904,
+     "count": 3,
+     "comment": "Mesmeric Control"
+    },
+    {
+     "id": 83764718,
+     "count": 1,
+     "comment": "Monster Reborn"
+    },
+    {
+     "id": 55144522,
+     "count": 1,
+     "comment": "Pot of Greed"
+    },
+    {
+     "id": 12580477,
+     "count": 1,
+     "comment": "Raigeki"
+    },
+    {
+     "id": 72302403,
+     "count": 1,
+     "comment": "Swords of Revealing Light"
+    },
+    {
+     "id": 5318639,
+     "count": 3,
+     "comment": "Mystical Space Typhoon; +1 no lugar de Brain Control"
+    },
+    {
+     "id": 3819470,
+     "count": 1,
+     "comment": "Seven Tools of the Bandit"
+    },
+    {
+     "id": 44095762,
+     "count": 1,
+     "comment": "Mirror Force"
+    },
+    {
+     "id": 4206964,
+     "count": 1,
+     "comment": "Trap Hole"
+    }
+   ],
+   "extra": []
+  },
+  "rarehunter": {
+   "name": "Rare Hunter - Seeker Exodia Anime Themed Character Deck",
+   "source": "https://ygoprodeck.com/deck/rare-hunter-seeker-exodia-anime-themed-character-deck-71912",
+   "winRate": 0.675,
+   "main": [
+    {
+     "id": 33396948,
+     "count": 3,
+     "comment": "Exodia the Forbidden One"
+    },
+    {
+     "id": 70903634,
+     "count": 3,
+     "comment": "Right Arm of the Forbidden One"
+    },
+    {
+     "id": 7902349,
+     "count": 3,
+     "comment": "Left Arm of the Forbidden One"
+    },
+    {
+     "id": 8124921,
+     "count": 3,
+     "comment": "Right Leg of the Forbidden One"
+    },
+    {
+     "id": 44519536,
+     "count": 3,
+     "comment": "Left Leg of the Forbidden One"
+    },
+    {
+     "id": 77207191,
+     "count": 1,
+     "comment": "Berfomet"
+    },
+    {
+     "id": 13039848,
+     "count": 2,
+     "comment": "Giant Soldier of Stone"
+    },
+    {
+     "id": 78423643,
+     "count": 2,
+     "comment": "Three-Headed Geedo"
+    },
+    {
+     "id": 30190809,
+     "count": 3,
+     "comment": "Gear Golem the Moving Fortress"
+    },
+    {
+     "id": 5640330,
+     "count": 2,
+     "comment": "Hannibal Necromancer"
+    },
+    {
+     "id": 31812496,
+     "count": 3,
+     "comment": "Stone Statue of the Aztecs"
+    },
+    {
+     "id": 79571449,
+     "count": 3,
+     "comment": "Graceful Charity"
+    },
+    {
+     "id": 72302403,
+     "count": 3,
+     "comment": "Swords of Revealing Light"
+    },
+    {
+     "id": 5818798,
+     "count": 1,
+     "comment": "Gazelle the King of Mythical Beasts"
+    },
+    {
+     "id": 78010363,
+     "count": 2,
+     "comment": "Witch of the Black Forest; no lugar de The Legendary Exodia Incarnate (fora da era); no lugar de The Legendary Exodia Incarnate (fora da era)"
+    },
+    {
+     "id": 26202165,
+     "count": 3,
+     "comment": "Sangan; no lugar de Obliterate!!! (fora da era); no lugar de Obliterate!!! (fora da era); no lugar de Obliterate!!! (fora da era)"
+    }
+   ],
+   "extra": []
+  },
+  "arkana": {
+   "name": "Arkana",
+   "source": "https://ygoprodeck.com/deck/arkana-12718",
+   "winRate": 0.75,
+   "main": [
+    {
+     "id": 46986414,
+     "count": 3,
+     "comment": "Dark Magician"
+    },
+    {
+     "id": 99789342,
+     "count": 3,
+     "comment": "Dark Magic Curtain; +1 no lugar de Anti-Magic Arrows; +1 no lugar de Spell Absorption"
+    },
+    {
+     "id": 72657739,
+     "count": 3,
+     "comment": "Malice Doll of Demise; +1 no lugar de Legion the Fiend Jester"
+    },
+    {
+     "id": 14531242,
+     "count": 3,
+     "comment": "Opticlops; +1 no lugar de Juragedo"
+    },
+    {
+     "id": 73752131,
+     "count": 2,
+     "comment": "Skilled Dark Magician"
+    },
+    {
+     "id": 71413901,
+     "count": 1,
+     "comment": "Breaker the Magical Warrior"
+    },
+    {
+     "id": 83011277,
+     "count": 1,
+     "comment": "Mystic Tomato"
+    },
+    {
+     "id": 70791313,
+     "count": 2,
+     "comment": "Royal Magical Library"
+    },
+    {
+     "id": 45141844,
+     "count": 1,
+     "comment": "Old Vindictive Magician"
+    },
+    {
+     "id": 9156135,
+     "count": 2,
+     "comment": "Apprentice Magician"
+    },
+    {
+     "id": 31560081,
+     "count": 2,
+     "comment": "Magician of Faith"
+    },
+    {
+     "id": 2314238,
+     "count": 1,
+     "comment": "Dark Magic Attack"
+    },
+    {
+     "id": 12580477,
+     "count": 1,
+     "comment": "Raigeki"
+    },
+    {
+     "id": 63391643,
+     "count": 1,
+     "comment": "Thousand Knives"
+    },
+    {
+     "id": 66788016,
+     "count": 1,
+     "comment": "Fissure"
+    },
+    {
+     "id": 72302403,
+     "count": 1,
+     "comment": "Swords of Revealing Light"
+    },
+    {
+     "id": 28553439,
+     "count": 1,
+     "comment": "Magical Dimension"
+    },
+    {
+     "id": 97342942,
+     "count": 1,
+     "comment": "Ectoplasmer"
+    },
+    {
+     "id": 4206964,
+     "count": 2,
+     "comment": "Trap Hole; +1 no lugar de Dark Renewal"
+    },
+    {
+     "id": 29401950,
+     "count": 1,
+     "comment": "Bottomless Trap Hole"
+    },
+    {
+     "id": 35686187,
+     "count": 3,
+     "comment": "Tragedy; +1 no lugar de Fiendish Chain"
+    },
+    {
+     "id": 53582587,
+     "count": 1,
+     "comment": "Torrential Tribute"
+    },
+    {
+     "id": 60082869,
+     "count": 1,
+     "comment": "Dust Tornado"
+    },
+    {
+     "id": 34029630,
+     "count": 1,
+     "comment": "Pitch-Black Power Stone"
+    },
+    {
+     "id": 97077563,
+     "count": 1,
+     "comment": "Call of the Haunted"
+    },
+    {
+     "id": 81210420,
+     "count": 1,
+     "comment": "Magical Hats"
+    }
+   ],
+   "extra": []
+  },
+  "strings": {
+   "name": "Pantomimer (Strings) - Battle City",
+   "source": "https://ygoprodeck.com/deck/pantomimer-strings-battle-city-22093",
+   "winRate": 0.083,
+   "main": [
+    {
+     "id": 31709826,
+     "count": 2,
+     "comment": "Revival Jam"
+    },
+    {
+     "id": 21558682,
+     "count": 3,
+     "comment": "Jam Defender; no lugar de Infinite Cards: efeito fraco; o 3º Jam Defender protege o Revival Jam"
+    },
+    {
+     "id": 13944422,
+     "count": 2,
+     "comment": "Granadora; no lugar de Mucus Yolk: aqua/réptil de 1900"
+    },
+    {
+     "id": 57839750,
+     "count": 2,
+     "comment": "Mother Grizzly"
+    },
+    {
+     "id": 99426834,
+     "count": 2,
+     "comment": "Beastking of the Swamps"
+    },
+    {
+     "id": 71466592,
+     "count": 1,
+     "comment": "Maryokutai"
+    },
+    {
+     "id": 8131171,
+     "count": 1,
+     "comment": "Sinister Serpent"
+    },
+    {
+     "id": 31036355,
+     "count": 1,
+     "comment": "Creature Swap"
+    },
+    {
+     "id": 55144522,
+     "count": 1,
+     "comment": "Pot of Greed"
+    },
+    {
+     "id": 57953380,
+     "count": 1,
+     "comment": "Card of Safe Return"
+    },
+    {
+     "id": 72302403,
+     "count": 1,
+     "comment": "Swords of Revealing Light; no lugar de Jam Breeding Machine: a CPU não espera os Slimes da máquina"
+    },
+    {
+     "id": 49003308,
+     "count": 2,
+     "comment": "Gagagigo; no lugar de Behegon: aqua/réptil de 1850 no lugar de 1350; no lugar de Gruesome Goo: idem"
+    },
+    {
+     "id": 58831685,
+     "count": 2,
+     "comment": "Giant Red Seasnake; no lugar de Liquid Beast: aqua de 1800; no lugar de Change Slime: idem"
+    },
+    {
+     "id": 44095762,
+     "count": 1,
+     "comment": "Mirror Force; no lugar de Humanoid Slime: a Fusão com o Worm Drake quase nunca sai"
+    },
+    {
+     "id": 56120475,
+     "count": 1,
+     "comment": "Sakuretsu Armor; no lugar de Humanoid Slime: idem"
+    },
+    {
+     "id": 53582587,
+     "count": 1,
+     "comment": "Torrential Tribute; no lugar de Worm Drake: idem"
+    },
+    {
+     "id": 4206964,
+     "count": 2,
+     "comment": "Trap Hole; no lugar de Worm Drake: idem; no lugar de Polymerization: idem"
+    },
+    {
+     "id": 53129443,
+     "count": 1,
+     "comment": "Dark Hole; no lugar de Polymerization: a Fusão quase nunca sai"
+    },
+    {
+     "id": 4031928,
+     "count": 1,
+     "comment": "Change of Heart; no lugar de Polymerization: idem"
+    },
+    {
+     "id": 5318639,
+     "count": 1,
+     "comment": "Mystical Space Typhoon; no lugar de Fusion Sage: idem"
+    },
+    {
+     "id": 93920745,
+     "count": 2,
+     "comment": "Penguin Soldier; no lugar de Ameba: combo com a Creature Swap que a CPU não monta; no lugar de Ameba: idem"
+    },
+    {
+     "id": 97077563,
+     "count": 1,
+     "comment": "Call of the Haunted; no lugar de Return of the Doomed: revive o Slime e os aqua"
+    },
+    {
+     "id": 62279055,
+     "count": 2,
+     "comment": "Magic Cylinder; no lugar de Emergency Provisions: efeito fraco; no lugar de Nightmare's Steelcage: só adia"
+    },
+    {
+     "id": 55713623,
+     "count": 1,
+     "comment": "Shrink; no lugar de Ekibyo Drakmord: efeito lento"
+    },
+    {
+     "id": 71044499,
+     "count": 1,
+     "comment": "Nobleman of Crossout; no lugar de Senri Eye: efeito fraco"
+    },
+    {
+     "id": 97169186,
+     "count": 1,
+     "comment": "Smashing Ground; no lugar de Mass Driver: depende do combo do Revival Jam"
+    },
+    {
+     "id": 14087893,
+     "count": 1,
+     "comment": "Book of Moon; no lugar de Card of Safe Return: só compra com monstro revivido"
+    },
+    {
+     "id": 12607053,
+     "count": 1,
+     "comment": "Waboku; no lugar de Nightmare's Steelcage: idem"
+    },
+    {
+     "id": 79571449,
+     "count": 1,
+     "comment": "Graceful Charity; no lugar de Jar of Greed: compra mais"
+    }
+   ],
+   "extra": [
+    {
+     "id": 5600127,
+     "count": 1,
+     "comment": "Humanoid Worm Drake"
+    }
+   ]
+  },
+  "kaiba": {
+   "name": "Seto Kaiba (Battle city) Deck",
+   "source": "https://ygoprodeck.com/deck/seto-kaiba-battle-city-deck-22950",
+   "winRate": 0.5,
+   "main": [
+    {
+     "id": 89631139,
+     "count": 3,
+     "comment": "Blue-Eyes White Dragon"
+    },
+    {
+     "id": 86281779,
+     "count": 1,
+     "comment": "Gadget Soldier"
+    },
+    {
+     "id": 62397231,
+     "count": 1,
+     "comment": "Hyozanryu"
+    },
+    {
+     "id": 97590747,
+     "count": 1,
+     "comment": "La Jinn the Mystical Genie of the Lamp"
+    },
+    {
+     "id": 14898066,
+     "count": 1,
+     "comment": "Vorse Raider"
+    },
+    {
+     "id": 62651957,
+     "count": 1,
+     "comment": "X-Head Cannon"
+    },
+    {
+     "id": 39507162,
+     "count": 1,
+     "comment": "Blade Knight"
+    },
+    {
+     "id": 17444133,
+     "count": 2,
+     "comment": "Kaiser Sea Horse; no lugar de Saggi the Dark Clown: 600 de ATK; o Kaiser ajuda a invocar o Olhos Azuis"
+    },
+    {
+     "id": 31786629,
+     "count": 3,
+     "comment": "Thunder Dragon"
+    },
+    {
+     "id": 65622692,
+     "count": 1,
+     "comment": "Y-Dragon Head"
+    },
+    {
+     "id": 64500000,
+     "count": 1,
+     "comment": "Z-Metal Tank"
+    },
+    {
+     "id": 98045062,
+     "count": 1,
+     "comment": "Enemy Controller"
+    },
+    {
+     "id": 83764718,
+     "count": 1,
+     "comment": "Monster Reborn"
+    },
+    {
+     "id": 24094653,
+     "count": 1,
+     "comment": "Polymerization"
+    },
+    {
+     "id": 55144522,
+     "count": 1,
+     "comment": "Pot of Greed"
+    },
+    {
+     "id": 83555666,
+     "count": 1,
+     "comment": "Ring of Destruction"
+    },
+    {
+     "id": 17985575,
+     "count": 1,
+     "comment": "Lord of D.; +1 no lugar de Obelisk the Tormentor"
+    },
+    {
+     "id": 43973174,
+     "count": 1,
+     "comment": "The Flute of Summoning Dragon; +1 no lugar de Card of Demise"
+    },
+    {
+     "id": 53129443,
+     "count": 1,
+     "comment": "Dark Hole; no lugar de Cost Down: a CPU quase nunca aproveita o Cost Down"
+    },
+    {
+     "id": 12580477,
+     "count": 1,
+     "comment": "Raigeki; no lugar de Cost Down: idem"
+    },
+    {
+     "id": 4031928,
+     "count": 1,
+     "comment": "Change of Heart; no lugar de Cost Down: idem"
+    },
+    {
+     "id": 44095762,
+     "count": 1,
+     "comment": "Mirror Force; no lugar de The Flute of Summoning Dragon: combo com o Lord of D. que a CPU raramente monta; fica 1"
+    },
+    {
+     "id": 4206964,
+     "count": 2,
+     "comment": "Trap Hole; no lugar de The Flute of Summoning Dragon: idem; no lugar de Lord of D.: idem"
+    },
+    {
+     "id": 56120475,
+     "count": 1,
+     "comment": "Sakuretsu Armor; no lugar de Lord of D.: idem"
+    },
+    {
+     "id": 72302403,
+     "count": 1,
+     "comment": "Swords of Revealing Light; no lugar de Silent Doom: revive só em defesa"
+    },
+    {
+     "id": 53582587,
+     "count": 1,
+     "comment": "Torrential Tribute; no lugar de Final Attack Orders: efeito fraco"
+    },
+    {
+     "id": 5318639,
+     "count": 2,
+     "comment": "Mystical Space Typhoon; no lugar de Interdimensional Matter Transporter: efeito fraco; no lugar de Crush Card Virus: pede tributo de trevas que a CPU raramente tem; tira armadilhas"
+    },
+    {
+     "id": 19613556,
+     "count": 1,
+     "comment": "Heavy Storm; no lugar de Shrink: limpa as armadilhas dos comuns do T3"
+    },
+    {
+     "id": 18144506,
+     "count": 1,
+     "comment": "Harpie's Feather Duster; no lugar de Cloning: idem"
+    },
+    {
+     "id": 45986603,
+     "count": 1,
+     "comment": "Snatch Steal; no lugar de Soul Exchange: a CPU quase nunca usa a Soul Exchange"
+    },
+    {
+     "id": 11091375,
+     "count": 2,
+     "comment": "Luster Dragon; no lugar de Des Feral Imp: dragão de 1900; no lugar de Battle Ox: dragão de 1900"
+    },
+    {
+     "id": 31553716,
+     "count": 1,
+     "comment": "Spear Dragon; no lugar de Ryu-Kishin Powered: dragão de 1900 com perfuração"
+    },
+    {
+     "id": 60082869,
+     "count": 1,
+     "comment": "Dust Tornado; no lugar de Crush Card Virus: idem"
+    }
+   ],
+   "extra": [
+    {
+     "id": 23995346,
+     "count": 1,
+     "comment": "Blue-Eyes Ultimate Dragon"
+    },
+    {
+     "id": 54752875,
+     "count": 1,
+     "comment": "Twin-Headed Thunder Dragon"
+    },
+    {
+     "id": 91998119,
+     "count": 1,
+     "comment": "XYZ-Dragon Cannon"
+    },
+    {
+     "id": 2111707,
+     "count": 1,
+     "comment": "XY-Dragon Cannon"
     }
    ]
   }

@@ -123,6 +123,7 @@ npx tsx proto/story-smoke.ts               # percorre todos os caminhos de todas
 ```
 
 - O sprite de corpo vem com o rosto em branco; o rosto 240x240 se sobrepõe sempre em (260, 120) (medido nos 44 personagens).
+- O Strings (Tier 3) veio de um zip baixado à mão (`raw/zips/Strings.zip`): só tem `neutral` e `worried` (esta faz o papel de `sad`).
 - `src/story/runner.ts`: motor puro (say, show/hide, choice, set/if/goto/label, heart, duel, end). O estado de uma cena cabe num JSON.
 - `src/story/world.ts`: locais e cenas. Cada personagem tem cenas na ordem `intro` (única), `bond` (única, exige 4 corações) e `rematch` (repetível). `pickScene` escolhe a primeira elegível.
 - `src/story/content.ts`: o texto das cenas (Joey, Bakura, Kaiba). `{nome}` vira o nome do jogador.

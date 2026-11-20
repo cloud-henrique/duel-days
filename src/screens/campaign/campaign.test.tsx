@@ -32,6 +32,10 @@ describe('expressões', () => {
     expect(expressionFor(['neutral', 'laugh', 'embarrassed'], 'happy')).toBe('laugh');
     expect(expressionFor(['neutral', 'happy', 'laugh'], 'happy')).toBe('happy');
     expect(expressionFor(['neutral', 'embarrassed'], 'blushing')).toBe('embarrassed');
+    // Strings: só `neutral` e `worried`
+    expect(expressionFor(['neutral', 'worried'], 'sad')).toBe('worried');
+    expect(expressionFor(['neutral', 'worried'], 'angry')).toBe('neutral');
+    expect(expressionFor(['neutral', 'sad', 'worried'], 'sad')).toBe('sad');
     expect(expressionFor(['neutral'], 'angry')).toBe('neutral');
   });
 });

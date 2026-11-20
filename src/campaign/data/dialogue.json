@@ -107,7 +107,7 @@
     {
      "speaker": "tristan",
      "expression": "happy",
-     "text": "Pelo menos isso! Fica com o meu Sengenjin. Ele combina com quem não desiste fácil."
+     "text": "Pelo menos isso! Da próxima vez eu volto com o deck afiado. Pode esperar."
     }
    ],
    "conversation": {
@@ -610,7 +610,7 @@
     {
      "speaker": "tea",
      "expression": "happy",
-     "text": "Obrigada! Fica com a minha Pequena Maga Negra. Cuida bem dela, combinado?"
+     "text": "Obrigada! Mas da próxima vez as minhas fadas não vão facilitar, combinado?"
     }
    ],
    "conversation": {
@@ -1123,7 +1123,7 @@
     {
      "speaker": "joey",
      "expression": "happy",
-     "text": "Gostei de você! Toma o meu Dragão Negro de Olhos Vermelhos. Mas um dia eu quero ele de volta num duelo, hein!"
+     "text": "Gostei de você! Mas eu quero revanche, hein! E aí o meu Dragão Negro vai estar com fome."
     }
    ],
    "conversation": {
@@ -1616,7 +1616,7 @@
     {
      "speaker": "bakura",
      "expression": "happy",
-     "text": "Fico feliz. Leve o meu Inseto Devorador de Homens. Ele é pequeno, mas guarda surpresas."
+     "text": "Fico feliz. É bom duelar com alguém que não desiste. Volte quando quiser."
     }
    ],
    "conversation": {
@@ -2057,7 +2057,7 @@
     {
      "speaker": "yugi",
      "expression": "happy",
-     "text": "Fica com o meu Mago Negro. Acho que ele quer ver até onde você vai."
+     "text": "O Mago Negro e eu ainda temos muito pra aprender. Você acabou de mostrar isso."
     },
     {
      "speaker": "yugi",
@@ -3355,6 +3355,693 @@
      "speaker": "pegasus",
      "expression": "happy",
      "text": "Você mereceu esta vitória, {nome}. Foi o melhor duelo deste torneio."
+    }
+   ]
+  },
+  "espa": {
+   "firstGreeting": [
+    [
+     {
+      "speaker": "espa",
+      "expression": "happy",
+      "text": "Pode parar aí. Eu sou Espa Roba, o duelista paranormal. Já sei até o que você vai dizer."
+     },
+     {
+      "speaker": "espa",
+      "expression": "neutral",
+      "text": "{nome}, não é? Viu só? Nem precisei perguntar."
+     }
+    ],
+    [
+     {
+      "speaker": "espa",
+      "expression": "neutral",
+      "text": "Sinto uma energia forte vindo de você... Ou é só o seu Disco de Duelo. Sou Espa Roba."
+     }
+    ]
+   ],
+   "greeting": [
+    [
+     {
+      "speaker": "espa",
+      "expression": "happy",
+      "text": "Eu sabia que você ia passar por aqui, {nome}. Eu sempre sei."
+     }
+    ],
+    [
+     {
+      "speaker": "espa",
+      "expression": "neutral",
+      "text": "Meus irmãozinhos acham que eu sou o maior duelista da cidade. Não posso decepcionar eles."
+     }
+    ],
+    [
+     {
+      "speaker": "espa",
+      "expression": "neutral",
+      "text": "Concentra... concentra... Sua próxima carta é uma armadilha. Acertei?"
+     }
+    ]
+   ],
+   "beforeDuel": [
+    [
+     {
+      "speaker": "espa",
+      "expression": "happy",
+      "text": "Pode embaralhar à vontade. Eu leio cada carta da sua mente!"
+     }
+    ],
+    [
+     {
+      "speaker": "espa",
+      "expression": "neutral",
+      "text": "Meus poderes contra o seu deck, {nome}. Isso não vai ser justo pra você."
+     }
+    ],
+    [
+     {
+      "speaker": "espa",
+      "expression": "angry",
+      "text": "Jinzo vai calar todas as suas armadilhas. Prepare-se!"
+     }
+    ]
+   ],
+   "playerWins": [
+    [
+     {
+      "speaker": "espa",
+      "expression": "surprised",
+      "text": "Isso eu não previ... Acho que a minha antena estava fora do ar."
+     }
+    ],
+    [
+     {
+      "speaker": "espa",
+      "expression": "sad",
+      "text": "Tudo bem. Até um paranormal erra de vez em quando."
+     }
+    ],
+    [
+     {
+      "speaker": "espa",
+      "expression": "neutral",
+      "text": "Você jogou sem pensar, foi isso. Assim fica difícil ler a sua mente."
+     }
+    ]
+   ],
+   "playerLoses": [
+    [
+     {
+      "speaker": "espa",
+      "expression": "happy",
+      "text": "Eu disse! Vi cada jogada antes de você fazer."
+     }
+    ],
+    [
+     {
+      "speaker": "espa",
+      "expression": "happy",
+      "text": "Mais uma vitória para mostrar aos meus irmãos!"
+     }
+    ],
+    [
+     {
+      "speaker": "espa",
+      "expression": "neutral",
+      "text": "Não fica triste, {nome}. Ninguém esconde nada de um paranormal."
+     }
+    ]
+   ],
+   "firstWin": [
+    {
+     "speaker": "espa",
+     "expression": "surprised",
+     "text": "Você me venceu... sem eu conseguir prever nada?"
+    },
+    {
+     "speaker": "player",
+     "expression": "happy",
+     "text": "Vai ver eu também não sabia o que ia jogar, Espa."
+    },
+    {
+     "speaker": "espa",
+     "expression": "sad",
+     "text": "Hm. Talvez eu deva confiar mais nas cartas do que nos meus truques."
+    }
+   ]
+  },
+  "rarehunter": {
+   "firstGreeting": [
+    [
+     {
+      "speaker": "rarehunter",
+      "expression": "neutral",
+      "text": "Hehehe... Um duelista sozinho num beco escuro. Que sorte a minha."
+     },
+     {
+      "speaker": "rarehunter",
+      "expression": "happy",
+      "text": "Pode me chamar de Caçador de Raros, {nome}. Eu coleciono as cartas dos outros."
+     }
+    ],
+    [
+     {
+      "speaker": "rarehunter",
+      "expression": "neutral",
+      "text": "Não se assuste. Eu só quero ver as cartas raras que você carrega. Todas elas."
+     }
+    ]
+   ],
+   "greeting": [
+    [
+     {
+      "speaker": "rarehunter",
+      "expression": "happy",
+      "text": "Você de novo, {nome}? Ainda está com aquelas cartas bonitas?"
+     }
+    ],
+    [
+     {
+      "speaker": "rarehunter",
+      "expression": "neutral",
+      "text": "Nesta cidade, quem perde o duelo perde a sua melhor carta. Regra da Batalha da Cidade."
+     }
+    ],
+    [
+     {
+      "speaker": "rarehunter",
+      "expression": "neutral",
+      "text": "Cinco peças, {nome}. É só disso que eu preciso para vencer qualquer um."
+     }
+    ]
+   ],
+   "beforeDuel": [
+    [
+     {
+      "speaker": "rarehunter",
+      "expression": "happy",
+      "text": "Vamos lá. Quando o Proibido aparecer, o duelo acaba na hora."
+     }
+    ],
+    [
+     {
+      "speaker": "rarehunter",
+      "expression": "neutral",
+      "text": "Pode atacar quanto quiser. Eu só preciso sobreviver até completar o Exodia."
+     }
+    ],
+    [
+     {
+      "speaker": "rarehunter",
+      "expression": "angry",
+      "text": "Sua carta rara já é minha. Só falta o duelo confirmar."
+     }
+    ]
+   ],
+   "playerWins": [
+    [
+     {
+      "speaker": "rarehunter",
+      "expression": "angry",
+      "text": "Faltava uma peça! Uma só!"
+     }
+    ],
+    [
+     {
+      "speaker": "rarehunter",
+      "expression": "surprised",
+      "text": "Você não me deu tempo de montar nada..."
+     }
+    ],
+    [
+     {
+      "speaker": "rarehunter",
+      "expression": "sad",
+      "text": "Hoje o caçador saiu de mãos vazias."
+     }
+    ]
+   ],
+   "playerLoses": [
+    [
+     {
+      "speaker": "rarehunter",
+      "expression": "happy",
+      "text": "Exodia, oblitere! Hehehe... Nunca falha."
+     }
+    ],
+    [
+     {
+      "speaker": "rarehunter",
+      "expression": "happy",
+      "text": "Cinco peças, uma vitória. Simples assim, {nome}."
+     }
+    ],
+    [
+     {
+      "speaker": "rarehunter",
+      "expression": "neutral",
+      "text": "Volte quando tiver cartas mais raras. Eu vou estar esperando."
+     }
+    ]
+   ],
+   "firstWin": [
+    {
+     "speaker": "rarehunter",
+     "expression": "surprised",
+     "text": "Impossível... Eu estava com quatro peças na mão!"
+    },
+    {
+     "speaker": "player",
+     "expression": "neutral",
+     "text": "Quatro não bastam. E as minhas cartas continuam comigo."
+    },
+    {
+     "speaker": "rarehunter",
+     "expression": "angry",
+     "text": "Grr... Isso não acaba aqui, {nome}. Caçador nenhum desiste da presa."
+    }
+   ]
+  },
+  "arkana": {
+   "firstGreeting": [
+    [
+     {
+      "speaker": "arkana",
+      "expression": "happy",
+      "text": "Senhoras e senhores... e você, {nome}! Bem-vind{o|a|e} ao espetáculo do grande Arkana!"
+     },
+     {
+      "speaker": "arkana",
+      "expression": "neutral",
+      "text": "Fique para o próximo número. Ele se chama: o duelista que desaparece."
+     }
+    ],
+    [
+     {
+      "speaker": "arkana",
+      "expression": "neutral",
+      "text": "Um espectador no meu palco? Que ousadia. Sou Arkana, mestre da magia das trevas."
+     }
+    ]
+   ],
+   "greeting": [
+    [
+     {
+      "speaker": "arkana",
+      "expression": "happy",
+      "text": "Voltou para o show, {nome}? A plateia adora uma revanche."
+     }
+    ],
+    [
+     {
+      "speaker": "arkana",
+      "expression": "neutral",
+      "text": "Meu Mago Negro é o único verdadeiro. Os outros são só imitações."
+     }
+    ],
+    [
+     {
+      "speaker": "arkana",
+      "expression": "neutral",
+      "text": "Todo truque tem um segredo. E o meu, você nunca vai descobrir."
+     }
+    ]
+   ],
+   "beforeDuel": [
+    [
+     {
+      "speaker": "arkana",
+      "expression": "happy",
+      "text": "Que as cortinas se abram! O Mago Negro sobe ao palco."
+     }
+    ],
+    [
+     {
+      "speaker": "arkana",
+      "expression": "neutral",
+      "text": "Escolha uma carta, qualquer carta... e veja ela sumir."
+     }
+    ],
+    [
+     {
+      "speaker": "arkana",
+      "expression": "angry",
+      "text": "Neste palco, quem manda é a magia das trevas!"
+     }
+    ]
+   ],
+   "playerWins": [
+    [
+     {
+      "speaker": "arkana",
+      "expression": "surprised",
+      "text": "Meu número... estragado na frente de todo mundo!"
+     }
+    ],
+    [
+     {
+      "speaker": "arkana",
+      "expression": "angry",
+      "text": "Um mágico nunca revela o segredo. Mas você descobriu o meu!"
+     }
+    ],
+    [
+     {
+      "speaker": "arkana",
+      "expression": "sad",
+      "text": "Hoje o aplauso é seu, {nome}. Que vergonha."
+     }
+    ]
+   ],
+   "playerLoses": [
+    [
+     {
+      "speaker": "arkana",
+      "expression": "happy",
+      "text": "E... desapareceu! Obrigado, obrigado, a plateia é demais!"
+     }
+    ],
+    [
+     {
+      "speaker": "arkana",
+      "expression": "happy",
+      "text": "Viu como se faz um espetáculo, {nome}?"
+     }
+    ],
+    [
+     {
+      "speaker": "arkana",
+      "expression": "neutral",
+      "text": "Não se preocupe. Toda boa mágica precisa de alguém para ser enganado."
+     }
+    ]
+   ],
+   "firstWin": [
+    {
+     "speaker": "arkana",
+     "expression": "surprised",
+     "text": "Você derrotou o meu Mago Negro... no meu próprio palco?"
+    },
+    {
+     "speaker": "player",
+     "expression": "happy",
+     "text": "Foi um belo show, Arkana. Só o final que mudou."
+    },
+    {
+     "speaker": "arkana",
+     "expression": "sad",
+     "text": "Hmpf. Vou ter que ensaiar um número novo."
+    }
+   ]
+  },
+  "strings": {
+   "firstGreeting": [
+    [
+     {
+      "speaker": "strings",
+      "expression": "neutral",
+      "text": "..."
+     },
+     {
+      "speaker": "strings",
+      "expression": "neutral",
+      "text": "Duelo. Agora."
+     }
+    ],
+    [
+     {
+      "speaker": "strings",
+      "expression": "neutral",
+      "text": "Você. {nome}. Duelista. ...Lute."
+     }
+    ]
+   ],
+   "greeting": [
+    [
+     {
+      "speaker": "strings",
+      "expression": "neutral",
+      "text": "..."
+     }
+    ],
+    [
+     {
+      "speaker": "strings",
+      "expression": "neutral",
+      "text": "A neblina... não sai daqui."
+     }
+    ],
+    [
+     {
+      "speaker": "strings",
+      "expression": "neutral",
+      "text": "Duelista.f De novo."
+     }
+    ]
+   ],
+   "beforeDuel": [
+    [
+     {
+      "speaker": "strings",
+      "expression": "neutral",
+      "text": "O Slime... sempre volta."
+     }
+    ],
+    [
+     {
+      "speaker": "strings",
+      "expression": "neutral",
+      "text": "Ataque. Não vai adiantar."
+     }
+    ],
+    [
+     {
+      "speaker": "strings",
+      "expression": "neutral",
+      "text": "..."
+     }
+    ]
+   ],
+   "playerWins": [
+    [
+     {
+      "speaker": "strings",
+      "expression": "sad",
+      "text": "...Derrota."
+     }
+    ],
+    [
+     {
+      "speaker": "strings",
+      "expression": "sad",
+      "text": "O Slime... não voltou."
+     }
+    ],
+    [
+     {
+      "speaker": "strings",
+      "expression": "neutral",
+      "text": "..."
+     }
+    ]
+   ],
+   "playerLoses": [
+    [
+     {
+      "speaker": "strings",
+      "expression": "neutral",
+      "text": "...Fim."
+     }
+    ],
+    [
+     {
+      "speaker": "strings",
+      "expression": "neutral",
+      "text": "Eu disse. Sempre volta."
+     }
+    ],
+    [
+     {
+      "speaker": "strings",
+      "expression": "neutral",
+      "text": "Próximo."
+     }
+    ]
+   ],
+   "firstWin": [
+    {
+     "speaker": "strings",
+     "expression": "sad",
+     "text": "..."
+    },
+    {
+     "speaker": "player",
+     "expression": "surprised",
+     "text": "Ei... você está bem? Parece que nem estava aqui."
+    },
+    {
+     "speaker": "strings",
+     "expression": "neutral",
+     "text": "...Duelista forte. Vou lembrar."
+    }
+   ]
+  },
+  "kaiba": {
+   "firstGreeting": [
+    [
+     {
+      "speaker": "kaiba",
+      "expression": "neutral",
+      "text": "Então é você o duelista que anda vencendo todo mundo na minha cidade."
+     },
+     {
+      "speaker": "kaiba",
+      "expression": "neutral",
+      "text": "Seto Kaiba. Fui eu que organizei a Batalha da Cidade. Lembre bem desse nome, {nome}."
+     }
+    ]
+   ],
+   "greeting": [
+    [
+     {
+      "speaker": "kaiba",
+      "expression": "neutral",
+      "text": "Ainda está aqui, {nome}? Pensei que já tivesse desistido."
+     }
+    ],
+    [
+     {
+      "speaker": "kaiba",
+      "expression": "neutral",
+      "text": "A Kaiba Corp fez esses Discos de Duelo. O mínimo que você pode fazer é usar direito."
+     }
+    ],
+    [
+     {
+      "speaker": "kaiba",
+      "expression": "happy",
+      "text": "Hmph. Pelo menos você não é perda de tempo, como os outros."
+     }
+    ]
+   ],
+   "beforeDuel": [
+    [
+     {
+      "speaker": "kaiba",
+      "expression": "neutral",
+      "text": "Vamos acabar logo com isso. O Dragão Branco não gosta de esperar."
+     }
+    ],
+    [
+     {
+      "speaker": "kaiba",
+      "expression": "angry",
+      "text": "Eu sou o melhor duelista do mundo. Vou provar isso de novo."
+     }
+    ],
+    [
+     {
+      "speaker": "kaiba",
+      "expression": "neutral",
+      "text": "Sem desculpas depois, {nome}. Duelo é duelo."
+     }
+    ]
+   ],
+   "playerWins": [
+    [
+     {
+      "speaker": "kaiba",
+      "expression": "angry",
+      "text": "Sorte. Foi pura sorte."
+     }
+    ],
+    [
+     {
+      "speaker": "kaiba",
+      "expression": "neutral",
+      "text": "Aproveite enquanto dura. Da próxima vez, eu não vou ter piedade."
+     }
+    ],
+    [
+     {
+      "speaker": "kaiba",
+      "expression": "angry",
+      "text": "Hmph. Você vai pagar por isso, {nome}."
+     }
+    ]
+   ],
+   "playerLoses": [
+    [
+     {
+      "speaker": "kaiba",
+      "expression": "happy",
+      "text": "Hahaha! Ninguém resiste ao poder do Dragão Branco de Olhos Azuis!"
+     }
+    ],
+    [
+     {
+      "speaker": "kaiba",
+      "expression": "neutral",
+      "text": "Era isso? Volte quando tiver um deck de verdade."
+     }
+    ],
+    [
+     {
+      "speaker": "kaiba",
+      "expression": "neutral",
+      "text": "Você nem chegou perto, {nome}."
+     }
+    ]
+   ],
+   "firstWin": [
+    {
+     "speaker": "kaiba",
+     "expression": "angry",
+     "text": "De novo...? Isso não vai virar costume, {nome}."
+    }
+   ],
+   "bossEntrance": [
+    {
+     "speaker": "kaiba",
+     "expression": "neutral",
+     "text": "Espa Roba, o Caçador de Raros, Arkana, até o Strings. Você derrubou todos."
+    },
+    {
+     "speaker": "player",
+     "expression": "neutral",
+     "text": "Vim duelar com você, Kaiba. Sem truque nenhum."
+    },
+    {
+     "speaker": "kaiba",
+     "expression": "happy",
+     "text": "Ótimo. Eu também não preciso de truques. Só do meu deck."
+    },
+    {
+     "speaker": "kaiba",
+     "expression": "angry",
+     "text": "Prepare-se, {nome}. Contra mim, a Batalha da Cidade termina aqui!"
+    }
+   ],
+   "bossDefeat": [
+    {
+     "speaker": "kaiba",
+     "expression": "surprised",
+     "text": "Não... O meu Dragão Branco... derrotado?"
+    },
+    {
+     "speaker": "player",
+     "expression": "happy",
+     "text": "Foi um duelo incrível, Kaiba. Você não facilitou nada."
+    },
+    {
+     "speaker": "kaiba",
+     "expression": "angry",
+     "text": "Não preciso dos seus elogios. Essa derrota é só um tropeço."
+    },
+    {
+     "speaker": "kaiba",
+     "expression": "neutral",
+     "text": "Mas admito... você é um duelista de verdade, {nome}. Não me faça me arrepender disso."
     }
    ]
   }

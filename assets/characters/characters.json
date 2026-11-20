@@ -1191,6 +1191,19 @@
      "yugi_muto/faces/chara007_06.png"
     ]
    }
+  },
+  {
+   "id": "strings",
+   "name": "Strings",
+   "body": "strings/full_chara007.png",
+   "faces": {
+    "neutral": [
+     "strings/faces/chara007_01.png"
+    ],
+    "worried": [
+     "strings/faces/chara007_07.png"
+    ]
+   }
   }
  ]
 }

@@ -1,5 +1,5 @@
 import { OcgMessageType, OcgProcessResult, OcgResponseType, type OcgCardData, type OcgCoreSync, type OcgMessage, type OcgResponse } from 'ocgcore-wasm';
-import { cpuRespond, freePlaces, isSelect, newMemory, type PolicyMemory } from './cpu';
+import { alternatives, cpuRespond, freePlaces, isSelect, newMemory, type PolicyMemory } from './cpu';
 import { Narrator } from './narrator';
 import { RETRY_NOTICE, type FromWorker, type Step } from './protocol';
 import { decide, PROFILES, type CpuKind, type CpuProfile, type ForkSource, type SearchStats } from './search';
@@ -111,6 +111,9 @@ export class DuelDriver {
     // consulta só vê o fim do passo); o primeiro beat depois de uma jogada da CPU leva `think`.
     const steps: Step[] = [];
     let cpuActed = false;
+    // A última resposta automática (CPU, prompt automático ou "passar" da corrente) e o que já foi tentado nesse pedido.
+    let auto: { sel: OcgMessage; tried: OcgResponse[] } | null = null;
+    const answer = (sel: OcgMessage, r: OcgResponse) => { auto = { sel, tried: [r] }; s.respond(r); };
     const push = (batch: Step[]) => {
       for (const st of batch) {
         if (cpuActed && (this.narrator.turnPlayer === 1 || (st.beat.k === 'activate' && st.beat.p === 1))) st.think = true;
@@ -138,8 +141,20 @@ export class DuelDriver {
       if (winner !== null || status === OcgProcessResult.END) return { t: 'end', winner: winner ?? -1, board, steps };
       const sel = [...messages].reverse().find(isSelect);
       if (!sel || !('player' in sel)) {
-        // Resposta rejeitada: pede de novo o mesmo comando em vez de travar.
-        if (messages.some((m) => m.type === OcgMessageType.RETRY) && this.lastPrompt) {
+        const retry = messages.some((m) => m.type === OcgMessageType.RETRY);
+        // Resposta automática recusada: tenta outra do mesmo pedido. Devolver ao jogador o último prompt dele travaria o
+        // duelo (o motor continua esperando a resposta do outro pedido).
+        if (retry && auto) {
+          const a: { sel: OcgMessage; tried: OcgResponse[] } = auto;
+          const alt = alternatives(a.sel).find((x) => !a.tried.some((t) => JSON.stringify(t) === JSON.stringify(x)));
+          if (!alt) return { t: 'error', text: `O motor recusou todas as respostas de ${OcgMessageType[a.sel.type]}. ${this.diag()}` };
+          this.note(`RETRY→outra ${OcgMessageType[a.sel.type]}`);
+          a.tried.push(alt);
+          s.respond(alt);
+          continue;
+        }
+        // Resposta do jogador rejeitada: pede de novo o mesmo comando em vez de travar.
+        if (retry && this.lastPrompt) {
           this.note('RETRY');
           return { t: 'prompt', msg: this.lastPrompt, board, steps, notice: RETRY_NOTICE };
         }
@@ -148,17 +163,17 @@ export class DuelDriver {
       this.note(`${OcgMessageType[sel.type]}@${sel.player}`);
       // Correntes opcionais sem nada a ativar (ou com "não perguntar mais"): responde "não".
       if (sel.type === OcgMessageType.SELECT_CHAIN && !sel.forced && (sel.selects.length === 0 || (this.autoPass && sel.player === 0))) {
-        s.respond({ type: OcgResponseType.SELECT_CHAIN, index: null });
+        answer(sel, { type: OcgResponseType.SELECT_CHAIN, index: null });
         continue;
       }
       // Zona: a primeira livre (escolha manual vem depois).
       if (sel.player === 0 && (sel.type === OcgMessageType.SELECT_PLACE || sel.type === OcgMessageType.SELECT_DISFIELD)) {
-        s.respond({ type: sel.type === OcgMessageType.SELECT_PLACE ? OcgResponseType.SELECT_PLACE : OcgResponseType.SELECT_DISFIELD, places: freePlaces(sel.field_mask, sel.player, sel.count) });
+        answer(sel, { type: sel.type === OcgMessageType.SELECT_PLACE ? OcgResponseType.SELECT_PLACE : OcgResponseType.SELECT_DISFIELD, places: freePlaces(sel.field_mask, sel.player, sel.count) });
         continue;
       }
       if (sel.player === 0 && !UI_PROMPTS.has(sel.type)) {
-        const auto = cpuRespond(sel, this.ctx(0));
-        if (auto) { s.respond(auto); continue; }
+        const autoR = cpuRespond(sel, this.ctx(0));
+        if (autoR) { answer(sel, autoR); continue; }
       }
       if (sel.player === 0) { this.lastPrompt = sel; return { t: 'prompt', msg: sel, board, steps }; }
       this.onProgress?.(steps.splice(0));
@@ -167,7 +182,7 @@ export class DuelDriver {
       thinking += Date.now() - t1;
       if (!r) return { t: 'error', text: `CPU sem resposta para ${OcgMessageType[sel.type]}. ${this.diag()}` };
       cpuActed = true;
-      s.respond(r);
+      answer(sel, r);
     }
   }
 }
