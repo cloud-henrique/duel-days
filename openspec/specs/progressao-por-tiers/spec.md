@@ -42,6 +42,20 @@ pacote-prêmio normalmente (se dentro da janela).
 - **THEN** ganha o pacote-prêmio, o tier atual continua sendo o Tier 2 e o progresso avisa que o Tier 3 chega numa
   próxima atualização
 
+#### Scenario: Kaiba vencido sem Tier 4
+- **WHEN** o jogador vence o Kaiba no dia 20 e o Tier 4 ainda não existe
+- **THEN** ganha o pacote-prêmio, o tier atual continua sendo o Tier 3 e o progresso avisa que o Tier 4 chega numa
+  próxima atualização
+
+#### Scenario: Prazo do Tier 3 sem Tier 4
+- **WHEN** chega a manhã do dia 23 e o Tier 4 ainda não existe
+- **THEN** o tier atual continua sendo o Tier 3 até o fim da campanha
+
+#### Scenario: Save parado no Tier 2
+- **WHEN** o jogador abre um save do dia 17, de antes desta mudança, que estava no Tier 2 por falta de conteúdo
+- **THEN** o tier atual passa a ser o Tier 3, aberto no dia 15 (ou no dia em que o Pegasus foi vencido, se antes), e as
+  caixas do Tier 3 contam a partir desse dia
+
 ### Requirement: Tier atual no cabeçalho e no status
 O cabeçalho do mapa SHALL mostrar o nome do tier atual e o progresso dele: quantos duelistas comuns do tier já foram
 vencidos ("X/N vencidos") e a situação do chefe. A tela de status SHALL mostrar os tiers já abertos, os chefes vencidos e
