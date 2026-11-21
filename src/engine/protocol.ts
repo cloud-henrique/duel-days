@@ -21,6 +21,10 @@ export interface PlayerBoard {
   mzone: (BoardCard | null)[];
   szone: (BoardCard | null)[];
   grave: BoardCard[];
+  /** Banidas, em ordem (a última é o topo). Banida virada para baixo vem com a posição de virada para baixo. */
+  removed: BoardCard[];
+  /** Extra Deck. A tela só mostra a quantidade do oponente; a lista é só a do jogador. */
+  extra: BoardCard[];
 }
 export interface Board { players: [PlayerBoard, PlayerBoard]; turn: number; turnPlayer: number; phase: number }
 

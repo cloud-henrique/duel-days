@@ -3,28 +3,42 @@
   "msg": {
    "type": 11,
    "player": 0,
-   "summons": [],
+   "summons": [
+    {
+     "code": 36584821,
+     "controller": 0,
+     "location": 2,
+     "sequence": 1
+    },
+    {
+     "code": 45121025,
+     "controller": 0,
+     "location": 2,
+     "sequence": 3
+    }
+   ],
    "special_summons": [],
    "pos_changes": [],
-   "monster_sets": [],
+   "monster_sets": [
+    {
+     "code": 36584821,
+     "controller": 0,
+     "location": 2,
+     "sequence": 1
+    },
+    {
+     "code": 45121025,
+     "controller": 0,
+     "location": 2,
+     "sequence": 3
+    }
+   ],
    "spell_sets": [
     {
-     "code": 19230407,
+     "code": 20188127,
      "controller": 0,
      "location": 2,
      "sequence": 2
-    },
-    {
-     "code": 77027445,
-     "controller": 0,
-     "location": 2,
-     "sequence": 4
-    },
-    {
-     "code": 53046408,
-     "controller": 0,
-     "location": 2,
-     "sequence": 5
     }
    ],
    "activates": [],
@@ -35,8 +49,8 @@
   "board": {
    "players": [
     {
-     "lp": 8000,
-     "deck": 34,
+     "lp": 4000,
+     "deck": 36,
      "hand": [
       {
        "code": 50005633,
@@ -45,34 +59,22 @@
        "defense": 1600
       },
       {
-       "code": 35322812,
+       "code": 36584821,
        "position": 10,
-       "attack": 500,
-       "defense": 2500
+       "attack": -2,
+       "defense": -2
       },
       {
-       "code": 19230407,
+       "code": 20188127,
        "position": 10,
        "attack": 0,
        "defense": 0
       },
       {
-       "code": 44913552,
+       "code": 45121025,
        "position": 10,
-       "attack": 1900,
-       "defense": 1700
-      },
-      {
-       "code": 77027445,
-       "position": 10,
-       "attack": 0,
-       "defense": 0
-      },
-      {
-       "code": 53046408,
-       "position": 10,
-       "attack": 0,
-       "defense": 0
+       "attack": 1200,
+       "defense": 1400
       }
      ],
      "mzone": [
@@ -94,41 +96,37 @@
       null,
       null
      ],
-     "grave": []
+     "grave": [],
+     "removed": [],
+     "extra": []
     },
     {
-     "lp": 8000,
-     "deck": 35,
+     "lp": 4000,
+     "deck": 26,
      "hand": [
       {
-       "code": 75392615,
+       "code": 4614116,
        "position": 10,
        "attack": 0,
        "defense": 0
       },
       {
-       "code": 70344351,
+       "code": 57139487,
        "position": 10,
        "attack": 0,
        "defense": 0
       },
       {
-       "code": 19613556,
+       "code": 17655904,
        "position": 10,
        "attack": 0,
        "defense": 0
       },
       {
-       "code": 18190572,
+       "code": 41398771,
        "position": 10,
        "attack": 0,
        "defense": 0
-      },
-      {
-       "code": 25833572,
-       "position": 10,
-       "attack": 3750,
-       "defense": 3400
       }
      ],
      "mzone": [
@@ -150,152 +148,40 @@
       null,
       null
      ],
-     "grave": []
-    }
-   ],
-   "turn": 1,
-   "turnPlayer": 0,
-   "phase": 4
-  }
- },
- "chain": {
-  "msg": {
-   "type": 16,
-   "player": 0,
-   "spe_count": 0,
-   "forced": false,
-   "hint_timing": 1024,
-   "hint_timing_other": 0,
-   "selects": [
-    {
-     "code": 53046408,
-     "controller": 0,
-     "location": 2,
-     "sequence": 4,
-     "position": 10,
-     "description": "0",
-     "client_mode": 0
-    }
-   ]
-  },
-  "board": {
-   "players": [
-    {
-     "lp": 8000,
-     "deck": 34,
-     "hand": [
+     "grave": [],
+     "removed": [],
+     "extra": [
       {
-       "code": 50005633,
-       "position": 10,
-       "attack": 2000,
-       "defense": 1600
+       "code": 80516007,
+       "position": 8,
+       "attack": 1500,
+       "defense": 1200
       },
       {
-       "code": 35322812,
-       "position": 10,
-       "attack": 500,
-       "defense": 2500
+       "code": 16507828,
+       "position": 8,
+       "attack": 2200,
+       "defense": 2000
       },
       {
-       "code": 44913552,
-       "position": 10,
-       "attack": 1900,
-       "defense": 1700
+       "code": 74703140,
+       "position": 8,
+       "attack": 2100,
+       "defense": 1800
       },
       {
-       "code": 77027445,
-       "position": 10,
-       "attack": 0,
-       "defense": 0
+       "code": 41544074,
+       "position": 8,
+       "attack": 1300,
+       "defense": 1100
       },
       {
-       "code": 53046408,
-       "position": 10,
-       "attack": 0,
-       "defense": 0
+       "code": 80727036,
+       "position": 8,
+       "attack": 2100,
+       "defense": 1300
       }
-     ],
-     "mzone": [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
-     ],
-     "szone": [
-      {
-       "code": 19230407,
-       "position": 10,
-       "attack": 0,
-       "defense": 0
-      },
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
-     ],
-     "grave": []
-    },
-    {
-     "lp": 8000,
-     "deck": 35,
-     "hand": [
-      {
-       "code": 75392615,
-       "position": 10,
-       "attack": 0,
-       "defense": 0
-      },
-      {
-       "code": 70344351,
-       "position": 10,
-       "attack": 0,
-       "defense": 0
-      },
-      {
-       "code": 19613556,
-       "position": 10,
-       "attack": 0,
-       "defense": 0
-      },
-      {
-       "code": 18190572,
-       "position": 10,
-       "attack": 0,
-       "defense": 0
-      },
-      {
-       "code": 25833572,
-       "position": 10,
-       "attack": 3750,
-       "defense": 3400
-      }
-     ],
-     "mzone": [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
-     ],
-     "szone": [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
-     ],
-     "grave": []
+     ]
     }
    ],
    "turn": 1,
@@ -309,34 +195,28 @@
    "player": 0,
    "summons": [
     {
-     "code": 27671321,
+     "code": 45121025,
      "controller": 0,
      "location": 2,
-     "sequence": 5
+     "sequence": 1
     }
    ],
    "special_summons": [],
    "pos_changes": [],
    "monster_sets": [
     {
-     "code": 27671321,
+     "code": 45121025,
      "controller": 0,
      "location": 2,
-     "sequence": 5
+     "sequence": 1
     }
    ],
    "spell_sets": [
     {
-     "code": 77027445,
+     "code": 76848240,
      "controller": 0,
      "location": 2,
-     "sequence": 3
-    },
-    {
-     "code": 53046408,
-     "controller": 0,
-     "location": 2,
-     "sequence": 4
+     "sequence": 2
     }
    ],
    "activates": [],
@@ -347,8 +227,8 @@
   "board": {
    "players": [
     {
-     "lp": 8000,
-     "deck": 33,
+     "lp": 3400,
+     "deck": 35,
      "hand": [
       {
        "code": 50005633,
@@ -357,34 +237,16 @@
        "defense": 1600
       },
       {
-       "code": 35322812,
+       "code": 45121025,
        "position": 10,
-       "attack": 500,
-       "defense": 2500
+       "attack": 1200,
+       "defense": 1400
       },
       {
-       "code": 44913552,
-       "position": 10,
-       "attack": 1900,
-       "defense": 1700
-      },
-      {
-       "code": 77027445,
+       "code": 76848240,
        "position": 10,
        "attack": 0,
        "defense": 0
-      },
-      {
-       "code": 53046408,
-       "position": 10,
-       "attack": 0,
-       "defense": 0
-      },
-      {
-       "code": 27671321,
-       "position": 10,
-       "attack": 350,
-       "defense": 750
       }
      ],
      "mzone": [
@@ -398,7 +260,12 @@
      ],
      "szone": [
       null,
-      null,
+      {
+       "code": 20188127,
+       "position": 10,
+       "attack": 0,
+       "defense": 0
+      },
       null,
       null,
       null,
@@ -408,43 +275,39 @@
      ],
      "grave": [
       {
-       "code": 19230407,
+       "code": 36584821,
        "position": 5,
-       "attack": 0,
-       "defense": 0
+       "attack": -2,
+       "defense": -2
       }
-     ]
+     ],
+     "removed": [],
+     "extra": []
     },
     {
-     "lp": 8000,
-     "deck": 34,
+     "lp": 4000,
+     "deck": 25,
      "hand": [
       {
-       "code": 75392615,
+       "code": 4614116,
        "position": 10,
        "attack": 0,
        "defense": 0
       },
       {
-       "code": 70344351,
+       "code": 57139487,
        "position": 10,
        "attack": 0,
        "defense": 0
       },
       {
-       "code": 18190572,
+       "code": 17655904,
        "position": 10,
        "attack": 0,
        "defense": 0
       },
       {
-       "code": 25833572,
-       "position": 10,
-       "attack": 3750,
-       "defense": 3400
-      },
-      {
-       "code": 21070956,
+       "code": 41398771,
        "position": 10,
        "attack": 0,
        "defense": 0
@@ -452,7 +315,12 @@
      ],
      "mzone": [
       null,
-      null,
+      {
+       "code": 97973387,
+       "position": 1,
+       "attack": 600,
+       "defense": 500
+      },
       null,
       null,
       null,
@@ -469,12 +337,38 @@
       null,
       null
      ],
-     "grave": [
+     "grave": [],
+     "removed": [],
+     "extra": [
       {
-       "code": 19613556,
-       "position": 5,
-       "attack": 0,
-       "defense": 0
+       "code": 80516007,
+       "position": 8,
+       "attack": 1500,
+       "defense": 1200
+      },
+      {
+       "code": 16507828,
+       "position": 8,
+       "attack": 2200,
+       "defense": 2000
+      },
+      {
+       "code": 74703140,
+       "position": 8,
+       "attack": 2100,
+       "defense": 1800
+      },
+      {
+       "code": 41544074,
+       "position": 8,
+       "attack": 1300,
+       "defense": 1100
+      },
+      {
+       "code": 80727036,
+       "position": 8,
+       "attack": 2100,
+       "defense": 1300
       }
      ]
     }
@@ -493,19 +387,19 @@
    "max": 1,
    "selects": [
     {
-     "code": 77027445,
-     "controller": 0,
-     "location": 8,
+     "code": 97973387,
+     "controller": 1,
+     "location": 4,
      "sequence": 1,
-     "position": 10
+     "position": 1
     }
    ]
   },
   "board": {
    "players": [
     {
-     "lp": 8000,
-     "deck": 33,
+     "lp": 2800,
+     "deck": 34,
      "hand": [
       {
        "code": 50005633,
@@ -514,27 +408,20 @@
        "defense": 1600
       },
       {
-       "code": 35322812,
+       "code": 76848240,
        "position": 10,
-       "attack": 500,
-       "defense": 2500
-      },
-      {
-       "code": 44913552,
-       "position": 10,
-       "attack": 1900,
-       "defense": 1700
-      },
-      {
-       "code": 27671321,
-       "position": 10,
-       "attack": 350,
-       "defense": 750
+       "attack": 0,
+       "defense": 0
       }
      ],
      "mzone": [
       null,
-      null,
+      {
+       "code": 45121025,
+       "position": 8,
+       "attack": 1200,
+       "defense": 1400
+      },
       null,
       null,
       null,
@@ -542,19 +429,19 @@
       null
      ],
      "szone": [
+      null,
       {
-       "code": 53046408,
-       "position": 5,
-       "attack": 0,
-       "defense": 0
-      },
-      {
-       "code": 77027445,
+       "code": 20188127,
        "position": 10,
        "attack": 0,
        "defense": 0
       },
-      null,
+      {
+       "code": 55321970,
+       "position": 5,
+       "attack": 0,
+       "defense": 0
+      },
       null,
       null,
       null,
@@ -563,49 +450,27 @@
      ],
      "grave": [
       {
-       "code": 19230407,
+       "code": 36584821,
        "position": 5,
-       "attack": 0,
-       "defense": 0
+       "attack": -2,
+       "defense": -2
       }
-     ]
+     ],
+     "removed": [],
+     "extra": []
     },
     {
-     "lp": 8000,
-     "deck": 33,
+     "lp": 4000,
+     "deck": 24,
      "hand": [
       {
-       "code": 75392615,
+       "code": 4614116,
        "position": 10,
        "attack": 0,
        "defense": 0
       },
       {
-       "code": 70344351,
-       "position": 10,
-       "attack": 0,
-       "defense": 0
-      },
-      {
-       "code": 18190572,
-       "position": 10,
-       "attack": 0,
-       "defense": 0
-      },
-      {
-       "code": 25833572,
-       "position": 10,
-       "attack": 3750,
-       "defense": 3400
-      },
-      {
-       "code": 21070956,
-       "position": 10,
-       "attack": 0,
-       "defense": 0
-      },
-      {
-       "code": 66788016,
+       "code": 17655904,
        "position": 10,
        "attack": 0,
        "defense": 0
@@ -613,144 +478,12 @@
      ],
      "mzone": [
       null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
-     ],
-     "szone": [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
-     ],
-     "grave": [
       {
-       "code": 19613556,
-       "position": 5,
-       "attack": 0,
-       "defense": 0
-      }
-     ]
-    }
-   ],
-   "turn": 4,
-   "turnPlayer": 1,
-   "phase": 1
-  }
- },
- "battle_direct": {
-  "msg": {
-   "type": 10,
-   "player": 0,
-   "chains": [],
-   "attacks": [
-    {
-     "code": 27671321,
-     "controller": 0,
-     "location": 4,
-     "sequence": 0,
-     "can_direct": true
-    }
-   ],
-   "to_m2": true,
-   "to_ep": true
-  },
-  "board": {
-   "players": [
-    {
-     "lp": 9000,
-     "deck": 32,
-     "hand": [
-      {
-       "code": 50005633,
-       "position": 10,
-       "attack": 2000,
-       "defense": 1600
-      },
-      {
-       "code": 35322812,
-       "position": 10,
-       "attack": 500,
-       "defense": 2500
-      },
-      {
-       "code": 44913552,
-       "position": 10,
-       "attack": 1900,
-       "defense": 1700
-      }
-     ],
-     "mzone": [
-      {
-       "code": 27671321,
+       "code": 97973387,
        "position": 1,
-       "attack": 350,
-       "defense": 0
+       "attack": 600,
+       "defense": 500
       },
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
-     ],
-     "szone": [
-      {
-       "code": 27847700,
-       "position": 10,
-       "attack": 0,
-       "defense": 0
-      },
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
-     ],
-     "grave": [
-      {
-       "code": 19230407,
-       "position": 5,
-       "attack": 0,
-       "defense": 0
-      },
-      {
-       "code": 77027445,
-       "position": 5,
-       "attack": 0,
-       "defense": 0
-      },
-      {
-       "code": 53046408,
-       "position": 5,
-       "attack": 0,
-       "defense": 0
-      }
-     ]
-    },
-    {
-     "lp": 7500,
-     "deck": 33,
-     "hand": [
-      {
-       "code": 25833572,
-       "position": 10,
-       "attack": 3750,
-       "defense": 3400
-      }
-     ],
-     "mzone": [
-      null,
-      null,
       null,
       null,
       null,
@@ -759,54 +492,300 @@
      ],
      "szone": [
       null,
+      {
+       "code": 57139487,
+       "position": 10,
+       "attack": 0,
+       "defense": 0
+      },
+      {
+       "code": 41398771,
+       "position": 10,
+       "attack": 0,
+       "defense": 0
+      },
+      {
+       "code": 54704216,
+       "position": 10,
+       "attack": 0,
+       "defense": 0
+      },
       null,
-      {
-       "code": 66788016,
-       "position": 10,
-       "attack": 0,
-       "defense": 0
-      },
-      {
-       "code": 70344351,
-       "position": 10,
-       "attack": 0,
-       "defense": 0
-      },
-      {
-       "code": 21070956,
-       "position": 10,
-       "attack": 0,
-       "defense": 0
-      },
       null,
       null,
       null
      ],
-     "grave": [
+     "grave": [],
+     "removed": [],
+     "extra": [
       {
-       "code": 19613556,
-       "position": 5,
-       "attack": 0,
-       "defense": 0
+       "code": 80516007,
+       "position": 8,
+       "attack": 1500,
+       "defense": 1200
       },
       {
-       "code": 75392615,
-       "position": 5,
-       "attack": 0,
-       "defense": 0
+       "code": 16507828,
+       "position": 8,
+       "attack": 2200,
+       "defense": 2000
       },
       {
-       "code": 18190572,
-       "position": 5,
-       "attack": 0,
-       "defense": 0
+       "code": 74703140,
+       "position": 8,
+       "attack": 2100,
+       "defense": 1800
+      },
+      {
+       "code": 41544074,
+       "position": 8,
+       "attack": 1300,
+       "defense": 1100
+      },
+      {
+       "code": 80727036,
+       "position": 8,
+       "attack": 2100,
+       "defense": 1300
       }
      ]
     }
    ],
    "turn": 5,
    "turnPlayer": 0,
-   "phase": 8
+   "phase": 4
+  }
+ },
+ "chain": {
+  "msg": {
+   "type": 16,
+   "player": 0,
+   "spe_count": 1,
+   "forced": false,
+   "hint_timing": 2,
+   "hint_timing_other": 0,
+   "selects": [
+    {
+     "code": 76848240,
+     "controller": 0,
+     "location": 8,
+     "sequence": 3,
+     "position": 10,
+     "description": "0",
+     "client_mode": 0
+    }
+   ]
+  },
+  "board": {
+   "players": [
+    {
+     "lp": 2300,
+     "deck": 33,
+     "hand": [
+      {
+       "code": 50005633,
+       "position": 10,
+       "attack": 2000,
+       "defense": 1600
+      },
+      {
+       "code": 29380133,
+       "position": 10,
+       "attack": 900,
+       "defense": 1700
+      }
+     ],
+     "mzone": [
+      null,
+      {
+       "code": 45121025,
+       "position": 8,
+       "attack": 1200,
+       "defense": 1400,
+       "links": [
+        {
+         "kind": "target",
+         "dir": "by",
+         "code": 54704216,
+         "controller": 1,
+         "location": 8,
+         "sequence": 3
+        }
+       ]
+      },
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "szone": [
+      null,
+      {
+       "code": 20188127,
+       "position": 10,
+       "attack": 0,
+       "defense": 0
+      },
+      {
+       "code": 55321970,
+       "position": 5,
+       "attack": 0,
+       "defense": 0,
+       "links": [
+        {
+         "kind": "equip",
+         "dir": "to",
+         "code": 97973387,
+         "controller": 1,
+         "location": 4,
+         "sequence": 1
+        }
+       ]
+      },
+      {
+       "code": 76848240,
+       "position": 10,
+       "attack": 0,
+       "defense": 0
+      },
+      null,
+      null,
+      null,
+      null
+     ],
+     "grave": [
+      {
+       "code": 36584821,
+       "position": 5,
+       "attack": -2,
+       "defense": -2
+      }
+     ],
+     "removed": [],
+     "extra": []
+    },
+    {
+     "lp": 4000,
+     "deck": 23,
+     "hand": [
+      {
+       "code": 4614116,
+       "position": 10,
+       "attack": 0,
+       "defense": 0
+      },
+      {
+       "code": 17655904,
+       "position": 10,
+       "attack": 0,
+       "defense": 0
+      },
+      {
+       "code": 27770341,
+       "position": 10,
+       "attack": 0,
+       "defense": 0
+      }
+     ],
+     "mzone": [
+      null,
+      {
+       "code": 97973387,
+       "position": 1,
+       "attack": 1000,
+       "defense": 300,
+       "links": [
+        {
+         "kind": "equip",
+         "dir": "by",
+         "code": 55321970,
+         "controller": 0,
+         "location": 8,
+         "sequence": 2
+        }
+       ]
+      },
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "szone": [
+      null,
+      {
+       "code": 57139487,
+       "position": 10,
+       "attack": 0,
+       "defense": 0
+      },
+      {
+       "code": 41398771,
+       "position": 10,
+       "attack": 0,
+       "defense": 0
+      },
+      {
+       "code": 54704216,
+       "position": 5,
+       "attack": 0,
+       "defense": 0,
+       "links": [
+        {
+         "kind": "target",
+         "dir": "to",
+         "code": 45121025,
+         "controller": 0,
+         "location": 4,
+         "sequence": 1
+        }
+       ]
+      },
+      null,
+      null,
+      null,
+      null
+     ],
+     "grave": [],
+     "removed": [],
+     "extra": [
+      {
+       "code": 80516007,
+       "position": 8,
+       "attack": 1500,
+       "defense": 1200
+      },
+      {
+       "code": 16507828,
+       "position": 8,
+       "attack": 2200,
+       "defense": 2000
+      },
+      {
+       "code": 74703140,
+       "position": 8,
+       "attack": 2100,
+       "defense": 1800
+      },
+      {
+       "code": 41544074,
+       "position": 8,
+       "attack": 1300,
+       "defense": 1100
+      },
+      {
+       "code": 80727036,
+       "position": 8,
+       "attack": 2100,
+       "defense": 1300
+      }
+     ]
+    }
+   ],
+   "turn": 7,
+   "turnPlayer": 0,
+   "phase": 2
   }
  },
  "battle_attack": {
@@ -816,54 +795,144 @@
    "chains": [],
    "attacks": [
     {
-     "code": 41218256,
+     "code": 29380133,
      "controller": 0,
      "location": 4,
-     "sequence": 0,
-     "can_direct": false
-    },
-    {
-     "code": 87564352,
-     "controller": 0,
-     "location": 4,
-     "sequence": 1,
+     "sequence": 2,
      "can_direct": false
     }
    ],
-   "to_m2": true,
+   "to_m2": false,
    "to_ep": true
   },
   "board": {
    "players": [
     {
-     "lp": 6200,
+     "lp": 2300,
      "deck": 33,
-     "hand": [
+     "hand": [],
+     "mzone": [
+      null,
       {
-       "code": 42941100,
-       "position": 10,
-       "attack": 0,
-       "defense": 1000
+       "code": 45121025,
+       "position": 8,
+       "attack": 1200,
+       "defense": 1400,
+       "links": [
+        {
+         "kind": "target",
+         "dir": "by",
+         "code": 54704216,
+         "controller": 1,
+         "location": 8,
+         "sequence": 3
+        }
+       ]
       },
       {
-       "code": 66712593,
+       "code": 29380133,
+       "position": 1,
+       "attack": 900,
+       "defense": 1700
+      },
+      null,
+      null,
+      null,
+      null
+     ],
+     "szone": [
+      null,
+      {
+       "code": 20188127,
        "position": 10,
-       "attack": 1500,
-       "defense": 1200
+       "attack": 0,
+       "defense": 0
+      },
+      {
+       "code": 55321970,
+       "position": 5,
+       "attack": 0,
+       "defense": 0,
+       "links": [
+        {
+         "kind": "equip",
+         "dir": "to",
+         "code": 97973387,
+         "controller": 1,
+         "location": 4,
+         "sequence": 1
+        }
+       ]
+      },
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "grave": [
+      {
+       "code": 36584821,
+       "position": 5,
+       "attack": -2,
+       "defense": -2
+      },
+      {
+       "code": 50005633,
+       "position": 5,
+       "attack": 2000,
+       "defense": 1600
+      },
+      {
+       "code": 76848240,
+       "position": 5,
+       "attack": 0,
+       "defense": 0
+      }
+     ],
+     "removed": [],
+     "extra": []
+    },
+    {
+     "lp": 4000,
+     "deck": 23,
+     "hand": [
+      {
+       "code": 4614116,
+       "position": 10,
+       "attack": 0,
+       "defense": 0
+      },
+      {
+       "code": 17655904,
+       "position": 10,
+       "attack": 0,
+       "defense": 0
+      },
+      {
+       "code": 27770341,
+       "position": 10,
+       "attack": 0,
+       "defense": 0
       }
      ],
      "mzone": [
+      null,
       {
-       "code": 41218256,
+       "code": 97973387,
        "position": 1,
        "attack": 1000,
-       "defense": 800
-      },
-      {
-       "code": 87564352,
-       "position": 1,
-       "attack": 1500,
-       "defense": 800
+       "defense": 300,
+       "links": [
+        {
+         "kind": "equip",
+         "dir": "by",
+         "code": 55321970,
+         "controller": 0,
+         "location": 8,
+         "sequence": 2
+        }
+       ]
       },
       null,
       null,
@@ -872,12 +941,133 @@
       null
      ],
      "szone": [
+      null,
       {
-       "code": 24643836,
+       "code": 57139487,
        "position": 10,
        "attack": 0,
        "defense": 0
       },
+      {
+       "code": 41398771,
+       "position": 10,
+       "attack": 0,
+       "defense": 0
+      },
+      {
+       "code": 54704216,
+       "position": 5,
+       "attack": 0,
+       "defense": 0,
+       "links": [
+        {
+         "kind": "target",
+         "dir": "to",
+         "code": 45121025,
+         "controller": 0,
+         "location": 4,
+         "sequence": 1
+        }
+       ]
+      },
+      null,
+      null,
+      null,
+      null
+     ],
+     "grave": [],
+     "removed": [],
+     "extra": [
+      {
+       "code": 80516007,
+       "position": 8,
+       "attack": 1500,
+       "defense": 1200
+      },
+      {
+       "code": 16507828,
+       "position": 8,
+       "attack": 2200,
+       "defense": 2000
+      },
+      {
+       "code": 74703140,
+       "position": 8,
+       "attack": 2100,
+       "defense": 1800
+      },
+      {
+       "code": 41544074,
+       "position": 8,
+       "attack": 1300,
+       "defense": 1100
+      },
+      {
+       "code": 80727036,
+       "position": 8,
+       "attack": 2100,
+       "defense": 1300
+      }
+     ]
+    }
+   ],
+   "turn": 7,
+   "turnPlayer": 0,
+   "phase": 8
+  }
+ },
+ "battle_direct": {
+  "msg": {
+   "type": 10,
+   "player": 0,
+   "chains": [],
+   "attacks": [
+    {
+     "code": 33621868,
+     "controller": 0,
+     "location": 4,
+     "sequence": 1,
+     "can_direct": true
+    }
+   ],
+   "to_m2": false,
+   "to_ep": true
+  },
+  "board": {
+   "players": [
+    {
+     "lp": 4000,
+     "deck": 35,
+     "hand": [
+      {
+       "code": 42129512,
+       "position": 10,
+       "attack": 2700,
+       "defense": 2000
+      },
+      {
+       "code": 20831168,
+       "position": 10,
+       "attack": 1100,
+       "defense": 800
+      }
+     ],
+     "mzone": [
+      null,
+      {
+       "code": 33621868,
+       "position": 1,
+       "attack": 1700,
+       "defense": 1800
+      },
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "szone": [
+      null,
       null,
       null,
       null,
@@ -888,61 +1078,46 @@
      ],
      "grave": [
       {
-       "code": 27744077,
+       "code": 37390589,
        "position": 5,
        "attack": 0,
        "defense": 0
       },
       {
-       "code": 56916805,
+       "code": 89987208,
        "position": 5,
-       "attack": 0,
-       "defense": 0
+       "attack": 1100,
+       "defense": 1000
       }
-     ]
+     ],
+     "removed": [],
+     "extra": []
     },
     {
-     "lp": 8000,
-     "deck": 34,
+     "lp": 4000,
+     "deck": 25,
      "hand": [
       {
-       "code": 7565547,
+       "code": 88089103,
        "position": 10,
        "attack": 0,
        "defense": 0
       },
       {
-       "code": 12160911,
+       "code": 47319141,
        "position": 10,
-       "attack": 1500,
-       "defense": 0
+       "attack": 1800,
+       "defense": 1500
       },
       {
-       "code": 77084837,
+       "code": 14141448,
        "position": 10,
-       "attack": 700,
-       "defense": 500
-      },
-      {
-       "code": 54178050,
-       "position": 10,
-       "attack": 0,
-       "defense": 0
-      },
-      {
-       "code": 19827717,
-       "position": 10,
-       "attack": 0,
-       "defense": 0
+       "attack": 2600,
+       "defense": 2500
       }
      ],
      "mzone": [
-      {
-       "code": 48092532,
-       "position": 1,
-       "attack": 1800,
-       "defense": 200
-      },
+      null,
       null,
       null,
       null,
@@ -952,7 +1127,12 @@
      ],
      "szone": [
       null,
-      null,
+      {
+       "code": 93747864,
+       "position": 10,
+       "attack": 0,
+       "defense": 0
+      },
       null,
       null,
       null,
@@ -960,7 +1140,41 @@
       null,
       null
      ],
-     "grave": []
+     "grave": [
+      {
+       "code": 31785398,
+       "position": 5,
+       "attack": 0,
+       "defense": 0
+      }
+     ],
+     "removed": [],
+     "extra": [
+      {
+       "code": 11901678,
+       "position": 8,
+       "attack": 3200,
+       "defense": 2500
+      },
+      {
+       "code": 32485271,
+       "position": 8,
+       "attack": 2000,
+       "defense": 1800
+      },
+      {
+       "code": 74703140,
+       "position": 8,
+       "attack": 2100,
+       "defense": 1800
+      },
+      {
+       "code": 1412158,
+       "position": 8,
+       "attack": 1200,
+       "defense": 500
+      }
+     ]
     }
    ],
    "turn": 3,
@@ -977,17 +1191,17 @@
    "max": 2,
    "selects": [
     {
-     "code": 84173492,
-     "controller": 0,
-     "location": 4,
-     "sequence": 0,
-     "release_param": 1
-    },
-    {
-     "code": 87340664,
+     "code": 33621868,
      "controller": 0,
      "location": 4,
      "sequence": 1,
+     "release_param": 1
+    },
+    {
+     "code": 20831168,
+     "controller": 0,
+     "location": 4,
+     "sequence": 2,
      "release_param": 1
     }
    ]
@@ -995,250 +1209,106 @@
   "board": {
    "players": [
     {
-     "lp": 2400,
-     "deck": 3,
+     "lp": 4000,
+     "deck": 33,
      "hand": [
       {
-       "code": 8794435,
+       "code": 42129512,
        "position": 10,
-       "attack": 4294967294,
-       "defense": 0
+       "attack": 2700,
+       "defense": 2000
       },
       {
-       "code": 15734813,
+       "code": 4920010,
        "position": 10,
-       "attack": 0,
-       "defense": 2100
-      }
-     ],
-     "mzone": [
-      {
-       "code": 84173492,
-       "position": 4,
-       "attack": 2300,
-       "defense": 0
-      },
-      {
-       "code": 87340664,
-       "position": 8,
-       "attack": 100,
+       "attack": 900,
        "defense": 200
-      },
-      null,
-      null,
-      null,
-      null,
-      null
-     ],
-     "szone": [
-      {
-       "code": 56769674,
-       "position": 5,
-       "attack": 0,
-       "defense": 0
-      },
-      {
-       "code": 54351224,
-       "position": 10,
-       "attack": 0,
-       "defense": 0
-      },
-      {
-       "code": 39019325,
-       "position": 10,
-       "attack": 0,
-       "defense": 0
-      },
-      {
-       "code": 81385346,
-       "position": 10,
-       "attack": 0,
-       "defense": 0
-      },
-      null,
-      null,
-      null,
-      null
-     ],
-     "grave": [
-      {
-       "code": 66719324,
-       "position": 5,
-       "attack": 0,
-       "defense": 0
-      },
-      {
-       "code": 32269855,
-       "position": 5,
-       "attack": 1300,
-       "defense": 500
-      },
-      {
-       "code": 90790253,
-       "position": 5,
-       "attack": 1400,
-       "defense": 1800
-      },
-      {
-       "code": 32240937,
-       "position": 5,
-       "attack": 3500,
-       "defense": 3000
-      },
-      {
-       "code": 58268433,
-       "position": 5,
-       "attack": 400,
-       "defense": 300
-      },
-      {
-       "code": 35316708,
-       "position": 5,
-       "attack": 0,
-       "defense": 0
-      },
-      {
-       "code": 46571052,
-       "position": 5,
-       "attack": 1700,
-       "defense": 1000
-      },
-      {
-       "code": 31476755,
-       "position": 5,
-       "attack": 0,
-       "defense": 0
-      },
-      {
-       "code": 42541548,
-       "position": 5,
-       "attack": 1200,
-       "defense": 1500
-      },
-      {
-       "code": 26185991,
-       "position": 5,
-       "attack": 1000,
-       "defense": 1200
-      },
-      {
-       "code": 32452818,
-       "position": 5,
-       "attack": 1200,
-       "defense": 1500
-      },
-      {
-       "code": 52768103,
-       "position": 5,
-       "attack": 1000,
-       "defense": 1000
-      },
-      {
-       "code": 58621589,
-       "position": 5,
-       "attack": 0,
-       "defense": 0
-      },
-      {
-       "code": 17192817,
-       "position": 5,
-       "attack": 1000,
-       "defense": 2200
-      },
-      {
-       "code": 20277860,
-       "position": 5,
-       "attack": 1500,
-       "defense": 0
-      },
-      {
-       "code": 45945685,
-       "position": 5,
-       "attack": 800,
-       "defense": 1000
-      },
-      {
-       "code": 4732017,
-       "position": 5,
-       "attack": 1600,
-       "defense": 400
-      },
-      {
-       "code": 88975532,
-       "position": 5,
-       "attack": 1600,
-       "defense": 600
       },
       {
        "code": 44762290,
-       "position": 5,
-       "attack": 0,
-       "defense": 0
-      },
-      {
-       "code": 70861343,
-       "position": 5,
-       "attack": 0,
-       "defense": 0
-      },
-      {
-       "code": 29389368,
-       "position": 5,
-       "attack": 0,
-       "defense": 0
-      },
-      {
-       "code": 68073522,
-       "position": 5,
-       "attack": 0,
-       "defense": 0
-      },
-      {
-       "code": 94585852,
-       "position": 5,
-       "attack": 0,
-       "defense": 0
-      },
-      {
-       "code": 18591904,
-       "position": 5,
-       "attack": 0,
-       "defense": 0
-      },
-      {
-       "code": 77084837,
-       "position": 5,
-       "attack": 700,
-       "defense": 500
-      },
-      {
-       "code": 42868711,
-       "position": 5,
-       "attack": 1200,
-       "defense": 1400
-      },
-      {
-       "code": 36361633,
-       "position": 5,
+       "position": 10,
        "attack": 0,
        "defense": 0
       }
-     ]
+     ],
+     "mzone": [
+      null,
+      {
+       "code": 33621868,
+       "position": 1,
+       "attack": 1700,
+       "defense": 1800
+      },
+      {
+       "code": 20831168,
+       "position": 1,
+       "attack": 1100,
+       "defense": 800
+      },
+      null,
+      null,
+      null,
+      null
+     ],
+     "szone": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "grave": [
+      {
+       "code": 37390589,
+       "position": 5,
+       "attack": 0,
+       "defense": 0
+      },
+      {
+       "code": 89987208,
+       "position": 5,
+       "attack": 1100,
+       "defense": 1000
+      }
+     ],
+     "removed": [],
+     "extra": []
     },
     {
-     "lp": 4100,
-     "deck": 5,
+     "lp": 2300,
+     "deck": 23,
      "hand": [
       {
-       "code": 67287533,
+       "code": 88089103,
        "position": 10,
        "attack": 0,
        "defense": 0
       },
       {
-       "code": 3573512,
+       "code": 47319141,
        "position": 10,
-       "attack": 500,
+       "attack": 1800,
+       "defense": 1500
+      },
+      {
+       "code": 14141448,
+       "position": 10,
+       "attack": 2600,
+       "defense": 2500
+      },
+      {
+       "code": 52675689,
+       "position": 10,
+       "attack": 1500,
+       "defense": 1800
+      },
+      {
+       "code": 25236056,
+       "position": 10,
+       "attack": 2400,
        "defense": 1200
       }
      ],
@@ -1252,207 +1322,58 @@
       null
      ],
      "szone": [
+      null,
       {
-       "code": 52684508,
+       "code": 93747864,
        "position": 10,
        "attack": 0,
        "defense": 0
       },
-      {
-       "code": 65830223,
-       "position": 5,
-       "attack": 0,
-       "defense": 0
-      },
-      {
-       "code": 37083210,
-       "position": 10,
-       "attack": 0,
-       "defense": 0
-      },
-      {
-       "code": 58851034,
-       "position": 10,
-       "attack": 0,
-       "defense": 0
-      },
-      {
-       "code": 30606547,
-       "position": 5,
-       "attack": 0,
-       "defense": 0
-      },
+      null,
+      null,
+      null,
       null,
       null,
       null
      ],
      "grave": [
       {
-       "code": 23421244,
-       "position": 5,
-       "attack": 1000,
-       "defense": 1600
-      },
-      {
-       "code": 82542267,
+       "code": 31785398,
        "position": 5,
        "attack": 0,
        "defense": 0
-      },
+      }
+     ],
+     "removed": [],
+     "extra": [
       {
-       "code": 49998907,
-       "position": 5,
-       "attack": 0,
-       "defense": 0
-      },
-      {
-       "code": 46657337,
-       "position": 5,
-       "attack": 600,
-       "defense": 300
-      },
-      {
-       "code": 46384672,
-       "position": 5,
-       "attack": 2400,
-       "defense": 1700
-      },
-      {
-       "code": 68516705,
-       "position": 5,
-       "attack": 1300,
-       "defense": 1550
-      },
-      {
-       "code": 83887306,
-       "position": 5,
-       "attack": 0,
-       "defense": 0
-      },
-      {
-       "code": 18271561,
-       "position": 5,
-       "attack": 0,
-       "defense": 0
-      },
-      {
-       "code": 296499,
-       "position": 5,
-       "attack": 0,
-       "defense": 0
-      },
-      {
-       "code": 71829750,
-       "position": 5,
-       "attack": 1400,
-       "defense": 2000
-      },
-      {
-       "code": 596051,
-       "position": 5,
-       "attack": 0,
-       "defense": 0
-      },
-      {
-       "code": 78266168,
-       "position": 5,
-       "attack": 1700,
-       "defense": 2000
-      },
-      {
-       "code": 44287299,
-       "position": 5,
-       "attack": 1100,
-       "defense": 1100
-      },
-      {
-       "code": 87322377,
-       "position": 5,
-       "attack": 2200,
+       "code": 11901678,
+       "position": 8,
+       "attack": 3200,
        "defense": 2500
       },
       {
-       "code": 31122090,
-       "position": 5,
-       "attack": 1800,
-       "defense": 2000
+       "code": 32485271,
+       "position": 8,
+       "attack": 2000,
+       "defense": 1800
       },
       {
-       "code": 52824910,
-       "position": 5,
-       "attack": 2400,
-       "defense": 2200
+       "code": 74703140,
+       "position": 8,
+       "attack": 2100,
+       "defense": 1800
       },
       {
-       "code": 71283180,
-       "position": 5,
-       "attack": 1100,
-       "defense": 1000
-      },
-      {
-       "code": 70861343,
-       "position": 5,
-       "attack": 0,
-       "defense": 0
-      },
-      {
-       "code": 69954399,
-       "position": 5,
-       "attack": 0,
-       "defense": 0
-      },
-      {
-       "code": 51267887,
-       "position": 5,
-       "attack": 0,
-       "defense": 0
-      },
-      {
-       "code": 40703393,
-       "position": 5,
-       "attack": 0,
-       "defense": 0
-      },
-      {
-       "code": 1435851,
-       "position": 5,
-       "attack": 0,
-       "defense": 0
-      },
-      {
-       "code": 77622396,
-       "position": 5,
-       "attack": 0,
-       "defense": 0
-      },
-      {
-       "code": 6979239,
-       "position": 5,
-       "attack": 900,
-       "defense": 400
-      },
-      {
-       "code": 27770341,
-       "position": 5,
-       "attack": 0,
-       "defense": 0
-      },
-      {
-       "code": 47025270,
-       "position": 5,
-       "attack": 1600,
-       "defense": 0
-      },
-      {
-       "code": 95515060,
-       "position": 5,
-       "attack": 0,
-       "defense": 0
+       "code": 1412158,
+       "position": 8,
+       "attack": 1200,
+       "defense": 500
       }
      ]
     }
    ],
-   "turn": 63,
+   "turn": 7,
    "turnPlayer": 0,
    "phase": 4
   }
@@ -1461,42 +1382,42 @@
   "msg": {
    "type": 19,
    "player": 0,
-   "code": 86801872,
+   "code": 24874631,
    "positions": 5
   },
   "board": {
    "players": [
     {
-     "lp": 8000,
-     "deck": 34,
+     "lp": 2600,
+     "deck": 35,
      "hand": [
       {
-       "code": 1434352,
+       "code": 83011277,
+       "position": 10,
+       "attack": 1400,
+       "defense": 1100
+      },
+      {
+       "code": 82878489,
        "position": 10,
        "attack": 0,
        "defense": 0
       },
       {
-       "code": 8951260,
+       "code": 19153634,
        "position": 10,
-       "attack": 0,
-       "defense": 0
-      },
-      {
-       "code": 549481,
-       "position": 10,
-       "attack": 500,
-       "defense": 2000
+       "attack": 2000,
+       "defense": 1400
       }
      ],
      "mzone": [
-      {
-       "code": 86801871,
-       "position": 4,
-       "attack": 600,
-       "defense": 300
-      },
       null,
+      {
+       "code": 90357090,
+       "position": 1,
+       "attack": 1200,
+       "defense": 800
+      },
       null,
       null,
       null,
@@ -1505,136 +1426,180 @@
      ],
      "szone": [
       null,
-      null,
-      null,
-      null,
-      null,
       {
-       "code": 18161786,
+       "code": 24874630,
        "position": 5,
        "attack": 0,
        "defense": 0
       },
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "grave": [],
+     "removed": [],
+     "extra": []
+    },
+    {
+     "lp": 4000,
+     "deck": 25,
+     "hand": [
+      {
+       "code": 7670542,
+       "position": 10,
+       "attack": 600,
+       "defense": 1300
+      },
+      {
+       "code": 96981563,
+       "position": 10,
+       "attack": 1400,
+       "defense": 1800
+      }
+     ],
+     "mzone": [
+      null,
+      {
+       "code": 75646173,
+       "position": 1,
+       "attack": 800,
+       "defense": 900
+      },
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "szone": [
+      null,
+      {
+       "code": 473469,
+       "position": 10,
+       "attack": 0,
+       "defense": 0
+      },
+      null,
+      null,
+      null,
+      null,
       null,
       null
      ],
      "grave": [
       {
-       "code": 22702055,
+       "code": 73134081,
        "position": 5,
        "attack": 0,
        "defense": 0
       }
-     ]
-    },
-    {
-     "lp": 8000,
-     "deck": 34,
-     "hand": [
+     ],
+     "removed": [],
+     "extra": [
       {
-       "code": 65287621,
-       "position": 10,
-       "attack": 2400,
-       "defense": 1500
+       "code": 46696593,
+       "position": 8,
+       "attack": 2300,
+       "defense": 1800
       },
       {
-       "code": 38299233,
-       "position": 10,
-       "attack": 0,
-       "defense": 0
+       "code": 54541900,
+       "position": 8,
+       "attack": 1500,
+       "defense": 1200
       },
       {
-       "code": 45778932,
-       "position": 10,
-       "attack": 0,
-       "defense": 0
+       "code": 80516007,
+       "position": 8,
+       "attack": 1500,
+       "defense": 1200
       },
       {
-       "code": 70368879,
-       "position": 10,
-       "attack": 0,
-       "defense": 0
+       "code": 5600127,
+       "position": 8,
+       "attack": 2200,
+       "defense": 2000
       },
       {
-       "code": 73752131,
-       "position": 10,
-       "attack": 1900,
-       "defense": 1700
+       "code": 86099788,
+       "position": 8,
+       "attack": 2350,
+       "defense": 2300
       }
-     ],
-     "mzone": [
-      {
-       "code": 1525329,
-       "position": 1,
-       "attack": 1000,
-       "defense": 600
-      },
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
-     ],
-     "szone": [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
-     ],
-     "grave": []
+     ]
     }
    ],
-   "turn": 2,
-   "turnPlayer": 1,
-   "phase": 8
+   "turn": 3,
+   "turnPlayer": 0,
+   "phase": 4
   }
  },
  "effect_yn": {
   "msg": {
    "type": 12,
    "player": 0,
-   "code": 60391791,
+   "code": 83011277,
    "controller": 0,
-   "location": 8,
-   "sequence": 2,
+   "location": 16,
+   "sequence": 5,
    "position": 5,
-   "description": "0"
+   "description": "221"
   },
   "board": {
    "players": [
     {
-     "lp": 7600,
-     "deck": 32,
+     "lp": 1400,
+     "deck": 24,
      "hand": [
       {
-       "code": 71200730,
+       "code": 15367030,
        "position": 10,
-       "attack": 2800,
-       "defense": 3000
+       "attack": 1200,
+       "defense": 1400
       },
       {
-       "code": 84814897,
+       "code": 73698349,
        "position": 10,
-       "attack": 2000,
-       "defense": 1500
+       "attack": 2200,
+       "defense": 0
       },
       {
-       "code": 76297408,
+       "code": 32569498,
+       "position": 10,
+       "attack": 550,
+       "defense": 400
+      },
+      {
+       "code": 38992735,
        "position": 10,
        "attack": 0,
        "defense": 0
+      },
+      {
+       "code": 87756343,
+       "position": 10,
+       "attack": 500,
+       "defense": 400
       }
      ],
      "mzone": [
       null,
       null,
-      null,
-      null,
+      {
+       "code": 41872150,
+       "position": 8,
+       "attack": 1000,
+       "defense": 500
+      },
+      {
+       "code": 95492061,
+       "position": 8,
+       "attack": 1400,
+       "defense": 1000
+      },
       null,
       null,
       null
@@ -1642,108 +1607,229 @@
      "szone": [
       null,
       {
-       "code": 4542651,
-       "position": 5,
+       "code": 82878489,
+       "position": 10,
        "attack": 0,
        "defense": 0
       },
       {
-       "code": 60391791,
-       "position": 5,
+       "code": 63442604,
+       "position": 10,
+       "attack": 0,
+       "defense": 0
+      },
+      {
+       "code": 77876207,
+       "position": 10,
        "attack": 0,
        "defense": 0
       },
       null,
       null,
-      {
-       "code": 23424603,
-       "position": 5,
-       "attack": 0,
-       "defense": 0
-      },
       null,
       null
      ],
      "grave": [
       {
-       "code": 73628505,
+       "code": 24874630,
        "position": 5,
        "attack": 0,
        "defense": 0
       },
       {
-       "code": 43500484,
+       "code": 90357090,
        "position": 5,
        "attack": 1200,
-       "defense": 900
+       "defense": 800
+      },
+      {
+       "code": 19153634,
+       "position": 5,
+       "attack": 2000,
+       "defense": 1400
+      },
+      {
+       "code": 27054370,
+       "position": 5,
+       "attack": 2250,
+       "defense": 1800
+      },
+      {
+       "code": 63442604,
+       "position": 5,
+       "attack": 0,
+       "defense": 0
+      },
+      {
+       "code": 83011277,
+       "position": 5,
+       "attack": 1400,
+       "defense": 1100
       }
-     ]
+     ],
+     "removed": [],
+     "extra": []
     },
     {
-     "lp": 8000,
-     "deck": 34,
+     "lp": 4000,
+     "deck": 13,
      "hand": [
       {
-       "code": 34830502,
+       "code": 19086954,
        "position": 10,
-       "attack": 2300,
-       "defense": 900
+       "attack": 100,
+       "defense": 100
       },
       {
-       "code": 32919136,
+       "code": 35686187,
        "position": 10,
        "attack": 0,
        "defense": 0
       },
       {
-       "code": 65458948,
-       "position": 10,
-       "attack": 1400,
-       "defense": 1500
-      },
-      {
-       "code": 45986603,
+       "code": 95194279,
        "position": 10,
        "attack": 0,
        "defense": 0
       },
       {
-       "code": 38411870,
+       "code": 21239280,
        "position": 10,
-       "attack": 0,
-       "defense": 0
+       "attack": 400,
+       "defense": 300
+      },
+      {
+       "code": 32362575,
+       "position": 10,
+       "attack": 200,
+       "defense": 700
+      },
+      {
+       "code": 68049471,
+       "position": 10,
+       "attack": 1300,
+       "defense": 1800
+      },
+      {
+       "code": 48948935,
+       "position": 10,
+       "attack": 3300,
+       "defense": 2500
       }
      ],
      "mzone": [
+      null,
       {
-       "code": 2311603,
-       "position": 1,
-       "attack": 1600,
-       "defense": 1500
+       "code": 96981563,
+       "position": 4,
+       "attack": 1400,
+       "defense": 1800
       },
-      null,
-      null,
-      null,
+      {
+       "code": 90908427,
+       "position": 1,
+       "attack": 1900,
+       "defense": 2200
+      },
+      {
+       "code": 86281779,
+       "position": 1,
+       "attack": 1800,
+       "defense": 2000
+      },
       null,
       null,
       null
      ],
      "szone": [
       null,
-      null,
-      null,
-      null,
+      {
+       "code": 473469,
+       "position": 10,
+       "attack": 0,
+       "defense": 0
+      },
+      {
+       "code": 44095762,
+       "position": 10,
+       "attack": 0,
+       "defense": 0
+      },
+      {
+       "code": 74923978,
+       "position": 10,
+       "attack": 0,
+       "defense": 0
+      },
       null,
       null,
       null,
       null
      ],
-     "grave": []
+     "grave": [
+      {
+       "code": 73134081,
+       "position": 5,
+       "attack": 0,
+       "defense": 0
+      },
+      {
+       "code": 75646173,
+       "position": 5,
+       "attack": 800,
+       "defense": 900
+      },
+      {
+       "code": 61201220,
+       "position": 5,
+       "attack": 600,
+       "defense": 800
+      },
+      {
+       "code": 7670542,
+       "position": 5,
+       "attack": 600,
+       "defense": 1300
+      }
+     ],
+     "removed": [],
+     "extra": [
+      {
+       "code": 46696593,
+       "position": 8,
+       "attack": 2300,
+       "defense": 1800
+      },
+      {
+       "code": 54541900,
+       "position": 8,
+       "attack": 1500,
+       "defense": 1200
+      },
+      {
+       "code": 80516007,
+       "position": 8,
+       "attack": 1500,
+       "defense": 1200
+      },
+      {
+       "code": 5600127,
+       "position": 8,
+       "attack": 2200,
+       "defense": 2000
+      },
+      {
+       "code": 86099788,
+       "position": 8,
+       "attack": 2350,
+       "defense": 2300
+      }
+     ]
     }
    ],
-   "turn": 3,
-   "turnPlayer": 0,
-   "phase": 2
+   "turn": 26,
+   "turnPlayer": 1,
+   "phase": 8
   }
  }
 }

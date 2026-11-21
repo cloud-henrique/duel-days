@@ -1,3 +1,5 @@
+import { FORMAT } from '../game/format';
+
 /** Os números da campanha: os do `CampaignBalance` do nativo (série Duel Monsters, Tier 1) e os dos tiers seguintes. */
 export const BALANCE = {
   days: 30,
@@ -36,7 +38,7 @@ export const BALANCE = {
   conversationRumorsPoints: 5,
   closeGreetingHearts: 2,
 
-  startingLifePoints: 8000,
+  startingLifePoints: FORMAT.lp,
 } as const;
 
 export { LIMITED, MAX_COPIES } from '../game/decks';

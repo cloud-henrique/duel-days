@@ -57,7 +57,7 @@ export interface Effect {
 }
 
 /** Efeitos que deslocam, giram em 3D ou quebram: com "reduzir movimento" viram `fade`. */
-const MOTION = new Set<EffectKind>(['flight', 'summon', 'set', 'reveal', 'shatter', 'equip', 'toss']);
+const MOTION = new Set<EffectKind>(['flight', 'summon', 'set', 'reveal', 'shatter', 'equip', 'toss', 'banish']);
 
 const fx = (kind: EffectKind, durations: Record<string, number>, block: number, sound: Sound | null, extra: Partial<Effect> = {}): Effect =>
   ({ kind, durations, block, sound, shake: [], ...extra });
@@ -79,7 +79,7 @@ function baseEffect(b: Beat): Effect {
     case 'move':
       switch (b.why) {
         case 'destroy': return fx('shatter', { shatter: P.destroy.shatter, flight: P.destroy.flight }, P.destroy.block, 'destroy');
-        case 'banish': return fx('banish', { fade: P.banish.fade }, P.banish.block, 'destroy');
+        case 'banish': return fx('banish', { flight: P.banish.flight }, P.banish.block, 'destroy');
         case 'hand': return fx('flight', { flight: P.move.flight }, P.move.block, 'draw');
         default: return fx('flight', { flight: P.move.flight }, P.move.block, null);
       }

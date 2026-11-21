@@ -1,4 +1,5 @@
 import { OcgMessageType, type OcgMessage } from 'ocgcore-wasm';
+import { START_LPS } from '../game/format';
 
 /**
  * O mínimo do estado que a consulta ao motor não dá (LP, turno, fase, vencedor), acompanhado pelas mensagens. É o que a
@@ -13,7 +14,7 @@ export class DuelTrack {
   /** Ataques declarados desde o último `resetAttacks` (quem atacou e o alvo; alvo nulo é ataque direto). */
   attacks: { controller: number; sequence: number; target: { controller: number; sequence: number } | null }[] = [];
 
-  constructor(lp: [number, number] = [8000, 8000]) { this.lp = [...lp]; }
+  constructor(lp: [number, number] = START_LPS) { this.lp = [...lp]; }
 
   feed(ms: OcgMessage[]) {
     for (const m of ms) {

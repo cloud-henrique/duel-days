@@ -36,6 +36,12 @@ describe('migrate', () => {
     });
   });
 
+  it('campanha de antes do Speed Duel (versão 1): perfil e estatísticas ficam, a campanha recomeça', () => {
+    const v1 = { ...newCampaign(3), version: 1, dp: 900 };
+    const out = migrate({ playerName: 'Bia', avatar: 'x', wins: { bakura: 2 }, losses: {}, settings: { music: false }, campaign: v1 });
+    expect(out).toEqual({ playerName: 'Bia', avatar: 'x', wins: { bakura: 2 }, losses: {}, settings: { music: false }, campaign: null });
+  });
+
   it('ida e volta com campanha', () => {
     const p = { playerName: 'Rui', wins: {}, losses: {}, campaign: newCampaign(9) };
     expect(migrate(JSON.parse(JSON.stringify(p)))).toEqual(p);

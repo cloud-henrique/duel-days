@@ -1,7 +1,7 @@
 # CLAUDE.md
 
-Jogo pessoal de Yu-Gi-Oh! (era Duel Monsters) para ~4 amigos: visual novel com mapa/hub + duelos com regras e cartas
-oficiais. PWA único (Vite + React + TypeScript) para iOS e Android, sem loja e sem backend. Tudo em **português (pt-BR)**:
+Jogo pessoal de Yu-Gi-Oh! (era Duel Monsters) para ~4 amigos: visual novel com mapa/hub + duelos no formato **Speed Duel**
+(sem Skills) com as cartas oficiais da era. PWA único (Vite + React + TypeScript) para iOS e Android, sem loja e sem backend. Tudo em **português (pt-BR)**:
 interface, textos, comentários e conversa com o usuário.
 
 ## Comandos
@@ -33,8 +33,8 @@ data OCG até 2004-09-30, caixas TCG, português; correções em `raw/overrides/
 `python3 scripts/export_data.py` (+ relatório `raw/import/report.md`), `.venv/bin/python scripts/fetch_card_art.py` (small/large/cropped + verso), `.venv/bin/python scripts/copy_card_icons.py` (ícones de atributo/tipo do app nativo e propriedades do `cardicons.png` do Tag Force 3 no PPSSPP → `public/card-icons/`), `python3 scripts/copy_sounds.py` (efeitos do duelo do app nativo, do Tag Force, convertidos com `afconvert` → `public/sounds/*.m4a`; macOS), `python3 scripts/copy_brand.py` (logo "Yu-Gi-Oh!" do título → `public/brand/`, fora do git), `.venv/bin/python scripts/copy_coin_sprite.py` (moeda do WCT 2004, folha baixada à mão em `raw/wct2004/coin.png` → strip de 17 quadros em `public/sprites/coin.png`, fora do git; sem ela, a moeda desenhada),
 `python3 scripts/copy_campaign_data.py` (Tier 1 do nativo + `tiers.json` + `decks.json` + `dialogue-tier*.json` →
 `src/campaign/data/`, versionados; troca arte alternativa pelo id original), decks dos duelistas (`python3 scripts/fetch_deck_recipes.py [--only=chave,…]`
-→ `npx tsx proto/deck-pick.ts 20` → `python3 scripts/build_decks.py`: receitas "Anime Decks" do YGOPRODeck escolhidas por torneio
-contra o deck inicial com a CPU nova, perto da meta do tier; confira com `proto/difficulty.ts`), `.venv/bin/python scripts/copy_tfs_backgrounds.py` (fundos das cenas do zip "Events" do Tag Force Special, baixado à mão
+→ `python3 scripts/build_decks.py --candidatas` → `npx tsx proto/deck-pick.ts 20` → `python3 scripts/build_decks.py`: receitas "Anime Decks" do YGOPRODeck, cortadas para 30
+(`cut`: proporção por tipo, a assinatura e o `KEEP` ficam), escolhidas por torneio contra o deck inicial com a CPU nova, perto da meta do tier; confira com `proto/difficulty.ts`), `.venv/bin/python scripts/copy_tfs_backgrounds.py` (fundos das cenas do zip "Events" do Tag Force Special, baixado à mão
 em `raw/tfs/events.zip` → `public/campaign/bg-*.jpg`, fora do git), `python3 scripts/copy_campaign_assets.py` (mapa, fundos dos lugares, capas dos pacotes e as 8
 músicas do nativo → `public/campaign/` e `public/music/`, fora do git), `.venv/bin/python scripts/extract_action_icons.py` (recorta o `actions.png` do Tag Force; o ícone de cada ação se escolhe em `npm run icon-labeler`, porta 5174, e fica em `assets/action-icons/labels.json`), `npm run build-characters`, `.venv/bin/python scripts/build_sprites.py` (o Strings não está no conjunto do Spriters Resource: o zip
 baixado à mão fica em `raw/zips/Strings.zip`, com só `neutral` e `worried`, entrada manual no `manifest.json`/`labels.json`).
@@ -46,7 +46,10 @@ pelo `.hexbg` do `styles.css`.
 ## Arquitetura
 
 - `src/engine/`: ocgcore (EDOPro) em WASM, **build síncrono** (`ocgcore-wasm`, sem JSPI).
-  - `session.ts` cria o duelo (modo `MR1`), carrega `constant.lua` e `utility.lua` e **embaralha o deck por conta própria**
+  - **Formato**: `src/game/format.ts` (`FORMAT`, change `speed-duel`) é a fonte única das regras: modo `MODE_SPEED` do
+    ocgcore (3 colunas, sem Main Phase 2), LP 4000, mão de 4, colunas em jogo (`mzone`/`szone` 1–3; Campo é a `szone` 5),
+    deck 20–30, Extra ≤ 5. Motor, tela, editor e campanha leem dele; nunca fixe 8000, 5 colunas ou 40 cartas.
+  - `session.ts` cria o duelo (no modo do `FORMAT`), carrega `constant.lua` e `utility.lua` e **embaralha o deck por conta própria**
     (o core não embaralha; a compra sairia na ordem inversa da lista).
   - `driver.ts` (`DuelDriver`): avança o motor, responde pela CPU (jogador 1, pela busca) e pelos prompts automáticos (pela
     política barata), **registra todas as respostas** (`session.log`, base das cópias), tem orçamento de passos/tempo (o
@@ -69,6 +72,8 @@ pelo `.hexbg` do `styles.css`.
       avaliação só lê o público do lado dele e ataque contra monstro virado tem nota estimada (não simulada).
     - `cpu.ts`: `cpuRespond`, a política barata determinística (prior da busca, continuações e prompts automáticos), e
       `randomRespond`, a antiga aleatória, só para os testes de estresse. `evaluate.ts`: a nota (pesos só no `EVAL`).
+      As peças do Exodia (`EXODIA_PIECES` em `view.ts`) valem muito no `cardValue` e no `EVAL.exodiaPiece`: sem isso a CPU
+      as descartava (as de menor ATK) e o deck acabava antes de juntar as 5.
       `view.ts`: o tabuleiro lido do motor; `track.ts`: LP/turno/vencedor pelas mensagens.
     - Testes em quebra-cabeças (`src/engine/__testing__/duel.ts`: cartas já nas zonas, o jogador passa o turno 1).
   - `narrator.ts`: orquestra o `beats.ts`, mantém LP/turno/fase e tira a "foto" do tabuleiro para a UI.
@@ -77,20 +82,29 @@ pelo `.hexbg` do `styles.css`.
     fila, uma encenação depois da outra, e rearmam o watchdog).
   - `prompt.ts` (puro: ações por carta, destaques, botões de fase, chips) com fixtures reais em `__fixtures__/`
     (`npx tsx proto/capture-fixtures.ts` regrava).
-  - `Field`, `Hand`, `Slot`, `Plate` (+ `lp.ts`: contagem e cor do LP), `PhaseBar` (chips + narrador), `DuelMenu`
+  - `Field`, `Piles` (`SideCell`: as pontas das fileiras) + `PileSheet` (a lista de uma pilha), `Hand`, `Slot`, `Plate` (+ `lp.ts`:
+    contagem e cor do LP; a placa leva só avatar, nome, LP, barra e a mão), `PhaseBar` (chips + narrador), `DuelMenu`
     (Desistir), `PromptPanel`, `choice.ts` + `ChoicePanels` (escolha de cartas: no tabuleiro quando tudo está no campo/mão,
     senão em fileira; conferência em dev com `?choices`), `SortCards`.
-  - Zonas de campo (szone 5) nas pontas da faixa central (`.midrow`), a barra de fases entre elas; `fieldArt.ts`
-    (`fieldBackdrop`) escolhe a Magia de Campo cuja arte recortada cobre o `.field` a 50% (`.fieldart`).
-  - `duel.css`: **métricas do BoardMetrics nativo como tokens** no topo (`.duel` é contêiner; `cqw`/`cqh`). Mude
-    medidas ali, não com números soltos; `node proto/layout-e2e.mjs` confere a spec `duel-hud` em 4 viewports.
+  - Campo **plano como no Duel Links** (change `speed-duel`): 4 fileiras (M/A e monstros de cada um, faixa central no
+    meio), cada uma com as 3 zonas em jogo e uma ponta de cada lado (`SIDES` em `Piles.tsx`): jogador com Campo e Extra à
+    esquerda, Banidas (ficha) + Cemitério e Deck à direita; o oponente girado 180°. A Zona de Campo continua sendo um
+    `Slot` (classe `.fieldzone`, nunca `.field`). A barra de fases ocupa a faixa central inteira, sem o chip M2. O campo avança sobre a margem
+    lateral (só `--field-edge` de cada lado) e, quando a altura limita as zonas, as pontas crescem até a largura de uma zona.
+    A mão é **reta** (sem arco) e não reserva altura: a carta selecionada sobe por cima da placa. `fieldArt.ts` (`fieldBackdrop`) escolhe a Magia de Campo cuja arte recortada cobre o `.field`
+    a 50% (`.fieldart`).
+  - `duel.css`: **medidas como tokens** no topo (`.duel` é contêiner; `cqw`/`cqh`): a zona tem a proporção da carta e a
+    altura é a menor entre a da largura (3 zonas + 2 pontas de `--pile-k`) e a da altura que sobra (4 fileiras, com a mão
+    no mínimo de 60); a mão fica com o resto. Mude medidas ali, não com números soltos; `node proto/layout-e2e.mjs` confere a spec
+    `duel-hud` em 5 viewports.
   - `anim/`: a encenação (change `animar-duelo`). `pacing.ts` é a **única fonte dos tempos** (`PACING`, teto de 1,5 s por
     trava); `effects.ts` (`effectFor`: efeito, durações, trava e som de cada beat, e a regra de "reduzir movimento");
     `queue.ts` (`runSteps`, pura, testada com relógio falso); `useBeatQueue.ts` (liga a fila à tela: `staging` trava a mão,
     toque acelera, destaque, pilha da corrente e moeda); `play.ts` (o único que conhece o DOM e a Web Animations: voo dos
     fantasmas entre os `data-loc` medidos, pilar, giros, ataque, quebra); `Splash`, `ChainStack`, `Toss`, `Intro`, `Outro`.
-  - Lugares na tela: zonas, mãos, deck, cemitério e placa têm `data-loc` = `locKey`. Sem lugar visível (banidas, Extra,
-    fora do jogo), a animação sai da placa do dono.
+  - Lugares na tela: zonas, mãos, as pilhas (deck, cemitério, banidas, Extra) e a placa têm `data-loc` = `locKey`. O
+    fantasma pousa na carta pequena da pilha. Sem lugar visível (fora do jogo), a animação sai da placa do dono.
+    O retrato do tabuleiro (`PlayerBoard`) traz `removed` e `extra` dos dois lados; a tela não abre o Extra do oponente.
 - `src/audio/sfx.ts`: efeitos com Web Audio (buffers decodificados uma vez, anti-repetição de 60 ms, `settings.sound`), os do
   duelo e os da interface (`tap`, `back`, `dialogue`, `purchase`, `tear`/`rare` da abertura de pacote e
   `cardAdd`/`cardRemove` do editor). `buttonSounds.ts`: **todo botão fora do `.duel` toca o
@@ -150,8 +164,9 @@ pelo `.hexbg` do `styles.css`.
   `CardSheet.tsx` (folha da carta + `Backdrop`) e `CardFace.tsx` (face própria da carta em PT, medidas da carta de
   referência de 320 em `cardface.css`; conferência em dev com `?cardfaces`).
 - `src/story/`: `progress.ts` (save em IndexedDB via Dexie: perfil, estatísticas, `settings` de animação/som/música, lidas
-  sempre com `withDefaults`, e a `campaign`; `migrate` lê o save da história antiga mantendo o perfil) e `profile.ts`.
-- `src/game/decks.ts`: regras do deck (40–60, Extra ≤15, ≤3 cópias, limitadas a 1, limitado à coleção) e `randomDeck`
+  sempre com `withDefaults`, e a `campaign`; `migrate` lê o save da história antiga mantendo o perfil e descarta campanha
+  de outra `CAMPAIGN_VERSION`: a 2 é a do Speed Duel, e as de antes recomeçam do dia 1) e `profile.ts`.
+- `src/game/decks.ts`: regras do deck (pelo `FORMAT`: 20–30, Extra ≤ 5, ≤3 cópias, limitadas a 1, limitado à coleção) e `randomDeck`
   (só nos protótipos).
 - `src/data/`: carregador de cartas (sobrepõe o texto em português) e rótulos (atributo, raça, tipo, moldura, `formatStat`).
 - Estilo: `src/styles.css` (HUD azul: `.hud`, `.hud-btn`, chanfro com `clip-path` + camadas `--cut-tl/--cut-br` que
@@ -181,7 +196,6 @@ pelo `.hexbg` do `styles.css`.
 - **ATK/DEF "?"** é −2 no motor, mas a consulta devolve sem sinal (4294967294): o narrador converte (`signed`) e a UI
   formata só com `formatStat`.
 - **Unidades de contêiner não valem no próprio contêiner**: em `.cardface`, `--u` só pode ser usado pelos filhos.
-- O WebKit headless (Playwright) desenha o campo inclinado torto; confira a perspectiva no simulador de iOS.
 - Fichas (tokens) precisam estar em `cards.json` (o export inclui), senão cartas como Scapegoat dão erro de Lua.
 - Subtipo de Magia/Armadilha só via `typeLine` (nomes do Manual Oficial: Equipamento, Campo, Rápida, Ritual, Contínua, Resposta);
   use as constantes `OcgType`, nunca máscaras soltas (os bits já estiveram trocados).
@@ -197,7 +211,7 @@ pelo `.hexbg` do `styles.css`.
   carta vem da base (`view.ts`).
 - **Resposta recusada de um prompt automático ou da CPU virava laço** (o driver devolvia ao jogador o último prompt dele e o
   motor continuava esperando o outro). Agora o driver tenta outra resposta do mesmo pedido (`alternatives` do `cpu.ts`:
-  ex. "deve atacar" da Amazoness Archers recusa ir para a Main 2, então ataca; `retry.test.ts`); pedidos sem alternativa
+  ex. "deve atacar" da Amazoness Archers recusa encerrar a batalha, então ataca; `retry.test.ts`); pedidos sem alternativa
   viram erro visível. Mesmo assim, toda resposta automática precisa ser válida: ex. o `SELECT_SUM` "igual ou maior"
   (Ritual) não aceita carta sobrando.
 - **Cartas da campanha usam o id original**, não o da arte alternativa (sem script no ocgcore): o `copy_campaign_data.py`
@@ -205,8 +219,10 @@ pelo `.hexbg` do `styles.css`.
   ids de arte alternativa pelo original). Os pacotes LOB/MRD/MRL/PSV do `packs.json` vêm do `public/data/boosters.json`.
 - **A arte e a música da campanha são da Konami** (`public/campaign/`, `public/music/`, fora do git e da pré-carga do PWA;
   a música usa cache com `rangeRequests`). Sem os arquivos, fundos em degradê e silêncio.
-- **Decks dos duelistas são gerados** (`decks.json`, pelo `build_decks.py`): troca de carta vai no `REPLACE` do script, não
-  à mão no JSON. O endpoint de decks do YGOPRODeck não é documentado: só o `fetch_deck_recipes.py` o usa, o jogo nunca.
+- **Decks dos duelistas são gerados** (`decks.json`, pelo `build_decks.py`): troca de carta vai no `REPLACE`/`TUNE` do
+  script e carta que o corte para 30 não pode tirar vai no `KEEP` (ao menos uma cópia) ou no `KEEP_ALL` (todas); deck cuja
+  composição o corte não acerta ganha uma lista comentada no `FINAL` (hoje só o Rare Hunter). Nunca à mão no JSON. O deck inicial ativo é o do
+  nativo (40, a coleção inicial) sem as 10 cartas do `starterCut` do `tiers.json`. O endpoint de decks do YGOPRODeck não é documentado: só o `fetch_deck_recipes.py` o usa, o jogo nunca.
 - **Mapa sem lugares**: os duelistas não têm `location`; a cena do encontro é o `scene` de cada um (`bg-<bg>.jpg`) e as
   cabeças vão nos `mapPoints` do `tiers.json` (pontos no meio do panorama, onde a tela abre).
 - **`overflow: clip` na cena** (`.story.campaign-scene`): com `hidden`, o foco num botão rolava o contêiner para o lado.

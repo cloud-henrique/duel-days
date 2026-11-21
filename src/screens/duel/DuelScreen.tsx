@@ -27,6 +27,8 @@ import { Outro, type OutroReward } from './anim/Outro';
 import { promptPanel } from './PromptPanel';
 import { Plate, type Duelist } from './Plate';
 import { Field } from './Field';
+import { PILE_LOCATION, type PileKind } from './Piles';
+import { PileSheet } from './PileSheet';
 import { linkNotes } from './Slot';
 import { FoeHand, Hand } from './Hand';
 import { Spinner } from './icons';
@@ -61,7 +63,8 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, cpu, player = 
   const [log, setLog] = useState<string[]>([]);
   const [sel, setSel] = useState<number[]>([]);
   const [sheet, setSheet] = useState<{ code: number; ref: CardRef } | null>(null);
-  const [graveOf, setGraveOf] = useState<0 | 1 | null>(null);
+  /** A pilha com a lista aberta (Cemitério, Banidas ou o Extra Deck do jogador). */
+  const [pileOf, setPileOf] = useState<{ p: 0 | 1; kind: PileKind } | null>(null);
   const [logOpen, setLogOpen] = useState(false);
   const [peek, setPeek] = useState(false);
   const [evText, setEvText] = useState('');
@@ -201,12 +204,12 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, cpu, player = 
     <div ref={root} className={`duel hexbg${pickAttack ? ' pick-attack' : ''}${stage.staging ? ' staging' : ''}`}>
       <div className="foebar">
         {!ended && <DuelMenu onSurrender={engine.surrender} settings={settings} onSettings={onSettings} host={root} />}
-        <Plate side="foe" who={opponent} lp={foe.lp} deck={foe.deck} hand={foe.hand.length} grave={foe.grave} turn={!myTurn} onGrave={() => setGraveOf(1)} cards={cards} />
+        <Plate side="foe" who={opponent} lp={foe.lp} hand={foe.hand.length} turn={!myTurn} />
       </div>
       <FoeHand count={foe.hand.length} />
-      <Field board={board} cards={cards} hl={hl} picked={marks.picked} rel={rel} onTap={tap} center={phasebar} backdrop={fieldBackdrop(board, fieldPlayed)} />
+      <Field board={board} cards={cards} hl={hl} picked={marks.picked} rel={rel} onTap={tap} onOpenPile={(p, kind) => { if (!stage.staging && !(kind === 'extra' && p === 1)) setPileOf({ p, kind }); }} center={phasebar} backdrop={fieldBackdrop(board, fieldPlayed)} />
       <div className="mybar">
-        <Plate side="me" who={player} lp={me.lp} deck={me.deck} hand={me.hand.length} grave={me.grave} turn={myTurn} onGrave={() => setGraveOf(0)} cards={cards} />
+        <Plate side="me" who={player} lp={me.lp} hand={me.hand.length} turn={myTurn} />
         <div className="sidebtns">{side}</div>
       </div>
       <div className="spacer" />
@@ -236,15 +239,10 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, cpu, player = 
         </div>
       )}
       {sheet && !stage.splash && <CardSheet code={sheet.code} cards={cards} actions={sheetActions} notes={notes} aboveHand onClose={() => setSheet(null)} />}
-      {graveOf !== null && (
-        <div className="scrim center">
-          <Backdrop onClose={() => setGraveOf(null)} />
-          <div className="sheet hud">
-            <h4>Cemitério de {graveOf === 0 ? player.name : opponent.name}</h4>
-            {board.players[graveOf].grave.length === 0 ? <span className="stats">vazio</span>
-              : <div className="grid">{board.players[graveOf].grave.map((c, i) => <button key={i} type="button" aria-label={name(c.code)} onClick={() => { setGraveOf(null); setSheet({ code: c.code, ref: { controller: graveOf, location: OcgLocation.GRAVE, sequence: i } }); }}><CardFace code={c.code} card={cards[String(c.code)]} /></button>)}</div>}
-          </div>
-        </div>
+      {pileOf && (
+        <PileSheet p={pileOf.p} kind={pileOf.kind} list={board.players[pileOf.p][pileOf.kind]} whose={pileOf.p === 0 ? player.name : opponent.name} cards={cards}
+          onClose={() => setPileOf(null)}
+          onPick={(code, i) => { const at = pileOf; setPileOf(null); setSheet({ code, ref: { controller: at.p, location: PILE_LOCATION[at.kind], sequence: i } }); }} />
       )}
       {logOpen && <div className="scrim center"><Backdrop onClose={() => setLogOpen(false)} /><div className="sheet hud"><h4>Histórico</h4><div className="log">{log.map((l, i) => <div key={i}>{l}</div>)}</div></div></div>}
       {dbgBox}

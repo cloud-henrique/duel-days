@@ -42,7 +42,7 @@ try {
   }
   await page.getByRole('button', { name: 'Voltar' }).click();
   await page.locator('.mapnav button', { hasText: 'Deck' }).click();
-  check((await mainCount()) === 40 && (await page.getByText('PRONTO').count()) === 1, 'editor abre com Main 40 e PRONTO');
+  check((await mainCount()) === 30 && (await page.getByText('PRONTO').count()) === 1, 'editor abre com Main 30 e PRONTO');
 
   // Gaveta: meio → aberta → recolhida → meio.
   const h = async () => (await page.locator('.deckpanel').boundingBox()).height;
@@ -62,20 +62,20 @@ try {
   // Zoom: tirar e pôr.
   await page.locator('.deckpanel .cell').first().click();
   await btn('Tirar do deck').click();
-  check((await mainCount()) === 39, 'zoom: tirar deixa 39');
+  check((await mainCount()) === 29, 'zoom: tirar deixa 29');
   await btn('Pôr no deck').click();
-  check((await mainCount()) === 40, 'zoom: pôr volta a 40');
+  check((await mainCount()) === 30, 'zoom: pôr volta a 30');
   await page.locator('.zoom-foot button').click();
 
-  // Arrastar uma carta fora do deck (sem marca) para o deck, e uma do deck de volta. Por Obtenção, as dos pacotes vêm
-  // primeiro (a grade é virtual: só as linhas da tela existem).
+  // Arrastar uma carta do deck para a maleta e uma fora do deck (sem marca) de volta: o deck está cheio (30), então tira
+  // antes de pôr. Por Obtenção, as dos pacotes vêm primeiro (a grade é virtual: só as linhas da tela existem).
   await page.locator('.sortbtn').click();
   await page.getByRole('button', { name: 'Obtenção', exact: true }).click();
+  await drag(page.locator('.deckpanel .cell').first(), page.locator('.trunkgrid'));
+  check((await mainCount()) === 29, 'arrastar do deck para a maleta: 29');
   const free = page.locator('.trunkgrid .cell:not(.indeck)').first();
   await drag(free, page.locator('.deckpanel'));
-  check((await mainCount()) === 41, 'arrastar da maleta para o deck: 41');
-  await drag(page.locator('.deckpanel .cell').first(), page.locator('.trunkgrid'));
-  check((await mainCount()) === 40, 'arrastar do deck para a maleta: 40');
+  check((await mainCount()) === 30, 'arrastar da maleta para o deck: 30');
   check((await page.locator('.cardzoom').count()) === 0, 'o arrastar não abre o zoom');
 
   // Recusa: uma carta com todas as cópias no deck.

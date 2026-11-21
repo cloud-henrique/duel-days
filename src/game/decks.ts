@@ -1,7 +1,9 @@
 import type { CardRecord, DeckList } from '../engine/session';
 import { makeRng } from '../engine/cpu';
 
-export const MAIN_MIN = 40, MAIN_MAX = 60, EXTRA_MAX = 15, MAX_COPIES = 3;
+import { FORMAT } from './format';
+
+export const MAIN_MIN = FORMAT.mainMin, MAIN_MAX = FORMAT.mainMax, EXTRA_MAX = FORMAT.extraMax, MAX_COPIES = FORMAT.maxCopies;
 /** Cartas limitadas a 1 cópia, como no nativo (`DeckRules.classic`). */
 export const LIMITED: ReadonlySet<number> = new Set([
   55144522, // Pot of Greed
@@ -69,9 +71,9 @@ export function randomDeck(cards: Cards, poolIds: number[], seed: number): DeckL
     }
     return main;
   };
-  const main = [...pick(by((c) => (c.type & 1) !== 0), 18), ...pick(by((c) => (c.type & 2) !== 0), 12), ...pick(by((c) => (c.type & 4) !== 0), 10)];
+  const main = [...pick(by((c) => (c.type & 1) !== 0), 14), ...pick(by((c) => (c.type & 2) !== 0), 9), ...pick(by((c) => (c.type & 4) !== 0), 7)];
   const extras = ids.filter((id) => isExtraCard(cards[id]));
-  const extra = Array.from({ length: Math.min(4, extras.length) }, () => extras[Math.floor(rng() * extras.length)]);
+  const extra = Array.from({ length: Math.min(EXTRA_MAX, extras.length) }, () => extras[Math.floor(rng() * extras.length)]);
   return { main, extra: [...new Set(extra)] };
 }
 

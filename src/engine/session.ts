@@ -1,6 +1,7 @@
 import { makeRng } from './cpu';
+import { FORMAT } from '../game/format';
 import createCore, {
-  OcgDuelMode, OcgLocation, OcgPosition, OcgProcessResult,
+  OcgLocation, OcgPosition, OcgProcessResult,
   type OcgCardData, type OcgCoreSync, type OcgDuelHandle, type OcgMessage, type OcgResponse,
 } from 'ocgcore-wasm';
 
@@ -18,9 +19,9 @@ export interface DuelOptions {
   seed?: bigint; flags?: bigint; log?: (t: string) => void;
   /** Cartas já em jogo (quebra-cabeças). */
   placed?: PlacedCard[];
-  /** LP inicial de cada lado (padrão 8000). */
+  /** LP inicial de cada lado (padrão: o do formato). */
   lp?: [number, number];
-  /** Cartas na mão inicial (padrão 5). */
+  /** Cartas na mão inicial (padrão: a do formato). */
   startingDraw?: number;
 }
 
@@ -45,10 +46,10 @@ export function startDuel(
 ): DuelSession {
   const log = opts.log ?? (() => {});
   const handle = core.createDuel({
-    flags: opts.flags ?? OcgDuelMode.MODE_MR1,
+    flags: opts.flags ?? FORMAT.mode,
     seed: [opts.seed ?? 1n, 2n, 3n, 4n],
-    team1: { startingLP: opts.lp?.[0] ?? 8000, startingDrawCount: opts.startingDraw ?? 5, drawCountPerTurn: 1 },
-    team2: { startingLP: opts.lp?.[1] ?? 8000, startingDrawCount: opts.startingDraw ?? 5, drawCountPerTurn: 1 },
+    team1: { startingLP: opts.lp?.[0] ?? FORMAT.lp, startingDrawCount: opts.startingDraw ?? FORMAT.hand, drawCountPerTurn: 1 },
+    team2: { startingLP: opts.lp?.[1] ?? FORMAT.lp, startingDrawCount: opts.startingDraw ?? FORMAT.hand, drawCountPerTurn: 1 },
     cardReader: (code) => {
       const c = assets.cards[String(code)];
       if (!c) { log(`carta ausente: ${code}`); return null; }

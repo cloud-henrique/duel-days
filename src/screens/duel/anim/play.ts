@@ -56,7 +56,7 @@ const isZone = (el: HTMLElement) => el.classList.contains('zone');
 
 /**
  * Elemento de um lugar, com as trocas quando ele não está visível: mão nova (sem carta ainda) vai à última carta da mão
- * ou à própria mão; deck e cemitério são os da placa; banidas, Extra Deck e "fora do jogo" saem da placa do dono.
+ * ou à própria mão; deck, cemitério, banidas e Extra Deck são as pilhas da fileira; "fora do jogo" sai da placa do dono.
  */
 function resolve(root: HTMLElement, l: Loc): HTMLElement | null {
   const exact = find(root, locKey(l));
@@ -79,7 +79,7 @@ function cardSize(root: HTMLElement) {
 
 /**
  * Caixa de carta de um lugar: a própria carta (mão, versos); dentro de uma zona, uma carta da altura da zona, no centro
- * (sem contar o giro de defesa); em pilhas e placas, uma carta de zona no centro delas.
+ * (sem contar o giro de defesa); numa pilha da fileira, a carta pequena dela; na placa, uma carta de zona no centro.
  */
 function cardBox(root: HTMLElement, el: HTMLElement): Box {
   const r = el.getBoundingClientRect();
@@ -90,6 +90,9 @@ function cardBox(root: HTMLElement, el: HTMLElement): Box {
     return { x: r.left + r.width / 2 - w / 2, y: r.top + r.height / 2 - h / 2, w, h };
   }
   if (isCard(el)) return { x: r.left, y: r.top, w: r.width, h: r.height };
+  // Pilha da fileira: a carta pequena dela (topo, verso ou o espaço vazio).
+  const mini = el.classList.contains('pile') ? el.querySelector<HTMLElement>('.mini')?.getBoundingClientRect() : null;
+  if (mini) return { x: mini.left, y: mini.top, w: mini.width, h: mini.height };
   const { w, h } = cardSize(root);
   return { x: r.left + r.width / 2 - w / 2, y: r.top + r.height / 2 - h / 2, w, h };
 }
@@ -132,7 +135,7 @@ const hide = (u: Undo, el: HTMLElement | null) => {
   for (const t of targets) { t.style.visibility = 'hidden'; u.hidden.push(t); }
 };
 
-interface FlightOpts { code?: number; faceDown?: boolean; fade?: boolean; endTurn?: number; delay?: number; scale?: number; fadeOut?: boolean }
+interface FlightOpts { code?: number; faceDown?: boolean; fade?: boolean; endTurn?: number; delay?: number; scale?: number; fadeOut?: boolean; cls?: string }
 
 /** Voo de um fantasma de um lugar a outro (ou só um fade no destino, sem origem ou com "reduzir movimento"). */
 function flight(ctx: PlayCtx, u: Undo, fromLoc: Loc | null, toLoc: Loc, ms: number, o: FlightOpts = {}): Box | null {
@@ -140,7 +143,7 @@ function flight(ctx: PlayCtx, u: Undo, fromLoc: Loc | null, toLoc: Loc, ms: numb
   if (!to) return null;
   const from = fromLoc ? resolve(ctx.root, fromLoc) : null;
   const box = cardBox(ctx.root, to);
-  const ghost = ghostAt(ctx, box, content(ctx, from, o.code ?? 0, !!o.faceDown));
+  const ghost = ghostAt(ctx, box, content(ctx, from, o.code ?? 0, !!o.faceDown), o.cls);
   u.nodes.push(ghost);
   // A carta de origem some enquanto o fantasma voa (volta quando o tabuleiro novo entra).
   if (from !== to) hide(u, from);
@@ -230,16 +233,6 @@ function shatter(ctx: PlayCtx, u: Undo, b: Extract<Beat, { k: 'move' }>, e: Effe
   flight(ctx, u, b.from, b.to, (e.durations.flight ?? 0) * factor, { code: b.code, delay: ms, scale: SHARD_GHOST_SCALE });
 }
 
-/** Banimento: a carta encolhe com fade e um brilho frio, na própria zona. */
-function banish(ctx: PlayCtx, u: Undo, b: Extract<Beat, { k: 'move' }>, ms: number) {
-  const from = resolve(ctx.root, b.from);
-  if (!from || !isCard(from)) return;
-  const g = ghostAt(ctx, cardBox(ctx.root, from), content(ctx, from, b.code, false), 'ghost banish');
-  u.nodes.push(g);
-  hide(u, from);
-  u.anims.push(g.animate([{ transform: 'none', opacity: 1 }, { transform: 'scale(.55)', opacity: 0 }], { duration: ms, easing: 'ease-in', fill: 'both' }));
-}
-
 /** Pilar de luz sobre uma zona, depois de `delay` ms. Fica por cima do tabuleiro novo e se remove ao terminar. */
 function pillar(ctx: PlayCtx, at: Loc, ms: number, delay: number) {
   const el = resolve(ctx.root, at);
@@ -316,8 +309,9 @@ function playBeat(ctx: PlayCtx, u: Undo, beat: Beat, e: Effect, factor: number) 
       return;
     case 'move':
       if (e.kind === 'shatter') shatter(ctx, u, beat, e, factor);
-      else if (e.kind === 'banish') banish(ctx, u, beat, ms('fade'));
-      // Volta ao deck: o fantasma vai até a placa e some.
+      // Banir: voa até a pilha de Banidas do dono (virada para baixo se foi banida assim), com brilho frio.
+      else if (e.kind === 'banish') fly(beat.from.zone === 'none' ? null : beat.from, beat.to, { code: beat.code, cls: 'ghost banish' });
+      // Volta ao deck ou ao Extra: o fantasma vai até a pilha e some.
       else fly(beat.from.zone === 'none' ? null : beat.from, beat.to, { code: beat.code, faceDown: !publicDest(beat.to), fadeOut: beat.to.zone === 'deck' || beat.to.zone === 'extra' });
       return;
     case 'attack':

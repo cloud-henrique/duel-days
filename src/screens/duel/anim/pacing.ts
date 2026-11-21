@@ -30,7 +30,8 @@ export const PACING = {
   destroy: { shatter: 300, flight: 400, block: 650 },
   /** Voo direto (cemitério, mão, deck, Magia indo para a zona). */
   move: { flight: 400, block: 350 },
-  banish: { fade: 350, block: 300 },
+  /** Banir: voo até a pilha de Banidas do dono, com brilho frio (change tabuleiro-plano). */
+  banish: { flight: 400, block: 350 },
   equip: { flight: 400, pillar: 750, block: 650 },
   /** `shineFrame`: cada quadro do brilho que passa na moeda (sprite do WCT 2004) depois de cair; não trava nada. */
   toss: { spin: 900, caption: 400, block: 1300, shineFrame: 70 },

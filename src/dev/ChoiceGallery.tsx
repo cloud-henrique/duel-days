@@ -47,9 +47,9 @@ export function ChoiceGallery() {
         {Object.keys(SCENES).map((k) => <button key={k} onClick={() => { setScene(k); setSel([]); setLast(''); }} style={{ fontSize: 11, background: k === scene ? '#ffc61a' : '#123a7a', color: k === scene ? '#000' : '#fff', border: 0, padding: '3px 6px' }}>{k}</button>)}
         <span style={{ color: '#9fb4d9', fontSize: 10 }}>{last}</span>
       </div>
-      <div className="foebar"><Plate side="foe" who={{ id: 'seto_kaiba', name: 'Seto Kaiba' }} lp={foe.lp} deck={foe.deck} hand={foe.hand.length} grave={foe.grave} turn={false} onGrave={() => {}} /></div>
-      <Field board={board} cards={cards} hl={marks.glow} picked={marks.picked} onTap={tap} center={<PhaseBar turn={board.turn} phase={board.phase} narration="Conferência" />} />
-      <div className="mybar"><Plate side="me" who={who} lp={me.lp} deck={me.deck} hand={me.hand.length} grave={me.grave} turn onGrave={() => {}} /></div>
+      <div className="foebar"><Plate side="foe" who={{ id: 'seto_kaiba', name: 'Seto Kaiba' }} lp={foe.lp} hand={foe.hand.length} turn={false} /></div>
+      <Field board={board} cards={cards} hl={marks.glow} picked={marks.picked} onTap={tap} onOpenPile={() => {}} center={<PhaseBar turn={board.turn} phase={board.phase} narration="Conferência" />} />
+      <div className="mybar"><Plate side="me" who={who} lp={me.lp} hand={me.hand.length} turn /></div>
       <div className="spacer" />
       <Hand hand={me.hand} cards={cards} hl={marks.glow} picked={marks.picked} selected={-1} onTap={tap} />
       {bc && <ChoiceBar c={bc} sel={sel} cards={cards} actor={me.mzone.find(Boolean)?.code ?? null} attack={!!s.attack} reply={reply} />}

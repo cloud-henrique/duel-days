@@ -9,7 +9,7 @@ describe('PhaseBar', () => {
   it('mostra o turno e todos os chips, com a fase atual acesa', () => {
     const { container } = render(<PhaseBar turn={3} phase={8} narration="" />);
     expect(container.querySelector('.tn')?.textContent).toBe('T3');
-    expect([...container.querySelectorAll('.chip')].map((c) => c.textContent)).toEqual(['DP', 'SP', 'M1', 'BP', 'M2', 'EP']);
+    expect([...container.querySelectorAll('.chip')].map((c) => c.textContent)).toEqual(['DP', 'SP', 'M1', 'BP', 'EP']);
     expect(container.querySelector('.chip.on')?.textContent).toBe('BP');
   });
 

@@ -8,5 +8,7 @@ export default defineConfig({
   test: {
     include: ['src/**/*.test.{ts,tsx}'],
     environment: 'node',
+    // Os testes da CPU simulam duelos (1–3 s cada sozinhos); com a suíte em paralelo e a máquina ocupada passavam dos 5 s.
+    testTimeout: 20_000,
   },
 });

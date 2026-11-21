@@ -70,8 +70,9 @@ describe('recusa ao pôr', () => {
   it('cada motivo', () => {
     expect(addRefusal(deck([2, 2, 2]), 2, cards, { 2: 4 })).toBe('Máximo de 3 cópias');
     expect(addRefusal(deck([1]), 1, cards, { 1: 1 })).toBe('Você só tem 1 cópia');
-    expect(addRefusal(deck(Array(60).fill(4)), 2, cards, { 2: 1 })).toBe('O deck principal está cheio');
-    expect(addRefusal(deck([], Array(15).fill(7)), 6, cards, { 6: 1 })).toBe('O Extra Deck está cheio');
+    expect(addRefusal(deck(Array(30).fill(4)), 2, cards, { 2: 1 })).toBe('O deck principal está cheio');
+    expect(addRefusal(deck(Array(29).fill(4)), 2, cards, { 2: 1 })).toBeNull();
+    expect(addRefusal(deck([], Array(5).fill(7)), 6, cards, { 6: 1 })).toBe('O Extra Deck está cheio');
     expect(addRefusal(deck([]), 2, cards, { 2: 1 })).toBeNull();
   });
   it('limitada: 1 cópia', () => {

@@ -10,8 +10,8 @@ const FOE_DEG_PER_CARD = -4;
 const FOE_DROP = 1.5;
 
 /**
- * Mão do jogador em leque; `selected` é a carta aberta na folha (sobe). A geometria (passo, ângulo, queda) fica no
- * CSS: aqui só vão --n (tamanho da mão) e, por carta, --d (distância ao centro) e --ad (|d|).
+ * Mão do jogador, reta (change speed-duel); `selected` é a carta aberta na folha (sobe). A geometria (passo) fica no
+ * CSS: aqui só vão --n (tamanho da mão) e, por carta, --d (distância ao centro).
  */
 export function Hand({ hand, cards, hl, picked, selected, onTap }: { hand: BoardCard[]; cards: Cards; hl: Set<string>; picked?: Set<string>; selected: number; onTap: OnTapCard }) {
   const n = hand.length;
@@ -22,7 +22,7 @@ export function Hand({ hand, cards, hl, picked, selected, onTap }: { hand: Board
         const up = i === selected;
         const cref = { controller: 0 as const, location: OcgLocation.HAND, sequence: i };
         return <Slot key={i} c={c} cards={cards} cref={cref} mark={markOf(cref, hl, picked)} onTap={onTap} lift={up}
-          style={{ ['--d' as string]: i - mid, ['--ad' as string]: Math.abs(i - mid), zIndex: up ? LIFT_Z : i }} />;
+          style={{ ['--d' as string]: i - mid, zIndex: up ? LIFT_Z : i }} />;
       })}
     </div>
   );

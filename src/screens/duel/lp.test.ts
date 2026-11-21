@@ -17,14 +17,14 @@ describe('lpTween', () => {
 });
 
 describe('lpTone', () => {
-  it.each([[8000, 'high'], [4000, 'high'], [3999, 'mid'], [2000, 'mid'], [1999, 'low'], [0, 'low']] as const)('%i LP → %s', (lp, tone) => {
+  it.each([[4000, 'high'], [2000, 'high'], [1999, 'mid'], [1000, 'mid'], [999, 'low'], [0, 'low']] as const)('%i LP → %s', (lp, tone) => {
     expect(lpTone(lp)).toBe(tone);
   });
 });
 
 describe('lpPercent e lpDelta', () => {
   it('porcentagem limitada a 0..100', () => {
-    expect(lpPercent(4000)).toBe(50);
+    expect(lpPercent(2000)).toBe(50);
     expect(lpPercent(-100)).toBe(0);
     expect(lpPercent(9000)).toBe(100);
   });

@@ -70,7 +70,7 @@ try {
   }
   for (let t = 0; t < 16; t++) { await page.waitForTimeout(1000); const s = await state(); if (s.side.length || s.painel) { console.log(`depois da ação (${t + 1}s):`, s); break; } if (t === 15) console.log('NADA depois de 16s:', s); }
   if (flags.has('--turno')) {
-    // Um botão só, fase a fase (BATALHA → MAIN 2 → FIM DO TURNO), até o turno passar ao oponente.
+    // Um botão só, fase a fase (BATALHA → FIM DO TURNO; o Speed Duel não tem Main 2), até o turno passar ao oponente.
     for (let k = 0; k < 4; k++) {
       const side = page.locator('.sidebtns button:not(.wait)');
       if (!(await side.count())) break;

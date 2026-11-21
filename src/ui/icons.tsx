@@ -14,7 +14,7 @@ import {
   ChatCircleDots, Check, CheckFat, ClockCounterClockwise, Coins, Crown, DotsThreeCircle, Eye, Flag, GameController,
   GearSix, Gift, GraduationCap, Hamburger, Heart, IdentificationCard, List, Lock, MagnifyingGlass, MapPin, MapTrifold,
   Minus, MusicNotes, Package, Plus, Question, ShoppingCart, SpeakerHigh, SpeakerSlash, Spade, Sparkle, Stack, Storefront,
-  SkipForward, Sword, Trash, Tree, Trophy, User, Warning, X, CaretDown, type IconProps,
+  SkipForward, Sword, Trash, Tree, Trophy, User, Warning, X, CaretDown, Shield, MagicWand, Mountains, Spiral, type IconProps,
 } from '@phosphor-icons/react';
 import './icons.css';
 
@@ -36,6 +36,8 @@ export const GAME_ICONS = {
   boss: Crown, trophy: Trophy, lock: Lock, status: IdentificationCard, profile: User,
   settings: GearSix, soundOn: SpeakerHigh, soundOff: SpeakerSlash, music: MusicNotes, logo: Spade,
   heart: Heart, talk: ChatCircleDots,
+  // Lugares do campo (zonas vazias e pilhas do duelo)
+  monsterZone: Shield, spellZone: MagicWand, fieldZone: Mountains, banished: Spiral,
   // Lugares
   school: GraduationCap, burger: Hamburger, arcade: GameController, park: Tree, mapPin: MapPin,
   // Controles e avisos

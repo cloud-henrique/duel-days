@@ -3,7 +3,7 @@
 // Uso: npx tsx proto/economy-smoke.ts
 import { readFileSync } from 'node:fs';
 import { PACKS, DUELISTS } from '../src/campaign/data/types';
-import { duelistDeck, starterDeck } from '../src/campaign/decks';
+import { duelistDeck, starterCards, starterDeck } from '../src/campaign/decks';
 import { draw } from '../src/campaign/packs';
 import { generator } from '../src/campaign/rng';
 import { validateDeck } from '../src/game/decks';
@@ -30,5 +30,12 @@ const check = (name: string, d: { main: number[]; extra: number[] }) => {
   if (problems.length) fail = true;
 };
 check('inicial', starterDeck());
+// Speed Duel: o deck ativo inicial (30) sai da coleção inicial (as 40 do nativo).
+{
+  const left = [...starterCards()];
+  const missing = starterDeck().main.filter((id) => { const i = left.indexOf(id); if (i < 0) return true; left.splice(i, 1); return false; });
+  console.log('coleção  ', starterCards().length, missing.length ? `faltam ${missing}` : 'contém o deck inicial');
+  if (missing.length || starterCards().length !== 40) fail = true;
+}
 for (const d of DUELISTS) check(d.key, duelistDeck(d.key));
 if (fail) throw new Error('economia com problemas');

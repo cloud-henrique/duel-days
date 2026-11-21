@@ -43,7 +43,7 @@ export interface TierData {
 }
 
 export interface CampaignData {
-  starterDeck: { name: string; main: DeckEntry[] };
+  starterDeck: { name: string; main: DeckEntry[]; cut: DeckEntry[] };
   startingPacks: string[];
   mapPoints: MapPoint[];
   tiers: TierData[];

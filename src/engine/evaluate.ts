@@ -1,6 +1,7 @@
 import { OcgLocation } from 'ocgcore-wasm';
 import type { DuelTrack } from './track';
-import { faceDown, inAttack, isResponder, isSpell, type BoardView, type SeenCard } from './view';
+import { FORMAT } from '../game/format';
+import { EXODIA_PIECES, faceDown, inAttack, isResponder, isSpell, type BoardView, type SeenCard } from './view';
 
 /**
  * Pesos da avaliação do tabuleiro (a única fonte deles). Unidade: pontos de LP. Calibrados pela
@@ -11,6 +12,8 @@ export const EVAL = {
   card: 350,
   /** Cada carta na mão. */
   hand: 300,
+  /** Cada peça diferente do Exodia na própria mão (as 5 vencem o duelo). */
+  exodiaPiece: 900,
   /** Monstro virado do oponente, sem olhar (perfil comum). */
   hiddenMonster: 1300,
   /** Magia/Armadilha virada do oponente, sem olhar. */
@@ -23,8 +26,8 @@ export const EVAL = {
   faceUpSpell: 250,
   /** Monstro em defesa vale esta fração do maior entre ATK e DEF. */
   defense: 0.8,
-  /** Abaixo deste LP, cada ponto perdido pesa mais. */
-  lowLp: 2000,
+  /** Abaixo desta fração do LP inicial (do formato), cada ponto perdido pesa mais. */
+  lowLp: 0.25,
   lowLpExtra: 0.75,
   /** Risco por Magia/Armadilha virada do oponente, sobre o valor de cada monstro que atacou (perfil comum). */
   risk: 0.12,
@@ -49,12 +52,14 @@ function spellTrapValue(c: SeenCard, hidden: boolean) {
 function sideValue(v: BoardView, p: number, hide: boolean) {
   const s = v[p];
   let total = s.hand.length * EVAL.hand;
+  if (!hide) total += new Set(s.hand.filter((c) => EXODIA_PIECES.has(c.code)).map((c) => c.code)).size * EVAL.exodiaPiece;
   for (const c of s.mzone) total += monsterValue(c, hide && faceDown(c));
   for (const c of s.szone) total += spellTrapValue(c, hide && faceDown(c));
   return total;
 }
 
-const lpValue = (lp: number) => lp + (lp < EVAL.lowLp ? -(EVAL.lowLp - lp) * EVAL.lowLpExtra : 0);
+const LOW_LP = EVAL.lowLp * FORMAT.lp;
+const lpValue = (lp: number) => lp + (lp < LOW_LP ? -(LOW_LP - lp) * EVAL.lowLpExtra : 0);
 
 /**
  * Nota do tabuleiro do ponto de vista de `me` (maior é melhor). `peek`: pode ler o que o oponente esconde (chefe). No

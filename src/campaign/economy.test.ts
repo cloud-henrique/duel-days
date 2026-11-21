@@ -44,7 +44,7 @@ describe('cartas por vitória', () => {
 
   it('a vitória paga DP, dá uma carta e soma a vitória; a 5ª dá a assinatura', () => {
     const s = withPresent('joey', base({ victories: { joey: 4 } }));
-    const r = applyDuel(s, 'joey', 'regular', { result: 'win', turns: 12, lifePoints: 3000 });
+    const r = applyDuel(s, 'joey', 'regular', { result: 'win', turns: 12, lifePoints: 1500 });
     expect(r.reward.totalDP).toBe(300);
     expect(r.state.dp).toBe(300);
     expect(r.state.victories.joey).toBe(5);
@@ -55,9 +55,9 @@ describe('cartas por vitória', () => {
 
   it('save antigo (assinatura na 10ª): entre a 6ª e a 10ª, sem a carta, ela sai na próxima vitória', () => {
     const s = withPresent('joey', base({ victories: { joey: 7 } }));
-    const r = applyDuel(s, 'joey', 'regular', { result: 'win', turns: 12, lifePoints: 3000 });
+    const r = applyDuel(s, 'joey', 'regular', { result: 'win', turns: 12, lifePoints: 1500 });
     expect(r.reward.cards[0]).toMatchObject({ kind: 'signature', id: 74677422 });
-    const again = applyDuel(withPresent('joey', r.state), 'joey', 'regular', { result: 'win', turns: 12, lifePoints: 3000 });
+    const again = applyDuel(withPresent('joey', r.state), 'joey', 'regular', { result: 'win', turns: 12, lifePoints: 1500 });
     expect(again.reward.cards.some((c) => c.kind === 'signature')).toBe(false);
   });
 

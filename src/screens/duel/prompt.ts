@@ -48,7 +48,8 @@ export function highlighted(m: OcgMessage | null): Set<string> {
 
 /**
  * O botão lateral de avanço de fase para o prompt atual (vazio se o prompt não é de fase). Um botão só, para a fase
- * seguinte: M1 → BATALHA → MAIN 2 → FIM DO TURNO, sem atalho que pule uma fase (pedido do usuário, 16/11/2026).
+ * seguinte: M1 → BATALHA → FIM DO TURNO, sem atalho que pule uma fase (pedido do usuário, 16/11/2026). O Speed Duel não
+ * tem Main Phase 2: o motor não oferece `to_m2`, e o botão MAIN 2 só existiria fora do formato.
  */
 export function sideActions(m: OcgMessage | null): SideAction[] {
   if (m?.type === OcgMessageType.SELECT_IDLECMD) {
@@ -69,7 +70,7 @@ export function sideActions(m: OcgMessage | null): SideAction[] {
 /** Fases mostradas na barra, com as máscaras do motor (a Battle Phase agrupa seus sub-passos). */
 const BATTLE_PHASE = OcgPhase.BATTLE_START | OcgPhase.BATTLE_STEP | OcgPhase.DAMAGE | OcgPhase.DAMAGE_CAL | OcgPhase.BATTLE;
 const PHASES: [string, number][] = [
-  ['DP', OcgPhase.DRAW], ['SP', OcgPhase.STANDBY], ['M1', OcgPhase.MAIN1], ['BP', BATTLE_PHASE], ['M2', OcgPhase.MAIN2], ['EP', OcgPhase.END],
+  ['DP', OcgPhase.DRAW], ['SP', OcgPhase.STANDBY], ['M1', OcgPhase.MAIN1], ['BP', BATTLE_PHASE], ['EP', OcgPhase.END], // Speed Duel: sem Main Phase 2
 ];
 
 /** Chips da barra de fases, com a fase atual marcada. */

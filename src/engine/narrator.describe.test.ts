@@ -82,7 +82,7 @@ describe('texto do narrador (caracterização)', () => {
       { type: OcgMessageType.PAY_LPCOST, player: 0, amount: 1000 },
     );
     expect(out).toEqual(['Oponente perdeu 1200 LP', 'Oponente recuperou 500 LP', 'Você pagou 1000 LP']);
-    expect(n.lp).toEqual([7000, 7300]);
+    expect(n.lp).toEqual([3000, 3300]);
   });
 
   it('LPUPDATE: só corrige o LP, sem texto', () => {

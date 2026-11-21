@@ -118,8 +118,8 @@ describe('mapa por tiers', () => {
 });
 
 describe('economia por tiers', () => {
-  it('vitória no Tier 2: Rex no turno 12 com 5000 LP paga 480 DP', () => {
-    expect(duelDP({ result: 'win', turns: 12, lifePoints: 5000 }, 2).total).toBe(480);
+  it('vitória no Tier 2: Rex no turno 12 com 2500 LP paga 480 DP', () => {
+    expect(duelDP({ result: 'win', turns: 12, lifePoints: 2500 }, 2).total).toBe(480);
     expect(duelDP({ result: 'lose', turns: 12, lifePoints: 0 }, 2).total).toBe(60);
   });
 

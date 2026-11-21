@@ -6,28 +6,40 @@
 .duel {
   container-type: size;
   /* constantes */
-  --zone-max: 96px; --hand-card-max: 96px; --mat-max: 500px; --hand-max: 520px;
-  --mat-inset: 40px; --hand-inset: 24px; --mat-pad: 10px; --gap: 6px; --center-gap: 46px; --side: 12px;
-  --st-ratio: 1; --card-ratio: .686; --zone-h-ratio: .10; --hand-card-ratio: .25;
-  --tilt: 22deg; --tilt-depth: 2.2;           /* perspectiva = largura do campo × profundidade */
-  --plate-h: 60px; --foehand-h: 38px; --lift: 34px; --fan-corner: 4px; --fan-sink-max: 20px; /* queda das pontas com a mão cheia */
-  --fan-angle-max: 4deg; --fan-angle-total: 16deg; --fan-drop: 4px; --fan-pad: 32px; --fan-step-ratio: .8;
+  --hand-card-max: 96px; --hand-max: 520px; --hand-inset: 24px; --hand-card-min: 60px;
+  --mat-pad: 8px; --mat-border: 2px; --zone-pad: 3px; --gap: 6px; --center-gap: 38px; --pile-k: .7; --side: 12px; --field-edge: 4px;
+  --card-ratio: .686; --hand-card-ratio: .25;
+  --plate-h: 48px; --foehand-h: 26px; --lift: 34px; --fan-pad: 32px; --fan-step-ratio: .8;
+  /* Mão reta (change speed-duel): sem arco, a mão não reserva altura para as pontas; a carta selecionada sobe por cima
+     da placa. Só a sombra das cartas fica de folga. */
+  --hand-shadow: 4px;
   /* cores do HUD */
   --c-cyan: #2ab8ff; --c-select: #ffc61a; --c-navy: #050a18;
   --zone-m-fill: rgba(255, 140, 40, .2); --zone-s-fill: rgba(40, 200, 120, .2); --zone-line: rgba(42, 184, 255, .5);
   --t-quick: .2s;
-  /* derivadas; W é a largura da tela (o conteúdo do contêiner mais as margens laterais), como no nativo */
+  /*
+   * Derivadas (change speed-duel, tabuleiro do Duel Links). O campo é plano e as zonas têm a proporção da carta. Cada
+   * fileira tem as 3 zonas e uma ponta de pilhas de cada lado, mais estreita (--pile-k da zona). A altura da zona é a
+   * menor entre a que cabe na largura (3 zonas + 2 pontas) e a que cabe nas 4 fileiras da altura que sobra depois das
+   * partes fixas e da mão no mínimo (60). A mão fica com o resto, até o teto pela largura.
+   */
   --W: calc(100cqw + 2 * var(--side));
-  --mat-w: min(var(--W) - var(--mat-inset), var(--mat-max));
   --hand-w: min(var(--W) - var(--hand-inset), var(--hand-max));
-  --zone: min(var(--zone-max), (var(--mat-w) - 2 * var(--mat-pad) - 4 * var(--gap)) / 5, 100cqh * var(--zone-h-ratio));
-  --st-h: calc(var(--zone) * var(--st-ratio));
-  --mat-h: calc(2 * var(--zone) + 2 * var(--st-h) + var(--center-gap) + 4 * var(--gap) + 2 * var(--mat-pad));
-  /* Altura que sobra para a mão (Safari com barras): tela menos placas, versos, campo e espaçamentos. */
-  --hand-room: calc((100cqh - 2 * var(--plate-h) - var(--foehand-h) - var(--mat-h) - 6 * var(--gap) - var(--lift)) * var(--card-ratio));
-  --hand-card: min(var(--hand-card-max), var(--hand-w) * var(--hand-card-ratio), var(--hand-room));
+  --hand-extra: var(--hand-shadow);
+  --fixed: calc(2 * var(--plate-h) + var(--foehand-h) + var(--center-gap) + 9 * var(--gap) + 2 * var(--mat-pad) + 2 * var(--mat-border));
+  --room: calc(100cqh - var(--fixed));
+  /* O campo avança sobre a margem lateral da tela (as placas e a mão ficam nela): só --field-edge de cada lado. */
+  --field-W: calc(100cqw + 2 * var(--side) - 2 * var(--field-edge));
+  --zone-w-max: calc((var(--field-W) - 2 * var(--mat-pad) - 2 * var(--mat-border) - 4 * var(--gap)) / (3 + 2 * var(--pile-k)));
+  --zone-h: min((var(--zone-w-max) - 2 * var(--zone-pad)) / var(--card-ratio), (var(--room) - var(--hand-card-min) / var(--card-ratio) - var(--hand-extra)) / 4);
+  --zone-w: calc(var(--zone-h) * var(--card-ratio) + 2 * var(--zone-pad));
+  /* As pontas de pilhas ficam com a largura que sobrar quando a altura é que limita as zonas (até o tamanho de uma zona):
+     o campo ocupa a largura toda. */
+  --pile-w: clamp(var(--zone-w) * var(--pile-k), (var(--field-W) - 3 * var(--zone-w) - 4 * var(--gap) - 2 * var(--mat-pad) - 2 * var(--mat-border)) / 2, var(--zone-w));
+  --mat-w: calc(3 * var(--zone-w) + 2 * var(--pile-w) + 4 * var(--gap) + 2 * var(--mat-pad) + 2 * var(--mat-border));
+  --hand-card: min(var(--hand-card-max), var(--hand-w) * var(--hand-card-ratio), (var(--room) - 4 * var(--zone-h) - var(--hand-extra)) * var(--card-ratio));
   --hand-card-h: calc(var(--hand-card) / var(--card-ratio));
-  --hand-h: calc(var(--hand-card-h) + var(--lift) / 2 + var(--fan-sink-max));
+  --hand-h: calc(var(--hand-card-h) + var(--hand-extra));
   position: relative; height: 100%; height: 100dvh; overflow: hidden; display: flex; flex-direction: column; gap: var(--gap);
   padding: calc(var(--gap) + env(safe-area-inset-top)) var(--side) calc(var(--gap) + env(safe-area-inset-bottom));
 }
@@ -39,8 +51,8 @@
 .menu-opt .acts > .hud-btn { padding: 8px 6px; font-size: 14px; text-align: center; justify-content: center; }
 /* Placa do duelista (DuelistPlate.swift): ~60 de altura; borda ciano que acende no duelista da vez. */
 .plate {
-  --plate-pad: 8px; --avatar: 44px; --lp-size: 22px; --lp-delta-size: 16px; --lp-delta-w: 3.4em; --bar-w: 120px; --bar-h: 7px;
-  --count-size: 13px; --grave-w: 26px; --grave-h: 38px;
+  --plate-pad: 8px; --avatar: 36px; --lp-size: 20px; --lp-delta-size: 16px; --lp-delta-w: 3.4em; --bar-w: 120px; --bar-h: 7px;
+  --count-size: 13px;
   flex: 1; min-width: 0; height: var(--plate-h); display: flex; align-items: center; gap: var(--plate-pad); padding: 0 var(--plate-pad);
   --fill: linear-gradient(180deg, #0d2a55, #081a3a); --edge: rgba(42, 184, 255, .3);
   transition: filter var(--t-quick);
@@ -60,7 +72,7 @@
 .plate .lpdelta .dmg { color: #ff5a5a; } .plate .lpdelta .heal { color: #3fe6b4; }
 @keyframes lp-pop { from { transform: scale(.6); opacity: 0; } }
 @keyframes lp-out { to { opacity: 0; } }
-.plate .bar { width: min(100%, var(--bar-w)); height: var(--bar-h); margin-top: 3px; background: #07142e; overflow: hidden; border-radius: 2px; }
+.plate .bar { width: min(100%, var(--bar-w)); height: var(--bar-h); margin-top: 2px; background: #07142e; overflow: hidden; border-radius: 2px; }
 .plate .bar > i { display: block; height: 100%; transition: width .7s linear; }
 .plate .bar.high > i { background: linear-gradient(90deg, #26d6a0, #3fe6b4); }
 .plate .bar.mid > i { background: linear-gradient(90deg, #f2c14e, #f59e0b); }
@@ -69,41 +81,76 @@
 .plate .counts span { display: flex; align-items: center; gap: 4px; }
 .plate .counts svg { width: 14px; height: 14px; }
 .plate .counts .c-hand { color: #d94fe0; }
-.gravebox { appearance: none; background: none; border: 0; padding: 0; color: var(--dim); display: flex; flex-direction: column; align-items: center; gap: 1px; flex: 0 0 auto; }
-.gravebox .gslot { display: block; width: var(--grave-w); height: var(--grave-h); border-radius: 2px; overflow: hidden; }
-.gravebox .gslot.empty { border: 1.5px dashed var(--zone-line); }
-.gravebox .gslot .cardface { width: 100%; display: block; }
-.gravebox em { font-size: 10px; font-style: normal; line-height: 1; }
 .foehand { display: flex; justify-content: center; height: var(--foehand-h); flex-shrink: 0; }
-.foehand { --foe-card: 24px; --foe-overlap: -12px; }
+.foehand { --foe-card: 18px; --foe-overlap: -8px; }
 .foecard { width: var(--foe-card); flex-shrink: 0; }
 .foecard + .foecard { margin-left: var(--foe-overlap); }
 .foecard .cardback-img { border-radius: 2px; box-shadow: 0 1px 3px #000a; }
-/* Campo: 5 fileiras (M/A, monstros, faixa central, monstros, M/A) inclinadas em torno do centro. */
-.fieldwrap { position: relative; flex-shrink: 0; width: var(--mat-w); margin: 0 auto; }
-.field { display: flex; flex-direction: column; align-items: center; gap: var(--gap); transform: perspective(calc(var(--mat-w) * var(--tilt-depth))) rotateX(var(--tilt)); transform-origin: 50% 50%; padding: var(--mat-pad); border: 2px solid rgba(42,184,255,.6); background: linear-gradient(180deg, rgba(13,77,102,.9), rgba(5,31,51,.95)); box-shadow: 0 0 16px rgba(42,184,255,.4), inset 0 0 22px rgba(42,184,255,.12); }
-.row, .midrow { display: grid; grid-template-columns: repeat(5, var(--zone)); gap: var(--gap); }
-/* Faixa do meio: as zonas de Campo nas pontas (uma carta da altura da faixa) e a barra de fases entre elas. */
-.midrow { --fz-w: calc(var(--center-gap) * var(--card-ratio)); grid-template-columns: var(--fz-w) 1fr var(--fz-w); width: calc(5 * var(--zone) + 4 * var(--gap)); }
-.row:has(.zone.m) { height: var(--zone); }
-.row:has(.zone.s) { height: var(--st-h); }
-.midrow { position: relative; height: var(--center-gap); }
-.midrow span { grid-column: 2; }
-/* Ocupa a faixa central inteira, para caber narrações longas (nomes grandes de carta). */
-.phasebar { position: absolute; left: calc(var(--fz-w) + var(--gap)); right: calc(var(--fz-w) + var(--gap)); top: 50%; transform: translateY(-50%); z-index: 3; padding: 4px 8px; text-align: center; --fill: linear-gradient(180deg, rgba(8,24,56,.96), rgba(5,14,36,.96)); --edge: #3a86e0; }
+/*
+ * Campo plano do Speed Duel (change speed-duel, como no Duel Links): o tapete com 4 fileiras (M/A e monstros do
+ * oponente, faixa central, monstros e M/A do jogador); cada fileira tem uma ponta de pilhas, as 3 zonas e outra ponta.
+ * A profundidade vem da luz e da sombra: o brilho do contorno fica no invólucro, porque o chanfro (clip-path) cortaria o
+ * box-shadow.
+ */
+.fieldwrap { position: relative; flex-shrink: 0; width: var(--mat-w); align-self: center; /* centra mesmo mais largo que o conteúdo */ display: flex; flex-direction: column; gap: var(--gap); }
+.matwrap { filter: drop-shadow(0 0 7px rgba(42,184,255,.45)); }
+.field.cut { --cut: 14px; --edge: rgba(42,184,255,.7); --edge-w: var(--mat-border);
+  --fill: radial-gradient(120% 60% at 50% 50%, rgba(18,92,128,.55), transparent 70%), linear-gradient(180deg, rgba(10,52,84,.96), rgba(6,30,54,.97) 50%, rgba(10,52,84,.96));
+  position: relative; display: flex; flex-direction: column; align-items: center; gap: var(--gap); padding: calc(var(--mat-pad) + var(--mat-border)); }
+/* Luz na metade de quem joga o turno. */
+.field::before { content: ''; position: absolute; left: 0; right: 0; height: 50%; z-index: 0; pointer-events: none; opacity: 0; transition: opacity .4s; }
+.field.turn-me::before { bottom: 0; opacity: 1; background: radial-gradient(85% 95% at 50% 100%, rgba(42,184,255,.32), transparent 72%); }
+.field.turn-foe::before { top: 0; opacity: 1; background: radial-gradient(85% 95% at 50% 0%, rgba(255,90,90,.26), transparent 72%); }
+.row { display: grid; grid-template-columns: var(--pile-w) repeat(3, var(--zone-w)) var(--pile-w); gap: var(--gap); height: var(--zone-h); }
+/* Faixa do meio: só a barra de fases, na largura do campo, com uma linha fina separando as metades. */
+.midrow { position: relative; width: 100%; height: var(--center-gap); display: flex; align-items: center; }
+.midrow::before { content: ''; position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: linear-gradient(90deg, transparent, rgba(42,184,255,.45), transparent); }
+.phasebar { position: relative; z-index: 3; width: 100%; padding: 3px 8px; text-align: center; --fill: linear-gradient(180deg, rgba(8,24,56,.96), rgba(5,14,36,.96)); --edge: #3a86e0; }
 .phasebar .chips { display: flex; justify-content: center; align-items: center; gap: 3px; }
 .phasebar .tn { font-size: 11px; color: #9fb4d8; margin-right: 2px; }
-.phasebar .chip { padding: 2px 6px; font: 700 11px/1 var(--font-game); color: #6fb2ff; background: #0a1a3a; border: 1px solid #2f7fd8; border-radius: 3px; }
+.phasebar .chip { padding: 1px 6px; font: 700 11px/1 var(--font-game); color: #6fb2ff; background: #0a1a3a; border: 1px solid #2f7fd8; border-radius: 3px; }
 .phasebar .chip.on { background: var(--c-select); color: #2a1b00; border-color: var(--c-select); }
 /* Narrador: uma linha de 16; o texto novo sobe empurrando o anterior. */
-.phasebar .narr { --narr-h: 16px; height: var(--narr-h); margin-top: 3px; overflow: hidden; font-size: 11px; line-height: var(--narr-h); color: #dbe8ff; }
+.phasebar .narr { --narr-h: 14px; height: var(--narr-h); margin-top: 2px; overflow: hidden; font-size: 11px; line-height: var(--narr-h); color: #dbe8ff; }
 .phasebar .narr span { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; animation: narr-in var(--t-quick) ease-out; }
 @keyframes narr-in { from { transform: translateY(100%); opacity: 0; } }
-/* Zonas: contorno tracejado ciano; laranja = monstro, verde = magia/armadilha/campo. A carta ocupa a altura toda. */
-.zone { position: relative; min-width: 0; height: 100%; padding: 0; display: flex; align-items: center; justify-content: center; border: 1.5px dashed var(--zone-line); border-radius: 4px; background: var(--zone-m-fill); }
-.zone.s, .zone.f { background: var(--zone-s-fill); }
-.zone > .cardface, .zone > .cardback-img { position: absolute; inset: 0; margin: auto; height: 100%; width: auto; border-radius: 3px; transition: transform var(--t-quick); box-shadow: 0 2px 6px #000a; }
-.zone.def > .cardface, .zone.def > .cardback-img { transform: rotate(90deg); }
+/* Zonas: contorno tracejado discreto; laranja = monstro, verde = magia/armadilha/campo. Vazia, mostra o emblema do tipo
+   apagado. A carta ocupa a altura toda; em defesa, girada e do tamanho da largura da zona. */
+.zone { position: relative; min-width: 0; height: 100%; padding: 0; display: flex; align-items: center; justify-content: center; border: 1px dashed rgba(255,160,80,.38); border-radius: 4px;
+  background: radial-gradient(circle at 50% 45%, rgba(255,140,40,.13), rgba(255,140,40,.05) 70%); color: rgba(255,170,90,.16); }
+.zone.s, .zone.f { border-color: rgba(70,220,150,.36); background: radial-gradient(circle at 50% 45%, rgba(40,200,120,.13), rgba(40,200,120,.05) 70%); color: rgba(90,230,160,.16); }
+.zone.empty > svg { width: 34%; height: auto; max-height: 40%; }
+.zone > .cardface, .zone > .cardback-img { position: absolute; inset: 0; margin: auto; height: 100%; width: auto; border-radius: 3px; transition: transform var(--t-quick); box-shadow: 0 3px 6px #000c, 0 0 0 1px #0006; }
+.zone.def > .cardface, .zone.def > .cardback-img { height: calc(var(--zone-w) - 2px); transform: rotate(90deg); }
+/* Pontas das fileiras (Campo, Extra, Deck e a ficha de Banidas com o Cemitério): chips chanfrados mais escuros que o
+   tapete. A carta pequena (topo ou verso) cabe na caixa (.slotbox é contêiner) e a quantidade fica num selo embaixo. */
+.side { position: relative; min-width: 0; height: 100%; display: flex; flex-direction: column; gap: 3px; }
+.side > .pile { flex: 1 1 0; min-height: 0; }
+.pile.cut { --cut: 6px; --edge-w: 1px; --edge: rgba(42,184,255,.32); --fill: linear-gradient(180deg, rgba(6,18,42,.92), rgba(3,10,26,.92));
+  appearance: none; position: relative; min-width: 0; padding: 3px; display: flex; align-items: center; justify-content: center; gap: 4px; color: #8fb2dc; font: inherit; }
+button.pile:active { filter: brightness(1.3); }
+.pile.empty { --edge: rgba(42,184,255,.16); color: rgba(143,178,220,.45); }
+.pile .slotbox { container-type: size; flex: 1 1 0; align-self: stretch; min-width: 0; display: grid; place-items: center; }
+.pile .mini { position: relative; display: block; width: min(100cqw, 100cqh * var(--card-ratio)); aspect-ratio: var(--card-ratio); border-radius: 2px; }
+.pile .mini > .cardface, .pile .mini > .cardback-img { display: block; width: 100%; height: 100%; border-radius: 2px; }
+.pile .mini.none { border: 1px dashed currentColor; opacity: .7; }
+/* Espessura do deck em degraus (1–10, 11–25, 26+). */
+.pile .mini.t1 { box-shadow: 1px 1px 0 #2a1608; }
+.pile .mini.t2 { box-shadow: 1px 1px 0 #2a1608, 2px 2px 0 #1c0e04; }
+.pile .mini.t3 { box-shadow: 1px 1px 0 #2a1608, 2px 2px 0 #1c0e04, 3px 3px 0 #120902; }
+/* Banidas: o topo ganha um tom violeta frio. */
+.pile.removed .mini:not(.none)::after { content: ''; position: absolute; inset: 0; border-radius: 2px; background: linear-gradient(180deg, rgba(150,110,255,.35), rgba(80,40,200,.35)); mix-blend-mode: color; }
+.pile .cnt { position: absolute; left: 50%; bottom: 3px; translate: -50% 0; display: flex; align-items: center; gap: 2px; padding: 1px 4px; border-radius: 3px; background: rgba(3,10,26,.82); white-space: nowrap; }
+.pile .cnt svg { width: 11px; height: 11px; }
+.pile .cnt b { font-size: 12px; line-height: 1; color: #e8f1ff; }
+.pile.empty .cnt b { color: inherit; }
+/* Ficha de Banidas: baixa, com a carta pequena e a quantidade lado a lado. */
+.side.stack > .pile.removed { --chip-h: max(20px, calc(var(--zone-h) * .26)); flex: 0 0 var(--chip-h); justify-content: flex-start; padding: 2px 4px; }
+.side.stack > .pile.removed .slotbox { flex: 0 0 auto; width: calc((var(--chip-h) - 4px) * var(--card-ratio)); }
+.side.stack > .pile.removed .cnt { position: static; translate: none; background: none; padding: 0; }
+/* A Zona de Campo continua sendo uma zona (Slot), na ponta da fileira: a carta pela largura, centrada. */
+.side.fieldzone > .zone { width: 100%; border-style: solid; border-color: rgba(90,230,160,.35); }
+.side.fieldzone > .zone > .cardface, .side.fieldzone > .zone > .cardback-img { inset: auto 0; top: 50%; translate: 0 -50%; width: 100%; height: auto; margin: 0; }
 .zone.down:not(:disabled) > .cardface { filter: brightness(.55); }
 .zone.hl > .cardface, .zone.hl > .cardback-img { box-shadow: 0 0 0 2px var(--hl), 0 0 12px 3px var(--hl-glow, rgba(255,210,74,.8)); animation: pulse 1.4s infinite; }
 @keyframes pulse { 50% { box-shadow: 0 0 0 2px var(--hl), 0 0 18px 6px var(--hl-glow, rgba(255,210,74,.95)); } }
@@ -128,16 +175,14 @@
 .spin { animation: spin .9s steps(8) infinite; } @keyframes spin { to { transform: rotate(360deg); } }
 /* Destaque da carta ativada */
 @keyframes fadein { from { opacity: 0; } }
-/* Mão em leque (PlayerHand.swift): passo e ângulo dependem de --n, que a mão grava inline. Cada carta recebe --d
-   (distância ao centro) e --ad (|d|). */
+/* Mão reta (change speed-duel; antes em leque, como no PlayerHand.swift): o passo depende de --n, que a mão grava
+   inline, e cada carta recebe --d (distância ao centro). As cartas ficam em fila, com sobreposição só quando faltar
+   largura; a selecionada sobe por cima da placa (z-index da mão acima da .mybar). */
 .handfan {
   --hand-step: min(var(--hand-card) * var(--fan-step-ratio), (var(--hand-w) - var(--fan-pad) - var(--hand-card)) / max(1, var(--n) - 1));
-  --hand-angle: min(var(--fan-angle-max), var(--fan-angle-total) / max(1, var(--n)));
-  /* As cartas da ponta descem |d|·queda e giram: a base do leque sobe esse tanto para nada ser cortado. */
-  --fan-sink: min(var(--fan-sink-max), var(--fan-drop) * (max(1, var(--n)) - 1) / 2 + var(--fan-corner));
   position: relative; z-index: 11; height: var(--hand-h); flex-shrink: 0;
 }
-.slot { position: absolute; bottom: var(--fan-sink); left: calc(50% + var(--hand-step) * var(--d) - var(--hand-card) / 2); width: var(--hand-card); aspect-ratio: var(--card-ratio); padding: 0; border: 0; background: none; display: block; transform-origin: 50% 100%; transform: rotate(calc(var(--hand-angle) * var(--d))) translateY(calc(var(--fan-drop) * var(--ad))); transition: transform .15s; }
+.slot { position: absolute; bottom: var(--hand-shadow); left: calc(50% + var(--hand-step) * var(--d) - var(--hand-card) / 2); width: var(--hand-card); aspect-ratio: var(--card-ratio); padding: 0; border: 0; background: none; display: block; transform-origin: 50% 100%; transition: transform .15s; }
 .slot.lift { transform: translateY(calc(-1 * var(--lift))) scale(1.04); filter: drop-shadow(0 0 9px var(--hl)) drop-shadow(0 0 3px var(--hl)); }
 .slot > .cardface, .slot > .cardback-img { box-shadow: 0 3px 9px #000b; }
 /* Sem brilho nas cartas jogáveis da mão (pedido do usuário): só a selecionada sobe e brilha, como no nativo. */
@@ -278,3 +323,6 @@
 .field { position: relative; }
 .fieldart { position: absolute; inset: 0; z-index: 0; pointer-events: none; background: center / cover no-repeat; opacity: .5; animation: fadein .5s ease-out both; }
 .field > .row, .field > .midrow { position: relative; z-index: 1; }
+/* Lista de uma pilha: banida virada para baixo do oponente aparece como verso, sem toque. */
+.grid > .pilehidden { display: block; }
+.grid > .pilehidden > .cardback-img { display: block; width: 100%; border-radius: 3px; }

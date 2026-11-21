@@ -21,10 +21,10 @@ describe('semente', () => {
 });
 
 describe('campanha nova', () => {
-  it('começa no dia 1 de manhã, 0 DP, deck inicial de 40 ativo e 3 LOB fechados', () => {
+  it('começa no dia 1 de manhã, 0 DP, deck inicial de 30 ativo, coleção de 40 e 3 LOB fechados', () => {
     const s = newCampaign(7);
     expect([s.day, s.period, s.dp]).toEqual([1, 0, 0]);
-    expect(s.decks[0].main).toHaveLength(40);
+    expect(s.decks[0].main).toHaveLength(30);
     expect(Object.values(s.collection).reduce((a, b) => a + b, 0)).toBe(40);
     expect(s.unopenedPacks).toEqual(['lob', 'lob', 'lob']);
   });

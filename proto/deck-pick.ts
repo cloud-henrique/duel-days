@@ -1,5 +1,6 @@
 // Torneio das receitas (changes `campanha-tiers` e `cpu-estrategica`): para cada duelista, cada candidata de
-// raw/decks/candidates.json (scripts/fetch_deck_recipes.py) enfrenta o deck inicial, com a CPU nova dos dois lados (a
+// raw/decks/candidates-speed.json (scripts/fetch_deck_recipes.py, cortadas para o Speed Duel por
+// `scripts/build_decks.py --candidatas`) enfrenta o deck inicial, com a CPU nova dos dois lados (a
 // candidata no perfil do duelista, o deck inicial no comum), trocando quem começa. A vencedora é a de maior taxa; se ela
 // ficar a mais de 10 pontos da meta do tier e outra candidata ficar dentro, fica a melhor das que estão dentro.
 // Grava raw/decks/picks.json e imprime a tabela.
@@ -34,7 +35,7 @@ async function work({ key, deck, i }: Job): Promise<boolean | null> {
 if (isChild()) serveChild(work);
 else {
   const cards = JSON.parse(readFileSync('public/data/cards.json', 'utf8')) as Record<string, CardRecord>;
-  const all = JSON.parse(readFileSync('raw/decks/candidates.json', 'utf8')) as Record<string, Candidate[]>;
+  const all = JSON.parse(readFileSync('raw/decks/candidates-speed.json', 'utf8')) as Record<string, Candidate[]>;
   const picks: Record<string, { index: number; name: string; url: string; rate: number }> = {};
   try { Object.assign(picks, JSON.parse(readFileSync('raw/decks/picks.json', 'utf8'))); } catch { /* primeira vez */ }
   const keys = Object.keys(all).filter((k) => !only.length || only.includes(k));

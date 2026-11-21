@@ -1,7 +1,4 @@
 import { useEffect, useRef, useState } from 'react';
-import type { BoardCard } from '../../engine/protocol';
-import { CardFace } from '../../components/CardFace';
-import type { Cards } from '../../data/cards';
 import { GameIcon } from '../../ui/icons';
 import { LP_POPUP_MS, LP_STEPS, LP_STEP_MS, lpDelta, lpPercent, lpTone, lpTween } from './lp';
 
@@ -33,11 +30,11 @@ function useLpDisplay(lp: number) {
 }
 
 /**
- * Placa do duelista: avatar, nome, LP (com variação), barra, contadores e o topo do cemitério. Marca com `data-loc` a
- * placa (`p:plate`, origem e destino das cartas sem lugar visível), o deck e o cemitério, para a animação.
+ * Placa do duelista (change tabuleiro-plano): avatar, nome, LP (com variação), barra e a quantidade de cartas na mão.
+ * Deck e cemitério ficam na fileira de pilhas. A placa marca com `data-loc` o lugar `p:plate`: alvo do ataque direto e
+ * origem/destino das cartas sem lugar visível.
  */
-export function Plate({ side, who, lp, deck, hand, grave, turn, onGrave, cards = {} }: { side: 'me' | 'foe'; who: Duelist; lp: number; deck: number; hand: number; grave: BoardCard[]; turn: boolean; onGrave: () => void; cards?: Cards }) {
-  const top = grave[grave.length - 1];
+export function Plate({ side, who, lp, hand, turn }: { side: 'me' | 'foe'; who: Duelist; lp: number; hand: number; turn: boolean }) {
   const { shown, delta } = useLpDisplay(lp);
   const p = side === 'me' ? 0 : 1;
   return (
@@ -52,13 +49,8 @@ export function Plate({ side, who, lp, deck, hand, grave, turn, onGrave, cards =
         <div className={`bar ${lpTone(lp)}`}><i style={{ width: `${lpPercent(lp)}%` }} /></div>
       </div>
       <div className="counts num">
-        <span className="c-deck" aria-label="Deck" data-loc={`${p}:deck`}><GameIcon name="deck" size={22} />{deck}</span>
-        {side === 'foe' && <span className="c-hand" aria-label="Mão"><GameIcon name="hand" size={22} />{hand}</span>}
+        <span className="c-hand" aria-label="Mão"><GameIcon name="hand" size={20} />{hand}</span>
       </div>
-      <button className="gravebox" onClick={onGrave} aria-label="Cemitério" data-loc={`${p}:grave`}>
-        <span className={`gslot${top ? '' : ' empty'}`}>{top && <CardFace code={top.code} card={cards[String(top.code)]} />}</span>
-        <em className="num">{grave.length}</em>
-      </button>
     </div>
   );
 }

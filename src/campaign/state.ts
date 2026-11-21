@@ -5,7 +5,7 @@
  */
 import type { Deck } from '../game/decks';
 import { CAMPAIGN } from './data/types';
-import { starterDeck } from './decks';
+import { starterCards, starterDeck } from './decks';
 
 export type Period = 0 | 1 | 2;
 export const PERIOD_NAMES = ['Manhã', 'Tarde', 'Noite'] as const;
@@ -16,7 +16,7 @@ export type Route = 'friendship' | 'romance';
 export type DuelKind = 'regular' | 'bondEvent';
 
 export interface CampaignState {
-  version: 1;
+  version: typeof CAMPAIGN_VERSION;
   seed: number;
   day: number;
   period: Period;
@@ -52,15 +52,17 @@ export interface CampaignState {
 }
 
 export const STARTER_DECK_ID = 'deck1';
+/** Versão do save da campanha. 2: Speed Duel (change speed-duel); uma campanha de outra versão é descartada. */
+export const CAMPAIGN_VERSION = 2;
 
 export function newCampaign(seed: number): CampaignState {
   const starter = starterDeck();
   const collection: Record<string, number> = {};
-  for (const id of starter.main) collection[id] = (collection[id] ?? 0) + 1;
+  for (const id of starterCards()) collection[id] = (collection[id] ?? 0) + 1;
   return {
-    version: 1, seed: seed >>> 0, day: 1, period: 0, dp: 0,
+    version: CAMPAIGN_VERSION, seed: seed >>> 0, day: 1, period: 0, dp: 0,
     collection,
-    acquired: [...new Set(starter.main)],
+    acquired: [...new Set(starterCards())],
     decks: [{ id: STARTER_DECK_ID, name: CAMPAIGN.starterDeck.name, main: starter.main, extra: [] }],
     activeDeck: STARTER_DECK_ID,
     victories: {}, defeatedBosses: [], bossDefeatedOn: {}, unopenedPacks: [...CAMPAIGN.startingPacks], packsOpened: 0,

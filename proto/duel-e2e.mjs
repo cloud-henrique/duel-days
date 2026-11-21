@@ -86,7 +86,7 @@ try {
       }
       if (acted) break;
     }
-    if (!acted) await side.filter({ hasText: /BATALHA|FIM DO TURNO|MAIN 2/ }).last().click({ timeout: 1000 }).catch(() => {});
+    if (!acted) await side.filter({ hasText: /BATALHA|FIM DO TURNO/ }).last().click({ timeout: 1000 }).catch(() => {});
   }
   const end = (await has('.outro')) ? await page.locator('.outro h2').innerText() : 'SEM FIM (tempo esgotado)';
   const turn = await page.evaluate(() => document.querySelector('.phasebar')?.textContent?.match(/T(\d+)/)?.[1]);

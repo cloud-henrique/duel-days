@@ -85,6 +85,8 @@ def main():
             d['signatureCard']['id'] = canon(d['signatureCard']['id'])
         tiers.append(t)
     camp['starterDeck']['main'] = swap(camp['starterDeck']['main'])
+    # Speed Duel: o deck ativo inicial é o do nativo sem as cartas do starterCut (a coleção fica com as 40).
+    camp['starterDeck']['cut'] = swap(extra_data['starterCut']['main'])
     campaign = {'starterDeck': camp['starterDeck'], 'startingPacks': camp['startingPacks'],
                 'mapPoints': extra_data['mapPoints'], 'tiers': tiers}
 

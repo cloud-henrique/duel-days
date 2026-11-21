@@ -2,6 +2,7 @@ import { OcgLocation, OcgMessageType, OcgQueryFlags, type OcgLocPos, type OcgMes
 import { flushBeats, newBeatCtx, toBeats, type BeatCtx } from './beats';
 import type { Board, BoardCard, CardLink, PlayerBoard, Step } from './protocol';
 import type { DuelSession } from './session';
+import { START_LPS } from '../game/format';
 
 /** A consulta do motor devolve ATK/DEF sem sinal; "?" (−2) chegaria como 4294967294. Volta para inteiro com sinal. */
 const signed = (v: number | undefined) => (v == null ? v : v | 0);
@@ -11,14 +12,14 @@ const signed = (v: number | undefined) => (v == null ? v : v | 0);
  * "foto" do tabuleiro para a interface. O texto do narrador sai de `beatText`, na tela.
  */
 export class Narrator {
-  lp: [number, number] = [8000, 8000];
+  lp: [number, number] = [...START_LPS];
   turn = 0;
   turnPlayer = 0;
   phase = 0;
   private session: DuelSession | null = null;
   private ctx: BeatCtx = newBeatCtx((l) => this.codeAt(l));
 
-  reset() { this.lp = [8000, 8000]; this.turn = 0; this.turnPlayer = 0; this.phase = 0; this.ctx = newBeatCtx((l) => this.codeAt(l)); }
+  reset() { this.lp = [...START_LPS]; this.turn = 0; this.turnPlayer = 0; this.phase = 0; this.ctx = newBeatCtx((l) => this.codeAt(l)); }
 
   private codeAt(l: OcgLocPos) {
     const s = this.session;
@@ -72,6 +73,8 @@ export class Narrator {
       mzone: q(p, OcgLocation.MZONE),
       szone: q(p, OcgLocation.SZONE),
       grave: q(p, OcgLocation.GRAVE).filter(Boolean) as BoardCard[],
+      removed: q(p, OcgLocation.REMOVED).filter(Boolean) as BoardCard[],
+      extra: q(p, OcgLocation.EXTRA).filter(Boolean) as BoardCard[],
     });
     const players: [PlayerBoard, PlayerBoard] = [pb(0), pb(1)];
     linkCards(players, raw);

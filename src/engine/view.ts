@@ -6,6 +6,9 @@ export interface SeenCard {
   code: number; controller: 0 | 1; location: number; sequence: number;
   position: number; type: number; attack: number; defense: number; level: number;
 }
+/** As 5 peças do Exodia: juntas na mão vencem o duelo, então a CPU não as descarta nem as usa de custo. */
+export const EXODIA_PIECES: ReadonlySet<number> = new Set([33396948, 7902349, 44519536, 70903634, 8124921]);
+
 export interface SideView { mzone: SeenCard[]; szone: SeenCard[]; hand: SeenCard[]; grave: number; deck: number }
 export type BoardView = [SideView, SideView];
 

@@ -54,18 +54,18 @@ describe('maleta virtualizada', () => {
 });
 
 describe('editor', () => {
-  it('deck inicial pronto: Main 40 e PRONTO, cópias no deck marcadas na maleta', () => {
+  it('deck inicial pronto: Main 30 e PRONTO, cópias no deck marcadas na maleta', () => {
     const s = newCampaign(5);
     const { container } = render(<DeckEditor progress={s} data={dataFor(s)} onChange={vi.fn()} onBack={vi.fn()} />);
-    expect(container.querySelector('.deckhead')!.textContent).toContain('Main 40');
+    expect(container.querySelector('.deckhead')!.textContent).toContain('Main 30');
     expect(screen.getByText('PRONTO')).toBeTruthy();
-    expect(container.querySelectorAll('.deckpanel .cell')).toHaveLength(40);
+    expect(container.querySelectorAll('.deckpanel .cell')).toHaveLength(30);
     expect(container.querySelectorAll('.trunkgrid .cell.indeck').length).toBeGreaterThan(0);
   });
 
   it('deck curto: "N problemas" e a lista ao tocar', () => {
     const s = newCampaign(5);
-    s.decks[0].main = s.decks[0].main.slice(0, 37);
+    s.decks[0].main = s.decks[0].main.slice(0, 17);
     render(<DeckEditor progress={s} data={dataFor(s)} onChange={vi.fn()} onBack={vi.fn()} />);
     fireEvent.click(screen.getByRole('button', { name: /problema/ }));
     expect(screen.getByText('O que falta no deck')).toBeTruthy();
@@ -88,7 +88,7 @@ describe('editor', () => {
     const { container } = render(<DeckEditor progress={s} data={dataFor(s)} onChange={onChange} onBack={vi.fn()} />);
     fireEvent.click(container.querySelector('.deckpanel .cell')!);
     fireEvent.click(screen.getByRole('button', { name: /Tirar do deck/ }));
-    expect(onChange.mock.calls[0][0].decks[0].main).toHaveLength(39);
+    expect(onChange.mock.calls[0][0].decks[0].main).toHaveLength(29);
   });
 
   it('ordenar por ATK pelo diálogo', () => {

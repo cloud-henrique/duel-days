@@ -23,11 +23,11 @@ function label(m: OcgMessage): string | null {
       return null;
     case OcgMessageType.SELECT_BATTLECMD:
       if (m.attacks.some((a) => a.can_direct)) return 'battle_direct';
-      if (m.attacks.length && m.to_m2) return 'battle_attack';
+      if (m.attacks.length && m.to_ep) return 'battle_attack'; // Speed Duel: sem Main 2, o avanço é o fim do turno
       return null;
     case OcgMessageType.SELECT_CHAIN: return m.selects.length ? 'chain' : null;
     case OcgMessageType.SELECT_CARD: return 'select_card';
-    case OcgMessageType.SELECT_TRIBUTE: return 'select_tribute';
+    case OcgMessageType.SELECT_TRIBUTE: return m.min >= 2 ? 'select_tribute' : null; // dois tributos (os testes da escolha marcam um e respondem no outro)
     case OcgMessageType.SELECT_POSITION: return 'select_position';
     case OcgMessageType.SELECT_EFFECTYN: return 'effect_yn';
     default: return null;

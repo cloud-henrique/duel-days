@@ -6,6 +6,7 @@ import { formatStat, isMonster } from '../../data/labels';
 import { CardBack, CardFace } from '../../components/CardFace';
 import { refKey, type CardRef } from './prompt';
 import { locKey, toLoc } from '../../engine/beats';
+import { GameIcon } from '../../ui/icons';
 
 const DEFENSE = OcgPosition.FACEUP_DEFENSE | OcgPosition.FACEDOWN_DEFENSE;
 
@@ -49,7 +50,11 @@ export function Slot({ c, cards, cref, foe, mark, onTap, style, zone, lift }: {
   onTap: OnTapCard; style?: CSSProperties; lift?: boolean;
 }) {
   const loc = locKey(toLoc(cref));
-  if (!c) return <div className={`zone empty ${zone ?? 'm'}`} style={style} data-loc={loc} />;
+  if (!c) {
+    // Zona vazia: o emblema apagado do tipo.
+    const emblem = zone ? <GameIcon name={zone === 'm' ? 'monsterZone' : zone === 'f' ? 'fieldZone' : 'spellZone'} /> : null;
+    return <div className={`zone empty ${zone ?? 'm'}`} style={style} data-loc={loc}>{emblem}</div>;
+  }
   const inHand = cref.location === OcgLocation.HAND;
   const facedown = !inHand && (c.position & OcgPosition.FACEDOWN) !== 0;
   const info = cards[String(c.code)];

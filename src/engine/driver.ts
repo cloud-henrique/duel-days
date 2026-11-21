@@ -3,6 +3,7 @@ import { alternatives, cpuRespond, freePlaces, isSelect, newMemory, type PolicyM
 import { Narrator } from './narrator';
 import { RETRY_NOTICE, type FromWorker, type Step } from './protocol';
 import { decide, PROFILES, type CpuKind, type CpuProfile, type ForkSource, type SearchStats } from './search';
+import { START_LPS } from '../game/format';
 import { forkDuel, startDuel, type CardRecord, type DeckList, type DuelOptions, type DuelSession, type PlacedCard } from './session';
 
 /** Prompts que a interface sabe mostrar ao jogador; os demais são respondidos automaticamente. */
@@ -65,7 +66,7 @@ export class DuelDriver {
     if (opts.lp) this.narrator.lp = [...opts.lp];
     this.session = startDuel(core, { cards, script }, this.decks, this.sessionOpts);
     this.profile = { ...PROFILES[opts.cpu ?? 'comum'], ...opts.budget };
-    const lp0: [number, number] = opts.lp ?? [8000, 8000];
+    const lp0: [number, number] = opts.lp ?? START_LPS;
     this.fork = {
       live: this.session, lp0, db: cards, cards: this.cardList,
       fork: (track) => forkDuel(core, { cards, script }, this.decks, { ...this.sessionOpts, log: undefined }, this.session.log, (ms) => track.feed(ms)),

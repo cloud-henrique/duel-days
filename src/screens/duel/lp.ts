@@ -1,6 +1,8 @@
 /** Regras puras do LP na placa: contagem animada, cor da barra e texto da variação. */
 
-export const START_LP = 8000;
+import { FORMAT } from '../../game/format';
+
+export const START_LP = FORMAT.lp;
 /** A contagem do LP vai do valor antigo ao novo em LP_STEPS passos de LP_STEP_MS (como no app nativo). */
 export const LP_STEPS = 24;
 export const LP_STEP_MS = 30;

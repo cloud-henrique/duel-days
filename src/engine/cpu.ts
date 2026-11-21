@@ -3,7 +3,7 @@ import {
   type OcgCardData, type OcgCardLoc, type OcgMessage, type OcgResponse, type SelectFieldPlace,
 } from 'ocgcore-wasm';
 import type { DuelSession } from './session';
-import { boardView, faceDown, inAttack, isMonster, isResponder, isSpell, isTrap, type BoardView, type SeenCard } from './view';
+import { boardView, EXODIA_PIECES, faceDown, inAttack, isMonster, isResponder, isSpell, isTrap, type BoardView, type SeenCard } from './view';
 
 /** RNG simples e determinístico (mulberry32). */
 export function makeRng(seed: number) {
@@ -128,6 +128,8 @@ export interface CpuContext {
 /** DEF e valor estimados de um monstro virado que a CPU não pode olhar. */
 export const FACEDOWN_DEF = 1500;
 const FACEDOWN_VALUE = 1300;
+/** Peça do Exodia: vale mais que qualquer carta, para nunca ser o descarte nem o custo. */
+const EXODIA_VALUE = 10000;
 
 const keyOf = (c: OcgCardLoc) => `${c.code}@${c.controller}:${c.location}:${c.sequence}`;
 
@@ -139,6 +141,7 @@ function strength(c: SeenCard, me: number, peek: boolean) {
 /** Valor de uma carta para escolher alvos e custos. */
 export function cardValue(c: SeenCard, me: number, peek: boolean) {
   if (c.controller !== me && faceDown(c) && !peek) return c.location === OcgLocation.MZONE ? FACEDOWN_VALUE : 900;
+  if (EXODIA_PIECES.has(c.code)) return EXODIA_VALUE;
   if (isMonster(c.type)) return 300 + Math.max(c.attack, c.defense);
   return isTrap(c.type) ? 900 : 700;
 }

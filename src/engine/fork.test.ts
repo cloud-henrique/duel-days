@@ -6,7 +6,7 @@ import { openCore } from './session';
 import { DuelTrack } from './track';
 import { boardView } from './view';
 import { duelistDeck, starterDeck } from '../campaign/decks';
-import { C, engineData, HAS_ENGINE_DATA, mon, puzzle } from './__testing__/duel';
+import { C, engineData, HAS_ENGINE_DATA, mon, puzzle, zoneSeq } from './__testing__/duel';
 
 describe.skipIf(!HAS_ENGINE_DATA)('cópia do duelo por replay', () => {
   it('registra uma entrada por resposta enviada ao motor', async () => {
@@ -49,8 +49,8 @@ describe.skipIf(!HAS_ENGINE_DATA)('quebra-cabeça', () => {
   it('coloca as cartas nas zonas pedidas', async () => {
     const { driver } = await puzzle([mon(1, C.tyhone, 2), mon(0, C.mokey, 0)], { maxSims: 0 });
     const v = boardView(driver.session);
-    // O Tyhone da CPU continua na zona 2 (ou atacou e destruiu o Mokey; nos dois casos está lá).
-    expect(v[1].mzone.find((c) => c.code === C.tyhone)?.sequence).toBe(2);
+    // O Tyhone da CPU continua na coluna 2 (ou atacou e destruiu o Mokey; nos dois casos está lá).
+    expect(v[1].mzone.find((c) => c.code === C.tyhone)?.sequence).toBe(zoneSeq(2));
     expect(v[1].mzone[0].location).toBe(OcgLocation.MZONE);
   });
 });

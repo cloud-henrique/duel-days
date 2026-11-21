@@ -6,7 +6,12 @@ O fetch preenche cada carta fora do pool com outra do próprio deck (para o torn
 furo pode ganhar uma troca melhor em REPLACE (carta que faltava → id da era com o mesmo papel); o comentário da entrada
 diz o que foi trocado. O arquivo final é versionado: só ids, nomes, a URL da receita e os comentários.
 
-Uso: python3 scripts/build_decks.py [--provisorio] && python3 scripts/copy_campaign_data.py
+Speed Duel (change speed-duel): depois das trocas, o deck é cortado para 30 cartas no principal e 5 no Extra por `cut`
+(regra fixa, abaixo). A assinatura do duelista (`signatureCard` da campanha) e as cartas do KEEP nunca saem. O torneio
+roda sobre as candidatas já cortadas: `--candidatas` grava raw/decks/candidates-speed.json para o proto/deck-pick.ts.
+
+Uso: python3 scripts/build_decks.py --candidatas && npx tsx proto/deck-pick.ts 12
+     python3 scripts/build_decks.py [--provisorio] && python3 scripts/copy_campaign_data.py
 """
 import json
 import sys
@@ -16,6 +21,19 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 RAW = ROOT / 'raw/decks'
 OUT = ROOT / 'src/campaign/data/decks.json'
+MAIN_MAX, EXTRA_MAX = 30, 5  # Speed Duel (src/game/format.ts)
+
+# duelista → nomes de cartas que o corte para 30 nunca tira (além da assinatura): a condição de vitória do deck.
+KEEP: dict[str, list[str]] = {
+    'rarehunter': ['Exodia the Forbidden One', 'Right Arm of the Forbidden One', 'Left Arm of the Forbidden One',
+                   'Right Leg of the Forbidden One', 'Left Leg of the Forbidden One', 'Pot of Greed', 'Jar of Greed'],
+}
+# duelista → nomes de cartas de que o corte não tira nenhuma cópia. O Rare Hunter: com só 2 cópias de cada peça do Exodia
+# em 30 cartas, o deck acabava antes de juntar as 5 (25–40% contra a meta de 78%).
+KEEP_ALL: dict[str, list[str]] = {
+    'rarehunter': ['Exodia the Forbidden One', 'Right Arm of the Forbidden One', 'Left Arm of the Forbidden One',
+                   'Right Leg of the Forbidden One', 'Left Leg of the Forbidden One'],
+}
 
 # duelista → {nome da carta fora do pool: id da carta da era que entra no lugar}. Revisado à mão (ver o relatório).
 REPLACE: dict[str, dict[str, int]] = {
@@ -62,6 +80,23 @@ REPLACE: dict[str, dict[str, int]] = {
     },
 }
 
+# Lista final escrita à mão (change speed-duel), para o deck cuja composição a regra de corte não acerta: substitui o
+# principal depois do REPLACE/TUNE/corte; cada entrada vira comentário. O Rare Hunter (Exodia): com o corte, ficava em
+# 40–53% contra a meta de 78% (muralhas cortadas; trava de armadilhas contínuas deu 15%, a CPU as usa mal). Fica: as 15
+# peças, 9 muralhas de DEF 2000+ (os atacantes do deck inicial têm 1400–2100), 4 de compra e 2 de proteção. Com a CPU
+# guardando as peças (`EXODIA_PIECES`): 8 muralhas e 4 de compra deram 63%; 7 e 6, 53%.
+FINAL: dict[str, list[tuple[str, int, str]]] = {
+    'rarehunter': [
+        ('Exodia the Forbidden One', 3, 'peça do Exodia'), ('Right Arm of the Forbidden One', 3, 'idem'),
+        ('Left Arm of the Forbidden One', 3, 'idem'), ('Right Leg of the Forbidden One', 3, 'idem'),
+        ('Left Leg of the Forbidden One', 3, 'idem'),
+        ('Big Shield Gardna', 3, 'muralha de 2600 de DEF'), ('Marshmallon', 2, 'não é destruído em batalha'),
+        ('Gear Golem the Moving Fortress', 3, 'muralha de 2200'), ('Stone Statue of the Aztecs', 1, 'muralha de 2000'),
+        ('Pot of Greed', 1, 'compra'), ('Upstart Goblin', 2, 'compra'), ('Graceful Charity', 1, 'compra'),
+        ('Messenger of Peace', 1, 'ATK 1500 ou mais não ataca'), ('Swords of Revealing Light', 1, 'três turnos sem ataque'),
+    ],
+}
+
 # Reforço de cada deck (change `cpu-estrategica`): com a CPU nova dos dois lados, as receitas de anime perdiam para o
 # deck inicial (combos que não saem, cartas de efeito fraco). Duelista → [(nome que sai, nome que entra, motivo)], dentro
 # do tema do personagem; a meta de cada um contra o deck inicial está no proto/difficulty.ts (Tier 1 ~55%, Tier 2 ~70%,
@@ -72,6 +107,19 @@ TUNE: dict[str, list[tuple[str, str, str]]] = {
         # No lugar do Science Soldier (800), o deck foi de 57% a 70%: troca por outro monstro grande de tributo.
         ('Sword Hunter', 'Sengenjin', 'a carta-assinatura do Tristan (a receita escolhida não tinha)'),
         ('Axe of Despair', 'Science Soldier', 'compensa o Sengenjin: só com ele, o deck foi de 57% a 70%'),
+        # Speed Duel (change speed-duel): 43% contra a meta de 55%; a Fusão quase nunca sai e há atacantes de 450 a 900
+        ('Fusion Weapon', 'Sakuretsu Armor', 'só serve à Fusão, que a CPU quase nunca faz'),
+        ('Fusion Weapon', 'Trap Hole', 'idem'),
+        ('Polymerization', 'Gearfried the Iron Knight', 'a Fusão quase nunca sai; guerreiro de 1800'),
+        ('Cyber Commander', 'Mechanicalchaser', 'máquina de 1850 no lugar de 750'),
+    ],
+    'joey': [  # Speed Duel (change speed-duel): 35% contra a meta de 55%; atacantes de 500 a 700 e cartas de sorte demais
+        ('Swordsman of Landstar', 'Axe Raider', 'guerreiro de 1700 no lugar de 500'),
+        ('Battle Warrior', 'Gearfried the Iron Knight', 'guerreiro de 1800 no lugar de 700'),
+        ('Gamble', 'Sakuretsu Armor', 'sorte demais; ficam os dados (Graceful e Skull Dice)'),
+        ('Polymerization', 'Trap Hole', 'a Fusão quase nunca sai'),
+        ('Shield & Sword', 'Mirror Force', 'efeito fraco'),
+        ('Stray Lambs', 'Dark Hole', 'efeito fraco'),
     ],
     'bakura': [
         ('Spirit Message "L"', 'Ryu Kokki', 'as Spirit Messages só servem ao Destiny Board, que quase nunca completa'),
@@ -90,6 +138,10 @@ TUNE: dict[str, list[tuple[str, str, str]]] = {
         ('Sage\'s Stone', 'Raigeki', 'só com a Maga Negra em campo'),
         ('Berfomet', 'Sakuretsu Armor', 'nível 5 de 1400; a Fusão quase nunca sai'),
         ('Polymerization', 'Trap Hole', 'a Fusão quase nunca sai'),
+        # Speed Duel (change speed-duel): em 30 cartas, monstros de tributo demais (68% contra a meta de 85%)
+        ('Valkyrion the Magna Warrior', 'Breaker the Magical Warrior', 'pede os três Magnet: no Speed quase nunca sai'),
+        ('Archfiend of Gilfer', 'Skilled Dark Magician', 'nível 6: monstro de tributo demais em 30 cartas'),
+        ("Jack's Knight", "Magician's Valkyria", 'nível 5 de 1900 pede tributo'),
     ],
     'weevil': [
         ('Parasite Paracide', 'Girochin Kuwagata', 'inseto de 1700'),
@@ -139,6 +191,11 @@ TUNE: dict[str, list[tuple[str, str, str]]] = {
         ('Salvage', 'Trap Hole', 'idem'),
         ('Power of Kaishin', 'Torrential Tribute', 'efeito fraco'),
         ('Behegon', 'The Legendary Fisherman', 'a carta-assinatura do Mako (a receita escolhida não tinha); combina com os 3 Umi'),
+        # Speed Duel: 55% contra a meta de 70%
+        ('Polymerization', 'Dark Hole', 'a Fusão quase nunca sai'),
+        ('Polymerization', 'Fissure', 'idem'),
+        ('Jellyfish', 'Giant Red Seasnake', 'aqua de 1800 no lugar de 1200'),
+        ('Fiend Kraken', 'Gagagigo', 'réptil de 1850 no lugar de 1200'),
     ],
     'keith': [
         ('Zera Ritual', 'Jinzo', 'o Ritual quase nunca sai'),
@@ -152,6 +209,11 @@ TUNE: dict[str, list[tuple[str, str, str]]] = {
         ('Slot Machine', 'Sakuretsu Armor', 'nível 7 de 2000 pede dois tributos'),
         ('Giganto', 'Trap Hole', 'nível 5 de 1700 pede tributo'),
         ('Gatekeeper', 'Torrential Tribute', 'nível 5 de 1500 pede tributo'),
+        # Speed Duel: 45% contra a meta de 70%; sete monstros de tributo em 30 cartas
+        ('Garnecia Elefantis', 'Ground Attacker Bugroth', 'nível 7: monstro de tributo demais em 30 cartas'),
+        ('Launcher Spider', 'Mechanicalchaser', 'idem'),
+        ('Stop Defense', 'Dark Hole', 'efeito fraco'),
+        ('Magic Jammer', 'Mirror Force', 'a CPU quase nunca guarda a resposta'),
     ],
     'mai': [
         ('Dramatic Rescue', 'Amazoness Paladin', 'efeito que quase nunca vale'),
@@ -240,6 +302,68 @@ TUNE: dict[str, list[tuple[str, str, str]]] = {
 }
 
 
+def cut(main: list[int], extra: list[int], keep: set[int], cards: dict, keep_all: frozenset[int] = frozenset()) -> tuple[list[int], list[int], list[str]]:
+    """Corta o deck para o Speed Duel. Cada tipo (monstro, magia, armadilha) fica com a parte proporcional de 30
+    (maiores restos). Dentro do tipo, sai uma cópia por vez da carta com mais cópias, a mais ao fim da receita primeiro;
+    assim as 3ªs cópias saem antes das 2ªs, e as cartas únicas por último. Das cartas do `keep` sempre fica ao menos uma
+    cópia, e das do `keep_all` nenhuma sai. As trocas do REPLACE e do TUNE entram no começo da lista, então saem por último. O Extra fica com as 5
+    primeiras (as do `keep` antes). Devolve o principal, o Extra e as notas do que saiu."""
+    main, notes = list(main), []
+    kind = lambda i: 'm' if cards[str(i)]['type'] & 1 else 's' if cards[str(i)]['type'] & 2 else 't'
+    if len(main) > MAIN_MAX:
+        total = len(main)
+        have = Counter(kind(i) for i in main)
+        quota = {k: n * MAIN_MAX // total for k, n in have.items()}
+        for k in sorted(have, key=lambda k: -(have[k] * MAIN_MAX % total))[:MAIN_MAX - sum(quota.values())]:
+            quota[k] += 1
+        order = list(dict.fromkeys(main))
+        for k in have:
+            while sum(1 for i in main if kind(i) == k) > quota[k]:
+                pool = [i for i in reversed(order) if kind(i) == k and i in main and i not in keep_all and (i not in keep or main.count(i) > 1)]
+                if not pool:
+                    break
+                worst = max(pool, key=lambda i: main.count(i))  # max() fica com o primeiro do empate: o mais ao fim
+                main.reverse(); main.remove(worst); main.reverse()
+                notes.append(cards[str(worst)]['name'])
+        while len(main) > MAIN_MAX:  # tipo todo protegido: tira de qualquer tipo
+            pool = [i for i in reversed(order) if i in main and i not in keep_all and (i not in keep or main.count(i) > 1)]
+            worst = max(pool, key=lambda i: main.count(i))
+            main.reverse(); main.remove(worst); main.reverse()
+            notes.append(cards[str(worst)]['name'])
+    ex = sorted(extra, key=lambda i: i not in keep)[:EXTRA_MAX]
+    notes += [cards[str(i)]['name'] + ' (Extra)' for i in (Counter(extra) - Counter(ex)).elements()]
+    return main, ex, notes
+
+
+def keep_for(key: str, cards: dict, by_name: dict) -> set[int]:
+    camp = json.loads((ROOT / 'src/campaign/data/campaign.json').read_text())
+    sig = {d['key']: (d.get('signatureCard') or {}).get('id') for t in camp['tiers'] for d in t['duelists']}
+    ids = {sig[key]} if sig.get(key) else set()
+    for n in KEEP.get(key, []):
+        if n not in by_name:
+            sys.exit(f'{key}: KEEP {n!r} não está no pool')
+        ids.add(by_name[n])
+    return ids
+
+
+def keep_all_for(key: str, by_name: dict) -> frozenset[int]:
+    return frozenset(by_name[n] for n in KEEP_ALL.get(key, []))
+
+
+def write_candidates(cards: dict, by_name: dict) -> None:
+    """As candidatas do torneio já cortadas para o Speed Duel (raw/decks/candidates-speed.json)."""
+    cands = json.loads((RAW / 'candidates.json').read_text())
+    out = {}
+    for key, cs in cands.items():
+        keep = keep_for(key, cards, by_name)
+        out[key] = []
+        for c in cs:
+            main, extra, _ = cut(c['main'], c['extra'], keep, cards, keep_all_for(key, by_name))
+            out[key].append({**c, 'main': main, 'extra': extra})
+    (RAW / 'candidates-speed.json').write_text(json.dumps(out, ensure_ascii=False, indent=1))
+    print(f'ok: {sum(len(v) for v in out.values())} candidatas cortadas → raw/decks/candidates-speed.json')
+
+
 def main() -> None:
     cards = json.loads((ROOT / 'public/data/cards.json').read_text())
     cands = json.loads((RAW / 'candidates.json').read_text())
@@ -250,6 +374,9 @@ def main() -> None:
     name = lambda i: cards[str(i)]['name']
     pool = json.loads((ROOT / 'public/data/pool.json').read_text())
     by_name = {cards[i]['name']: int(i) for i in pool if i in cards}
+    if '--candidatas' in sys.argv:
+        write_candidates(cards, by_name)
+        return
     out = {}
     for key, p in picks.items():
         c = cands[key][p['index']]
@@ -261,7 +388,7 @@ def main() -> None:
             repl = REPLACE.get(key, {}).get(sw['out'] or '')
             if repl is not None:
                 main.remove(sw['id'])
-                main.append(repl)
+                main.insert(0, repl)  # no começo: o corte para 30 tira do fim da receita, e o reforço fica
                 notes.setdefault(repl, []).append(f'no lugar de {sw["out"]} (fora da era)')
             elif sw['out']:
                 notes.setdefault(sw['id'], []).append(f'+1 no lugar de {sw["out"]}')
@@ -276,8 +403,20 @@ def main() -> None:
             if in_id is None:
                 sys.exit(f'{key}: TUNE põe {in_name!r}, que não está no pool')
             main.remove(out_id)
-            main.append(in_id)
+            main.insert(0, in_id)  # idem
             notes.setdefault(in_id, []).append(f'no lugar de {out_name}: {why}')
+
+        main, extra, cutted = cut(main, c['extra'], keep_for(key, cards, by_name), cards, keep_all_for(key, by_name))
+        for n, k in Counter(cutted).items():
+            print(f'  {key}: sai {k}× {n}')
+
+        if key in FINAL:
+            main, notes = [], {}
+            for n, k, why in FINAL[key]:
+                if n not in by_name:
+                    sys.exit(f'{key}: FINAL põe {n!r}, que não está no pool')
+                main += [by_name[n]] * k
+                notes.setdefault(by_name[n], []).append(f'lista final do Speed: {why}')
 
         def entries(ids):
             return [{'id': i, 'count': n, 'comment': '; '.join([name(i), *notes.get(i, [])])}
@@ -288,11 +427,10 @@ def main() -> None:
             'source': c['url'],
             'winRate': p['rate'],
             'main': entries(main),
-            'extra': entries(c['extra']),
+            'extra': entries(extra),
         }
-        total = len(main)
-        if total < 40:
-            sys.exit(f'{key}: Main com {total}')
+        if not 20 <= len(main) <= MAIN_MAX:
+            sys.exit(f'{key}: Main com {len(main)}')
     OUT.write_text(json.dumps({
         '_comment': 'Gerado por scripts/build_decks.py: a receita "Anime Decks" do YGOPRODeck que venceu o torneio do '
                     'proto/deck-pick.ts para cada duelista (source = receita original; winRate = taxa no torneio).',

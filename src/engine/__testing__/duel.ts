@@ -5,6 +5,7 @@ import { OcgLocation, OcgMessageType, OcgPosition, OcgResponseType, SelectBattle
 import { DuelDriver, type DriverOut } from '../driver';
 import { openCore, type CardRecord, type DeckList, type PlacedCard } from '../session';
 import type { Beat } from '../protocol';
+import { FORMAT } from '../../game/format';
 
 export const HAS_ENGINE_DATA = existsSync('public/data/cards.json') && existsSync('public/scripts.json');
 
@@ -34,9 +35,13 @@ export function normalWithAtk(atk: number, def?: number): number {
   return hit.code;
 }
 
-/** Atalhos para cartas colocadas. */
-export const mon = (p: 0 | 1, code: number, seq = 0, position: OcgPosition = OcgPosition.FACEUP_ATTACK): PlacedCard => ({ p, code, location: OcgLocation.MZONE, seq, position });
-export const st = (p: 0 | 1, code: number, seq = 0, position: OcgPosition = OcgPosition.FACEDOWN_DEFENSE): PlacedCard => ({ p, code, location: OcgLocation.SZONE, seq, position });
+/**
+ * Atalhos para cartas colocadas. `col` é a coluna em jogo (0, 1 ou 2 no Speed Duel), convertida na sequência do motor
+ * (`FORMAT.columns`); a Zona de Campo (5) passa direto.
+ */
+export const zoneSeq = (col: number) => (col >= FORMAT.columns.length ? col : FORMAT.columns[col]);
+export const mon = (p: 0 | 1, code: number, col = 0, position: OcgPosition = OcgPosition.FACEUP_ATTACK): PlacedCard => ({ p, code, location: OcgLocation.MZONE, seq: zoneSeq(col), position });
+export const st = (p: 0 | 1, code: number, col = 0, position: OcgPosition = OcgPosition.FACEDOWN_DEFENSE): PlacedCard => ({ p, code, location: OcgLocation.SZONE, seq: zoneSeq(col), position });
 export const hand = (p: 0 | 1, code: number): PlacedCard => ({ p, code, location: OcgLocation.HAND });
 
 /** Um deck só de Mokey Mokey (300 ATK): compra que não muda a decisão. */

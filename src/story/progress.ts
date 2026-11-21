@@ -1,5 +1,5 @@
 import Dexie, { type EntityTable } from 'dexie';
-import type { CampaignState } from '../campaign/state';
+import { CAMPAIGN_VERSION, type CampaignState } from '../campaign/state';
 
 /** Preferências do jogador (ajustes do título e do menu do duelo). */
 export interface Settings {
@@ -47,7 +47,8 @@ export const newProgress = (playerName: string): Progress => ({ playerName, wins
 
 /**
  * Lê um save qualquer como o de agora. O da história antiga (com `run`, `coins`, `collection`…) mantém o perfil, as
- * estatísticas e os ajustes, e fica sem campanha: ela começa do dia 1.
+ * estatísticas e os ajustes, e fica sem campanha: ela começa do dia 1. O mesmo vale para uma campanha de outra versão
+ * (a de antes do Speed Duel, por exemplo).
  */
 export function migrate(raw: unknown): Progress | null {
   if (!raw || typeof raw !== 'object') return null;
@@ -57,7 +58,7 @@ export function migrate(raw: unknown): Progress | null {
     playerName: p.playerName,
     wins: (p.wins as Record<string, number>) ?? {},
     losses: (p.losses as Record<string, number>) ?? {},
-    campaign: p.campaign && (p.campaign as CampaignState).version === 1 ? (p.campaign as CampaignState) : null,
+    campaign: p.campaign && (p.campaign as CampaignState).version === CAMPAIGN_VERSION ? (p.campaign as CampaignState) : null,
   };
   if (p.avatar !== undefined) out.avatar = p.avatar;
   if (p.address !== undefined) out.address = p.address;
