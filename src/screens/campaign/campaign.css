@@ -82,7 +82,9 @@
    fica no centro; com o jogador em cena, cada um vai 1/5 da largura para o seu lado. Quem não fala fica escurecido. */
 .campaign-scene .stage { position: absolute; inset: calc(52px + env(safe-area-inset-top)) 0 0; z-index: 2; pointer-events: none; overflow: hidden; }
 .actor { position: absolute; bottom: 0; left: 50%; height: 100%; transform: translateX(-50%); transition: transform .3s ease-out, filter .3s;
-  filter: brightness(.65) saturate(.6); animation: actor-in .35s ease-out both; }
+  filter: brightness(.65) saturate(.6); }
+/* A entrada (só esmaecendo, no lugar final) toca na primeira aparição do personagem no encontro (`StageMemory`). */
+.actor.enter { animation: actor-in .35s ease-out both; }
 .campaign-scene .stage .actor { bottom: 12%; height: 80%; }
 .actor.lit { filter: none; z-index: 1; }
 /* Até o corpo e o rosto estarem carregados: escondido e sem a entrada, que começa quando ele aparece. */
@@ -91,7 +93,7 @@
 .actor.player { transform: translateX(calc(-50% - 20vw)); }
 .actor img { display: block; height: 100%; width: auto; }
 .actor img.face { position: absolute; height: auto; }
-@keyframes actor-in { from { opacity: 0; translate: 0 12%; } to { opacity: 1; translate: 0 0; } }
+@keyframes actor-in { from { opacity: 0; } }
 
 /* A folha de baixo (stageSheet): colada ao pé, canto de cima cortado, filete ciano e o brilho na cor de quem fala. */
 .scene-bottom { position: absolute; left: 0; right: 0; bottom: 0; z-index: 5; display: flex; flex-direction: column; align-items: flex-end; gap: 8px; pointer-events: none; }

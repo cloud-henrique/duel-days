@@ -27,7 +27,7 @@ import { newSeed } from './campaign/rng';
 import { activeDeckOf, CAMPAIGN_VERSION, newCampaign, PERIOD_KEYS, type CampaignState, type DuelKind } from './campaign/state';
 import { preloadMaps, sceneBg } from './screens/campaign/assets';
 import { CHAR_ID, type CharInfo } from './screens/campaign/chars';
-import { Dialogue } from './screens/campaign/Dialogue';
+import { Dialogue, StageMemory } from './screens/campaign/Dialogue';
 import { EncounterScreen } from './screens/campaign/EncounterScreen';
 import { MapScreen } from './screens/campaign/MapScreen';
 import { BondsScreen } from './screens/campaign/BondsScreen';
@@ -188,9 +188,11 @@ export function App() {
     case 'scene': {
       const { duelist, scene, then } = screen;
       return (
-        <Dialogue key={`${duelist}:${scene.length}`} scene={scene} chars={chars} profile={profile} onDone={() => go(then)}
-          top={{ title: duelistData(duelist).scene.place, subtitle: duelistData(duelist).name }}
-          stage={{ bg: sceneBg(duelistData(duelist).scene.bg), period: PERIOD_KEYS[c.period], duelist }} />
+        <StageMemory key={`${duelist}:${scene.length}`}>
+          <Dialogue scene={scene} chars={chars} profile={profile} onDone={() => go(then)}
+            top={{ title: duelistData(duelist).scene.place, subtitle: duelistData(duelist).name }}
+            stage={{ bg: sceneBg(duelistData(duelist).scene.bg), period: PERIOD_KEYS[c.period], duelist }} />
+        </StageMemory>
       );
     }
     case 'end': {
@@ -214,15 +216,18 @@ export function App() {
     }
     case 'encounter':
       return (
-        <EncounterScreen key={`${screen.duelist}:${screen.after ? 'after' : 'greet'}`} s={c} duelist={screen.duelist} chars={chars} profile={profile}
-          afterDuel={screen.after} firstMeeting={screen.first} onChange={setCampaign}
-          onLeave={screen.after ? afterEncounter : toMap}
-          onDuel={(kind) => {
-            const problems = validateDeck(activeDeckOf(c), data.cards, c.collection);
-            if (problems.length) return go({ v: 'decks', back: { v: 'map' } });
-            setCampaign(beginDuel(c, screen.duelist, kind));
-            go({ v: 'duel', duelist: screen.duelist, kind });
-          }} />
+        // Uma memória do palco por encontro: cada fase é um `Dialogue` novo, e quem já entrou não entra de novo.
+        <StageMemory key={`${screen.duelist}:${screen.after ? 'after' : 'greet'}`}>
+          <EncounterScreen s={c} duelist={screen.duelist} chars={chars} profile={profile}
+            afterDuel={screen.after} firstMeeting={screen.first} onChange={setCampaign}
+            onLeave={screen.after ? afterEncounter : toMap}
+            onDuel={(kind) => {
+              const problems = validateDeck(activeDeckOf(c), data.cards, c.collection);
+              if (problems.length) return go({ v: 'decks', back: { v: 'map' } });
+              setCampaign(beginDuel(c, screen.duelist, kind));
+              go({ v: 'duel', duelist: screen.duelist, kind });
+            }} />
+        </StageMemory>
       );
     case 'duel': {
       const { duelist, kind } = screen;

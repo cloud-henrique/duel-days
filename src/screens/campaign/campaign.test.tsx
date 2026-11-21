@@ -1,6 +1,6 @@
 // @vitest-environment happy-dom
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { cleanup, fireEvent, render, screen, within } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import type { CardRecord } from '../../engine/session';
 import type { GameData } from '../../data/cards';
 import { CAMPAIGN, PACKS } from '../../campaign/data/types';
@@ -12,7 +12,8 @@ import { CollectionScreen } from './CollectionScreen';
 import { expressionFor } from './chars';
 import { MapScreen } from './MapScreen';
 import { EncounterScreen } from './EncounterScreen';
-import { Dialogue } from './Dialogue';
+import { Dialogue, Sprite, StageMemory } from './Dialogue';
+import type { CharInfo } from './chars';
 import { present } from '../../campaign/map';
 
 afterEach(cleanup);
@@ -233,5 +234,66 @@ describe('Dialogue: mudança de afinidade', () => {
     render(<Dialogue scene={[]} stage={stage} chars={{}} profile={profile} top={{ title: 'Rua', hearts: 1, heartsDelta: 0 }} onDone={vi.fn()}>
       <p>menu</p></Dialogue>);
     expect(document.querySelector('.heartsdelta')).toBeNull();
+  });
+});
+
+describe('palco: entrada esmaecendo só na primeira aparição (change sprites-esmaecer)', () => {
+  // O happy-dom não carrega imagens: aqui toda imagem "carrega" na hora seguinte, e o personagem fica pronto.
+  class LoadingImage {
+    onload: (() => void) | null = null;
+    onerror: (() => void) | null = null;
+    set src(_v: string) { setTimeout(() => this.onload?.(), 0); }
+  }
+  const rex: CharInfo = { id: 'rex_raptor', name: 'Rex', body: { w: 760, h: 800 }, face: { x: 260, y: 120, w: 240, h: 240 }, expressions: ['neutral', 'happy'] };
+  const profile = { name: 'Ana', avatar: 'x', address: 'she' as const };
+  const actor = () => document.querySelector('.actor') as HTMLElement | null;
+  const shown = () => waitFor(() => expect(actor()?.classList.contains('loading')).toBe(false));
+
+  it('sem memória, todo personagem entra', async () => {
+    vi.stubGlobal('Image', LoadingImage);
+    render(<Sprite c={rex} expr="neutral" side="solo" lit />);
+    await shown();
+    expect(actor()?.classList.contains('enter')).toBe(true);
+    vi.unstubAllGlobals();
+  });
+
+  it('com memória, quem já apareceu não entra de novo; a troca de expressão só troca o rosto', async () => {
+    vi.stubGlobal('Image', LoadingImage);
+    const first = render(<StageMemory><Sprite c={rex} expr="neutral" side="solo" lit /></StageMemory>);
+    await shown();
+    expect(actor()?.classList.contains('enter')).toBe(true);
+    const el = actor();
+    first.rerender(<StageMemory><Sprite c={rex} expr="happy" side="solo" lit /></StageMemory>);
+    await waitFor(() => expect(actor()?.querySelector('img.face')?.getAttribute('src')).toMatch(/happy\.webp$/));
+    expect(actor()).toBe(el); // o mesmo elemento: nada desmontou nem animou de novo
+    first.unmount();
+    // Uma memória compartilhada entre duas montagens (como duas fases do encontro).
+    const Both = ({ phase }: { phase: number }) => (
+      <StageMemory>{phase === 1 ? <div key="a"><Sprite c={rex} expr="neutral" side="solo" lit /></div> : <p key="b"><Sprite c={rex} expr="happy" side="solo" lit /></p>}</StageMemory>
+    );
+    const r = render(<Both phase={1} />);
+    await shown();
+    r.rerender(<Both phase={2} />);
+    // Já monta visível, com o último rosto (em cache): nem piscada escondido, nem entrada.
+    expect(actor()?.classList.contains('loading')).toBe(false);
+    expect(actor()?.querySelector('img.face')?.getAttribute('src')).toMatch(/neutral\.webp$/);
+    expect(actor()?.classList.contains('enter')).toBe(false);
+    await waitFor(() => expect(actor()?.querySelector('img.face')?.getAttribute('src')).toMatch(/happy\.webp$/));
+    vi.unstubAllGlobals();
+  });
+
+  it('encontro: da saudação para a fala de antes do duelo, o duelista não entra de novo', async () => {
+    vi.stubGlobal('Image', LoadingImage);
+    const s = { ...newCampaign(5), day: 9 };
+    render(<StageMemory><EncounterScreen s={s} duelist="rex" chars={{ rex_raptor: rex }} profile={profile} onChange={vi.fn()} onDuel={vi.fn()} onLeave={vi.fn()} /></StageMemory>);
+    await shown();
+    expect(actor()?.classList.contains('enter')).toBe(true);
+    fireEvent.click(screen.getByRole('button', { name: /Pular/ }));
+    const before = actor();
+    fireEvent.click(screen.getByRole('button', { name: /Duelar/ }));
+    await shown();
+    expect(actor()).not.toBe(before); // a fase nova montou outro palco...
+    expect(actor()?.classList.contains('enter')).toBe(false); // ...mas sem a entrada
+    vi.unstubAllGlobals();
   });
 });

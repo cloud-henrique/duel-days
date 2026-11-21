@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from 'react';
+import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
 import type { Line, Scene } from '../../campaign/data/types';
 import { fillText } from '../../campaign/text';
 import type { Profile } from '../../story/profile';
@@ -20,17 +20,35 @@ function preload(src: string): Promise<void> {
 }
 
 /**
+ * Quem já apareceu no palco neste encontro (ou cena avulsa): id do sprite → o último rosto mostrado. Cada fase do
+ * encontro é um `Dialogue` novo (com `key`); sem a memória, o personagem entraria de novo a cada fase. Com ela, ele já
+ * monta pronto, com o último rosto (que está em cache), e troca para o da fala nova quando carregar. Sem provedor, todo
+ * `Sprite` entra.
+ */
+const StageMemoryContext = createContext<Map<string, string> | null>(null);
+
+/** Envolve as fases de um encontro: a entrada de cada personagem toca só na primeira aparição dele ali. */
+export function StageMemory({ children }: { children: ReactNode }) {
+  const [seen] = useState(() => new Map<string, string>());
+  return <StageMemoryContext.Provider value={seen}>{children}</StageMemoryContext.Provider>;
+}
+
+/**
  * Um personagem de corpo inteiro no palco: o corpo e o rosto da expressão por cima. Só aparece quando os dois já estão
  * carregados (senão o corpo surgia sem rosto por um instante); ao trocar de expressão, o rosto antigo fica até o novo
- * estar pronto.
+ * estar pronto, sem animação. Entra esmaecendo só se ainda não tinha aparecido no encontro (`StageMemory`).
  */
 export function Sprite({ c, expr, side, lit }: { c: CharInfo; expr: string; side: 'solo' | 'duelist' | 'player'; lit: boolean }) {
+  const seen = useContext(StageMemoryContext);
+  // O rosto que ele mostrava na fase anterior (se já apareceu): monta pronto, sem esconder nem entrar de novo.
+  const [shown] = useState(() => seen?.get(c.id));
+  const enter = !shown;
   const e = expressionFor(c.expressions, expr);
   const { face: f, body: b } = c;
   const bodySrc = `${BASE}characters/${c.id}/body.webp`;
   const faceSrc = `${BASE}characters/${c.id}/${e}.webp`;
-  const [bodyReady, setBodyReady] = useState<string | null>(null);
-  const [face, setFace] = useState<string | null>(null);
+  const [bodyReady, setBodyReady] = useState<string | null>(shown ? bodySrc : null);
+  const [face, setFace] = useState<string | null>(shown ?? null);
   useEffect(() => {
     let live = true;
     preload(bodySrc).then(() => { if (live) setBodyReady(bodySrc); });
@@ -42,8 +60,10 @@ export function Sprite({ c, expr, side, lit }: { c: CharInfo; expr: string; side
     return () => { live = false; };
   }, [faceSrc]);
   const ready = bodyReady === bodySrc && !!face?.startsWith(`${BASE}characters/${c.id}/`);
+  // Registra só depois de aparecer: se a fase trocar antes de carregar, a próxima ainda faz a entrada.
+  useEffect(() => { if (ready && face) seen?.set(c.id, face); }, [ready, face, seen, c.id]);
   return (
-    <div className={`actor ${side}${lit ? ' lit' : ''}${ready ? '' : ' loading'}`} style={{ aspectRatio: `${b.w} / ${b.h}` }}>
+    <div className={`actor ${side}${lit ? ' lit' : ''}${enter ? ' enter' : ''}${ready ? '' : ' loading'}`} style={{ aspectRatio: `${b.w} / ${b.h}` }}>
       <img src={bodySrc} alt="" draggable={false} />
       <img className="face" src={face ?? faceSrc} alt="" draggable={false}
         style={{ left: `${(f.x / b.w) * 100}%`, top: `${(f.y / b.h) * 100}%`, width: `${(f.w / b.w) * 100}%` }} />
