@@ -112,6 +112,10 @@ pular as falas. Os duelistas com laço (os do Tier 1) SHALL mostrar os coraçõe
 
 Sem o arquivo do fundo, a cena SHALL usar um degradê no lugar.
 
+Em tela larga, os botões do menu SHALL ficar lado a lado numa linha só, com a mesma altura. A caixa de fala, o menu e as
+listas de escolha (tópicos de conversa, respostas) SHALL ter largura máxima e ficar centralizados, sem atravessar a tela
+inteira.
+
 #### Scenario: Primeiro encontro
 - **WHEN** o jogador encontra o Joey pela primeira vez
 - **THEN** aparece o Joey na cena dele, com uma saudação comum, e depois o menu com Conversar, Duelar e Voltar
@@ -123,6 +127,15 @@ Sem o arquivo do fundo, a cena SHALL usar um degradê no lugar.
 #### Scenario: Pular falas
 - **WHEN** o jogador toca em "Pular" durante a saudação
 - **THEN** o menu do encontro aparece
+
+#### Scenario: Menu em tela larga
+- **WHEN** o jogador encontra o Joey numa janela de 1440×900
+- **THEN** Conversar, Duelar e Voltar ao mapa aparecem lado a lado numa linha só, e a caixa de fala não ocupa a largura
+  toda da tela
+
+#### Scenario: Menu no celular
+- **WHEN** o jogador encontra o Joey num viewport de 390×844
+- **THEN** os botões do menu continuam um embaixo do outro, como antes
 
 ### Requirement: Saudação conforme o laço
 A saudação SHALL seguir o laço: a da rota escolhida (amizade ou romance), senão a de proximidade a partir de 2 corações,
