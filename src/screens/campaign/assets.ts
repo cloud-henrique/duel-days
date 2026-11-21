@@ -8,7 +8,7 @@ import { CHAR_ID } from './chars';
 const BASE = import.meta.env.BASE_URL;
 
 /** Degradê de reserva da cena, pelo tom do fundo (sem o arquivo, a cena fica só com ele). */
-const SCENE_FALLBACK = 'linear-gradient(180deg,#2f4f8a,#0f2350 55%,#050c1f)';
+const SCENE_FALLBACK = 'linear-gradient(180deg,var(--navy-5),var(--navy-2) 55%,var(--bg))';
 
 /** `background-image` da cena do duelista (fundo do Tag Force Special) com o degradê de reserva. */
 export const sceneBg = (bg: string) => `url(${BASE}campaign/bg-${bg}.jpg), ${SCENE_FALLBACK}`;

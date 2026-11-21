@@ -14,7 +14,7 @@
      da placa. Só a sombra das cartas fica de folga. */
   --hand-shadow: 4px;
   /* cores do HUD */
-  --c-cyan: #2ab8ff; --c-select: #ffc61a; --c-navy: #050a18;
+  --c-cyan: #2ab8ff; --c-select: #ffc61a; --c-navy: var(--bg);
   --zone-m-fill: rgba(255, 140, 40, .2); --zone-s-fill: rgba(40, 200, 120, .2); --zone-line: rgba(42, 184, 255, .5);
   --t-quick: .2s;
   /*
@@ -54,15 +54,15 @@
   --plate-pad: 8px; --avatar: 36px; --lp-size: 20px; --lp-delta-size: 16px; --lp-delta-w: 3.4em; --bar-w: 120px; --bar-h: 7px;
   --count-size: 13px;
   flex: 1; min-width: 0; height: var(--plate-h); display: flex; align-items: center; gap: var(--plate-pad); padding: 0 var(--plate-pad);
-  --fill: linear-gradient(180deg, #0d2a55, #081a3a); --edge: rgba(42, 184, 255, .3);
+  --fill: linear-gradient(180deg, var(--panel2), var(--panel)); --edge: rgba(42, 184, 255, .5);
   transition: filter var(--t-quick);
 }
 .plate.turn { --edge: var(--c-cyan); }
 /* Brilho das placas e dos botões, como no nativo. O filtro vai no contêiner: na própria placa (com clip-path) ele seria
    cortado. Mais forte na placa de quem joga o turno. */
-.foebar, .mybar { filter: drop-shadow(0 0 5px rgba(42, 184, 255, .35)); transition: filter var(--t-quick); }
-.foebar:has(.plate.turn), .mybar:has(.plate.turn) { filter: drop-shadow(0 0 9px rgba(42, 184, 255, .65)); }
-.plate .av { width: var(--avatar); height: var(--avatar); flex: 0 0 var(--avatar); border-radius: 4px; object-fit: cover; background: #07142e; border: 2px solid #8fd8ff; box-shadow: 0 0 8px rgba(42, 184, 255, .7); }
+.foebar, .mybar { filter: drop-shadow(0 0 5px rgba(42, 184, 255, .5)); transition: filter var(--t-quick); }
+.foebar:has(.plate.turn), .mybar:has(.plate.turn) { filter: drop-shadow(0 0 9px rgba(42, 184, 255, .85)); }
+.plate .av { width: var(--avatar); height: var(--avatar); flex: 0 0 var(--avatar); border-radius: 4px; object-fit: cover; background: var(--well); border: 2px solid #8fd8ff; box-shadow: 0 0 8px rgba(42, 184, 255, .7); }
 .plate .info { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
 .plate .nm { font-size: 11px; font-weight: 900; color: #e8f1ff; letter-spacing: .5px; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .plate .lpline { display: flex; align-items: baseline; gap: 6px; line-height: 1; }
@@ -72,15 +72,15 @@
 .plate .lpdelta .dmg { color: #ff5a5a; } .plate .lpdelta .heal { color: #3fe6b4; }
 @keyframes lp-pop { from { transform: scale(.6); opacity: 0; } }
 @keyframes lp-out { to { opacity: 0; } }
-.plate .bar { width: min(100%, var(--bar-w)); height: var(--bar-h); margin-top: 2px; background: #07142e; overflow: hidden; border-radius: 2px; }
+.plate .bar { width: min(100%, var(--bar-w)); height: var(--bar-h); margin-top: 2px; background: var(--well); overflow: hidden; border-radius: 2px; }
 .plate .bar > i { display: block; height: 100%; transition: width .7s linear; }
 .plate .bar.high > i { background: linear-gradient(90deg, #26d6a0, #3fe6b4); }
 .plate .bar.mid > i { background: linear-gradient(90deg, #f2c14e, #f59e0b); }
 .plate .bar.low > i { background: linear-gradient(90deg, #f97316, #ef4444); }
-.plate .counts { display: flex; flex-direction: column; gap: 2px; align-items: flex-start; font-size: var(--count-size); color: #aab4c8; }
+.plate .counts { display: flex; flex-direction: column; gap: 2px; align-items: flex-start; font-size: var(--count-size); color: #dbe6f7; }
 .plate .counts span { display: flex; align-items: center; gap: 4px; }
 .plate .counts svg { width: 14px; height: 14px; }
-.plate .counts .c-hand { color: #d94fe0; }
+.plate .counts .c-hand { color: #f7b4f9; }
 .foehand { display: flex; justify-content: center; height: var(--foehand-h); flex-shrink: 0; }
 .foehand { --foe-card: 18px; --foe-overlap: -8px; }
 .foecard { width: var(--foe-card); flex-shrink: 0; }
@@ -93,22 +93,22 @@
  * box-shadow.
  */
 .fieldwrap { position: relative; flex-shrink: 0; width: var(--mat-w); align-self: center; /* centra mesmo mais largo que o conteúdo */ display: flex; flex-direction: column; gap: var(--gap); }
-.matwrap { filter: drop-shadow(0 0 7px rgba(42,184,255,.45)); }
-.field.cut { --cut: 14px; --edge: rgba(42,184,255,.7); --edge-w: var(--mat-border);
-  --fill: radial-gradient(120% 60% at 50% 50%, rgba(18,92,128,.55), transparent 70%), linear-gradient(180deg, rgba(10,52,84,.96), rgba(6,30,54,.97) 50%, rgba(10,52,84,.96));
+.matwrap { filter: drop-shadow(0 0 7px rgba(42,184,255,.6)); }
+.field.cut { --cut: 14px; --edge: rgba(42,184,255,.85); --edge-w: var(--mat-border);
+  --fill: radial-gradient(120% 60% at 50% 50%, color-mix(in srgb, var(--mat-hi) 55%, transparent), transparent 70%), linear-gradient(180deg, var(--mat-a), var(--mat-b) 50%, var(--mat-a));
   position: relative; display: flex; flex-direction: column; align-items: center; gap: var(--gap); padding: calc(var(--mat-pad) + var(--mat-border)); }
 /* Luz na metade de quem joga o turno. */
 .field::before { content: ''; position: absolute; left: 0; right: 0; height: 50%; z-index: 0; pointer-events: none; opacity: 0; transition: opacity .4s; }
-.field.turn-me::before { bottom: 0; opacity: 1; background: radial-gradient(85% 95% at 50% 100%, rgba(42,184,255,.32), transparent 72%); }
-.field.turn-foe::before { top: 0; opacity: 1; background: radial-gradient(85% 95% at 50% 0%, rgba(255,90,90,.26), transparent 72%); }
+.field.turn-me::before { bottom: 0; opacity: 1; background: radial-gradient(85% 95% at 50% 100%, rgba(42,184,255,.42), transparent 72%); }
+.field.turn-foe::before { top: 0; opacity: 1; background: radial-gradient(85% 95% at 50% 0%, rgba(255,90,90,.34), transparent 72%); }
 .row { display: grid; grid-template-columns: var(--pile-w) repeat(3, var(--zone-w)) var(--pile-w); gap: var(--gap); height: var(--zone-h); }
 /* Faixa do meio: só a barra de fases, na largura do campo, com uma linha fina separando as metades. */
 .midrow { position: relative; width: 100%; height: var(--center-gap); display: flex; align-items: center; }
 .midrow::before { content: ''; position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: linear-gradient(90deg, transparent, rgba(42,184,255,.45), transparent); }
-.phasebar { position: relative; z-index: 3; width: 100%; padding: 3px 8px; text-align: center; --fill: linear-gradient(180deg, rgba(8,24,56,.96), rgba(5,14,36,.96)); --edge: #3a86e0; }
+.phasebar { position: relative; z-index: 3; width: 100%; padding: 3px 8px; text-align: center; --fill: linear-gradient(180deg, color-mix(in srgb, var(--panel) 96%, transparent), color-mix(in srgb, var(--bg2) 96%, transparent)); --edge: var(--line-dim); }
 .phasebar .chips { display: flex; justify-content: center; align-items: center; gap: 3px; }
-.phasebar .tn { font-size: 11px; color: #9fb4d8; margin-right: 2px; }
-.phasebar .chip { padding: 1px 6px; font: 700 11px/1 var(--font-game); color: #6fb2ff; background: #0a1a3a; border: 1px solid #2f7fd8; border-radius: 3px; }
+.phasebar .tn { font-size: 11px; color: var(--dim); margin-right: 2px; }
+.phasebar .chip { padding: 1px 6px; font: 700 11px/1 var(--font-game); color: #b4d8ff; background: var(--well); border: 1px solid var(--line-dim); border-radius: 3px; }
 .phasebar .chip.on { background: var(--c-select); color: #2a1b00; border-color: var(--c-select); }
 /* Narrador: uma linha de 16; o texto novo sobe empurrando o anterior. */
 .phasebar .narr { --narr-h: 14px; height: var(--narr-h); margin-top: 2px; overflow: hidden; font-size: 11px; line-height: var(--narr-h); color: #dbe8ff; }
@@ -116,9 +116,9 @@
 @keyframes narr-in { from { transform: translateY(100%); opacity: 0; } }
 /* Zonas: contorno tracejado discreto; laranja = monstro, verde = magia/armadilha/campo. Vazia, mostra o emblema do tipo
    apagado. A carta ocupa a altura toda; em defesa, girada e do tamanho da largura da zona. */
-.zone { position: relative; min-width: 0; height: 100%; padding: 0; display: flex; align-items: center; justify-content: center; border: 1px dashed rgba(255,160,80,.38); border-radius: 4px;
-  background: radial-gradient(circle at 50% 45%, rgba(255,140,40,.13), rgba(255,140,40,.05) 70%); color: rgba(255,170,90,.16); }
-.zone.s, .zone.f { border-color: rgba(70,220,150,.36); background: radial-gradient(circle at 50% 45%, rgba(40,200,120,.13), rgba(40,200,120,.05) 70%); color: rgba(90,230,160,.16); }
+.zone { position: relative; min-width: 0; height: 100%; padding: 0; display: flex; align-items: center; justify-content: center; border: 1px dashed rgba(255,160,80,.55); border-radius: 4px;
+  background: radial-gradient(circle at 50% 45%, rgba(255,140,40,.2), rgba(255,140,40,.1) 70%); color: rgba(255,180,110,.24); }
+.zone.s, .zone.f { border-color: rgba(80,230,160,.55); background: radial-gradient(circle at 50% 45%, rgba(40,210,130,.2), rgba(40,210,130,.1) 70%); color: rgba(110,240,175,.24); }
 .zone.empty > svg { width: 34%; height: auto; max-height: 40%; }
 .zone > .cardface, .zone > .cardback-img { position: absolute; inset: 0; margin: auto; height: 100%; width: auto; border-radius: 3px; transition: transform var(--t-quick); box-shadow: 0 3px 6px #000c, 0 0 0 1px #0006; }
 .zone.def > .cardface, .zone.def > .cardback-img { height: calc(var(--zone-w) - 2px); transform: rotate(90deg); }
@@ -126,7 +126,7 @@
    tapete. A carta pequena (topo ou verso) cabe na caixa (.slotbox é contêiner) e a quantidade fica num selo embaixo. */
 .side { position: relative; min-width: 0; height: 100%; display: flex; flex-direction: column; gap: 3px; }
 .side > .pile { flex: 1 1 0; min-height: 0; }
-.pile.cut { --cut: 6px; --edge-w: 1px; --edge: rgba(42,184,255,.32); --fill: linear-gradient(180deg, rgba(6,18,42,.92), rgba(3,10,26,.92));
+.pile.cut { --cut: 6px; --edge-w: 1px; --edge: rgba(42,184,255,.32); --fill: linear-gradient(180deg, color-mix(in srgb, var(--well) 92%, transparent), color-mix(in srgb, var(--bg) 92%, transparent));
   appearance: none; position: relative; min-width: 0; padding: 3px; display: flex; align-items: center; justify-content: center; gap: 4px; color: #8fb2dc; font: inherit; }
 button.pile:active { filter: brightness(1.3); }
 .pile.empty { --edge: rgba(42,184,255,.16); color: rgba(143,178,220,.45); }
@@ -140,7 +140,7 @@ button.pile:active { filter: brightness(1.3); }
 .pile .mini.t3 { box-shadow: 1px 1px 0 #2a1608, 2px 2px 0 #1c0e04, 3px 3px 0 #120902; }
 /* Banidas: o topo ganha um tom violeta frio. */
 .pile.removed .mini:not(.none)::after { content: ''; position: absolute; inset: 0; border-radius: 2px; background: linear-gradient(180deg, rgba(150,110,255,.35), rgba(80,40,200,.35)); mix-blend-mode: color; }
-.pile .cnt { position: absolute; left: 50%; bottom: 3px; translate: -50% 0; display: flex; align-items: center; gap: 2px; padding: 1px 4px; border-radius: 3px; background: rgba(3,10,26,.82); white-space: nowrap; }
+.pile .cnt { position: absolute; left: 50%; bottom: 3px; translate: -50% 0; display: flex; align-items: center; gap: 2px; padding: 1px 4px; border-radius: 3px; background: color-mix(in srgb, var(--bg) 82%, transparent); white-space: nowrap; }
 .pile .cnt svg { width: 11px; height: 11px; }
 .pile .cnt b { font-size: 12px; line-height: 1; color: #e8f1ff; }
 .pile.empty .cnt b { color: inherit; }
@@ -170,7 +170,7 @@ button.pile:active { filter: brightness(1.3); }
 .side-big { appearance: none; border: 0; flex: 1; display: grid; place-items: center; padding: 0 4px; color: #fff; font: 900 11px/1.1 system-ui; letter-spacing: .3px; text-align: center; /* A borda azul-clara do chanfro (o box-shadow interno é cortado pelo clip-path): uma linha diagonal no canto. */
   background: linear-gradient(to bottom right, transparent calc(50% - 1px), #5fa8ff calc(50% - 1px), #5fa8ff calc(50% + 1px), transparent calc(50% + 1px)) top left / 10px 10px no-repeat, linear-gradient(180deg, #2a6fe0, #1747b0); box-shadow: inset 0 0 0 1.5px #5fa8ff; clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%, 0 10px); }
 .side-big:active { filter: brightness(1.25); }
-.side-big.wait { background: linear-gradient(180deg, #3b4658, #2a3342); box-shadow: inset 0 0 0 1.5px #596579; }
+.side-big.wait { background: linear-gradient(180deg, var(--slate-a), var(--slate-b)); box-shadow: inset 0 0 0 1.5px var(--slate-line); }
 .side-big.wait svg { width: 26px; height: 26px; }
 .spin { animation: spin .9s steps(8) infinite; } @keyframes spin { to { transform: rotate(360deg); } }
 /* Destaque da carta ativada */
@@ -186,7 +186,7 @@ button.pile:active { filter: brightness(1.3); }
 .slot.lift { transform: translateY(calc(-1 * var(--lift))) scale(1.04); filter: drop-shadow(0 0 9px var(--hl)) drop-shadow(0 0 3px var(--hl)); }
 .slot > .cardface, .slot > .cardback-img { box-shadow: 0 3px 9px #000b; }
 /* Sem brilho nas cartas jogáveis da mão (pedido do usuário): só a selecionada sobe e brilha, como no nativo. */
-.logbtn { position: absolute; right: var(--side); top: calc(2 * var(--gap) + var(--plate-h) + env(safe-area-inset-top)); z-index: 5; width: 32px; height: 26px; border: 1px solid var(--line-dim); background: rgba(5,12,31,.7); color: var(--dim); border-radius: 4px; font: 800 16px/1 system-ui; }
+.logbtn { position: absolute; right: var(--side); top: calc(2 * var(--gap) + var(--plate-h) + env(safe-area-inset-top)); z-index: 5; width: 32px; height: 26px; border: 1px solid var(--line-dim); background: color-mix(in srgb, var(--bg) 70%, transparent); color: var(--dim); border-radius: 4px; font: 800 16px/1 system-ui; }
 .scrim.uphand { bottom: calc(var(--hand-h) + var(--gap) + env(safe-area-inset-bottom)); }
 /* Painéis de resposta: compactos, como os diálogos do nativo. */
 .hud-btn.wide { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 10px 12px; font-size: 15px; text-align: center; }
@@ -204,7 +204,7 @@ button.pile:active { filter: brightness(1.3); }
 .sortcard .cardface { pointer-events: none; }
 .sortpos { font-size: 11px; color: var(--c-select); font-weight: 700; }
 .sortarrows { display: flex; gap: 4px; }
-.sortarrows button { width: 36px; height: 28px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 4px; background: #0a1a3a; color: #9fd0ff; padding: 0; }
+.sortarrows button { width: 36px; height: 28px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 4px; background: var(--well); color: #9fd0ff; padding: 0; }
 .sortarrows button:disabled { opacity: .3; }
 
 /* Painel escondido sem desmontar (Ver campo, folha da carta, destaque de ativação). */
@@ -212,7 +212,7 @@ button.pile:active { filter: brightness(1.3); }
 
 /* "Só olhando" (PeekBar do nativo): no lugar do painel, acima da mão. */
 .peekbar { position: absolute; left: var(--side); right: var(--side); bottom: calc(var(--hand-h) + var(--gap) + env(safe-area-inset-bottom)); z-index: 12; display: flex; align-items: center; gap: 10px; padding: 10px 12px; --edge: var(--c-cyan); }
-.peekbar > span { flex: 1; display: flex; align-items: center; gap: 6px; color: var(--c-cyan); font: 600 13px/1.25 system-ui; }
+.peekbar > span { flex: 1; display: flex; align-items: center; gap: 6px; color: var(--cyan-text); font: 600 13px/1.25 system-ui; }
 .peekbar > span svg { width: 18px; height: 18px; flex-shrink: 0; }
 .peekbar .hud-btn.primary { flex-shrink: 0; padding: 9px 12px; font-size: 13px; }
 
@@ -235,7 +235,7 @@ button.pile:active { filter: brightness(1.3); }
 .slot.picked { transform: translateY(calc(-1 * var(--lift))); filter: drop-shadow(0 0 0 #fff) drop-shadow(0 0 8px var(--hl)); }
 
 /* Escolha em lista (CardChoiceGrid do nativo): fileira de cartas com a origem embaixo. */
-.choicetitle { display: flex; align-items: center; justify-content: center; gap: 6px; color: var(--c-cyan) !important; font-size: 16px !important; }
+.choicetitle { display: flex; align-items: center; justify-content: center; gap: 6px; color: var(--cyan-text) !important; font-size: 16px !important; }
 .choicerow { display: flex; gap: 8px; overflow-x: auto; padding: 4px 2px 6px; scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch; }
 .choiceitem { flex: 0 0 auto; width: 72px; padding: 0; border: 0; background: none; color: var(--dim); display: flex; flex-direction: column; align-items: center; gap: 4px; scroll-snap-align: start; }
 .choiceitem > .cardface, .choiceitem > .cardback-img { width: 100%; border-radius: 3px; transition: transform .12s; }
@@ -263,7 +263,7 @@ button.pile:active { filter: brightness(1.3); }
 .flipcard > .flip-front { transform: rotateY(180deg); }
 /* Destaque de ativação: a carta grande no centro com halo na cor do tipo (--halo). Não recebe toques. */
 .splash { position: absolute; inset: 0; z-index: 20; pointer-events: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px;
-  background: radial-gradient(circle at 50% 45%, color-mix(in srgb, var(--halo) 22%, transparent), rgba(2,6,18,.6) 60%); color: #fff; font: 700 15px system-ui; text-shadow: 0 2px 6px #000; }
+  background: radial-gradient(circle at 50% 45%, color-mix(in srgb, var(--halo) 22%, transparent), color-mix(in srgb, var(--night) 60%, transparent) 60%); color: #fff; font: 700 15px system-ui; text-shadow: 0 2px 6px #000; }
 .splashcard { width: 180px; border-radius: 8px; box-shadow: 0 10px 40px #000c, 0 0 0 2px var(--halo), 0 0 38px 8px var(--halo); }
 /* Pilha da corrente, à esquerda do campo: o último elo no topo. */
 .chainstack { position: absolute; left: 4px; top: 50%; transform: translateY(-50%); z-index: 19; margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 6px; pointer-events: none; }
@@ -271,7 +271,7 @@ button.pile:active { filter: brightness(1.3); }
 .chainstack .link.now { transform: scale(1.15); opacity: 1; }
 .chainstack .link.now .linkcard { box-shadow: 0 0 0 2px var(--c-select), 0 0 12px var(--c-select); }
 .chainstack .linkcard { border-radius: 3px; overflow: hidden; box-shadow: 0 2px 6px #000a; }
-.chainstack .link > b { position: absolute; left: -2px; top: -4px; min-width: 16px; height: 16px; border-radius: 8px; background: #0b2a5a; border: 1px solid var(--c-cyan); color: #fff; font: 800 10px/14px system-ui; text-align: center; }
+.chainstack .link > b { position: absolute; left: -2px; top: -4px; min-width: 16px; height: 16px; border-radius: 8px; background: var(--panel2); border: 1px solid var(--c-cyan); color: #fff; font: 800 10px/14px system-ui; text-align: center; }
 .chainstack .strike { position: absolute; left: -4px; right: -4px; top: 50%; height: 3px; background: #ff3b3b; transform: rotate(-30deg); box-shadow: 0 0 6px #ff3b3b; }
 .chainstack .link.negated .linkcard { filter: grayscale(.7) brightness(.7); }
 .chainstack em { position: absolute; left: 50%; bottom: 2px; transform: translateX(-50%); white-space: nowrap; background: rgba(0,0,0,.8); color: #ffd34d; font: 700 9px system-ui; font-style: normal; padding: 1px 3px; border-radius: 2px; }
@@ -282,11 +282,11 @@ button.pile:active { filter: brightness(1.3); }
 .ghost.attacker { z-index: 1; }
 /* Moeda e dado no centro. */
 .toss { position: absolute; inset: 0; z-index: 21; pointer-events: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px;
-  background: rgba(2,6,18,.45); color: #fff; font: 700 16px system-ui; text-shadow: 0 2px 6px #000; }
+  background: color-mix(in srgb, var(--night) 45%, transparent); color: #fff; font: 700 16px system-ui; text-shadow: 0 2px 6px #000; }
 .tossrow { display: flex; gap: 18px; perspective: 600px; }
 /* Abertura do duelo: botão em tela cheia (um toque pula). */
 .intro { position: absolute; inset: 0; z-index: 40; border: 0; padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px;
-  background: radial-gradient(circle at 50% 45%, rgba(40,90,190,.55), rgba(2,6,18,.96) 70%); color: #fff; font: 700 16px system-ui; overflow: hidden; perspective: 600px; }
+  background: radial-gradient(circle at 50% 45%, rgba(40,90,190,.55), color-mix(in srgb, var(--night) 96%, transparent) 70%); color: #fff; font: 700 16px system-ui; overflow: hidden; perspective: 600px; }
 .introstarter { color: var(--c-select); font: 700 18px var(--font-game); letter-spacing: .5px; text-shadow: 0 2px 6px #000; }
 .introbanners { width: 100%; display: grid; gap: 10px; }
 .intro .banner { display: flex; align-items: center; gap: 14px; padding: 10px 18px; font: 700 22px var(--font-game); letter-spacing: .5px; text-shadow: 0 2px 6px #000; }
@@ -295,7 +295,7 @@ button.pile:active { filter: brightness(1.3); }
 /* Fim do duelo: uma coluna centrada (título, detalhe, retratos, resumo e Continuar), tudo na fonte do jogo. */
 .outro { position: absolute; inset: 0; z-index: 30; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px;
   padding: calc(20px + env(safe-area-inset-top)) 20px calc(20px + env(safe-area-inset-bottom)); color: #fff; text-align: center; font-family: var(--font-game); overflow-y: auto;
-  background: radial-gradient(circle at 50% 30%, var(--res), transparent 65%), rgba(2,6,18,.9); }
+  background: radial-gradient(circle at 50% 30%, var(--res), transparent 65%), color-mix(in srgb, var(--night) 90%, transparent); }
 .outro.win { --res: rgba(255,198,26,.45); } .outro.loss { --res: rgba(200,40,60,.45); } .outro.draw { --res: rgba(140,160,190,.4); }
 .outro > * { flex-shrink: 0; }
 .outrodetail { margin: -6px 0 0; font-size: 15px; font-weight: 600; color: #cfe2ff; letter-spacing: .3px; }
@@ -303,7 +303,7 @@ button.pile:active { filter: brightness(1.3); }
 .outrofoe figcaption { font-size: 16px; font-weight: 700; letter-spacing: .5px; color: #cfe2ff; }
 .outrofoe.loss figcaption { color: var(--c-select); }
 .outrovs { font-size: 18px; font-weight: 700; font-style: italic; color: #8fd8ff; text-shadow: 0 0 8px rgba(42,184,255,.7); }
-.outrosum { width: min(100%, 340px); padding: 12px 16px; display: grid; gap: 10px; --edge: #2ab8ff; --fill: linear-gradient(180deg, rgba(18,58,122,.92), rgba(7,20,46,.92)); }
+.outrosum { width: min(100%, 340px); padding: 12px 16px; display: grid; gap: 10px; --edge: #2ab8ff; --fill: linear-gradient(180deg, color-mix(in srgb, var(--panel2) 92%, transparent), color-mix(in srgb, var(--bg) 92%, transparent)); }
 .outrosum .bonuses { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; font-size: 14px; }
 .outrosum .bonuses li { display: flex; justify-content: space-between; align-items: center; color: #cfe2ff; }
 .outrototal { margin: 0; display: flex; justify-content: space-between; align-items: center; font-size: 16px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--c-select); }
@@ -313,8 +313,8 @@ button.pile:active { filter: brightness(1.3); }
 /* Retrato emoldurado (src/ui/Portrait.tsx): o brilho é um drop-shadow no invólucro, porque o clip-path corta o box-shadow. */
 .portrait { display: inline-block; width: var(--size); height: var(--size); flex: 0 0 var(--size); --frame: #2ab8ff; --glow: rgba(42,184,255,.7); filter: drop-shadow(0 0 8px var(--glow)); }
 .portrait.gold { --frame: #ffc61a; --glow: rgba(255,198,26,.8); }
-.portrait.dim { --frame: #4d6286; --glow: transparent; filter: saturate(.35) brightness(.7); }
-.portrait > .hud { display: block; width: 100%; height: 100%; padding: 4px; --edge: var(--frame); --fill: linear-gradient(180deg, #123a7a, #07142e); }
+.portrait.dim { --frame: var(--slate-line); --glow: transparent; filter: saturate(.35) brightness(.7); }
+.portrait > .hud { display: block; width: 100%; height: 100%; padding: 4px; --edge: var(--frame); --fill: linear-gradient(180deg, var(--btn-b), var(--well)); }
 .portrait img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; clip-path: polygon(9px 0, 100% 0, 100% calc(100% - 9px), calc(100% - 9px) 100%, 0 100%, 0 9px); }
 /* Escolha e acerto na moeda dos efeitos. */
 .tosscall { font-size: 20px; color: #fff; text-shadow: 0 2px 6px #000; }

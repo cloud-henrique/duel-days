@@ -58,7 +58,7 @@ export default defineConfig({
       useCredentials: true,
       manifest: {
         name: 'Duel Days', short_name: 'Duel Days', display: 'standalone', orientation: 'portrait',
-        background_color: '#050c1f', theme_color: '#050c1f',
+        background_color: '#163a64', theme_color: '#163a64',
         icons: [
           { src: 'icons/icon-192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
           { src: 'icons/icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'any' },

@@ -17,7 +17,7 @@
   background: linear-gradient(180deg, #ffffff 0%, #dfe7f2 38%, #8f9db3 50%, #c9d6e8 62%, #9fe3ff 100%);
   -webkit-background-clip: text; background-clip: text; color: transparent;
   /* Contorno marinho por sombras empilhadas (o text-stroke engrossaria o traço por dentro) e brilho ciano. */
-  filter: drop-shadow(2.5px 0 0 #061a3d) drop-shadow(-2.5px 0 0 #061a3d) drop-shadow(0 2.5px 0 #061a3d) drop-shadow(0 -2.5px 0 #061a3d) drop-shadow(0 0 12px rgba(42, 184, 255, .55));
+  filter: drop-shadow(2.5px 0 0 var(--ink)) drop-shadow(-2.5px 0 0 var(--ink)) drop-shadow(0 2.5px 0 var(--ink)) drop-shadow(0 -2.5px 0 var(--ink)) drop-shadow(0 0 12px rgba(42, 184, 255, .55));
 }
 /* Reflexo que passa pelas letras na entrada (recortado pelo próprio texto). */
 .wordmark.shine > span::after {

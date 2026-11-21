@@ -176,6 +176,15 @@ pelo `.hexbg` do `styles.css`.
   desenham a borda diagonal; `--fill` troca o fundo de um `.hud`). Chanfro de outro tamanho (selos, chips, campos,
   balões) é o `.cut` (`--cut`, `--edge`, `--edge-w`, `--fill`; `.cut-alt` corta os outros cantos): **nunca** `clip-path`
   solto com borda, que perde a borda nos cortes.
+- **Paleta azul em tokens** (change `paleta-mais-clara`, azul médio para não cansar a vista): a escala `--navy-0…6` no
+  `:root` do `styles.css` é a única fonte dos azuis de fundo; as telas usam só os papéis (`--bg`, `--bg-glow`, `--well`,
+  `--panel`/`--panel2`, `--btn-a/b`, `--btn-hi-a/b`, `--mat-a/b`/`--mat-hi`, `--line`, `--dim`, `--cyan-text`) e as
+  transparências saem de `color-mix(in srgb, var(--papel) N%, transparent)`. Fora da escala, também no `:root`: `--ink`
+  (contorno marinho), `--night`/`--veil` (véus que escurecem a tela), `--evening-*` (filtro da noite nas cenas) e
+  `--slate-*`. **Nunca** um azul escuro solto num CSS: `src/ui/palette.test.ts` falha (exceto `cardface.css` e
+  `.scrim`) e confere que o `theme_color`/`background_color` do `vite.config.ts` e o `<meta theme-color>` do `index.html`
+  são o hex do `--bg`. Texto apagado e chips precisam de 4,5:1 sobre o fundo (o `--c-cyan` não dá: texto em ciano usa
+  `--cyan-text`).
 
 ## Armadilhas conhecidas (não regrida)
 

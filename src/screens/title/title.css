@@ -2,9 +2,9 @@
 .app.titlescreen { display: grid; grid-template-rows: auto 1fr auto auto; padding: calc(10px + env(safe-area-inset-top)) 16px calc(12px + env(safe-area-inset-bottom)); gap: 10px; overflow: hidden; }
 .titletop { display: flex; justify-content: space-between; align-items: center; }
 .profilechip { display: flex; align-items: center; gap: 10px; padding: 6px 16px 6px 6px; border: 0; color: var(--txt); text-align: left; }
-.profilechip img { width: 44px; height: 44px; border-radius: 6px; object-fit: cover; object-position: top; background: #0b1a3a; border: 2px solid #7fb6ff; }
+.profilechip img { width: 44px; height: 44px; border-radius: 6px; object-fit: cover; object-position: top; background: var(--well); border: 2px solid #7fb6ff; }
 .profilechip b { display: block; font: 700 16px/1.1 var(--font-game); }
-.profilechip small { color: var(--c-cyan, #2ab8ff); font-size: 12px; }
+.profilechip small { color: var(--cyan-text); font-size: 12px; }
 .iconbtn.hud-btn { display: grid; place-items: center; padding: 8px; min-width: 44px; min-height: 44px; }
 /* O herói ocupa a sobra da tela e centraliza orbe + logo + nome; o padding de cima desce esse bloco (o orbe desce junto: metade do padding) e a margem de baixo
    dos botões sobe a fileira deles, para o vão entre o nome e os botões não ficar grande. Em dvh, acompanha a altura. */
@@ -23,7 +23,7 @@
 .orb-spark.s0 { left: 18%; top: 26%; } .orb-spark.s1 { right: 16%; top: 20%; width: 11px; height: 11px; } .orb-spark.s2 { right: 22%; bottom: 30%; } .orb-spark.s3 { left: 26%; bottom: 22%; width: 6px; height: 6px; } .orb-spark.s4 { left: 50%; top: 10%; width: 6px; height: 6px; }
 .fan { position: absolute; left: 50%; top: 50%; width: 0; height: 0; }
 .fancard { position: absolute; width: 70px; height: 99px; left: -35px; top: -62px; border-radius: 6px; display: grid; place-items: center; color: #dff3ff;
-  background: linear-gradient(180deg, #ffffff, #bfeaff 55%, #4fc3ff); border: 3px solid #061a3d; box-shadow: 0 0 14px rgba(42,184,255,.6), 0 6px 16px rgba(0,0,0,.55); color: #0b3a8c;
+  background: linear-gradient(180deg, #ffffff, #bfeaff 55%, #4fc3ff); border: 3px solid var(--ink); box-shadow: 0 0 14px rgba(42,184,255,.6), 0 6px 16px rgba(0,0,0,.55); color: var(--ink-2);
   transform-origin: 50% 120%; transform: rotate(calc(var(--d) * 18deg)) translateY(calc(var(--d) * var(--d) * 4px)); animation: fan-in .8s .15s ease-out both; }
 @keyframes orb-in { from { opacity: 0; transform: translate(-50%, -62%) scale(.8); } }
 @keyframes fan-in { from { transform: rotate(0) translateY(10px); opacity: 0; } }

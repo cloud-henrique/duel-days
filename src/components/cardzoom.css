@@ -29,7 +29,7 @@
 .zoom-info.cardsheet {
   appearance: none; border: 0; width: 100%; max-width: 360px; max-height: var(--zoom-info-h); flex-shrink: 0;
   padding: 14px; color: var(--txt); text-align: left; font: inherit; --edge: #2ab8ff;
-  --fill: linear-gradient(180deg, rgba(11, 42, 106, .92), rgba(5, 10, 24, .92));
+  --fill: linear-gradient(180deg, color-mix(in srgb, var(--panel2) 92%, transparent), color-mix(in srgb, var(--bg) 92%, transparent));
   position: relative; overflow: hidden; display: flex; flex-direction: column;
 }
 .zoom-info.cardsheet .meta { flex: 0 1 auto; min-height: 0; }

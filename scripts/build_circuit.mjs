@@ -25,8 +25,8 @@ for (let row = -1; row <= ROWS; row++) {
   }
 }
 const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${f(TW)}" height="${f(TH)}" viewBox="0 0 ${f(TW)} ${f(TH)}">`
-  + `<path d="${hex}" fill="none" stroke="#2ab8ff" stroke-opacity=".07" stroke-width="1"/>`
-  + `<path d="${traces}" fill="none" stroke="#2ab8ff" stroke-opacity=".12" stroke-width="1.2"/>`
-  + `<g fill="#2ab8ff" fill-opacity=".16">${pads}</g></svg>\n`;
+  + `<path d="${hex}" fill="none" stroke="#2ab8ff" stroke-opacity=".1" stroke-width="1"/>`
+  + `<path d="${traces}" fill="none" stroke="#2ab8ff" stroke-opacity=".18" stroke-width="1.2"/>`
+  + `<g fill="#2ab8ff" fill-opacity=".24">${pads}</g></svg>\n`;
 writeFileSync(new URL('../src/ui/circuit.svg', import.meta.url), svg);
 console.log(`src/ui/circuit.svg: ladrilho ${f(TW)}×${f(TH)}, ${svg.length} bytes`);

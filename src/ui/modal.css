@@ -1,5 +1,5 @@
 /* O diálogo do jogo (src/ui/Modal.tsx). Fica acima das telas e abaixo do zoom da carta. */
-.gamemodal { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; padding: 20px; background: rgba(2, 6, 18, .7); animation: modal-fade .15s ease-out; }
+.gamemodal { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; padding: 20px; background: var(--veil); animation: modal-fade .15s ease-out; }
 .gamemodal .backdrop { position: absolute; }
 .gamemodal .gamedialog { position: relative; z-index: 1; width: min(100%, 420px); max-height: calc(100% - 20px); overflow-y: auto; }
 .gamemodal .gamedialog h4 { margin: 0; color: var(--acc); font-size: 16px; }

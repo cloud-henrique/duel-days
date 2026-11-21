@@ -2,4 +2,4 @@
 .game-icon { flex: none; vertical-align: -0.15em; }
 .game-icon.big { display: inline-grid; place-items: center; position: relative;
   /* Contorno marinho em 4 direções e um brilho ciano fraco. */
-  filter: drop-shadow(1.2px 0 0 #061a3d) drop-shadow(-1.2px 0 0 #061a3d) drop-shadow(0 1.2px 0 #061a3d) drop-shadow(0 -1.2px 0 #061a3d) drop-shadow(0 0 6px rgba(42, 184, 255, .45)); }
+  filter: drop-shadow(1.2px 0 0 var(--ink)) drop-shadow(-1.2px 0 0 var(--ink)) drop-shadow(0 1.2px 0 var(--ink)) drop-shadow(0 -1.2px 0 var(--ink)) drop-shadow(0 0 6px rgba(42, 184, 255, .45)); }

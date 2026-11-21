@@ -3,7 +3,7 @@
 /* Tom do período: um véu por cima do mapa e do fundo dos lugares. */
 .period-tint { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
 .p-afternoon .period-tint { background: linear-gradient(180deg, rgba(255, 140, 60, .18), rgba(255, 90, 40, .12)); mix-blend-mode: multiply; }
-.p-evening .period-tint { background: linear-gradient(180deg, rgba(8, 16, 60, .55), rgba(10, 24, 80, .4)); }
+.p-evening .period-tint { background: linear-gradient(180deg, color-mix(in srgb, var(--evening-a) 55%, transparent), color-mix(in srgb, var(--evening-b) 40%, transparent)); }
 
 /* Cabeçalho */
 .camphead { display: flex; align-items: center; gap: 10px; margin: calc(8px + env(safe-area-inset-top)) 10px 6px; padding: 8px 12px; flex-shrink: 0; }
@@ -17,10 +17,10 @@
 .periodchip.p-evening { background: #3c55c8; color: #e6ecff; }
 .daybar { height: 5px; background: rgba(255, 255, 255, .12); border-radius: 3px; overflow: hidden; }
 .daybar i { display: block; height: 100%; background: linear-gradient(90deg, #2ab8ff, #8fd8ff); }
-.tierline { font-size: 11px; color: #9cc6ff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tierline { font-size: 11px; color: var(--dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 /* Mapa */
-.campmap { position: relative; overflow: hidden; background: radial-gradient(ellipse at 50% 50%, #12305a, #050a18 70%); }
+.campmap { position: relative; overflow: hidden; background: radial-gradient(ellipse at 50% 50%, var(--panel), var(--bg) 70%); }
 .mapscroll { flex: 1; min-height: 0; overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; scrollbar-width: none; display: flex; align-items: center; container-type: size; }
 .mapscroll::-webkit-scrollbar { display: none; }
 /* O panorama é 2:1; na altura toda do celular ele ficaria com zoom demais (só 1/7 da cidade à vista). Até 1,3× a largura
@@ -30,10 +30,10 @@
 .mapcanvas { animation: map-in .25s ease-out both; }
 @keyframes map-in { from { opacity: 0; } }
 .mapcanvas.loading, .mapcanvas.instant { animation: none; }
-.mapcanvas.noimg { background: radial-gradient(ellipse at 50% 60%, #1f4a7a, #0a1a3a 70%); }
+.mapcanvas.noimg { background: radial-gradient(ellipse at 50% 60%, var(--navy-4), var(--well) 70%); }
 .mapimg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; user-select: none; }
 /* As cabeças de quem está por perto (como no Tag Force Special): centradas no ponto, flutuando. */
-.pinhead { position: absolute; z-index: 2; transform: translate(-50%, -50%); width: 52px; height: 52px; padding: 0; border-radius: 50%; border: 2px solid #8fd8ff; background: #0a1a3a;
+.pinhead { position: absolute; z-index: 2; transform: translate(-50%, -50%); width: 52px; height: 52px; padding: 0; border-radius: 50%; border: 2px solid #8fd8ff; background: var(--well);
   box-shadow: 0 0 10px rgba(42, 184, 255, .7), 0 6px 8px rgba(0, 0, 0, .45); cursor: pointer; animation: pin-float 2.4s ease-in-out infinite; }
 .pinhead img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block; }
 .pinhead > b { position: absolute; top: -6px; right: -6px; width: 22px; height: 22px; border-radius: 50%; background: #ff4d6a; color: #fff; font: 800 15px/22px var(--font-game); text-align: center; }
@@ -63,19 +63,19 @@
 
 /* Palco das falas (o DialogueStage do nativo). `clip`, e não `hidden`: o foco num botão rolava o contêiner para o lado
    (o personagem é mais largo que a tela). Duas classes: o `.story` do styles.css carrega depois. */
-.story.campaign-scene { position: relative; height: 100%; overflow: clip; display: flex; flex-direction: column; background: #050a18;
+.story.campaign-scene { position: relative; height: 100%; overflow: clip; display: flex; flex-direction: column; background: var(--bg);
   --tint: rgba(77, 128, 179, .12); --dim: .3; --wash: rgba(204, 230, 255, .06); --wash-blend: normal; }
 .campaign-scene.p-afternoon { --tint: rgba(140, 77, 31, .15); --dim: .35; --wash: rgba(255, 158, 64, .22); --wash-blend: multiply; }
-.campaign-scene.p-evening { --tint: rgba(20, 31, 89, .25); --dim: .5; --wash: rgba(31, 46, 128, .42); --wash-blend: multiply; }
+.campaign-scene.p-evening { --tint: color-mix(in srgb, var(--evening-tint) 25%, transparent); --dim: .5; --wash: color-mix(in srgb, var(--evening-wash) 42%, transparent); --wash-blend: multiply; }
 /* O GameBackground do nativo, mais leve para o lugar aparecer: a cena pouco desfocada, um degradê radial escuro com o
    brilho da cor do período e o véu do período (sem o circuito por cima). */
 .scene-bg { position: absolute; inset: -4px; background-size: cover; background-position: center; filter: blur(.8px); }
-.scene-dim { position: absolute; inset: 0; background: radial-gradient(circle 600px at 50% 50%, var(--tint) 20px, rgba(5, 10, 24, var(--dim)) 600px); }
+.scene-dim { position: absolute; inset: 0; background: radial-gradient(circle 600px at 50% 50%, var(--tint) 20px, color-mix(in srgb, var(--night) calc(var(--dim) * 100%), transparent) 600px); }
 .scene-wash { position: absolute; inset: 0; background: var(--wash); mix-blend-mode: var(--wash-blend); pointer-events: none; }
 .campaign-scene > .topbar { position: relative; z-index: 6; }
 .scene-hearts-wrap { position: relative; z-index: 6; align-self: center; margin-top: 8px; }
 .scene-hearts { padding: 8px 14px; display: flex;
-  --edge: #2ab8ff; --fill: linear-gradient(180deg, #0b2a6a, #050a18); }
+  --edge: #2ab8ff; --fill: linear-gradient(180deg, var(--panel2), var(--bg)); }
 
 /* Os personagens: 80% da altura do palco (abaixo da barra do topo), com a base a 12% do pé da tela, escondida pela
    caixa de fala: sobra lugar para o fundo aparecer em volta. Sozinho, o duelista
@@ -101,9 +101,9 @@
 .skip-btn { margin-right: 12px; display: inline-flex; align-items: center; gap: 6px; padding: 10px 16px; font-size: 15px; }
 .scene-sheet-wrap { align-self: stretch; margin: 0 -2px -40px; filter: drop-shadow(0 0 12px color-mix(in srgb, var(--glow) 45%, transparent)); }
 .scene-sheet { position: relative; padding: 16px 16px calc(44px + env(safe-area-inset-bottom)); display: flex; flex-direction: column; align-items: flex-start; gap: 8px;
-  --edge: rgba(42, 184, 255, .9); --fill: linear-gradient(180deg, rgba(11, 42, 106, .8) 0%, #050a18 20%, #050a18 100%); }
+  --edge: rgba(42, 184, 255, .9); --fill: linear-gradient(180deg, color-mix(in srgb, var(--panel2) 80%, transparent) 0%, var(--bg) 20%, var(--bg) 100%); }
 .nameplate { position: relative; padding: 5px 14px 5px 16px; font: 800 17px/1.2 system-ui, -apple-system, sans-serif; color: #fff;
-  --edge: #2ab8ff; --fill: #0b2a6a; }
+  --edge: #2ab8ff; --fill: var(--panel2); }
 .nameplate::before { content: ''; position: absolute; left: 5px; top: 6px; bottom: 6px; width: 4px; background: var(--bar); }
 .scene-text { margin: 0; width: 100%; min-height: 64px; font: 500 17px/1.32 system-ui, -apple-system, sans-serif; color: #fff; animation: scene-fade .2s ease-out both; }
 @keyframes scene-fade { from { opacity: 0; } }
@@ -138,14 +138,14 @@
 .shophead { margin: 6px 4px 0; color: var(--acc); font-size: 14px; }
 .pack.shoppack { flex-direction: row; align-items: stretch; text-align: left; padding: 10px; gap: 12px; }
 .pack.shoppack.locked { opacity: .65; }
-.packcover { width: 70px; flex-shrink: 0; aspect-ratio: 3 / 5; border-radius: 3px; overflow: hidden; background: linear-gradient(160deg, #2a4f8a, #0d2147); display: flex; }
+.packcover { width: 70px; flex-shrink: 0; aspect-ratio: 3 / 5; border-radius: 3px; overflow: hidden; background: linear-gradient(160deg, var(--navy-5), var(--panel)); display: flex; }
 .packcover img { width: 100%; height: 100%; object-fit: cover; }
 .packcover .packart { margin: auto; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 4px; font-size: 10px; text-align: center; }
 .shopinfo { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
 .shopinfo b { display: flex; align-items: center; gap: 6px; }
 .shopinfo .acts { display: flex; flex-direction: column; gap: 6px; }
 .shopinfo .acts .hud-btn { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 8px; font-size: 13px; }
-.shopinfo .lock { margin: 0; display: flex; align-items: center; gap: 6px; color: #9cc6ff; font-size: 13px; }
+.shopinfo .lock { margin: 0; display: flex; align-items: center; gap: 6px; color: var(--dim); font-size: 13px; }
 .nova { font-style: normal; background: #f6d36a; color: #2a1b00; font: 800 10px var(--font-game); padding: 1px 4px; border-radius: 2px; }
 
 /* Laços */
@@ -154,7 +154,7 @@
 .bondcard header { display: flex; align-items: center; gap: 10px; }
 .bondcard header img { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 2px solid #8fd8ff; }
 .bondcard header > span { display: flex; flex-direction: column; gap: 2px; flex: 1; }
-.bondcard .route { font-style: normal; font: 700 11px var(--font-game); padding: 2px 6px; border-radius: 3px; background: #2ab8ff; color: #04203a; }
+.bondcard .route { font-style: normal; font: 700 11px var(--font-game); padding: 2px 6px; border-radius: 3px; background: #2ab8ff; color: var(--ink); }
 .bondcard .route.romance { background: #ff6b8a; color: #3a0010; }
 .bondcard ol { margin: 8px 0 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; font-size: 14px; }
 .bondcard li { color: #6f7f9f; }
@@ -166,7 +166,7 @@
 /* Status e fim */
 .statlist { list-style: none; margin: 0; padding: 10px 14px; display: flex; flex-direction: column; gap: 8px; }
 .statlist li { display: flex; justify-content: space-between; align-items: center; }
-.statlist li span { color: #9cc6ff; }
+.statlist li span { color: var(--dim); }
 .confirm { padding: 12px; display: flex; flex-direction: column; gap: 10px; }
 .confirm p { margin: 0; }
 .confirm .acts { display: flex; gap: 8px; }

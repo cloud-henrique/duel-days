@@ -1,8 +1,28 @@
 /* ============ Sistema visual (HUD azul) ============ */
 :root {
   color-scheme: dark;
-  --bg: #050c1f; --bg2: #0a1a3a; --panel: #0d2147; --panel2: #123062;
-  --line: #2f7fd8; --line-dim: #1d4a8a; --txt: #e8f1ff; --dim: #8fb0e0;
+  /*
+   * Paleta azul (change paleta-mais-clara): a escala --navy-0 (mais escuro) … --navy-6 é a ÚNICA fonte dos azuis de
+   * fundo; recalibrar o brilho do jogo é mexer aqui. As telas usam só os papéis abaixo, nunca um azul escuro solto
+   * (src/ui/palette.test.ts confere). Fora da escala: --ink (contorno marinho dos ícones e títulos, sempre escuro) e
+   * --veil (véu que escurece a tela atrás dos diálogos).
+   */
+  --navy-0: #163a64; --navy-1: #1b4474; --navy-2: #21508a; --navy-3: #285c99; --navy-4: #2e68aa; --navy-5: #3676bd; --navy-6: #4a8ad0;
+  --bg-glow: #3f80c0;            /* centro do degradê do fundo */
+  --bg: var(--navy-0);         /* bordas do fundo; o theme_color do PWA usa o mesmo hex */
+  --bg2: var(--navy-1); --well: var(--navy-1);   /* poços: campos, trilhos, molduras de retrato */
+  --panel: var(--navy-2); --panel2: var(--navy-3);
+  --btn-a: var(--navy-4); --btn-b: var(--navy-3);
+  --btn-hi-a: #2866d0; --btn-hi-b: #1d4fae;      /* botão primário */
+  --mat-a: #2b6a9a; --mat-b: #225886;            /* tapete do duelo (puxa para o ciano) */
+  --glass: color-mix(in srgb, var(--navy-0) 88%, transparent);   /* painel translúcido sobre arte */
+  --mat-hi: #3a88b8;                             /* brilho no meio do tapete */
+  --ink: #061a3d; --ink-2: #0b3a8c; --night: #020612; --veil: color-mix(in srgb, var(--night) 70%, transparent);
+  /* Filtro da noite sobre a arte das cenas (fora da escala: escurece a arte, não é fundo). */
+  --evening-a: rgb(8 16 60); --evening-b: rgb(10 24 80); --evening-tint: rgb(20 31 89); --evening-wash: rgb(31 46 128);
+  --slate-a: #3b4658; --slate-b: #2a3342; --slate-line: #596579;   /* botão em espera, retrato apagado */
+  --line: #7fc0ff; --line-dim: #5a92d4; --txt: #e8f1ff; --dim: #c4d7f2;
+  --cyan-text: #bdeeff;        /* texto em ciano (subtítulos): o --c-cyan não dá 4,5:1 sobre o azul médio */
   --acc: #f2c14e; --me: #46d9a0; --foe: #ff6b6b; --hl: #ffd24a;
   --chamfer: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
 }
@@ -28,7 +48,7 @@ img, svg, canvas { -webkit-touch-callout: none; -webkit-user-drag: none; user-se
 .hexbg {
   /* Fundo do app nativo (GameBackground): brilho azul no centro sumindo no marinho e o padrão de circuito (colmeia com
      trilhas) por cima, apagado. O SVG sai de scripts/build_circuit.mjs. */
-  background: url('./ui/circuit.svg') 0 0 / 259.81px 450px repeat, radial-gradient(circle 600px at 50% 50%, #1a4066 20px, #050a18 600px) #050a18;
+  background: url('./ui/circuit.svg') 0 0 / 259.81px 450px repeat, radial-gradient(circle 600px at 50% 50%, var(--bg-glow) 20px, var(--bg) 600px) var(--bg);
 }
 .hud, .hud-btn {
   /* A borda é um box-shadow interno, que o clip-path corta no chanfro; as duas camadas abaixo desenham a borda diagonal. */
@@ -57,9 +77,9 @@ img, svg, canvas { -webkit-touch-callout: none; -webkit-user-drag: none; user-se
   --cut-b: linear-gradient(to bottom left, transparent calc(50% - var(--edge-w)), var(--edge) calc(50% - var(--edge-w)), var(--edge) calc(50% + .5px), transparent calc(50% + .5px)) bottom left / var(--cut) var(--cut) no-repeat;
   clip-path: polygon(0 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% 100%, var(--cut) 100%, 0 calc(100% - var(--cut)));
 }
-.hud-btn { appearance: none; border: 0; color: var(--txt); font: 700 14px/1 system-ui; padding: 13px 16px; text-align: left; background: var(--cut-tl), var(--cut-br), linear-gradient(180deg, #1c4a9a, #123a7a); }
+.hud-btn { appearance: none; border: 0; color: var(--txt); font: 700 14px/1 system-ui; padding: 13px 16px; text-align: left; background: var(--cut-tl), var(--cut-br), linear-gradient(180deg, var(--btn-a), var(--btn-b)); }
 .hud-btn:active { filter: brightness(1.25); } .hud-btn:disabled { opacity: .4; }
-.hud-btn.primary { --edge: #7fb6ff; background: var(--cut-tl), var(--cut-br), linear-gradient(180deg, #2a6fe0, #1747b0); text-align: center; letter-spacing: .5px; }
+.hud-btn.primary { --edge: #7fb6ff; background: var(--cut-tl), var(--cut-br), linear-gradient(180deg, var(--btn-hi-a), var(--btn-hi-b)); text-align: center; letter-spacing: .5px; }
 .hud-btn.gold { background: linear-gradient(180deg, #f6d36a, #d9a21f); color: #2a1b00; box-shadow: none; text-align: center; }
 .hud-btn.danger { --edge: #ff6b6b; background: var(--cut-tl), var(--cut-br), linear-gradient(180deg, #d42a2a, #9a1010); text-align: center; letter-spacing: .5px; }
 .hud-btn.on { --edge: var(--hl); box-shadow: inset 0 0 0 3px var(--edge); }
@@ -68,7 +88,7 @@ img, svg, canvas { -webkit-touch-callout: none; -webkit-user-drag: none; user-se
 .menu { justify-content: center; padding: 0 28px; gap: 12px; }
 .menu h1 { text-align: center; margin: 0; font-size: 30px; color: var(--acc); letter-spacing: 1px; }
 .menu .stats { text-align: center; }
-.menu input { background: #0a1a3a; color: var(--txt); border: 2px solid var(--line-dim); border-radius: 6px; padding: 11px 12px; font: inherit; user-select: text; -webkit-user-select: text; }
+.menu input { background: var(--well); color: var(--txt); border: 2px solid var(--line-dim); border-radius: 6px; padding: 11px 12px; font: inherit; user-select: text; -webkit-user-select: text; }
 
 /* ============ Folhas e painéis (duelo, deck builder, loja) ============ */
 .scrim { position: absolute; inset: 0; z-index: 10; background: rgba(2,6,18,.72); display: flex; flex-direction: column; justify-content: flex-end; }
@@ -110,7 +130,7 @@ img, svg, canvas { -webkit-touch-callout: none; -webkit-user-drag: none; user-se
 .shead { position: absolute; top: calc(8px + env(safe-area-inset-top)); left: 10px; right: 10px; z-index: 5; display: flex; flex-direction: column; align-items: center; gap: 6px; pointer-events: none; }
 .shead .place { width: 100%; padding: 8px 20px 8px 16px; text-align: left; }
 .shead .place b { display: block; font-size: 20px; letter-spacing: 1.5px; text-transform: uppercase; }
-.shead .place span { font-size: 12px; color: #6fb2ff; }
+.shead .place span { font-size: 12px; color: var(--cyan-text); }
 .hearts { display: flex; gap: 4px; padding: 5px 12px; }
 .heart { font-size: 20px; color: #ff6b8a; } .heart.off { color: #3a2a45; }
 .stage { position: absolute; inset: 0; }
@@ -119,9 +139,9 @@ img, svg, canvas { -webkit-touch-callout: none; -webkit-user-drag: none; user-se
 .sprite.left { left: -48%; } .sprite.right { right: -48%; } .sprite.center { left: -15%; }
 .sprite img { display: block; width: 100%; }
 .sprite img.face { position: absolute; }
-.dialog { position: absolute; left: 0; right: 0; bottom: 0; z-index: 3; padding: 26px 16px calc(14px + env(safe-area-inset-bottom)); min-height: 130px; background: linear-gradient(180deg, rgba(5,12,31,0), rgba(5,12,31,.88) 22%, rgba(5,12,31,.96)); }
+.dialog { position: absolute; left: 0; right: 0; bottom: 0; z-index: 3; padding: 26px 16px calc(14px + env(safe-area-inset-bottom)); min-height: 130px; background: linear-gradient(180deg, transparent, var(--glass) 22%, color-mix(in srgb, var(--bg) 96%, transparent)); }
 .dialog p { margin: 0; font-size: 17px; line-height: 1.45; min-height: 4.4em; text-shadow: 0 1px 3px #000; }
-.nametag { position: absolute; top: 4px; left: 12px; background: linear-gradient(180deg, #123062, #0d2147); border-left: 4px solid #7fb6ff; padding: 4px 14px; font-weight: 800; font-size: 15px; box-shadow: inset 0 0 0 1px var(--line-dim); }
+.nametag { position: absolute; top: 4px; left: 12px; background: linear-gradient(180deg, var(--panel2), var(--panel)); border-left: 4px solid #7fb6ff; padding: 4px 14px; font-weight: 800; font-size: 15px; box-shadow: inset 0 0 0 1px var(--line-dim); }
 .more { position: absolute; right: 14px; bottom: calc(10px + env(safe-area-inset-bottom)); color: #cfe2ff; animation: bob 1s infinite; }
 @keyframes bob { 50% { transform: translateY(3px); } }
 .dialog.choices { display: flex; flex-direction: column; gap: 8px; padding-top: 18px; z-index: 6; }
@@ -137,7 +157,7 @@ img, svg, canvas { -webkit-touch-callout: none; -webkit-user-drag: none; user-se
 .loc h3 { margin: 0; font-size: 18px; letter-spacing: 1.5px; text-transform: uppercase; }
 .loc p { margin: 2px 0 10px; font-size: 12px; color: var(--dim); }
 .locchars { display: flex; flex-wrap: wrap; gap: 10px; }
-.charchip { appearance: none; border: 0; color: var(--txt); background: rgba(5,12,31,.65); border-radius: 8px; box-shadow: inset 0 0 0 2px var(--line-dim); display: grid; grid-template-columns: 56px 1fr; grid-template-rows: auto auto auto; column-gap: 10px; padding: 8px 12px 8px 8px; text-align: left; min-width: 190px; }
+.charchip { appearance: none; border: 0; color: var(--txt); background: color-mix(in srgb, var(--bg) 65%, transparent); border-radius: 8px; box-shadow: inset 0 0 0 2px var(--line-dim); display: grid; grid-template-columns: 56px 1fr; grid-template-rows: auto auto auto; column-gap: 10px; padding: 8px 12px 8px 8px; text-align: left; min-width: 190px; }
 .charchip img { grid-row: 1 / 4; width: 56px; height: 56px; border-radius: 6px; box-shadow: 0 0 0 2px var(--acc); align-self: center; }
 .charchip .cn { font-weight: 800; font-size: 15px; }
 .charchip .hs i { font-style: normal; color: #ff6b8a; font-size: 16px; } .charchip .hs i.off { color: #3a2a45; }
@@ -152,15 +172,15 @@ img, svg, canvas { -webkit-touch-callout: none; -webkit-user-drag: none; user-se
 .hubnav { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; flex-shrink: 0; }
 .deckb { padding: calc(10px + env(safe-area-inset-top)) 12px calc(10px + env(safe-area-inset-bottom)); gap: 8px; }
 .deckbar { display: flex; gap: 6px; padding: 8px; flex-shrink: 0; }
-.deckbar select, .filters select { background: #0a1a3a; color: var(--txt); border: 2px solid var(--line-dim); border-radius: 6px; padding: 8px; font: inherit; max-width: 36%; }
-.deckbar input, .filters input { flex: 1; min-width: 0; background: #0a1a3a; color: var(--txt); border: 2px solid var(--line-dim); border-radius: 6px; padding: 8px; font: inherit; user-select: text; -webkit-user-select: text; }
+.deckbar select, .filters select { background: var(--well); color: var(--txt); border: 2px solid var(--line-dim); border-radius: 6px; padding: 8px; font: inherit; max-width: 36%; }
+.deckbar input, .filters input { flex: 1; min-width: 0; background: var(--well); color: var(--txt); border: 2px solid var(--line-dim); border-radius: 6px; padding: 8px; font: inherit; user-select: text; -webkit-user-select: text; }
 .deckbar .hud-btn { padding: 8px 12px; }
 .deckstat { display: flex; gap: 12px; align-items: center; font-weight: 700; font-size: 13px; flex-shrink: 0; }
 .deckstat .hud-btn { margin-left: auto; padding: 8px 14px; }
 .deckstat .ok { color: var(--me); } .deckstat .bad { color: var(--foe); }
 .problems { font-size: 12px; color: #ffb4b4; background: rgba(255,80,80,.1); border-left: 3px solid var(--foe); padding: 6px 10px; flex-shrink: 0; }
 .tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; flex-shrink: 0; }
-.tabs button, .chips button { background: #0a1a3a; color: var(--dim); border: 1px solid var(--line-dim); border-radius: 4px; padding: 9px 6px; font: 700 13px system-ui; }
+.tabs button, .chips button { background: var(--well); color: var(--dim); border: 1px solid var(--line-dim); border-radius: 4px; padding: 9px 6px; font: 700 13px system-ui; }
 .tabs button.on, .chips button.on { background: var(--line); color: #fff; border-color: #7fb6ff; }
 .filters { display: flex; gap: 6px; flex-shrink: 0; }
 .chips { display: flex; gap: 5px; overflow-x: auto; flex-shrink: 0; }
@@ -174,7 +194,7 @@ img, svg, canvas { -webkit-touch-callout: none; -webkit-user-drag: none; user-se
 .cell.r-R { border-color: #4aa3ff; box-shadow: 0 0 6px rgba(74,163,255,.55); }
 .cell.r-SR { border-color: #b57aff; box-shadow: 0 0 8px rgba(181,122,255,.65); }
 .cell.r-UR { border-color: var(--acc); box-shadow: 0 0 10px rgba(242,193,78,.8); }
-.cell > i { position: absolute; right: 2px; bottom: 2px; background: rgba(5,12,31,.9); color: var(--txt); font: 700 11px/1 var(--font-game); padding: 2px 5px; border-radius: 3px; font-style: normal; }
+.cell > i { position: absolute; right: 2px; bottom: 2px; background: color-mix(in srgb, var(--bg) 90%, transparent); color: var(--txt); font: 700 11px/1 var(--font-game); padding: 2px 5px; border-radius: 3px; font-style: normal; }
 .cell > i.full { color: var(--hl); }
 .nova { position: absolute; left: -4px; top: 18%; background: #20b86a; color: #fff; font: 800 11px/1 system-ui; padding: 4px 8px 4px 5px; clip-path: polygon(0 0, 100% 0, 88% 50%, 100% 100%, 0 100%); font-style: normal; }
 .pop { animation: pop .35s both; }
@@ -197,13 +217,13 @@ img, svg, canvas { -webkit-touch-callout: none; -webkit-user-drag: none; user-se
 /* Nas telas de lista (.deckb), a própria tela já tem a margem do topo e das laterais. */
 .deckb > .topbar { padding: 0 0 2px; }
 .topbar-title { flex: 1; min-width: 0; padding: 7px 14px; min-height: 40px; display: flex; flex-direction: column; justify-content: center; gap: 1px;
-  --edge: #2ab8ff; --fill: linear-gradient(90deg, #0b2a6a, rgba(11, 42, 106, .25)); }
+  --edge: #2ab8ff; --fill: linear-gradient(90deg, var(--panel2), color-mix(in srgb, var(--panel2) 70%, transparent)); }
 /* O título da barra: fonte do jogo, caixa alta e o brilho ciano do nativo (`gameTitleGlow`). */
 .topbar-title h2 { margin: 0; font-size: 20px; letter-spacing: 1.5px; text-transform: uppercase; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   text-shadow: 0 0 2px rgba(42, 184, 255, .9), 0 0 8px rgba(42, 184, 255, .6); }
-.topbar-title small { font-size: 12px; font-weight: 600; color: #2ab8ff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.topbar-title small { font-size: 12px; font-weight: 600; color: var(--cyan-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 /* Botão secundário do nativo: marinho com borda ciano. */
-.hud-btn.secondary { --edge: #2ab8ff; background: var(--cut-tl), var(--cut-br), linear-gradient(180deg, #0b2a6a, #050a18); text-align: center; }
+.hud-btn.secondary { --edge: #2ab8ff; background: var(--cut-tl), var(--cut-br), linear-gradient(180deg, var(--panel2), var(--bg)); text-align: center; }
 .screen { display: flex; flex-direction: column; }
 .screen-scroll { flex: 1; overflow-y: auto; padding: 8px 14px 16px; display: grid; gap: 12px; align-content: start; }
 .screen-foot { padding: 10px 14px calc(12px + env(safe-area-inset-bottom)); }
@@ -212,9 +232,9 @@ img, svg, canvas { -webkit-touch-callout: none; -webkit-user-drag: none; user-se
 .pfield { display: grid; gap: 8px; }
 .pfield .acts { display: flex; gap: 8px; } .pfield .acts > .hud-btn { flex: 1; text-align: center; }
 .field-label { color: var(--acc); font-size: 13px; text-transform: uppercase; }
-.pfield input { background: #0a1a3a; color: var(--txt); border: 2px solid var(--line-dim); border-radius: 6px; padding: 11px 12px; font: 16px system-ui; user-select: text; -webkit-user-select: text; }
+.pfield input { background: var(--well); color: var(--txt); border: 2px solid var(--line-dim); border-radius: 6px; padding: 11px 12px; font: 16px system-ui; user-select: text; -webkit-user-select: text; }
 .avatargrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(56px, 1fr)); gap: 8px; }
-.avatar { appearance: none; padding: 0; border: 2px solid var(--line-dim); border-radius: 8px; background: #0b1a3a; aspect-ratio: 1; overflow: hidden; }
+.avatar { appearance: none; padding: 0; border: 2px solid var(--line-dim); border-radius: 8px; background: var(--well); aspect-ratio: 1; overflow: hidden; }
 .avatar img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
 .avatar.on { border-color: var(--hl); box-shadow: 0 0 0 2px var(--hl), 0 0 12px rgba(255,210,74,.6); }
 .welcome-title { margin: calc(16px + env(safe-area-inset-top)) 0 0; text-align: center; font-size: 24px; color: var(--txt); }
@@ -242,9 +262,9 @@ img, svg, canvas { -webkit-touch-callout: none; -webkit-user-drag: none; user-se
 }
 .menu-opt.volume input[type=range]::-webkit-slider-runnable-track {
   height: 10px; border-radius: 5px; box-shadow: inset 0 0 0 1px var(--line-dim);
-  background: linear-gradient(90deg, #2ab8ff var(--pct), #0a1a3a var(--pct));
+  background: linear-gradient(90deg, #2ab8ff var(--pct), var(--well) var(--pct));
 }
-.menu-opt.volume input[type=range]::-moz-range-track { height: 10px; border-radius: 5px; background: linear-gradient(90deg, #2ab8ff var(--pct), #0a1a3a var(--pct)); }
+.menu-opt.volume input[type=range]::-moz-range-track { height: 10px; border-radius: 5px; background: linear-gradient(90deg, #2ab8ff var(--pct), var(--well) var(--pct)); }
 .menu-opt.volume input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none; width: 26px; height: 26px; margin-top: -8px; border-radius: 50%; border: 2px solid #7fd4ff;
   background: radial-gradient(circle at 40% 35%, #fff, #bfe6ff); box-shadow: 0 0 10px rgba(42,184,255,.8);

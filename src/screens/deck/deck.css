@@ -32,7 +32,7 @@
 .deckeditor .cell, .collection .cell { -webkit-touch-callout: none; touch-action: manipulation; }
 .deckeditor .cell img, .collection .cell img { pointer-events: none; }
 
-.trunk { flex: 1; min-height: 0; display: flex; flex-direction: column; background: rgba(5, 10, 24, .55); border-top: 2px solid #2ab8ff;
+.trunk { flex: 1; min-height: 0; display: flex; flex-direction: column; background: color-mix(in srgb, var(--bg) 55%, transparent); border-top: 2px solid #2ab8ff;
   box-shadow: 0 -6px 16px rgba(0, 0, 0, .45); }
 .drawerhandle { appearance: none; border: 0; background: none; color: var(--dim); flex: 0 0 22px; display: flex; flex-direction: column;
   align-items: center; justify-content: center; gap: 6px; padding: 4px 12px; touch-action: none; }
@@ -48,15 +48,15 @@
 .trunkrow .drawerbtn.up svg { transform: rotate(90deg); }
 .trunkrow .hud-btn.sortbtn { display: flex; flex-direction: column; justify-content: center; gap: 2px; padding: 6px 12px; min-width: 0; flex: 0 1 auto; text-align: left; }
 .trunkrow .sortbtn b { font-size: 14px; white-space: nowrap; }
-.trunkrow .sortbtn small { color: #2ab8ff; font-size: 11px; font-weight: 600; white-space: nowrap; }
+.trunkrow .sortbtn small { color: var(--cyan-text); font-size: 11px; font-weight: 600; white-space: nowrap; }
 .trunkrow .invbtn.on { --edge: #2ab8ff; }
 .trunkrow .searchbox { flex: 1; min-width: 0; display: flex; align-items: center; gap: 6px; padding: 0 10px; color: var(--dim);
-  --cut: 8px; --edge: var(--line-dim); --fill: #0a1a3a; }
+  --cut: 8px; --edge: var(--line-dim); --fill: var(--well); }
 .trunkrow .searchbox:focus-within { --edge: var(--line); }
 .trunkrow .searchbox input { flex: 1; min-width: 0; background: none; border: 0; color: var(--txt); font: 15px system-ui; padding: 9px 0; outline: none;
   user-select: text; -webkit-user-select: text; }
 /* O .chips do styles.css (carrega depois) põe fundo e borda: aqui as camadas do .cut vão explícitas. */
-.chips.trunkchips button { --cut: 6px; --edge-w: 1px; --edge: var(--line-dim); --fill: #0a1a3a; border: 0; border-radius: 0;
+.chips.trunkchips button { --cut: 6px; --edge-w: 1px; --edge: var(--line-dim); --fill: var(--well); border: 0; border-radius: 0;
   background: var(--cut-a), var(--cut-b), var(--fill); }
 .chips.trunkchips button.on { --edge: var(--acc); --fill: var(--acc); color: #2a1b00; background: var(--cut-a), var(--cut-b), var(--fill); }
 
@@ -83,7 +83,7 @@
 .decksheet .decklist .hud-btn { width: 100%; display: flex; flex-direction: column; align-items: flex-start; gap: 3px; padding: 10px 12px; }
 .decksheet .dname { display: flex; gap: 8px; align-items: baseline; font-size: 15px; }
 .decksheet .decklist small { color: var(--dim); font-size: 12px; font-weight: 600; }
-.decksheet .renamebox { flex: 1; min-width: 0; background: #0a1a3a; color: var(--txt); border: 2px solid var(--line); padding: 10px; font: 15px system-ui;
+.decksheet .renamebox { flex: 1; min-width: 0; background: var(--well); color: var(--txt); border: 2px solid var(--line); padding: 10px; font: 15px system-ui;
   user-select: text; -webkit-user-select: text; }
 .decksheet .sheetnote { font-size: 12px; color: var(--dim); }
 
