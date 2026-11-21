@@ -38,7 +38,7 @@ data OCG até 2004-09-30, caixas TCG, português; correções em `raw/overrides/
 em `raw/tfs/events.zip` → `public/campaign/bg-*.jpg`, fora do git), `python3 scripts/copy_campaign_assets.py` (mapa, fundos dos lugares, capas dos pacotes e as 8
 músicas do nativo → `public/campaign/` e `public/music/`, fora do git), `.venv/bin/python scripts/extract_action_icons.py` (recorta o `actions.png` do Tag Force; o ícone de cada ação se escolhe em `npm run icon-labeler`, porta 5174, e fica em `assets/action-icons/labels.json`), `npm run build-characters`, `.venv/bin/python scripts/build_sprites.py` (o Strings não está no conjunto do Spriters Resource: o zip
 baixado à mão fica em `raw/zips/Strings.zip`, com só `neutral` e `worried`, entrada manual no `manifest.json`/`labels.json`).
-Ícones do PWA (ankh em HUD azul; arte própria, os binários são versionados): edite `assets/app-icon/*.svg` e rode `node scripts/build_app_icons.mjs`
+Ícones do PWA (o redemoinho da Polimerização, o `SPIRAL` do `PolyCard`, em ciano sobre o fundo do HUD; o favicon é uma espiral simplificada em `icon-small.svg`; arte própria, os binários são versionados): edite `assets/app-icon/*.svg` e rode `node scripts/build_app_icons.mjs`
 (Playwright; se faltar o Chromium da revisão certa, `CHROMIUM_PATH=<chrome-headless-shell>`) → `public/icons/*` e `public/favicon.ico`.
 Fundo de colmeia com circuito (arte própria, versionada): `node scripts/build_circuit.mjs` → `src/ui/circuit.svg`, usado
 pelo `.hexbg` do `styles.css`.

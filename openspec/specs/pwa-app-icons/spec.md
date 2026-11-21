@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Define a identidade visual do app instalado: o ícone do ankh em estilo HUD azul, o favicon, o ícone da tela de início do
+Define a identidade visual do app instalado: o ícone do redemoinho da Polimerização em ciano sobre o fundo do HUD, o favicon, o ícone da tela de início do
 iOS, os ícones do manifest (comum e maskable) e as cores de tema, para que o PWA seja instalável e reconhecível no iOS e no Android.
 
 ## Requirements

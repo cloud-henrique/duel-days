@@ -15,12 +15,13 @@ const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PAT
   process.exit(1);
 });
 
-// opaque: true pinta o fundo #050c1f atrás (sem alfa, como o iOS exige).
-async function raster(svgName, size, { opaque = false } = {}) {
+// opaque: true pinta o fundo #050c1f atrás (sem alfa, como o iOS exige). round: true arredonda os cantos (os ícones
+// `any` do manifest aparecem sem máscara); o apple-touch-icon e o maskable ficam quadrados, quem mascara é o sistema.
+async function raster(svgName, size, { opaque = false, round = false } = {}) {
   const page = await browser.newPage({ viewport: { width: size, height: size }, deviceScaleFactor: 1 });
   const bg = opaque ? '#050c1f' : 'transparent';
   await page.setContent(
-    `<style>html,body{margin:0;background:${bg}}svg{display:block;width:${size}px;height:${size}px}</style>${src(svgName).replace(/ width="\d+" height="\d+"/, '')}`,
+    `<style>html,body{margin:0;background:${bg}}svg{display:block;width:${size}px;height:${size}px${round ? ';border-radius:22.37%' : ''}}</style>${src(svgName).replace(/ width="\d+" height="\d+"/, '')}`,
   );
   const png = await page.screenshot({ omitBackground: !opaque, type: 'png' });
   await page.close();
@@ -30,13 +31,13 @@ async function raster(svgName, size, { opaque = false } = {}) {
 const save = (name, buf) => { writeFileSync(join(out, name), buf); console.log('✓', name, buf.length, 'B'); };
 
 save('apple-touch-icon.png', await raster('icon.svg', 180, { opaque: true }));
-save('icon-192.png', await raster('icon.svg', 192));
-save('icon-512.png', await raster('icon.svg', 512));
+save('icon-192.png', await raster('icon.svg', 192, { round: true }));
+save('icon-512.png', await raster('icon.svg', 512, { round: true }));
 save('icon-maskable-512.png', await raster('icon-maskable.svg', 512, { opaque: true }));
-// O favicon SVG (aba do navegador) é a versão sem fundo: a carta na altura toda, maior e mais fácil de reconhecer.
+// O favicon SVG (aba do navegador) é o redemoinho simplificado sobre a placa escura, legível em 16/32 px.
 copyFileSync(join(root, 'assets/app-icon/icon-small.svg'), join(out, 'icon.svg'));
 
-// favicon.ico: cabeçalho ICONDIR + entradas PNG (16, 32 e 48 px, versão sem fundo).
+// favicon.ico: cabeçalho ICONDIR + entradas PNG (16, 32 e 48 px, versão pequena).
 const sizes = [16, 32, 48];
 const pngs = [];
 for (const s of sizes) pngs.push(await raster('icon-small.svg', s));
