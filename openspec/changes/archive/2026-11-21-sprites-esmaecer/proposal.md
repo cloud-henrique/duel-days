@@ -26,8 +26,8 @@ que se vê é o personagem descendo e subindo só porque mudou de rosto.
 
 ### Modified Capabilities
 
-- `campanha`: o requisito "Falas da campanha" passa a dizer como os personagens entram (esmaecendo), que continuam em
-  cena entre as fases do encontro e que a troca de expressão troca só o rosto.
+- `campanha`: requisito novo "Entrada dos personagens em cena": como os personagens entram (esmaecendo), que continuam
+  em cena entre as fases do encontro e que a troca de expressão troca só o rosto.
 
 ## Impact
 
