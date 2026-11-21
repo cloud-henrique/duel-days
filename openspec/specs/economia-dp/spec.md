@@ -7,12 +7,16 @@ ganhas por vitória, os pacotes à venda (coleções e pacotes de personagem) e 
 ## Requirements
 
 ### Requirement: Começo da campanha
-Uma campanha nova SHALL começar com 0 DP, com o deck inicial do nativo (40 cartas) como coleção e deck ativo, e com 3
-pacotes LOB fechados para abrir na loja.
+Uma campanha nova SHALL começar com:
+- 0 DP;
+- as 40 cartas do deck inicial do nativo na coleção;
+- um deck ativo com 30 dessas cartas, numa lista fixa;
+- 3 pacotes LOB fechados para abrir na loja.
 
 #### Scenario: Campanha nova
 - **WHEN** o jogador começa a campanha
-- **THEN** ele tem 0 DP, a coleção é o deck inicial de 40 cartas, que já está ativo, e há 3 pacotes LOB para abrir
+- **THEN** ele tem 0 DP, a coleção tem as 40 cartas do deck inicial, o deck ativo tem 30 delas e é válido, e há 3 pacotes
+  LOB para abrir
 
 ### Requirement: DP por duelo
 Uma vitória SHALL pagar uma base pelo tier do oponente (Tier 1: 300 DP; Tier 2: 400 DP; Tier 3: 500 DP; Tier 4: 600 DP),

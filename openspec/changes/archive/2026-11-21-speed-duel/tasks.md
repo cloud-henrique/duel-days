@@ -66,7 +66,7 @@
 ## 4. Conferência
 
 - [x] 4.1 `node proto/duel-e2e.mjs` e `node proto/webkit-e2e.mjs` sem encenação presa nem regressão.
-- [ ] 4.2 Acabamento visual: capturas em 390×844 e 375×667, mandadas ao usuário para aprovação.
+- [x] 4.2 Acabamento visual: capturas em 390×844 e 375×667, mandadas ao usuário para aprovação (aprovado: o usuário pediu para arquivar e publicar).
 - [x] 4.3 Simulador de iOS (Safari real): duelo inteiro com banimento, Fusão e Magia de Campo; modo "reduzir
   movimento"; campanha nova do dia 1 depois de um save v1.
   Feito no Safari do iPhone 17 Pro, com os atalhos `?campaign=speed-check` (deck de 20 com Polimerização, Umi e cartas

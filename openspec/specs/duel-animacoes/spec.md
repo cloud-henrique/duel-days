@@ -29,15 +29,16 @@ aparecer só quando a fila terminar.
 - **THEN** nenhuma folha de ação abre e nenhuma resposta é enviada ao motor
 
 ### Requirement: Compra de carta
-Ao comprar, a carta SHALL sair do lado do deck do duelista e entrar na mão, e o leque SHALL se reorganizar.
+Ao comprar, a carta SHALL sair da pilha de Deck do duelista e entrar na mão, e a fila de cartas da mão SHALL se
+reorganizar.
 
 #### Scenario: Jogador compra
 - **WHEN** começa o turno do jogador
-- **THEN** uma carta vai do deck até a mão e o leque abre espaço para ela
+- **THEN** uma carta vai da pilha de Deck até a mão e as cartas da mão abrem espaço para ela
 
 ### Requirement: Invocação
-Ao invocar um monstro, a carta SHALL ir da origem (mão, deck, cemitério ou Extra Deck) até a zona de destino. Ao chegar,
-um pilar de luz SHALL subir e sumir sobre a zona.
+Ao invocar um monstro, a carta SHALL ir da origem (mão, Deck, Cemitério, Banidas ou Extra Deck, cada pilha no seu lugar
+das colunas de pilhas) até a zona de destino. Ao chegar, um pilar de luz SHALL subir e sumir sobre a zona.
 
 #### Scenario: Invocação normal pela mão
 - **WHEN** o jogador invoca um monstro da mão
@@ -45,7 +46,11 @@ um pilar de luz SHALL subir e sumir sobre a zona.
 
 #### Scenario: Invocação especial pelo cemitério
 - **WHEN** um monstro é invocado do cemitério
-- **THEN** a carta sai do cemitério da placa do dono e vai até a zona, seguida do pilar de luz
+- **THEN** a carta sai da pilha de Cemitério do dono, nas colunas de pilhas, e vai até a zona, seguida do pilar de luz
+
+#### Scenario: Invocação por Fusão
+- **WHEN** o jogador invoca um monstro de Fusão
+- **THEN** a carta sai da pilha de Extra Deck do jogador e vai até a zona, seguida do pilar de luz
 
 ### Requirement: Baixar carta
 Ao baixar uma carta, ela SHALL ir até a zona de destino virada para baixo. Um monstro baixado SHALL chegar girado em
@@ -108,20 +113,21 @@ impacto, o alvo SHALL piscar e a tela SHALL tremer brevemente.
 
 ### Requirement: Destruição
 Uma carta destruída SHALL se partir na própria zona antes de ir para o cemitério do dono. Uma carta enviada ao cemitério
-sem ser destruída (tributo, descarte, Magia resolvida) SHALL ir direto ao cemitério, sem se partir.
+sem ser destruída (tributo, descarte, Magia resolvida) SHALL ir direto ao cemitério, sem se partir. O cemitério de
+destino é a pilha de Cemitério do dono nas colunas de pilhas.
 
 #### Scenario: Monstro destruído em batalha
 - **WHEN** um monstro é destruído em batalha
-- **THEN** a carta se parte na zona e um pedaço dela vai até o cemitério da placa do dono
+- **THEN** a carta se parte na zona e um pedaço dela vai até a pilha de Cemitério do dono
 
 #### Scenario: Tributo
 - **WHEN** um monstro é oferecido como tributo
 - **THEN** a carta vai direto ao cemitério, sem efeito de quebra
 
 ### Requirement: Banimento, retorno e equipamento
-Uma carta banida SHALL sumir da zona com fade. Uma carta que volta à mão ou ao deck SHALL ir até a mão ou até a placa
-do dono. Ao equipar, a carta de equipamento SHALL ir até a zona de Magia/Armadilha e um pilar de luz SHALL aparecer
-sobre o monstro equipado.
+Uma carta banida SHALL ir da origem até a pilha de Banidas do dono. Uma carta que volta à mão, ao Deck ou ao Extra Deck
+SHALL ir até a mão ou até a pilha correspondente do dono. Ao equipar, a carta de equipamento SHALL ir até a zona de
+Magia/Armadilha e um pilar de luz SHALL aparecer sobre o monstro equipado.
 
 #### Scenario: Equipar
 - **WHEN** o jogador ativa uma Magia de Equipamento num monstro
@@ -130,6 +136,14 @@ sobre o monstro equipado.
 #### Scenario: Retorno à mão
 - **WHEN** um monstro do oponente volta para a mão do oponente
 - **THEN** a carta voa da zona até a faixa de versos do oponente
+
+#### Scenario: Banir do campo
+- **WHEN** um monstro do jogador é banido
+- **THEN** a carta voa da zona até a pilha de Banidas do jogador, e a pilha passa a mostrá-la no topo
+
+#### Scenario: Voltar ao deck
+- **WHEN** uma carta do oponente volta para o Deck
+- **THEN** a carta voa da zona até a pilha de Deck do oponente, virada para baixo
 
 ### Requirement: Moeda e dado
 Quando um efeito lança moeda ou dado, a tela SHALL mostrar a moeda ou o dado desenhados do jogo girando e depois o
