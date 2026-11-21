@@ -4,6 +4,7 @@
  * vermelho atrás. `value` é em corações (1,5 = um cheio e o segundo pela metade).
  */
 import { useId } from 'react';
+import { BALANCE } from '../campaign/balance';
 import './bondhearts.css';
 
 /** O coração em 100 × 90 (largura × altura), o mesmo desenho do `HeartShape` do nativo. */
@@ -34,7 +35,7 @@ function Heart({ fill, size }: { fill: number; size: number }) {
   );
 }
 
-export function BondHearts({ value, size = 18, count = 4 }: { value: number; size?: number; count?: number }) {
+export function BondHearts({ value, size = 18, count = BALANCE.bondEvents }: { value: number; size?: number; count?: number }) {
   const full = Math.floor(value);
   return (
     <span className="bondhearts" style={{ gap: size * 0.22 }} role="img"

@@ -1,11 +1,273 @@
 {
- "_comment": "Correções das falas do Tier 1 do nativo. O copy_campaign_data.py troca só os momentos listados aqui (o resto continua vindo do nativo). A carta-assinatura só chega na 5ª vitória e o prêmio de cada vitória é sorteado do deck do oponente: nenhuma fala de vitória pode entregar uma carta.",
+ "_comment": "Correções das falas do Tier 1 do nativo. O copy_campaign_data.py troca só os momentos listados aqui (o resto continua vindo do nativo). A carta-assinatura só chega na 5ª vitória e o prêmio de cada vitória é sorteado do deck do oponente: nenhuma fala de vitória pode entregar uma carta. Os laços (change lacos-ate-o-fim) trazem aqui a lista bondEvents completa: os eventos 1 a 4 do nativo com o texto intacto, a escolha de resposta (pick) de cada um menos o 3º, e os eventos 5 (Tier 2) e 6 (Tier 3, uma versão por rota).",
  "duelists": {
   "tristan": {
    "firstWin": [
     { "speaker": "tristan", "expression": "angry", "text": "Perdi {pro novato|pra novata|pra quem acabou de chegar}?! O Joey vai rir da minha cara por uma semana." },
     { "speaker": "player", "expression": "happy", "text": "Foi um duelo e tanto. Você não facilitou em nada." },
     { "speaker": "tristan", "expression": "happy", "text": "Pelo menos isso! Da próxima vez eu volto com o deck afiado. Pode esperar." }
+   ],
+   "bondEvents": [
+    {
+     "title": "Treino escondido",
+     "before": [
+      { "speaker": "tristan", "expression": "neutral", "text": "Psiu, {nome}! Aqui atrás do ginásio. Ninguém pode saber que eu tô treinando, principalmente o Joey." },
+      { "speaker": "player", "expression": "surprised", "text": "Treinando escondido? Por quê?" },
+      { "speaker": "tristan", "expression": "blushing", "text": "Porque se ele souber que eu levo isso a sério, vai me zoar até a formatura. Bora duelar?" }
+     ],
+     "after": [
+      { "speaker": "tristan", "expression": "surprised", "text": "Perdi de novo... mas agora eu entendi onde errei. Você joga pensando três jogadas na frente." },
+      { "speaker": "player", "expression": "happy", "text": "Você também melhorou muito desde o primeiro duelo." },
+      { "speaker": "tristan", "expression": "happy", "text": "Então tá: amanhã tem mais treino. E esse segredo fica só entre a gente." }
+     ],
+     "pick": {
+      "options": [
+       {
+        "label": "Prometido. E amanhã eu trago mais desafios pra você.",
+        "tone": "good",
+        "then": [
+         { "speaker": "tristan", "expression": "happy", "text": "Isso! Treino secreto oficial. Até senha a gente vai ter." }
+        ]
+       },
+       {
+        "label": "Tá bom. Mas um dia você vai ter que contar pro Joey.",
+        "tone": "neutral",
+        "then": [
+         { "speaker": "tristan", "expression": "neutral", "text": "Um dia. Quando eu vencer ele. Aí a história fica melhor." }
+        ]
+       },
+       {
+        "label": "Sei não... segredo dá trabalho.",
+        "tone": "bad",
+        "then": [
+         { "speaker": "tristan", "expression": "sad", "text": "Ah, qual é, {nome}. Só esse, vai. Eu juro que não peço mais nenhum." }
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "title": "A aposta do intervalo",
+     "before": [
+      { "speaker": "tristan", "expression": "sad", "text": "{nome}, fiz besteira. Apostei com o Joey que eu vencia alguém forte antes do fim da semana." },
+      { "speaker": "player", "expression": "surprised", "text": "E esse alguém forte sou eu?" },
+      { "speaker": "tristan", "expression": "happy", "text": "Claro! Se eu chegar perto de te vencer, já posso contar vantagem. Sem pegar leve, hein?" }
+     ],
+     "after": [
+      { "speaker": "tristan", "expression": "sad", "text": "Não deu. Vou ter que pagar o lanche do Joey a semana inteira." },
+      { "speaker": "player", "expression": "happy", "text": "Mas você quase me venceu. Conta isso pra ele." },
+      { "speaker": "tristan", "expression": "happy", "text": "\"Quase venci {nome}\"... É, soa bem melhor do que \"perdi\". Valeu pela ideia!" }
+     ],
+     "pick": {
+      "options": [
+       {
+        "label": "E se ele reclamar, eu divido o lanche com você.",
+        "tone": "good",
+        "then": [
+         { "speaker": "tristan", "expression": "happy", "text": "Fechado! Assim a dívida cai pela metade e a amizade dobra." }
+        ]
+       },
+       {
+        "label": "Da próxima vez, aposta só refrigerante.",
+        "tone": "neutral",
+        "then": [
+         { "speaker": "tristan", "expression": "neutral", "text": "Anotado. Aposta pequena, derrota pequena." }
+        ]
+       },
+       {
+        "label": "Bem feito, quem mandou apostar?",
+        "tone": "bad",
+        "then": [
+         { "speaker": "tristan", "expression": "angry", "text": "Ei! Eu vim aqui atrás de apoio, não de sermão!" }
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "title": "O ginásio vazio",
+     "before": [
+      { "speaker": "tristan", "expression": "neutral", "text": "O ginásio fica tão quieto depois da aula... É bom pra pensar." },
+      { "speaker": "tristan", "expression": "sad", "text": "Sabe, a vida toda eu fui o amigo que entra na briga. Mas nos duelos eu sempre fico só torcendo." },
+      { "speaker": "player", "expression": "neutral", "text": "Então hoje você duela por você mesmo." },
+      { "speaker": "tristan", "expression": "angry", "text": "É isso! Vem com tudo, {nome}!" }
+     ],
+     "after": [
+      { "speaker": "tristan", "expression": "sad", "text": "Mesmo perdendo, foi a primeira vez que eu senti que tava lutando do jeito certo." },
+      { "speaker": "tristan", "expression": "blushing", "text": "E foi por sua causa. Fica estranho eu dizer isso? Você é importante pra mim, {nome}." }
+     ],
+     "choice": {
+      "friendship": {
+       "label": "Você também é importante pra mim. Amizade pra valer, Tristan.",
+       "then": [
+        { "speaker": "tristan", "expression": "happy", "text": "Amizade pra valer! Agora ninguém segura a gente." }
+       ]
+      },
+      "romance": {
+       "label": "Não fica estranho, não. Eu gosto muito de estar com você, Tristan.",
+       "then": [
+        { "speaker": "tristan", "expression": "surprised", "text": "Sério?! Eu... caramba, {nome}." },
+        { "speaker": "tristan", "expression": "blushing", "text": "Acho que eu vou passar o resto do dia sorrindo à toa." }
+       ]
+      }
+     }
+    },
+    {
+     "title": "Do lado de dentro da arena",
+     "friendship": {
+      "before": [
+       { "speaker": "tristan", "expression": "happy", "text": "{nome}, decidi: amanhã eu desafio o Joey na frente da turma toda." },
+       { "speaker": "tristan", "expression": "neutral", "text": "Mas antes quero um último teste. Duela comigo como se fosse a final?" },
+       { "speaker": "player", "expression": "happy", "text": "Pode vir. Sem pegar leve." }
+      ],
+      "after": [
+       { "speaker": "tristan", "expression": "happy", "text": "Esse foi o melhor duelo que eu já joguei, mesmo perdendo." },
+       { "speaker": "tristan", "expression": "neutral", "text": "Toma. É o meu Comandante Cibernético, a primeira peça da minha máquina." },
+       { "speaker": "player", "expression": "surprised", "text": "Mas ele é o coração do seu deck!" },
+       { "speaker": "tristan", "expression": "happy", "text": "Por isso mesmo. Sem você, eu nunca ia ter coragem. Amanhã eu vou com tudo!" }
+      ]
+     },
+     "romance": {
+      "before": [
+       { "speaker": "tristan", "expression": "blushing", "text": "{nome}, a turma montou uma barraca de duelos no festival da escola. Quer ir... comigo?" },
+       { "speaker": "player", "expression": "blushing", "text": "Quero. Muito." },
+       { "speaker": "tristan", "expression": "happy", "text": "Então tá combinado! Mas primeiro um duelo na barraca, pra dar sorte." }
+      ],
+      "after": [
+       { "speaker": "tristan", "expression": "blushing", "text": "Eu ensaiei isso a semana inteira e esqueci tudo. Então vai do jeito que sair." },
+       { "speaker": "tristan", "expression": "blushing", "text": "Eu gosto de você, {nome}. Não é só amizade. É de verdade." },
+       { "speaker": "player", "expression": "blushing", "text": "Eu também gosto de você, Tristan." },
+       { "speaker": "tristan", "expression": "happy", "text": "Fica com o meu Comandante Cibernético. Assim um pedaço do meu deck vai sempre com você." }
+      ]
+     },
+     "pick": {
+      "options": [
+       {
+        "label": "Vou cuidar dele como se fosse o meu deck inteiro.",
+        "tone": "good",
+        "then": [
+         { "speaker": "tristan", "expression": "happy", "text": "Eu sabia que podia confiar em você. Ele tá em boas mãos." }
+        ],
+        "remember": [
+         { "speaker": "tristan", "expression": "neutral", "text": "Sabe aquele Comandante Cibernético? Eu sempre soube que você ia cuidar bem dele." }
+        ]
+       },
+       {
+        "label": "Valeu, Tristan. Vou usar no próximo duelo.",
+        "tone": "neutral",
+        "then": [
+         { "speaker": "tristan", "expression": "happy", "text": "Então me chama pra ver! Quero ver ele brilhando no seu campo." }
+        ]
+       },
+       {
+        "label": "Tem certeza? Ele não combina muito com o meu deck.",
+        "tone": "bad",
+        "then": [
+         { "speaker": "tristan", "expression": "sad", "text": "Ah... Bom, então guarda ele de lembrança. Pelo menos isso, vai." }
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "title": "Uma carta da Serenity",
+     "before": [
+      { "speaker": "tristan", "expression": "neutral", "text": "{nome}, o Joey foi pro Reino dos Duelistas. Ele quer o prêmio pra pagar a cirurgia da irmã dele, a Serenity." },
+      { "speaker": "tristan", "expression": "sad", "text": "Eu queria ter ido junto. Mas fiquei aqui, de olho pra ninguém mexer com a família dele enquanto isso." },
+      { "speaker": "tristan", "expression": "blushing", "text": "E... a Serenity me mandou uma carta agradecendo. Uma carta. Pra mim." },
+      { "speaker": "player", "expression": "happy", "text": "Alguém tá todo bobo." },
+      { "speaker": "tristan", "expression": "angry", "text": "Não tô nada! Duela comigo antes que eu fique ainda mais vermelho." }
+     ],
+     "after": [
+      { "speaker": "tristan", "expression": "happy", "text": "Valeu. Duelar com você me deixa com a cabeça no lugar." },
+      { "speaker": "tristan", "expression": "neutral", "text": "Eu respondi a carta dela. Escrevi que o Joey vai voltar campeão. Será que eu fiz bem?" }
+     ],
+     "pick": {
+      "options": [
+       {
+        "label": "Fez. Ela precisa de alguém que acredite tanto quanto você.",
+        "tone": "good",
+        "then": [
+         { "speaker": "tristan", "expression": "happy", "text": "É isso! Quando o Joey voltar, a gente faz uma festa pros dois." }
+        ],
+        "remember": [
+         { "speaker": "tristan", "expression": "blushing", "text": "A Serenity mandou outra carta, sabia? Disse que guardou a minha resposta. E que eu tinha razão sobre o Joey." }
+        ]
+       },
+       {
+        "label": "Fez, mas manda notícias de verdade também.",
+        "tone": "neutral",
+        "then": [
+         { "speaker": "tristan", "expression": "neutral", "text": "Boa. Vou contar do torneio, das ruas, de tudo. Assim ela se sente aqui com a gente." }
+        ]
+       },
+       {
+        "label": "Prometer vitória é arriscado, Tristan.",
+        "tone": "bad",
+        "then": [
+         { "speaker": "tristan", "expression": "sad", "text": "Eu sei... Mas às vezes uma promessa é o que segura a pessoa de pé." }
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "title": "Na linha de frente",
+     "friendship": {
+      "before": [
+       { "speaker": "tristan", "expression": "angry", "text": "A Batalha da Cidade tá cheia desses Caçadores Raros, {nome}. Eles roubam as cartas raras de quem perde." },
+       { "speaker": "tristan", "expression": "neutral", "text": "Eu não duelo no torneio, mas não vou ficar parado. Vou ficar de olho em cada beco perto do Yugi e do Joey." },
+       { "speaker": "tristan", "expression": "happy", "text": "Só que antes quero ter certeza de que o meu deck aguenta. Um duelo pra valer?" },
+       { "speaker": "player", "expression": "happy", "text": "Pra valer. Vem." }
+      ],
+      "after": [
+       { "speaker": "tristan", "expression": "happy", "text": "Isso! Se aparecer um Caçador Raro na minha frente, ele vai ter uma surpresa." },
+       { "speaker": "player", "expression": "happy", "text": "Você mudou muito desde aquele treino atrás do ginásio." },
+       { "speaker": "tristan", "expression": "neutral", "text": "Mudei. Antes eu só entrava na briga. Agora eu sei por que eu luto: pelos meus amigos. Por você também." }
+      ]
+     },
+     "romance": {
+      "before": [
+       { "speaker": "tristan", "expression": "blushing", "text": "{nome}, a cidade virou um torneio gigante. Tem duelo em cada esquina... e eu só consigo pensar em você." },
+       { "speaker": "tristan", "expression": "neutral", "text": "Hoje eu vou te acompanhar até o fim do dia, aonde você for. Ninguém mexe com você enquanto eu estiver por perto." },
+       { "speaker": "player", "expression": "blushing", "text": "Meu guarda-costas particular?" },
+       { "speaker": "tristan", "expression": "happy", "text": "O melhor da cidade! Mas antes, um duelo. Pra mostrar que eu também sei lutar com cartas." }
+      ],
+      "after": [
+       { "speaker": "tristan", "expression": "blushing", "text": "Do alto da torre do relógio dá pra ver os telões do torneio. Ficou tudo pequeno lá embaixo." },
+       { "speaker": "tristan", "expression": "blushing", "text": "Eu entrei nessa batalha pra proteger os meus amigos. Mas, no fim, quem me deu coragem foi você." },
+       { "speaker": "player", "expression": "blushing", "text": "Então a gente se protege. Um ao outro." }
+      ]
+     },
+     "pick": {
+      "options": [
+       {
+        "label": "Então a gente segue junto até o fim do torneio.",
+        "tone": "good",
+        "then": [
+         { "speaker": "tristan", "expression": "happy", "text": "Até o fim. E depois dele também." }
+        ],
+        "remember": [
+         { "speaker": "tristan", "expression": "happy", "text": "E pensar que tudo começou com você me pegando no treino escondido... Lado a lado até aqui." }
+        ]
+       },
+       {
+        "label": "Cuidado nos becos, tá? Não quero te ver machucado.",
+        "tone": "neutral",
+        "then": [
+         { "speaker": "tristan", "expression": "neutral", "text": "Pode deixar. Eu volto inteiro. E com histórias pra contar." }
+        ]
+       },
+       {
+        "label": "Deixa os duelistas resolverem, Tristan.",
+        "tone": "bad",
+        "then": [
+         { "speaker": "tristan", "expression": "sad", "text": "Eu não consigo, {nome}. Ficar parado vendo os amigos em perigo não é comigo." }
+        ]
+       }
+      ]
+     }
+    }
    ]
   },
   "tea": {
@@ -13,6 +275,267 @@
     { "speaker": "tea", "expression": "surprised", "text": "Você venceu as minhas fadas! Nem o Joey conseguiu isso na primeira vez." },
     { "speaker": "player", "expression": "blushing", "text": "Você joga muito bem também. Foi difícil do começo ao fim." },
     { "speaker": "tea", "expression": "happy", "text": "Obrigada! Mas da próxima vez as minhas fadas não vão facilitar, combinado?" }
+   ],
+   "bondEvents": [
+    {
+     "title": "O segredo do Burger World",
+     "before": [
+      { "speaker": "tea", "expression": "surprised", "text": "{nome}?! Não acredito que você me viu de uniforme..." },
+      { "speaker": "tea", "expression": "sad", "text": "A escola não permite que os alunos tenham emprego fora das férias. Se descobrirem, eu tô encrencada." },
+      { "speaker": "player", "expression": "neutral", "text": "Relaxa, eu não vou contar pra ninguém." },
+      { "speaker": "tea", "expression": "happy", "text": "Então vamos selar a promessa com um duelo. Quem perder paga o milk-shake!" }
+     ],
+     "after": [
+      { "speaker": "tea", "expression": "happy", "text": "Promessa selada! E o milk-shake é por minha conta, que funcionária tem desconto." },
+      { "speaker": "player", "expression": "happy", "text": "Seu segredo está seguro comigo." },
+      { "speaker": "tea", "expression": "blushing", "text": "Obrigada, {nome}. Fazia tempo que eu não dividia um segredo com alguém." }
+     ],
+     "pick": {
+      "options": [
+       {
+        "label": "Então agora são dois segredos: o seu emprego e que eu adoro milk-shake.",
+        "tone": "good",
+        "then": [
+         { "speaker": "tea", "expression": "happy", "text": "Ha ha! Esse segundo eu já tinha percebido pelo canudinho." }
+        ]
+       },
+       {
+        "label": "Se precisar de ajuda pra disfarçar, é só chamar.",
+        "tone": "neutral",
+        "then": [
+         { "speaker": "tea", "expression": "neutral", "text": "Vou lembrar. Ter alguém do meu lado nessa já ajuda muito." }
+        ]
+       },
+       {
+        "label": "Mas por que esconder? Não é crime trabalhar.",
+        "tone": "bad",
+        "then": [
+         { "speaker": "tea", "expression": "sad", "text": "Pra escola, quase é. Por favor, não faz pouco caso disso, {nome}." }
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "title": "Passos depois do expediente",
+     "before": [
+      { "speaker": "tea", "expression": "blushing", "text": "Ah! {nome}! Eu achei que o salão já estava vazio..." },
+      { "speaker": "tea", "expression": "happy", "text": "Eu tava ensaiando. Quando o Burger World fecha, o salão vira o meu palco." },
+      { "speaker": "player", "expression": "happy", "text": "Dança mais um pouco? Depois a gente duela." },
+      { "speaker": "tea", "expression": "happy", "text": "Só se você duelar no ritmo da música!" }
+     ],
+     "after": [
+      { "speaker": "tea", "expression": "neutral", "text": "Posso te contar uma coisa? Eu quero dançar em Nova York. Numa escola de dança de verdade." },
+      { "speaker": "tea", "expression": "blushing", "text": "É por isso que eu trabalho aqui. Cada plantão é um pedacinho da passagem." },
+      { "speaker": "player", "expression": "happy", "text": "É um sonho lindo, Tea." },
+      { "speaker": "tea", "expression": "happy", "text": "Você é a primeira pessoa que não riu quando eu contei." }
+     ],
+     "pick": {
+      "options": [
+       {
+        "label": "E eu vou ser a primeira pessoa a comprar ingresso pro seu show.",
+        "tone": "good",
+        "then": [
+         { "speaker": "tea", "expression": "happy", "text": "Promessa anotada! Primeiro ingresso, primeira fila." }
+        ],
+        "remember": [
+         { "speaker": "tea", "expression": "happy", "text": "Lembra que você prometeu comprar o primeiro ingresso do meu show? Eu não esqueci, viu?" }
+        ]
+       },
+       {
+        "label": "Por que alguém riria? É um sonho de verdade.",
+        "tone": "neutral",
+        "then": [
+         { "speaker": "tea", "expression": "blushing", "text": "Porque sonho grande assusta. Mas com você parece menos assustador." }
+        ]
+       },
+       {
+        "label": "Nova York é longe, hein... Já pensou em algo mais perto?",
+        "tone": "bad",
+        "then": [
+         { "speaker": "tea", "expression": "sad", "text": "Já. Todo mundo me pergunta isso. Achei que você ia ser diferente." }
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "title": "O pote da passagem",
+     "before": [
+      { "speaker": "tea", "expression": "sad", "text": "Olha quanto eu já juntei de gorjeta neste pote, {nome}. Seis meses aqui, e ainda falta tanto..." },
+      { "speaker": "tea", "expression": "sad", "text": "Às vezes eu penso que é bobagem. Que Nova York é longe demais pra mim." },
+      { "speaker": "player", "expression": "neutral", "text": "Duela comigo. Depois a gente conversa sobre isso." }
+     ],
+     "after": [
+      { "speaker": "tea", "expression": "surprised", "text": "Você não desistiu nem quando eu tava ganhando. Como você faz isso?" },
+      { "speaker": "player", "expression": "happy", "text": "Do mesmo jeito que você vai chegar em Nova York: um passo de cada vez." },
+      { "speaker": "tea", "expression": "blushing", "text": "{nome}... Você sempre sabe o que dizer. Eu nem sei o que eu faria sem você." }
+     ],
+     "choice": {
+      "friendship": {
+       "label": "Pode contar comigo, Tea. Pra isso serve a amizade.",
+       "then": [
+        { "speaker": "tea", "expression": "happy", "text": "Amizade e milk-shake, a melhor dupla! Senta aí, que hoje é por minha conta." }
+       ]
+      },
+      "romance": {
+       "label": "Eu também não sei o que faria sem você, Tea.",
+       "then": [
+        { "speaker": "tea", "expression": "surprised", "text": "Ah... Você disse isso mesmo?" },
+        { "speaker": "tea", "expression": "blushing", "text": "Meu coração disparou. Olha só, eu tô até sem graça." }
+       ]
+      }
+     }
+    },
+    {
+     "title": "A noite de folga",
+     "friendship": {
+      "before": [
+       { "speaker": "tea", "expression": "happy", "text": "Hoje é minha folga, {nome}! E eu vou gravar a fita da audição pra escola de dança." },
+       { "speaker": "tea", "expression": "sad", "text": "Só que eu tô tremendo inteira. Um duelo antes, pra acalmar?" },
+       { "speaker": "player", "expression": "happy", "text": "Um duelo e depois a fita. Combinado." }
+      ],
+      "after": [
+       { "speaker": "tea", "expression": "happy", "text": "Pronto, gravei! E não errei nenhum passo!" },
+       { "speaker": "tea", "expression": "neutral", "text": "Toma a minha Amizade Brilhante. É a minha carta favorita, porque ela fala da gente." },
+       { "speaker": "player", "expression": "surprised", "text": "Tem certeza, Tea?" },
+       { "speaker": "tea", "expression": "happy", "text": "Absoluta. Onde eu estiver, quero que você lembre que a nossa amizade brilha." }
+      ]
+     },
+     "romance": {
+      "before": [
+       { "speaker": "tea", "expression": "blushing", "text": "Hoje é minha folga. Então hoje eu sento do outro lado do balcão... com você, se quiser." },
+       { "speaker": "player", "expression": "blushing", "text": "É um encontro?" },
+       { "speaker": "tea", "expression": "blushing", "text": "Pode ser um encontro. Mas primeiro um duelo, que eu tô nervosa demais pra comer." }
+      ],
+      "after": [
+       { "speaker": "tea", "expression": "blushing", "text": "Eu passei a semana inteira pensando em como dizer isso." },
+       { "speaker": "tea", "expression": "blushing", "text": "Eu gosto de você, {nome}. Muito. Mais do que eu consigo explicar dançando." },
+       { "speaker": "player", "expression": "blushing", "text": "Eu também gosto de você, Tea." },
+       { "speaker": "tea", "expression": "happy", "text": "Então fica com a minha Amizade Brilhante. Foi assim que tudo começou entre a gente." }
+      ]
+     },
+     "pick": {
+      "options": [
+       {
+        "label": "Vou guardar ela no meu deck, bem na frente.",
+        "tone": "good",
+        "then": [
+         { "speaker": "tea", "expression": "happy", "text": "Assim ela vai ser a primeira coisa que você vê quando abrir o deck. Gostei!" }
+        ]
+       },
+       {
+        "label": "{Obrigado|Obrigada|Valeu}, Tea. Prometo usar bem.",
+        "tone": "neutral",
+        "then": [
+         { "speaker": "tea", "expression": "happy", "text": "Eu sei que vai. Você sempre usa tudo bem." }
+        ]
+       },
+       {
+        "label": "Carta de amizade não combina muito comigo.",
+        "tone": "bad",
+        "then": [
+         { "speaker": "tea", "expression": "sad", "text": "Ah... Bom, combina comigo. E eu queria que ela ficasse com você." }
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "title": "O símbolo da amizade",
+     "before": [
+      { "speaker": "tea", "expression": "neutral", "text": "{nome}, o Yugi foi pro Reino dos Duelistas pra salvar o avô. O Joey e o Tristan foram atrás." },
+      { "speaker": "tea", "expression": "sad", "text": "Eu fiquei. Alguém tinha que cobrir o meu turno no Burger World... mas eu me sinto deixada pra trás." },
+      { "speaker": "tea", "expression": "neutral", "text": "Eles mandam notícias pelo telefone. Disseram que o Yugi já venceu três duelistas." },
+      { "speaker": "player", "expression": "happy", "text": "E você aqui, torcendo por todos eles." },
+      { "speaker": "tea", "expression": "happy", "text": "Torcer cansa! Duela comigo, que eu preciso gastar essa energia." }
+     ],
+     "after": [
+      { "speaker": "tea", "expression": "happy", "text": "Ah, agora sim. Parece que eu tô duelando junto com eles." },
+      { "speaker": "tea", "expression": "neutral", "text": "Sabe o que eu fiz? Desenhei um símbolo de amizade na mão de cada um antes de irem. Pra lembrarem que não estão sozinhos." }
+     ],
+     "pick": {
+      "options": [
+       {
+        "label": "Desenha um na minha mão também?",
+        "tone": "good",
+        "then": [
+         { "speaker": "tea", "expression": "happy", "text": "Claro! Aqui, ó. Agora você faz parte do grupo oficialmente." }
+        ],
+        "remember": [
+         { "speaker": "tea", "expression": "happy", "text": "Ainda dá pra ver o símbolo que eu desenhei na sua mão? Eu desenharia de novo, todo dia." }
+        ]
+       },
+       {
+        "label": "Eles vão lembrar, Tea. Com certeza.",
+        "tone": "neutral",
+        "then": [
+         { "speaker": "tea", "expression": "neutral", "text": "Espero que sim. Às vezes um desenho de caneta segura mais que muita coisa." }
+        ]
+       },
+       {
+        "label": "Sério? Caneta na mão sai no primeiro banho.",
+        "tone": "bad",
+        "then": [
+         { "speaker": "tea", "expression": "angry", "text": "{nome}! Não é a tinta que importa, é o que ela significa!" }
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "title": "A audição ao vivo",
+     "friendship": {
+      "before": [
+       { "speaker": "tea", "expression": "happy", "text": "{nome}! A escola de dança respondeu a minha fita: eles querem me ver dançar ao vivo!" },
+       { "speaker": "tea", "expression": "sad", "text": "Só que a audição é no mesmo dia da final da Batalha da Cidade. Eu não quero deixar o Yugi sem torcida." },
+       { "speaker": "player", "expression": "neutral", "text": "Duela comigo. Às vezes a resposta aparece no meio do duelo." }
+      ],
+      "after": [
+       { "speaker": "tea", "expression": "neutral", "text": "Decidi. Vou na final do Yugi de manhã e pego o trem pra audição de tarde. Vai ser corrido, mas dá." },
+       { "speaker": "tea", "expression": "happy", "text": "Ninguém fica pra trás. Nem os meus amigos, nem o meu sonho." }
+      ]
+     },
+     "romance": {
+      "before": [
+       { "speaker": "tea", "expression": "blushing", "text": "{nome}, a escola de dança me chamou pra audição ao vivo. Você é a primeira pessoa pra quem eu conto." },
+       { "speaker": "tea", "expression": "sad", "text": "E se eu for pra Nova York? A gente... como fica?" },
+       { "speaker": "player", "expression": "blushing", "text": "Duela comigo. Depois a gente pensa nisso juntos." }
+      ],
+      "after": [
+       { "speaker": "tea", "expression": "blushing", "text": "Durante o duelo eu percebi uma coisa. Distância não apaga o que a gente tem." },
+       { "speaker": "tea", "expression": "happy", "text": "Eu vou pra audição. E você vai comigo até a estação, segurando a minha mão. Combinado?" }
+      ]
+     },
+     "pick": {
+      "options": [
+       {
+        "label": "Eu vou estar lá, torcendo pelos dois sonhos.",
+        "tone": "good",
+        "then": [
+         { "speaker": "tea", "expression": "happy", "text": "Com você na torcida, eu danço até de olhos fechados." }
+        ],
+        "remember": [
+         { "speaker": "tea", "expression": "blushing", "text": "Naquele dia corrido, entre a final e a audição, você esteve comigo o tempo todo. Eu nunca vou esquecer." }
+        ]
+       },
+       {
+        "label": "Vai dar tudo certo, Tea. Você ensaiou muito.",
+        "tone": "neutral",
+        "then": [
+         { "speaker": "tea", "expression": "neutral", "text": "Ensaiei. Agora é confiar nos passos." }
+        ]
+       },
+       {
+        "label": "Talvez fosse melhor esperar a próxima audição.",
+        "tone": "bad",
+        "then": [
+         { "speaker": "tea", "expression": "sad", "text": "Esperar de novo? Eu já esperei demais, {nome}." }
+        ]
+       }
+      ]
+     }
+    }
    ]
   },
   "joey": {
@@ -20,6 +543,262 @@
     { "speaker": "joey", "expression": "angry", "text": "Não acredito! {nome}, você me derrubou no mano a mano!" },
     { "speaker": "player", "expression": "happy", "text": "Você também é forte, Joey. Seu deck não dá um segundo de descanso." },
     { "speaker": "joey", "expression": "happy", "text": "Gostei de você! Mas eu quero revanche, hein! E aí o meu Dragão Negro vai estar com fome." }
+   ],
+   "bondEvents": [
+    {
+     "title": "O recorde da máquina",
+     "before": [
+      { "speaker": "joey", "expression": "happy", "text": "{nome}! Aposto que você não bate o meu recorde nessa máquina." },
+      { "speaker": "player", "expression": "happy", "text": "Aposto que bato." },
+      { "speaker": "joey", "expression": "surprised", "text": "...Empatou?! Isso não pode ficar assim. Desempate no duelo, agora!" }
+     ],
+     "after": [
+      { "speaker": "joey", "expression": "sad", "text": "Perdi o recorde E o duelo. Hoje não é o meu dia." },
+      { "speaker": "player", "expression": "happy", "text": "Foi por pouco nos dois." },
+      { "speaker": "joey", "expression": "happy", "text": "É, foi! Sabe de uma coisa? Gostei de você. Amanhã tem revanche!" }
+     ],
+     "pick": {
+      "options": [
+       {
+        "label": "Revanche aceita. Mas o recorde da máquina é meu.",
+        "tone": "good",
+        "then": [
+         { "speaker": "joey", "expression": "happy", "text": "Ah, é? Então amanhã é revanche dupla! Prepara as fichas!" }
+        ]
+       },
+       {
+        "label": "Pode ser. Se eu tiver tempo.",
+        "tone": "neutral",
+        "then": [
+         { "speaker": "joey", "expression": "neutral", "text": "Tempo a gente arruma. Eu fico aqui esperando, sem pressa... tá, com um pouco de pressa." }
+        ]
+       },
+       {
+        "label": "Revanche? Você perdeu nos dois, Joey.",
+        "tone": "bad",
+        "then": [
+         { "speaker": "joey", "expression": "angry", "text": "Ei! Pisar em quem tá caído não vale, hein!" }
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "title": "O torneio do fliperama",
+     "before": [
+      { "speaker": "joey", "expression": "happy", "text": "Olha esse cartaz! O fliperama vai ter um torneio de Duel Monsters no fim do mês!" },
+      { "speaker": "joey", "expression": "neutral", "text": "Eu me inscrevi. Mas preciso treinar com alguém forte de verdade. Topa?" },
+      { "speaker": "player", "expression": "happy", "text": "Topo. Mostra o que você tem." }
+     ],
+     "after": [
+      { "speaker": "joey", "expression": "surprised", "text": "Caramba, {nome}, você viu aquela jogada que eu quase fiz?" },
+      { "speaker": "player", "expression": "neutral", "text": "Vi. Se você esperar mais um turno, ela funciona." },
+      { "speaker": "joey", "expression": "happy", "text": "Esperar um turno... Paciência nunca foi o meu forte, mas eu vou tentar!" }
+     ],
+     "pick": {
+      "options": [
+       {
+        "label": "Vou te cobrar esse turno a mais em todo treino.",
+        "tone": "good",
+        "then": [
+         { "speaker": "joey", "expression": "happy", "text": "Fechado! A partir de hoje, você é quem me treina oficialmente." }
+        ],
+        "remember": [
+         { "speaker": "joey", "expression": "happy", "text": "Lembra quando você me cobrava esperar um turno a mais em todo treino? Eu fazia careta, mas valeu cada um." }
+        ]
+       },
+       {
+        "label": "Paciência se treina, igual o deck.",
+        "tone": "neutral",
+        "then": [
+         { "speaker": "joey", "expression": "neutral", "text": "Então vou treinar as duas coisas. Uma de cada vez, com paciência... viu? Já tô aprendendo." }
+        ]
+       },
+       {
+        "label": "Ou você só joga no ataque mesmo. Também funciona.",
+        "tone": "bad",
+        "then": [
+         { "speaker": "joey", "expression": "surprised", "text": "Funciona até não funcionar, né? Achei que você ia me ensinar alguma coisa, {nome}." }
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "title": "Depois da final",
+     "before": [
+      { "speaker": "joey", "expression": "sad", "text": "Oi, {nome}. Senta aqui na escada comigo." },
+      { "speaker": "joey", "expression": "sad", "text": "Cheguei na final do torneio. E perdi feio, na frente de todo mundo." },
+      { "speaker": "player", "expression": "neutral", "text": "Então duela comigo agora. Sem plateia, só por diversão." }
+     ],
+     "after": [
+      { "speaker": "joey", "expression": "neutral", "text": "Sabe que funcionou? Pela primeira vez hoje, eu me diverti de novo." },
+      { "speaker": "joey", "expression": "blushing", "text": "Valeu por não me deixar sozinho, {nome}. Você é especial, sabia?" }
+     ],
+     "choice": {
+      "friendship": {
+       "label": "Pra isso serve a amizade, Joey. Na próxima final, eu tô na torcida.",
+       "then": [
+        { "speaker": "joey", "expression": "happy", "text": "Na torcida, não: do meu lado! Melhores amigos de duelo, combinado?" }
+       ]
+      },
+      "romance": {
+       "label": "Você também é especial pra mim, Joey. Mais do que você imagina.",
+       "then": [
+        { "speaker": "joey", "expression": "surprised", "text": "Mais do que eu imagino? Olha que eu imagino bastante coisa, hein!" },
+        { "speaker": "joey", "expression": "blushing", "text": "Tá, agora eu fiquei vermelho. Não olha pra mim!" }
+       ]
+      }
+     }
+    },
+    {
+     "title": "A última ficha",
+     "friendship": {
+      "before": [
+       { "speaker": "joey", "expression": "happy", "text": "{nome}! Gastei a minha última ficha na inscrição da revanche do torneio." },
+       { "speaker": "joey", "expression": "neutral", "text": "Montei o deck com tudo o que você me ensinou. Antes, quero que você teste ele. Sem dó!" },
+       { "speaker": "player", "expression": "happy", "text": "Sem dó. Vamos lá." }
+      ],
+      "after": [
+       { "speaker": "joey", "expression": "happy", "text": "Ele aguentou! Esse deck tá pronto pra qualquer final!" },
+       { "speaker": "joey", "expression": "neutral", "text": "Toma, é o meu Espadachim das Chamas. O meu parceiro de batalha desde o começo." },
+       { "speaker": "player", "expression": "surprised", "text": "Joey, ele é o seu favorito!" },
+       { "speaker": "joey", "expression": "happy", "text": "Por isso mesmo. Parceiro de batalha a gente divide com quem luta do nosso lado." }
+      ]
+     },
+     "romance": {
+      "before": [
+       { "speaker": "joey", "expression": "blushing", "text": "{nome}, eu juntei fichas a semana inteira. Pulei o lanche e tudo." },
+       { "speaker": "joey", "expression": "blushing", "text": "É pra gente jogar junto hoje. Tipo... um encontro. Se você quiser." },
+       { "speaker": "player", "expression": "blushing", "text": "Eu quero. Mas primeiro um duelo, pra você parar de tremer." }
+      ],
+      "after": [
+       { "speaker": "joey", "expression": "blushing", "text": "Vem cá, na cabine de fotos. Eu preciso falar uma coisa e não quero plateia." },
+       { "speaker": "joey", "expression": "blushing", "text": "Eu gosto de você, {nome}. Não é brincadeira, não é aposta. É de verdade." },
+       { "speaker": "player", "expression": "blushing", "text": "Eu também gosto de você, Joey." },
+       { "speaker": "joey", "expression": "happy", "text": "Sério?! Então fica com o meu Espadachim das Chamas. E com a foto, claro!" }
+      ]
+     },
+     "pick": {
+      "options": [
+       {
+        "label": "Ele vai lutar do meu lado como lutou do seu.",
+        "tone": "good",
+        "then": [
+         { "speaker": "joey", "expression": "happy", "text": "É assim que se fala! Um espadachim, dois parceiros." }
+        ]
+       },
+       {
+        "label": "Valeu, Joey. Vou cuidar bem dele.",
+        "tone": "neutral",
+        "then": [
+         { "speaker": "joey", "expression": "happy", "text": "Eu sei que vai. Senão ele me conta, hein!" }
+        ]
+       },
+       {
+        "label": "Ele não vai fazer falta no seu deck? Fica com ele.",
+        "tone": "bad",
+        "then": [
+         { "speaker": "joey", "expression": "sad", "text": "Ah... Eu queria que ele ficasse com você. Mas tudo bem, se você não quer." }
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "title": "A promessa da Serenity",
+     "before": [
+      { "speaker": "joey", "expression": "angry", "text": "{nome}, eu vou pro Reino dos Duelistas. Não tem discussão." },
+      { "speaker": "joey", "expression": "sad", "text": "A minha irmã, a Serenity, tá perdendo a visão. O prêmio do torneio paga a cirurgia dela." },
+      { "speaker": "joey", "expression": "neutral", "text": "Antes de embarcar, quero um último duelo. Contra a pessoa mais forte que eu conheço." },
+      { "speaker": "player", "expression": "happy", "text": "Então vem com tudo." }
+     ],
+     "after": [
+      { "speaker": "joey", "expression": "happy", "text": "Esse deck tá afiado! O Pegasus que se prepare." },
+      { "speaker": "joey", "expression": "neutral", "text": "Liguei pra Serenity ontem. Prometi que ela vai me ver duelar numa final. Com os próprios olhos." }
+     ],
+     "pick": {
+      "options": [
+       {
+        "label": "Ela vai ver. E eu vou estar torcendo junto dela.",
+        "tone": "good",
+        "then": [
+         { "speaker": "joey", "expression": "happy", "text": "Sério? Isso vale mais que o prêmio inteiro, {nome}." }
+        ],
+        "remember": [
+         { "speaker": "joey", "expression": "blushing", "text": "A Serenity me contou que você ligou pra ela durante o torneio. Ela disse que nunca se sentiu tão perto de mim." }
+        ]
+       },
+       {
+        "label": "Você vai conseguir. Você é teimoso demais pra perder.",
+        "tone": "neutral",
+        "then": [
+         { "speaker": "joey", "expression": "happy", "text": "Teimoso é o meu nome do meio! Valeu!" }
+        ]
+       },
+       {
+        "label": "E se você não ganhar? Já pensou num plano B?",
+        "tone": "bad",
+        "then": [
+         { "speaker": "joey", "expression": "angry", "text": "Não existe plano B! Existe a Serenity enxergando, e ponto." }
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "title": "Antes do Marik",
+     "friendship": {
+      "before": [
+       { "speaker": "joey", "expression": "happy", "text": "{nome}! Cheguei nas finais da Batalha da Cidade! E a Serenity veio assistir, enxergando tudo!" },
+       { "speaker": "joey", "expression": "neutral", "text": "O próximo é o Marik. Dizem que ele controla as pessoas com aquele Bastão do Milênio. Eu tô com medo, e não tenho vergonha de dizer." },
+       { "speaker": "joey", "expression": "happy", "text": "Por isso eu preciso de um duelo com você. Pra lembrar quem eu sou." }
+      ],
+      "after": [
+       { "speaker": "joey", "expression": "happy", "text": "É isso! Eu sou o Joey Wheeler, e eu não desisto nunca!" },
+       { "speaker": "joey", "expression": "neutral", "text": "Lá do fliperama até as finais... Você esteve em cada passo. Isso eu não esqueço nunca." }
+      ]
+     },
+     "romance": {
+      "before": [
+       { "speaker": "joey", "expression": "blushing", "text": "{nome}, cheguei nas finais. E a Serenity veio, enxergando. Ela quer te conhecer, sabia? Eu falo de você o tempo todo." },
+       { "speaker": "joey", "expression": "sad", "text": "Amanhã eu enfrento o Marik. Se eu cair, quero que a última coisa boa que eu lembre seja hoje." },
+       { "speaker": "player", "expression": "blushing", "text": "Você não vai cair. Duela comigo." }
+      ],
+      "after": [
+       { "speaker": "joey", "expression": "blushing", "text": "Do convés do dirigível dá pra ver a cidade toda. Eu sabia que ia gostar de te mostrar." },
+       { "speaker": "joey", "expression": "happy", "text": "Amanhã eu vou vencer. Por mim, pela Serenity... e por você." }
+      ]
+     },
+     "pick": {
+      "options": [
+       {
+        "label": "Você vai vencer porque nunca desiste, Joey.",
+        "tone": "good",
+        "then": [
+         { "speaker": "joey", "expression": "happy", "text": "Nunca! E com você na torcida, menos ainda." }
+        ],
+        "remember": [
+         { "speaker": "joey", "expression": "happy", "text": "E na final da Batalha da Cidade, quando apertou, eu lembrei do que você disse: eu nunca desisto." }
+        ]
+       },
+       {
+        "label": "Cuidado com o Marik. Joga com a cabeça fria.",
+        "tone": "neutral",
+        "then": [
+         { "speaker": "joey", "expression": "neutral", "text": "Cabeça fria, coração quente. Pode deixar." }
+        ]
+       },
+       {
+        "label": "Talvez seja melhor desistir dessa final...",
+        "tone": "bad",
+        "then": [
+         { "speaker": "joey", "expression": "angry", "text": "Desistir? Eu? Nunca, {nome}! Achei que você me conhecia." }
+        ]
+       }
+      ]
+     }
+    }
    ]
   },
   "bakura": {
@@ -27,6 +806,259 @@
     { "speaker": "bakura", "expression": "surprised", "text": "Você atravessou o meu deck inteiro... Poucos conseguem, sabia?" },
     { "speaker": "player", "expression": "neutral", "text": "Seus zumbis não paravam de voltar. Achei que não ia acabar nunca." },
     { "speaker": "bakura", "expression": "happy", "text": "Fico feliz. É bom duelar com alguém que não desiste. Volte quando quiser." }
+   ],
+   "bondEvents": [
+    {
+     "title": "Miniaturas no banco do parque",
+     "before": [
+      { "speaker": "bakura", "expression": "surprised", "text": "Ah! Você me pegou pintando... São miniaturas para um jogo de RPG." },
+      { "speaker": "player", "expression": "happy", "text": "São lindas! Foi você que fez?" },
+      { "speaker": "bakura", "expression": "blushing", "text": "Fui. Ninguém nunca tinha elogiado. Você... gostaria de duelar comigo?" }
+     ],
+     "after": [
+      { "speaker": "bakura", "expression": "happy", "text": "Foi divertido. Há muito tempo eu não me divertia assim." },
+      { "speaker": "player", "expression": "happy", "text": "Então vamos repetir." },
+      { "speaker": "bakura", "expression": "blushing", "text": "Eu gostaria muito, {nome}." }
+     ],
+     "pick": {
+      "options": [
+       {
+        "label": "E da próxima vez você me ensina a pintar uma miniatura.",
+        "tone": "good",
+        "then": [
+         { "speaker": "bakura", "expression": "happy", "text": "Ensino, sim! Vou separar um pincel só para você." }
+        ]
+       },
+       {
+        "label": "Combinado. Aqui no parque, então.",
+        "tone": "neutral",
+        "then": [
+         { "speaker": "bakura", "expression": "neutral", "text": "No mesmo banco. Vai ser o nosso lugar." }
+        ]
+       },
+       {
+        "label": "Só se for rapidinho, tá? Eu tenho mais o que fazer.",
+        "tone": "bad",
+        "then": [
+         { "speaker": "bakura", "expression": "sad", "text": "Ah... Claro. Desculpe por tomar o seu tempo." }
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "title": "Uma partida de RPG",
+     "before": [
+      { "speaker": "bakura", "expression": "happy", "text": "{nome}, eu inventei um jogo de RPG. Você aceitaria {ser o primeiro aventureiro|ser a primeira aventureira|jogar a primeira aventura}?" },
+      { "speaker": "player", "expression": "happy", "text": "Claro! Mas como a gente começa?" },
+      { "speaker": "bakura", "expression": "neutral", "text": "Com um duelo, para decidir quem começa. É a regra da casa." }
+     ],
+     "after": [
+      { "speaker": "bakura", "expression": "happy", "text": "Você venceu, então é você quem começa a aventura. O dragão está esperando." },
+      { "speaker": "player", "expression": "happy", "text": "Pode mandar o dragão." },
+      { "speaker": "bakura", "expression": "happy", "text": "Ha ha! Fazia tempo que eu não ria assim, {nome}." }
+     ],
+     "pick": {
+      "options": [
+       {
+        "label": "O meu aventureiro enfrenta o dragão de frente!",
+        "tone": "good",
+        "then": [
+         { "speaker": "bakura", "expression": "happy", "text": "Que coragem! O dragão vai tremer nas escamas." }
+        ],
+        "remember": [
+         { "speaker": "bakura", "expression": "happy", "text": "O seu aventureiro ainda é o herói mais corajoso da nossa mesa. Enfrentou o dragão de frente, lembra?" }
+        ]
+       },
+       {
+        "label": "Vou tentar negociar com o dragão.",
+        "tone": "neutral",
+        "then": [
+         { "speaker": "bakura", "expression": "neutral", "text": "Negociar? Interessante... Ninguém nunca tentou isso. Vou ter que inventar as regras." }
+        ]
+       },
+       {
+        "label": "RPG é meio infantil, não acha?",
+        "tone": "bad",
+        "then": [
+         { "speaker": "bakura", "expression": "sad", "text": "Infantil? Eu... achei que você estava gostando." }
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "title": "Os amigos que se afastaram",
+     "before": [
+      { "speaker": "bakura", "expression": "sad", "text": "Posso te contar uma coisa? Nas outras escolas, os meus amigos... se afastaram." },
+      { "speaker": "bakura", "expression": "sad", "text": "Coisas estranhas acontecem perto de mim. E eu tenho medo de que aconteça de novo." },
+      { "speaker": "player", "expression": "neutral", "text": "Eu não vou a lugar nenhum. Duela comigo e esquece isso um pouco." }
+     ],
+     "after": [
+      { "speaker": "bakura", "expression": "neutral", "text": "Você não foi embora. Mesmo depois do que eu contei." },
+      { "speaker": "bakura", "expression": "blushing", "text": "Eu não quero perder você, {nome}. Você se tornou muito importante para mim." }
+     ],
+     "choice": {
+      "friendship": {
+       "label": "Você não vai me perder, Bakura. Amizade de verdade fica.",
+       "then": [
+        { "speaker": "bakura", "expression": "happy", "text": "Amizade de verdade fica... Vou guardar essas palavras como guardo as minhas miniaturas." }
+       ]
+      },
+      "romance": {
+       "label": "Você também é muito importante pra mim, Bakura. De um jeito especial.",
+       "then": [
+        { "speaker": "bakura", "expression": "surprised", "text": "De um jeito... especial?" },
+        { "speaker": "bakura", "expression": "blushing", "text": "Desculpe, eu fico sem jeito. Mas é um sem jeito feliz." }
+       ]
+      }
+     }
+    },
+    {
+     "title": "Uma tarde no gramado",
+     "friendship": {
+      "before": [
+       { "speaker": "bakura", "expression": "happy", "text": "{nome}! Chamei todo mundo para jogar RPG aqui no gramado. O Joey já quer ser o rei." },
+       { "speaker": "bakura", "expression": "neutral", "text": "Mas antes, um duelo entre nós dois. Pela tradição." },
+       { "speaker": "player", "expression": "happy", "text": "Pela tradição!" }
+      ],
+      "after": [
+       { "speaker": "bakura", "expression": "happy", "text": "Olha só a mesa cheia... Eu nunca tive isso antes." },
+       { "speaker": "bakura", "expression": "neutral", "text": "Fique com o meu Dian Keto, Mestre da Cura. Para cuidar de você quando eu não puder." },
+       { "speaker": "player", "expression": "surprised", "text": "{Obrigado|Obrigada|Valeu}, Bakura. De verdade." },
+       { "speaker": "bakura", "expression": "happy", "text": "Eu é que agradeço. Agora vamos, que o dragão do Joey não vai se derrotar sozinho." }
+      ]
+     },
+     "romance": {
+      "before": [
+       { "speaker": "bakura", "expression": "blushing", "text": "Eu... preparei um piquenique. Sanduíches, suco e uma toalha xadrez." },
+       { "speaker": "bakura", "expression": "blushing", "text": "É para nós. Antes, um duelo? Eu fico menos nervoso com as cartas na mão." },
+       { "speaker": "player", "expression": "blushing", "text": "Um duelo, e depois o piquenique." }
+      ],
+      "after": [
+       { "speaker": "bakura", "expression": "blushing", "text": "{nome}, eu ensaiei esta frase enquanto pintava três miniaturas seguidas." },
+       { "speaker": "bakura", "expression": "blushing", "text": "Eu gosto de você. Muito. Com você, eu não tenho medo de nada." },
+       { "speaker": "player", "expression": "blushing", "text": "Eu também gosto de você, Bakura." },
+       { "speaker": "bakura", "expression": "happy", "text": "Então fique com o meu Dian Keto, Mestre da Cura. Ele cuida de quem é importante para mim." }
+      ]
+     },
+     "pick": {
+      "options": [
+       {
+        "label": "E eu cuido de você também, Bakura.",
+        "tone": "good",
+        "then": [
+         { "speaker": "bakura", "expression": "blushing", "text": "Ninguém nunca me disse isso. Obrigado, {nome}." }
+        ]
+       },
+       {
+        "label": "Vou deixar ele no meu deck.",
+        "tone": "neutral",
+        "then": [
+         { "speaker": "bakura", "expression": "happy", "text": "Que bom. Assim ele está sempre por perto." }
+        ]
+       },
+       {
+        "label": "Cura não é muito o meu estilo de jogo...",
+        "tone": "bad",
+        "then": [
+         { "speaker": "bakura", "expression": "sad", "text": "Entendo. Mesmo assim, fique com ele. Por mim." }
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "title": "A voz do Anel",
+     "before": [
+      { "speaker": "bakura", "expression": "sad", "text": "{nome}... Eu tive aquele sonho de novo. Uma voz que não é minha, falando de um jogo das sombras." },
+      { "speaker": "bakura", "expression": "neutral", "text": "Começou quando o meu pai me deu este Anel do Milênio. Às vezes eu acordo em lugares aonde não lembro de ter ido." },
+      { "speaker": "player", "expression": "surprised", "text": "E por que você ainda usa ele?" },
+      { "speaker": "bakura", "expression": "sad", "text": "Porque eu tentei tirar, e ele sempre volta. Duela comigo? Quando eu duelo com você, a voz fica quieta." }
+     ],
+     "after": [
+      { "speaker": "bakura", "expression": "neutral", "text": "Ficou tudo em silêncio. Só a sua voz e as cartas." },
+      { "speaker": "bakura", "expression": "sad", "text": "Se um dia eu agir de um jeito estranho... promete que não vai desistir de mim?" }
+     ],
+     "pick": {
+      "options": [
+       {
+        "label": "Prometo. Eu vou te chamar de volta, quantas vezes for preciso.",
+        "tone": "good",
+        "then": [
+         { "speaker": "bakura", "expression": "blushing", "text": "Obrigado... Essa promessa vale mais que qualquer item do milênio." }
+        ],
+        "remember": [
+         { "speaker": "bakura", "expression": "neutral", "text": "Teve dias em que a voz do Anel falou mais alto. Mas você sempre me chamou de volta, como prometeu." }
+        ]
+       },
+       {
+        "label": "A gente conta pro Yugi. Ele entende dessas coisas.",
+        "tone": "neutral",
+        "then": [
+         { "speaker": "bakura", "expression": "neutral", "text": "O Yugi... É, talvez ele saiba o que fazer. Vou pensar nisso." }
+        ]
+       },
+       {
+        "label": "Talvez seja só cansaço, Bakura.",
+        "tone": "bad",
+        "then": [
+         { "speaker": "bakura", "expression": "sad", "text": "Eu queria que fosse. Mas eu sei que não é." }
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "title": "O outro Bakura",
+     "friendship": {
+      "before": [
+       { "speaker": "bakura", "expression": "neutral", "text": "Na Batalha da Cidade, o outro eu apareceu. Ele quase machucou os nossos amigos, {nome}." },
+       { "speaker": "bakura", "expression": "sad", "text": "O Yugi conseguiu me trazer de volta. Mas eu fiquei com medo de mim mesmo." },
+       { "speaker": "bakura", "expression": "happy", "text": "Só que hoje eu acordei e pensei: o meu jogo ainda é meu. Duela comigo, do jeito de sempre?" }
+      ],
+      "after": [
+       { "speaker": "bakura", "expression": "happy", "text": "Fui eu que joguei. Cada carta. Eu senti." },
+       { "speaker": "bakura", "expression": "neutral", "text": "Enquanto eu tiver amigos assim, a escuridão do Anel não me leva. Obrigado por ficar, {nome}." }
+      ]
+     },
+     "romance": {
+      "before": [
+       { "speaker": "bakura", "expression": "blushing", "text": "{nome}, depois de tudo na Batalha da Cidade, você ainda quer passar a tarde comigo?" },
+       { "speaker": "bakura", "expression": "sad", "text": "O outro eu fez coisas horríveis. E se ele voltar quando eu estiver com você?" },
+       { "speaker": "player", "expression": "blushing", "text": "Eu fico. Duela comigo e para de se preocupar." }
+      ],
+      "after": [
+       { "speaker": "bakura", "expression": "blushing", "text": "Pintei uma cena nova para a mesa de RPG: nós dois atravessando uma ponte sobre as sombras." },
+       { "speaker": "bakura", "expression": "happy", "text": "Do outro lado, tem luz. Foi você que me mostrou que ela existe." }
+      ]
+     },
+     "pick": {
+      "options": [
+       {
+        "label": "Você é mais forte que o Anel, Bakura.",
+        "tone": "good",
+        "then": [
+         { "speaker": "bakura", "expression": "happy", "text": "Com você por perto, eu começo a acreditar nisso." }
+        ]
+       },
+       {
+        "label": "Se ele voltar, a gente enfrenta junto.",
+        "tone": "neutral",
+        "then": [
+         { "speaker": "bakura", "expression": "neutral", "text": "Junto. É uma palavra boa." }
+        ]
+       },
+       {
+        "label": "Talvez fosse melhor jogar esse Anel no rio.",
+        "tone": "bad",
+        "then": [
+         { "speaker": "bakura", "expression": "sad", "text": "Eu já tentei, {nome}. Ele sempre volta." }
+        ]
+       }
+      ]
+     }
+    }
    ]
   },
   "yugi": {
@@ -35,6 +1067,261 @@
     { "speaker": "player", "expression": "happy", "text": "{Obrigado|Obrigada|Valeu} pelo duelo, Yugi. Foi o mais difícil até agora." },
     { "speaker": "yugi", "expression": "happy", "text": "O Mago Negro e eu ainda temos muito pra aprender. Você acabou de mostrar isso." },
     { "speaker": "yugi", "expression": "neutral", "text": "A Cidade de Domino ficou pequena pra você. Dizem que um torneio numa ilha vai reunir duelistas do país inteiro..." }
+   ],
+   "bondEvents": [
+    {
+     "title": "A vitrine da loja",
+     "before": [
+      { "speaker": "yugi", "expression": "happy", "text": "{nome}, olha só a vitrine! O vovô deixou eu arrumar os jogos novos." },
+      { "speaker": "yugi", "expression": "neutral", "text": "Cada caixa aqui tem uma história. Quer conhecer a minha favorita? Ela se joga com cartas." },
+      { "speaker": "player", "expression": "happy", "text": "Duel Monsters, imagino." },
+      { "speaker": "yugi", "expression": "happy", "text": "Acertou! Vamos jogar?" }
+     ],
+     "after": [
+      { "speaker": "yugi", "expression": "happy", "text": "Que duelo! O vovô até parou de varrer a loja pra assistir." },
+      { "speaker": "player", "expression": "happy", "text": "A sua loja é incrível, Yugi." },
+      { "speaker": "yugi", "expression": "blushing", "text": "Volta sempre, tá? Eu gosto de mostrar os jogos pra quem entende." }
+     ],
+     "pick": {
+      "options": [
+       {
+        "label": "Volto amanhã. Quero conhecer todas as caixas da vitrine.",
+        "tone": "good",
+        "then": [
+         { "speaker": "yugi", "expression": "happy", "text": "Todas?! Então vou separar uma por dia. O vovô vai adorar." }
+        ]
+       },
+       {
+        "label": "Volto, sim. Quando sair carta nova.",
+        "tone": "neutral",
+        "then": [
+         { "speaker": "yugi", "expression": "neutral", "text": "Combinado. Eu aviso você primeiro." }
+        ]
+       },
+       {
+        "label": "Ah, eu prefiro comprar pela internet.",
+        "tone": "bad",
+        "then": [
+         { "speaker": "yugi", "expression": "sad", "text": "Ah... É que a loja do vovô é meio pequena mesmo." }
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "title": "O quebra-cabeça de oito anos",
+     "before": [
+      { "speaker": "yugi", "expression": "neutral", "text": "Sabe este pingente? É o Enigma do Milênio. Eu levei oito anos pra montar." },
+      { "speaker": "player", "expression": "surprised", "text": "Oito anos?!" },
+      { "speaker": "yugi", "expression": "happy", "text": "Eu fiz um pedido enquanto montava. Duela comigo, que depois eu conto qual foi." }
+     ],
+     "after": [
+      { "speaker": "yugi", "expression": "blushing", "text": "Prometi contar, né? Eu pedi amigos de verdade. Alguém com quem dividir as coisas." },
+      { "speaker": "player", "expression": "happy", "text": "E o pedido se realizou?" },
+      { "speaker": "yugi", "expression": "happy", "text": "Acho que sim. O Joey, a Tea, o Tristan... e agora você, {nome}." }
+     ],
+     "pick": {
+      "options": [
+       {
+        "label": "Então o seu pedido também realizou o meu.",
+        "tone": "good",
+        "then": [
+         { "speaker": "yugi", "expression": "blushing", "text": "Assim eu fico sem palavras, {nome}." }
+        ],
+        "remember": [
+         { "speaker": "yugi", "expression": "blushing", "text": "Sabe o pedido do Enigma? Você disse que ele realizou o seu também. Eu penso nisso toda vez que olho pra ele." }
+        ]
+       },
+       {
+        "label": "Oito anos montando... você tem muita paciência.",
+        "tone": "neutral",
+        "then": [
+         { "speaker": "yugi", "expression": "happy", "text": "Paciência e um pouco de teimosia! Igual nos duelos." }
+        ]
+       },
+       {
+        "label": "Pedido em quebra-cabeça? Isso não existe, Yugi.",
+        "tone": "bad",
+        "then": [
+         { "speaker": "yugi", "expression": "sad", "text": "Talvez não. Mas os meus amigos existem. Pra mim, basta." }
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "title": "Depois de fechar a loja",
+     "before": [
+      { "speaker": "yugi", "expression": "neutral", "text": "O vovô já foi dormir. A loja fica diferente com as luzes baixas, né?" },
+      { "speaker": "yugi", "expression": "sad", "text": "Antes do Enigma, eu era o menino que todo mundo esquecia. Às vezes eu ainda me sinto assim." },
+      { "speaker": "player", "expression": "neutral", "text": "Duela comigo. Ninguém esquece quem joga como você." }
+     ],
+     "after": [
+      { "speaker": "yugi", "expression": "neutral", "text": "Posso te perguntar uma coisa, {nome}? O que você pensa de mim?" },
+      { "speaker": "yugi", "expression": "blushing", "text": "Desculpa, foi uma pergunta esquisita. Mas é que você é muito importante pra mim." }
+     ],
+     "choice": {
+      "friendship": {
+       "label": "Você é uma das melhores amizades que eu já tive, Yugi.",
+       "then": [
+        { "speaker": "yugi", "expression": "happy", "text": "Uma das melhores amizades... Acho que o meu pedido foi atendido duas vezes." }
+       ]
+      },
+      "romance": {
+       "label": "Eu penso em você mais do que deveria, Yugi.",
+       "then": [
+        { "speaker": "yugi", "expression": "surprised", "text": "Mais do que deveria?" },
+        { "speaker": "yugi", "expression": "blushing", "text": "Isso me deixou feliz de um jeito que eu nem sei explicar." }
+       ]
+      }
+     }
+    },
+    {
+     "title": "A última partida",
+     "friendship": {
+      "before": [
+       { "speaker": "yugi", "expression": "happy", "text": "{nome}! O vovô e eu organizamos um torneio na loja. E adivinha quem chegou na final?" },
+       { "speaker": "yugi", "expression": "happy", "text": "Nós dois! Vamos fazer dessa final o melhor duelo do mês." },
+       { "speaker": "player", "expression": "happy", "text": "O melhor do mês. Combinado." }
+      ],
+      "after": [
+       { "speaker": "yugi", "expression": "happy", "text": "Foi o melhor duelo do mês, sem dúvida. O vovô até chorou um pouquinho." },
+       { "speaker": "yugi", "expression": "neutral", "text": "Toma, é a minha Força do Espelho. Ela me protegeu em muitos duelos." },
+       { "speaker": "player", "expression": "surprised", "text": "Yugi, essa carta é rara demais!" },
+       { "speaker": "yugi", "expression": "happy", "text": "Amizade de verdade é mais rara. Agora ela vai te proteger por mim." }
+      ]
+     },
+     "romance": {
+      "before": [
+       { "speaker": "yugi", "expression": "blushing", "text": "{nome}, eu inventei um jogo. Ele só funciona com duas pessoas... e eu queria jogar com você." },
+       { "speaker": "yugi", "expression": "blushing", "text": "Mas primeiro um duelo. Eu preciso de coragem pro que vem depois." },
+       { "speaker": "player", "expression": "blushing", "text": "Pode contar comigo." }
+      ],
+      "after": [
+       { "speaker": "yugi", "expression": "blushing", "text": "No meu jogo, a última peça é uma frase. E a frase é esta:" },
+       { "speaker": "yugi", "expression": "blushing", "text": "Eu gosto de você, {nome}. Desde a primeira vez que você entrou na loja." },
+       { "speaker": "player", "expression": "blushing", "text": "Eu também gosto de você, Yugi." },
+       { "speaker": "yugi", "expression": "happy", "text": "Então fica com a minha Força do Espelho. Pra te proteger quando eu não estiver por perto." }
+      ]
+     },
+     "pick": {
+      "options": [
+       {
+        "label": "E eu vou proteger você também, Yugi.",
+        "tone": "good",
+        "then": [
+         { "speaker": "yugi", "expression": "happy", "text": "Então a gente se protege. Combinado de verdade." }
+        ]
+       },
+       {
+        "label": "Vou colocar ela no meu deck hoje mesmo.",
+        "tone": "neutral",
+        "then": [
+         { "speaker": "yugi", "expression": "happy", "text": "Que bom! Ela gosta de entrar em ação." }
+        ]
+       },
+       {
+        "label": "Carta rara assim? Vou guardar no fichário, longe dos duelos.",
+        "tone": "bad",
+        "then": [
+         { "speaker": "yugi", "expression": "sad", "text": "Ah... Carta foi feita pra duelar, {nome}. Mas tudo bem." }
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "title": "A outra voz do Enigma",
+     "before": [
+      { "speaker": "yugi", "expression": "neutral", "text": "{nome}, posso te contar uma coisa que eu nunca contei pra ninguém?" },
+      { "speaker": "yugi", "expression": "sad", "text": "Quando eu duelo sério, parece que outra pessoa duela comigo. Uma voz dentro do Enigma do Milênio." },
+      { "speaker": "yugi", "expression": "neutral", "text": "O Pegasus prendeu a alma do vovô numa carta, e eu vou pro Reino dos Duelistas buscar ele. Essa voz vai comigo." },
+      { "speaker": "player", "expression": "surprised", "text": "Outra pessoa... dentro do quebra-cabeça?" },
+      { "speaker": "yugi", "expression": "happy", "text": "Eu sei que parece loucura. Duela comigo, que talvez você sinta também." }
+     ],
+     "after": [
+      { "speaker": "yugi", "expression": "surprised", "text": "No fim do duelo, você sentiu? A voz disse que você joga com o coração." },
+      { "speaker": "yugi", "expression": "neutral", "text": "Ele não lembra quem é. Nem o próprio nome. Eu prometi que vou ajudar ele a descobrir." }
+     ],
+     "pick": {
+      "options": [
+       {
+        "label": "Então eu ajudo vocês dois.",
+        "tone": "good",
+        "then": [
+         { "speaker": "yugi", "expression": "happy", "text": "Vocês dois... É a primeira vez que alguém conta ele também. Obrigado, {nome}." }
+        ],
+        "remember": [
+         { "speaker": "yugi", "expression": "happy", "text": "Você prometeu ajudar a gente a descobrir o nome dele. E ajudou, sabia? Cada duelo foi uma pista." }
+        ]
+       },
+       {
+        "label": "Deve ser estranho dividir a cabeça com alguém.",
+        "tone": "neutral",
+        "then": [
+         { "speaker": "yugi", "expression": "neutral", "text": "Às vezes é. Mas também é bom nunca estar sozinho." }
+        ]
+       },
+       {
+        "label": "Será que não é só nervosismo, Yugi?",
+        "tone": "bad",
+        "then": [
+         { "speaker": "yugi", "expression": "sad", "text": "Talvez... Mas eu sinto ele, {nome}." }
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "title": "O nome do Faraó",
+     "friendship": {
+      "before": [
+       { "speaker": "yugi", "expression": "neutral", "text": "{nome}, o Marik tem as cartas dos deuses egípcios. Dizem que elas guardam as memórias do Faraó." },
+       { "speaker": "yugi", "expression": "happy", "text": "Se eu vencer a Batalha da Cidade, ele pode lembrar quem é. Eu e ele vamos até o fim." },
+       { "speaker": "yugi", "expression": "neutral", "text": "Mas antes, quero um duelo só nosso. Sem deuses, sem destino. Só cartas e amigos." }
+      ],
+      "after": [
+       { "speaker": "yugi", "expression": "happy", "text": "É disso que eu precisava. Lembrar por que eu comecei a jogar." },
+       { "speaker": "yugi", "expression": "neutral", "text": "Quando o Faraó lembrar o nome dele, eu quero que você esteja lá. Você faz parte dessa história." }
+      ]
+     },
+     "romance": {
+      "before": [
+       { "speaker": "yugi", "expression": "blushing", "text": "{nome}, amanhã é a final da Batalha da Cidade. O Faraó pode descobrir quem ele é... e ir embora." },
+       { "speaker": "yugi", "expression": "sad", "text": "Eu tenho medo de ficar sozinho de novo. Até lembrar que agora eu tenho você." },
+       { "speaker": "player", "expression": "blushing", "text": "Você nunca vai ficar sozinho, Yugi. Duela comigo." }
+      ],
+      "after": [
+       { "speaker": "yugi", "expression": "blushing", "text": "Na loja, com as luzes baixas, tudo parece mais calmo. Até o meu coração." },
+       { "speaker": "yugi", "expression": "happy", "text": "Aconteça o que acontecer amanhã, eu sei quem eu sou. Eu sou o Yugi. E eu escolhi você." }
+      ]
+     },
+     "pick": {
+      "options": [
+       {
+        "label": "Eu vou estar do seu lado na final. Dos dois lados do Enigma.",
+        "tone": "good",
+        "then": [
+         { "speaker": "yugi", "expression": "happy", "text": "Com você ali, nenhum deus egípcio me assusta." }
+        ]
+       },
+       {
+        "label": "Vai dar tudo certo. Vocês dois são o melhor time.",
+        "tone": "neutral",
+        "then": [
+         { "speaker": "yugi", "expression": "neutral", "text": "O melhor time. E você é a nossa melhor carta." }
+        ]
+       },
+       {
+        "label": "E se o Faraó for embora? Não seria melhor ele não lembrar?",
+        "tone": "bad",
+        "then": [
+         { "speaker": "yugi", "expression": "sad", "text": "Eu já pensei nisso. Mas ele merece saber quem é, {nome}." }
+        ]
+       }
+      ]
+     }
+    }
    ]
   }
  }

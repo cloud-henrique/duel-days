@@ -50,6 +50,14 @@ export const newProgress = (playerName: string): Progress => ({ playerName, wins
  * estatísticas e os ajustes, e fica sem campanha: ela começa do dia 1. O mesmo vale para uma campanha de outra versão
  * (a de antes do Speed Duel, por exemplo).
  */
+/**
+ * Campanha de antes das escolhas nos eventos (change lacos-ate-o-fim): os eventos já vencidos não pedem escolha depois.
+ */
+function withPicks(c: CampaignState): CampaignState {
+  if (c.bondPicks) return c;
+  return { ...c, bondPicks: {}, bondPicksFrom: { ...c.bondEventsDone } };
+}
+
 export function migrate(raw: unknown): Progress | null {
   if (!raw || typeof raw !== 'object') return null;
   const p = raw as Partial<Progress> & Record<string, unknown>;
@@ -58,7 +66,7 @@ export function migrate(raw: unknown): Progress | null {
     playerName: p.playerName,
     wins: (p.wins as Record<string, number>) ?? {},
     losses: (p.losses as Record<string, number>) ?? {},
-    campaign: p.campaign && (p.campaign as CampaignState).version === CAMPAIGN_VERSION ? (p.campaign as CampaignState) : null,
+    campaign: p.campaign && (p.campaign as CampaignState).version === CAMPAIGN_VERSION ? withPicks(p.campaign as CampaignState) : null,
   };
   if (p.avatar !== undefined) out.avatar = p.avatar;
   if (p.address !== undefined) out.address = p.address;

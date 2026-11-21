@@ -135,7 +135,10 @@ pelo `.hexbg` do `styles.css`.
   - `tiers.ts` (tier atual derivado do dia e dos chefes: o próximo abre pelo chefe vencido ou pelo primeiro dia da janela,
     só se tiver duelistas; `bossDefeatedOn` opcional no save);
   - `state.ts` (o save), `rng.ts` (**todo sorteio sai da semente**: `generator(PURPOSE.x, seed, dia, …)`), `balance.ts`;
-  - `calendar.ts` (30 dias × manhã/tarde/noite; **só o duelo gasta período**), `map.ts` (2 a 4 do tier atual + todos os comuns
+  - `calendar.ts` (30 dias × manhã/tarde/noite; **só o duelo gasta período**), laços (change `lacos-ate-o-fim`): 6
+    eventos por duelista do Tier 1 (o 5º espera o Tier 2 e o 6º o Tier 3, `BALANCE.bondEventTier`), resposta no fim de
+    cada evento menos o 3º (`pick`, gravada em `bondPicks`; `remember` toca no epílogo) e a carta do laço no 4º; o
+    `dialogue-tier1.json` traz a lista `bondEvents` completa (o merge do `copy_campaign_data.py` é por momento), `map.ts` (2 a 4 do tier atual + todos os comuns
     dos tiers anteriores, chefes liberados; T1 nos pontos fixos, depois anéis: tier atual no meio, antigos mais longe), `encounter.ts` (qual fala toca), `bond.ts` (afinidade com teto/piso, conversa, eventos, rota, epílogo),
     `rewards.ts` (`applyDuel`: DP com bônus, carta, assinatura, chefe, laço e o período), `packs.ts` (loja e sorteio 4+1),
     `flow.ts` (conhecer, `pendingDuel`), `text.ts` (`{nome}` e `{m|f|n}`), `debug.ts` (`?campaign=last-evening|bond|boss|tier2|pegasus|tier3|kaiba|shop`

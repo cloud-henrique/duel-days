@@ -6,7 +6,7 @@
 // Uso: npx tsx proto/story-smoke.ts [campanhas=200]
 import { BALANCE } from '../src/campaign/balance';
 import {
-  bondChoiceScene, canTalk, chooseRoute, conversationScene, epilogue, isChoicePending, playableEvent, talk, TOPICS,
+  bondChoiceScene, canTalk, choosePick, chooseRoute, conversationScene, epilogue, isChoicePending, pendingPick, pickScene, playableEvent, talk, TOPICS,
 } from '../src/campaign/bond';
 import type { Scene } from '../src/campaign/data/types';
 import { greetingScene, preDuelScene } from '../src/campaign/encounter';
@@ -16,13 +16,13 @@ import { openUnopened, buy, canBuy, collectionPacks } from '../src/campaign/pack
 import { applyDuel, type DuelOutcome } from '../src/campaign/rewards';
 import { generator, pick, randInt } from '../src/campaign/rng';
 import { newCampaign, type CampaignState, type Route } from '../src/campaign/state';
-import { TIERS } from '../src/campaign/data/types';
+import { DIALOGUE, TIERS } from '../src/campaign/data/types';
 import { currentTier, tierOf, tierOpenDay } from '../src/campaign/tiers';
 import { fillText } from '../src/campaign/text';
 
 const N = Number(process.argv[2] ?? 200);
 const seen = new Set<string>();
-let scenes = 0, bossWins = 0, ended = 0, epilogues = 0, prizes = 0;
+let scenes = 0, bossWins = 0, ended = 0, epilogues = 0, prizes = 0, withMemories = 0;
 /** Os tiers com duelistas além do primeiro; a campanha termina no último deles. */
 const LATER = TIERS.slice(1).filter((t) => t.duelists.length);
 const LAST = LATER[LATER.length - 1]?.number ?? 1;
@@ -62,6 +62,14 @@ for (let n = 0; n < N; n++) {
         s = r.state;
         seen.add(`${d.key}:rota:${route}`);
       }
+      // Resposta no fim do evento (change lacos-ate-o-fim): uma opção por sorteio.
+      for (let e = pendingPick(s, d.key); e !== null; e = pendingPick(s, d.key)) {
+        check(pickScene(s, d.key), `resposta ${d.key} ${e}`);
+        const r = choosePick(s, d.key, Math.floor(g() * 3) % 2);
+        check(r.then, `resposta ${d.key} ${e}`);
+        s = r.state;
+        seen.add(`${d.key}:resposta:${e}`);
+      }
       if (canTalk(s, d.key)) {
         const r = talk(s, d.key, pick(g, TOPICS)!);
         check(conversationScene(d.key, r.result), `conversa ${d.key}`);
@@ -96,7 +104,7 @@ for (let n = 0; n < N; n++) {
   }
   if (currentTier(s).number !== LAST) fail(`campanha ${n} terminou no tier ${currentTier(s).number}`);
   const ep = epilogue(s);
-  if (ep) { check(ep.scene, `epílogo ${ep.duelist.key}`); epilogues++; seen.add(`${ep.duelist.key}:epilogo:${ep.route}`); }
+  if (ep) { check(ep.scene, `epílogo ${ep.duelist.key}`); epilogues++; seen.add(`${ep.duelist.key}:epilogo:${ep.route}`); if (ep.scene.length > (DIALOGUE.duelists[ep.duelist.key].epilogue?.[ep.route].length ?? 0)) withMemories++; }
 }
 
 const keys = ['tristan', 'tea', 'joey', 'bakura', 'yugi'];
@@ -104,8 +112,9 @@ const missing: string[] = [];
 for (const k of keys) {
   for (let e = 1; e <= BALANCE.bondEvents; e++) if (!seen.has(`${k}:evento:${e}`)) missing.push(`${k} evento ${e}`);
   for (const r of ['friendship', 'romance']) if (!seen.has(`${k}:rota:${r}`)) missing.push(`${k} rota ${r}`);
+  for (const e of [1, 2, 4, 5, 6]) if (!seen.has(`${k}:resposta:${e}`)) missing.push(`${k} resposta ${e}`);
 }
-console.log(`${ended}/${N} campanhas até o dia 30 | ${scenes} cenas | chefe vencido em ${bossWins} | epílogos ${epilogues}`);
+console.log(`${ended}/${N} campanhas até o dia 30 | ${scenes} cenas | chefe vencido em ${bossWins} | epílogos ${epilogues} (com lembrança: ${withMemories})`);
 for (const t of LATER) {
   const o = opened[t.number];
   console.log(`Tier ${t.number} aberto pelo chefe em ${o.chefe}, pelo prazo em ${o.prazo}, nunca em ${o.nunca}`);

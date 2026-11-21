@@ -1,9 +1,10 @@
 /** Laços: afinidade em corações, conversa, eventos de laço, rota amizade/romance e epílogo (`Campaign+Bond` do nativo). */
 import { BALANCE } from './balance';
-import { DIALOGUE, DUELISTS, duelistByKey, type BondEvent, type DuelistData, type Scene } from './data/types';
+import { DIALOGUE, DUELISTS, duelistByKey, type BondEvent, type BondPick, type DuelistData, type PickTone, type Scene } from './data/types';
 import { isPresent, seedPosition } from './map';
 import { PURPOSE, generator, pick } from './rng';
 import { clone, type CampaignState, type Route } from './state';
+import { isTierOpen } from './tiers';
 
 export type Topic = 'duels' | 'school' | 'hobbies' | 'rumors';
 export const TOPICS: readonly Topic[] = ['duels', 'school', 'hobbies', 'rumors'];
@@ -31,6 +32,9 @@ export function openBondEvent(s: CampaignState, key: string): number | null {
   const done = eventsDone(s, key);
   if (done >= BALANCE.bondEvents || isChoicePending(s, key)) return null;
   if (affinityOf(s, key) < (done + 1) * BALANCE.pointsPerHeart) return null;
+  // O 5º e o 6º seguem a história do Reino dos Duelistas e da Batalha da Cidade: esperam o tier abrir.
+  const tier = BALANCE.bondEventTier[done + 1];
+  if (tier && !isTierOpen(s, tier)) return null;
   if (done === 0 && (s.victories[key] ?? 0) === 0) return null;
   return done + 1;
 }
@@ -39,8 +43,9 @@ export function openBondEvent(s: CampaignState, key: string): number | null {
 export const eventRestingToday = (s: CampaignState, key: string) =>
   openBondEvent(s, key) !== null && s.lastBondEventLossDay[key] === s.day;
 export const playableEvent = (s: CampaignState, key: string) => (eventRestingToday(s, key) ? null : openBondEvent(s, key));
-/** O "!" no mapa: evento jogável hoje ou escolha pendente. */
-export const needsAttention = (s: CampaignState, key: string) => playableEvent(s, key) !== null || isChoicePending(s, key);
+/** O "!" no mapa: evento jogável hoje, escolha de rota ou resposta de evento pendente. */
+export const needsAttention = (s: CampaignState, key: string) =>
+  playableEvent(s, key) !== null || isChoicePending(s, key) || pendingPick(s, key) !== null;
 
 /** Soma afinidade com teto (fim do coração do próximo evento) e piso (começo do coração atual). Muda `s`. */
 export function addAffinity(s: CampaignState, key: string, points: number): { before: number; after: number } {
@@ -93,6 +98,45 @@ export function eventScenes(ev: BondEvent, route: Route | undefined): { before: 
 }
 
 export const choiceOf = (ev: BondEvent | undefined) => (ev && 'choice' in ev ? ev.choice : undefined);
+export const pickOf = (ev: BondEvent | undefined): BondPick | undefined => (ev && 'pick' in ev ? ev.pick : undefined);
+
+// --- Escolha dentro do evento (change lacos-ate-o-fim) ---
+
+const PICK_POINTS: Record<PickTone, number> = { good: BALANCE.bondPickGood, neutral: BALANCE.bondPickNeutral, bad: BALANCE.bondPickBad };
+export const pickPoints = (tone: PickTone) => PICK_POINTS[tone];
+const pickedOption = (s: CampaignState, key: string, n: number) => s.bondPicks?.[key]?.[n];
+
+/**
+ * O evento vencido mais antigo com escolha e sem resposta (ou null). Só conta os vencidos depois que o save ganhou as
+ * escolhas (`bondPicksFrom`); um save sem `bondPicks` não tem pendência.
+ */
+export function pendingPick(s: CampaignState, key: string): number | null {
+  if (!s.bondPicks || !hasStory(find(key))) return null;
+  for (let n = (s.bondPicksFrom?.[key] ?? 0) + 1; n <= eventsDone(s, key); n++) {
+    if (pickOf(bondEvent(key, n)) && pickedOption(s, key, n) === undefined) return n;
+  }
+  return null;
+}
+
+/** A cena que pede a resposta: o fim da cena de depois do evento pendente. */
+export function pickScene(s: CampaignState, key: string): Scene {
+  const n = pendingPick(s, key);
+  const ev = n ? bondEvent(key, n) : undefined;
+  if (!ev) return [];
+  const after = eventScenes(ev, s.bondRoutes[key]).after;
+  return after.slice(-1);
+}
+
+/** Grava a resposta do evento pendente, aplica a afinidade pelo tom e devolve a fala que vem depois. */
+export function choosePick(s0: CampaignState, key: string, option: number): { state: CampaignState; then: Scene; before: number; after: number } {
+  const n = pendingPick(s0, key);
+  const opt = n ? pickOf(bondEvent(key, n))?.options[option] : undefined;
+  if (!n || !opt) throw new Error(`sem resposta pendente com ${key}`);
+  const s = clone(s0);
+  s.bondPicks = { ...s.bondPicks, [key]: { ...s.bondPicks?.[key], [n]: option } };
+  const { before, after } = addAffinity(s, key, PICK_POINTS[opt.tone]);
+  return { state: s, then: opt.then, before, after };
+}
 
 /** A cena que pede a escolha (o fim do 3º evento), se ela estiver pendente. */
 export function bondChoiceScene(s: CampaignState, key: string): Scene | null {
@@ -116,7 +160,9 @@ export function eventReview(s: CampaignState, key: string, n: number): Scene | n
   const route = s.bondRoutes[key];
   const { before, after } = eventScenes(ev, route);
   const choice = choiceOf(ev);
-  return [...before, ...after, ...(route && choice ? choice[route].then : [])];
+  const picked = pickedOption(s, key, n);
+  const pick = picked !== undefined ? pickOf(ev)?.options[picked]?.then ?? [] : [];
+  return [...before, ...after, ...(route && choice ? choice[route].then : []), ...pick];
 }
 
 // --- Epílogo ---
@@ -136,5 +182,14 @@ export function epilogue(s: CampaignState): { duelist: DuelistData; route: Route
   const d = epilogueDuelist(s);
   if (!d) return null;
   const route: Route = s.bondRoutes[d.key] === 'romance' ? 'romance' : 'friendship';
-  return { duelist: d, route, scene: DIALOGUE.duelists[d.key].epilogue?.[route] ?? [] };
+  const base = DIALOGUE.duelists[d.key].epilogue?.[route] ?? [];
+  // As lembranças das escolhas feitas com o duelista, na ordem dos eventos, antes da última fala.
+  const memories: Scene = [];
+  for (let n = 1; n <= eventsDone(s, d.key); n++) {
+    const i = pickedOption(s, d.key, n);
+    const remember = i !== undefined ? pickOf(bondEvent(d.key, n))?.options[i]?.remember : undefined;
+    if (remember) memories.push(...remember);
+  }
+  const scene = memories.length && base.length ? [...base.slice(0, -1), ...memories, ...base.slice(-1)] : base;
+  return { duelist: d, route, scene };
 }

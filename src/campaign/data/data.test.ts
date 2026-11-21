@@ -25,7 +25,29 @@ describe('dados da campanha', () => {
     expect(TIERS[0].duelists.map((d) => d.key)).toEqual(['tristan', 'tea', 'joey', 'bakura', 'yugi']);
     for (const d of TIERS[0].duelists) {
       expect(d.bond).toBe(true);
-      expect(DIALOGUE.duelists[d.key]?.bondEvents).toHaveLength(4);
+      expect(DIALOGUE.duelists[d.key]?.bondEvents).toHaveLength(6);
+    }
+  });
+
+  it('laços até o fim (change lacos-ate-o-fim): 6º com as duas rotas, escolha em todos menos o 3º, alguma lembrança', () => {
+    for (const d of TIERS[0].duelists) {
+      const evs = DIALOGUE.duelists[d.key].bondEvents!;
+      expect('friendship' in evs[5] && 'romance' in evs[5], `${d.key} 6º`).toBe(true);
+      let remembers = 0;
+      evs.forEach((ev, i) => {
+        const pick = 'pick' in ev ? ev.pick : undefined;
+        if (i === 2) { expect(pick, `${d.key} 3º sem escolha`).toBeUndefined(); return; }
+        expect(pick, `${d.key} evento ${i + 1}`).toBeTruthy();
+        expect(pick!.options.length).toBeGreaterThanOrEqual(2);
+        expect(pick!.options.length).toBeLessThanOrEqual(3);
+        for (const o of pick!.options) {
+          expect(['good', 'neutral', 'bad']).toContain(o.tone);
+          expect(o.label.length && o.then.length, `${d.key} evento ${i + 1}: ${o.label}`).toBeTruthy();
+          if (o.remember?.length) remembers++;
+        }
+        expect(pick!.options.map((o) => o.tone)).toContain('good');
+      });
+      expect(remembers, `${d.key} lembranças`).toBeGreaterThanOrEqual(1);
     }
   });
 

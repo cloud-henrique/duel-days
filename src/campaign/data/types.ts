@@ -55,7 +55,15 @@ export type Scene = Line[];
 
 export interface Topic { liked: Scene; disliked?: Scene }
 
-export interface BondEventSimple { title: string; before: Scene; after: Scene }
+/**
+ * Escolha de resposta no fim de um evento (change lacos-ate-o-fim): 2 ou 3 opções. O tom dá a afinidade (BALANCE);
+ * `remember` toca no epílogo se a opção foi a escolhida.
+ */
+export type PickTone = 'good' | 'neutral' | 'bad';
+export interface BondPickOption { label: string; tone: PickTone; then: Scene; remember?: Scene }
+export interface BondPick { prompt?: string; options: BondPickOption[] }
+
+export interface BondEventSimple { title: string; before: Scene; after: Scene; pick?: BondPick }
 export interface BondEventChoice extends BondEventSimple {
   choice: { friendship: { label: string; then: Scene }; romance: { label: string; then: Scene } };
 }
@@ -63,6 +71,7 @@ export interface BondEventRoutes {
   title: string;
   friendship: { before: Scene; after: Scene };
   romance: { before: Scene; after: Scene };
+  pick?: BondPick;
 }
 export type BondEvent = BondEventSimple | BondEventChoice | BondEventRoutes;
 

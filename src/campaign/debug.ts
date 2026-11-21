@@ -10,6 +10,8 @@
  * - `kaiba`: dia 18 com os 4 comuns do Tier 3 vencidos (o Kaiba aparece).
  * - `shop`: dia 4 do Tier 1 com 6000 DP (dá para a caixa) e os 3 pacotes ganhos, para conferir a loja.
  * - `all-cards`: a coleção com 3 cópias de cada carta da base (`poolIds`), para medir a grade do editor cheia.
+ * - `bond-late` (change lacos-ate-o-fim): dia 15 (Tier 3); o Joey (amizade) com 5 eventos e a resposta do 5º pendente, o
+ *   6º pronto para abrir; a Tea (romance) com o 6º aberto. O `last-evening` traz uma resposta lembrada da Tea.
  * - `speed-check` (change speed-duel): deck ativo de 20 com Polimerização + materiais (Flame Swordsman no Extra), Umi e
  *   cartas que banem (D.D. Warrior Lady, Soul Release, Bottomless Trap Hole), para conferir Fusão, Campo e banimento.
  * - `legacy-v1`: grava a campanha como versão 1 (a de antes do Speed Duel) e o app recarrega: o `migrate` a descarta.
@@ -27,6 +29,7 @@ export function debugPreset(name: string, s0: CampaignState | null, poolIds: rea
       Object.assign(s.affinity, { tea: 400, joey: 200 });
       Object.assign(s.bondEventsDone, { tea: 4, joey: 2 });
       s.bondRoutes.tea = 'romance';
+      s.bondPicks = { ...s.bondPicks, tea: { 1: 0, 2: 0, 4: 0 } }; // a do 2º tem lembrança no epílogo
       return s;
     case 'bond':
       beatAll();
@@ -59,6 +62,17 @@ export function debugPreset(name: string, s0: CampaignState | null, poolIds: rea
       return s;
     case 'shop':
       Object.assign(s, { day: 4, period: 0, dp: 6000, concluded: false, unopenedPacks: ['lob', 'lob', 'lob'] });
+      return s;
+    case 'bond-late':
+      Object.assign(s, { day: 15, period: 0, dp: 2000, concluded: false });
+      beatAll();
+      s.met = ['tristan', 'tea', 'joey', 'bakura'];
+      Object.assign(s.victories, { joey: 6, tea: 6 });
+      Object.assign(s.affinity, { joey: 600, tea: 600 });
+      Object.assign(s.bondEventsDone, { joey: 5, tea: 5 });
+      Object.assign(s.bondRoutes, { joey: 'friendship', tea: 'romance' });
+      s.bondPicks = { ...s.bondPicks, joey: { 1: 0, 2: 0, 4: 0 }, tea: { 1: 0, 2: 0, 4: 0, 5: 0 } };
+      s.bondPicksFrom = { ...s.bondPicksFrom, joey: 0, tea: 0 };
       return s;
     case 'speed-check': {
       const deck = [[24094653, 3], [34460851, 3], [44287299, 3], [22702055, 3], [7572887, 3], [5758500, 2], [29401950, 3]]

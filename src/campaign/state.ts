@@ -43,6 +43,10 @@ export interface CampaignState {
   affinity: Record<string, number>;
   bondEventsDone: Record<string, number>;
   bondRoutes: Record<string, Route>;
+  /** Escolha dentro de cada evento: duelista → evento → índice da opção (change lacos-ate-o-fim). */
+  bondPicks?: Record<string, Record<number, number>>;
+  /** Eventos já vencidos com cada duelista quando o save ganhou as escolhas: esses não pedem escolha depois. */
+  bondPicksFrom?: Record<string, number>;
   lastConversationDay: Record<string, number>;
   lastBondEventLossDay: Record<string, number>;
   /** Duelistas já encontrados (para a tela de Laços). */
@@ -67,7 +71,7 @@ export function newCampaign(seed: number): CampaignState {
     activeDeck: STARTER_DECK_ID,
     victories: {}, defeatedBosses: [], bossDefeatedOn: {}, unopenedPacks: [...CAMPAIGN.startingPacks], packsOpened: 0,
     wins: 0, losses: 0, totalDPEarned: 0, concluded: false,
-    affinity: {}, bondEventsDone: {}, bondRoutes: {}, lastConversationDay: {}, lastBondEventLossDay: {}, met: [],
+    affinity: {}, bondEventsDone: {}, bondRoutes: {}, bondPicks: {}, bondPicksFrom: {}, lastConversationDay: {}, lastBondEventLossDay: {}, met: [],
     pendingDuel: null,
   };
 }

@@ -186,6 +186,35 @@ describe('EncounterScreen sem laço', () => {
   });
 });
 
+describe('EncounterScreen: resposta no fim do evento (change lacos-ate-o-fim)', () => {
+  const profile = { name: 'Ana', avatar: 'x', address: 'she' as const };
+  it('depois da cena do evento vencido, as opções; escolher grava, mostra o "+20" e volta ao mapa', () => {
+    const s = { ...newCampaign(5), affinity: { tea: 100 }, victories: { tea: 1 }, bondEventsDone: { tea: 1 } };
+    const onChange = vi.fn(), onLeave = vi.fn();
+    const { rerender } = render(<EncounterScreen s={s} duelist="tea" chars={{}} profile={profile} afterDuel={[{ speaker: 'tea', expression: 'happy', text: 'Fim do evento.' }]}
+      onChange={onChange} onDuel={vi.fn()} onLeave={onLeave} />);
+    fireEvent.click(screen.getByRole('button', { name: /Pular/ }));
+    const good = screen.getByRole('button', { name: /dois segredos/ });
+    fireEvent.click(good);
+    const saved = onChange.mock.calls[0][0] as CampaignState;
+    expect(saved.bondPicks?.tea?.[1]).toBe(0);
+    expect(saved.affinity.tea).toBe(120);
+    rerender(<EncounterScreen s={saved} duelist="tea" chars={{}} profile={profile} afterDuel={[]} onChange={onChange} onDuel={vi.fn()} onLeave={onLeave} />);
+    expect(document.querySelector('.heartsdelta.up')?.textContent).toBe('+20');
+    fireEvent.click(screen.getByRole('button', { name: /Pular/ }));
+    expect(onLeave).toHaveBeenCalled();
+  });
+
+  it('resposta pendente (app fechado): o menu oferece a escolha de novo', () => {
+    const s = { ...newCampaign(5), affinity: { joey: 200 }, victories: { joey: 2 }, bondEventsDone: { joey: 2 }, bondPicks: { joey: { 1: 0 } } };
+    render(<EncounterScreen s={s} duelist="joey" chars={{}} profile={profile} onChange={vi.fn()} onDuel={vi.fn()} onLeave={vi.fn()} />);
+    fireEvent.click(screen.getByRole('button', { name: /Pular/ }));
+    fireEvent.click(screen.getByRole('button', { name: /O torneio do fliperama/ }));
+    fireEvent.click(screen.getByRole('button', { name: 'Avançar' })); // a última fala do evento, de novo
+    expect(screen.getByRole('button', { name: /turno a mais/ })).toBeTruthy();
+  });
+});
+
 describe('Dialogue: mudança de afinidade', () => {
   const profile = { name: 'Ana', avatar: 'x', address: 'she' as const };
   const stage = { bg: 'none', period: 'morning' as const, duelist: 'tea' };

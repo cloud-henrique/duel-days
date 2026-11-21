@@ -137,7 +137,7 @@ export function applyDuel(s0: CampaignState, key: string, kind: DuelKind, o: Due
       if (won) {
         completed = openBefore;
         s.bondEventsDone[key] = openBefore;
-        if (openBefore === BALANCE.bondEvents && d.bondGift) cards.push(earn(s, d.bondGift.id, 'bondGift'));
+        if (openBefore === BALANCE.bondGiftEvent && d.bondGift) cards.push(earn(s, d.bondGift.id, 'bondGift'));
       } else {
         s.lastBondEventLossDay[key] = s.day;
       }

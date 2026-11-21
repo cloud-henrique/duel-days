@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { BALANCE } from '../../campaign/balance';
 import {
-  bondChoiceScene, canTalk, choiceOf, bondEvent, chooseRoute, conversationScene, eventTitle, hearts, isChoicePending,
-  playableEvent, talk, talkedToday, TOPIC_NAMES, TOPICS, type ConversationResult, type Topic,
+  bondChoiceScene, canTalk, choiceOf, bondEvent, choosePick, chooseRoute, conversationScene, eventTitle, hearts, isChoicePending,
+  pendingPick, pickOf, pickScene, playableEvent, talk, talkedToday, TOPIC_NAMES, TOPICS, type ConversationResult, type Topic,
 } from '../../campaign/bond';
 import type { Scene } from '../../campaign/data/types';
 import { greetingScene, preDuelScene } from '../../campaign/encounter';
@@ -24,7 +24,10 @@ type Phase =
   | { k: 'pre'; kind: DuelKind; scene: Scene }
   | { k: 'after'; scene: Scene }
   | { k: 'choice'; scene: Scene }
-  | { k: 'then'; scene: Scene };
+  | { k: 'then'; scene: Scene }
+  /** A resposta no fim do evento (change lacos-ate-o-fim); `back`: veio do menu (volta a ele) ou do duelo (sai). */
+  | { k: 'pick'; scene: Scene; back: 'menu' | 'map' }
+  | { k: 'pickThen'; scene: Scene; delta: number; back: 'menu' | 'map' };
 
 /**
  * O encontro com um duelista na cena dele (fundo e lugar pelo tier): saudação → menu (evento, Conversar, Duelar, Voltar) → conversa, fala de
@@ -56,8 +59,14 @@ export function EncounterScreen({ s, duelist, chars, profile, afterDuel, firstMe
 
   const event = playableEvent(s, duelist);
   const choicePending = isChoicePending(s, duelist);
+  const picking = choicePending ? null : pendingPick(s, duelist);
   const menu = (
     <>
+      {picking !== null && (
+        <button className="hud-btn primary" onClick={() => setPhase({ k: 'pick', scene: pickScene(s, duelist), back: 'menu' })}>
+          <GameIcon name="heart" size={20} /> {eventTitle(duelist, picking)}
+        </button>
+      )}
       {choicePending && (
         <button className="hud-btn primary" onClick={() => setPhase({ k: 'choice', scene: bondChoiceScene(s, duelist) ?? [] })}>
           <GameIcon name="heart" size={20} /> {eventTitle(duelist, BALANCE.bondChoiceEvent)}
@@ -73,7 +82,7 @@ export function EncounterScreen({ s, duelist, chars, profile, afterDuel, firstMe
           <GameIcon name="talk" size={20} /> {talkedToday(s, duelist) ? 'Conversar · volte amanhã' : 'Conversar'}
         </button>
       )}
-      <button className={`hud-btn ${event !== null || choicePending ? 'secondary' : 'primary'}`} disabled={!canDuel(s, duelist, 'regular')}
+      <button className={`hud-btn ${event !== null || choicePending || picking !== null ? 'secondary' : 'primary'}`} disabled={!canDuel(s, duelist, 'regular')}
         onClick={() => setPhase({ k: 'pre', kind: 'regular', scene: preDuelScene(s, duelist, 'regular') })}>
         <GameIcon name="duel" size={20} /> Duelar
       </button>
@@ -92,6 +101,12 @@ export function EncounterScreen({ s, duelist, chars, profile, afterDuel, firstMe
     setPhase({ k: 'then', scene: r.then });
   };
   const choice = choiceOf(bondEvent(duelist, BALANCE.bondChoiceEvent));
+  const pick = picking !== null ? pickOf(bondEvent(duelist, picking)) : undefined;
+  const answer = (i: number, back: 'menu' | 'map') => {
+    const r = choosePick(s, duelist, i);
+    onChange(r.state);
+    setPhase({ k: 'pickThen', scene: r.then, delta: r.after - r.before, back });
+  };
 
   const common = { stage, chars, profile, top };
   switch (phase.k) {
@@ -122,7 +137,8 @@ export function EncounterScreen({ s, duelist, chars, profile, afterDuel, firstMe
       return <Dialogue key="pre" {...common} scene={phase.scene} onDone={() => onDuel(phase.kind)} />;
     case 'after':
       return <Dialogue key="after" {...common} scene={phase.scene}
-        onDone={() => (isChoicePending(s, duelist) ? setPhase({ k: 'choice', scene: NONE }) : onLeave())} />;
+        onDone={() => (isChoicePending(s, duelist) ? setPhase({ k: 'choice', scene: NONE })
+          : pendingPick(s, duelist) !== null ? setPhase({ k: 'pick', scene: NONE, back: 'map' }) : onLeave())} />;
     case 'choice':
       return (
         <Dialogue key="choice" {...common} scene={phase.scene} onDone={() => {}}>
@@ -136,6 +152,25 @@ export function EncounterScreen({ s, duelist, chars, profile, afterDuel, firstMe
       );
     case 'then':
       return <Dialogue key="then" {...common} scene={phase.scene} onDone={onLeave} />;
+    case 'pick': {
+      // Como a escolha de rota: a última fala do evento (ao voltar pelo menu) e um botão por resposta.
+      const back = phase.back;
+      return (
+        <Dialogue key="pick" {...common} scene={phase.scene} onDone={() => {}}>
+          {pick ? (
+            <>
+              {pick.prompt && <p className="ask">{pick.prompt}</p>}
+              {pick.options.map((o, i) => <button key={i} className="hud-btn secondary" onClick={() => answer(i, back)}>{o.label}</button>)}
+            </>
+          ) : <button className="hud-btn secondary" onClick={onLeave}>Voltar ao mapa</button>}
+        </Dialogue>
+      );
+    }
+    case 'pickThen': {
+      const back = phase.back;
+      return <Dialogue key="pickThen" {...common} top={{ ...top, heartsDelta: phase.delta }} scene={phase.scene}
+        onDone={() => (back === 'menu' ? setPhase({ k: 'menu' }) : onLeave())} />;
+    }
   }
 }
 

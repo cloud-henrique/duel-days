@@ -29,8 +29,16 @@ export const BALANCE = {
   newCollectionDays: 7,
 
   pointsPerHeart: 100,
-  bondEvents: 4,
+  bondEvents: 6,
   bondChoiceEvent: 3,
+  /** O evento que dá a carta do laço (o 6º fecha a história sem carta; change lacos-ate-o-fim). */
+  bondGiftEvent: 4,
+  /** Tier mínimo para abrir o evento (os que não estão aqui abrem em qualquer tier). */
+  bondEventTier: { 5: 2, 6: 3 } as Record<number, number>,
+  /** Afinidade da escolha dentro do evento, pelo tom da opção. */
+  bondPickGood: 20,
+  bondPickNeutral: 5,
+  bondPickBad: -10,
   bondWinPoints: 30,
   bondLossPoints: 10,
   conversationLikedPoints: 20,
