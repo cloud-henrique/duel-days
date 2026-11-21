@@ -24,7 +24,7 @@ import { abandonDuel, beginDuel, meet } from './campaign/flow';
 import { packByKey } from './campaign/packs';
 import { applyDuel, BONUS_NAMES, type DuelReward } from './campaign/rewards';
 import { newSeed } from './campaign/rng';
-import { activeDeckOf, newCampaign, PERIOD_KEYS, type CampaignState, type DuelKind } from './campaign/state';
+import { activeDeckOf, CAMPAIGN_VERSION, newCampaign, PERIOD_KEYS, type CampaignState, type DuelKind } from './campaign/state';
 import { preloadMaps, sceneBg } from './screens/campaign/assets';
 import { CHAR_ID, type CharInfo } from './screens/campaign/chars';
 import { Dialogue } from './screens/campaign/Dialogue';
@@ -89,14 +89,19 @@ export function App() {
     fetch(`${BASE}characters/index.json`).then((r) => r.json())
       .then((d: { characters: CharInfo[] }) => setChars(Object.fromEntries(d.characters.map((c) => [c.id, c]))))
       .catch(() => setChars({}));
-    Promise.all([loadData(), loadProgress()]).then(([d, p]) => {
+    Promise.all([loadData(), loadProgress()]).then(async ([d, p]) => {
       setData(d);
       // Conferência (dev ou ?debug=1): ?campaign=last-evening|bond|boss|all-cards muda a campanha ao abrir.
       const q = new URLSearchParams(location.search);
       const preset = q.get('campaign');
       if (p && preset && (import.meta.env.DEV || q.has('debug'))) {
         const c = debugPreset(preset, p.campaign, d.poolIds);
-        if (c) { p = { ...p, campaign: c }; void writeProgress(p); }
+        if (c) {
+          p = { ...p, campaign: c };
+          // Campanha de outra versão (`legacy-v1`): grava e recarrega sem o atalho, para o save passar pelo `migrate`.
+          if (c.version !== CAMPAIGN_VERSION) { await writeProgress(p); location.replace(location.pathname); return; }
+          void writeProgress(p);
+        }
       }
       // O mapa da campanha já começa a ser decodificado na tela de título.
       if (p?.campaign) preloadMaps(PERIOD_KEYS[p.campaign.period]);

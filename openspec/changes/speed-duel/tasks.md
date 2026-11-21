@@ -67,11 +67,16 @@
 
 - [x] 4.1 `node proto/duel-e2e.mjs` e `node proto/webkit-e2e.mjs` sem encenação presa nem regressão.
 - [ ] 4.2 Acabamento visual: capturas em 390×844 e 375×667, mandadas ao usuário para aprovação.
-- [ ] 4.3 Simulador de iOS (Safari real): duelo inteiro com banimento, Fusão e Magia de Campo; modo "reduzir
+- [x] 4.3 Simulador de iOS (Safari real): duelo inteiro com banimento, Fusão e Magia de Campo; modo "reduzir
   movimento"; campanha nova do dia 1 depois de um save v1.
-  Feito: perfil novo, campanha do dia 1 e um duelo no Safari do simulador (invocar, turno da CPU, batalha, ataque
-  direto, FIM DO TURNO depois da batalha). "Reduzir movimento" conferido no WebKit (`duel-e2e --reduzir`). Falta:
-  banimento, Fusão e Magia de Campo no simulador, e abrir um save v1 de verdade (o `migrate` tem teste).
+  Feito no Safari do iPhone 17 Pro, com os atalhos `?campaign=speed-check` (deck de 20 com Polimerização, Umi e cartas
+  que banem) e `?campaign=legacy-v1`:
+  - Umi na Zona de Campo, com a arte sobre o tapete;
+  - D.D. Warrior Lady bane o atacante: as duas fichas de Banidas mostram 1 e o topo;
+  - Polimerização: escolha no Extra, 2 materiais da mão, Extra 2 → 1, Cemitério 3 e a Flame Swordsman no campo;
+  - save v1: depois de recarregar, o perfil fica e a campanha recomeça do dia 1.
+
+  "Reduzir movimento" foi conferido no WebKit (`duel-e2e --reduzir`), não no ajuste do iOS.
 - [x] 4.4 `CLAUDE.md`:
   - o formato Speed e o `format.ts`;
   - as colunas de pilhas;
