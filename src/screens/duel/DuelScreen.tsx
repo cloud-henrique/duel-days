@@ -1,10 +1,10 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from 'react';
 import { createPortal, flushSync } from 'react-dom';
 import { createRoot } from 'react-dom/client';
 import type { CpuKind } from '../../engine/search';
 import { OcgLocation, OcgMessageType, OcgPhase, type OcgResponse } from 'ocgcore-wasm';
 import type { Step } from '../../engine/protocol';
-import { beatText } from '../../engine/beats';
+import { beatText, locKey, toLoc } from '../../engine/beats';
 import type { DeckList } from '../../engine/session';
 import { DEFAULT_SETTINGS, type Settings } from '../../story/progress';
 import type { Cards } from '../../data/cards';
@@ -35,6 +35,9 @@ import { Spinner } from './icons';
 import { GameIcon } from '../../ui/icons';
 import { PhaseBar } from './PhaseBar';
 import { DuelMenu } from './DuelMenu';
+import { useHover, useWide } from '../../ui/wide';
+import { cardAtLoc, type Focus } from './wide';
+import { CardActions, CardPanel, RecentLog } from './WideParts';
 import './duel.css';
 import { DEFAULT_AVATAR } from '../../story/profile';
 import { FIELD_SEQ, fieldBackdrop, type FieldPlayed } from './fieldArt';
@@ -74,6 +77,19 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, cpu, player = 
   const [actor, setActor] = useState<{ code: number; attack: boolean } | null>(null);
   /** "Atacar" acabou de ser tocado: o próximo pedido é o alvo (com um só alvo possível, ele é escolhido sozinho). */
   const [attackArmed, setAttackArmed] = useState(false);
+  // Tela larga (change layout-desktop): outra composição, painel fixo da carta e hover com mouse.
+  const wide = useWide();
+  const hoverable = useHover() && wide;
+  /** A carta sob o ponteiro (só tela larga com mouse); a fixada continua em `sheet`. */
+  const [hover, setHover] = useState<Focus | null>(null);
+  useEffect(() => { if (!hoverable) setHover(null); }, [hoverable]);
+  // Esc solta a carta fixada (tela larga).
+  useEffect(() => {
+    if (!wide) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setSheet(null); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [wide]);
 
   const name = (code: number) => cards[String(code)]?.name ?? `#${code}`;
   const pushEvents = (ev: string[]) => {
@@ -195,25 +211,31 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, cpu, player = 
   const phasebar = <PhaseBar turn={board.turn} phase={board.phase} narration={evText || `Turno ${board.turn}: ${myTurn ? player.name : opponent.name}`} />;
 
   // A carta aberta na folha: as ligadas a ela (equipamento, alvo) brilham no campo e a folha diz quais são.
-  const sheetCard = sheet && (sheet.ref.location === OcgLocation.MZONE || sheet.ref.location === OcgLocation.SZONE)
-    ? board.players[sheet.ref.controller as 0 | 1][sheet.ref.location === OcgLocation.MZONE ? 'mzone' : 'szone'][sheet.ref.sequence] : null;
+  // Na tela larga, a carta em foco é a do ponteiro (hover) ou, sem ele, a fixada; no retrato, a da folha.
+  const focus = wide ? hover ?? sheet : sheet;
+  const sheetCard = focus && (focus.ref.location === OcgLocation.MZONE || focus.ref.location === OcgLocation.SZONE)
+    ? board.players[focus.ref.controller as 0 | 1][focus.ref.location === OcgLocation.MZONE ? 'mzone' : 'szone'][focus.ref.sequence] : null;
   const rel = new Set((sheetCard?.links ?? []).map((l) => refKey({ controller: l.controller, location: l.location, sequence: l.sequence })));
-  const notes = sheet ? linkNotes(sheetCard, name, sheet.ref.controller === 0) : [];
+  const notes = focus ? linkNotes(sheetCard, name, focus.ref.controller === 0) : [];
+  // Hover (tela larga com mouse): a carta visível sob o ponteiro, achada pelo `data-loc` do elemento.
+  const onOver = (e: ReactPointerEvent) => {
+    const el = (e.target as Element).closest?.('[data-loc]');
+    const f = el ? cardAtLoc(board, el.getAttribute('data-loc') ?? '') : null;
+    setHover((h) => (h === f || (h && f && h.code === f.code && refKey(h.ref) === refKey(f.ref)) ? h : f));
+  };
   const pickAttack = !!boardChoice && !!actor?.attack && isBattle(board.phase);
-  return (
-    <div ref={root} className={`duel hexbg${pickAttack ? ' pick-attack' : ''}${stage.staging ? ' staging' : ''}`}>
-      <div className="foebar">
-        {!ended && <DuelMenu onSurrender={engine.surrender} settings={settings} onSettings={onSettings} host={root} />}
-        <Plate side="foe" who={opponent} lp={foe.lp} hand={foe.hand.length} turn={!myTurn} />
-      </div>
-      <FoeHand count={foe.hand.length} />
-      <Field board={board} cards={cards} hl={hl} picked={marks.picked} rel={rel} onTap={tap} onOpenPile={(p, kind) => { if (!stage.staging && !(kind === 'extra' && p === 1)) setPileOf({ p, kind }); }} center={phasebar} backdrop={fieldBackdrop(board, fieldPlayed)} />
-      <div className="mybar">
-        <Plate side="me" who={player} lp={me.lp} hand={me.hand.length} turn={myTurn} />
-        <div className="sidebtns">{side}</div>
-      </div>
-      <div className="spacer" />
-      <Hand hand={me.hand} cards={cards} hl={hl} picked={marks.picked} selected={selHand} onTap={tap} />
+  // Peças comuns aos dois layouts (retrato e tela larga): os mesmos componentes, em lugares diferentes.
+  const menuEl = !ended && <DuelMenu onSurrender={engine.surrender} settings={settings} onSettings={onSettings} host={root} />;
+  const foePlate = <Plate side="foe" who={opponent} lp={foe.lp} hand={foe.hand.length} turn={!myTurn} />;
+  const mePlate = <Plate side="me" who={player} lp={me.lp} hand={me.hand.length} turn={myTurn} />;
+  const fieldEl = <Field board={board} cards={cards} hl={hl} picked={marks.picked} rel={rel} onTap={tap} onOpenPile={(p, kind) => { if (!stage.staging && !(kind === 'extra' && p === 1)) setPileOf({ p, kind }); }} center={phasebar} backdrop={fieldBackdrop(board, fieldPlayed)} />;
+  const handEl = <Hand hand={me.hand} cards={cards} hl={hl} picked={marks.picked} selected={selHand} onTap={tap} />;
+  const sideEl = <div className="sidebtns">{side}</div>;
+  const choiceBar = (c: NonNullable<typeof boardChoice>) => <ChoiceBar c={c} sel={sel} cards={cards} actor={actor?.code ?? null} attack={pickAttack} reply={reply} />;
+  const cls = `duel hexbg${wide ? ' wide' : ''}${pickAttack ? ' pick-attack' : ''}${stage.staging ? ' staging' : ''}`;
+  // Por cima dos dois layouts: encenação, listas, histórico, erros, abertura e encerramento.
+  const overlays = (
+    <>
       {/* Durante a encenação, um toque em qualquer lugar acelera (e nada embaixo recebe o toque). */}
       {stage.staging && <button className="stagecatch" aria-label="Acelerar" onClick={stage.hurry} />}
       {createPortal(<div ref={layer} className="fxlayer" aria-hidden="true" />, document.body)}
@@ -221,24 +243,6 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, cpu, player = 
       {stage.toss && <Toss key={stage.toss.key} t={stage.toss} who={(p) => (p === 0 ? player.name : opponent.name)} />}
       {stage.splash && <Splash key={stage.splash.key} s={stage.splash} cards={cards} who={(p) => (p === 0 ? player.name : opponent.name)} />}
       {debugOn && <div className="stats" style={{ textAlign: 'center' }}>{engine.info} · <button style={{ all: 'unset', textDecoration: 'underline' }} onClick={() => setLogOpen(true)}>histórico</button></div>}
-      {!debugOn && <button className="logbtn" aria-label="Histórico" onClick={() => setLogOpen(true)}><GameIcon name="history" size={18} /></button>}
-
-      {panel && (
-        <div className={`scrim uphand${panelHidden ? ' gone' : ''}`} aria-hidden={panelHidden}>
-          <div className="sheet hud panel">
-            {panel}
-            <button className="hud-btn wide" onClick={() => setPeek(true)}>{ICONS.eye}<span>Ver campo</span></button>
-          </div>
-        </div>
-      )}
-      {boardChoice && !soleTarget && !sheet && !stage.splash && <ChoiceBar c={boardChoice} sel={sel} cards={cards} actor={actor?.code ?? null} attack={pickAttack} reply={reply} />}
-      {panel && peek && !sheet && (
-        <div className="peekbar hud panel">
-          <span>{ICONS.eye}Só olhando: toque numa carta para ampliar</span>
-          <button className="hud-btn primary" onClick={() => setPeek(false)}>{isChain ? 'Voltar à resposta' : 'Voltar à escolha'}</button>
-        </div>
-      )}
-      {sheet && !stage.splash && <CardSheet code={sheet.code} cards={cards} actions={sheetActions} notes={notes} aboveHand onClose={() => setSheet(null)} />}
       {pileOf && (
         <PileSheet p={pileOf.p} kind={pileOf.kind} list={board.players[pileOf.p][pileOf.kind]} whose={pileOf.p === 0 ? player.name : opponent.name} cards={cards}
           onClose={() => setPileOf(null)}
@@ -256,6 +260,63 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, cpu, player = 
       )}
       {introLayer}
       {ended && summary && <Outro result={ended.result} detail={ended.text} me={player} foe={opponent} reward={reward} reduced={reducedMotion} onContinue={() => onEnd(summary)} cards={cards} />}
+    </>
+  );
+
+  if (wide) {
+    // Tela larga (change layout-desktop): jogadores à esquerda, campo e mão no centro, carta e pedidos à direita. Nada
+    // cobre o campo: a carta fica no painel, as ações sobre ela e os pedidos na coluna direita.
+    const showActs = !!sheet && sheetActions.length > 0 && !stage.staging && !stage.splash && !pileOf && !logOpen && !ended;
+    const choosing = !!boardChoice && !soleTarget && !stage.splash;
+    return (
+      <div ref={root} className={cls} onPointerOver={hoverable ? onOver : undefined} onPointerLeave={hoverable ? () => setHover(null) : undefined}>
+        <aside className="wleft">
+          <div className="foebar">{menuEl}{foePlate}</div>
+          <RecentLog log={log} onOpen={() => setLogOpen(true)} />
+          <div className="mybar">{mePlate}</div>
+        </aside>
+        <div className="wcenter">
+          <FoeHand count={foe.hand.length} />
+          {fieldEl}
+          {handEl}
+        </div>
+        <aside className="wright">
+          <CardPanel code={focus?.code ?? null} cards={cards} notes={notes} compact={!!panel || choosing} hover={hoverable} />
+          {panel && <div className={`sheet hud panel wpanel${stage.splash ? ' gone' : ''}`} aria-hidden={!!stage.splash}>{panel}</div>}
+          {choosing && boardChoice && choiceBar(boardChoice)}
+          {sideEl}
+        </aside>
+        {showActs && sheet && <CardActions root={root} loc={locKey(toLoc(sheet.ref))} actions={sheetActions} watch={board} onLost={() => setSheet(null)} />}
+        {overlays}
+      </div>
+    );
+  }
+  return (
+    <div ref={root} className={cls}>
+      <div className="foebar">{menuEl}{foePlate}</div>
+      <FoeHand count={foe.hand.length} />
+      {fieldEl}
+      <div className="mybar">{mePlate}{sideEl}</div>
+      <div className="spacer" />
+      {handEl}
+      {!debugOn && <button className="logbtn" aria-label="Histórico" onClick={() => setLogOpen(true)}><GameIcon name="history" size={18} /></button>}
+      {panel && (
+        <div className={`scrim uphand${panelHidden ? ' gone' : ''}`} aria-hidden={panelHidden}>
+          <div className="sheet hud panel">
+            {panel}
+            <button className="hud-btn wide" onClick={() => setPeek(true)}>{ICONS.eye}<span>Ver campo</span></button>
+          </div>
+        </div>
+      )}
+      {boardChoice && !soleTarget && !sheet && !stage.splash && choiceBar(boardChoice)}
+      {panel && peek && !sheet && (
+        <div className="peekbar hud panel">
+          <span>{ICONS.eye}Só olhando: toque numa carta para ampliar</span>
+          <button className="hud-btn primary" onClick={() => setPeek(false)}>{isChain ? 'Voltar à resposta' : 'Voltar à escolha'}</button>
+        </div>
+      )}
+      {sheet && !stage.splash && <CardSheet code={sheet.code} cards={cards} actions={sheetActions} notes={notes} aboveHand onClose={() => setSheet(null)} />}
+      {overlays}
     </div>
   );
 }

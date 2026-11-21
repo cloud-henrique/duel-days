@@ -93,6 +93,11 @@ pelo `.hexbg` do `styles.css`.
     lateral (só `--field-edge` de cada lado) e, quando a altura limita as zonas, as pontas crescem até a largura de uma zona.
     A mão é **reta** (sem arco) e não reserva altura: a carta selecionada sobe por cima da placa. `fieldArt.ts` (`fieldBackdrop`) escolhe a Magia de Campo cuja arte recortada cobre o `.field`
     a 50% (`.fieldart`).
+  - **Tela larga** (change `layout-desktop`, `useWide`): o `DuelScreen` monta outra composição com os mesmos componentes
+    (`.duel.wide`, grade de 3 colunas). Esquerda: placas e `RecentLog`. Centro: campo e mão. Direita: `CardPanel` (a carta
+    sob o mouse, `hover`, ou a fixada, `sheet`), pedidos (`.wpanel`, `ChoiceBar`) e o botão de fase. As ações da carta
+    fixada ficam numa fileira sobre ela (`CardActions`, dentro do `.duel`, posição por `actionsPos` em `wide.ts`); Esc
+    solta a carta. Sem folha modal, sem "Ver campo". Os tokens ficam no bloco `.duel.wide` do `duel.css`.
   - `duel.css`: **medidas como tokens** no topo (`.duel` é contêiner; `cqw`/`cqh`): a zona tem a proporção da carta e a
     altura é a menor entre a da largura (3 zonas + 2 pontas de `--pile-k`) e a da altura que sobra (4 fileiras, com a mão
     no mínimo de 60); a mão fica com o resto. Mude medidas ali, não com números soltos; `node proto/layout-e2e.mjs` confere a spec
@@ -119,7 +124,7 @@ pelo `.hexbg` do `styles.css`.
   de mostrar dinheiro: ícone de moedas + número + "DP"), `titles.tsx` (`DisplayTitle` para
   DUELO!/VITÓRIA!/DERROTA/EMPATE e o `Wordmark` metálico), `coin.tsx` (`Coin` e `Die` desenhados), `Choice.tsx`
   (`SettingsChoices`, os mesmos ajustes no título e no duelo), `TopBar.tsx` (a `GameTopBar` do nativo: título na fonte
-  do jogo com brilho ciano e subtítulo), `BondHearts.tsx` (corações do laço do nativo, enchidos pela fração), `.hud-btn.secondary`. Fontes: `--font-game` (Chakra Petch, classe
+  do jogo com brilho ciano e subtítulo), `BondHearts.tsx` (corações do laço do nativo, enchidos pela fração), `.hud-btn.secondary`. `wide.ts` (change `layout-desktop`): `WIDE_QUERY` (paisagem ≥ 900×600: desktop e tablet deitado; celular deitado fica no retrato), `useWide()` e `useHover()` (ponteiro fino). Fontes: `--font-game` (Chakra Petch, classe
   `.num` para números e `.game-title`/`.sheet h4` para títulos) e `--font-display` (serifada preta itálica).
 - Entrada do app (`App.tsx`): sem save → `Welcome` (nome, avatar entre os 14 duelistas genéricos, tratamento); com save →
   `TitleScreen` (Campanha/Continuar com dia, período e DP; Meu deck; perfil e ajustes). O `App` guarda a tela atual
@@ -197,6 +202,7 @@ pelo `.hexbg` do `styles.css`.
   git, como `public/cards/`. O título esconde o logo se o arquivo faltar.
 - **Nada de caractere fazendo papel de ícone** (◎, ☰, ⋯, ▼, ♥): use o `GameIcon`. Dinheiro é sempre `Dp`; um teste procura
   "moedas" nas telas.
+- **Tela larga só pelo `WIDE_QUERY`/`useWide`** (`src/ui/wide.ts`): todo `@media` de tela larga nos CSS usa exatamente a mesma string (`wide.test.ts` falha senão). Fora dela, o retrato não muda.
 - **Classe `.field` é o campo do duelo** (`duel.css`): os campos do perfil usam `.pfield`.
 - **`filter` numa face 3D quebra o `backface-visibility`** (a moeda mostrava a coroa pela frente): sombra no contêiner.
 - **Tempos da encenação só no `PACING`**: as keyframes de CSS não têm duração; quem dispara é a Web Animations com valores

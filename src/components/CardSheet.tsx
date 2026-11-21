@@ -62,18 +62,30 @@ export function CardDetails({ code, cards }: { code: number; cards: Cards }) {
   );
 }
 
+/**
+ * O miolo da folha: face grande, dados e as ligações. A folha do retrato e o painel fixo da tela larga
+ * (`CardPanel`) usam o mesmo; `vertical` põe a face em cima dos dados.
+ */
+export function CardInfo({ code, cards, notes = [], vertical = false }: { code: number; cards: Cards; notes?: string[]; vertical?: boolean }) {
+  const c = cards[String(code)];
+  return (
+    <>
+      <div className={`cardsheet${vertical ? ' vertical' : ''}`}>
+        <div className="sheetface"><CardFace code={code} card={c} detail="full" /></div>
+        <CardDetails code={code} cards={cards} />
+      </div>
+      {notes.length > 0 && <div className="sheetnotes">{notes.map((n) => <span key={n}>{n}</span>)}</div>}
+    </>
+  );
+}
+
 /** Folha de detalhe da carta (arte, dados e texto), com os botões de ação do contexto. Compacta, como no nativo. */
 export function CardSheet({ code, cards, actions = [], notes = [], onClose, aboveHand = false }: { code: number; cards: Cards; actions?: SheetAction[]; notes?: string[]; onClose: () => void; aboveHand?: boolean }) {
-  const c = cards[String(code)];
   return (
     <div className={`scrim${aboveHand ? ' uphand' : ''}`}>
       <Backdrop onClose={onClose} />
       <div className="sheet hud">
-        <div className="cardsheet">
-          <div className="sheetface"><CardFace code={code} card={c} detail="full" /></div>
-          <CardDetails code={code} cards={cards} />
-        </div>
-        {notes.length > 0 && <div className="sheetnotes">{notes.map((n) => <span key={n}>{n}</span>)}</div>}
+        <CardInfo code={code} cards={cards} notes={notes} />
         {actions.length > 0 && <div className="acts">{actions.map((a) => <button key={a.label} className={`hud-btn act ${a.primary ? 'primary' : ''}`} disabled={a.disabled} onClick={a.onClick}>{a.icon}<span>{a.label}</span></button>)}</div>}
         <button className="close" aria-label="Fechar" onClick={onClose}><X size={22} weight="bold" /></button>
       </div>

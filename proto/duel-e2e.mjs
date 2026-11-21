@@ -1,6 +1,7 @@
 // Duelo inteiro no WebKit (Playwright), na velocidade normal das animações: o jogador invoca/baixa o que puder, ataca
 // quando pode e passa o turno; responde "Não" às correntes. Mede se o jogo fica preso numa encenação (maior tempo
-// contínuo com a fila tocando) e se a página dá erro. Uso: node proto/duel-e2e.mjs [url=http://127.0.0.1:5181/] [--reduzir]
+// contínuo com a fila tocando) e se a página dá erro. Uso: node proto/duel-e2e.mjs [url=http://127.0.0.1:5181/] [--reduzir] [--larga]
+// --larga: janela de 1440×900 com mouse (tela larga da change layout-desktop: ações sobre a carta, pedidos na coluna direita).
 import { webkit, devices } from 'playwright';
 
 const args = process.argv.slice(2).filter((a) => !a.startsWith('--'));
@@ -12,7 +13,8 @@ const MAX_MINUTES = 12;
 const STALL_MS = 60_000;
 
 const browser = await webkit.launch();
-const ctx = await browser.newContext({ ...devices['iPhone 13'], reducedMotion: process.argv.includes('--reduzir') ? 'reduce' : 'no-preference' });
+const WIDE = process.argv.includes('--larga');
+const ctx = await browser.newContext({ ...(WIDE ? { viewport: { width: 1440, height: 900 } } : devices['iPhone 13']), reducedMotion: process.argv.includes('--reduzir') ? 'reduce' : 'no-preference' });
 const page = await ctx.newPage();
 const errors = [];
 page.on('pageerror', (e) => errors.push(e.message));
@@ -24,7 +26,7 @@ let maxStaging = 0, stagingSince = 0, actions = 0, lastSeen = '', lastChange = D
 const snapshot = () => page.evaluate(() => ({
   narrador: document.querySelector('.phasebar')?.textContent?.slice(0, 80),
   painel: [...document.querySelectorAll('.scrim .sheet')].pop()?.textContent?.slice(0, 160) ?? null,
-  botoesPainel: [...document.querySelectorAll('.scrim.uphand:not(.gone) .panel button')].map((b) => b.textContent),
+  botoesPainel: [...document.querySelectorAll('.scrim.uphand:not(.gone) .panel button, .wpanel:not(.gone) button')].map((b) => b.textContent),
   escolha: document.querySelector('.choicebar')?.textContent?.slice(0, 120) ?? null,
   lado: [...document.querySelectorAll('.sidebtns button')].map((b) => b.textContent),
   brilho: document.querySelectorAll('.hl').length,
@@ -35,7 +37,7 @@ try {
   await page.fill('input[placeholder="Seu nome"]', 'WebKit');
   // Boas-vindas (nome; avatar e tratamento padrão) → título → Campanha → uma cabeça no mapa → Duelar.
   await btn('Começar').click();
-  await page.locator('.titleplay').click();
+  await page.locator('.titleplay').evaluate((el) => el.click());
   await page.locator('.pinhead:not(.boss)').first().evaluate((el) => el.click()); // fora da tela no panorama: o clique forçado acertava outro ponto
   await btn('Pular').click();
   await page.locator('.scene-menu button', { hasText: /^\s*Duelar\s*$/ }).click();
@@ -61,7 +63,7 @@ try {
       await page.locator('.choicebar button.primary').first().click({ timeout: 500 }).catch(() => {});
       continue;
     }
-    const panel = page.locator('.scrim.uphand:not(.gone) .panel');
+    const panel = page.locator('.scrim.uphand:not(.gone) .panel, .wpanel:not(.gone)');
     if (await panel.count()) {
       // Recusa quando pode ("Não", "Passar"); corrente obrigatória ou outra escolha: a primeira opção.
       const no = panel.locator('button', { hasText: /^(Não|Passar)$/ });
@@ -78,11 +80,11 @@ try {
       for (let i = 0; i < Math.min(await cards.count(), 4) && !acted; i++) {
         await cards.nth(i).click({ timeout: 1000 }).catch(() => {});
         for (const label of [/^Invocar$/, /^Baixar$/, /^Atacar$/, /^Ataque direto$/]) {
-          const b = page.locator('.sheet .acts button', { hasText: label });
+          const b = page.locator('.sheet .acts button, .cardacts button', { hasText: label });
           if (await b.count()) { await b.first().click(); acted = true; actions++; break; }
         }
         // Sem ação conhecida: fecha a folha pelo X dela (o fundo fica coberto pela própria folha).
-        if (!acted) await page.locator('.scrim button.close').first().click({ timeout: 1000 }).catch(() => {});
+        if (!acted) await (WIDE ? page.keyboard.press('Escape') : page.locator('.scrim button.close').first().click({ timeout: 1000 })).catch(() => {});
       }
       if (acted) break;
     }

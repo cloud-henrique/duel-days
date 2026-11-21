@@ -43,6 +43,55 @@
   position: relative; height: 100%; height: 100dvh; overflow: hidden; display: flex; flex-direction: column; gap: var(--gap);
   padding: calc(var(--gap) + env(safe-area-inset-top)) var(--side) calc(var(--gap) + env(safe-area-inset-bottom));
 }
+/*
+ * Tela larga (change layout-desktop; o DuelScreen põe a classe .wide pelo useWide/WIDE_QUERY): 3 colunas. Jogadores à
+ * esquerda, campo e mão no centro, carta e pedidos à direita. As laterais têm --wide-side; o campo e a mão ficam com a
+ * largura do centro, e as zonas derivam da altura (as placas não disputam altura com o campo). Mesmas fórmulas de cima,
+ * só com outras partes fixas.
+ */
+.duel.wide {
+  --wide-side: clamp(240px, 22cqw, 340px); --wide-gap: calc(2 * var(--gap));
+  --hand-max: 760px; --hand-card-max: 124px; --hand-card-min: clamp(64px, 11cqh, 110px); --lift: 40px;
+  --W: calc(100cqw - 2 * var(--wide-side) - 2 * var(--wide-gap));
+  --field-W: var(--W);
+  --fixed: calc(var(--foehand-h) + var(--center-gap) + 8 * var(--gap) + 2 * var(--mat-pad) + 2 * var(--mat-border));
+  display: grid; grid-template-columns: var(--wide-side) minmax(0, 1fr) var(--wide-side); grid-template-rows: minmax(0, 1fr); column-gap: var(--wide-gap);
+}
+.duel.wide > .wleft, .duel.wide > .wright { min-height: 0; display: flex; flex-direction: column; gap: var(--wide-gap); }
+.duel.wide > .wcenter { min-width: 0; min-height: 0; display: flex; flex-direction: column; align-items: center; gap: var(--gap); }
+.duel.wide .foehand, .duel.wide .handfan { align-self: stretch; }
+.duel.wide .handfan { margin-top: auto; }
+/* Histórico recente entre as placas: as linhas mais novas embaixo; o que não cabe some por cima. */
+.recentlog { appearance: none; flex: 1 1 0; min-height: 0; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; gap: 4px; padding: 10px 12px; text-align: left;
+  border: 1px solid var(--line-dim); border-radius: 6px; background: color-mix(in srgb, var(--bg) 55%, transparent); color: #c4d6f2; font: 12px/1.3 system-ui; cursor: pointer;
+  mask-image: linear-gradient(transparent, #000 3em); -webkit-mask-image: linear-gradient(transparent, #000 3em); }
+.recentlog > span { flex-shrink: 0; }
+.recentlog > span:last-child { color: #fff; }
+.recentlog > .sep { color: var(--dim); font-size: 11px; }
+/* Coluna direita: o painel da carta rola por dentro; o botão de fase fica no pé, na largura da coluna. */
+.duel.wide .cardpanel { flex: 1 1 0; min-height: 0; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+.duel.wide .cardpanel.empty { display: grid; place-items: center; text-align: center; color: var(--dim); font-size: 14px; }
+.duel.wide .cardpanel.empty p { margin: 0; max-width: 22ch; }
+.duel.wide .cardpanel.compact { flex: 0 0 auto; overflow: visible; flex-direction: row; align-items: center; gap: 10px; padding: 8px 10px; }
+.cardpanel .cpface { width: 44px; flex-shrink: 0; }
+.cardpanel .cptext { display: flex; flex-direction: column; gap: 2px; min-width: 0; font-size: 13px; }
+.cardpanel .cptext b { font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cardpanel .cptext .atk { color: var(--acc); } .cardpanel .cptext .def { color: #7fc0ff; }
+.cardsheet.vertical { flex-direction: column; align-items: center; }
+.cardsheet.vertical > .sheetface { width: min(100%, 230px); max-width: none; align-self: center; }
+.cardsheet.vertical .meta { align-self: stretch; }
+.cardsheet.vertical .nm { padding-right: 0; }
+.cardsheet.vertical .desc { max-height: none; }
+.duel.wide .wpanel { flex: 1 1 0; min-height: 0; margin: 0; max-height: none; }
+.duel.wide .wpanel.gone { display: none; }
+.duel.wide .choicebar { position: static; flex: 0 0 auto; }
+.duel.wide .sidebtns { width: auto; flex: 0 0 60px; height: 60px; }
+.duel.wide .side-big { font-size: 13px; }
+/* A pilha da corrente fica à esquerda do campo, depois da coluna dos jogadores. */
+.duel.wide .chainstack { left: calc(var(--side) + var(--wide-side) + var(--wide-gap)); }
+/* Ações sobre a carta fixada (CardActions): uma fileira acima da carta, acima da mão e abaixo da trava da encenação. */
+.cardacts { position: absolute; z-index: 14; display: flex; gap: 8px; padding: 6px; border-radius: 8px; background: color-mix(in srgb, var(--bg) 70%, transparent); filter: drop-shadow(0 4px 10px #000c); white-space: nowrap; }
+.cardacts > .hud-btn.act { min-width: 0; }
 .foebar { display: flex; gap: var(--gap); align-items: flex-start; flex-shrink: 0; }
 .menubtn.hud-btn { --menu-w: 44px; --menu-h: var(--plate-h); flex: 0 0 var(--menu-w); width: var(--menu-w); height: var(--menu-h); padding: 0; display: grid; place-items: center; color: #9fd0ff; }
 /* Opções do menu do duelo (animações, som): rótulo e uma fileira de botões exclusivos. */
