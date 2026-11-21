@@ -49,12 +49,17 @@ export const GAME_ICONS = {
 
 export type GameIconName = keyof typeof GAME_ICONS;
 
+/** Conceitos desenhados no traço grosso, não no cheio: o X cheio do Phosphor é um quadrado com o X vazado, e num botão
+ *  parecia um botão dentro do outro. */
+const BOLD: ReadonlySet<GameIconName> = new Set(['close']);
+
 /** Ícone de um conceito do jogo. `label` dá nome ao ícone sozinho (sem texto ao lado); sem ele, é decorativo. */
 export function GameIcon({ name, size = 20, big = false, label, className }: { name: GameIconName; size?: number; big?: boolean; label?: string; className?: string }) {
   const Icon = GAME_ICONS[name];
   const gid = `gi-${useId().replace(/:/g, '')}`;
   const a11y = label ? { role: 'img', 'aria-label': label } : { 'aria-hidden': true };
-  if (!big) return <Icon size={size} weight="fill" className={`game-icon${className ? ` ${className}` : ''}`} {...a11y} />;
+  const weight = BOLD.has(name) ? 'bold' : 'fill';
+  if (!big) return <Icon size={size} weight={weight} className={`game-icon${className ? ` ${className}` : ''}`} {...a11y} />;
   // O degradê precisa de um <defs> próprio: o Phosphor pinta com `color`, que aceita `url(#id)`.
   return (
     <span className={`game-icon big${className ? ` ${className}` : ''}`} style={{ width: size, height: size }} {...a11y}>
@@ -65,7 +70,7 @@ export function GameIcon({ name, size = 20, big = false, label, className }: { n
           </linearGradient>
         </defs>
       </svg>
-      <Icon size={size} weight="fill" color={`url(#${gid})`} />
+      <Icon size={size} weight={weight} color={`url(#${gid})`} />
     </span>
   );
 }

@@ -65,7 +65,7 @@ try {
   check((await mainCount()) === 29, 'zoom: tirar deixa 29');
   await btn('Pôr no deck').click();
   check((await mainCount()) === 30, 'zoom: pôr volta a 30');
-  await page.locator('.zoom-foot button').click();
+  await page.locator('.zoom-x').click();
 
   // Arrastar uma carta do deck para a maleta e uma fora do deck (sem marca) de volta: o deck está cheio (30), então tira
   // antes de pôr. Por Obtenção, as dos pacotes vêm primeiro (a grade é virtual: só as linhas da tela existem).

@@ -108,7 +108,7 @@
 .opening { position: fixed; inset: 0; z-index: 40; background: #050a18; }
 .opening .openingbg { position: absolute; inset: 0; background-size: cover; background-position: center; filter: blur(6px) brightness(.45); transform: scale(1.05); }
 .opening > :not(.openingbg) { position: relative; }
-.opening .closebtn.hud-btn { display: flex; align-items: center; gap: 6px; padding: 10px 12px; order: -1; }
+.opening .closebtn.hud-btn { display: grid; place-items: center; padding: 10px 14px; order: -1; }
 .opening .openingstage { flex: 1; min-height: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; padding: 12px; }
 .opening .hint { margin: 0; color: #d6e6ff; font-size: 15px; text-align: center; }
 .opening .sealed { appearance: none; border: 0; background: none; padding: 0; position: relative; width: min(190px, 52vw); animation: pack-in .35s ease-out both; }

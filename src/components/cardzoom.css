@@ -1,40 +1,42 @@
-/* Zoom da carta (CardZoom.tsx), as medidas do CardZoomView do nativo: carta até 270 de largura, caixa dos dados de
-   altura fixa (200) e no máximo 360 de largura, "Fechar" no rodapé. O conteúdo encosta embaixo (botões colados no
-   "Fechar") e a carta fica com a altura que sobra, encolhendo em telas baixas. */
+/* Zoom da carta (CardZoom.tsx), a partir do CardZoomView do nativo: X no canto de cima, a carta com todo o espaço que
+   sobra, a caixa dos dados (no máximo 200 de altura e 360 de largura; com texto curto, encolhe e a carta cresce) e os
+   botões da tela embaixo. */
 .cardzoom {
   --zoom-info-h: 200px;
   position: fixed; inset: 0; z-index: 60; display: flex; flex-direction: column; align-items: center;
-  padding: calc(12px + env(safe-area-inset-top)) 16px calc(8px + env(safe-area-inset-bottom));
+  padding: calc(8px + env(safe-area-inset-top)) 12px calc(10px + env(safe-area-inset-bottom));
   background: rgba(0, 0, 0, .86);
   animation: zoom-in .22s ease-out;
 }
 @keyframes zoom-in { from { opacity: 0; transform: scale(.94); } }
 @media (prefers-reduced-motion: reduce) { .cardzoom { animation: none; } }
 .zoom-close-area { position: absolute; inset: 0; border: 0; padding: 0; background: transparent; }
+.zoom-head { position: relative; width: 100%; display: flex; flex-shrink: 0; }
+.cardzoom .hud-btn.zoom-x { display: grid; place-items: center; padding: 10px 14px; }
 .zoom-body {
-  position: relative; flex: 1; min-height: 0; width: 100%; max-width: 360px;
-  display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 12px;
+  position: relative; flex: 1; min-height: 0; width: 100%;
+  display: flex; flex-direction: column; align-items: center; gap: 10px; padding-top: 8px;
 }
+/* A carta é um contêiner do tamanho que sobra; a face pega a maior medida que cabe nele na proporção da carta. */
 .zoom-card {
-  border: 0; padding: 0; background: none; flex-shrink: 0;
-  /* Altura da tela menos o resto (dados, botões, rodapé e margens), convertida em largura pela proporção da carta. */
-  width: min(270px, 72vw, calc((100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - var(--zoom-info-h) - 196px) * 0.686));
+  border: 0; padding: 0; background: none; flex: 1 1 0; min-height: 0; width: 100%;
+  container-type: size; display: grid; place-items: center;
+}
+.zoom-card .cardface {
+  width: min(100cqw, 100cqh * 59 / 86);
   filter: drop-shadow(0 0 16px rgba(42, 184, 255, .45));
 }
-.zoom-card .cardface { width: 100%; }
 .zoom-info.cardsheet {
-  appearance: none; border: 0; width: 100%; height: var(--zoom-info-h); flex-shrink: 0; padding: 14px; color: var(--txt);
-  text-align: left; font: inherit; --edge: #2ab8ff;
+  appearance: none; border: 0; width: 100%; max-width: 360px; max-height: var(--zoom-info-h); flex-shrink: 0;
+  padding: 14px; color: var(--txt); text-align: left; font: inherit; --edge: #2ab8ff;
   --fill: linear-gradient(180deg, rgba(11, 42, 106, .92), rgba(5, 10, 24, .92));
+  position: relative; overflow: hidden; display: flex; flex-direction: column;
 }
-.zoom-info.cardsheet { position: relative; overflow: hidden; }
-.zoom-info.cardsheet .meta { height: 100%; min-height: 0; }
+.zoom-info.cardsheet .meta { flex: 0 1 auto; min-height: 0; }
 /* Nome, estrelas, tipo e ATK/DEF não encolhem (o nome sumia com o texto longo); só o texto cede e rola. */
 .zoom-info .meta > :not(.desc) { flex-shrink: 0; }
 .zoom-info.cardsheet .nm { padding-right: 0; font-size: 20px; }
 /* Duas classes no contêiner: o `.cardsheet .desc` do styles.css (carrega depois) não deixaria o texto encolher. */
 .zoom-info.cardsheet .desc { flex: 1 1 auto; min-height: 0; max-height: none; font-size: 14px; color: #d6e4fa; overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; touch-action: pan-y; padding-right: 4px; }
-.zoom-acc { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 10px; }
-.zoom-foot { position: relative; width: 100%; max-width: 360px; padding-top: 10px; }
-.cardzoom .hud-btn { display: flex; align-items: center; justify-content: center; gap: 8px; text-align: center; font-size: 16px; }
-.zoom-foot .hud-btn { width: 100%; }
+.zoom-acc { width: 100%; max-width: 360px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.cardzoom .zoom-acc .hud-btn { display: flex; align-items: center; justify-content: center; gap: 8px; text-align: center; font-size: 16px; }

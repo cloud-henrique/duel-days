@@ -50,7 +50,7 @@ export function OpeningFlow({ openings, packName, cards, reduced, onDone }: {
     <div className={`opening app${reduced ? ' reduced' : ''}`} style={vars} role="dialog" aria-modal="true">
       <div className="openingbg" style={{ backgroundImage: sceneBg('loja-de-jogos') }} />
       <TopBar title={st.phase === 'summary' ? 'Resumo da caixa' : packName} subtitle={subtitle}
-        right={<button className="hud-btn closebtn" onClick={onDone}><GameIcon name="close" size={18} /> Fechar</button>} />
+        right={<button className="hud-btn closebtn" aria-label="Fechar" onClick={onDone}><GameIcon name="close" size={22} /></button>} />
 
       {st.phase === 'sealed' && (
         <div className="openingstage">
