@@ -1,7 +1,7 @@
 # CLAUDE.md
 
 Jogo pessoal de Yu-Gi-Oh! (era Duel Monsters) para ~4 amigos: visual novel com mapa/hub + duelos no formato **Speed Duel**
-(sem Skills) com as cartas oficiais da era. PWA único (Vite + React + TypeScript) para iOS e Android, sem loja e sem backend. Tudo em **português (pt-BR)**:
+(sem Skills) com as cartas oficiais da era. PWA único (Vite + React + TypeScript) para iOS e Android, sem loja e com um backend só: o save na nuvem (`functions/` + D1). Tudo em **português (pt-BR)**:
 interface, textos, comentários e conversa com o usuário.
 
 ## Comandos
@@ -13,7 +13,9 @@ npm test                            # testes de unidade (Vitest; arquivos src/**
 npx vite build                      # build de produção (PWA)
 npx vite preview --port 5181 --host 127.0.0.1   # serve o dist/ (é o que o túnel do celular aponta)
 
-npx vite build && npx wrangler pages deploy dist --project-name dueldays --branch main   # produção: https://dueldays.pages.dev (Cloudflare Pages + Access); o push NÃO publica
+npx vite build && npx wrangler pages deploy dist --project-name dueldays --branch main   # produção: https://dueldays.pages.dev (Cloudflare Pages + Access, leva as `functions/`); o push NÃO publica
+npx vite build && npx wrangler pages dev dist --port 8788 --binding DEV_EMAIL=dev@duel-days.test   # app + /api/save com D1 local (preview_start "cloud")
+npx wrangler d1 migrations apply dueldays-saves --local|--remote   # tabelas do save (migrations/)
 npx tsx proto/smoke.ts 500          # CPU x CPU com decks aleatórios do pool: travas, laços, erros de Lua (--barata: política da CPU)
 npx tsx proto/monkey.ts 100         # mesmo código do Worker (DuelDriver) com os decks da campanha (--cpu=barata|busca[:N])
 npx tsx proto/difficulty.ts 40      # dificuldade: cada duelista x deck inicial, CPU nova dos dois lados, contra a meta do tier
@@ -179,7 +181,22 @@ pelo `.hexbg` do `styles.css`.
   referência de 320 em `cardface.css`; conferência em dev com `?cardfaces`).
 - `src/story/`: `progress.ts` (save em IndexedDB via Dexie: perfil, estatísticas, `settings` de animação/som/música, lidas
   sempre com `withDefaults`, e a `campaign`; `migrate` lê o save da história antiga mantendo o perfil e descarta campanha
-  de outra `CAMPAIGN_VERSION`: a 2 é a do Speed Duel, e as de antes recomeçam do dia 1) e `profile.ts`.
+  de outra `CAMPAIGN_VERSION`: a 2 é a do Speed Duel, e as de antes recomeçam do dia 1; uma **mais nova** fica intacta) e
+  `profile.ts`.
+- **Save na nuvem** (change `save-na-nuvem`): a conta é o e-mail do Cloudflare Access (JWT `Cf-Access-Jwt-Assertion`,
+  validado com o `jose` contra as chaves da equipe e o `aud` do `wrangler.toml`), sem login novo. O jogo nunca espera a
+  rede: tudo grava no IndexedDB, e o registro guarda `baseRev` (revisão da nuvem de origem), `dirty` e `seq`.
+  - `server/` (a lógica, testada com o `node:sqlite` em `server/testing/sqliteD1.ts`) e `functions/api/save.ts` (a Pages
+    Function, só o invólucro). Contrato em `server/protocol.ts`: GET, PUT/DELETE condicionais à `baseRev` (409 com o que a
+    nuvem tem), POST guarda o lado descartado num conflito. D1 `dueldays-saves`: `saves` (uma linha por e-mail, `data`
+    nulo = lápide) e `save_history` (10 últimas por e-mail, com `reason`).
+  - `src/story/sync.ts` (puro: `reconcile` decide enviar, puxar, conflito ou parar por versão nova; `summarize` dos
+    lados), `syncClient.ts` (os pedidos: sem rede, sessão vencida pelo `opaqueredirect`, sem servidor), `syncEngine.ts`
+    (quando: abertura com teto de `OPEN_WAIT_MS`, envio 2 s depois de gravar, `keepalive` ao ir para o segundo plano,
+    busca na volta e no `online`; durante o duelo não troca o save). UI em `src/screens/sync/` (`SyncBadge` no título e
+    no mapa, `ConflictDialog`, `PulledNotice`).
+  - Campanha de depuração (`?campaign=…`) e `?sync=off` desligam a sincronização; o save mudado pela depuração é gravado
+    com `writeDebugProgress` (marcado) e cede ao da conta na próxima sincronização: nunca sobe.
 - `src/game/decks.ts`: regras do deck (pelo `FORMAT`: 20–30, Extra ≤ 5, ≤3 cópias, limitadas a 1, limitado à coleção) e `randomDeck`
   (só nos protótipos).
 - `src/data/`: carregador de cartas (sobrepõe o texto em português) e rótulos (atributo, raça, tipo, moldura, `formatStat`).
@@ -258,6 +275,12 @@ pelo `.hexbg` do `styles.css`.
 
 ## Diagnóstico
 
+- Save na nuvem: `npx wrangler d1 execute dueldays-saves --remote --command "select email, rev, device, updated_at from saves"`.
+  Devolver uma versão anterior (o lado errado de um conflito, um apagar por engano): ache o `id` com
+  `... --command "select id, rev, device, reason, updated_at from save_history where email = 'x@y'"` e rode
+  `... --command "update saves set data = (select data from save_history where id = N), rev = rev + 1 where email = 'x@y'"`
+  (os aparelhos puxam na próxima abertura).
+
 - `?debug=1` mostra no duelo um painel com as etapas do Worker e manda os logs para o servidor (dev/preview), que grava em
   `/tmp/duel-days-device.log`. Serve para depurar o iPhone físico pelo túnel.
 - Simulador de iOS (Safari real) reproduz bugs de WebKit que o Chrome e o Playwright não pegam.
@@ -271,7 +294,9 @@ pelo `.hexbg` do `styles.css`.
   **O deploy é só pelo `wrangler`** (comando em "Comandos"): o projeto do Pages não tem Git ligado ("Git Provider: No") e o
   repositório não tem CI, então `git push` não publica nada. O envio é direto do `dist/` local, porque a arte das cartas
   não vai ao Git; publique depois do push (`npx wrangler pages deployment list --project-name dueldays` mostra o commit
-  de cada deploy). O manifest usa `useCredentials` por causa do Access. O túnel `cloudflared` é temporário.
+  de cada deploy). O manifest usa `useCredentials` por causa do Access. O túnel `cloudflared` é temporário. O
+  `wrangler.toml` é a fonte das ligações (D1) e variáveis (`ACCESS_AUD`, `ACCESS_TEAM`) do projeto: o painel não vale
+  para elas. Quem joga precisa estar na política "Amigos" para ter save na conta.
 - Personagens: só Duel Monsters (e variações como DSoD); sprites do Duel Links, variante `chara007`, rosto 240×240
   sobreposto ao corpo em (260, 120).
 - Antes de mudanças grandes ou ambíguas, pergunte. Teste no navegador (viewport de celular) e, para iOS, no simulador.

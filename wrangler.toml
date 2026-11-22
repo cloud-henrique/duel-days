@@ -1,0 +1,18 @@
+# Cloudflare Pages `dueldays` (change save-na-nuvem). Com este arquivo, o deploy pelo `wrangler pages deploy` leva as
+# ligações e variáveis daqui (o painel deixa de valer para elas). As funções ficam em `functions/`.
+name = "dueldays"
+pages_build_output_dir = "dist"
+compatibility_date = "2026-11-01"
+
+# O save de cada jogador (tabelas em migrations/).
+[[d1_databases]]
+binding = "DB"
+database_name = "dueldays-saves"
+database_id = "9ea2c775-6f2d-4dd2-ad48-5789598a3e28"
+migrations_dir = "migrations"
+
+# Cloudflare Access: a aplicação "Duel Days" (`cf zero-trust access applications list`) e o domínio da equipe
+# (`auth_domain` do `cf zero-trust organization get`). Não são segredos: a função só os usa para validar o JWT.
+[vars]
+ACCESS_AUD = "b0a03e5f670abf1fd00389751ef7a0c5d1ac4679349d400b88a9900c15410481"
+ACCESS_TEAM = "dry-rice-db71.cloudflareaccess.com"

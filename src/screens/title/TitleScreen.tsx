@@ -7,6 +7,7 @@ import { Dp } from '../../ui/Dp';
 import { Wordmark } from '../../ui/titles';
 import { PolyCard } from '../../ui/PolyCard';
 import { avatarFace } from '../profile/ProfileFields';
+import { SyncBadge } from '../sync/SyncBadge';
 import './title.css';
 
 const BASE = import.meta.env.BASE_URL;
@@ -34,10 +35,11 @@ function TitleOrb() {
 
 /**
  * Tela de título: o orbe com o leque, o logo "Yu-Gi-Oh!" (arte fora do git; some se não carregar), "DUEL DAYS" metálico,
- * o perfil e os ajustes no topo, "Campanha"/"Continuar" e "Meu deck". Só entradas para o que já existe.
+ * o perfil, o indicador da nuvem e os ajustes no topo, "Campanha"/"Continuar" e "Meu deck". Só entradas para o que já
+ * existe. `syncing`: a abertura ainda espera a nuvem (até ~3 s), e a campanha fica travada para não jogar sobre um save velho.
  */
-export function TitleScreen({ progress, onPlay, onDecks, onProfile, onSettings }: {
-  progress: Progress; onPlay: () => void; onDecks: () => void; onProfile: () => void; onSettings: () => void;
+export function TitleScreen({ progress, onPlay, onDecks, onProfile, onSettings, syncing = false }: {
+  progress: Progress; onPlay: () => void; onDecks: () => void; onProfile: () => void; onSettings: () => void; syncing?: boolean;
 }) {
   const [logoOk, setLogoOk] = useState(true);
   const profile = profileOf(progress);
@@ -49,6 +51,7 @@ export function TitleScreen({ progress, onPlay, onDecks, onProfile, onSettings }
           <img src={avatarFace(profile.avatar)} alt="" draggable={false} />
           <span><b>{profile.name}</b><small>Perfil</small></span>
         </button>
+        <SyncBadge />
         <button className="hud-btn iconbtn big" onClick={onSettings} aria-label="Ajustes"><GameIcon name="settings" size={28} big /></button>
       </div>
       <div className="titlehero">
@@ -57,11 +60,11 @@ export function TitleScreen({ progress, onPlay, onDecks, onProfile, onSettings }
         <Wordmark shine />
       </div>
       <div className="titlebtns">
-        <button className="hud-btn primary titleplay" onClick={onPlay}>
+        <button className="hud-btn primary titleplay" onClick={onPlay} disabled={syncing}>
           <GameIcon name="campaign" size={32} big />
           <span className="titleplay-text">
             <b className="game-title">{entry.label}</b>
-            <small>{entry.sub}</small>
+            <small>{syncing ? 'Sincronizando…' : entry.sub}</small>
             {entry.dp !== null && <Dp value={entry.dp} className="titleplay-dp" />}
           </span>
           <GameIcon name="chevron" size={20} />

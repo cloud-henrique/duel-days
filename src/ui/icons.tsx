@@ -11,7 +11,7 @@
 import { useId, type ComponentType } from 'react';
 import {
   ArrowCircleRight, ArrowCounterClockwise, ArrowsDownUp, Books, CalendarBlank, CardsThree, CaretLeft, CaretRight, Cards,
-  ChatCircleDots, Check, CheckFat, ClockCounterClockwise, Coins, Crown, DotsThreeCircle, Eye, Flag, GameController,
+  ChatCircleDots, Check, CheckFat, Cloud, CloudArrowUp, CloudCheck, CloudSlash, CloudWarning, ClockCounterClockwise, Coins, Crown, DotsThreeCircle, Eye, Flag, GameController,
   GearSix, Gift, GraduationCap, Hamburger, Heart, IdentificationCard, List, Lock, MagnifyingGlass, MapPin, MapTrifold,
   Minus, MusicNotes, Package, Plus, Question, ShoppingCart, SpeakerHigh, SpeakerSlash, Spade, Sparkle, Stack, Storefront,
   SkipForward, Sword, Trash, Tree, Trophy, User, Warning, X, CaretDown, Shield, MagicWand, Mountains, Spiral, SquaresFour, Broom, ArrowUUpLeft, type IconProps,
@@ -45,6 +45,8 @@ export const GAME_ICONS = {
   delete: Trash, warning: Warning, search: MagnifyingGlass, sort: ArrowsDownUp, more: DotsThreeCircle, menu: List,
   newGame: ArrowCounterClockwise, start: ArrowCircleRight, viewField: Eye, revealAll: Sparkle, surrender: Flag,
   question: Question, skip: SkipForward, next: CaretDown, cardSize: SquaresFour, undo: ArrowUUpLeft, clearDeck: Broom,
+  // Save na nuvem (change save-na-nuvem): salvo, enviando, sem rede, pede atenção (sessão, conflito, versão), desligada
+  syncOk: CloudCheck, syncing: CloudArrowUp, syncOffline: CloudSlash, syncAlert: CloudWarning, syncOff: Cloud,
 } satisfies Record<string, ComponentType<IconProps>>;
 
 export type GameIconName = keyof typeof GAME_ICONS;

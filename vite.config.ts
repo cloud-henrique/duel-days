@@ -72,6 +72,8 @@ export default defineConfig({
         // a música da campanha, e o build JSPI do motor (o app usa o síncrono). São guardados conforme vistos/tocados.
         globIgnores: ['cards/**', 'characters/**', 'campaign/**', 'music/**', 'assets/ocgcore.jspi-*'],
         additionalManifestEntries: essentials(),
+        // O save na nuvem (change save-na-nuvem) sempre vai ao servidor: nenhuma página nem cache responde por `/api/`.
+        navigateFallbackDenylist: [/^\/api\//],
         runtimeCaching: [{
           urlPattern: ({ url }) => url.pathname.includes('/cards/thumb/'),
           handler: 'CacheFirst',

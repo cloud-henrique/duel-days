@@ -9,13 +9,14 @@ import { BondHearts } from '../../ui/BondHearts';
 import { GameIcon } from '../../ui/icons';
 import { Modal } from '../../ui/Modal';
 import { faceOf, mapImage, mapSettled, preloadMap } from './assets';
+import { SyncBadge } from '../sync/SyncBadge';
 import './campaign.css';
 
 /** Corações de um duelista (0 a 4, o atual pela fração), no desenho do nativo. */
 export const Hearts = ({ value, size = 14 }: { value: number; size?: number }) => <BondHearts value={value} size={size} />;
 
 /** Cabeçalho da campanha: dia, período, DP, barra dos dias e o progresso do tier. */
-export function CampaignHeader({ s, onMenu }: { s: CampaignState; onMenu?: () => void }) {
+export function CampaignHeader({ s, onMenu, sync = false }: { s: CampaignState; onMenu?: () => void; sync?: boolean }) {
   const tp = tierProgress(s);
   return (
     <div className="camphead hud">
@@ -25,6 +26,7 @@ export function CampaignHeader({ s, onMenu }: { s: CampaignState; onMenu?: () =>
           <b className="game-title">Dia {s.day}</b>
           <span className={`periodchip p-${PERIOD_KEYS[s.period]}`}>{PERIOD_NAMES[s.period]}</span>
           <Dp value={s.dp} className="camphead-dp" />
+          {sync && <SyncBadge />}
         </div>
         <div className="daybar" role="progressbar" aria-label="Dias da campanha" aria-valuenow={s.day} aria-valuemin={1} aria-valuemax={BALANCE.days}>
           <i style={{ width: `${dayProgress(s) * 100}%` }} />
@@ -80,7 +82,7 @@ export function MapScreen({ s, onMeet, onShop, onDecks, onCollection, onBonds, o
 
   return (
     <div className={`app campmap p-${period}`}>
-      <CampaignHeader s={s} onMenu={() => setOptions(true)} />
+      <CampaignHeader s={s} onMenu={() => setOptions(true)} sync />
       <div className="mapscroll" ref={scroller}>
         <div className={`mapcanvas${imgOk ? '' : ' noimg'}${shown === period ? '' : ' loading'}${instant ? ' instant' : ''}`}>
           {imgOk && <img className="mapimg" src={mapImage(period)} alt="" draggable={false} onError={() => setImgOk(false)} />}

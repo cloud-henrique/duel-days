@@ -4,5 +4,5 @@
     "jsx": "react-jsx", "strict": true, "skipLibCheck": true, "noEmit": true, "isolatedModules": true,
     "types": ["vite/client", "node", "vite-plugin-pwa/client"]
   },
-  "include": ["src", "proto", "vite.config.ts"]
+  "include": ["src", "proto", "server", "functions", "vite.config.ts"]
 }

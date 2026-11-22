@@ -58,6 +58,18 @@ function withPicks(c: CampaignState): CampaignState {
   return { ...c, bondPicks: {}, bondPicksFrom: { ...c.bondEventsDone } };
 }
 
+/**
+ * A campanha do save: a desta versão (com as escolhas dos eventos), nenhuma se for de uma versão anterior e, se for de
+ * uma versão mais nova que o app (gravada em outro aparelho já atualizado), a mesma, intacta: descartá-la apagaria o
+ * progresso quando o save voltasse para a nuvem (change save-na-nuvem).
+ */
+function campaignOf(raw: unknown): CampaignState | null {
+  const c = raw as CampaignState | null | undefined;
+  if (!c || typeof c.version !== 'number') return null;
+  if (c.version === CAMPAIGN_VERSION) return withPicks(c);
+  return c.version > CAMPAIGN_VERSION ? c : null;
+}
+
 export function migrate(raw: unknown): Progress | null {
   if (!raw || typeof raw !== 'object') return null;
   const p = raw as Partial<Progress> & Record<string, unknown>;
@@ -66,7 +78,7 @@ export function migrate(raw: unknown): Progress | null {
     playerName: p.playerName,
     wins: (p.wins as Record<string, number>) ?? {},
     losses: (p.losses as Record<string, number>) ?? {},
-    campaign: p.campaign && (p.campaign as CampaignState).version === CAMPAIGN_VERSION ? withPicks(p.campaign as CampaignState) : null,
+    campaign: campaignOf(p.campaign),
   };
   if (p.avatar !== undefined) out.avatar = p.avatar;
   if (p.address !== undefined) out.address = p.address;
@@ -74,15 +86,73 @@ export function migrate(raw: unknown): Progress | null {
   return out;
 }
 
-interface Row { id: string; progress: Progress; updatedAt: number }
+/**
+ * O registro do save no IndexedDB. Além do `Progress`, o estado da sincronização com a nuvem (change save-na-nuvem):
+ * `baseRev` é a revisão da nuvem da qual este save descende (0 = nunca sincronizou), `dirty` diz que há mudança que a
+ * nuvem não tem e `seq` conta as gravações (um envio só limpa o `dirty` se nada foi gravado enquanto ele ia). `progress`
+ * nulo com `dirty` é um "Apagar progresso" que a nuvem ainda não recebeu. Registros de antes da sincronização não têm
+ * esses campos: valem 0, pendente e 0 (`syncOf`). `debug` marca um save mudado por uma campanha de depuração: ele nunca
+ * vai para a nuvem, e a próxima sincronização o troca pelo da conta.
+ */
+interface Row { id: string; progress: Progress | null; updatedAt: number; baseRev?: number; dirty?: boolean; seq?: number; debug?: boolean }
 const db = new Dexie('duel-days') as Dexie & { saves: EntityTable<{ id: string }, 'id'>; progress: EntityTable<Row, 'id'> };
 db.version(1).stores({ saves: 'id' });
 db.version(2).stores({ saves: 'id', progress: 'id' });
 
-export const loadProgress = async (): Promise<Progress | null> => {
-  try { return migrate((await db.progress.get('main'))?.progress ?? null); } catch { return null; }
+/** O save do aparelho com o estado da sincronização. */
+export interface LocalSave { progress: Progress | null; baseRev: number; dirty: boolean; seq: number; updatedAt: number; debug: boolean }
+const syncOf = (r: Row | undefined): Omit<LocalSave, 'progress'> => ({
+  baseRev: r?.baseRev ?? 0, dirty: r ? (r.dirty ?? r.progress !== null) : false, seq: r?.seq ?? 0,
+  updatedAt: r?.updatedAt ?? 0, debug: r?.debug ?? false,
+});
+const MAIN = 'main';
+
+export const loadLocal = async (): Promise<LocalSave> => {
+  try {
+    const r = await db.progress.get(MAIN);
+    return { progress: migrate(r?.progress ?? null), ...syncOf(r) };
+  } catch { return { progress: null, baseRev: 0, dirty: false, seq: 0, updatedAt: 0, debug: false }; }
 };
-export const writeProgress = async (progress: Progress) => {
-  try { await db.progress.put({ id: 'main', progress, updatedAt: Date.now() }); } catch { /* sem armazenamento: segue sem salvar */ }
+export const loadProgress = async (): Promise<Progress | null> => (await loadLocal()).progress;
+
+/** Grava uma mudança do jogo: fica pendente para a nuvem. Devolve o `seq` da gravação. */
+const writeLocal = async (progress: Progress | null, dirty: (baseRev: number) => boolean, debug?: boolean): Promise<number> => {
+  try {
+    return await db.transaction('rw', db.progress, async () => {
+      const cur = syncOf(await db.progress.get(MAIN));
+      const seq = cur.seq + 1;
+      await db.progress.put({ id: MAIN, progress, updatedAt: Date.now(), baseRev: cur.baseRev, dirty: dirty(cur.baseRev), seq,
+        debug: debug ?? cur.debug });
+      return seq;
+    });
+  } catch { return 0; /* sem armazenamento: segue sem salvar */ }
 };
-export const clearProgress = async () => { try { await db.progress.delete('main'); } catch { /* idem */ } };
+export const writeProgress = (progress: Progress) => writeLocal(progress, () => true);
+/** Grava um save mudado por uma campanha de depuração (`?campaign=…`): fica marcado e nunca vai para a nuvem. */
+export const writeDebugProgress = (progress: Progress) => writeLocal(progress, () => true, true);
+/** Apaga o save do aparelho; se ele já esteve na nuvem, o apagar fica pendente para ela também. */
+export const clearProgress = () => writeLocal(null, (baseRev) => baseRev > 0, false);
+
+/** A nuvem aceitou o envio da gravação `seq` com a revisão `rev`: só deixa de estar pendente se nada mudou depois. */
+export const markSynced = async (rev: number, seq: number) => {
+  try {
+    await db.transaction('rw', db.progress, async () => {
+      const r = await db.progress.get(MAIN);
+      if (!r) return;
+      await db.progress.put({ ...r, baseRev: rev, dirty: syncOf(r).seq === seq ? false : syncOf(r).dirty });
+    });
+  } catch { /* idem */ }
+};
+
+/** Troca o save do aparelho pelo da nuvem (revisão `rev`), sem nada pendente. */
+export const replaceLocal = async (progress: Progress | null, rev: number) => {
+  try {
+    await db.transaction('rw', db.progress, async () => {
+      const seq = syncOf(await db.progress.get(MAIN)).seq + 1;
+      await db.progress.put({ id: MAIN, progress, updatedAt: Date.now(), baseRev: rev, dirty: false, seq });
+    });
+  } catch { /* idem */ }
+};
+
+/** Só nos testes: zera o banco. */
+export const __resetLocal = () => db.progress.clear();

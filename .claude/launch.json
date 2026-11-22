@@ -34,6 +34,23 @@
         "127.0.0.1"
       ],
       "port": 5181
+    },
+    {
+      "name": "cloud",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "wrangler",
+        "pages",
+        "dev",
+        "dist",
+        "--port",
+        "8788",
+        "--ip",
+        "127.0.0.1",
+        "--binding",
+        "DEV_EMAIL=dev@duel-days.test"
+      ],
+      "port": 8788
     }
   ]
 }

@@ -59,3 +59,6 @@ assets/action-icons/*.png
 
 # Prints do app nativo (mostram arte e sprites da Konami): só o índice docs/nativo/README.md entra no git
 docs/nativo/prints/
+
+# Estado local do wrangler (D1 local do `wrangler pages dev`)
+.wrangler/

@@ -1,0 +1,26 @@
+/* O indicador da sincronização e a escolha do conflito (change save-na-nuvem). Só tokens da paleta (palette.test.ts). */
+.syncbadge.cut {
+  --cut: 7px; --edge-w: 1.5px; --edge: var(--line-dim); --fill: var(--well);
+  display: inline-flex; align-items: center; gap: 5px; padding: 5px 9px; color: var(--dim);
+  font: 700 11px/1 var(--font-game); letter-spacing: .3px; white-space: nowrap; appearance: none;
+}
+.syncbadge.tone-ok { color: var(--cyan-text); }
+.syncbadge.tone-warn { --edge: var(--acc); color: var(--acc); }
+.syncbadge.tone-busy .game-icon { animation: sync-pulse 1.2s ease-in-out infinite; }
+@keyframes sync-pulse { 50% { opacity: .45; } }
+@media (prefers-reduced-motion: reduce) { .syncbadge.tone-busy .game-icon { animation: none; } }
+
+.gamemodal .gamedialog.conflictdialog { width: min(100%, 520px); display: flex; flex-direction: column; gap: 12px; }
+.gamemodal .gamedialog.syncdialog { display: flex; flex-direction: column; gap: 10px; }
+.syncsides { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.syncside.cut { --cut: 10px; --edge-w: 1.5px; --edge: var(--line-dim); --fill: var(--well); display: flex; flex-direction: column; gap: 6px; padding: 10px; min-width: 0; }
+.syncside-when { font: 700 15px/1.15 var(--font-game); color: var(--txt); }
+.syncside ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; color: var(--txt); font-size: 13px; }
+.syncside li { display: flex; align-items: center; gap: 5px; }
+.syncside small { color: var(--dim); font-size: 11px; line-height: 1.3; }
+.conflictdialog .acts { flex-wrap: wrap; }
+.conflictdialog .acts > .hud-btn { min-width: 150px; }
+
+/* O lugar do indicador nas telas. */
+.titletop .syncbadge { margin-left: auto; margin-right: 8px; }
+.camphead-row .syncbadge { flex: none; }

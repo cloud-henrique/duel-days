@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { newCampaign } from '../campaign/state';
+import { CAMPAIGN_VERSION, newCampaign } from '../campaign/state';
 import { DEFAULT_SETTINGS, migrate, withDefaults, type Settings } from './progress';
 
 describe('withDefaults', () => {
@@ -50,5 +50,15 @@ describe('migrate', () => {
   it('lixo vira "sem save"', () => {
     expect(migrate(null)).toBeNull();
     expect(migrate({ coins: 3 })).toBeNull();
+  });
+});
+
+describe('migrate e versões (save-na-nuvem)', () => {
+  it('campanha de uma versão mais nova que o app fica intacta', () => {
+    const next = { ...newCampaign(4), version: CAMPAIGN_VERSION + 1, dp: 1234 };
+    expect(migrate({ playerName: 'Cid', wins: {}, losses: {}, campaign: next })?.campaign).toEqual(next);
+  });
+  it('a de versão anterior continua descartada', () => {
+    expect(migrate({ playerName: 'Cid', wins: {}, losses: {}, campaign: { ...newCampaign(4), version: CAMPAIGN_VERSION - 1 } })?.campaign).toBeNull();
   });
 });
