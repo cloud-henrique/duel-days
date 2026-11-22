@@ -196,6 +196,10 @@
   .scene-menu > .ask, .scene-menu > .topichint, .scene-menu > .topicgrid { flex: 0 0 100%; }
   .scene-menu .topicgrid { grid-template-columns: repeat(4, 1fr); }
   .scene-menu > .hud-btn.danger { flex: 0 0 auto; margin-inline: auto; padding-inline: 28px; }
+  /* Os sprites terminam na coxa e a folha estreita não esconde essa borda: o pé do personagem desce até o pé da tela
+     (atrás da folha no meio) e os últimos 14% somem num degradê curto, para nenhuma linha reta aparecer dos lados. */
+  .campaign-scene .stage .actor { bottom: 0; height: 86%;
+    -webkit-mask-image: linear-gradient(to top, transparent 0, #000 14%); mask-image: linear-gradient(to top, transparent 0, #000 14%); }
 }
 
 /* Tela larga (change layout-desktop-telas; WIDE_QUERY): cabeças do mapa maiores e atalhos contidos; status e fim numa

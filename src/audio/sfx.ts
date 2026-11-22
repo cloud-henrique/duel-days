@@ -5,7 +5,10 @@
  * - O iOS só libera o áudio num gesto do usuário: o contexto é criado/retomado no primeiro toque (`installUnlock`).
  *   Antes disso, `play` não faz nada (e não dá erro).
  * - O mesmo som não se repete em menos de `PACING.sound.repeatMs` (`shouldPlay`); sons diferentes não se bloqueiam.
- * - O Web Audio segue a chave de silencioso do iPhone.
+ * - A chave de silencioso do iPhone vale para todo o áudio do jogo: a sessão é `ambient` (`setAmbientSession`). Sem
+ *   isso, o Web Audio só obedecia à chave enquanto nenhum `<audio>` tocava; com a música tocando, o iOS passava a
+ *   sessão para "playback" e os efeitos soavam no silencioso (o "às vezes funciona"). O PWA não consegue ler a chave,
+ *   então o "Som" das Opções continua valendo por cima dela (e é o único controle fora do iPhone).
  */
 import type { Sound as DuelSound } from '../screens/duel/anim/effects';
 import { PACING } from '../screens/duel/anim/pacing';
@@ -94,8 +97,16 @@ class Sfx {
 export const sfx = new Sfx();
 setAudioContextSource(() => sfx.context);
 
+/** A Audio Session API do Safari (16.4+): `ambient` = obedece à chave de silencioso e mistura com o áudio de outros apps. */
+export function setAmbientSession(nav: unknown = globalThis.navigator): boolean {
+  const session = (nav as { audioSession?: { type: string } } | undefined)?.audioSession;
+  if (!session) return false;
+  try { session.type = 'ambient'; return true; } catch { return false; }
+}
+
 /** Liga o desbloqueio do áudio (efeitos e música) ao primeiro toque/tecla (e aos seguintes, caso o iOS suspenda o contexto). */
 export function installUnlock(): () => void {
+  if (setAmbientSession()) rlog('áudio: sessão ambient (segue a chave de silencioso)');
   const on = () => { sfx.unlock(); music.unlock(); };
   const opts = { capture: true, passive: true } as const;
   for (const ev of ['pointerdown', 'touchend', 'keydown'] as const) document.addEventListener(ev, on, opts);

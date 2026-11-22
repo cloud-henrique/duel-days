@@ -220,7 +220,7 @@ pelo `.hexbg` do `styles.css`.
   o chunk do WASM importava a entrada do Worker e o Safari do iOS reexecutava o módulo, perdendo o duelo após o primeiro
   pedido. O estado do duelo fica em `globalThis.__duel`.
 - **Áudio no iOS**: o `AudioContext` só é liberado num gesto do usuário. O `installUnlock()` roda no `main.tsx` (qualquer
-  toque no app, já na história); antes disso `sfx.play` não faz nada. O Web Audio segue a chave de silencioso do iPhone.
+  toque no app, já na história); antes disso `sfx.play` não faz nada. A chave de silencioso vale para tudo porque a sessão é `ambient` (`setAmbientSession`, Safari 16.4+): sem isso, com a música (`<audio>`) tocando o iOS passava para "playback" e os efeitos soavam no silencioso. O `sfx.enabled` ("Som" das Opções) é aplicado no `App`, não numa tela.
 - **Os sons e a arte são da Konami**: `public/sounds/` (Tag Force) e `public/brand/` (logo), via app nativo, ficam fora do
   git, como `public/cards/`. O título esconde o logo se o arquivo faltar.
 - **Nada de caractere fazendo papel de ícone** (◎, ☰, ⋯, ▼, ♥): use o `GameIcon`. Dinheiro é sempre `Dp`; um teste procura

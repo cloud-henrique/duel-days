@@ -23,6 +23,7 @@ import { TitleScreen } from './screens/title/TitleScreen';
 import { SettingsScreen } from './screens/title/SettingsScreen';
 import { GameIcon } from './ui/icons';
 import { music, type Track } from './audio/music';
+import { sfx } from './audio/sfx';
 import { BALANCE } from './campaign/balance';
 import { epilogue, eventReview } from './campaign/bond';
 import { debugPreset } from './campaign/debug';
@@ -163,6 +164,9 @@ export function App() {
   useEffect(() => { music.setTrack(trackFor(screen)); }, [screen]);
   const ms = withDefaults(prog?.settings);
   useEffect(() => { music.setSettings(ms.music, ms.musicVolume); }, [ms.music, ms.musicVolume]);
+  // Efeitos: a preferência vale no app inteiro desde a abertura (antes só o duelo a aplicava, e os toques da
+  // interface tocavam mesmo com o som desligado até o primeiro duelo).
+  useEffect(() => { sfx.enabled = ms.sound; }, [ms.sound]);
 
   const overlays = (
     <>

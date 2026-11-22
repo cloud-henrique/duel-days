@@ -17,7 +17,6 @@ import { ChoiceBar } from './ChoicePanels';
 import { useDuelEngine } from './useDuelEngine';
 import { useBeatQueue } from './anim/useBeatQueue';
 import { useReducedMotion } from './anim/useReducedMotion';
-import { sfx } from '../../audio/sfx';
 import { music } from '../../audio/music';
 import { Splash } from './anim/Splash';
 import { ChainStack } from './anim/ChainStack';
@@ -123,8 +122,6 @@ export function DuelScreen({ cards, mine, foe: foeDeck, opponent, cpu, player = 
     return el.cloneNode(true) as HTMLElement;
   };
   const reducedMotion = useReducedMotion();
-  // Sons: seguem a preferência do jogador (o áudio é liberado no primeiro toque, em `main.tsx`).
-  useEffect(() => { sfx.enabled = settings.sound; }, [settings.sound]);
   // Abertura: segura a primeira encenação até terminar (ou ser pulada); a moeda cai em quem joga o turno 1.
   const [intro, setIntro] = useState<{ starter: 0 | 1; done: () => void } | null>(null);
   const introSeen = useRef(false);

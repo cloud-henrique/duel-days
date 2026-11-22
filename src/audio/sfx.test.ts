@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { SOUND_FILES, shouldPlay } from './sfx';
+import { SOUND_FILES, setAmbientSession, shouldPlay } from './sfx';
 import type { Sound } from './sfx';
 import { PACING } from '../screens/duel/anim/pacing';
 
@@ -33,5 +33,17 @@ describe('SOUND_FILES', () => {
     const files = Object.values(SOUND_FILES);
     expect(files).toHaveLength(21);
     expect(new Set(files).size).toBe(21);
+  });
+});
+
+describe('setAmbientSession', () => {
+  it('põe a sessão em ambient quando o Safari tem a Audio Session API', () => {
+    const nav = { audioSession: { type: 'auto' } };
+    expect(setAmbientSession(nav)).toBe(true);
+    expect(nav.audioSession.type).toBe('ambient');
+  });
+  it('sem a API (outros navegadores), não faz nada', () => {
+    expect(setAmbientSession({})).toBe(false);
+    expect(setAmbientSession(undefined)).toBe(false);
   });
 });
