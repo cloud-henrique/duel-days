@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import type { CardRecord } from '../engine/session';
-import { attrGlyph, faceIcon, formatStat, frameOf, isMonster, isNormalMonster, monsterKinds, raceName } from '../data/labels';
+import { attrGlyph, faceIcon, formatStat, frameOf, isMonster, isNormalMonster, monsterKinds, raceName, typeLine } from '../data/labels';
 import { BASE, art, type ArtSize } from './art';
 import './cardface.css';
 
@@ -57,7 +57,7 @@ export function CardFace({ code, card, detail = 'compact', artSize }: { code: nu
           : <i className="cf-attr" style={{ background: glyphBg }}>{glyph}</i>}
       </div>
       <div className="cf-level">
-        {monster ? Array.from({ length: Math.min(card.level, MAX_STARS) }, (_, i) => <i key={i} />) : <span>[{kind}]</span>}
+        {monster ? Array.from({ length: Math.min(card.level, MAX_STARS) }, (_, i) => <i key={i} />) : <span>[{typeLine(card.type)}]</span>}
       </div>
       <div className={`cf-art${artFailed ? ' empty' : ''}`}>
         {!artFailed && <img src={art(code, artSize ?? (detail === 'full' ? 'full' : 'thumb'))} alt="" decoding="async" draggable={false} onError={() => setArtFailed(true)} />}
