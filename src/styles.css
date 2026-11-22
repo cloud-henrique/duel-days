@@ -31,9 +31,16 @@
  * - --font-game: Chakra Petch Bold (OFL, public/fonts/OFL.txt; subconjunto Latin-1, cobre o português), nos números
  *   (classe .num, com largura fixa para o LP e o DP não tremerem ao contar) e nos títulos (.game-title e os <h4> das folhas);
  * - --font-display: serifada preta itálica, nos títulos de destaque (DisplayTitle: DUELO!, VITÓRIA!...). New York no iOS.
+ * - --font-card: Source Serif 4 (OFL, public/fonts/OFL-SourceSerif4.txt; subconjunto latin do fontsource), a face da carta
+ *   (CardFace): igual em todo aparelho e com números alinhados (a Georgia, reserva de fora do Safari, tem algarismos
+ *   antigos: o 3, o 5 e o 9 desciam da linha no ATK/DEF).
  */
 @font-face { font-family: 'Chakra Petch'; font-weight: 700; font-display: swap; src: url('/fonts/ChakraPetch-Bold.woff2') format('woff2'); }
+@font-face { font-family: 'Source Serif 4'; font-weight: 400; font-style: normal; font-display: swap; src: url('/fonts/SourceSerif4-Regular.woff2') format('woff2'); }
+@font-face { font-family: 'Source Serif 4'; font-weight: 400; font-style: italic; font-display: swap; src: url('/fonts/SourceSerif4-Italic.woff2') format('woff2'); }
+@font-face { font-family: 'Source Serif 4'; font-weight: 700; font-style: normal; font-display: swap; src: url('/fonts/SourceSerif4-Bold.woff2') format('woff2'); }
 :root { --font-game: 'Chakra Petch', system-ui, sans-serif; --font-display: ui-serif, 'New York', Georgia, 'Times New Roman', serif;
+  --font-card: 'Source Serif 4', ui-serif, Georgia, serif;
   /* Estrela de 5 pontas (clip-path), a das estrelas de nível. */
   --star-shape: polygon(50% 0, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); }
 .num { font-family: var(--font-game); font-weight: 700; font-variant-numeric: tabular-nums; }

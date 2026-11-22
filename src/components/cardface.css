@@ -9,21 +9,23 @@
   --border: 10; --name-x: 16; --name-y: 16; --name-w: 286; --name-h: 37; --attr: 30;
   --level-x: 30; --level-y: 55; --level-w: 257; --level-h: 20; --star: 18;
   --art-x: 30; --art-y: 78; --art-w: 261; --art-h: 259; --art-inset: 4;
-  --box-x: 12; --box-y: 345; --box-w: 291; --box-h: 97; --paper-x: 22; --paper-y: 350; --paper-w: 275; --paper-h: 89;
+  --box-x: 12; --box-y: 345; --box-w: 291; --box-h: 97; --paper-x: 15; --paper-y: 347; --paper-w: 285; --paper-h: 93; --filet: 1.4;
   --stats-font: 44; --kind-font: 38;
+  /* folga do texto dentro do papel (para não encostar na borda) */
+  --paper-pad-x: 7; --paper-pad-y: 4;
   /* O próprio elemento não pode usar --u (unidades de contêiner medem o contêiner de fora): canto 14/320 da largura. */
   position: relative; width: 100%; aspect-ratio: 59 / 86; border-radius: 4.4% / 3%; overflow: hidden;
-  background: #1f1f29; color: #000; font-family: ui-serif, Georgia, 'Times New Roman', serif; contain: layout paint;
+  background: #1f1f29; color: #000; font-family: var(--font-card); font-variant-numeric: lining-nums; contain: layout paint;
 }
 .cardface > * { position: absolute; }
 .cf-frame { inset: calc(var(--border) * var(--u)); border-radius: calc(6 * var(--u)); background: var(--frame); }
-.cf-normal { --frame: linear-gradient(135deg, #cfb27c, #c0954b); }
-.cf-effect { --frame: linear-gradient(135deg, #c98763, #b55b2d); }
-.cf-fusion { --frame: linear-gradient(135deg, #a275ad, #884396); }
-.cf-ritual { --frame: linear-gradient(135deg, #7a9fd6, #4f78bf); }
-.cf-spell { --frame: linear-gradient(135deg, #3fae9f, #0a8e7b); --name-color: #fff; }
-.cf-trap { --frame: linear-gradient(135deg, #bf5b9a, #a82275); --name-color: #fff; }
-.cf-token { --frame: linear-gradient(135deg, #b9b9b9, #969696); }
+.cf-normal { --frame: linear-gradient(135deg, #cfb27c, #c0954b); --filet-color: #8a6430; }
+.cf-effect { --frame: linear-gradient(135deg, #c98763, #b55b2d); --filet-color: #8a3f1c; }
+.cf-fusion { --frame: linear-gradient(135deg, #a275ad, #884396); --filet-color: #5e2a6b; }
+.cf-ritual { --frame: linear-gradient(135deg, #7a9fd6, #4f78bf); --filet-color: #2f4f8a; }
+.cf-spell { --frame: linear-gradient(135deg, #3fae9f, #0a8e7b); --name-color: #fff; --filet-color: #06614f; }
+.cf-trap { --frame: linear-gradient(135deg, #bf5b9a, #a82275); --name-color: #fff; --filet-color: #73164f; }
+.cf-token { --frame: linear-gradient(135deg, #b9b9b9, #969696); --filet-color: #666; }
 .cf-name {
   left: calc(var(--name-x) * var(--u)); top: calc(var(--name-y) * var(--u)); width: calc(var(--name-w) * var(--u)); height: calc(var(--name-h) * var(--u));
   display: flex; align-items: center; gap: calc(6 * var(--u)); padding: 0 calc(7 * var(--u));
@@ -56,12 +58,17 @@
 .cf-art.empty::after { content: ''; position: absolute; inset: calc(var(--art-inset) * var(--u)); background: var(--frame); filter: brightness(.55) saturate(.8); }
 .cf-text {
   left: calc(var(--box-x) * var(--u)); top: calc(var(--box-y) * var(--u)); width: calc(var(--box-w) * var(--u)); height: calc(var(--box-h) * var(--u));
-  border-radius: calc(2 * var(--u)); background: #9e7333;
-  padding: calc((var(--paper-y) - var(--box-y)) * var(--u)) calc((var(--paper-x) - var(--box-x)) * var(--u));
+  border-radius: calc(2 * var(--u));
+  padding: calc((var(--paper-y) - var(--box-y) + var(--paper-pad-y)) * var(--u)) calc((var(--paper-x) - var(--box-x) + var(--paper-pad-x)) * var(--u));
   display: flex; flex-direction: column; justify-content: center;
 }
-.cf-text::before { content: ''; position: absolute; inset: calc((var(--paper-y) - var(--box-y)) * var(--u)) calc((var(--paper-x) - var(--box-x)) * var(--u)) calc((var(--box-h) - var(--paper-h) - (var(--paper-y) - var(--box-y))) * var(--u)); background: #ebdeca; }
+.cf-text::before { content: ''; position: absolute; inset: calc((var(--paper-y) - var(--box-y)) * var(--u)) calc((var(--paper-x) - var(--box-x)) * var(--u)) calc((var(--box-h) - var(--paper-h) - (var(--paper-y) - var(--box-y))) * var(--u)); background: #ebdeca;
+  /* Filete fino na cor da moldura (mais escura) com relevo, como na carta impressa: sombra embaixo/direita e luz em cima. */
+  border: calc(var(--filet) * var(--u)) solid var(--filet-color, #8a6430);
+  box-shadow: 0 0 0 calc(.8 * var(--u)) rgba(255, 255, 255, .35), calc(.8 * var(--u)) calc(1 * var(--u)) calc(1.5 * var(--u)) rgba(0, 0, 0, .35), inset 0 calc(1 * var(--u)) calc(2 * var(--u)) rgba(0, 0, 0, .18); }
 .cf-text > * { position: relative; }
+/* No compacto o ATK/DEF grande precisa da largura toda do papel. */
+.cardface.compact { --paper-pad-x: 0; --paper-pad-y: 0; }
 .compact .cf-text b { text-align: center; white-space: nowrap; font-weight: 900; line-height: 1; letter-spacing: 0; }
 .compact .cf-text .cf-stats { font-size: calc(var(--stats-font) * var(--u)); font-variant-numeric: lining-nums tabular-nums; }
 .compact .cf-text .cf-kind { font-size: calc(var(--kind-font) * var(--u)); }

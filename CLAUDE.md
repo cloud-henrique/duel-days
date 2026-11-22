@@ -240,7 +240,7 @@ pelo `.hexbg` do `styles.css`.
 - Fichas (tokens) precisam estar em `cards.json` (o export inclui), senão cartas como Scapegoat dão erro de Lua.
 - Subtipo de Magia/Armadilha só via `typeLine` (nomes do Manual Oficial: Equipamento, Campo, Rápida, Ritual, Contínua, Resposta);
   use as constantes `OcgType`, nunca máscaras soltas (os bits já estiveram trocados).
-- A face da carta usa `ui-serif` (New York no iOS, igual ao nativo); fora do Safari cai para Georgia.
+- A face da carta usa a Source Serif 4 (`--font-card`, em `public/fonts`, OFL): a Georgia tinha algarismos antigos (o ATK/DEF "caía"); a caixa de texto tem filete na cor da moldura (`--filet-color`) e folga (`--paper-pad-*`, zerada no compacto).
 - **`ocgcore-wasm` tem um patch** (`patches/`, aplicado no `postinstall` pelo patch-package): a resposta de SORT_CARD
   levava um byte de tamanho antes da ordem e o motor a recusava (Classificar Livro de Magia não fazia nada); e o
   `MSG_MOVE` passa a trazer o `reason` (o pacote o descartava). Atualizou o pacote? Refaça o patch e rode
