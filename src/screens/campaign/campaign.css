@@ -197,3 +197,13 @@
   .scene-menu .topicgrid { grid-template-columns: repeat(4, 1fr); }
   .scene-menu > .hud-btn.danger { flex: 0 0 auto; margin-inline: auto; padding-inline: 28px; }
 }
+
+/* Tela larga (change layout-desktop-telas; WIDE_QUERY): cabeças do mapa maiores e atalhos contidos; status e fim numa
+   coluna central; Laços em 2 colunas. */
+@media (orientation: landscape) and (min-width: 900px) and (min-height: 600px) {
+  .pinhead { width: clamp(52px, 4.2vw, 72px); height: clamp(52px, 4.2vw, 72px); }
+  .pinhead.boss { width: clamp(60px, 4.8vw, 82px); height: clamp(60px, 4.8vw, 82px); }
+  .mapnav { padding-inline: max(10px, calc((100% - 720px) / 2)); }
+  .app.status, .app.campend { padding-inline: max(12px, calc((100% - 640px) / 2)); }
+  .bondlist { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-content: start; align-items: start; width: min(100%, 1100px); margin-inline: auto; }
+}

@@ -50,6 +50,8 @@
 .trunkrow .sortbtn b { font-size: 14px; white-space: nowrap; }
 .trunkrow .sortbtn small { color: var(--cyan-text); font-size: 11px; font-weight: 600; white-space: nowrap; }
 .trunkrow .invbtn.on { --edge: #2ab8ff; }
+.hud-btn.iconbtn.sizebtn { width: auto; min-width: 42px; padding: 0 8px; display: inline-flex; align-items: center; justify-content: center; gap: 4px; }
+.sizebtn b { font-size: 13px; }
 .trunkrow .searchbox { flex: 1; min-width: 0; display: flex; align-items: center; gap: 6px; padding: 0 10px; color: var(--dim);
   --cut: 8px; --edge: var(--line-dim); --fill: var(--well); }
 .trunkrow .searchbox:focus-within { --edge: var(--line); }
@@ -86,6 +88,7 @@
 .decksheet .renamebox { flex: 1; min-width: 0; background: var(--well); color: var(--txt); border: 2px solid var(--line); padding: 10px; font: 15px system-ui;
   user-select: text; -webkit-user-select: text; }
 .decksheet .sheetnote { font-size: 12px; color: var(--dim); }
+.decksheet .sheetnote.warn { margin: -2px 0 0; font-size: 13px; line-height: 1.35; color: #ffcf9e; }
 
 /* Coleção */
 .collection .colltotals { flex-shrink: 0; display: grid; grid-template-columns: 1fr 1fr; margin: 10px 12px 4px; padding: 12px; text-align: center; }
@@ -93,3 +96,21 @@
 .collection .colltotals .diff b { color: var(--acc); }
 .collection .colltotals small { color: var(--dim); font-size: 14px; }
 .collection .trunkbar { padding-top: 6px; }
+
+/*
+ * Tela larga (change layout-desktop-telas; o DeckEditor e a Coleção põem .wide pelo useWide): deck | maleta | painel da
+ * carta, sem gaveta. --card-w é a largura do tamanho P/M/G (no .deckbody); a maleta virtual recebe as colunas inline.
+ */
+.deckeditor.wide .deckbody, .collection.wide .collbody { flex-direction: row; gap: 10px; padding: 8px 10px 10px; min-height: 0; }
+.deckeditor.wide .deckpanel { flex: 1 1 0; min-width: 0; height: auto; border: 1px solid var(--line-dim); border-radius: 6px; background: color-mix(in srgb, var(--bg) 40%, transparent); }
+.deckeditor.wide .deckgrid { grid-template-columns: repeat(auto-fill, minmax(min(var(--card-w), 100%), 1fr)); }
+.deckeditor.wide .trunk, .collection.wide .collmain { flex: 1.4 1 0; min-width: 0; min-height: 0; display: flex; flex-direction: column; border: 1px solid var(--line-dim); border-radius: 6px; border-top: 2px solid #2ab8ff; box-shadow: none; }
+.deckeditor.wide .trunkbar { padding-top: 8px; }
+/* Painel da carta (o mesmo .cardpanel do duelo): rola por dentro; os botões de pôr e tirar embaixo dos dados. */
+.deckside { flex: 0 0 clamp(260px, 22vw, 340px); min-height: 0; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+.deckside.empty { display: grid; place-items: center; text-align: center; color: var(--dim); font-size: 14px; line-height: 1.4; }
+.deckside.empty p { margin: 0; max-width: 24ch; }
+.deckside .zoom-acts > .hud-btn { padding: 11px 6px; font-size: 14px; display: flex; align-items: center; justify-content: center; gap: 6px; }
+.collection.wide .collbody { flex: 1; min-height: 0; display: flex; }
+.collection.wide .collmain .colltotals { margin: 8px 8px 4px; padding: 8px; }
+.collection.wide .collmain .colltotals b { font-size: 24px; }

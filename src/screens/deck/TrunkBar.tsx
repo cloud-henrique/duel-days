@@ -1,15 +1,18 @@
 import { useState } from 'react';
 import { GameIcon } from '../../ui/icons';
 import { Modal } from '../../ui/Modal';
+import { CARD_SIZE_NAME, nextCardSize, type CardSize } from '../../ui/cardSize';
 import { KINDS, SORT_DIRECTION, SORT_KEYS, SORT_NAME, type Kind, type TrunkSort } from './trunk';
 
 /**
  * Os controles da maleta (do nativo): o botão da ordem (nome e sentido; abre a lista com "Inverter"), o botão de
  * inverter, a busca e os chips de tipo. `lead` é o botão que abre/recolhe a gaveta, no editor.
  */
-export function TrunkBar({ sort, onSort, kind, onKind, query, onQuery, lead }: {
+export function TrunkBar({ sort, onSort, kind, onKind, query, onQuery, lead, size, onSize }: {
   sort: TrunkSort; onSort: (s: TrunkSort) => void; kind: Kind; onKind: (k: Kind) => void;
   query: string; onQuery: (q: string) => void; lead?: React.ReactNode;
+  /** Tamanho das cartas (só na tela larga): o botão P/M/G aparece quando vem. */
+  size?: CardSize; onSize?: (s: CardSize) => void;
 }) {
   const [picking, setPicking] = useState(false);
   return (
@@ -23,6 +26,7 @@ export function TrunkBar({ sort, onSort, kind, onKind, query, onQuery, lead }: {
         <button className={`hud-btn iconbtn invbtn${sort.reversed ? ' on' : ''}`} onClick={() => onSort({ ...sort, reversed: !sort.reversed })} aria-label="Inverter a ordem">
           <GameIcon name="sort" size={20} />
         </button>
+        {size && onSize && <CardSizeButton size={size} onSize={onSize} />}
         <label className="searchbox cut">
           <GameIcon name="search" size={18} />
           <input type="search" placeholder="Buscar" value={query} onChange={(e) => onQuery(e.target.value)} aria-label="Buscar pelo nome" />
@@ -48,5 +52,14 @@ export function TrunkBar({ sort, onSort, kind, onKind, query, onQuery, lead }: {
         </Modal>
       )}
     </div>
+  );
+}
+
+/** Botão do tamanho das cartas (tela larga): um toque passa para o próximo (P → M → G). */
+export function CardSizeButton({ size, onSize }: { size: CardSize; onSize: (s: CardSize) => void }) {
+  return (
+    <button className="hud-btn iconbtn sizebtn" onClick={() => onSize(nextCardSize(size))} aria-label={`Tamanho das cartas: ${CARD_SIZE_NAME[size]}`} title="Tamanho das cartas">
+      <GameIcon name="cardSize" size={18} /><b className="num">{size}</b>
+    </button>
   );
 }

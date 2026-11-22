@@ -112,3 +112,25 @@ SHALL tocar o som de pôr ou de tirar carta quando for uma carta.
 #### Scenario: Fechar o app
 - **WHEN** o jogador põe uma carta no deck e fecha o app
 - **THEN** ao abrir de novo, a carta continua no deck
+
+### Requirement: Desfazer mudanças e limpar o deck
+A folha dos decks SHALL ter "Desfazer mudanças", que volta as cartas do deck em edição a como estavam no começo da
+visita ao editor, e "Limpar", que tira todas as cartas. As duas SHALL pedir um segundo toque, com um aviso do que vai
+acontecer, e MUST NOT mudar o nome do deck. Sem mudança na visita, "Desfazer mudanças" fica indisponível; com o deck
+vazio, "Limpar" fica indisponível.
+
+#### Scenario: Desfazer as mudanças da visita
+- **WHEN** o jogador tira 3 cartas do deck, abre a folha dos decks, toca em "Desfazer mudanças" e confirma
+- **THEN** o deck volta às cartas que tinha quando o editor foi aberto
+
+#### Scenario: Limpar o deck em uso
+- **WHEN** o jogador toca em "Limpar" no deck em uso
+- **THEN** aparece o aviso de que é o deck em uso, e o deck só fica vazio depois do segundo toque
+
+#### Scenario: Desfazer uma limpeza
+- **WHEN** o jogador limpa o deck e depois toca em "Desfazer mudanças" e confirma
+- **THEN** o deck volta às cartas do começo da visita
+
+#### Scenario: Nada para desfazer
+- **WHEN** o jogador abre a folha dos decks sem ter mexido no deck nesta visita
+- **THEN** "Desfazer mudanças" fica indisponível

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { gridRange, rowHeight, type GridOptions } from './virtualGrid';
+import { colsFor, gridRange, rowHeight, type GridOptions } from './virtualGrid';
 
 const O: GridOptions = { cols: 4, gap: 8, padX: 0, border: 0, overscan: 2 };
 // Largura 424: coluna (424 − 3·8)/4 = 100, célula 100 × 86/59 ≈ 145,8, linha ≈ 153,8.
@@ -42,5 +42,19 @@ describe('gridRange', () => {
     const r = gridRange(40, { width: W, height: 600, scrollTop: 99999 }, O);
     expect(r.end).toBe(40);
     expect(r.padBottom).toBe(0);
+  });
+});
+
+describe('colunas pela largura (tela larga)', () => {
+  it('quantas cartas do tamanho cabem, no mínimo 2', () => {
+    expect(colsFor(1440, 128, 4, 4)).toBe(10); // 1440 / 132 = 10,9
+    expect(colsFor(600, 128, 4, 4)).toBe(4);
+    expect(colsFor(200, 168, 4, 4)).toBe(2);
+  });
+  it('o gridRange usa o target e devolve as colunas', () => {
+    const r = gridRange(100, { width: 1000, height: 800, scrollTop: 0 }, { ...O, target: 120 });
+    expect(r.cols).toBe(7); // (1000 + 8) / (120 + 8) = 7,9
+    expect(r.rowH).toBeCloseTo(rowHeight(1000, { ...O, cols: 7 }));
+    expect(gridRange(100, { width: 1000, height: 800, scrollTop: 0 }, O).cols).toBe(4);
   });
 });

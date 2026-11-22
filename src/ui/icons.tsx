@@ -14,7 +14,7 @@ import {
   ChatCircleDots, Check, CheckFat, ClockCounterClockwise, Coins, Crown, DotsThreeCircle, Eye, Flag, GameController,
   GearSix, Gift, GraduationCap, Hamburger, Heart, IdentificationCard, List, Lock, MagnifyingGlass, MapPin, MapTrifold,
   Minus, MusicNotes, Package, Plus, Question, ShoppingCart, SpeakerHigh, SpeakerSlash, Spade, Sparkle, Stack, Storefront,
-  SkipForward, Sword, Trash, Tree, Trophy, User, Warning, X, CaretDown, Shield, MagicWand, Mountains, Spiral, type IconProps,
+  SkipForward, Sword, Trash, Tree, Trophy, User, Warning, X, CaretDown, Shield, MagicWand, Mountains, Spiral, SquaresFour, Broom, ArrowUUpLeft, type IconProps,
 } from '@phosphor-icons/react';
 import './icons.css';
 
@@ -44,7 +44,7 @@ export const GAME_ICONS = {
   close: X, chevron: CaretRight, back: CaretLeft, check: Check, deckReady: CheckFat, plus: Plus, minus: Minus,
   delete: Trash, warning: Warning, search: MagnifyingGlass, sort: ArrowsDownUp, more: DotsThreeCircle, menu: List,
   newGame: ArrowCounterClockwise, start: ArrowCircleRight, viewField: Eye, revealAll: Sparkle, surrender: Flag,
-  question: Question, skip: SkipForward, next: CaretDown,
+  question: Question, skip: SkipForward, next: CaretDown, cardSize: SquaresFour, undo: ArrowUUpLeft, clearDeck: Broom,
 } satisfies Record<string, ComponentType<IconProps>>;
 
 export type GameIconName = keyof typeof GAME_ICONS;

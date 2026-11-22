@@ -9,8 +9,19 @@ import { useLayoutEffect, useRef, useState, type RefObject } from 'react';
 export const CARD_RATIO = 86 / 59;
 
 export interface GridMetrics { width: number; height: number; scrollTop: number }
-export interface GridOptions { cols: number; gap: number; padX: number; border: number; overscan: number }
-export interface GridRange { first: number; end: number; padTop: number; padBottom: number; rowH: number }
+/**
+ * `cols` fixo (o retrato) ou, com `target`, as colunas pela largura: quantas cartas de `target` px cabem (tela larga,
+ * change layout-desktop-telas; o tamanho P/M/G de `cardSize.ts`).
+ */
+export interface GridOptions { cols: number; gap: number; padX: number; border: number; overscan: number; target?: number }
+export interface GridRange { first: number; end: number; padTop: number; padBottom: number; rowH: number; cols: number }
+
+/** Quantas colunas de cartas com largura `target` cabem em `width` (com `gap` entre elas e `padX` de margem); no mínimo 2. */
+export function colsFor(width: number, target: number, gap: number, padX: number): number {
+  return Math.max(2, Math.floor((width - padX + gap) / (target + gap)));
+}
+/** As colunas da grade para a largura: as fixas ou as do `target`. */
+export const colsOf = (width: number, o: Pick<GridOptions, 'cols' | 'gap' | 'padX' | 'target'>) => (o.target ? colsFor(width, o.target, o.gap, o.padX) : o.cols);
 
 /** Altura de uma linha (célula + espaço) para a largura útil do contêiner. */
 export function rowHeight(width: number, o: Pick<GridOptions, 'cols' | 'gap' | 'padX' | 'border'>): number {
@@ -22,19 +33,21 @@ export function rowHeight(width: number, o: Pick<GridOptions, 'cols' | 'gap' | '
  * Faixa de itens a montar: as linhas que tocam a área visível mais `overscan` linhas acima e abaixo. `first` e `end`
  * são índices de item (`end` exclusivo); `padTop`/`padBottom` são as alturas que ficam no lugar das linhas de fora.
  */
-export function gridRange(count: number, m: GridMetrics, o: GridOptions): GridRange {
+export function gridRange(count: number, m: GridMetrics, opts: GridOptions): GridRange {
+  const cols = colsOf(m.width, opts);
+  const o = { ...opts, cols };
   const rowH = Math.max(1, rowHeight(m.width, o));
   const rows = Math.ceil(count / o.cols);
-  if (rows === 0) return { first: 0, end: 0, padTop: 0, padBottom: 0, rowH };
+  if (rows === 0) return { first: 0, end: 0, padTop: 0, padBottom: 0, rowH, cols };
   const top = Math.max(0, Math.min(rows - 1, Math.floor(m.scrollTop / rowH) - o.overscan));
   const bottom = Math.max(top, Math.min(rows - 1, Math.ceil((m.scrollTop + m.height) / rowH) - 1 + o.overscan));
-  return { first: top * o.cols, end: Math.min(count, (bottom + 1) * o.cols), padTop: top * rowH, padBottom: (rows - 1 - bottom) * rowH, rowH };
+  return { first: top * o.cols, end: Math.min(count, (bottom + 1) * o.cols), padTop: top * rowH, padBottom: (rows - 1 - bottom) * rowH, rowH, cols };
 }
 
 /** Medida de reserva antes da primeira medição (e em ambientes sem layout, como os testes): um iPhone em pé. */
 const FALLBACK: GridMetrics = { width: 375, height: 640, scrollTop: 0 };
 
-const same = (a: GridRange, b: GridRange) => a.first === b.first && a.end === b.end && a.padTop === b.padTop && a.padBottom === b.padBottom;
+const same = (a: GridRange, b: GridRange) => a.first === b.first && a.end === b.end && a.padTop === b.padTop && a.padBottom === b.padBottom && a.cols === b.cols;
 
 /**
  * Liga `gridRange` a um contêiner com rolagem: mede largura e altura (ResizeObserver) e acompanha o `scroll`. O estado
@@ -65,6 +78,6 @@ export function useVirtualGrid(ref: RefObject<HTMLElement | null>, count: number
     return () => { el.removeEventListener('scroll', onScroll); ro?.disconnect(); if (frame) cancelAnimationFrame(frame); };
   }, [ref]);
   // A lista mudou de tamanho (filtro, aba): recalcula já, com a posição que o navegador pode ter ajustado.
-  useLayoutEffect(() => read.current(), [count]);
+  useLayoutEffect(() => read.current(), [count, o.target]);
   return range;
 }

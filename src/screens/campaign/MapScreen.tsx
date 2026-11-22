@@ -66,7 +66,16 @@ export function MapScreen({ s, onMeet, onShop, onDecks, onCollection, onBonds, o
   // Começa com o centro do panorama à vista (é onde ficam os pontos).
   useEffect(() => {
     const el = scroller.current;
-    if (el) el.scrollLeft = (el.scrollWidth - el.clientWidth) / 2;
+    if (!el) return;
+    // Ao redimensionar a janela (tela larga, change layout-desktop-telas), centraliza de novo, se o jogador não rolou.
+    let auto = false, touched = false;
+    const center = () => { auto = true; el.scrollLeft = (el.scrollWidth - el.clientWidth) / 2; requestAnimationFrame(() => { auto = false; }); };
+    const onScroll = () => { if (!auto) touched = true; };
+    const onResize = () => { if (!touched) center(); };
+    center();
+    el.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onResize);
+    return () => { el.removeEventListener('scroll', onScroll); window.removeEventListener('resize', onResize); };
   }, [imgOk]);
 
   return (

@@ -7,6 +7,8 @@ import { CardZoom } from '../../components/CardZoom';
 import type { Cards } from '../../data/cards';
 import { GameIcon } from '../../ui/icons';
 import { TopBar } from '../../ui/TopBar';
+import { useWide } from '../../ui/wide';
+import { CARD_SIZES, useCardSize } from '../../ui/cardSize';
 import { sceneBg } from '../campaign/assets';
 import {
   allFlipped, flip, isLast, newCount, next, revealAll, skipAll, startOpening, summaryOrder, tear,
@@ -39,9 +41,12 @@ export function OpeningFlow({ openings, packName, cards, reduced, onDone }: {
     setTimeout(() => { setTearing(false); setSt(tear(st).state); }, reduced ? 0 : SHOP_PACING.tearMs);
   };
 
+  // Tela larga: o resumo da caixa segue o tamanho das cartas P/M/G (change layout-desktop-telas).
+  const wide = useWide();
+  const [size] = useCardSize();
   const vars = {
     '--tear-ms': `${SHOP_PACING.tearMs}ms`, '--flip-ms': `${SHOP_PACING.flipMs}ms`,
-    '--deal-ms': `${SHOP_PACING.dealMs}ms`,
+    '--deal-ms': `${SHOP_PACING.dealMs}ms`, ...(wide ? { '--card-w': `${CARD_SIZES[size]}px` } : {}),
   } as CSSProperties;
   const novas = newCount(openings);
   const subtitle = many && st.phase !== 'summary' ? `Pacote ${st.index + 1} de ${openings.length}` : undefined;

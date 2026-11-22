@@ -23,6 +23,7 @@ npx tsx proto/economy-smoke.ts      # pacotes da campanha (70/20/10 no slot) e d
 npx tsx proto/sort-check.ts         # ordenar o topo do Deck (SORT_CARD) contra o motor real
 node proto/shop-e2e.mjs [url] [--reduzir]   # loja no WebKit contra o dev server (?campaign=shop): comprar, abrir, caixa
 node proto/deck-e2e.mjs [url] [--reduzir]   # editor no WebKit (dev server): gaveta, ordem, zoom, arrastar, recusa, Coleção
+node proto/screens-e2e.mjs [url]     # telas fora do duelo na tela larga (1440×900, 1280×650, 1024×768): editor, Coleção, loja, mapa, Laços
 node proto/webkit-e2e.mjs [url] [normal|rápida|desligada] [--reduzir] [--turno]   # fluxo no WebKit (Playwright) contra o preview
 node proto/duel-e2e.mjs [url] [--reduzir]   # duelo inteiro no WebKit, na velocidade normal: mede se fica preso numa encenação
 npx tsx proto/move-reason.ts        # confere o `reason` do MSG_MOVE (patch do ocgcore-wasm)
@@ -167,6 +168,11 @@ pelo `.hexbg` do `styles.css`.
   grupos do deck), `useDrawer` (gaveta), `useCardDrag` (arrastar), `useStored` (ajustes do aparelho no `localStorage`),
   `pacing.ts` (`DECK_PACING`). A recusa com motivo é o `addRefusal` do `game/decks.ts`; a ordem de obtenção é o
   `acquired` do save (gravado no `addCards`).
+  Tela larga (change `layout-desktop-telas`): deck | maleta | `DeckCardPanel` (hover mostra, clique fixa, Esc solta;
+  "Pôr"/"Tirar" pelo `ZoomActions`, o mesmo do zoom do retrato), sem gaveta e sem `CardZoom`. As colunas saem do tamanho
+  P/M/G (`src/ui/cardSize.ts`, `colsFor` no `virtualGrid.ts`; a maleta passa o `--cols` inline e as outras grades usam
+  `--card-w`). Com mouse, o `useCardDrag` arma ao mover (`mouseSlopPx`), sem a espera do toque. O happy-dom simula
+  1024×768 (paisagem): os testes de tela que dependem do modo fixam o `matchMedia`.
 - `src/ui/Modal.tsx`: o diálogo do jogo (véu + `Backdrop` + painel), usado pela loja, pelo editor e pelas Opções do mapa.
 - `src/screens/`: `title/`, `profile/`. `src/components/`:
   `CardSheet.tsx` (folha da carta + `Backdrop`) e `CardFace.tsx` (face própria da carta em PT, medidas da carta de

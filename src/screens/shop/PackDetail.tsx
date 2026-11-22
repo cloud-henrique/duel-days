@@ -15,6 +15,9 @@ import { Dp } from '../../ui/Dp';
 import { GameIcon } from '../../ui/icons';
 import { Modal } from '../../ui/Modal';
 import { TopBar } from '../../ui/TopBar';
+import { useWide } from '../../ui/wide';
+import { CARD_SIZES, useCardSize } from '../../ui/cardSize';
+import { CardSizeButton } from '../deck/TrunkBar';
 import { useReducedMotion } from '../duel/anim/useReducedMotion';
 import type { CharInfo } from '../campaign/chars';
 import { OpeningFlow } from './OpeningFlow';
@@ -44,6 +47,9 @@ export function PackDetail({ packKey, campaign: s, data, chars, profile, onChang
   const [openings, setOpenings] = useState<PackOpening[] | null>(null);
   const [confirmBox, setConfirmBox] = useState(false);
   const [zoom, setZoom] = useState<number | null>(null);
+  // Tela larga (change layout-desktop-telas): as cartas do pacote seguem o tamanho P/M/G, trocado no cabeçalho.
+  const wide = useWide();
+  const [size, setSize] = useCardSize();
 
   if (!pack) {
     return (
@@ -73,8 +79,8 @@ export function PackDetail({ packKey, campaign: s, data, chars, profile, onChang
   const saving = one * BALANCE.boxSize - box;
 
   return (
-    <div className={`app hexbg shopscreen packdetail${reduced ? ' reduced' : ''}`}>
-      <TopBar title={name} onBack={onBack} />
+    <div className={`app hexbg shopscreen packdetail${reduced ? ' reduced' : ''}`} style={wide ? { ['--card-w' as string]: `${CARD_SIZES[size]}px` } : undefined}>
+      <TopBar title={name} onBack={onBack} right={wide ? <CardSizeButton size={size} onSize={setSize} /> : undefined} />
       <div className="shopscroll">
         <section className="hud packsummary">
           <PackCover k={pack.key} name={pack.shortName ?? name} />

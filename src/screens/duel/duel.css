@@ -77,11 +77,6 @@
 .cardpanel .cptext { display: flex; flex-direction: column; gap: 2px; min-width: 0; font-size: 13px; }
 .cardpanel .cptext b { font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .cardpanel .cptext .atk { color: var(--acc); } .cardpanel .cptext .def { color: #7fc0ff; }
-.cardsheet.vertical { flex-direction: column; align-items: center; }
-.cardsheet.vertical > .sheetface { width: min(100%, 230px); max-width: none; align-self: center; }
-.cardsheet.vertical .meta { align-self: stretch; }
-.cardsheet.vertical .nm { padding-right: 0; }
-.cardsheet.vertical .desc { max-height: none; }
 .duel.wide .wpanel { flex: 1 1 0; min-height: 0; margin: 0; max-height: none; }
 .duel.wide .wpanel.gone { display: none; }
 .duel.wide .choicebar { position: static; flex: 0 0 auto; }

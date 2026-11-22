@@ -3,7 +3,9 @@ import { DECK_PACING } from './pacing';
 
 export type DropZone = 'deck' | 'trunk';
 interface Pending {
-  code: number; from: DropZone; el: HTMLElement; x: number; y: number; id: number; timer: ReturnType<typeof setTimeout>;
+  code: number; from: DropZone; el: HTMLElement; x: number; y: number; id: number; timer: ReturnType<typeof setTimeout> | null;
+  /** Com mouse, arma ao mover (sem espera: a roda é que rola). */
+  mouse: boolean;
 }
 interface Active { code: number; from: DropZone; ghost: HTMLElement; origin: DOMRect; dx: number; dy: number }
 
@@ -21,7 +23,8 @@ function layer(): HTMLElement {
 
 /**
  * Arrastar cartas entre a maleta e o deck (o `DeckDrop` do nativo), com toque e com mouse:
- * - segurar `holdMs` arma o arraste; mexer mais que `slopPx` antes disso é rolagem (nada acontece);
+ * - com dedo, segurar `holdMs` arma o arraste; mexer mais que `slopPx` antes disso é rolagem (nada acontece);
+ * - com mouse, mover mais que `mouseSlopPx` com o botão apertado arma na hora (um clique sem mover continua clique);
  * - armado, uma fantasma (cópia da carta, maior e com sombra) segue o dedo e a rolagem fica presa;
  * - soltar sobre a outra área (`[data-drop]`) chama `onDrop`, que devolve se aceitou; recusada ou fora, a fantasma
  *   voa de volta à origem; o clique que vem depois do arraste é engolido (não abre o zoom).
@@ -51,7 +54,7 @@ function createDrag(o: { drop: (code: number, from: DropZone, to: DropZone) => b
     window.removeEventListener('pointercancel', onCancel);
   };
   function cancel() {
-    if (pending) clearTimeout(pending.timer);
+    if (pending?.timer) clearTimeout(pending.timer);
     pending = null;
     cleanup();
   }
@@ -75,7 +78,9 @@ function createDrag(o: { drop: (code: number, from: DropZone, to: DropZone) => b
   }
   function onMove(e: PointerEvent) {
     if (pending && e.pointerId === pending.id) {
-      if (Math.hypot(e.clientX - pending.x, e.clientY - pending.y) > DECK_PACING.slopPx) cancel();
+      const moved = Math.hypot(e.clientX - pending.x, e.clientY - pending.y);
+      if (pending.mouse) { if (moved > DECK_PACING.mouseSlopPx) { arm(); place(e.clientX, e.clientY); } }
+      else if (moved > DECK_PACING.slopPx) cancel();
       return;
     }
     if (active) { e.preventDefault(); place(e.clientX, e.clientY); }
@@ -131,7 +136,8 @@ function createDrag(o: { drop: (code: number, from: DropZone, to: DropZone) => b
   const bind = (code: number, from: DropZone): HTMLAttributes<HTMLButtonElement> => ({
     onPointerDown: (e) => {
       if (e.button !== 0 || pending || active) return;
-      pending = { code, from, el: e.currentTarget, x: e.clientX, y: e.clientY, id: e.pointerId, timer: setTimeout(arm, DECK_PACING.holdMs) };
+      const mouse = e.pointerType === 'mouse';
+      pending = { code, from, el: e.currentTarget, x: e.clientX, y: e.clientY, id: e.pointerId, mouse, timer: mouse ? null : setTimeout(arm, DECK_PACING.holdMs) };
       window.addEventListener('pointermove', onMove, { passive: false });
       window.addEventListener('pointerup', onUp);
       window.addEventListener('pointercancel', onCancel);

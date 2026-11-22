@@ -155,3 +155,17 @@
 .opening.reduced .revealcard.flipped .face.front { opacity: 1; }
 .shopcounter .keeper, .shopcounter .desk, .shopcounter .counterinfo { z-index: 2; }
 .shopcounter .speech { z-index: 3; }
+
+/* Tela larga (change layout-desktop-telas; a consulta é o WIDE_QUERY de src/ui/wide.ts): conteúdo centrado com largura
+   máxima, capas da vitrine com teto, e as cartas do detalhe e do resumo pelo tamanho P/M/G (--card-w, posto pelo JS). */
+@media (orientation: landscape) and (min-width: 900px) and (min-height: 600px) {
+  .shopscreen { --shop-max: 1100px; }
+  .shopscreen .shopscroll { padding-inline: max(12px, calc((100% - var(--shop-max)) / 2)); }
+  .shopscreen .shopgrid { grid-template-columns: repeat(auto-fill, minmax(150px, 190px)); justify-content: center; gap: 20px 16px; }
+  .shopcounter { height: 220px; }
+  .shopcounter .keeper { left: 6%; }
+  .packdetail .packcards { grid-template-columns: repeat(auto-fill, minmax(min(var(--card-w, 108px), 100%), 1fr)); }
+  .buybar { padding-inline: max(12px, calc((100% - 720px) / 2)); }
+  .opening .openingfoot { padding-inline: max(12px, calc((100% - 720px) / 2)); }
+  .opening .summarygrid { grid-template-columns: repeat(auto-fill, minmax(min(var(--card-w, 108px), 100%), 1fr)); padding-inline: max(12px, calc((100% - 1100px) / 2)); }
+}
