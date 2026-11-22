@@ -26,6 +26,25 @@
 /* O panorama é 2:1; na altura toda do celular ele ficaria com zoom demais (só 1/7 da cidade à vista). Até 1,3× a largura
    da tela: uns 40% da cidade de uma vez, rolando para os lados. */
 .mapcanvas { position: relative; height: min(100cqh, 130vw); aspect-ratio: 2 / 1; flex-shrink: 0; }
+.mapcanvas { margin: auto; }
+/*
+ * Área mais larga que o panorama (desktop, ultrawide): o mapa para em 2:1, centrado, com uma folga em volta e a moldura
+ * chanfrada do HUD (as camadas do `.cut`) por cima da imagem. Sem esticar nem dar zoom.
+ */
+@container (min-aspect-ratio: 2 / 1) {
+  .mapcanvas {
+    --cut: 16px; --edge-w: 2px; --edge: var(--line);
+    height: calc(100cqh - 2 * var(--map-gap, 16px));
+    clip-path: polygon(var(--cut) 0, 100% 0, 100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%, 0 100%, 0 var(--cut));
+  }
+  .mapcanvas::after {
+    content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    box-shadow: inset 0 0 0 var(--edge-w) var(--edge);
+    background:
+      linear-gradient(to bottom right, transparent calc(50% - .5px), var(--edge) calc(50% - .5px), var(--edge) calc(50% + var(--edge-w)), transparent calc(50% + var(--edge-w))) top left / var(--cut) var(--cut) no-repeat,
+      linear-gradient(to bottom right, transparent calc(50% - var(--edge-w)), var(--edge) calc(50% - var(--edge-w)), var(--edge) calc(50% + .5px), transparent calc(50% + .5px)) bottom right / var(--cut) var(--cut) no-repeat;
+  }
+}
 .mapcanvas.loading { visibility: hidden; }
 .mapcanvas { animation: map-in .25s ease-out both; }
 @keyframes map-in { from { opacity: 0; } }

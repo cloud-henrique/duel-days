@@ -33,7 +33,9 @@
  * - --font-display: serifada preta itálica, nos títulos de destaque (DisplayTitle: DUELO!, VITÓRIA!...). New York no iOS.
  */
 @font-face { font-family: 'Chakra Petch'; font-weight: 700; font-display: swap; src: url('/fonts/ChakraPetch-Bold.woff2') format('woff2'); }
-:root { --font-game: 'Chakra Petch', system-ui, sans-serif; --font-display: ui-serif, 'New York', Georgia, 'Times New Roman', serif; }
+:root { --font-game: 'Chakra Petch', system-ui, sans-serif; --font-display: ui-serif, 'New York', Georgia, 'Times New Roman', serif;
+  /* Estrela de 5 pontas (clip-path), a das estrelas de nível. */
+  --star-shape: polygon(50% 0, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); }
 .num { font-family: var(--font-game); font-weight: 700; font-variant-numeric: tabular-nums; }
 .game-title, .sheet h4, .sheet h3 { font-family: var(--font-game); font-weight: 700; letter-spacing: .4px; }
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -106,8 +108,8 @@ img, svg, canvas { -webkit-touch-callout: none; -webkit-user-drag: none; user-se
 /* O X fica solto no canto: só a linha do nome abre espaço para ele. */
 .cardsheet .nm { padding-right: 30px; font-size: 18px; font-weight: 800; line-height: 1.15; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .cardsheet .stars { display: flex; flex-wrap: wrap; gap: 2px; }
-.cardsheet .stars i { width: 13px; height: 13px; border-radius: 50%; background: radial-gradient(circle at 40% 35%, #ff8a3a, #c2380f); color: #ffd24a; font-style: normal; font-size: 9px; line-height: 13px; text-align: center; }
-.cardsheet .stars i::before { content: '★'; }
+.cardsheet .stars i { width: 13px; height: 13px; border-radius: 50%; background: radial-gradient(circle at 40% 35%, #ff8a3a, #c2380f); display: grid; place-items: center; }
+.cardsheet .stars i::before { content: ''; width: 72%; height: 72%; background: #ffd24a; clip-path: var(--star-shape); }
 .cardsheet .kv { color: var(--dim); font-size: 12px; display: flex; align-items: center; gap: 5px; text-transform: uppercase; letter-spacing: .3px; white-space: nowrap; min-width: 0; }
 .cardsheet .kv span { overflow: hidden; text-overflow: ellipsis; }
 .cardsheet .kv.kind { font-weight: 700; }
@@ -116,6 +118,7 @@ img, svg, canvas { -webkit-touch-callout: none; -webkit-user-drag: none; user-se
 .cardsheet .atkdef { display: flex; gap: 12px; font-size: 15px; white-space: nowrap; }
 .cardsheet .atk { color: var(--acc); } .cardsheet .def { color: #7fc0ff; }
 /* O texto aparece inteiro (a folha cresce com ele, ao lado da arte); só rola se passar de um terço da tela. */
+.cardsheet .desc.flavor { font-style: italic; }
 .cardsheet .desc { flex: 1 0 auto; max-height: 34vh; font-size: 13px; line-height: 1.3; color: #c4d6f2; white-space: pre-wrap; overflow-y: auto; }
 /* Vertical (o painel fixo da carta na tela larga: duelo, editor e Coleção): a face em cima dos dados, o texto inteiro. */
 .cardsheet.vertical { flex-direction: column; align-items: center; }

@@ -14,11 +14,12 @@ const cards = {
 afterEach(cleanup);
 
 describe('CardSheet', () => {
-  it('monstro: ícones de atributo e tipo, linha "TERRA · Guerreiro" e ATK/DEF juntos', () => {
+  it('monstro: ícones de atributo e tipo, linha "TERRA · Guerreiro · Normal", texto em itálico e ATK/DEF juntos', () => {
     const { container } = render(<CardSheet code={1} cards={cards} onClose={() => {}} />);
     const icons = [...container.querySelectorAll('.kv .cardicon')].map((i) => i.getAttribute('src'));
     expect(icons).toEqual([expect.stringContaining('card-icons/attribute-earth.svg'), expect.stringContaining('card-icons/type-warrior.svg')]);
-    expect(container.querySelector('.kv span')?.textContent).toBe('TERRA · Guerreiro');
+    expect(container.querySelector('.kv span')?.textContent).toBe('TERRA · Guerreiro · Normal');
+    expect(container.querySelector('.desc')?.classList.contains('flavor')).toBe(true);
     expect(container.querySelector('.atkdef')?.textContent).toBe('ATK 1800DEF 1600');
   });
 

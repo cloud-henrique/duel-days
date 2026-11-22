@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import type { CardRecord } from '../engine/session';
-import { attrGlyph, faceIcon, formatStat, frameOf, isMonster, raceName, typeLine } from '../data/labels';
+import { attrGlyph, faceIcon, formatStat, frameOf, isMonster, isNormalMonster, monsterKinds, raceName } from '../data/labels';
 import { BASE, art, type ArtSize } from './art';
 import './cardface.css';
 
@@ -66,8 +66,8 @@ export function CardFace({ code, card, detail = 'compact', artSize }: { code: nu
         {detail === 'compact'
           ? <b className={monster ? 'cf-stats' : 'cf-kind'}>{monster ? stats : kind}</b>
           : <>
-            {monster && <em>[{raceName(card.race)}/{typeLine(card.type).replace('Monstro · ', '')}]</em>}
-            <p>{card.desc}</p>
+            {monster && <em>[{[raceName(card.race), ...monsterKinds(card.type)].join('/')}]</em>}
+            <p className={isNormalMonster(card.type) ? 'flavor' : undefined}>{card.desc}</p>
             {monster && <small>ATK/{formatStat(card.attack)} DEF/{formatStat(card.defense)}</small>}
           </>}
       </div>

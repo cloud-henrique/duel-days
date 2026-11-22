@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { OcgType as T } from 'ocgcore-wasm';
-import { attrGlyph, attrIcon, faceIcon, formatStat, frameOf, isMonster, propertyIcon, propertyOf, raceIcon, typeLine } from './labels';
+import { isNormalMonster, attrGlyph, attrIcon, faceIcon, formatStat, frameOf, isMonster, propertyIcon, propertyOf, raceIcon, typeLine } from './labels';
 
 describe('labels', () => {
   it('reconhece monstro pelo bit de tipo', () => {
@@ -38,7 +38,18 @@ describe('typeLine (nomes oficiais do manual)', () => {
     [T.SPELL | T.QUICKPLAY, 'Magia Rápida'], [T.SPELL | T.CONTINUOUS, 'Magia Contínua'], [T.SPELL | T.RITUAL, 'Magia de Ritual'],
     [T.TRAP, 'Armadilha Normal'], [T.TRAP | T.CONTINUOUS, 'Armadilha Contínua'], [T.TRAP | T.COUNTER, 'Armadilha de Resposta'],
     [T.MONSTER | T.NORMAL, 'Monstro · Normal'], [T.MONSTER | T.EFFECT, 'Monstro · Efeito'], [T.MONSTER | T.FUSION, 'Monstro · Fusão'],
+    [T.MONSTER | T.FUSION | T.EFFECT, 'Monstro · Fusão/Efeito'], [T.MONSTER | T.TOON | T.EFFECT, 'Monstro · Toon/Efeito'],
+    [T.MONSTER | T.SPIRIT | T.EFFECT, 'Monstro · Espírito/Efeito'], [T.MONSTER | T.FLIP | T.EFFECT, 'Monstro · Virar/Efeito'],
   ])('tipo %i → %s', (type, line) => expect(typeLine(type)).toBe(line));
+});
+
+describe('isNormalMonster', () => {
+  it('só o monstro sem efeito', () => {
+    expect(isNormalMonster(T.MONSTER | T.NORMAL)).toBe(true);
+    expect(isNormalMonster(T.MONSTER | T.EFFECT)).toBe(false);
+    expect(isNormalMonster(T.MONSTER | T.FUSION)).toBe(false);
+    expect(isNormalMonster(T.SPELL)).toBe(false);
+  });
 });
 
 describe('ícones de carta', () => {

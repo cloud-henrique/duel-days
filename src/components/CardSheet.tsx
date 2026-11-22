@@ -1,7 +1,7 @@
 import { useState, type ReactNode } from 'react';
 import { ArrowsClockwise, CompassRose, Crosshair, Eye, EyeSlash, Link, Sparkle, Sword, Tornado, X } from '@phosphor-icons/react';
 import type { Cards } from '../data/cards';
-import { attrIcon, attrName, formatStat, frameOf, isMonster, propertyIcon, raceIcon, raceName, typeLine } from '../data/labels';
+import { attrIcon, attrName, formatStat, frameOf, isMonster, isNormalMonster, monsterKinds, propertyIcon, raceIcon, raceName, typeLine } from '../data/labels';
 
 import { BASE } from './art';
 import { CardFace } from './CardFace';
@@ -54,10 +54,10 @@ export function CardDetails({ code, cards }: { code: number; cards: Cards }) {
       <div className="nm">{c?.name}</div>
       {monster && c.level > 0 && <div className="stars">{Array.from({ length: Math.min(c.level, MAX_STARS) }, (_, i) => <i key={i} />)}</div>}
       {monster
-        ? <div className="kv"><CardIcon name={attrIcon(c.attribute)} /><CardIcon name={raceIcon(c.race)} /><span>{attrName(c.attribute)} · {raceName(c.race)}</span></div>
+        ? <div className="kv"><CardIcon name={attrIcon(c.attribute)} /><CardIcon name={raceIcon(c.race)} /><span>{[attrName(c.attribute), raceName(c.race), ...monsterKinds(c.type)].join(' · ')}</span></div>
         : c && <div className={`kv kind ${frameOf(c.type)}`}><CardIcon name={propertyIcon(c.type)} /><span>{typeLine(c.type)}</span></div>}
       {monster && <div className="atkdef num"><span className="atk">ATK {formatStat(c.attack)}</span><span className="def">DEF {formatStat(c.defense)}</span></div>}
-      <div className="desc">{c?.desc}</div>
+      <div className={`desc${c && isNormalMonster(c.type) ? ' flavor' : ''}`}>{c?.desc}</div>
     </div>
   );
 }

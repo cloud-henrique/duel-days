@@ -37,15 +37,29 @@ const SPELL_KIND: [number, string][] = [
   [OcgType.RITUAL, 'Magia de Ritual'], [OcgType.CONTINUOUS, 'Magia Contínua'],
 ];
 const TRAP_KIND: [number, string][] = [[OcgType.CONTINUOUS, 'Armadilha Contínua'], [OcgType.COUNTER, 'Armadilha de Resposta']];
+/**
+ * Classificações do monstro na ordem da linha de tipo impressa (ex.: [Mago/Toon/Efeito]), com os nomes das cartas em
+ * português. Quem não é Efeito nem Fusão/Ritual/Ficha é Normal.
+ */
 const MONSTER_KIND: [number, string][] = [
-  [OcgType.FUSION, 'Fusão'], [OcgType.RITUAL, 'Ritual'], [OcgType.SYNCHRO, 'Sincro'], [OcgType.XYZ, 'Xyz'], [OcgType.EFFECT, 'Efeito'],
+  [OcgType.FUSION, 'Fusão'], [OcgType.RITUAL, 'Ritual'], [OcgType.SYNCHRO, 'Sincro'], [OcgType.XYZ, 'Xyz'], [OcgType.TOKEN, 'Ficha'],
+  [OcgType.TOON, 'Toon'], [OcgType.SPIRIT, 'Espírito'], [OcgType.UNION, 'União'], [OcgType.GEMINI, 'Gêmeos'], [OcgType.TUNER, 'Regulador'],
+  [OcgType.FLIP, 'Virar'], [OcgType.EFFECT, 'Efeito'],
 ];
+/** As classificações do monstro, em ordem (ex.: `['Toon', 'Efeito']`, `['Normal']`). */
+export function monsterKinds(type: number): string[] {
+  const kinds = MONSTER_KIND.filter(([bit]) => type & bit).map(([, name]) => name);
+  return kinds.length ? kinds : ['Normal'];
+}
+/** Monstro Normal (sem efeito): o texto dele é a descrição em itálico, como nas cartas. */
+export const isNormalMonster = (type: number) =>
+  isMonster(type) && !(type & (OcgType.EFFECT | OcgType.FUSION | OcgType.RITUAL | OcgType.TOKEN | OcgType.SYNCHRO | OcgType.XYZ));
 const kindOf = (type: number, table: [number, string][], fallback: string) => table.find(([bit]) => type & bit)?.[1] ?? fallback;
 
 export function typeLine(type: number) {
   if (type & OcgType.SPELL) return kindOf(type, SPELL_KIND, 'Magia Normal');
   if (type & OcgType.TRAP) return kindOf(type, TRAP_KIND, 'Armadilha Normal');
-  return `Monstro · ${kindOf(type, MONSTER_KIND, 'Normal')}`;
+  return `Monstro · ${monsterKinds(type).join('/')}`;
 }
 export const isMonster = (type: number) => (type & OcgType.MONSTER) !== 0;
 
