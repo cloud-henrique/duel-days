@@ -8,7 +8,7 @@
 - [x] 1.2 Escrever a migração `migrations/0001_saves.sql` com as tabelas `saves` (email PK, rev, version, data nulo para
   lápide, device, updated_at) e `save_history` (PK email+rev), aplicar local e remoto (`wrangler d1 migrations apply`) e
   verificar as tabelas com `wrangler d1 execute --command "select name from sqlite_master"`
-- [ ] 1.3 Gravar o `aud` da aplicação "Duel Days" (`cf zero-trust access applications list`) e o domínio da equipe
+- [x] 1.3 Gravar o `aud` da aplicação "Duel Days" (`cf zero-trust access applications list`) e o domínio da equipe
   (`auth_domain` do `cf zero-trust organization get`) como variáveis do projeto do Pages (`ACCESS_AUD`, `ACCESS_TEAM`);
   verificar com `npx wrangler pages project list`/painel que estão no ambiente de produção
 - [x] 1.4 Instalar `jose` como dependência e confirmar que `npx tsc --noEmit` segue passando, com `server/` e
