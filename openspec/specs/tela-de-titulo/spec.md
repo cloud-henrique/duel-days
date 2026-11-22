@@ -48,7 +48,8 @@ ajustes. Os ajustes SHALL reunir as preferências que valem para o app inteiro:
 - efeitos sonoros;
 - música (interruptor e volume).
 
-Elas são as mesmas do menu do duelo, salvas no aparelho.
+Elas são as mesmas do menu do duelo, salvas com o save do jogador: no aparelho e na conta, valendo em todos os
+aparelhos dele.
 
 #### Scenario: Abrir o perfil
 - **WHEN** o jogador toca no perfil do topo
@@ -61,6 +62,10 @@ Elas são as mesmas do menu do duelo, salvas no aparelho.
 #### Scenario: Música desligada
 - **WHEN** o jogador desliga a música nos ajustes do título
 - **THEN** a música do título para e nenhuma faixa toca no mapa nem no duelo
+
+#### Scenario: Ajuste vale em outro aparelho
+- **WHEN** o jogador baixa o volume da música no celular, com rede, e abre o jogo no notebook
+- **THEN** o notebook toca a música no volume escolhido no celular
 
 ### Requirement: Entrada animada
 Ao abrir a tela de título, o orbe e o leque SHALL acender e o nome SHALL receber um reflexo que passa pelas letras, em
