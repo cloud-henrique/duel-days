@@ -21,8 +21,9 @@ Eles SHALL aparecer no mapa de Domino só depois que o Tier 3 abrir.
 - **THEN** nenhum duelista do Tier 3 aparece no mapa
 
 #### Scenario: Tier 3 pelo prazo
-- **WHEN** chega a manhã do dia 15 e o Pegasus não foi vencido
-- **THEN** de 2 a 4 duelistas do Tier 3 aparecem perto do centro do mapa e o Pegasus continua disponível quando liberado
+- **WHEN** chega o dia 15 e o Pegasus não foi vencido
+- **THEN** nenhum duelista do Tier 3 aparece no mapa; só depois de vencer o Pegasus (com os comuns do Tier 2 já
+  vencidos) de 2 a 4 deles aparecem perto do centro do mapa, e o Pegasus continua no mapa
 
 ### Requirement: Cartas-assinatura do Tier 3
 Cada duelista do Tier 3 SHALL ter uma carta-assinatura que está no deck dele: Jinzo (Espa Roba), Exodia, o Proibido
