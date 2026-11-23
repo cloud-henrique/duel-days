@@ -8,7 +8,10 @@ Sem esses arquivos, o jogo funciona com fundos em degradê e em silêncio.
 Uso: python3 scripts/copy_campaign_assets.py [caminho do duel-academy]
 """
 import shutil
+import subprocess
 import sys
+import tempfile
+import urllib.request
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -31,10 +34,17 @@ IMAGES = {
     'pack-mrd.jpg': 'pack-mrd.jpg',
     'pack-mrl.jpg': 'pack-mrl.jpg',
     'pack-psv.jpg': 'pack-psv.jpg',
-    'pack-lod.jpg': 'pack-lod.jpg',  # Tier 2 (o nativo não tem a do LON: a loja desenha a capa)
+    'pack-lod.jpg': 'pack-lod.jpg',  # Tier 2 (o nativo não tem a do LON: vem do Yugipedia, em COVERS)
     'pack-pgd.jpg': 'pack-pgd.jpg',
-    'pack-mfc.jpg': 'pack-mfc.jpg',  # Tier 3 (o nativo não tem a do DCR: a loja desenha a capa)
+    'pack-mfc.jpg': 'pack-mfc.jpg',  # Tier 3 (o nativo não tem a do DCR: vem do Yugipedia, em COVERS)
     'pack-ioc.jpg': 'pack-ioc.jpg',
+}
+# Capas que o nativo não tem: baixadas do Yugipedia (a página do arquivo fica atrás do desafio do Cloudflare; o
+# endereço direto vem da API: api.php?action=query&titles=File:<nome>&prop=imageinfo&iiprop=url) e reduzidas para 600 px
+# de altura em JPEG, como as outras.
+COVERS = {
+    'pack-lon.jpg': 'https://img.yugipedia.com/8/8e/LON-BoosterEN.jpg',
+    'pack-dcr.jpg': 'https://img.yugipedia.com/6/68/DCR-BoosterEN.png',
 }
 MUSIC = ['title', 'map', 'shop', 'encounter', 'duel', 'boss-duel', 'victory', 'defeat']
 
@@ -50,7 +60,18 @@ def main() -> None:
         dst.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(src, dst)
         total += dst.stat().st_size
-    print(f'ok: {len(IMAGES)} imagens e {len(MUSIC)} músicas ({total / 1024 / 1024:.1f} MB)')
+    for name, url in COVERS.items():
+        dst = ROOT / 'public/campaign' / name
+        if dst.exists():
+            continue
+        with tempfile.TemporaryDirectory() as tmp:
+            raw = Path(tmp) / Path(url).name
+            req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0 (projeto pessoal)'})
+            raw.write_bytes(urllib.request.urlopen(req, timeout=60).read())
+            subprocess.run(['sips', '-s', 'format', 'jpeg', '-s', 'formatOptions', '85', '--resampleHeight', '600',
+                            str(raw), '--out', str(dst)], check=True, capture_output=True)  # macOS
+        total += dst.stat().st_size
+    print(f'ok: {len(IMAGES)} imagens, {len(COVERS)} capas do Yugipedia e {len(MUSIC)} músicas ({total / 1024 / 1024:.1f} MB)')
 
 
 if __name__ == '__main__':

@@ -162,7 +162,7 @@ pelo `.hexbg` do `styles.css`.
   pacotes ganhos abertos ali), `PackDetail` (tela `shop-pack` do `App`: raridades, "X de Y", grade com as que faltam
   apagadas, barra de compra e confirmação da caixa), `OpeningFlow` (abertura em tela cheia: rasgar, virar, "Revelar
   tudo", caixa pacote a pacote, "Abrir todos" e resumo), `opening.ts` (**estado puro** da abertura e os sons de cada
-  passo), `ShopCounter` (o vovô pelo `Sprite`, saldo contando, balão), `useSpeech` + `src/campaign/shopkeeper.ts` (falas
+  passo), `PackCover` (capa da coleção pelo `pack-<chave>.jpg`; a do pacote de personagem é desenhada: carta-assinatura, rosto num medalhão na cor do duelista e o nome, em `cqw`), `ShopCounter` (o vovô pelo `Sprite`, saldo contando, balão), `useSpeech` + `src/campaign/shopkeeper.ts` (falas
   do `shopkeeper` pela semente), `pacing.ts` (`SHOP_PACING`, os tempos da loja). **A compra grava antes da encenação.**
 - `src/screens/deck/` (change `editor-nativo`): o editor "Meu deck" no visual do nativo. `DeckEditor` (cabeçalho com
   PRONTO/problemas, painel do deck agrupado em 6 colunas, maleta numa gaveta de 3 posições), `DeckSheet` (até 5 decks:
