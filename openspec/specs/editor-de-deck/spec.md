@@ -1,7 +1,9 @@
 # editor-de-deck Specification
 
 ## Purpose
-TBD - created by archiving change editor-nativo. Update Purpose after archive.
+Define o editor "Meu deck": os decks salvos, o cabeçalho e o painel do deck, a maleta com ordenação, filtros e busca,
+pôr e tirar cartas (pelo zoom ou arrastando), as recusas com motivo, a gravação a cada mudança e a composição em três
+colunas na tela larga.
 
 ## Requirements
 
@@ -45,12 +47,10 @@ SHALL aparecer como uma carta. Deck vazio SHALL mostrar como pôr cartas (tocar 
 - **THEN** o painel do deck fica na coluna esquerda, com mais de 2 cartas por linha e os mesmos grupos
 
 ### Requirement: Maleta
-No retrato, a coleção SHALL ficar numa maleta abaixo do deck, numa gaveta com três posições: recolhida (só a alça), no meio (o deck
-com cerca de 40% da altura) e aberta (o deck reduzido a uma linha). A alça SHALL abrir e recolher com toque e com
-arraste, e a posição SHALL ser lembrada no aparelho. Recolhida, a alça SHALL resumir a ordenação, o filtro e a busca.
-Na maleta, cada cópia SHALL ser uma miniatura, com as cópias que já estão no deck apagadas e marcadas.
-
-Na tela larga, a maleta SHALL ficar na coluna do meio, sem gaveta nem alça; a posição lembrada da gaveta continua valendo no retrato.
+No retrato, a coleção SHALL ficar numa maleta abaixo do deck, numa gaveta com três posições: recolhida (só a alça), no
+meio (o deck com cerca de 40% da altura) e aberta (o deck reduzido a uma linha). A alça SHALL abrir e recolher com toque
+e com arraste, e a posição SHALL ser lembrada no aparelho. Recolhida, a alça SHALL resumir a ordenação, o filtro e a
+busca. Na maleta, cada cópia SHALL ser uma miniatura, com as cópias que já estão no deck apagadas e marcadas.
 
 #### Scenario: Lembrar a gaveta
 - **WHEN** o jogador deixa a maleta aberta, sai do editor e volta
@@ -64,11 +64,19 @@ Na tela larga, a maleta SHALL ficar na coluna do meio, sem gaveta nem alça; a p
 - **WHEN** o jogador deixou a gaveta recolhida no celular e abre o editor numa janela de 1440×900
 - **THEN** a maleta aparece inteira na coluna do meio, e no celular a gaveta continua recolhida
 
+### Requirement: Maleta na tela larga
+Na tela larga, a maleta SHALL ficar na coluna do meio, sem gaveta nem alça; a posição lembrada da gaveta continua
+valendo no retrato.
+
+#### Scenario: Voltar ao retrato
+- **WHEN** o jogador deixou a gaveta no meio, usa o editor na tela larga e depois volta ao retrato
+- **THEN** na tela larga a maleta fica na coluna do meio, sem alça; no retrato a gaveta continua no meio
+
 ### Requirement: Ordenar, filtrar e buscar
-A maleta SHALL ordenar por Tipo de carta, Nível, ATK, DEF, Nome, Atributo, Tipo de monstro, Raridade, Cópias ou Obtenção,
-com a opção de inverter a ordem. Nas ordens de monstro (Nível, ATK, DEF, Atributo, Tipo de monstro), os monstros SHALL vir
-antes das magias e armadilhas. Empates SHALL seguir tipo, nível e nome. A maleta SHALL filtrar por Todas, Monstros, Fusão,
-Magias e Armadilhas e buscar pelo nome da carta. A ordenação SHALL ser lembrada no aparelho. Mudar ordem, filtro ou busca
+A maleta SHALL ordenar por Tipo de carta, Nível, ATK, DEF, Nome, Atributo, Tipo de monstro, Raridade, Cópias ou
+Obtenção, podendo inverter a ordem. Nas ordens de monstro (Nível, ATK, DEF, Atributo, Tipo de monstro), os monstros
+SHALL vir antes das magias e armadilhas; empates seguem tipo, nível e nome. A maleta SHALL filtrar por Todas, Monstros,
+Fusão, Magias e Armadilhas e buscar pelo nome. A ordenação SHALL ser lembrada no aparelho. Mudar ordem, filtro ou busca
 SHALL voltar a maleta ao topo.
 
 #### Scenario: Maior ATK
@@ -106,10 +114,7 @@ Na tela larga, as mesmas informações e os mesmos botões SHALL ficar no painel
 Segurar uma carta da maleta e soltá-la no painel do deck SHALL pôr uma cópia; segurar uma carta do deck e soltá-la na
 maleta SHALL tirar uma cópia. Durante o arraste, uma cópia da carta SHALL seguir o dedo, um pouco maior e com sombra;
 soltar fora do destino SHALL devolvê-la sem mudar nada. Um toque rápido e a rolagem MUST continuar funcionando como
-antes (o arraste só começa depois de segurar). Uma recusa SHALL mostrar um aviso curto com o motivo: "Você só tem N
-cópia(s)", "Máximo de N cópia(s)", "O deck principal está cheio" ou "O Extra Deck está cheio".
-
-Com mouse, o arraste SHALL começar ao mover o ponteiro com o botão apertado, sem esperar; um clique sem mover continua sendo clique. A cópia da carta segue o ponteiro.
+antes (o arraste só começa depois de segurar).
 
 #### Scenario: Arrastar para o deck
 - **WHEN** o jogador segura um Castor Guerreiro na maleta e solta no painel do deck
@@ -126,6 +131,22 @@ Com mouse, o arraste SHALL começar ao mover o ponteiro com o botão apertado, s
 #### Scenario: Arrastar com mouse
 - **WHEN** na tela larga o jogador aperta o botão do mouse sobre um Castor Guerreiro na maleta, move até o painel do deck e solta
 - **THEN** o deck ganha um Castor Guerreiro, sem precisar segurar antes de mover
+
+### Requirement: Recusa ao arrastar
+Uma carta que não pode entrar no deck SHALL voltar com um aviso curto com o motivo: "Você só tem N cópia(s)", "Máximo de
+N cópia(s)", "O deck principal está cheio" ou "O Extra Deck está cheio".
+
+#### Scenario: Quarta cópia
+- **WHEN** o jogador arrasta para o deck uma carta que já tem 3 cópias nele
+- **THEN** a carta volta e aparece o aviso "Máximo de 3 cópia(s)"
+
+### Requirement: Arrastar com mouse
+Com mouse, o arraste SHALL começar ao mover o ponteiro com o botão apertado, sem esperar; um clique sem mover continua
+sendo clique. A cópia da carta segue o ponteiro.
+
+#### Scenario: Clique sem mover
+- **WHEN** o jogador clica numa carta da maleta sem mover o mouse
+- **THEN** é um clique comum, sem começar arraste
 
 ### Requirement: Gravar a cada mudança
 Toda mudança no deck (pôr, tirar, renomear, trocar o deck em uso) SHALL ser gravada na hora, sem botão de salvar, e

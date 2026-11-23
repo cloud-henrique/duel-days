@@ -8,13 +8,13 @@ duelistas, barra de fases com narrador, e botões de ação e menu.
 ## Requirements
 
 ### Requirement: Medidas derivadas da largura da tela
-A tela de duelo SHALL derivar o tamanho das zonas, das colunas de pilhas, do campo e das cartas da mão da largura e da
-altura disponíveis, com tetos fixos. A altura da zona SHALL ser a menor entre:
+A tela de duelo SHALL derivar o tamanho das zonas, das pilhas, do campo e da mão a partir da largura e da altura
+disponíveis, com tetos fixos. A altura da zona SHALL ser a menor entre:
 - a que cabe na largura, com 3 colunas de zonas e as 2 colunas de pilhas;
 - a que cabe nas 4 fileiras com a altura que sobra.
 
-A largura do campo SHALL acompanhar a zona, e o campo fica centralizado. Quando falta altura, a mão SHALL encolher
-primeiro, até a carta da mão chegar a 60pt de largura; só depois as zonas encolhem.
+A largura do campo SHALL acompanhar a zona, com o campo centralizado. Quando falta altura, a mão SHALL encolher
+primeiro, até a carta chegar a 60pt de largura; só depois as zonas encolhem.
 
 #### Scenario: iPhone de 390×844 no app instalado
 - **WHEN** o duelo é aberto num viewport de 390×844

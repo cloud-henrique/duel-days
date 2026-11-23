@@ -1,17 +1,15 @@
 # loja-de-pacotes Specification
 
 ## Purpose
-TBD - created by archiving change loja-nativa. Update Purpose after archive.
+Define a loja da campanha no visual do nativo: o balcão do vovô e as falas dele, a vitrine das coleções e dos pacotes de
+personagem, as capas, o detalhe do pacote, a compra (avulso ou caixa) e a abertura dos pacotes.
 
 ## Requirements
 
 ### Requirement: Balcão do vovô
-A loja SHALL abrir com o balcão da Loja de Jogos do Vovô no topo: o Solomon atrás do balcão, o nome da loja e o saldo
-em DP. Ao entrar, o vovô SHALL dizer uma fala de boas-vindas num balão; o balão SHALL sumir sozinho depois de alguns
-segundos ou com um toque, sem bloquear o resto da tela. Depois de uma compra o saldo SHALL contar até o valor novo e o
-vovô SHALL dizer uma fala da compra (pacote ou caixa); se uma abertura trouxer Ultra Rara, a fala ao voltar SHALL ser a
-de Ultra. Tentar comprar sem DP SHALL trazer uma fala de "sem DP". As falas SHALL sair dos dados do balconista, com o
-nome e o tratamento do jogador.
+A loja SHALL abrir com o balcão da Loja de Jogos do Vovô no topo: o Solomon atrás do balcão, o nome da loja e o saldo em
+DP. Ao entrar, o vovô SHALL dizer uma fala de boas-vindas num balão; o balão SHALL sumir sozinho depois de alguns
+segundos ou com um toque, sem bloquear o resto da tela. Depois de uma compra o saldo SHALL contar até o valor novo.
 
 #### Scenario: Boas-vindas
 - **WHEN** o jogador entra na loja
@@ -25,14 +23,20 @@ nome e o tratamento do jogador.
 - **WHEN** a abertura de um pacote revela uma Ultra Rara e o jogador volta à loja
 - **THEN** o vovô diz uma fala de Ultra Rara
 
+### Requirement: Falas do vovô
+Depois de uma compra, o vovô SHALL dizer uma fala da compra (pacote ou caixa); se uma abertura trouxer Ultra Rara, a
+fala ao voltar SHALL ser a de Ultra. Tentar comprar sem DP SHALL trazer uma fala de "sem DP". As falas SHALL sair dos
+dados do balconista, com o nome e o tratamento do jogador.
+
+#### Scenario: Compra sem DP
+- **WHEN** o jogador tenta comprar um pacote sem DP suficiente
+- **THEN** o vovô diz uma fala de "sem DP", com o nome do jogador
+
 ### Requirement: Vitrine
 Abaixo do balcão, a loja SHALL mostrar, nesta ordem: "Pacotes ganhos" (só quando houver pacotes ganhos fechados, com o
-número deles e o botão "Abrir pacote grátis"), "À venda" (as coleções) e "Pacotes de personagem". As coleções e os
-pacotes de personagem SHALL aparecer em grade de capas com o nome e o preço em DP. Um pacote bloqueado SHALL mostrar a
-capa apagada com um ícone e o motivo ("Dia 7", "Tier 2", "3/5"); sem DP, o preço SHALL vir com "faltam N DP";
-um pacote recém-liberado SHALL ter o selo NOVA. Tocar numa capa liberada SHALL abrir o detalhe do pacote; tocar numa
-bloqueada SHALL só balançar a capa e mostrar o motivo (no próximo tier, o chefe que falta vencer). Pacote sem arquivo de
-capa SHALL usar uma capa desenhada com o nome.
+número deles e o botão "Abrir pacote grátis"), "À venda" (as coleções) e "Pacotes de personagem", em grade de capas com
+o nome e o preço em DP. Sem DP, o preço SHALL vir com "faltam N DP"; um pacote recém-liberado SHALL ter o selo NOVA.
+Tocar numa capa liberada SHALL abrir o detalhe do pacote.
 
 #### Scenario: Coleção do próximo tier
 - **WHEN** o tier atual é o Tier 1 no dia 4
@@ -43,13 +47,29 @@ capa SHALL usar uma capa desenhada com o nome.
 - **WHEN** o jogador já abriu todos os pacotes ganhos
 - **THEN** a seção "Pacotes ganhos" não aparece
 
+### Requirement: Pacote bloqueado
+Um pacote bloqueado SHALL mostrar a capa apagada com um ícone e o motivo ("Dia 7", "Tier 2", "3/5"). Tocar nele SHALL só
+balançar a capa e mostrar o motivo por extenso (no próximo tier, o chefe que falta vencer; no de personagem, as vitórias
+que faltam).
+
+#### Scenario: Pacote de personagem bloqueado
+- **WHEN** o jogador venceu a Tea 3 vezes e toca no pacote dela
+- **THEN** a capa balança e aparece "Vença Tea 5 vezes"; nada abre
+
+### Requirement: Capas dos pacotes
+Uma coleção SHALL usar a foto da capa dela; sem o arquivo, uma capa desenhada com o nome. Um pacote de personagem SHALL
+ter capa desenhada pelo jogo: a ilustração da carta-assinatura do duelista no alto, o rosto dele num medalhão na cor
+dele e o nome do pacote. As capas SHALL valer na vitrine, no detalhe, na barra de compra e na abertura.
+
+#### Scenario: Capa do pacote da Tea
+- **WHEN** o jogador olha o pacote "Asas da Amizade"
+- **THEN** a capa mostra a ilustração da Dark Magician Girl, o rosto da Tea num medalhão rosa e o nome do pacote
+
 ### Requirement: Detalhe do pacote
 O detalhe do pacote SHALL mostrar a capa, o nome, a contagem de cartas por raridade (Ultra, Super, Rara, Comum, cada uma
 na sua cor), quantas cartas diferentes do pacote o jogador tem ("14 de 104 cartas") com uma barra de progresso, o balcão
 compacto e a grade com todas as cartas do pacote, com as que o jogador não tem apagadas. Tocar numa carta SHALL abrir o
-detalhe da carta. Uma barra fixa embaixo SHALL mostrar o saldo e os botões "Comprar 1 pacote" e "Caixa · 20 pacotes",
-cada um com o preço ou com "faltam N DP" (desabilitado). Comprar a caixa SHALL pedir confirmação com o total, a economia
-sobre 20 avulsos e o saldo depois; cancelar ou tocar fora MUST NOT gastar DP.
+detalhe da carta.
 
 #### Scenario: Progresso no pacote
 - **WHEN** o jogador tem 14 cartas diferentes do LOB e abre o detalhe do LOB
@@ -63,14 +83,20 @@ sobre 20 avulsos e o saldo depois; cancelar ou tocar fora MUST NOT gastar DP.
 - **WHEN** o jogador tem 60 DP e abre o detalhe do LOB
 - **THEN** "Comprar 1 pacote" mostra "faltam 90 DP" e não compra
 
+### Requirement: Compra no detalhe
+Uma barra fixa embaixo do detalhe SHALL mostrar o saldo e os botões "Comprar 1 pacote" e "Caixa · 20 pacotes", cada um
+com o preço ou com "faltam N DP" (desabilitado). Comprar a caixa SHALL pedir confirmação com o total, a economia sobre
+20 avulsos e o saldo depois; cancelar ou tocar fora MUST NOT gastar DP.
+
+#### Scenario: Cancelar a caixa
+- **WHEN** o jogador toca em "Caixa · 20 pacotes" e cancela a confirmação
+- **THEN** nenhum DP é gasto e nenhum pacote é aberto
+
 ### Requirement: Abertura de pacote
 Abrir um pacote (comprado ou ganho) SHALL levar a uma tela cheia com o pacote fechado e "Toque no pacote para abrir".
 Tocar no pacote SHALL rasgá-lo (com som) e mostrar as 5 cartas viradas para baixo, 3 em cima e 2 embaixo. Tocar numa
-carta virada para baixo SHALL virá-la; tocar numa carta já virada SHALL abrir o detalhe da carta. Cada carta virada SHALL
-mostrar o rótulo da raridade (Comum, Rara, Super Rara, Ultra Rara) com o brilho da cor dela, e o selo NOVA se o jogador
-não a tinha antes deste pacote; Super e Ultra SHALL tocar o som de rara. "Revelar tudo" SHALL virar as que faltam. Com
-todas viradas, "Pronto" SHALL mostrar quantas cartas novas entraram e voltar. As cartas e o DP SHALL estar gravados
-antes da encenação: fechar a tela no meio MUST NOT perder cartas nem cobrar de novo.
+carta virada para baixo SHALL virá-la; tocar numa carta já virada SHALL abrir o detalhe da carta. "Revelar tudo" SHALL
+virar as que faltam. Com todas viradas, "Pronto" SHALL mostrar quantas cartas novas entraram e voltar.
 
 #### Scenario: Revelar tudo
 - **WHEN** o jogador rasga um LOB e toca em "Revelar tudo"
@@ -78,6 +104,22 @@ antes da encenação: fechar a tela no meio MUST NOT perder cartas nem cobrar de
 
 #### Scenario: Fechar no meio
 - **WHEN** o jogador compra um pacote, rasga e fecha a tela antes de virar as cartas
+- **THEN** as 5 cartas já estão na coleção e o DP foi cobrado uma vez só
+
+### Requirement: Raridade na abertura
+Cada carta virada na abertura SHALL mostrar o rótulo da raridade (Comum, Rara, Super Rara, Ultra Rara) com o brilho da
+cor dela, e o selo NOVA se o jogador não a tinha antes deste pacote; Super e Ultra SHALL tocar o som de rara.
+
+#### Scenario: Ultra Rara nova
+- **WHEN** o jogador vira uma Ultra Rara que não tinha
+- **THEN** a carta mostra "Ultra Rara" com o brilho da cor dela e o selo NOVA, e toca o som de rara
+
+### Requirement: Compra gravada antes da abertura
+As cartas e o DP de um pacote SHALL estar gravados antes da encenação da abertura: fechar a tela no meio MUST NOT perder
+cartas nem cobrar de novo.
+
+#### Scenario: Fechar no meio
+- **WHEN** o jogador fecha a abertura antes de virar todas as cartas
 - **THEN** as 5 cartas já estão na coleção e o DP foi cobrado uma vez só
 
 ### Requirement: Vários pacotes de uma vez

@@ -25,9 +25,8 @@ mais os bônus que valerem:
 - +20% se venceu até o turno 10;
 - +10% se terminou sem perder LP.
 
-O bônus somado MUST NOT passar de +50%. O tier que vale é o do duelista, não o tier atual da campanha: vencer um amigo do
-Tier 1 durante o Tier 2 paga a base do Tier 1. Derrota, empate e desistência SHALL pagar 60 DP, sem bônus. O duelo contra
-o chefe e o duelo de evento seguem a mesma tabela. O fim do duelo SHALL mostrar a base e cada bônus.
+O bônus somado MUST NOT passar de +50%. Derrota, empate e desistência SHALL pagar 60 DP, sem bônus. O fim do duelo SHALL
+mostrar a base e cada bônus.
 
 #### Scenario: Vitória rápida e limpa
 - **WHEN** o jogador vence o Joey no turno 7 sem perder LP
@@ -41,10 +40,30 @@ o chefe e o duelo de evento seguem a mesma tabela. O fim do duelo SHALL mostrar 
 - **WHEN** o jogador perde um duelo
 - **THEN** ganha 60 DP
 
+### Requirement: Tier que vale no pagamento
+O tier que vale no pagamento SHALL ser o do duelista, não o tier atual da campanha. O duelo contra o chefe e o duelo de
+evento SHALL seguir a mesma tabela.
+
+#### Scenario: Amigo do Tier 1 no Tier 2
+- **WHEN** o jogador vence o Joey durante o Tier 2
+- **THEN** a vitória paga a base do Tier 1 (300 DP), mais os bônus
+
 ### Requirement: Carta por vitória
 Cada vitória SHALL dar uma carta sorteada entre as cópias do deck do oponente. Ficam de fora as cartas limitadas e as
 que o jogador já tem em 3 cópias. Na 5ª vitória contra o mesmo duelista, o jogador SHALL ganhar também a
-carta-assinatura dele:
+carta-assinatura dele (requisito "Cartas-assinatura"). A carta ganha SHALL aparecer no fim do duelo, com o selo NOVA se
+o jogador não a tinha.
+
+#### Scenario: Assinatura
+- **WHEN** o jogador vence o Joey pela 5ª vez
+- **THEN** o fim do duelo mostra a carta sorteada e o Red-Eyes Black Dragon
+
+#### Scenario: Assinatura do Tier 2
+- **WHEN** o jogador vence o Bandit Keith pela 5ª vez
+- **THEN** o fim do duelo mostra a carta sorteada e o Barrel Dragon
+
+### Requirement: Cartas-assinatura
+A carta-assinatura de cada duelista dos Tiers 1 e 2 SHALL ser:
 - Tristan: Sengenjin;
 - Tea: Dark Magician Girl;
 - Joey: Red-Eyes Black Dragon;
@@ -57,27 +76,18 @@ carta-assinatura dele:
 - Mai Valentine: Harpie Lady Sisters;
 - Maximillion Pegasus: Toon World.
 
-A carta ganha SHALL aparecer no fim do duelo, com o selo NOVA se o jogador não a tinha.
-
-#### Scenario: Assinatura
-- **WHEN** o jogador vence o Joey pela 5ª vez
-- **THEN** o fim do duelo mostra a carta sorteada e o Red-Eyes Black Dragon
-
-#### Scenario: Assinatura do Tier 2
-- **WHEN** o jogador vence o Bandit Keith pela 5ª vez
-- **THEN** o fim do duelo mostra a carta sorteada e o Barrel Dragon
+#### Scenario: Assinatura do Yugi
+- **WHEN** o jogador vence o Yugi pela 5ª vez
+- **THEN** ganha também a Dark Magician
 
 ### Requirement: Pacotes à venda
-A loja SHALL vender as coleções TCG da época, liberadas pelo tier e, dentro dele, em ordem cronológica a partir do dia em
-que o tier abriu:
-- Tier 1 (aberto no dia 1): LOB, 150 DP, e MRD, 200 DP, no dia 1; MRL, 200 DP, no dia 3; PSV, 225 DP, no dia 5;
+A loja SHALL vender as coleções TCG da época, liberadas pelo tier e, dentro dele, em ordem a partir do dia em que o tier
+abriu:
+- Tier 1: LOB, 150 DP, e MRD, 200 DP, no dia 1; MRL, 200 DP, no dia 3; PSV, 225 DP, no dia 5;
 - Tier 2: LON, 250 DP, no dia em que o tier abre; LOD, 250 DP, 2 dias depois; PGD, 250 DP, 4 dias depois;
 - Tier 3: MFC, 300 DP, no dia em que o tier abre; DCR, 300 DP, 2 dias depois; IOC, 300 DP, 4 dias depois.
 
-As coleções dos tiers anteriores SHALL continuar à venda. Uma coleção do tier atual ainda fechada SHALL aparecer
-bloqueada com o dia em que abre; as do próximo tier SHALL aparecer bloqueadas com o nome do tier e o chefe que falta
-vencer para abri-lo. Sem DP suficiente, o pacote SHALL dizer quantos DP faltam. Cada coleção SHALL poder ser comprada em
-pacote avulso ou na caixa de 20, com 10% de desconto arredondado para baixo na dezena.
+As coleções dos tiers anteriores SHALL continuar à venda.
 
 #### Scenario: Antes do dia 3
 - **WHEN** o jogador abre a loja no dia 2
@@ -104,6 +114,16 @@ pacote avulso ou na caixa de 20, com 10% de desconto arredondado para baixo na d
 #### Scenario: Sem DP
 - **WHEN** o jogador tem 120 DP e olha o LOB
 - **THEN** o LOB diz que faltam 30 DP e não deixa comprar
+
+### Requirement: Bloqueio e compra das coleções
+Uma coleção do tier atual ainda fechada SHALL aparecer bloqueada com o dia em que abre; as do próximo tier SHALL
+aparecer bloqueadas com o nome do tier e o chefe que falta vencer para abri-lo. Sem DP suficiente, o pacote SHALL dizer
+quantos DP faltam. Cada coleção SHALL poder ser comprada em pacote avulso ou na caixa de 20, com 10% de desconto
+arredondado para baixo na dezena.
+
+#### Scenario: Caixa do LOB
+- **WHEN** o jogador olha a caixa de 20 pacotes do LOB (150 DP o pacote)
+- **THEN** a caixa custa 2700 DP (3000 com 10% de desconto, arredondado para baixo na dezena)
 
 ### Requirement: Pacotes de personagem
 Cada duelista SHALL ter um pacote próprio, com as cartas do estilo dele, vendido a 250 DP. O pacote SHALL aparecer na

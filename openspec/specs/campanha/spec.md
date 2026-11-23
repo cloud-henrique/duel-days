@@ -31,10 +31,7 @@ dia 30, a campanha SHALL terminar.
 ### Requirement: Mapa da Cidade de Domino
 O mapa SHALL mostrar o panorama da Cidade de Domino em todos os tiers, sem lugares fixos nem nomes de lugar: só as
 cabeças de quem está por perto, cada uma num ponto do panorama. O mapa SHALL rolar na horizontal e ter um tom diferente
-para Manhã, Tarde e Noite. O cabeçalho SHALL mostrar o dia, o período, o DP, a barra dos dias e o progresso do tier
-atual ("X/N vencidos", com N o número de duelistas comuns do tier, e a situação do chefe dele). A barra de baixo do mapa
-SHALL dar acesso a Deck, Coleção, Laços e Loja. O botão de menu do cabeçalho SHALL abrir as Opções, com Status da
-campanha, Voltar ao título e Fechar.
+para Manhã, Tarde e Noite.
 
 #### Scenario: Cabeçalho
 - **WHEN** o jogador abre o mapa na tarde do dia 5 com 450 DP e 2 duelistas do Tier 1 já vencidos
@@ -52,16 +49,21 @@ campanha, Voltar ao título e Fechar.
 - **WHEN** o jogador toca no menu do cabeçalho e em "Status da campanha"
 - **THEN** abre a tela de Status, e Fechar volta ao mapa sem sair dele
 
+### Requirement: Cabeçalho e barra do mapa
+O cabeçalho do mapa SHALL mostrar o dia, o período, o DP, a barra dos dias e o progresso do tier atual ("X/N vencidos",
+com N o número de duelistas comuns do tier, e a situação do chefe dele). A barra de baixo SHALL dar acesso a Deck,
+Coleção, Laços e Loja. O botão de menu do cabeçalho SHALL abrir as Opções, com Status da campanha, Voltar ao título e
+Fechar.
+
+#### Scenario: Opções pelo menu
+- **WHEN** o jogador toca no botão de menu do cabeçalho do mapa
+- **THEN** abrem as Opções, com Status da campanha, Voltar ao título e Fechar
+
 ### Requirement: Quem aparece em cada período
-Em cada período, SHALL aparecer de 2 a 4 dos duelistas comuns do tier atual. Depois que um tier abrir, todos os
-comuns dos tiers anteriores SHALL continuar aparecendo (no Tier 2, os amigos do Tier 1: Tristan, Téa, Joey e Bakura; no
-Tier 3, também os cinco comuns do Tier 2). Os chefes já liberados SHALL aparecer em todo período. Cada duelista SHALL
-ocupar um ponto diferente do panorama, sem cabeças sobrepostas, mesmo com todos os comuns dos tiers anteriores e os três
-chefes no mapa: no Tier 1, sorteado entre os pontos do mapa; depois, espalhado pelo panorama, com o tier atual
-perto do centro (a parte que a tela mostra ao abrir) e cada tier anterior mais longe dele. O sorteio de quem aparece e dos pontos MUST ser reproduzível pela semente da campanha, pelo dia e pelo
-período: fechar e abrir o app no mesmo período mostra os mesmos duelistas nos mesmos pontos. Tocar numa cabeça SHALL
-abrir o encontro com aquele duelista. Um duelista com evento de laço aberto SHALL ter um "!" na cabeça; um chefe SHALL
-ter moldura dourada larga, com um anel dourado girando em volta (sem coroa).
+Em cada período, SHALL aparecer de 2 a 4 dos duelistas comuns do tier atual. Depois que um tier abrir, todos os comuns
+dos tiers anteriores SHALL continuar aparecendo (no Tier 3, os comuns dos Tiers 1 e 2). Os chefes já liberados SHALL
+aparecer em todo período. O sorteio de quem aparece e dos pontos MUST ser reproduzível pela semente da campanha, pelo
+dia e pelo período: fechar e abrir o app no mesmo período mostra os mesmos duelistas nos mesmos pontos.
 
 #### Scenario: Mesmo período, mesma gente
 - **WHEN** o jogador fecha o app de manhã no dia 2 e o abre de novo
@@ -80,6 +82,23 @@ ter moldura dourada larga, com um anel dourado girando em volta (sem coroa).
 - **WHEN** o tier atual é o Tier 3, os quatro comuns dele estão no período e Yugi, Pegasus e Kaiba estão liberados
 - **THEN** o mapa mostra as 16 cabeças sem nenhuma encostada em outra: o Tier 3 perto do centro, os comuns do Tier 2
   mais para os lados e os amigos do Tier 1 mais longe ainda
+
+### Requirement: Pontos do panorama
+Cada duelista SHALL ocupar um ponto diferente do panorama, sem cabeças sobrepostas, mesmo com todos os comuns dos tiers
+anteriores e os três chefes no mapa: no Tier 1, sorteado entre os pontos do mapa; depois, espalhado pelo panorama, com o
+tier atual perto do centro (a parte que a tela mostra ao abrir) e cada tier anterior mais longe dele.
+
+#### Scenario: Mapa cheio no Tier 3
+- **WHEN** o tier atual é o Tier 3, com os comuns dos Tiers 1 e 2 e os três chefes no mapa
+- **THEN** cada cabeça fica num ponto diferente, sem sobreposição; as do Tier 3 ficam perto do centro e as dos tiers anteriores mais longe
+
+### Requirement: Cabeças no mapa
+Tocar numa cabeça SHALL abrir o encontro com aquele duelista. Um duelista com evento de laço aberto SHALL ter um "!" na
+cabeça; um chefe SHALL ter moldura dourada larga, com um anel dourado girando em volta (sem coroa).
+
+#### Scenario: Evento aberto no mapa
+- **WHEN** a Tea tem um evento de laço aberto e está no mapa
+- **THEN** a cabeça dela tem um "!", e tocar nela abre o encontro com a Tea
 
 ### Requirement: Chefe Yugi
 O Yugi SHALL aparecer no mapa em todo período depois que o jogador vencer cada um dos 4 duelistas comuns do Tier 1 ao
@@ -102,19 +121,13 @@ e o Tier 2 abre no período seguinte (ver `progressao-por-tiers`).
   período seguinte
 
 ### Requirement: Encontro
-Ao encontrar um duelista, o jogo SHALL mostrar a cena dele: o fundo do lugar onde ele está naquela fase da história (no
-tom do período) e o nome do lugar no topo, o duelista de corpo inteiro e a saudação na caixa de fala, com um botão para
-pular as falas. Os duelistas com laço (os do Tier 1) SHALL mostrar os corações. Depois da saudação, o menu SHALL ter:
+Ao encontrar um duelista, o jogo SHALL mostrar a cena dele: o fundo do lugar dele (no tom do período; sem o arquivo, um
+degradê) e o nome do lugar no topo, o duelista de corpo inteiro e a saudação na caixa de fala, com o botão Pular. Os
+duelistas com laço (Tier 1) SHALL mostrar os corações. Depois da saudação, o menu SHALL ter:
 - o título do evento de laço aberto, como botão principal, quando houver;
 - Conversar (só para quem tem laço);
 - Duelar;
 - Voltar ao mapa (sem gastar período).
-
-Sem o arquivo do fundo, a cena SHALL usar um degradê no lugar.
-
-Em tela larga, os botões do menu SHALL ficar lado a lado numa linha só, com a mesma altura. A caixa de fala, o menu e as
-listas de escolha (tópicos de conversa, respostas) SHALL ter largura máxima e ficar centralizados, sem atravessar a tela
-inteira.
 
 #### Scenario: Primeiro encontro
 - **WHEN** o jogador encontra o Joey pela primeira vez
@@ -136,6 +149,15 @@ inteira.
 #### Scenario: Menu no celular
 - **WHEN** o jogador encontra o Joey num viewport de 390×844
 - **THEN** os botões do menu continuam um embaixo do outro, como antes
+
+### Requirement: Encontro na tela larga
+Em tela larga, os botões do menu do encontro SHALL ficar lado a lado numa linha só, com a mesma altura. A caixa de fala,
+o menu e as listas de escolha (tópicos de conversa, respostas) SHALL ter largura máxima e ficar centralizados, sem
+atravessar a tela inteira.
+
+#### Scenario: Menu na tela larga
+- **WHEN** o jogador encontra um duelista numa tela larga
+- **THEN** os botões do menu ficam lado a lado com a mesma altura, e a caixa de fala e o menu ficam centralizados com largura máxima
 
 ### Requirement: Saudação conforme o laço
 A saudação SHALL seguir o laço: a da rota escolhida (amizade ou romance), senão a de proximidade a partir de 2 corações,
@@ -261,11 +283,8 @@ Nova campanha SHALL pedir confirmação e recomeçar do dia 1.
 O progresso da campanha SHALL ficar salvo no aparelho a cada mudança (período, DP, coleção, deck, pacotes, vitórias,
 afinidade, eventos e rotas) e sobreviver a fechar o app. Ele SHALL ir também para a conta do jogador quando houver rede
 (capacidade `save-na-nuvem`), sem que o jogo espere por isso. Tudo o que é sorteado (quem aparece, falas, tema ruim,
-cartas dos pacotes e da vitória) SHALL sair da semente salva, para o mesmo estado dar o mesmo resultado, também em
-outro aparelho. Um save da história antiga SHALL abrir no título com o perfil intacto e a campanha por começar. Uma
-campanha salva no formato anterior (duelos de 5 zonas e decks de 40) SHALL ser descartada da mesma forma: o perfil, as
-estatísticas e os ajustes ficam, e a campanha recomeça do dia 1. Uma campanha de uma versão mais nova que a do app MUST
-NOT ser descartada.
+cartas dos pacotes e da vitória) SHALL sair da semente salva, para o mesmo estado dar o mesmo resultado, também em outro
+aparelho.
 
 #### Scenario: Save antigo
 - **WHEN** um save da história antiga é carregado
@@ -283,15 +302,26 @@ NOT ser descartada.
 - **WHEN** a conta tem uma campanha gravada por uma versão mais nova do jogo e o aparelho abre com a versão antiga
 - **THEN** a campanha da conta não é descartada nem trocada, e continua inteira para quando o app atualizar
 
+### Requirement: Saves de versões antigas
+Um save da história antiga SHALL abrir no título com o perfil intacto e a campanha por começar. Uma campanha salva no
+formato anterior (duelos de 5 zonas e decks de 40) SHALL ser descartada da mesma forma: o perfil, as estatísticas e os
+ajustes ficam, e a campanha recomeça do dia 1. Uma campanha de uma versão mais nova que a do app MUST NOT ser
+descartada.
+
+#### Scenario: Campanha do formato anterior
+- **WHEN** o jogador abre um save com a campanha no formato de 5 zonas e decks de 40
+- **THEN** o perfil, as estatísticas e os ajustes ficam e a campanha recomeça do dia 1
+
+#### Scenario: Campanha de versão mais nova
+- **WHEN** o app abre um save cuja campanha é de uma versão mais nova que a dele
+- **THEN** a campanha fica intacta, sem ser descartada
+
 ### Requirement: Receita do deck
-O deck de cada duelista da campanha SHALL sair de uma receita "Anime Decks" publicada no YGOPRODeck para aquele
-personagem. São candidatas as receitas com ao menos 85% das cartas do Main no pool do jogo; as cartas fora do pool SHALL
-ser trocadas por cartas da era com o mesmo papel, cada troca com um comentário. A receita SHALL ser cortada para o
-tamanho do formato (até 30 no principal e 5 no Extra), mantendo as cartas de assinatura e as de vitória do duelista;
-cada ajuste do corte que não sair da regra SHALL ter um comentário. A receita final SHALL ser a que mais vence numa
-simulação CPU × CPU no formato do duelo entre as candidatas, jogada pela CPU estratégica (não pela aleatória). Se a taxa
-de vitória do duelista contra o deck inicial ficar mais de 10 pontos longe da meta do tier, a receita SHALL ser trocada
-por outra candidata ou ajustada por trocas comentadas, até ficar perto da meta.
+O deck de cada duelista da campanha SHALL sair de uma receita "Anime Decks" do YGOPRODeck para o personagem. São
+candidatas as receitas com ao menos 85% das cartas do Main no pool do jogo; as cartas fora do pool SHALL ser trocadas
+por cartas da era com o mesmo papel, cada troca comentada. A receita SHALL ser cortada para o tamanho do formato
+(até 30 no principal e 5 no Extra), mantendo as cartas de assinatura e as de vitória do duelista; ajustes fora da regra
+do corte SHALL ter comentário.
 
 #### Scenario: Chefe mais forte
 - **WHEN** o deck do chefe de um tier enfrenta os decks dos comuns do mesmo tier na simulação
@@ -300,6 +330,16 @@ por outra candidata ou ajustada por trocas comentadas, até ficar perto da meta.
 #### Scenario: Perto da meta
 - **WHEN** a medida de dificuldade roda depois de gerar os decks
 - **THEN** cada duelista fica a no máximo 10 pontos da meta de vitória do seu tier contra o deck inicial
+
+### Requirement: Escolha da receita
+Entre as candidatas, a receita final SHALL ser a que mais vence numa simulação CPU × CPU no formato do duelo, jogada
+pela CPU estratégica (não pela aleatória). Se a taxa de vitória do duelista contra o deck inicial ficar mais de 10
+pontos longe da meta do tier, a receita SHALL ser trocada por outra candidata ou ajustada por trocas comentadas, até
+ficar perto da meta.
+
+#### Scenario: Receita longe da meta
+- **WHEN** a receita escolhida vence o deck inicial 15 pontos acima da meta do tier
+- **THEN** ela é trocada por outra candidata ou ajustada por trocas comentadas até ficar a até 10 pontos da meta
 
 ### Requirement: Decks válidos e locais
 Todo deck de duelista MUST passar na validação do formato (20 a 30 cartas, Extra até 5, até 3 cópias, limitadas a 1) e
