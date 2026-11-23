@@ -4,9 +4,9 @@
  * - `last-evening`: noite do dia 30, com a Tea na rota de romance (4 eventos) e o Joey com 2: o próximo duelo encerra.
  * - `bond`: cada duelista num ponto do laço (Tristan com o 1º evento aberto, Tea na escolha, Joey com o 4º aberto).
  * - `boss`: os 4 comuns vencidos (o Yugi aparece) no dia 6, com 900 DP.
- * - `tier2`: dia 8, Tier 2 aberto pelo prazo, com 1500 DP.
+ * - `tier2`: dia 8, Tier 2 aberto (Tier 1 vencido inteiro), com 1500 DP.
  * - `pegasus`: dia 10 com os 5 comuns do Tier 2 vencidos (o Pegasus aparece).
- * - `tier3`: dia 15, Tier 3 aberto pelo prazo, com 2000 DP.
+ * - `tier3`: dia 15, Tier 3 aberto (Tiers 1 e 2 vencidos inteiros), com 2000 DP.
  * - `kaiba`: dia 18 com os 4 comuns do Tier 3 vencidos (o Kaiba aparece).
  * - `shop`: dia 4 do Tier 1 com 6000 DP (dá para a caixa) e os 3 pacotes ganhos, para conferir a loja.
  * - `all-cards`: a coleção com 3 cópias de cada carta da base (`poolIds`), para medir a grade do editor cheia.
@@ -16,11 +16,20 @@
  *   cartas que banem (D.D. Warrior Lady, Soul Release, Bottomless Trap Hole), para conferir Fusão, Campo e banimento.
  * - `legacy-v1`: grava a campanha como versão 1 (a de antes do Speed Duel) e o app recarrega: o `migrate` a descarta.
  */
+import { TIERS } from './data/types';
 import { clone, newCampaign, type CampaignState } from './state';
 
 export function debugPreset(name: string, s0: CampaignState | null, poolIds: readonly number[] = []): CampaignState | null {
   const s = clone(s0 ?? newCampaign(12345));
   const beatAll = () => { for (const k of ['tristan', 'tea', 'joey', 'bakura']) s.victories[k] = Math.max(s.victories[k] ?? 0, 1); };
+  /** Abre o Tier `n`: cada duelista dos tiers anteriores vencido uma vez, chefes no dia atual. */
+  const openThrough = (n: number) => {
+    for (const t of TIERS.filter((t) => t.number < n)) {
+      for (const d of t.duelists) s.victories[d.key] = Math.max(s.victories[d.key] ?? 0, 1);
+      if (!s.defeatedBosses.includes(t.number)) s.defeatedBosses.push(t.number);
+      s.bossDefeatedOn = { ...s.bossDefeatedOn, [t.number]: s.bossDefeatedOn?.[t.number] ?? s.day };
+    }
+  };
   switch (name) {
     case 'last-evening':
       Object.assign(s, { day: 30, period: 2, dp: 1200 });
@@ -43,21 +52,25 @@ export function debugPreset(name: string, s0: CampaignState | null, poolIds: rea
       Object.assign(s, { day: 6, dp: 900, concluded: false });
       return s;
     case 'tier2':
-      // Tier 2 aberto pelo prazo (dia 8), com DP para a loja.
+      // Tier 2 aberto (Tier 1 vencido inteiro no dia 8), com DP para a loja.
       Object.assign(s, { day: 8, period: 0, dp: 1500, concluded: false });
+      openThrough(2);
       return s;
     case 'pegasus':
       // Os 5 comuns do Tier 2 vencidos: o Pegasus no mapa.
       Object.assign(s, { day: 10, period: 0, dp: 1500, concluded: false });
+      openThrough(2);
       for (const k of ['weevil', 'rex', 'mako', 'keith', 'mai']) s.victories[k] = Math.max(s.victories[k] ?? 0, 1);
       return s;
     case 'tier3':
-      // Tier 3 aberto pelo prazo (dia 15), com DP para a loja.
+      // Tier 3 aberto (Tiers 1 e 2 vencidos inteiros no dia 15), com DP para a loja.
       Object.assign(s, { day: 15, period: 0, dp: 2000, concluded: false });
+      openThrough(3);
       return s;
     case 'kaiba':
       // Os 4 comuns do Tier 3 vencidos: o Kaiba no mapa.
       Object.assign(s, { day: 18, period: 0, dp: 2000, concluded: false });
+      openThrough(3);
       for (const k of ['espa', 'rarehunter', 'arkana', 'strings']) s.victories[k] = Math.max(s.victories[k] ?? 0, 1);
       return s;
     case 'shop':
@@ -65,7 +78,7 @@ export function debugPreset(name: string, s0: CampaignState | null, poolIds: rea
       return s;
     case 'bond-late':
       Object.assign(s, { day: 15, period: 0, dp: 2000, concluded: false });
-      beatAll();
+      openThrough(3);
       s.met = ['tristan', 'tea', 'joey', 'bakura'];
       Object.assign(s.victories, { joey: 6, tea: 6 });
       Object.assign(s.affinity, { joey: 600, tea: 600 });

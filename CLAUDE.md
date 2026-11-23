@@ -140,8 +140,9 @@ pelo `.hexbg` do `styles.css`.
     `tiers.json` (Tier 2+, cenas, pontos do mapa, dias das coleções) e `dialogue-tier*.json` (um por tier, juntados momento a momento: o `dialogue-tier1.json` só corrige cenas do nativo;
     nenhuma fala de vitória entrega carta, a assinatura só chega na 5ª vitória: `data.test.ts`); `decks.json` gerado; `types.ts`
     com `TIERS`, `DUELISTS`, `duelistByKey`);
-  - `tiers.ts` (tier atual derivado do dia e dos chefes: o próximo abre pelo chefe vencido ou pelo primeiro dia da janela,
-    só se tiver duelistas; `bossDefeatedOn` opcional no save);
+  - `tiers.ts` (tier atual derivado das vitórias e dos chefes, change `tier-pelo-chefe`: o próximo abre só com cada
+    duelista do anterior vencido, chefe incluso (`tierCleared`), e só se tiver duelistas; **o dia nunca abre tier**, a
+    janela só decide o pacote-prêmio; `bossDefeatedOn` opcional no save; nos testes, `openTo` em `__testing__/tiers.ts`);
   - `state.ts` (o save), `rng.ts` (**todo sorteio sai da semente**: `generator(PURPOSE.x, seed, dia, …)`), `balance.ts`;
   - `calendar.ts` (30 dias × manhã/tarde/noite; **só o duelo gasta período**), laços (change `lacos-ate-o-fim`): 6
     eventos por duelista do Tier 1 (o 5º espera o Tier 2 e o 6º o Tier 3, `BALANCE.bondEventTier`), resposta no fim de

@@ -10,6 +10,7 @@ import { currentTier, tierOpenDay } from './tiers';
 import { DIALOGUE, TIERS } from './data/types';
 import { postDuelScene, preDuelScene } from './encounter';
 import { fillText } from './text';
+import { openTo } from './__testing__/tiers';
 
 const at = (day: number, period: Period = 0, extra: Partial<CampaignState> = {}, seed = 42): CampaignState =>
   ({ ...newCampaign(seed), day, period, ...extra });
@@ -43,8 +44,8 @@ describe('elenco do Tier 3', () => {
     for (const p of [0, 1, 2] as Period[]) expect(present(at(12, p)).some((d) => T3.includes(d.key))).toBe(false);
   });
 
-  it('Tier 3 pelo prazo: manhã do dia 15, 2 a 4 do T3 e o Pegasus disponível quando liberado', () => {
-    const s = at(15, 0, { victories: beat(T2) });
+  it('Tier 3 pelo Pegasus (vencido no dia 15): 2 a 4 do T3 e o Pegasus continua no mapa', () => {
+    const s = at(15, 0, openTo(3));
     expect(currentTier(s).number).toBe(3);
     expect(tierOpenDay(s, 3)).toBe(15);
     const t3 = present(s).filter((d) => T3.includes(d.key)).length;
@@ -53,8 +54,8 @@ describe('elenco do Tier 3', () => {
   });
 
   it('o Kaiba aparece depois dos 4 comuns do T3 vencidos', () => {
-    expect(isPresent(at(16, 0, { victories: beat(T3.slice(0, 3)) }), 'kaiba')).toBe(false);
-    const all = at(16, 0, { victories: beat(T3) });
+    expect(isPresent(at(16, 0, openTo(3, T3.slice(0, 3))), 'kaiba')).toBe(false);
+    const all = at(16, 0, openTo(3, T3));
     expect(isPresent(all, 'kaiba')).toBe(true);
     expect(tierProgress(all)).toMatchObject({ number: 3, name: 'Batalha da Cidade', beaten: 4, total: 4, boss: 'Kaiba está esperando!' });
   });
@@ -69,7 +70,7 @@ describe('elenco do Tier 3', () => {
 
 describe('progressão depois do Tier 3', () => {
   it('Kaiba vencido no dia 20 sem Tier 4: prêmio, o tier continua o 3 e o progresso avisa', () => {
-    const s = at(20, 0, { victories: beat(T3), defeatedBosses: [1, 2] });
+    const s = at(20, 0, openTo(3, T3));
     const r = applyDuel(s, 'kaiba', 'regular', win);
     expect(r.reward.prizePack).not.toBeNull();
     expect(r.state.defeatedBosses).toContain(3);
@@ -77,38 +78,49 @@ describe('progressão depois do Tier 3', () => {
     expect(awaitsNextUpdate(r.state)).toBe(true);
   });
 
-  it('prazo do Tier 3 sem Tier 4: do dia 23 ao 30, o tier continua o 3', () => {
-    for (const day of [23, 26, 30]) expect(currentTier(at(day)).number).toBe(3);
-    expect(awaitsNextUpdate(at(23))).toBe(true);
-    expect(awaitsNextUpdate(at(20))).toBe(false);
+  it('sem o Kaiba, do dia 23 ao 30 o tier continua o 3 e não há aviso; com ele, o aviso do Tier 4', () => {
+    for (const day of [23, 26, 30]) expect(currentTier(at(day, 0, openTo(3))).number).toBe(3);
+    expect(awaitsNextUpdate(at(23, 0, openTo(3, T3)))).toBe(false);
+    expect(awaitsNextUpdate(at(20, 0, openTo(4)))).toBe(true);
   });
 
-  it('save parado no Tier 2 (dia 17): abre no Tier 3, desde o dia 15 ou desde o Pegasus', () => {
-    const old = at(17);
+  it('dia 20 com o T3 vencido mas sem o Pegasus: Tier 2, e nem o T3 nem o Kaiba no mapa', () => {
+    const s = at(20, 0, { ...openTo(2, [...T2, ...T3]) });
+    expect(currentTier(s).number).toBe(2);
+    expect(isPresent(s, 'pegasus')).toBe(true);
+    for (const p of [0, 1, 2] as Period[]) {
+      const here = present({ ...s, period: p }).map((d) => d.key);
+      expect(here).not.toContain('kaiba');
+      expect(here.some((k) => T3.includes(k))).toBe(false);
+    }
+  });
+
+  it('save sem o dia dos chefes: o Tier 3 conta do dia 15; com o Pegasus no dia 12, do dia 12', () => {
+    const old = at(17, 0, openTo(3));
     delete (old as Partial<CampaignState>).bossDefeatedOn;
     expect(currentTier(old).number).toBe(3);
     expect(tierOpenDay(old, 3)).toBe(15);
-    const pg = at(17, 0, { defeatedBosses: [2], bossDefeatedOn: { 2: 12 } });
+    const pg = at(17, 0, openTo(3, [], { 2: 12 }));
     expect(tierOpenDay(pg, 3)).toBe(12);
     expect(listing(pg).ioc).toBeNull(); // dia 12 + 4
   });
 
   it('entrada e derrota do Kaiba só até a primeira vitória', () => {
-    const s = at(18, 0, { victories: beat(T3) });
+    const s = at(18, 0, openTo(3, T3));
     expect(preDuelScene(s, 'kaiba', 'regular')).toBe(DIALOGUE.duelists.kaiba.bossEntrance);
     expect(postDuelScene(s, 'kaiba', 'win', 'regular')).toBe(DIALOGUE.duelists.kaiba.bossDefeat);
-    expect(preDuelScene({ ...s, defeatedBosses: [3] }, 'kaiba', 'regular')).not.toBe(DIALOGUE.duelists.kaiba.bossEntrance);
+    expect(preDuelScene({ ...s, defeatedBosses: [1, 2, 3] }, 'kaiba', 'regular')).not.toBe(DIALOGUE.duelists.kaiba.bossEntrance);
   });
 });
 
 describe('loja do Tier 3', () => {
-  it('Tier 3 na vitrine: no dia 10, MFC, DCR e IOC bloqueados com "Tier 3 · dia 15"', () => {
-    const l = listing(at(10));
-    for (const k of ['mfc', 'dcr', 'ioc']) expect(l[k], k).toEqual({ kind: 'tier', tier: 3, day: 15 });
+  it('Tier 3 na vitrine: no Tier 2, MFC, DCR e IOC bloqueados até vencer o Pegasus', () => {
+    const l = listing(at(10, 0, openTo(2)));
+    for (const k of ['mfc', 'dcr', 'ioc']) expect(l[k], k).toEqual({ kind: 'tier', tier: 3, boss: 'Pegasus' });
   });
 
-  it('Tier 3 pelo prazo, dia 16: MFC à venda, DCR no dia 17, IOC no 19, e as 7 antigas à venda', () => {
-    const l = listing(at(16));
+  it('Tier 3 aberto no dia 15, dia 16: MFC à venda, DCR no dia 17, IOC no 19, e as 7 antigas à venda', () => {
+    const l = listing(at(16, 0, openTo(3)));
     expect(l.mfc).toBeNull();
     expect(l.dcr).toEqual({ kind: 'day', day: 17 });
     expect(l.ioc).toEqual({ kind: 'day', day: 19 });

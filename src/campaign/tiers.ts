@@ -1,7 +1,8 @@
 /**
- * Os tiers no calendário (change `campanha-tiers`): o Tier 1 abre no dia 1; o Tier n+1 abre quando o chefe do Tier n é
- * vencido pela primeira vez ou no primeiro dia da janela dele, o que vier antes, e só se tiver duelistas. O tier atual é
- * o maior aberto. Nada disso fica no save além do dia em que cada chefe caiu (`bossDefeatedOn`, opcional).
+ * Os tiers (changes `campanha-tiers` e `tier-pelo-chefe`): o Tier 1 abre no dia 1; o Tier n+1 abre só depois de cada
+ * duelista do Tier n (os comuns e o chefe) vencido ao menos uma vez, e só se tiver duelistas. O dia não abre tier: a
+ * janela só decide o pacote-prêmio. O tier atual é o maior aberto. Nada disso fica no save além das vitórias, dos chefes
+ * vencidos e do dia em que cada chefe caiu (`bossDefeatedOn`, opcional).
  */
 import { TIERS, tierByNumber, tierOfDuelist, type DuelistData, type TierData } from './data/types';
 import type { CampaignState } from './state';
@@ -12,23 +13,28 @@ export const regularsOf = (t: TierData): DuelistData[] => t.duelists.filter((d) 
 export const bossOf = (t: TierData): DuelistData | undefined => t.duelists.find((d) => d.isBoss);
 export const bossBeaten = (s: CampaignState, t: TierData) => s.defeatedBosses.includes(t.number);
 
-/** O tier está aberto: o anterior aberto e (o chefe dele vencido ou chegou o primeiro dia da janela). */
+/** Cada duelista do tier (comuns e chefe) vencido ao menos uma vez, e o chefe registrado como vencido. */
+export const tierCleared = (s: CampaignState, t: TierData) =>
+  hasContent(t) && bossBeaten(s, t) && t.duelists.every((d) => (s.victories[d.key] ?? 0) > 0);
+
+/** O tier está aberto: o primeiro, ou o anterior aberto e vencido por inteiro (`tierCleared`). */
 export function isTierOpen(s: CampaignState, n: number): boolean {
   const t = tierByNumber(n);
   if (!t || !hasContent(t)) return false;
   if (t === FIRST_TIER) return true;
-  return isTierOpen(s, n - 1) && (s.defeatedBosses.includes(n - 1) || s.day >= t.firstDay);
+  const prev = tierByNumber(n - 1);
+  return !!prev && isTierOpen(s, n - 1) && tierCleared(s, prev);
 }
 
 /**
- * O dia em que o tier abriu (conta para as coleções dele): o dia do chefe anterior vencido, se veio antes da janela;
- * senão o primeiro dia da janela. Save antigo sem `bossDefeatedOn`: o primeiro dia da janela. Fechado: null.
+ * O dia em que o tier abriu (conta para as coleções dele): o dia em que o chefe anterior caiu. Save antigo sem
+ * `bossDefeatedOn`: o primeiro dia da janela. Fechado: null.
  */
 export function tierOpenDay(s: CampaignState, n: number): number | null {
   if (!isTierOpen(s, n)) return null;
   const t = tierByNumber(n)!;
   if (t === FIRST_TIER) return t.firstDay;
-  return Math.min(t.firstDay, s.bossDefeatedOn?.[n - 1] ?? t.firstDay);
+  return s.bossDefeatedOn?.[n - 1] ?? t.firstDay;
 }
 
 /** O tier atual: o maior aberto. */

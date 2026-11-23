@@ -11,15 +11,16 @@ const Row = ({ label, children }: { label: string; children: React.ReactNode }) 
   <li><span>{label}</span><b className="num">{children}</b></li>
 );
 
-/** O próximo tier: o dia em que abre pelo prazo, ou o aviso de que chega numa atualização. */
+/** O próximo tier: o que falta para abri-lo (vencer o chefe do atual), ou o aviso de que chega numa atualização. */
 function nextTierText(s: CampaignState): string | null {
   const next = nextTier(s);
   if (!next) return null;
-  return hasContent(next) ? `Tier ${next.number} · dia ${next.firstDay}` : `Tier ${next.number} · numa atualização`;
+  if (!hasContent(next)) return `Tier ${next.number} · numa atualização`;
+  return `Tier ${next.number} · vença ${bossOf(currentTier(s))?.name ?? 'o chefe'}`;
 }
 
 /**
- * Status da campanha: dia, dias restantes, o tier atual, os abertos, os chefes vencidos e quando o próximo tier abre;
+ * Status da campanha: dia, dias restantes, o tier atual, os abertos, os chefes vencidos e o que abre o próximo tier;
  * vitórias, derrotas e DP; e a opção de recomeçar.
  */
 export function StatusScreen({ s, onRestart, onBack }: { s: CampaignState; onRestart: () => void; onBack: () => void }) {

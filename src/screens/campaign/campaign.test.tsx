@@ -14,6 +14,7 @@ import { MapScreen } from './MapScreen';
 import { EncounterScreen } from './EncounterScreen';
 import { Dialogue, Sprite, StageMemory } from './Dialogue';
 import type { CharInfo } from './chars';
+import { openTo } from '../../campaign/__testing__/tiers';
 import { present } from '../../campaign/map';
 
 afterEach(cleanup);
@@ -54,7 +55,7 @@ describe('ShopScreen', () => {
     expect(screen.getByText('3 pacotes esperando por você.')).toBeTruthy();
     expect(document.querySelector('.shopcounter .speech')).toBeTruthy();
     expect(cell('Spell Ruler').textContent).toContain('Dia 3');
-    expect(cell('Labyrinth of Nightmare').textContent).toContain('Tier 2 · dia 8');
+    expect(cell('Labyrinth of Nightmare').textContent).toContain('Tier 2');
     expect(cell('Ferro e Músculo').textContent).toContain('0/5');
   });
 
@@ -284,7 +285,7 @@ describe('palco: entrada esmaecendo só na primeira aparição (change sprites-e
 
   it('encontro: da saudação para a fala de antes do duelo, o duelista não entra de novo', async () => {
     vi.stubGlobal('Image', LoadingImage);
-    const s = { ...newCampaign(5), day: 9 };
+    const s = { ...newCampaign(5), day: 9, ...openTo(2) };
     render(<StageMemory><EncounterScreen s={s} duelist="rex" chars={{ rex_raptor: rex }} profile={profile} onChange={vi.fn()} onDuel={vi.fn()} onLeave={vi.fn()} /></StageMemory>);
     await shown();
     expect(actor()?.classList.contains('enter')).toBe(true);

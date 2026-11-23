@@ -98,7 +98,7 @@ describe('loja', () => {
 
   it('no dia 2: LOB e MRD à venda, MRL "Dia 3", PSV "Dia 5" e o Tier 2 na vitrine; no dia 6, o PSV é novo', () => {
     const d2 = collectionListing(base({ day: 2 }));
-    const tier2 = { kind: 'tier', tier: 2, day: 8 };
+    const tier2 = { kind: 'tier', tier: 2, boss: 'Yugi' };
     expect(d2.map((e) => [e.pack.key, e.lock])).toEqual([['lob', null], ['mrd', null], ['mrl', { kind: 'day', day: 3 }],
       ['psv', { kind: 'day', day: 5 }], ['lon', tier2], ['lod', tier2], ['pgd', tier2]]);
     const d6 = collectionListing(base({ day: 6 }));

@@ -3,7 +3,7 @@ import { BALANCE } from './balance';
 import { DUELISTS, PACKS, TIERS, type PackData, type Rarity, type TierData } from './data/types';
 import { PURPOSE, generator, randInt, type Rng } from './rng';
 import { addCards, clone, copies, type CampaignState } from './state';
-import { currentTier, hasContent, isTierOpen, nextTier, tierOpenDay } from './tiers';
+import { bossOf, currentTier, hasContent, isTierOpen, nextTier, tierOpenDay } from './tiers';
 
 export const packByKey = (key: string): PackData | undefined => PACKS.find((p) => p.key === key);
 
@@ -36,7 +36,7 @@ export function boxPrice(p: PackData): number | null {
 
 export type Lock =
   | { kind: 'day'; day: number }
-  | { kind: 'tier'; tier: number; day: number }
+  | { kind: 'tier'; tier: number; boss: string }
   | { kind: 'wins'; duelist: string; name: string; wins: number; goal: number };
 export interface ShopEntry { pack: PackData; lock: Lock | null; isNew: boolean }
 
@@ -50,7 +50,7 @@ export const collectionPacks = (s: CampaignState): PackData[] =>
 
 /**
  * A vitrine: as coleções à venda; as do tier atual que ainda não chegaram (com o dia); e as do próximo tier, se ele já
- * tiver conteúdo (com o tier e o dia em que abre pelo prazo).
+ * tiver conteúdo (com o tier e o chefe que o abre).
  */
 export function collectionListing(s: CampaignState): ShopEntry[] {
   const entry = (key: string, lock: Lock | null, isNew: boolean): ShopEntry[] => {
@@ -66,7 +66,7 @@ export function collectionListing(s: CampaignState): ShopEntry[] {
     .flatMap((r) => entry(r.key, { kind: 'day', day: releaseDay(s, r)! }, false));
   const next = nextTier(s);
   const later = next && hasContent(next) && !isTierOpen(s, next.number)
-    ? RELEASES.filter((r) => r.tier === next).flatMap((r) => entry(r.key, { kind: 'tier', tier: next.number, day: next.firstDay }, false))
+    ? RELEASES.filter((r) => r.tier === next).flatMap((r) => entry(r.key, { kind: 'tier', tier: next.number, boss: bossOf(cur)?.name ?? 'o chefe' }, false))
     : [];
   return [...forSale, ...soon, ...later];
 }

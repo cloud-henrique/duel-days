@@ -1,6 +1,6 @@
 /** Calendário: 30 dias de Manhã, Tarde e Noite. Só o duelo anda o tempo. */
 import { BALANCE } from './balance';
-import { hasContent, currentTier, bossBeaten, nextTier } from './tiers';
+import { hasContent, currentTier, nextTier, tierCleared } from './tiers';
 import type { CampaignState, Period } from './state';
 
 /** Avança um período (muda `s`; use num clone). Depois da noite do último dia, a campanha termina. */
@@ -16,10 +16,10 @@ export const daysLeft = (s: CampaignState) => BALANCE.days - s.day + 1;
 export const dayProgress = (s: CampaignState) => (s.day - 1) / (BALANCE.days - 1);
 
 /**
- * O próximo tier ainda não tem conteúdo: depois do fim da janela do tier atual (ou do chefe dele vencido), o jogo avisa
- * que ele chega numa atualização. No último tier, não há aviso.
+ * O próximo tier ainda não tem conteúdo: com o tier atual vencido por inteiro, o jogo avisa que ele chega numa
+ * atualização. No último tier, não há aviso.
  */
 export function awaitsNextUpdate(s: CampaignState): boolean {
   const cur = currentTier(s), next = nextTier(s);
-  return !!next && !hasContent(next) && (bossBeaten(s, cur) || s.day > cur.lastDay);
+  return !!next && !hasContent(next) && tierCleared(s, cur);
 }

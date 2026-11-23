@@ -3,6 +3,7 @@ import { choosePick, epilogue, eventReview, needsAttention, openBondEvent, pendi
 import { BALANCE } from './balance';
 import { newCampaign, type CampaignState } from './state';
 import { migrate } from '../story/progress';
+import { openTo } from './__testing__/tiers';
 
 const base = (extra: Partial<CampaignState> = {}): CampaignState => ({ ...newCampaign(11), ...extra });
 const goodOf = (key: string, n: number) => pickOf(bondEvent(key, n))!.options.findIndex((o) => o.tone === 'good');
@@ -11,10 +12,12 @@ describe('laços até o fim (change lacos-ate-o-fim)', () => {
   it('o 5º evento espera o Tier 2 e o 6º, o Tier 3', () => {
     const t1 = base({ day: 5, affinity: { joey: 500 }, victories: { joey: 5 }, bondEventsDone: { joey: 4 }, bondRoutes: { joey: 'friendship' } });
     expect(openBondEvent(t1, 'joey')).toBeNull();
-    expect(openBondEvent({ ...t1, day: 8 }, 'joey')).toBe(5);
-    const t2 = { ...t1, day: 10, affinity: { joey: 600 }, bondEventsDone: { joey: 5 } };
+    expect(openBondEvent({ ...t1, day: 8 }, 'joey')).toBeNull(); // o dia não abre tier
+    const won = (n: number) => { const o = openTo(n); return { ...o, victories: { ...o.victories, joey: 5 } }; };
+    expect(openBondEvent({ ...t1, ...won(2) }, 'joey')).toBe(5);
+    const t2 = { ...t1, ...won(2), day: 10, affinity: { joey: 600 }, bondEventsDone: { joey: 5 } };
     expect(openBondEvent(t2, 'joey')).toBeNull();
-    expect(openBondEvent({ ...t2, day: 15 }, 'joey')).toBe(6);
+    expect(openBondEvent({ ...t2, ...won(3), day: 15 }, 'joey')).toBe(6);
   });
 
   it('a escolha fica pendente depois do evento vencido, grava, dá a afinidade do tom e aparece no rever', () => {

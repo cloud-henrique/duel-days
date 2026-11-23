@@ -9,6 +9,7 @@ import { currentTier, isTierOpen, tierOpenDay } from './tiers';
 import { DIALOGUE, TIERS } from './data/types';
 import { greetingScene, postDuelScene, preDuelScene } from './encounter';
 import { fillText } from './text';
+import { openTo } from './__testing__/tiers';
 
 const at = (day: number, period: Period = 0, extra: Partial<CampaignState> = {}): CampaignState =>
   ({ ...newCampaign(42), day, period, ...extra });
@@ -34,37 +35,51 @@ describe('progressão por tiers', () => {
     expect(tierOpenDay(r.state, 2)).toBe(5);
   });
 
-  it('prazo do Tier 1: manhã do dia 8 abre o Tier 2 sem prêmio, e o Yugi continua', () => {
+  it('passou a janela sem o Yugi: o dia 8 continua no Tier 1; vencê-lo depois abre o Tier 2 sem prêmio', () => {
     const s = at(8, 0, { victories: beat(T1) });
-    expect(currentTier(s).number).toBe(2);
-    expect(tierOpenDay(s, 2)).toBe(8);
+    expect(currentTier(s).number).toBe(1);
+    expect(isTierOpen(s, 2)).toBe(false);
+    expect(present(s).some((d) => T2.includes(d.key))).toBe(false);
     expect(isPresent(s, 'yugi')).toBe(true);
     const r = applyDuel(s, 'yugi', 'regular', win);
     expect(r.reward.defeatedBossForFirstTime).toBe(true);
     expect(r.reward.prizePack).toBeNull();
+    expect(currentTier(r.state).number).toBe(2);
+    expect(tierOpenDay(r.state, 2)).toBe(8);
+  });
+
+  it('o dia nunca abre tier: dia 30 sem chefes ainda é o Tier 1', () => {
+    for (const day of [8, 15, 23, 30]) expect(currentTier(at(day)).number).toBe(1);
+  });
+
+  it('chefe vencido com um comum do tier faltando não abre o próximo', () => {
+    const s = at(6, 0, { victories: beat(['tea', 'joey', 'bakura', 'yugi']), defeatedBosses: [1], bossDefeatedOn: { 1: 6 } });
+    expect(currentTier(s).number).toBe(1);
+    expect(currentTier({ ...s, victories: { ...s.victories, tristan: 1 } }).number).toBe(2);
   });
 
   it('Pegasus vencido no dia 12: prêmio e o Tier 3 abre no período seguinte (o "tier sem conteúdo" está no tier3.test)', () => {
-    const s = at(12, 0, { victories: beat([...T1, ...T2]) });
+    const s = at(12, 0, openTo(2, T2, { 1: 6 }));
+    expect(currentTier(s).number).toBe(2);
     const r = applyDuel(s, 'pegasus', 'regular', win);
     expect(r.reward.prizePack).not.toBeNull();
     expect(currentTier(r.state).number).toBe(3);
     expect(tierOpenDay(r.state, 3)).toBe(12);
     expect(awaitsNextUpdate(r.state)).toBe(false);
-    expect(currentTier(at(20)).number).toBe(3);
   });
 
   it('cabeçalho no Tier 2 com Rex e Weevil vencidos: "2/5"', () => {
-    const tp = tierProgress(at(9, 0, { victories: beat(['rex', 'weevil']) }));
+    const tp = tierProgress(at(9, 0, openTo(2, ['rex', 'weevil'])));
     expect(tp).toMatchObject({ number: 2, name: 'Reino dos Duelistas', beaten: 2, total: 5 });
   });
 
-  it('save antigo no dia 12 sem o Yugi: Tier 2, duelistas do T2 no mapa, caixas a partir do dia 8', () => {
-    const old = at(12);
+  it('save antigo no dia 12 sem o Yugi: volta ao Tier 1, sem duelistas do T2 no mapa', () => {
+    const old = at(12, 0, { victories: beat(T1) });
     delete (old as Partial<CampaignState>).bossDefeatedOn;
-    expect(currentTier(old).number).toBe(2);
-    expect(present(old).some((d) => T2.includes(d.key))).toBe(true);
-    expect(tierOpenDay(old, 2)).toBe(8);
+    expect(currentTier(old).number).toBe(1);
+    expect(present(old).some((d) => T2.includes(d.key))).toBe(false);
+    expect(isPresent(old, 'yugi')).toBe(true);
+    expect(tierOpenDay(old, 2)).toBeNull();
   });
 
   it('save antigo no dia 5 com o Yugi vencido: Tier 2, LON já, LOD e PGD nos dias 10 e 12', () => {
@@ -85,7 +100,7 @@ describe('mapa por tiers', () => {
 
   it('no Tier 2: 2 a 4 do T2 e todos os amigos do T1, em pontos diferentes, reproduzível', () => {
     for (let day = 8; day <= 14; day++) for (const p of [0, 1, 2] as Period[]) {
-      const s = at(day, p);
+      const s = at(day, p, openTo(2));
       const here = present(s);
       const t2 = here.filter((d) => T2.includes(d.key)).length;
       const friends = here.filter((d) => FRIENDS.some((f) => f.key === d.key)).length;
@@ -93,13 +108,13 @@ describe('mapa por tiers', () => {
       expect(friends).toBe(FRIENDS.length);
       const pts = placements(s).map((x) => `${x.point.x},${x.point.y}`);
       expect(new Set(pts).size).toBe(here.length);
-      expect(placements(s)).toEqual(placements(at(day, p)));
+      expect(placements(s)).toEqual(placements(at(day, p, openTo(2))));
     }
   });
 
   it('no Tier 2: o tier atual perto do centro, o T1 mais longe, e ninguém encostado', () => {
     for (let day = 8; day <= 14; day++) for (const p of [0, 1, 2] as Period[]) {
-      const pl = placements(at(day, p));
+      const pl = placements(at(day, p, openTo(2)));
       const dist = (x: number) => Math.abs(x - 0.5);
       const cur = pl.filter((x) => T2.includes(x.duelist.key)).map((x) => dist(x.point.x));
       const old = pl.filter((x) => !T2.includes(x.duelist.key)).map((x) => dist(x.point.x));
@@ -109,9 +124,9 @@ describe('mapa por tiers', () => {
   });
 
   it('o Pegasus aparece depois dos 5 comuns do T2 vencidos', () => {
-    const four = at(10, 0, { victories: beat(T2.slice(0, 4)) });
+    const four = at(10, 0, openTo(2, T2.slice(0, 4)));
     expect(isPresent(four, 'pegasus')).toBe(false);
-    const all = at(10, 0, { victories: beat(T2) });
+    const all = at(10, 0, openTo(2, T2));
     expect(isPresent(all, 'pegasus')).toBe(true);
     expect(tierProgress(all).boss).toBe('Pegasus está esperando!');
   });
@@ -151,9 +166,10 @@ describe('economia por tiers', () => {
     for (const k of ['lob', 'mrd', 'mrl', 'psv']) expect(l[k], k).toBeNull();
   });
 
-  it('próximo tier na vitrine: no dia 4, LON, LOD e PGD bloqueados com "Tier 2 · dia 8"', () => {
+  it('próximo tier na vitrine: no dia 4, LON, LOD e PGD bloqueados até vencer o Yugi (também no dia 10)', () => {
     const l = listing(at(4));
-    for (const k of ['lon', 'lod', 'pgd']) expect(l[k], k).toEqual({ kind: 'tier', tier: 2, day: 8 });
+    for (const k of ['lon', 'lod', 'pgd']) expect(l[k], k).toEqual({ kind: 'tier', tier: 2, boss: 'Yugi' });
+    expect(listing(at(10)).lon).toEqual({ kind: 'tier', tier: 2, boss: 'Yugi' });
     expect(collectionPacks(at(4)).map((p) => p.key)).not.toContain('lon');
   });
 });
@@ -166,10 +182,10 @@ describe('falas do Tier 2', () => {
   });
 
   it('entrada e derrota do Pegasus só até a primeira vitória', () => {
-    const s = at(10, 0, { victories: beat(T2) });
+    const s = at(10, 0, openTo(2, T2));
     expect(preDuelScene(s, 'pegasus', 'regular')).toBe(DIALOGUE.duelists.pegasus.bossEntrance);
     expect(postDuelScene(s, 'pegasus', 'win', 'regular')).toBe(DIALOGUE.duelists.pegasus.bossDefeat);
-    const after = { ...s, defeatedBosses: [2] };
+    const after = { ...s, defeatedBosses: [1, 2] };
     expect(preDuelScene(after, 'pegasus', 'regular')).not.toBe(DIALOGUE.duelists.pegasus.bossEntrance);
   });
 
