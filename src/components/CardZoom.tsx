@@ -28,7 +28,7 @@ export function CardZoom({ code, cards, onClose, children }: { code: number; car
         <button type="button" className="zoom-card" onClick={onClose} aria-hidden="true" tabIndex={-1}>
           <CardFace code={code} card={card} detail="full" />
         </button>
-        {/* <div>, não <button>: dentro de um botão o iOS não rola o texto (o gesto ia para a tela). Só o texto rola. */}
+        {/* <div>, não <button>: dentro de um botão o iOS não rola o texto (o gesto ia para a tela). A caixa inteira rola. */}
         <div className="zoom-info hud cardsheet">
           <CardDetails code={code} cards={cards} />
         </div>

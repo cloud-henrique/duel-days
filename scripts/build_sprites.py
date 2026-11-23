@@ -21,7 +21,9 @@ for c in chars:
     body.save(f'{d}/body.webp', quality=88, method=6)
     for e, files in c['faces'].items():
         Image.open(f'{SRC}/{files[0]}').convert('RGBA').save(f'{d}/{e}.webp', quality=88, method=6)
-    index.append({'id': c['id'], 'name': c['name'], 'body': {'w': body.width, 'h': body.height},
+    # `bottom`: onde o desenho termina (personagens baixos acabam antes do pé da imagem; a cena os desce até o chão).
+    bottom = body.getchannel('A').getbbox()[3]
+    index.append({'id': c['id'], 'name': c['name'], 'body': {'w': body.width, 'h': body.height, 'bottom': bottom},
                   'face': FACE, 'expressions': list(c['faces'])})
 json.dump({'characters': index}, open(f'{OUT}/index.json', 'w'), ensure_ascii=False, indent=1)
 print(len(index), 'personagens em', OUT)

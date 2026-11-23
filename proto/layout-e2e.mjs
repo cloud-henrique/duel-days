@@ -14,7 +14,7 @@ const PHONE_LANDSCAPE = [844, 390];
 // Medidas da change speed-duel (spec duel-hud): campo plano do Duel Links, 3 zonas por fileira com as pilhas nas pontas,
 // zonas na proporção da carta e placa fina.
 const CARD_RATIO = 0.686, GAP = 6, CENTER_GAP = 38, PLATE_H = 48, SIDE_MARGIN = 12, MIN_HAND_CARD = 60;
-const MIN_FIELD_CARD = 46, FIELD_CARD_390 = 60, HAND_CARD_MAX = 96, FIELD_EDGE = 4;
+const MIN_FIELD_CARD = 46, FIELD_CARD_390 = 60, HAND_CARD_MAX = 132, FIELD_EDGE = 4;
 
 async function enterDuel(page) {
   const btn = (t) => page.locator('button', { hasText: t }).first();

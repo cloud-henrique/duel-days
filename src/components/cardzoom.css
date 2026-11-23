@@ -30,13 +30,12 @@
   appearance: none; border: 0; width: 100%; max-width: 360px; max-height: var(--zoom-info-h); flex-shrink: 0;
   padding: 14px; color: var(--txt); text-align: left; font: inherit; --edge: #2ab8ff;
   --fill: linear-gradient(180deg, color-mix(in srgb, var(--panel2) 92%, transparent), color-mix(in srgb, var(--bg) 92%, transparent));
-  position: relative; overflow: hidden; display: flex; flex-direction: column;
+  /* A caixa inteira rola (nome, estrelas, tipo, ATK/DEF e texto): o dedo alcança a área rolável em qualquer ponto dela.
+     O fundo, a borda (box-shadow) e o chanfro ficam presos à caixa, não ao conteúdo. */
+  position: relative; display: block; overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; touch-action: pan-y;
 }
-.zoom-info.cardsheet .meta { flex: 0 1 auto; min-height: 0; }
-/* Nome, estrelas, tipo e ATK/DEF não encolhem (o nome sumia com o texto longo); só o texto cede e rola. */
-.zoom-info .meta > :not(.desc) { flex-shrink: 0; }
 .zoom-info.cardsheet .nm { padding-right: 0; font-size: 20px; }
-/* Duas classes no contêiner: o `.cardsheet .desc` do styles.css (carrega depois) não deixaria o texto encolher. */
-.zoom-info.cardsheet .desc { flex: 1 1 auto; min-height: 0; max-height: none; font-size: 14px; color: #d6e4fa; overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; touch-action: pan-y; padding-right: 4px; }
+/* Duas classes no contêiner: o `.cardsheet .desc` do styles.css (carrega depois) limitaria a altura do texto. */
+.zoom-info.cardsheet .desc { max-height: none; overflow: visible; font-size: 14px; color: #d6e4fa; }
 .zoom-acc { width: 100%; max-width: 360px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
 .cardzoom .zoom-acc .hud-btn { display: flex; align-items: center; justify-content: center; gap: 8px; text-align: center; font-size: 16px; }

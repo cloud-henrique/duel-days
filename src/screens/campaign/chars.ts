@@ -1,7 +1,7 @@
 /** Personagens da campanha na PWA: a pasta do sprite do *Duel Links* e as expressões do nativo traduzidas. */
 import type { Expression } from '../../campaign/data/types';
 
-export interface CharInfo { id: string; name: string; body: { w: number; h: number }; face: { x: number; y: number; w: number; h: number }; expressions: string[] }
+export interface CharInfo { id: string; name: string; body: { w: number; h: number; bottom?: number }; face: { x: number; y: number; w: number; h: number }; expressions: string[] }
 
 /** Chave do nativo → pasta em `public/characters`. O vovô fala na loja (falas sem `speaker`). */
 export const CHAR_ID: Record<string, string> = {

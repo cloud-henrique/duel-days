@@ -235,7 +235,8 @@ img, svg, canvas { -webkit-touch-callout: none; -webkit-user-drag: none; user-se
 .pfield .acts { display: flex; gap: 8px; } .pfield .acts > .hud-btn { flex: 1; text-align: center; }
 .field-label { color: var(--acc); font-size: 13px; text-transform: uppercase; }
 .pfield input { background: var(--well); color: var(--txt); border: 2px solid var(--line-dim); border-radius: 6px; padding: 11px 12px; font: 16px system-ui; user-select: text; -webkit-user-select: text; }
-.avatargrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(56px, 1fr)); gap: 8px; }
+/* 4 rostos por linha no celular; numa caixa larga, colunas de pelo menos 120px. */
+.avatargrid { --av-gap: 10px; display: grid; grid-template-columns: repeat(auto-fill, minmax(min((100% - 3 * var(--av-gap)) / 4, 120px), 1fr)); gap: var(--av-gap); }
 .avatar { appearance: none; padding: 0; border: 2px solid var(--line-dim); border-radius: 8px; background: var(--well); aspect-ratio: 1; overflow: hidden; }
 .avatar img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
 .avatar.on { border-color: var(--hl); box-shadow: 0 0 0 2px var(--hl), 0 0 12px rgba(255,210,74,.6); }

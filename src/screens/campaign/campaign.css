@@ -104,7 +104,8 @@
   filter: brightness(.65) saturate(.6); }
 /* A entrada (só esmaecendo, no lugar final) toca na primeira aparição do personagem no encontro (`StageMemory`). */
 .actor.enter { animation: actor-in .35s ease-out both; }
-.campaign-scene .stage .actor { bottom: 12%; height: 80%; }
+/* --drop (Sprite): a fração vazia embaixo do sprite (personagem baixo); desce por ela para pisar no mesmo chão. */
+.campaign-scene .stage .actor { bottom: calc(12% - var(--drop, 0) * 80%); height: 80%; }
 .actor.lit { filter: none; z-index: 1; }
 /* Até o corpo e o rosto estarem carregados: escondido e sem a entrada, que começa quando ele aparece. */
 .actor.loading { visibility: hidden; animation: none; }
@@ -217,7 +218,7 @@
   .scene-menu > .hud-btn.danger { flex: 0 0 auto; margin-inline: auto; padding-inline: 28px; }
   /* Os sprites terminam na coxa e a folha estreita não esconde essa borda: o pé do personagem desce até o pé da tela
      (atrás da folha no meio) e os últimos 14% somem num degradê curto, para nenhuma linha reta aparecer dos lados. */
-  .campaign-scene .stage .actor { bottom: 0; height: 86%;
+  .campaign-scene .stage .actor { bottom: calc(0% - var(--drop, 0) * 86%); height: 86%;
     -webkit-mask-image: linear-gradient(to top, transparent 0, #000 14%); mask-image: linear-gradient(to top, transparent 0, #000 14%); }
 }
 

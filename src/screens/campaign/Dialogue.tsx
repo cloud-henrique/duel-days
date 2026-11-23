@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
+import { createContext, useContext, useEffect, useState, type CSSProperties, type ReactNode } from 'react';
 import type { Line, Scene } from '../../campaign/data/types';
 import { fillText } from '../../campaign/text';
 import type { Profile } from '../../story/profile';
@@ -63,7 +63,7 @@ export function Sprite({ c, expr, side, lit }: { c: CharInfo; expr: string; side
   // Registra só depois de aparecer: se a fase trocar antes de carregar, a próxima ainda faz a entrada.
   useEffect(() => { if (ready && face) seen?.set(c.id, face); }, [ready, face, seen, c.id]);
   return (
-    <div className={`actor ${side}${lit ? ' lit' : ''}${enter ? ' enter' : ''}${ready ? '' : ' loading'}`} style={{ aspectRatio: `${b.w} / ${b.h}` }}>
+    <div className={`actor ${side}${lit ? ' lit' : ''}${enter ? ' enter' : ''}${ready ? '' : ' loading'}`} style={{ aspectRatio: `${b.w} / ${b.h}`, '--drop': (b.h - (b.bottom ?? b.h)) / b.h } as CSSProperties}>
       <img src={bodySrc} alt="" draggable={false} />
       <img className="face" src={face ?? faceSrc} alt="" draggable={false}
         style={{ left: `${(f.x / b.w) * 100}%`, top: `${(f.y / b.h) * 100}%`, width: `${(f.w / b.w) * 100}%` }} />

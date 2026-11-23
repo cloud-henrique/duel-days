@@ -6,13 +6,15 @@
 .duel {
   container-type: size;
   /* constantes */
-  --hand-card-max: 96px; --hand-max: 520px; --hand-inset: 24px; --hand-card-min: 60px;
+  --hand-card-max: 132px; --hand-max: 520px; --hand-inset: 24px; --hand-card-min: 60px;
   --mat-pad: 8px; --mat-border: 2px; --zone-pad: 3px; --gap: 6px; --center-gap: 38px; --pile-k: .7; --side: 12px; --field-edge: 4px;
-  --card-ratio: .686; --hand-card-ratio: .25;
+  --card-ratio: .686; --hand-card-ratio: .32;
   --plate-h: 48px; --foehand-h: 26px; --lift: 34px; --fan-pad: 32px; --fan-step-ratio: .8;
   /* Mão reta (change speed-duel): sem arco, a mão não reserva altura para as pontas; a carta selecionada sobe por cima
      da placa. Só a sombra das cartas fica de folga. */
   --hand-shadow: 4px;
+  /* Folga de baixo: a mão avança sobre a área do indicador de início (só fica a distância até ele). */
+  --pad-b: max(var(--gap), env(safe-area-inset-bottom) - 16px);
   /* cores do HUD */
   --c-cyan: #2ab8ff; --c-select: #ffc61a; --c-navy: var(--bg);
   --zone-m-fill: rgba(255, 140, 40, .2); --zone-s-fill: rgba(40, 200, 120, .2); --zone-line: rgba(42, 184, 255, .5);
@@ -41,8 +43,11 @@
   --hand-card-h: calc(var(--hand-card) / var(--card-ratio));
   --hand-h: calc(var(--hand-card-h) + var(--hand-extra));
   position: relative; height: 100%; height: 100dvh; overflow: hidden; display: flex; flex-direction: column; gap: var(--gap);
-  padding: calc(var(--gap) + env(safe-area-inset-top)) var(--side) calc(var(--gap) + env(safe-area-inset-bottom));
+  padding: calc(var(--gap) + env(safe-area-inset-top)) var(--side) var(--pad-b);
 }
+/* PWA instalado no iOS (status bar black-translucent): o 100dvh desconta a barra de status e o duelo ficava mais curto
+   que a tela, com uma faixa vazia embaixo. Ali o 100% do #root cobre a tela inteira. */
+@media (display-mode: standalone) { .duel { height: 100%; } }
 /*
  * Tela larga (change layout-desktop; o DuelScreen põe a classe .wide pelo useWide/WIDE_QUERY): 3 colunas. Jogadores à
  * esquerda, campo e mão no centro, carta e pedidos à direita. As laterais têm --wide-side; o campo e a mão ficam com a
@@ -232,7 +237,7 @@ button.pile:active { filter: brightness(1.3); }
 .slot > .cardface, .slot > .cardback-img { box-shadow: 0 3px 9px #000b; }
 /* Sem brilho nas cartas jogáveis da mão (pedido do usuário): só a selecionada sobe e brilha, como no nativo. */
 .logbtn { position: absolute; right: var(--side); top: calc(2 * var(--gap) + var(--plate-h) + env(safe-area-inset-top)); z-index: 5; width: 32px; height: 26px; border: 1px solid var(--line-dim); background: color-mix(in srgb, var(--bg) 70%, transparent); color: var(--dim); border-radius: 4px; font: 800 16px/1 system-ui; }
-.scrim.uphand { bottom: calc(var(--hand-h) + var(--gap) + env(safe-area-inset-bottom)); }
+.scrim.uphand { bottom: calc(var(--hand-h) + var(--gap) + var(--pad-b)); }
 /* Painéis de resposta: compactos, como os diálogos do nativo. */
 .hud-btn.wide { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 10px 12px; font-size: 15px; text-align: center; }
 .hud-btn.wide svg { width: 18px; height: 18px; }
@@ -240,7 +245,7 @@ button.pile:active { filter: brightness(1.3); }
 .panel .alert { display: flex; gap: 10px; align-items: center; justify-content: center; text-align: center; color: #ffa726; font-size: 16px; line-height: 1.2; }
 .panel .sub { margin: -4px 0 0; text-align: center; color: var(--dim); font-size: 13px; }
 .linkbtn { background: none; border: 0; color: var(--dim); text-decoration: underline; font: 12px system-ui; padding: 2px; }
-.peekback.hud-btn { position: absolute; left: 50%; transform: translateX(-50%); bottom: calc(var(--hand-h) + 2 * var(--gap) + env(safe-area-inset-bottom)); z-index: 12; display: flex; align-items: center; gap: 6px; padding: 9px 14px; font-size: 14px; white-space: nowrap; }
+.peekback.hud-btn { position: absolute; left: 50%; transform: translateX(-50%); bottom: calc(var(--hand-h) + 2 * var(--gap) + var(--pad-b)); z-index: 12; display: flex; align-items: center; gap: 6px; padding: 9px 14px; font-size: 14px; white-space: nowrap; }
 
 /* Ordenar cartas (topo do Deck): três cartas lado a lado, arrastáveis; setas embaixo de cada uma. */
 .sortrow { display: flex; justify-content: center; gap: 8px; }
@@ -256,13 +261,13 @@ button.pile:active { filter: brightness(1.3); }
 .scrim.gone { display: none; }
 
 /* "Só olhando" (PeekBar do nativo): no lugar do painel, acima da mão. */
-.peekbar { position: absolute; left: var(--side); right: var(--side); bottom: calc(var(--hand-h) + var(--gap) + env(safe-area-inset-bottom)); z-index: 12; display: flex; align-items: center; gap: 10px; padding: 10px 12px; --edge: var(--c-cyan); }
+.peekbar { position: absolute; left: var(--side); right: var(--side); bottom: calc(var(--hand-h) + var(--gap) + var(--pad-b)); z-index: 12; display: flex; align-items: center; gap: 10px; padding: 10px 12px; --edge: var(--c-cyan); }
 .peekbar > span { flex: 1; display: flex; align-items: center; gap: 6px; color: var(--cyan-text); font: 600 13px/1.25 system-ui; }
 .peekbar > span svg { width: 18px; height: 18px; flex-shrink: 0; }
 .peekbar .hud-btn.primary { flex-shrink: 0; padding: 9px 12px; font-size: 13px; }
 
 /* Escolha no tabuleiro (BoardSelectionPrompt do nativo): a carta que age, o que escolher e o contador. Não cobre o campo. */
-.choicebar { position: absolute; left: var(--side); right: var(--side); bottom: calc(var(--hand-h) + var(--gap) + env(safe-area-inset-bottom)); z-index: 12; display: flex; flex-direction: column; gap: 10px; padding: 12px; --edge: var(--c-select); }
+.choicebar { position: absolute; left: var(--side); right: var(--side); bottom: calc(var(--hand-h) + var(--gap) + var(--pad-b)); z-index: 12; display: flex; flex-direction: column; gap: 10px; padding: 12px; --edge: var(--c-select); }
 .choicebar.attack { --edge: #ff4d4d; }
 .choicehead { display: flex; align-items: center; gap: 12px; }
 .choicecard { width: 46px; flex-shrink: 0; filter: drop-shadow(0 2px 4px #0009); }
