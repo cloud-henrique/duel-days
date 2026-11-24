@@ -93,13 +93,22 @@ def main():
     dialogue = json.loads((SRC / 'dialogue.json').read_text())
     # Falas escritas para a PWA, um arquivo por tier. Cada momento listado (firstWin, bossDefeat…) substitui o do nativo e
     # os outros ficam: o dialogue-tier1.json só corrige algumas cenas do Tier 1.
+    # O `champion` (change tier4-finais) é a cena de campeão do duelo final: uma por amigo do Tier 1 e a genérica.
     for lines in sorted(OUT.glob('dialogue-tier*.json')):
-        for key, moments in json.loads(lines.read_text())['duelists'].items():
+        data = json.loads(lines.read_text())
+        for key, moments in data['duelists'].items():
             dialogue['duelists'].setdefault(key, {}).update(moments)
+        if 'champion' in data:
+            dialogue.setdefault('champion', {}).update(data['champion'])
     for t in tiers[1:]:
         for d in t['duelists']:
             if d['key'] not in dialogue['duelists']:
                 sys.exit(f'faltam as falas de {d["key"]} em src/campaign/data/dialogue-tier{t["number"]}.json')
+            if d.get('isFinal'):
+                need = [x['key'] for x in t1['duelists']] + ['generic']
+                missing = [k for k in need if not dialogue.get('champion', {}).get(k)]
+                if missing:
+                    sys.exit(f'faltam as cenas de campeão {", ".join(missing)} (champion) em src/campaign/data/dialogue-tier{t["number"]}.json')
 
     collections = [p['key'] for t in tiers for p in t['packs']]
     native_packs = {p['key']: p for p in json.loads((SRC / 'packs.json').read_text())}

@@ -3,7 +3,7 @@ import {
   type OcgCardData, type OcgCardLoc, type OcgMessage, type OcgResponse, type SelectFieldPlace,
 } from 'ocgcore-wasm';
 import type { DuelSession } from './session';
-import { boardView, EXODIA_PIECES, faceDown, inAttack, isMonster, isResponder, isSpell, isTrap, type BoardView, type SeenCard } from './view';
+import { boardView, EXODIA_PIECES, faceDown, inAttack, isMonster, isResponder, isSpell, isTrap, type BoardView, type SeenCard, type SideView } from './view';
 
 /** RNG simples e determinístico (mulberry32). */
 export function makeRng(seed: number) {
@@ -179,8 +179,19 @@ function asSeen(ctx: CpuContext, c: OcgCardLoc & { position?: number }): SeenCar
   };
 }
 
-/** Tributos que um monstro pede pela invocação normal. */
-const tributesFor = (level: number) => (level >= 7 ? 2 : level >= 5 ? 1 : 0);
+/** Tributos que um monstro pede pela invocação normal (os Deuses Egípcios pedem 3). */
+const GODS = { obelisk: 10000000, ra: 10000010, slifer: 10000020 } as const;
+const isGod = (code: number) => code === GODS.obelisk || code === GODS.ra || code === GODS.slifer;
+const tributesFor = (level: number, code = 0) => (isGod(code) ? 3 : level >= 7 ? 2 : level >= 5 ? 1 : 0);
+/**
+ * O ATK que a política barata espera do monstro depois de invocado. Os Deuses de ATK "?" (−2 no motor): o Slifer vale
+ * 1000 por carta que sobra na mão; o Rá, os PV que ele pode pagar (estimados em 3000).
+ */
+function expectedAtk(d: SeenCard, side: SideView): number {
+  if (d.code === GODS.slifer) return 1000 * Math.max(0, side.hand.length - 1);
+  if (d.code === GODS.ra) return 3000;
+  return d.attack;
+}
 
 function view(ctx: CpuContext) {
   if (!ctx.view && ctx.session) ctx.view = boardView(ctx.session, ctx.db);
@@ -430,17 +441,17 @@ function idle(m: Extract<OcgMessage, { type: OcgMessageType.SELECT_IDLECMD }>, m
   if (act >= 0) return R(SelectIdleCMDAction.SELECT_ACTIVATE, act);
   // 3. Invocar o mais forte que vence o campo do oponente (ou com o campo dele vazio); senão baixar o de maior DEF.
   const fieldCount = mine.mzone.length;
-  const summonable = m.summons.map((c, i) => ({ i, d: info(c) }))
-    .filter(({ d }) => tributesFor(d.level) <= fieldCount)
-    .filter(({ d }) => {
-      const t = tributesFor(d.level);
+  const summonable = m.summons.map((c, i) => ({ i, d: info(c) })).map((s) => ({ ...s, atk: expectedAtk(s.d, mine) }))
+    .filter(({ d }) => tributesFor(d.level, d.code) <= fieldCount)
+    .filter(({ d, atk }) => {
+      const t = tributesFor(d.level, d.code);
       if (!t) return true;
       const cheapest = mine.mzone.map((x) => strength(x, me, true)).sort((a, b) => a - b).slice(0, t);
-      return d.attack > Math.max(0, ...cheapest) + 300;
+      return atk > Math.max(0, ...cheapest) + 300;
     });
-  const bestSummon = summonable.sort((a, b) => b.d.attack - a.d.attack)[0];
-  if (bestSummon && (bestSummon.d.attack >= oppBest || oppMons.length === 0)) return R(SelectIdleCMDAction.SELECT_SUMMON, bestSummon.i);
-  const sets = m.monster_sets.map((c, i) => ({ i, d: info(c) })).filter(({ d }) => tributesFor(d.level) === 0)
+  const bestSummon = summonable.sort((a, b) => b.atk - a.atk)[0];
+  if (bestSummon && (bestSummon.atk >= oppBest || oppMons.length === 0)) return R(SelectIdleCMDAction.SELECT_SUMMON, bestSummon.i);
+  const sets = m.monster_sets.map((c, i) => ({ i, d: info(c) })).filter(({ d }) => tributesFor(d.level, d.code) === 0)
     .sort((a, b) => Math.max(b.d.defense, b.d.attack) - Math.max(a.d.defense, a.d.attack));
   if (sets.length) return R(SelectIdleCMDAction.SELECT_MONSTER_SET, sets[0].i);
   if (bestSummon) return R(SelectIdleCMDAction.SELECT_SUMMON, bestSummon.i);

@@ -87,16 +87,22 @@ info = {c['id']: c for c in by_ids(outside, '&misc=yes')}
 no_ocg = sorted((i for i in outside if i in info and not ocg(info[i])), key=lambda i: info[i]['name'])
 late = sorted((i for i in outside if i in info and ocg(info[i])), key=lambda i: info[i]['name'])
 
-# 3. Incluídas à mão e as que a campanha usa
+# 3. Incluídas à mão e as que a campanha usa: exceções ao corte que entram na base, mas não nos boosters (caixas), que
+# ficam só com as da era. A exceção é o Monster Reborn: a API dá a ele data OCG depois do corte, e o LOB do nativo o
+# vende (Tier 1 inalterado). Os Deuses Egípcios (incluir.json) nunca estão à venda.
+BOOSTER_EXTRA = {83764718}  # Monster Reborn
+in_boosters = set(base) | BOOSTER_EXTRA
 include = set(json.load(open(f'{IMP}/incluir.json'))) if os.path.exists(f'{IMP}/incluir.json') else set()
 CAMP = f'{R}/src/campaign/data'
 camp_ids = set()
 if os.path.exists(f'{CAMP}/campaign.json'):
     camp = json.load(open(f'{CAMP}/campaign.json'))
     camp_ids |= {e['id'] for e in camp['starterDeck']['main']}
-    for d in camp['tier']['duelists']:
+    for d in (d for t in camp['tiers'] for d in t['duelists']):
         camp_ids |= {e['id'] for e in d['deck']['main'] + d['deck'].get('extra', [])}
         camp_ids |= {d[k]['id'] for k in ('signatureCard', 'bondGift') if d.get(k)}
+if os.path.exists(f'{CAMP}/packs.json'):  # pacotes de personagem do nativo
+    camp_ids |= {c['id'] for p in json.load(open(f'{CAMP}/packs.json')) if p.get('duelist') for c in p['cards']}
 camp_extra = sorted(i for i in camp_ids if i not in base)
 for c in by_ids(sorted((include | set(camp_extra)) - set(base)), '&misc=yes'):
     base[c['id']] = c
@@ -123,7 +129,7 @@ for key, codes in BOOSTERS:
         for c in set_cards[code]:
             if not is_game(c) or c['id'] in seen: continue
             seen.add(c['id'])
-            (cards if c['id'] in base else cut).append(c['id'] if c['id'] not in base else {'id': c['id'], 'rarity': RARITY[rarity_in(c, code)]})
+            (cards if c['id'] in in_boosters else cut).append(c['id'] if c['id'] not in in_boosters else {'id': c['id'], 'rarity': RARITY[rarity_in(c, code)]})
     name = SET_NAME[codes[0]]
     boosters.append({'key': key, 'code': codes[0], 'name': name, 'date': sets_meta.get(name, {}).get('tcg_date'), 'cards': cards, 'cut': cut})
 

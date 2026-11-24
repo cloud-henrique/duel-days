@@ -25,9 +25,9 @@ import { GameIcon } from './ui/icons';
 import { music, type Track } from './audio/music';
 import { sfx } from './audio/sfx';
 import { BALANCE } from './campaign/balance';
-import { epilogue, eventReview } from './campaign/bond';
+import { championLines, epilogue, eventReview } from './campaign/bond';
 import { debugPreset } from './campaign/debug';
-import type { Scene } from './campaign/data/types';
+import { DUELISTS, type Scene } from './campaign/data/types';
 import { cpuFor, duelist as duelistData, duelistDeck } from './campaign/decks';
 import { abandonDuel, beginDuel, meet } from './campaign/flow';
 import { packByKey } from './campaign/packs';
@@ -62,7 +62,7 @@ function trackFor(s: Screen): Track {
     case 'map': case 'decks': case 'collection': case 'bonds': case 'status': case 'end': return 'map';
     case 'shop': case 'shop-pack': return 'shop';
     case 'encounter': case 'scene': return 'encounter';
-    case 'duel': return duelistData(s.duelist).isBoss ? 'boss-duel' : 'duel';
+    case 'duel': { const d = duelistData(s.duelist); return d.isBoss || d.isFinal ? 'boss-duel' : 'duel'; }
     default: return 'title';
   }
 }
@@ -72,7 +72,7 @@ type Screen =
   | { v: 'map' } | { v: 'shop' } | { v: 'shop-pack'; key: string } | { v: 'bonds' } | { v: 'status' } | { v: 'end' } | { v: 'resume' }
   | { v: 'decks'; back: Screen }
   | { v: 'collection'; back: Screen }
-  | { v: 'encounter'; duelist: string; after?: Scene; first?: boolean }
+  | { v: 'encounter'; duelist: string; after?: Scene; first?: boolean; champion?: string }
   | { v: 'duel'; duelist: string; kind: DuelKind }
   /** Uma cena avulsa (rever evento, epílogo) no lugar do duelista; depois, `then`. */
   | { v: 'scene'; duelist: string; scene: Scene; then: Screen };
@@ -228,13 +228,17 @@ export function App() {
     // --- Campanha ---
     const restart = () => { setCampaign(newCampaign(newSeed())); toMap(); };
     /** Depois da fala de fim de duelo: o epílogo e o fim, se a campanha acabou; senão, o mapa. */
-    const afterEncounter = () => {
-      if (c.concluded) {
-        const ep = epilogue(c);
-        return go(ep ? { v: 'scene', duelist: ep.duelist.key, scene: ep.scene, then: { v: 'end' } } : { v: 'end' });
-      }
-      toMap();
+    const next = (): Screen => {
+      if (!c.concluded) return { v: 'map' };
+      const ep = epilogue(c);
+      return ep ? { v: 'scene', duelist: ep.duelist.key, scene: ep.scene, then: { v: 'end' } } : { v: 'end' };
     };
+    /** A cena de campeão (change tier4-finais) toca no palco do duelo final, e depois vale o `then`. */
+    const championScreen = (then: Screen): Screen | null => {
+      const final = c.champion && DUELISTS.find((d) => d.isFinal);
+      return final ? { v: 'scene', duelist: final.key, scene: championLines(c.champion!.scene), then } : null;
+    };
+    const afterEncounter = (champion?: string) => go((champion && championScreen(next())) || next());
 
     switch (screen.v) {
       case 'decks':
@@ -250,7 +254,7 @@ export function App() {
       case 'bonds':
         return <BondsScreen s={c} onBack={toMap} onReview={(k, n) => go({ v: 'scene', duelist: k, scene: eventReview(c, k, n) ?? [], then: { v: 'bonds' } })} />;
       case 'status':
-        return <StatusScreen s={c} onBack={toMap} onRestart={restart} />;
+        return <StatusScreen s={c} onBack={toMap} onRestart={restart} onChampion={() => { const sc = championScreen({ v: 'status' }); if (sc) go(sc); }} />;
       case 'scene': {
         const { duelist, scene, then } = screen;
         return (
@@ -264,7 +268,8 @@ export function App() {
       case 'end': {
         const ep = epilogue(c);
         return <CampaignEnd s={c} onTitle={toTitle} onRestart={restart} onCollection={() => go({ v: 'collection', back: { v: 'end' } })}
-          onEpilogue={() => ep && go({ v: 'scene', duelist: ep.duelist.key, scene: ep.scene, then: { v: 'end' } })} />;
+          onEpilogue={() => ep && go({ v: 'scene', duelist: ep.duelist.key, scene: ep.scene, then: { v: 'end' } })}
+          onChampion={() => { const sc = championScreen({ v: 'end' }); if (sc) go(sc); }} />;
       }
       case 'resume': {
         const pd = c.pendingDuel;
@@ -286,7 +291,7 @@ export function App() {
           <StageMemory key={`${screen.duelist}:${screen.after ? 'after' : 'greet'}`}>
             <EncounterScreen s={c} duelist={screen.duelist} chars={chars} profile={profile}
               afterDuel={screen.after} firstMeeting={screen.first} onChange={setCampaign}
-              onLeave={screen.after ? afterEncounter : toMap}
+              onLeave={screen.after ? () => afterEncounter(screen.champion) : toMap}
               onDuel={(kind) => {
                 const problems = validateDeck(activeDeckOf(c), data.cards, c.collection);
                 if (problems.length) return go({ v: 'decks', back: { v: 'map' } });
@@ -319,7 +324,7 @@ export function App() {
                 wins: won ? { ...prog.wins, [duelist]: (prog.wins[duelist] ?? 0) + 1 } : prog.wins,
                 losses: won ? prog.losses : { ...prog.losses, [duelist]: (prog.losses[duelist] ?? 0) + 1 },
               });
-              go({ v: 'encounter', duelist, after: r.after });
+              go({ v: 'encounter', duelist, after: r.after, champion: r.reward.champion ?? undefined });
             }} />
         );
       }

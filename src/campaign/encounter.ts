@@ -16,8 +16,14 @@ function variant(s: CampaignState, key: string, scenes: Scene[], moment: number)
   return scenes[randInt(g, scenes.length)];
 }
 
-/** Chefe ainda não vencido (a entrada e a derrota de chefe só tocam até a primeira vitória). */
-const unbeatenBoss = (s: CampaignState, key: string) => !!duelistByKey(key)?.isBoss && !bossBeaten(s, tierOf(key));
+/**
+ * Chefe (ou o duelo final) ainda não vencido: a entrada e a derrota de chefe só tocam até a primeira vitória.
+ */
+function unbeatenBoss(s: CampaignState, key: string): boolean {
+  const d = duelistByKey(key);
+  if (d?.isFinal) return !(s.victories[key] ?? 0);
+  return !!d?.isBoss && !bossBeaten(s, tierOf(key));
+}
 
 export type GreetingBand = 'close' | 'friendship' | 'romance' | null;
 

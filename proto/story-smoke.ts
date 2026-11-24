@@ -3,11 +3,12 @@
 // rotas de todos os duelistas são alcançados, que o chefe aparece e é vencido e que a campanha termina no dia 30. Conta
 // também os tiers abertos (dentro da janela, depois dela ou nunca: só o tier anterior vencido inteiro abre o próximo,
 // change `tier-pelo-chefe`), o tier em que cada campanha termina, os chefes de cada tier vencidos, os pacotes-prêmio, quem de cada
-// tier novo apareceu e o DP médio no fim da janela de cada tier.
+// tier novo apareceu e o DP médio no fim da janela de cada tier. No Tier 4 (change tier4-finais), as campanhas que
+// venceram o duelo final e qual cena de campeão tocou (a do amigo do epílogo ou a genérica).
 // Uso: npx tsx proto/story-smoke.ts [campanhas=200]
 import { BALANCE } from '../src/campaign/balance';
 import {
-  bondChoiceScene, canTalk, choosePick, chooseRoute, conversationScene, epilogue, eventsDone, hasStory, isChoicePending, pendingPick, pickScene, playableEvent, talk, TOPICS,
+  bondChoiceScene, canTalk, championLines, championScene, choosePick, chooseRoute, conversationScene, epilogue, eventsDone, hasStory, isChoicePending, pendingPick, pickScene, playableEvent, talk, TOPICS,
 } from '../src/campaign/bond';
 import type { Scene } from '../src/campaign/data/types';
 import { greetingScene, preDuelScene } from '../src/campaign/encounter';
@@ -32,6 +33,7 @@ const finalTier: Record<number, number> = {};
 const dpAtEnd: Record<number, number[]> = {};
 const bossByTier: Record<number, number> = {};
 const metLater = new Set<string>();
+const champions: Record<string, number> = {};
 const fail = (msg: string) => { throw new Error(msg); };
 const check = (scene: Scene, where: string) => {
   if (!scene.length) fail(`cena vazia: ${where}`);
@@ -104,6 +106,12 @@ for (let n = 0; n < N; n++) {
     check(r.after, `depois ${foe.key} ${o.result}`);
     if (r.reward.defeatedBossForFirstTime) { bossWins++; const t = tierOf(foe.key).number; bossByTier[t] = (bossByTier[t] ?? 0) + 1; }
     if (r.reward.prizePack) prizes++;
+    if (r.reward.champion) {
+      if (s.champion) fail(`campeão duas vezes na campanha ${n}`);
+      if (r.reward.champion !== championScene(s)) fail(`cena de campeão ${r.reward.champion} com o laço de ${championScene(s)}`);
+      check(championLines(r.reward.champion), `cena de campeão ${r.reward.champion}`);
+      champions[r.reward.champion] = (champions[r.reward.champion] ?? 0) + 1;
+    }
     s = r.state;
     if (s.pendingDuel) fail('duelo pendente depois do resultado');
     // Compra o que der.
@@ -135,6 +143,12 @@ for (const t of LATER) {
 console.log('tier no fim da campanha:', finalTier);
 if (!finalTier[LAST]) { console.log(`nenhuma campanha chegou ao Tier ${LAST}`); process.exitCode = 1; }
 console.log('chefes vencidos por tier:', bossByTier, `| pacotes-prêmio ${prizes}`);
+const finalKey = TIERS.flatMap((t) => t.duelists).find((d) => d.isFinal)?.key;
+if (finalKey) {
+  const total = Object.values(champions).reduce((a, b) => a + b, 0);
+  console.log(`campeões (duelo final vencido): ${total}/${N} | cena de campeão:`, champions);
+  if (!total) { console.log('nenhuma campanha venceu o duelo final'); process.exitCode = 1; }
+}
 const avg = (xs: number[] = []) => (xs.length ? Math.round(xs.reduce((a, b) => a + b, 0) / xs.length) : '-');
 console.log('DP médio na noite do último dia de cada tier:', Object.fromEntries(TIERS.map((t) => [`T${t.number} (dia ${t.lastDay})`, avg(dpAtEnd[t.number])])));
 const absent = LATER.flatMap((t) => t.duelists.map((d) => d.key)).filter((k) => !metLater.has(k));

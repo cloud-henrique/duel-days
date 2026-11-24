@@ -21,6 +21,11 @@ export interface DuelistData {
   key: string;
   name: string;
   isBoss: boolean;
+  /**
+   * Duelo final (change tier4-finais): aparece depois do chefe do tier vencido, joga no perfil de chefe, não conta nos
+   * comuns nem para fechar o tier, e entrega a assinatura na 1ª vitória.
+   */
+  isFinal?: boolean;
   /** Tem laço (corações, conversa, eventos, epílogo): só os do Tier 1. */
   bond: boolean;
   scene: SceneRef;
@@ -101,7 +106,12 @@ export interface ShopkeeperDialogue {
   noFunds: Line[];
 }
 
-export interface DialogueData { duelists: Record<string, DuelistDialogue>; shopkeeper: ShopkeeperDialogue }
+export interface DialogueData {
+  duelists: Record<string, DuelistDialogue>;
+  shopkeeper: ShopkeeperDialogue;
+  /** Cenas de campeão (change tier4-finais): a chave de cada amigo do Tier 1 e `generic`. */
+  champion?: Record<string, Scene>;
+}
 
 export type Rarity = 'common' | 'rare' | 'super' | 'ultra';
 export interface PackData {

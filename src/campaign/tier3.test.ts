@@ -69,19 +69,21 @@ describe('elenco do Tier 3', () => {
 });
 
 describe('progressão depois do Tier 3', () => {
-  it('Kaiba vencido no dia 20 sem Tier 4: prêmio, o tier continua o 3 e o progresso avisa', () => {
+  it('Kaiba vencido no dia 20 (change tier4-finais): prêmio e o Tier 4 abre, sem aviso de atualização', () => {
     const s = at(20, 0, openTo(3, T3));
     const r = applyDuel(s, 'kaiba', 'regular', win);
     expect(r.reward.prizePack).not.toBeNull();
     expect(r.state.defeatedBosses).toContain(3);
-    expect(currentTier(r.state).number).toBe(3);
-    expect(awaitsNextUpdate(r.state)).toBe(true);
+    expect(currentTier(r.state).number).toBe(4);
+    expect(tierOpenDay(r.state, 4)).toBe(20);
+    expect(awaitsNextUpdate(r.state)).toBe(false);
   });
 
-  it('sem o Kaiba, do dia 23 ao 30 o tier continua o 3 e não há aviso; com ele, o aviso do Tier 4', () => {
+  it('sem o Kaiba, do dia 23 ao 30 o tier continua o 3 e não há aviso; com ele, o Tier 4 (o último: sem aviso)', () => {
     for (const day of [23, 26, 30]) expect(currentTier(at(day, 0, openTo(3))).number).toBe(3);
     expect(awaitsNextUpdate(at(23, 0, openTo(3, T3)))).toBe(false);
-    expect(awaitsNextUpdate(at(20, 0, openTo(4)))).toBe(true);
+    expect(currentTier(at(25, 0, openTo(4))).number).toBe(4);
+    expect(awaitsNextUpdate(at(25, 0, openTo(4)))).toBe(false);
   });
 
   it('dia 20 com o T3 vencido mas sem o Pegasus: Tier 2, e nem o T3 nem o Kaiba no mapa', () => {

@@ -16,10 +16,10 @@ npx vite preview --port 5181 --host 127.0.0.1   # serve o dist/ (é o que o tún
 npx vite build && npx wrangler pages deploy dist --project-name dueldays --branch main   # produção: https://dueldays.pages.dev (Cloudflare Pages + Access, leva as `functions/`); o push NÃO publica
 npx vite build && npx wrangler pages dev dist --port 8788 --binding DEV_EMAIL=dev@duel-days.test   # app + /api/save com D1 local (preview_start "cloud")
 npx wrangler d1 migrations apply dueldays-saves --local|--remote   # tabelas do save (migrations/)
-npx tsx proto/smoke.ts 500          # CPU x CPU com decks aleatórios do pool: travas, laços, erros de Lua (--barata: política da CPU)
+npx tsx proto/smoke.ts 500          # CPU x CPU com decks aleatórios do pool: travas, laços, erros de Lua (--barata: política da CPU; --deuses: decks densos com os 3 Deuses Egípcios)
 npx tsx proto/monkey.ts 100         # mesmo código do Worker (DuelDriver) com os decks da campanha (--cpu=barata|busca[:N])
 npx tsx proto/difficulty.ts 40      # dificuldade: cada duelista x deck inicial, CPU nova dos dois lados, contra a meta do tier
-npx tsx proto/tier-balance.ts 12    # pares dentro de cada tier e "chefe vence a maioria" (vários processos)
+npx tsx proto/tier-balance.ts 12    # pares dentro de cada tier, "chefe vence a maioria" e o final vence o chefe (--tier=N: só um tier)
 npx tsx proto/story-smoke.ts        # 200 campanhas de 30 dias pelo modelo: cenas, eventos, rotas, chefe e epílogo
 npx tsx proto/economy-smoke.ts      # pacotes da campanha (70/20/10 no slot) e decks válidos (inicial e oponentes)
 npx tsx proto/sort-check.ts         # ordenar o topo do Deck (SORT_CARD) contra o motor real
@@ -138,8 +138,12 @@ pelo `.hexbg` do `styles.css`.
   que recebem um `CampaignState` e devolvem outro, testadas):
   - `data/` (`campaign.json`, `dialogue.json`, `packs.json` gerados pelo `copy_campaign_data.py`; escritos à mão:
     `tiers.json` (Tier 2+, cenas, pontos do mapa, dias das coleções) e `dialogue-tier*.json` (um por tier, juntados momento a momento: o `dialogue-tier1.json` só corrige cenas do nativo;
-    nenhuma fala de vitória entrega carta, a assinatura só chega na 5ª vitória: `data.test.ts`); `decks.json` gerado; `types.ts`
-    com `TIERS`, `DUELISTS`, `duelistByKey`);
+    nenhuma fala de vitória entrega carta, a assinatura só chega na 5ª vitória: `data.test.ts`; o `dialogue-tier4.json` traz
+    também o `champion`, as cenas de campeão); `decks.json` gerado; `types.ts` com `TIERS`, `DUELISTS`, `duelistByKey`);
+  - Tier 4 (change `tier4-finais`), o último: 4 comuns, o chefe Yami Marik e o **duelo final** (`isFinal`: o Yami Yugi,
+    liberado pelo chefe vencido; perfil de chefe; fora do "X/N" e do `tierCleared`; o Slifer na **1ª** vitória). A primeira
+    vitória sobre ele grava `champion` (dia e cena) no save e toca a cena de campeão do amigo do epílogo (`championScene`) ou
+    a genérica; a campanha segue até o dia 30. O Yami Yugi e o Yami Bakura são duelistas à parte do Yugi e do Bakura.
   - `tiers.ts` (tier atual derivado das vitórias e dos chefes, change `tier-pelo-chefe`: o próximo abre só com cada
     duelista do anterior vencido, chefe incluso (`tierCleared`), e só se tiver duelistas; **o dia nunca abre tier**, a
     janela só decide o pacote-prêmio; `bossDefeatedOn` opcional no save; nos testes, `openTo` em `__testing__/tiers.ts`);
@@ -148,15 +152,15 @@ pelo `.hexbg` do `styles.css`.
     eventos por duelista do Tier 1 (o 5º espera o Tier 2 e o 6º o Tier 3, `BALANCE.bondEventTier`), resposta no fim de
     cada evento menos o 3º (`pick`, gravada em `bondPicks`; `remember` toca no epílogo) e a carta do laço no 4º; o
     `dialogue-tier1.json` traz a lista `bondEvents` completa (o merge do `copy_campaign_data.py` é por momento), `map.ts` (2 a 4 do tier atual + todos os comuns
-    dos tiers anteriores, chefes liberados; T1 nos pontos fixos, depois anéis: tier atual no meio, antigos mais longe), `encounter.ts` (qual fala toca), `bond.ts` (afinidade com teto/piso, conversa, eventos, rota, epílogo),
+    dos tiers anteriores, chefes liberados e o final; T1 nos pontos fixos, depois anéis: tier atual no meio, antigos mais longe, cada chefe no anel do tier dele; no T4, anéis mais estreitos, `RING4`), `encounter.ts` (qual fala toca), `bond.ts` (afinidade com teto/piso, conversa, eventos, rota, epílogo),
     `rewards.ts` (`applyDuel`: DP com bônus, carta, assinatura, chefe, laço e o período), `packs.ts` (loja e sorteio 4+1),
-    `flow.ts` (conhecer, `pendingDuel`), `text.ts` (`{nome}` e `{m|f|n}`), `debug.ts` (`?campaign=last-evening|bond|boss|tier2|pegasus|tier3|kaiba|shop`
+    `flow.ts` (conhecer, `pendingDuel`), `text.ts` (`{nome}` e `{m|f|n}`), `debug.ts` (`?campaign=last-evening|bond|boss|tier2|pegasus|tier3|kaiba|tier4|yamimarik|final|shop`
     em dev ou com `?debug=1`).
 - `src/screens/campaign/`: `MapScreen` (só as cabeças nos pontos, como no Tag Force Special; barra Deck/Coleção/Laços/Loja e o
   menu do cabeçalho abre as Opções com o Status; + `CampaignHeader`, `Hearts`), `CollectionScreen` (totais e a grade da maleta),
   `EncounterScreen` (cena do duelista: fundo e lugar; sem corações nem Conversar para quem não tem laço), `Dialogue` (o palco do
   nativo: `TopBar` com lugar e subtítulo, placa de corações, fundo desfocado com o filtro do período e o circuito,
-  personagem a 60% da altura abaixo da barra, folha de baixo com placa do nome e brilho na cor de quem fala, "Pular"), `BondsScreen`, `StatusScreen`, `CampaignEnd`, `chars.ts`
+  personagem a 60% da altura abaixo da barra (do outro lado do jogador, quem falou por último: a cena de campeão tem vários), folha de baixo com placa do nome e brilho na cor de quem fala, "Pular"), `BondsScreen`, `StatusScreen`, `CampaignEnd`, `chars.ts`
   (chave do nativo → sprite; expressões), `assets.ts` (arte com degradê de reserva), `campaign.css`.
 - `src/screens/shop/` (change `loja-nativa`): a loja no visual do nativo. `ShopScreen` (balcão + vitrine em grade de capas,
   pacotes ganhos abertos ali), `PackDetail` (tela `shop-pack` do `App`: raridades, "X de Y", grade com as que faltam
@@ -259,6 +263,13 @@ pelo `.hexbg` do `styles.css`.
 - **Cartas da campanha usam o id original**, não o da arte alternativa (sem script no ocgcore): o `copy_campaign_data.py`
   troca pelo `alias`, e o `import_dm.py` acrescenta ao pool os ids da campanha que faltam (o `export_data.py` também troca
   ids de arte alternativa pelo original). Os pacotes LOB/MRD/MRL/PSV do `packs.json` vêm do `public/data/boosters.json`.
+  Nas caixas (boosters) entram só as cartas da era (e o Monster Reborn, `BOOSTER_EXTRA`): as exceções da campanha e do
+  `raw/import/incluir.json` ficam na base, nunca à venda.
+- **Deuses Egípcios** (change `tier4-finais`): Obelisco, Slifer e Rá entram pelo `raw/import/incluir.json` (data OCG depois
+  do corte), com texto no `raw/overrides/text.pt.json`; são limitados a 1 (`LIMITED`), nunca saem em pacote nem no sorteio
+  de vitória e cada um fica só no deck do dono, que o tem como assinatura (Marik, Yami Marik e Yami Yugi: `own_signature`
+  do `build_decks.py`). A política barata estima o ATK "?" do Rá e do Slifer (`expectedAtk` no `cpu.ts`); sem isso ela
+  nunca os invocava. Teste: `src/engine/gods.test.ts` e `proto/smoke.ts --deuses`.
 - **A arte e a música da campanha são da Konami** (`public/campaign/`, `public/music/`, fora do git e da pré-carga do PWA;
   a música usa cache com `rangeRequests`). Sem os arquivos, fundos em degradê e silêncio.
 - **Decks dos duelistas são gerados** (`decks.json`, pelo `build_decks.py`): troca de carta vai no `REPLACE`/`TUNE` do

@@ -1,6 +1,6 @@
 /** O resultado de um duelo da campanha: DP com bônus, cartas, laço, chefe e o período (`Campaign+Duels` do nativo). */
 import { BALANCE, LIMITED, MAX_COPIES } from './balance';
-import { addAffinity, eventTitle, hasStory, openBondEvent } from './bond';
+import { addAffinity, championScene, eventTitle, hasStory, openBondEvent } from './bond';
 import { advancePeriod } from './calendar';
 import { duelistByKey, type DuelistData, type Scene } from './data/types';
 import { duelistDeck } from './decks';
@@ -35,6 +35,8 @@ export interface DuelReward {
   cards: EarnedCard[];
   bond: BondProgress | null;
   concluded: boolean;
+  /** Primeira vitória sobre o duelo final: a cena de campeão que toca agora (chave do amigo ou `generic`). */
+  champion: string | null;
 }
 
 /** A base da vitória pelo tier do oponente. */
@@ -102,12 +104,13 @@ export function applyDuel(s0: CampaignState, key: string, kind: DuelKind, o: Due
   earnDP(s, dp.total);
 
   const cards: EarnedCard[] = [];
-  let unlocked: string | null = null, prize: string | null = null, firstBoss = false;
+  let unlocked: string | null = null, prize: string | null = null, firstBoss = false, champion: string | null = null;
   if (won) {
     const nth = (s.victories[key] ?? 0) + 1;
-    // A assinatura sai na 5ª vitória. Saves de quando era na 10ª (entre a 5ª e a 10ª, sem a carta) a ganham na próxima.
-    const lateSignature = nth > BALANCE.signatureWins && nth <= LEGACY_SIGNATURE_WINS && copies(s, d.signatureCard.id) === 0;
-    if (nth === BALANCE.signatureWins || lateSignature) cards.push(earn(s, d.signatureCard.id, 'signature'));
+    // A assinatura sai na 5ª vitória (o duelo final a entrega na 1ª). Saves de quando era na 10ª (entre a 5ª e a 10ª, sem
+    // a carta) a ganham na próxima.
+    const lateSignature = !d.isFinal && nth > BALANCE.signatureWins && nth <= LEGACY_SIGNATURE_WINS && copies(s, d.signatureCard.id) === 0;
+    if (nth === (d.isFinal ? 1 : BALANCE.signatureWins) || lateSignature) cards.push(earn(s, d.signatureCard.id, 'signature'));
     const deck = duelistDeck(key);
     const g = generator(PURPOSE.cardDrop, s.seed, s.day, s.period, seedPosition(key));
     const drop = drawCard([...deck.main, ...deck.extra], s.collection, g);
@@ -125,6 +128,8 @@ export function applyDuel(s0: CampaignState, key: string, kind: DuelKind, o: Due
       s.defeatedBosses.push(tier.number);
       s.bossDefeatedOn = { ...s.bossDefeatedOn, [tier.number]: s.day };
     }
+    // Primeira vitória sobre o duelo final: o título de campeão e a cena que toca (gravada para rever a mesma).
+    if (d.isFinal && !s.champion) { champion = championScene(s); s.champion = { day: s.day, scene: champion }; }
   } else {
     s.losses += 1;
   }
@@ -162,7 +167,7 @@ export function applyDuel(s0: CampaignState, key: string, kind: DuelKind, o: Due
     state: s, after,
     reward: {
       opponentName: d.name, won, baseDP: dp.base, bonuses: dp.bonuses, totalDP: dp.total, newBalance: s.dp,
-      defeatedBossForFirstTime: firstBoss, prizePack: prize, unlockedPack: unlocked, cards, bond, concluded: s.concluded,
+      defeatedBossForFirstTime: firstBoss, prizePack: prize, unlockedPack: unlocked, cards, bond, concluded: s.concluded, champion,
     },
   };
 }

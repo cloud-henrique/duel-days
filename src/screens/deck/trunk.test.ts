@@ -5,7 +5,18 @@ import { deckGroups, filterCode, sortCodes, trunkSummary, type SortContext } fro
 
 const T = { MONSTER: 0x1, SPELL: 0x2, TRAP: 0x4, NORMAL: 0x10, EFFECT: 0x20, FUSION: 0x40 };
 const card = (code: number, name: string, type: number, extra: Partial<CardRecord> = {}) =>
-  ({ code, name, type, level: 4, attack: 1000, defense: 1000, attribute: 0x1, race: '1', desc: '', ...extra }) as unknown as CardRecord;
+  ({
+    code,
+    name,
+    type,
+    level: 4,
+    attack: 1000,
+    defense: 1000,
+    attribute: 0x1,
+    race: '1',
+    desc: '',
+    ...extra,
+  }) as unknown as CardRecord;
 const cards: Record<string, CardRecord> = {
   1: card(1, 'Dragão Branco', T.MONSTER | T.NORMAL, { level: 8, attack: 3000, attribute: 0x10 }),
   2: card(2, 'Castor Guerreiro', T.MONSTER | T.NORMAL, { attack: 1200 }),
@@ -15,7 +26,12 @@ const cards: Record<string, CardRecord> = {
   6: card(6, 'Dragão Negro', T.MONSTER | T.FUSION | T.EFFECT, { level: 9, attack: 3200 }),
   7: card(7, 'Sangan', T.MONSTER | T.EFFECT, { level: 3, attack: 1000 }),
 };
-const ctx: SortContext = { cards, tiers: { 1: 'UR', 3: 'SR' }, owned: { 1: 1, 2: 3, 3: 1, 4: 2, 5: 1, 6: 1, 7: 2 }, acquired: [2, 4, 5, 7, 1, 3, 6] };
+const ctx: SortContext = {
+  cards,
+  tiers: { 1: 'UR', 3: 'SR' },
+  owned: { 1: 1, 2: 3, 3: 1, 4: 2, 5: 1, 6: 1, 7: 2 },
+  acquired: [2, 4, 5, 7, 1, 3, 6],
+};
 const all = [1, 2, 3, 4, 5, 6, 7];
 
 describe('ordenar a maleta', () => {
@@ -28,7 +44,7 @@ describe('ordenar a maleta', () => {
     expect(sortCodes(all, { key: 'attack', reversed: true }, ctx).slice(5)).toEqual([4, 5]);
   });
   it('nome invertido vai de Z para A', () => {
-    expect(sortCodes(all, { key: 'name', reversed: true }, ctx).map((c) => cards[c].name)[0]).toBe('Sangan');
+    expect(sortCodes(all, { key: 'name', reversed: true }, ctx).map(c => cards[c].name)[0]).toBe('Sangan');
   });
   it('obtenção: mais novas primeiro; sem a ordem, o código decide', () => {
     expect(sortCodes(all, { key: 'acquisition', reversed: false }, ctx)[0]).toBe(6);
@@ -45,21 +61,29 @@ describe('ordenar a maleta', () => {
 
 describe('filtro e busca', () => {
   it('busca sem acento e sem caixa', () => {
-    expect(all.filter((c) => filterCode(cards[c], 'all', 'dragao'))).toEqual([1, 6]);
+    expect(all.filter(c => filterCode(cards[c], 'all', 'dragao'))).toEqual([1, 6]);
   });
   it('Fusão e Monstros', () => {
-    expect(all.filter((c) => filterCode(cards[c], 'fus', ''))).toEqual([6]);
-    expect(all.filter((c) => filterCode(cards[c], 'mon', ''))).toEqual([1, 2, 3, 7]);
+    expect(all.filter(c => filterCode(cards[c], 'fus', ''))).toEqual([6]);
+    expect(all.filter(c => filterCode(cards[c], 'mon', ''))).toEqual([1, 2, 3, 7]);
   });
   it('resumo da alça', () => {
-    expect(trunkSummary({ key: 'attack', reversed: true }, 'mon', ' dragão ')).toBe('ATK (invertido) · Monstros · “dragão”');
+    expect(trunkSummary({ key: 'attack', reversed: true }, 'mon', ' dragão ')).toBe(
+      'ATK (invertido) · Monstros · “dragão”',
+    );
   });
 });
 
 describe('grupos do deck', () => {
   it('Normais, Efeito, Magias, Armadilhas e o Extra à parte', () => {
     const g = deckGroups({ main: [4, 2, 2, 7, 5, 1], extra: [6] }, cards);
-    expect(g.map((x) => x.title)).toEqual(['Monstros Normais', 'Monstros de Efeito', 'Magias', 'Armadilhas', 'Extra Deck']);
+    expect(g.map(x => x.title)).toEqual([
+      'Monstros Normais',
+      'Monstros de Efeito',
+      'Magias',
+      'Armadilhas',
+      'Extra Deck',
+    ]);
     expect(g[0].codes).toEqual([1, 2, 2]);
     expect(g[4]).toMatchObject({ extra: true, codes: [6] });
   });
@@ -78,5 +102,9 @@ describe('recusa ao pôr', () => {
   it('limitada: 1 cópia', () => {
     const pot = { 55144522: card(55144522, 'Pote da Ganância', T.SPELL) };
     expect(addRefusal(deck([55144522]), 55144522, pot, { 55144522: 3 })).toBe('Máximo de 1 cópia');
+  });
+  it('Deuses Egípcios: 1 cópia', () => {
+    const obelisk = { 10000000: card(10000000, 'Obelisco, o Atormentador', T.MONSTER | T.EFFECT, { level: 10 }) };
+    expect(addRefusal(deck([10000000]), 10000000, obelisk, { 10000000: 2 })).toBe('Máximo de 1 cópia');
   });
 });

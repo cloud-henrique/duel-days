@@ -3,7 +3,7 @@ import { BALANCE } from './balance';
 import { CAMPAIGN, DUELISTS, TIERS, type DuelistData, type MapPoint, type TierData } from './data/types';
 import { PURPOSE, generator, randInt, shuffle } from './rng';
 import type { CampaignState } from './state';
-import { FIRST_TIER, bossBeaten, bossOf, currentTier, regularsOf, tierOf } from './tiers';
+import { FIRST_TIER, bossBeaten, bossOf, currentTier, finalOf, isFinalAvailable, regularsOf, tierOf } from './tiers';
 
 /** Pontos fixos do Tier 1 (os saves em andamento veem cada um onde estava). */
 export const MAP_POINTS: readonly MapPoint[] = CAMPAIGN.mapPoints;
@@ -27,8 +27,8 @@ function drawSome(list: readonly DuelistData[], min: number, max: number, g: () 
 
 /**
  * Os duelistas no mapa agora: de 2 a 4 comuns do tier atual; todos os comuns dos tiers anteriores (continuam na
- * cidade); e os chefes liberados de todos os tiers abertos. Tudo pela semente, pelo dia e pelo período. Campanha
- * terminada: ninguém.
+ * cidade); os chefes liberados de todos os tiers abertos; e o duelo final, depois do chefe dele. Tudo pela semente, pelo
+ * dia e pelo período. Campanha terminada: ninguém.
  */
 export function present(s: CampaignState): DuelistData[] {
   if (s.concluded) return [];
@@ -39,7 +39,8 @@ export function present(s: CampaignState): DuelistData[] {
   const regulars = drawSome(regularsOf(cur), BALANCE.opponentsMin, BALANCE.opponentsMax, g);
   const past = TIERS.filter((t) => t.number < cur.number).flatMap((t) => regularsOf(t));
   const bosses = TIERS.filter((t) => t.number <= cur.number && isBossAvailable(s, t)).map((t) => bossOf(t)!);
-  return [...regulars, ...past, ...bosses];
+  const finals = TIERS.filter((t) => t.number <= cur.number && isFinalAvailable(s, t)).map((t) => finalOf(t)!);
+  return [...regulars, ...past, ...bosses, ...finals];
 }
 
 export const isPresent = (s: CampaignState, key: string) => present(s).some((d) => d.key === key);
@@ -50,15 +51,24 @@ export const isPresent = (s: CampaignState, key: string) => present(s).some((d) 
  * Em y, da beira das montanhas à do mar.
  */
 const RING = { innerHalf: 0.13, step: 0.13, yMin: 0.17, yMax: 0.7 } as const;
-/** Distância mínima entre duas cabeças, em alturas do panorama (a cabeça tem ~0,1). */
+/**
+ * No Tier 4 (change tier4-finais) são quatro anéis: as faixas ficam mais estreitas para o mais de fora caber no
+ * panorama (x de ~0,035 a 0,13 e de 0,87 a 0,965). Os tiers de antes continuam com o `RING` (os mesmos pontos).
+ */
+const RING4 = { ...RING, innerHalf: 0.12, step: 0.115 } as const;
+/**
+ * Distância mínima entre duas cabeças, em alturas do panorama (a cabeça tem ~0,1). Com quatro anéis, quando nenhuma
+ * tentativa chega a ela, vale a mais longe encontrada (sempre ≥ 0,15: ainda com folga entre as cabeças).
+ */
 const MIN_GAP = 0.17;
 
 /** A faixa de x do anel `k` (0 = tier atual): o meio, ou as duas laterais simétricas. */
-function ringX(k: number, g: () => number): number {
-  if (k === 0) return 0.5 - RING.innerHalf + g() * RING.innerHalf * 2;
-  const from = RING.innerHalf + 0.02 + (k - 1) * RING.step;
-  const off = from + g() * (RING.step - 0.02);
-  return Math.min(0.95, Math.max(0.05, g() < 0.5 ? 0.5 - off : 0.5 + off));
+function ringX(k: number, g: () => number, ring: typeof RING | typeof RING4 = RING): number {
+  if (k === 0) return 0.5 - ring.innerHalf + g() * ring.innerHalf * 2;
+  const from = ring.innerHalf + 0.02 + (k - 1) * ring.step;
+  const off = from + g() * (ring.step - 0.02);
+  const edge = ring === RING ? 0.05 : 0.03;
+  return Math.min(1 - edge, Math.max(edge, g() < 0.5 ? 0.5 - off : 0.5 + off));
 }
 
 /**
@@ -76,11 +86,14 @@ export function placements(s: CampaignState): { duelist: DuelistData; point: Map
   const placed: MapPoint[] = [];
   // Distância na mesma unidade nos dois eixos: x vale o dobro (o panorama é 2:1).
   const far = (p: MapPoint, gap: number) => placed.every((q) => Math.hypot((p.x - q.x) * 2, p.y - q.y) >= gap);
+  const ring = cur.number >= 4 ? RING4 : RING;
+  // Com quatro anéis (22 cabeças) a faixa de fora aperta: mais tentativas. Os tiers de antes ficam com 200 (os mesmos pontos).
+  const tryLimit = ring === RING4 ? 600 : 200;
   return people.map((duelist) => {
     const k = Math.max(0, cur.number - tierOf(duelist.key).number);
     let best: MapPoint | null = null, bestGap = -1;
-    for (let tries = 0; tries < 200; tries++) {
-      const p = { x: round(ringX(k, g)), y: round(RING.yMin + g() * (RING.yMax - RING.yMin)) };
+    for (let tries = 0; tries < tryLimit; tries++) {
+      const p = { x: round(ringX(k, g, ring)), y: round(RING.yMin + g() * (RING.yMax - RING.yMin)) };
       if (far(p, MIN_GAP)) { best = p; break; }
       const gap = Math.min(...placed.map((q) => Math.hypot((p.x - q.x) * 2, p.y - q.y)));
       if (gap > bestGap) { bestGap = gap; best = p; }
@@ -99,5 +112,16 @@ export function tierProgress(s: CampaignState) {
   const status = boss && bossBeaten(s, t) ? `${bossName} vencido`
     : isBossAvailable(s, t) ? `${bossName} está esperando!`
     : `vença todos para desafiar ${bossName}`;
-  return { name: t.name, number: t.number, beaten: beatenRegulars(s, t).length, total: regularsOf(t).length, boss: status };
+  return { name: t.name, number: t.number, beaten: beatenRegulars(s, t).length, total: regularsOf(t).length, boss: finalStatus(s) ?? status };
+}
+
+/**
+ * O duelo final no progresso (change tier4-finais): "Final · vença Yami Yugi" depois do chefe do tier, e o título de
+ * campeão depois da vitória. Sem duelo final liberado: null.
+ */
+export function finalStatus(s: CampaignState): string | null {
+  const t = currentTier(s);
+  const f = finalOf(t);
+  if (!f || !isFinalAvailable(s, t)) return null;
+  return s.champion ? `Campeão da Batalha da Cidade · dia ${s.champion.day}` : `Final · vença ${f.name}`;
 }

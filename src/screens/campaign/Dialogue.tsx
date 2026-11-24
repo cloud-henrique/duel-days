@@ -109,14 +109,17 @@ export function Dialogue({ scene, stage, chars, profile, top, onDone, children }
 
   const who = line ? speakerOf(line, stage) : null;
   const playerSpeaking = who === 'player';
-  const duelChar = chars[CHAR_ID[stage.duelist] ?? stage.duelist];
   const playerChar = chars[profile.avatar];
   const spoken = scene.slice(0, i + 1);
   const lastDuelist = [...spoken].reverse().find((l) => speakerOf(l, stage) !== 'player');
   const lastPlayer = [...spoken].reverse().find((l) => speakerOf(l, stage) === 'player');
+  // Do outro lado do jogador fica quem falou por último (change tier4-finais: a cena de campeão tem vários falantes); nas
+  // cenas de um duelista só, é sempre ele.
+  const cast = lastDuelist ? speakerOf(lastDuelist, stage) : stage.duelist;
+  const duelChar = chars[CHAR_ID[cast] ?? cast];
   const playerOnStage = !!lastPlayer && !finished;
-  const name = playerSpeaking ? profile.name : NAMES[stage.duelist] ?? duelChar?.name ?? '';
-  const color = speakerColor(playerSpeaking ? 'player' : stage.duelist);
+  const name = playerSpeaking ? profile.name : NAMES[cast] ?? duelChar?.name ?? '';
+  const color = speakerColor(playerSpeaking ? 'player' : cast);
   // Sem ninguém falando (o menu), todos ficam acesos.
   const lit = (side: 'duelist' | 'player') => !line || (side === 'player') === playerSpeaking;
 
@@ -138,7 +141,7 @@ export function Dialogue({ scene, stage, chars, profile, top, onDone, children }
         </div>
       )}
       <div className="stage">
-        {duelChar && <Sprite c={duelChar} expr={lastDuelist?.expression ?? 'neutral'} side={playerOnStage ? 'duelist' : 'solo'} lit={lit('duelist')} />}
+        {duelChar && <Sprite key={cast} c={duelChar} expr={lastDuelist?.expression ?? 'neutral'} side={playerOnStage ? 'duelist' : 'solo'} lit={lit('duelist')} />}
         {playerOnStage && playerChar && <Sprite c={playerChar} expr={lastPlayer?.expression ?? 'neutral'} side="player" lit={lit('player')} />}
       </div>
       {line && (
@@ -159,7 +162,7 @@ export function Dialogue({ scene, stage, chars, profile, top, onDone, children }
       )}
       {finished && children && (
         <div className="scene-bottom">
-          <div className="scene-sheet-wrap" style={{ ['--glow' as string]: speakerColor(stage.duelist) }}>
+          <div className="scene-sheet-wrap" style={{ ['--glow' as string]: speakerColor(cast) }}>
             <div className="scene-sheet hud scene-menu">{children}</div>
           </div>
         </div>

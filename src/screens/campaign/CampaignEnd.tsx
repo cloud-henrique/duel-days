@@ -7,8 +7,8 @@ import { GameIcon } from '../../ui/icons';
 import { DisplayTitle } from '../../ui/titles';
 
 /** Tela de fim: o resumo dos 30 dias, Rever epílogo, Ver a coleção e Nova campanha (com confirmação). */
-export function CampaignEnd({ s, onEpilogue, onCollection, onRestart, onTitle }: {
-  s: CampaignState; onEpilogue: () => void; onCollection: () => void; onRestart: () => void; onTitle: () => void;
+export function CampaignEnd({ s, onEpilogue, onChampion, onCollection, onRestart, onTitle }: {
+  s: CampaignState; onEpilogue: () => void; onChampion?: () => void; onCollection: () => void; onRestart: () => void; onTitle: () => void;
 }) {
   const [confirm, setConfirm] = useState(false);
   const ep = epilogue(s);
@@ -22,7 +22,9 @@ export function CampaignEnd({ s, onEpilogue, onCollection, onRestart, onTitle }:
         <li><span>DP ganho</span><b className="num"><Dp value={s.totalDPEarned} /></b></li>
         <li><span>Cartas diferentes</span><b className="num">{Object.keys(s.collection).length}</b></li>
         <li><span>Chefes vencidos</span><b className="num">{s.defeatedBosses.length}</b></li>
+        {s.champion && <li><span>Campeão da Batalha da Cidade</span><b className="num">dia {s.champion.day}</b></li>}
       </ul>
+      {s.champion && onChampion && <button className="hud-btn gold" onClick={onChampion}><GameIcon name="trophy" size={18} /> Rever cena de campeão</button>}
       {ep && <button className="hud-btn gold" onClick={onEpilogue}><GameIcon name="heart" size={18} /> Rever epílogo ({ep.duelist.name})</button>}
       <button className="hud-btn primary" onClick={onCollection}><GameIcon name="collection" size={18} /> Ver a coleção</button>
       {!confirm

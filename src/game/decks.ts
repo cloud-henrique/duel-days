@@ -3,7 +3,10 @@ import { makeRng } from '../engine/cpu';
 
 import { FORMAT } from './format';
 
-export const MAIN_MIN = FORMAT.mainMin, MAIN_MAX = FORMAT.mainMax, EXTRA_MAX = FORMAT.extraMax, MAX_COPIES = FORMAT.maxCopies;
+export const MAIN_MIN = FORMAT.mainMin,
+  MAIN_MAX = FORMAT.mainMax,
+  EXTRA_MAX = FORMAT.extraMax,
+  MAX_COPIES = FORMAT.maxCopies;
 /** Cartas limitadas a 1 cópia, como no nativo (`DeckRules.classic`). */
 export const LIMITED: ReadonlySet<number> = new Set([
   55144522, // Pot of Greed
@@ -11,15 +14,23 @@ export const LIMITED: ReadonlySet<number> = new Set([
   53129443, // Dark Hole
   83764718, // Monster Reborn
   44095762, // Mirror Force
+  // Deuses Egípcios (change tier4-finais): só como assinatura, uma cópia de cada.
+  10000000, // Obelisk the Tormentor
+  10000010, // The Winged Dragon of Ra
+  10000020, // Slifer the Sky Dragon
 ]);
 export const maxCopiesOf = (code: number) => (LIMITED.has(code) ? 1 : MAX_COPIES);
-export interface Deck extends DeckList { id: string; name: string }
+export interface Deck extends DeckList {
+  id: string;
+  name: string;
+}
 type Cards = Record<string, CardRecord>;
 
 /** Fusão, Sincro, Xyz e Link vão para o Extra Deck. */
 export const isExtraCard = (c: CardRecord) => (c.type & (0x40 | 0x2000 | 0x800000 | 0x4000000)) !== 0;
 
-export const count = (list: number[]) => list.reduce<Record<number, number>>((m, c) => ((m[c] = (m[c] ?? 0) + 1), m), {});
+export const count = (list: number[]) =>
+  list.reduce<Record<number, number>>((m, c) => ((m[c] = (m[c] ?? 0) + 1), m), {});
 
 /**
  * Por que a carta não pode entrar no deck agora (as mensagens do nativo), ou `null` se pode. `owned` são as cópias da
@@ -28,7 +39,7 @@ export const count = (list: number[]) => list.reduce<Record<number, number>>((m,
 export function addRefusal(d: DeckList, code: number, cards: Cards, owned: Record<string, number>): string | null {
   const c = cards[String(code)];
   if (!c) return 'Carta desconhecida';
-  const inDeck = [...d.main, ...d.extra].filter((x) => x === code).length;
+  const inDeck = [...d.main, ...d.extra].filter(x => x === code).length;
   const have = owned[String(code)] ?? 0;
   const rule = maxCopiesOf(code);
   const plural = (n: number) => `${n} cópia${n === 1 ? '' : 's'}`;
@@ -42,53 +53,88 @@ export function addRefusal(d: DeckList, code: number, cards: Cards, owned: Recor
 /** Lista de problemas do deck (vazia = válido). Com `owned`, também confere a coleção. */
 export function validateDeck(d: DeckList, cards: Cards, owned?: Record<string, number>): string[] {
   const out: string[] = [];
-  if (d.main.length < MAIN_MIN) out.push(`Faltam ${MAIN_MIN - d.main.length} cartas no deck principal (mínimo ${MAIN_MIN}).`);
+  if (d.main.length < MAIN_MIN)
+    out.push(`Faltam ${MAIN_MIN - d.main.length} cartas no deck principal (mínimo ${MAIN_MIN}).`);
   if (d.main.length > MAIN_MAX) out.push(`Deck principal com ${d.main.length} cartas (máximo ${MAIN_MAX}).`);
   if (d.extra.length > EXTRA_MAX) out.push(`Extra Deck com ${d.extra.length} cartas (máximo ${EXTRA_MAX}).`);
   const all = count([...d.main, ...d.extra]);
   for (const [code, n] of Object.entries(all)) {
     const c = cards[code];
-    if (!c) { out.push(`Carta desconhecida: ${code}.`); continue; }
+    if (!c) {
+      out.push(`Carta desconhecida: ${code}.`);
+      continue;
+    }
     if (n > maxCopiesOf(Number(code))) out.push(`${c.name}: ${n} cópias (máximo ${maxCopiesOf(Number(code))}).`);
     if (owned && n > (owned[code] ?? 0)) out.push(`${c.name}: você tem só ${owned[code] ?? 0}.`);
   }
-  for (const code of d.main) if (cards[code] && isExtraCard(cards[code])) { out.push(`${cards[code].name} deve ir no Extra Deck.`); break; }
-  for (const code of d.extra) if (cards[code] && !isExtraCard(cards[code])) { out.push(`${cards[code].name} não pode ir no Extra Deck.`); break; }
+  for (const code of d.main)
+    if (cards[code] && isExtraCard(cards[code])) {
+      out.push(`${cards[code].name} deve ir no Extra Deck.`);
+      break;
+    }
+  for (const code of d.extra)
+    if (cards[code] && !isExtraCard(cards[code])) {
+      out.push(`${cards[code].name} não pode ir no Extra Deck.`);
+      break;
+    }
   return out;
 }
 
 /** Deck aleatório válido (inimigos e testes): 18 monstros, 12 magias, 10 armadilhas, cópias até 2. */
 export function randomDeck(cards: Cards, poolIds: number[], seed: number): DeckList {
   const rng = makeRng(seed);
-  const ids = poolIds.filter((id) => cards[id]);
-  const by = (f: (c: CardRecord) => boolean) => ids.filter((id) => f(cards[id]) && !isExtraCard(cards[id]));
+  const ids = poolIds.filter(id => cards[id]);
+  const by = (f: (c: CardRecord) => boolean) => ids.filter(id => f(cards[id]) && !isExtraCard(cards[id]));
   const pick = (pool: number[], n: number) => {
-    const main: number[] = []; const used: Record<number, number> = {};
+    const main: number[] = [];
+    const used: Record<number, number> = {};
     for (let guard = 0; main.length < n && guard < 5000; guard++) {
       const id = pool[Math.floor(rng() * pool.length)];
       if ((used[id] ?? 0) >= 2) continue;
-      used[id] = (used[id] ?? 0) + 1; main.push(id);
+      used[id] = (used[id] ?? 0) + 1;
+      main.push(id);
     }
     return main;
   };
-  const main = [...pick(by((c) => (c.type & 1) !== 0), 14), ...pick(by((c) => (c.type & 2) !== 0), 9), ...pick(by((c) => (c.type & 4) !== 0), 7)];
-  const extras = ids.filter((id) => isExtraCard(cards[id]));
-  const extra = Array.from({ length: Math.min(EXTRA_MAX, extras.length) }, () => extras[Math.floor(rng() * extras.length)]);
+  const main = [
+    ...pick(
+      by(c => (c.type & 1) !== 0),
+      14,
+    ),
+    ...pick(
+      by(c => (c.type & 2) !== 0),
+      9,
+    ),
+    ...pick(
+      by(c => (c.type & 4) !== 0),
+      7,
+    ),
+  ];
+  const extras = ids.filter(id => isExtraCard(cards[id]));
+  const extra = Array.from(
+    { length: Math.min(EXTRA_MAX, extras.length) },
+    () => extras[Math.floor(rng() * extras.length)],
+  );
   return { main, extra: [...new Set(extra)] };
 }
 
 /** Coleção inicial: 40 cartas Normais (monstros, magias, armadilhas), até 3 cópias — forma um deck válido por inteiro. */
 export function starterCollection(cards: Cards, tiers: Record<string, string>, seed: number): Record<string, number> {
   const rng = makeRng(seed);
-  const commons = Object.keys(tiers).filter((id) => tiers[id] === 'N' && cards[id] && !isExtraCard(cards[id]));
-  const want: [(c: CardRecord) => boolean, number][] = [[(c) => (c.type & 1) !== 0, 22], [(c) => (c.type & 2) !== 0, 10], [(c) => (c.type & 4) !== 0, 8]];
+  const commons = Object.keys(tiers).filter(id => tiers[id] === 'N' && cards[id] && !isExtraCard(cards[id]));
+  const want: [(c: CardRecord) => boolean, number][] = [
+    [c => (c.type & 1) !== 0, 22],
+    [c => (c.type & 2) !== 0, 10],
+    [c => (c.type & 4) !== 0, 8],
+  ];
   const out: Record<string, number> = {};
   for (const [f, n] of want) {
-    const pool = commons.filter((id) => f(cards[id]));
+    const pool = commons.filter(id => f(cards[id]));
     for (let added = 0, guard = 0; added < n && guard < 5000; guard++) {
       const id = pool[Math.floor(rng() * pool.length)];
       if ((out[id] ?? 0) >= 2) continue;
-      out[id] = (out[id] ?? 0) + 1; added++;
+      out[id] = (out[id] ?? 0) + 1;
+      added++;
     }
   }
   return out;

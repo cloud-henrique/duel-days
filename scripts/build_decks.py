@@ -299,6 +299,89 @@ TUNE: dict[str, list[tuple[str, str, str]]] = {
         ('Crush Card Virus', 'Mystical Space Typhoon', 'pede tributo de trevas que a CPU raramente tem; tira armadilhas'),
         ('Crush Card Virus', 'Dust Tornado', 'idem'),
     ],
+    # Tier 4 (change tier4-finais). 1ª rodada contra o deck inicial (difficulty.ts, 40 duelos): Ishizu 78% (ok), Marik 68%,
+    # Yami Marik 70%, Yami Yugi 70%, Odion 35% e Yami Bakura 30%. Ficam a assinatura e o tema de cada um.
+    'odion': [  # 35% contra a meta de 82%: armadilhas de sorte e monstros de 300 a 600
+        ('Polymerization', 'Sakuretsu Armor', 'a Fusão quase nunca sai'),
+        ('Ordeal of a Traveler', 'Trap Hole', 'efeito de sorte'),
+        ('Curse of Anubis', 'Torrential Tribute', 'efeito fraco'),
+        ('Statue of the Wicked', 'Bottomless Trap Hole', 'só vale com a armadilha destruída'),
+        ('Spirit Reaper', 'Vampire Lord', '300 de ATK; zumbi de 2000'),
+        ('Cobra Jar', 'Zombyra the Dark', '600 de ATK; 2100'),
+        ('Swarm of Scarabs', 'Ryu Kokki', '500 de ATK; zumbi de 2400'),
+        ('Des Lacooda', 'Giant Orc', '500 de ATK; 2200'),
+        # 2ª rodada: 65%
+        ('Dark Spirit of the Silent', 'Sakuretsu Armor', 'efeito fraco'),
+        ('Wandering Mummy', 'Vampire Lord', 'zumbi de 2000 no lugar de 1500'),
+        ('Swarm of Locusts', 'Zombyra the Dark', '1000 de ATK; 2100'),
+        ('Ghost Knight of Jackal', 'Ryu Kokki', 'nível 5 de 1700; 2400'),
+    ],
+    'yamibakura': [  # 30% contra a meta de 82%: o Destiny Board quase nunca completa (o mesmo do Bakura do Tier 1)
+        ('Spirit Message "I"', 'Archfiend Soldier', 'as Spirit Messages só servem ao Destiny Board'),
+        ('Spirit Message "N"', 'Archfiend Soldier', 'idem'),
+        ('Spirit Message "A"', 'Summoned Skull', 'idem'),
+        ('Spirit Message "L"', 'Trap Hole', 'idem'),
+        ('Destiny Board', 'Sakuretsu Armor', 'idem'),
+        ('Puppet Master', 'Torrential Tribute', 'nível 6 de 0 ATK'),
+        ('Earthbound Spirit', 'Ryu Kokki', '500 de ATK'),
+        ('Contract with the Dark Master', 'Dark Hole', 'ritual que a CPU quase nunca monta'),
+        ('Dark Master - Zorc', 'Summoned Skull', 'idem'),
+        ('Winged Minion', 'Vampire Lord', '700 de ATK'),
+        # 2ª rodada: 60%
+        ('Mask of Darkness', 'Archfiend Soldier', '900 de ATK'),
+        ('Morphing Jar #2', 'Giant Orc', '800 de ATK'),
+        ("Nightmare's Steelcage", 'Bottomless Trap Hole', 'só adia o ataque'),
+        ('Soul Release', 'Trap Hole', 'efeito fraco'),
+    ],
+    'marik': [  # 68% contra a meta de 82%
+        ('Bait Doll', 'Sakuretsu Armor', 'efeito fraco'),
+        ('Chorus of Sanctuary', 'Trap Hole', 'efeito fraco'),
+        ('Magical Stone Excavation', 'Torrential Tribute', 'pede descarte'),
+        ('Rafflesia Seduction', 'Archfiend Soldier', '300 de ATK'),
+        ('Vengeful Bog Spirit', 'Archfiend Soldier', 'efeito fraco; demônio de 1900 de nível 4'),
+        # 2ª rodada: 57%, duas vezes. Com o Obelisco (3 tributos), o Lava Golem e os Legendary Fiend, reforço de nível 5–6
+        # entupia a mão: os reforços são de nível 4.
+        ('Dark Jeroid', 'Giant Orc', '1200 de ATK; 2200 de nível 4'),
+        ('Dark Jeroid', 'Archfiend Soldier', 'idem; 1900'),
+        ('Bowganian', 'Gil Garth', '1300 de ATK; 1800 de nível 4'),
+        ('Bowganian', 'Giant Orc', 'idem; 2200'),
+        ('Helpoemer', 'Dark Hole', 'nível 5 de 2000, efeito que a CPU não aproveita'),
+        ('Jam Defender', 'Bottomless Trap Hole', 'só serve ao Slime'),
+        ('Jam Defender', 'Sakuretsu Armor', 'idem'),
+        ('Metal Reflect Slime', 'Magic Cylinder', 'idem'),
+        ('Chorus of Sanctuary', 'Mystical Space Typhoon', 'efeito fraco'),
+    ],
+    'yamimarik': [  # 70% contra a meta de chefe de 85%
+        ('Nightmare Wheel', 'Sakuretsu Armor', 'efeito fraco'),
+        ('Hidden Soldiers', 'Torrential Tribute', 'efeito fraco'),
+        ('The Mask of Remnants', 'Dark Hole', 'combo com o Des Gardius que a CPU quase nunca monta'),
+        ('Remove Trap', 'Trap Hole', 'efeito fraco'),
+        ('Lord Poison', 'Summoned Skull', 'demônio de 2500'),
+        # 2ª rodada: 88% contra o deck inicial, mas só 37% contra os comuns do T4 (perde para as armadilhas deles, como o
+        # Kaiba no T3)
+        ('Makyura the Destructor', 'Heavy Storm', 'limpa as armadilhas dos comuns do T4'),
+        ('Newdoria', "Harpie's Feather Duster", 'idem'),
+        ('Melchid the Four-Face Beast', 'Snatch Steal', 'efeito fraco'),
+        ('Lekunga', 'Jinzo', 'cala as armadilhas dos comuns do T4'),
+    ],
+    'yamiyugi': [  # 70% contra a meta de 90% (o duelo final): cartas de combo que a CPU quase nunca monta
+        ('Multiply', 'Change of Heart', 'combo com o Kuriboh'),
+        ('Magic Formula', 'Monster Reborn', 'só com os Magos'),
+        ('Thousand Knives', 'Dark Hole', 'só com o Mago Negro em campo'),
+        ('Soul Rope', 'Sakuretsu Armor', 'efeito fraco'),
+        ("Fiend's Sanctuary", 'Trap Hole', 'efeito fraco'),
+        ('Polymerization', 'Summoned Skull', 'a Fusão quase nunca sai; a Caveira Invocada é do Yugi'),
+        # 2ª rodada: 75%
+        ('Obnoxious Celtic Guard', 'Gemini Elf', '1400 de ATK; 1900'),
+        ('Gazelle the King of Mythical Beasts', 'Gemini Elf', '1500 de ATK; 1900'),
+        ('Berfomet', 'Torrential Tribute', 'nível 5 de 1400; a Fusão quase nunca sai'),
+        # 3ª rodada: 80% contra o deck inicial, mas só 25% contra o Yami Marik. O Valkyrion pede os três Magnet Warriors
+        # em campo, o que a CPU quase nunca junta.
+        ('Valkyrion the Magna Warrior', 'Black Luster Soldier - Envoy of the Beginning', 'o Soldado do Lustro Negro é do Yugi'),
+        ('Alpha The Magnet Warrior', 'Heavy Storm', 'só serve ao Valkyrion; limpa armadilhas'),
+        ('Beta The Magnet Warrior', "Harpie's Feather Duster", 'idem'),
+        ('Gamma The Magnet Warrior', 'Snatch Steal', 'idem'),
+    ],
 }
 
 
@@ -335,9 +418,50 @@ def cut(main: list[int], extra: list[int], keep: set[int], cards: dict, keep_all
     return main, ex, notes
 
 
-def keep_for(key: str, cards: dict, by_name: dict) -> set[int]:
+def signatures() -> dict[str, int]:
+    """A assinatura de cada duelista: o Tier 1 do campaign.json e os outros do tiers.json (que vale antes de o
+    campaign.json ser regerado, quando um tier novo ainda não tem decks)."""
     camp = json.loads((ROOT / 'src/campaign/data/campaign.json').read_text())
+    tiers = json.loads((ROOT / 'src/campaign/data/tiers.json').read_text())
     sig = {d['key']: (d.get('signatureCard') or {}).get('id') for t in camp['tiers'] for d in t['duelists']}
+    sig.update({d['key']: d['signatureCard']['id'] for t in tiers['tiers'] for d in t['duelists']})
+    return {k: v for k, v in sig.items() if v}
+
+
+# Deuses Egípcios (change tier4-finais): cada um só no deck do dono, que o tem como assinatura (Marik: Obelisco; Yami
+# Marik: Rá; Yami Yugi: Slifer). As receitas trazem Deuses de outros (o Odion usava um Rá no anime).
+GODS = {10000000, 10000010, 10000020}
+
+
+def own_signature(key: str, main: list[int], cards: dict) -> tuple[list[int], dict[int, list[str]]]:
+    """Tira os Deuses que não são do duelista (entra mais uma cópia do monstro mais repetido do deck) e põe a assinatura
+    que a receita não tem (no lugar de uma cópia da carta do mesmo tipo mais repetida). Devolve o deck e as notas."""
+    sig = signatures().get(key)
+    main, notes = list(main), {}
+    kind = lambda i: 'm' if cards[str(i)]['type'] & 1 else 's' if cards[str(i)]['type'] & 2 else 't'
+    name = lambda i: cards[str(i)]['name']
+
+    def most_repeated(k: str, below: int = 4) -> int | None:
+        c = Counter(i for i in main if kind(i) == k and i not in GODS and i != sig)
+        return next((i for i, n in c.most_common() if n < below), None)
+
+    for g in [i for i in main if i in GODS and i != sig]:
+        main.remove(g)
+        filler = most_repeated('m', below=3)
+        if filler is not None:
+            main.append(filler)
+            notes.setdefault(filler, []).append(f'+1 no lugar de {name(g)} (Deus de outro dono)')
+    if sig and sig not in main:
+        out = most_repeated(kind(sig))
+        if out is not None:
+            main.reverse(); main.remove(out); main.reverse()
+        main.insert(0, sig)
+        notes.setdefault(sig, []).append('assinatura (a receita não tinha)' + (f', no lugar de 1 {name(out)}' if out else ''))
+    return main, notes
+
+
+def keep_for(key: str, cards: dict, by_name: dict) -> set[int]:
+    sig = signatures()
     ids = {sig[key]} if sig.get(key) else set()
     for n in KEEP.get(key, []):
         if n not in by_name:
@@ -358,7 +482,8 @@ def write_candidates(cards: dict, by_name: dict) -> None:
         keep = keep_for(key, cards, by_name)
         out[key] = []
         for c in cs:
-            main, extra, _ = cut(c['main'], c['extra'], keep, cards, keep_all_for(key, by_name))
+            own, _ = own_signature(key, c['main'], cards)
+            main, extra, _ = cut(own, c['extra'], keep, cards, keep_all_for(key, by_name))
             out[key].append({**c, 'main': main, 'extra': extra})
     (RAW / 'candidates-speed.json').write_text(json.dumps(out, ensure_ascii=False, indent=1))
     print(f'ok: {sum(len(v) for v in out.values())} candidatas cortadas → raw/decks/candidates-speed.json')
@@ -406,6 +531,9 @@ def main() -> None:
             main.insert(0, in_id)  # idem
             notes.setdefault(in_id, []).append(f'no lugar de {out_name}: {why}')
 
+        main, own_notes = own_signature(key, main, cards)
+        for i, ns in own_notes.items():
+            notes.setdefault(i, []).extend(ns)
         main, extra, cutted = cut(main, c['extra'], keep_for(key, cards, by_name), cards, keep_all_for(key, by_name))
         for n, k in Counter(cutted).items():
             print(f'  {key}: sai {k}× {n}')

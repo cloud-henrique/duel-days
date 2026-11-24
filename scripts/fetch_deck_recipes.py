@@ -31,7 +31,7 @@ API = 'https://ygoprodeck.com/api/decks/getDecks.php'
 CARDINFO = 'https://db.ygoprodeck.com/api/v7/cardinfo.php'
 UA = {'User-Agent': 'duel-days/1.0 (projeto pessoal)'}
 MIN_COVER, MAX_CANDIDATES = 0.85, 6
-LIMITED = {55144522, 12580477, 53129443, 83764718, 44095762}  # src/game/decks.ts
+LIMITED = {55144522, 12580477, 53129443, 83764718, 44095762, 10000000, 10000010, 10000020}  # src/game/decks.ts (+ Deuses)
 
 # chave do duelista → (termos de busca, nome tem que bater, nome não pode bater)
 NOT_ALWAYS = r'dsod|dark side|modern|genesys|202\d|zexal|arc-?v|vrains|sevens|5d|\bgx\b|rush'
@@ -53,6 +53,13 @@ CHARACTERS = {
     'arkana': (['Arkana', 'Pandora'], r'arkana|pandora', r''),
     'strings': (['Strings'], r'strings', r''),
     'kaiba': (['Kaiba', 'Seto'], r'kaiba|\bseto\b', r'mokuba|noah|legendary|duelists? kingdom|\bdk\b|1st|pyramid|pegasus|ozzy|gozaburo'),
+    # Tier 4 (change tier4-finais). O Yami Bakura e o Yami Yugi não são o Bakura e o Yugi do Tier 1 (e vice-versa).
+    'ishizu': (['Ishizu', 'Isis'], r'ishizu|\bisis\b', r''),
+    'odion': (['Odion', 'Rishid'], r'odion|rishid', r''),
+    'yamibakura': (['Yami Bakura', 'Dark Bakura', 'Thief King'], r'yami bakura|dark bakura|thief king', r'zorc|kul elna|memor'),
+    'marik': (['Marik', 'Malik'], r'marik|malik', r'yami|dark|odion|rishid|ishizu|keith|posses'),
+    'yamimarik': (['Yami Marik', 'Dark Marik', 'Yami Malik'], r'yami mal?rik|dark mal?rik|yami malik', r''),
+    'yamiyugi': (['Yami Yugi', 'Atem', 'Pharaoh'], r'yami yugi|\batem\b|pharaoh', r'memor|world|ceremonial|duelists? kingdom|\bdk\b|tag|pyramid|zorc'),
 }
 
 

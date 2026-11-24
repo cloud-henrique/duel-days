@@ -167,6 +167,11 @@ export function eventReview(s: CampaignState, key: string, n: number): Scene | n
 
 // --- Epílogo ---
 
+/** A cena de campeão (change tier4-finais): a do amigo do epílogo (mesmo critério) ou a genérica, sem nenhum evento vencido. */
+export const championScene = (s: CampaignState): string => epilogueDuelist(s)?.key ?? 'generic';
+/** As falas da cena de campeão gravada (a genérica, se faltar a do amigo). */
+export const championLines = (scene: string): Scene => DIALOGUE.champion?.[scene] ?? DIALOGUE.champion?.generic ?? [];
+
 /** Quem tem mais eventos vencidos; no empate, mais afinidade; depois, a ordem do conteúdo. Ninguém com 0 eventos. */
 export function epilogueDuelist(s: CampaignState): DuelistData | null {
   let best: { d: DuelistData; ev: number; af: number } | null = null;

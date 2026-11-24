@@ -26,5 +26,8 @@ export const starterDeck = (): DuelDeck => {
   return { main, extra: [] };
 };
 
-/** Perfil da CPU no duelo contra este duelista: o chefe do tier joga como `chefe`, os demais como `comum`. */
-export const cpuFor = (key: string): 'comum' | 'chefe' => (duelist(key).isBoss ? 'chefe' : 'comum');
+/** Perfil da CPU no duelo contra este duelista: o chefe do tier e o duelo final jogam como `chefe`, os demais como `comum`. */
+export const cpuFor = (key: string): 'comum' | 'chefe' => {
+  const d = duelist(key);
+  return d.isBoss || d.isFinal ? 'chefe' : 'comum';
+};

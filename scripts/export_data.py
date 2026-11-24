@@ -113,6 +113,8 @@ L = [f"# Relatório da importação (corte OCG {st.get('cutoff', '?')})", '',
      f"## Correções sem carta ({len(orphans)})", '', lst([[i] for i in orphans]), '',
      f"## Mais de uma raridade na mesma caixa ({len(st.get('varias_raridades', []))}), vale a menor", '',
      lst([[i, c, pool.get(str(i), {}).get('name', '?')] for i, c in st.get('varias_raridades', [])]), '',
+     f"## Incluídas à mão (raw/import/incluir.json), nunca em booster ({len(st.get('incluidas', []))})", '',
+     lst([[i, pool.get(str(i), {}).get('name', '?')] for i in st.get('incluidas', [])]), '',
      f"## Cartas da campanha fora do corte, incluídas mesmo assim ({len(st.get('da_campanha_fora_do_corte', []))})", '',
      lst([[i, pool.get(str(i), {}).get('name', '?')] for i in st.get('da_campanha_fora_do_corte', [])]), '']
 open(f'{R}/raw/import/report.md', 'w', encoding='utf-8').write('\n'.join(L))

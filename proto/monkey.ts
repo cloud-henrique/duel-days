@@ -6,7 +6,7 @@ import { randomRespond, makeRng } from '../src/engine/cpu';
 import { DuelDriver } from '../src/engine/driver';
 import { openCore, type CardRecord } from '../src/engine/session';
 import { DUELISTS } from '../src/campaign/data/types';
-import { duelistDeck, starterDeck } from '../src/campaign/decks';
+import { cpuFor, duelistDeck, starterDeck } from '../src/campaign/decks';
 import type { OcgMessage } from 'ocgcore-wasm';
 import { checkLocs, lastBoardMatches, turnTimer, LONG_TURN_MS } from './beat-check';
 import type { DriverOut } from '../src/engine/driver';
@@ -44,7 +44,7 @@ for (const opp of DUELISTS.map((d) => d.key)) {
     // Metade dos duelos com o deck inicial, metade com o deck de outro duelista (cobre as cartas dos dois lados).
     const others = DUELISTS.map((d) => d.key).filter((k) => k !== opp);
     const mine = i % 2 === 0 ? starterDeck() : duelistDeck(others[i % others.length]);
-    const d = new DuelDriver(core, cards, (n) => scripts[n] ?? null, mine, foe, seed, undefined, { cpu: DUELISTS.find((x) => x.key === opp)?.isBoss ? 'chefe' : 'comum', budget: MODE.budget });
+    const d = new DuelDriver(core, cards, (n) => scripts[n] ?? null, mine, foe, seed, undefined, { cpu: cpuFor(opp), budget: MODE.budget });
     const rng = makeRng(seed * 13);
     timer = turnTimer();
     let t = Date.now(); let out = d.run(); let ms = Date.now() - t;

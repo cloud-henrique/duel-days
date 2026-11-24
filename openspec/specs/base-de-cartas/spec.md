@@ -101,3 +101,19 @@ correções sem carta e, por booster, o total de cartas e quantas ficaram fora p
 #### Scenario: Importação concluída
 - **WHEN** a importação termina
 - **THEN** o relatório mostra os totais por tipo e as listas de cartas sem data OCG, sem português e sem suporte do motor
+
+### Requirement: Deuses Egípcios fora do corte
+
+Obelisk the Tormentor, Slifer the Sky Dragon e The Winged Dragon of Ra SHALL estar na base, com texto em português, como
+exceção explícita ao corte de 30/09/2004, porque a campanha os usa. Eles MUST NOT entrar em nenhum booster. O relatório
+da importação SHALL listá-los como incluídos à mão.
+
+#### Scenario: Deuses na base
+
+- **WHEN** a base é gerada
+- **THEN** os três Deuses estão nela e o motor os joga
+
+#### Scenario: Deus fora dos boosters
+
+- **WHEN** o jogador abre qualquer pacote de qualquer coleção
+- **THEN** nenhum dos três Deuses sai no pacote

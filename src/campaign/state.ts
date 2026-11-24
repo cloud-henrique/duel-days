@@ -51,6 +51,11 @@ export interface CampaignState {
   lastBondEventLossDay: Record<string, number>;
   /** Duelistas já encontrados (para a tela de Laços). */
   met: string[];
+  /**
+   * Campeão da Batalha da Cidade (change tier4-finais): o dia da primeira vitória sobre o duelo final e a cena de campeão
+   * que tocou (a chave do amigo ou `generic`), para rever a mesma. Sem o campo: ainda não é campeão.
+   */
+  champion?: { day: number; scene: string };
   /** Duelo começado e ainda sem resultado: o app fechou no meio dele (não gasta o período). */
   pendingDuel: { duelist: string; kind: DuelKind } | null;
 }

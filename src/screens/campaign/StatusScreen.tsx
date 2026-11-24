@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { epilogueDuelist } from '../../campaign/bond';
 import { daysLeft } from '../../campaign/calendar';
+import { finalStatus } from '../../campaign/map';
 import { PERIOD_NAMES, type CampaignState } from '../../campaign/state';
 import { bossBeaten, bossOf, currentTier, hasContent, nextTier, openTiers } from '../../campaign/tiers';
 import { Dp } from '../../ui/Dp';
@@ -23,11 +24,12 @@ function nextTierText(s: CampaignState): string | null {
  * Status da campanha: dia, dias restantes, o tier atual, os abertos, os chefes vencidos e o que abre o próximo tier;
  * vitórias, derrotas e DP; e a opção de recomeçar.
  */
-export function StatusScreen({ s, onRestart, onBack }: { s: CampaignState; onRestart: () => void; onBack: () => void }) {
+export function StatusScreen({ s, onRestart, onBack, onChampion }: { s: CampaignState; onRestart: () => void; onBack: () => void; onChampion?: () => void }) {
   const [confirm, setConfirm] = useState(false);
   const cur = currentTier(s);
   const bosses = openTiers(s).filter((t) => bossBeaten(s, t)).map((t) => bossOf(t)?.name).filter(Boolean);
   const next = nextTierText(s);
+  const final = finalStatus(s);
   return (
     <div className="app deckb hexbg status">
       <TopBar title="Status" onBack={onBack} subtitle={`Tier ${cur.number}: ${cur.name} · dia ${s.day}`} />
@@ -38,11 +40,13 @@ export function StatusScreen({ s, onRestart, onBack }: { s: CampaignState; onRes
         <Row label="Tiers abertos">{openTiers(s).map((t) => t.number).join(', ')}</Row>
         <Row label="Chefes vencidos">{bosses.length ? bosses.join(', ') : 'nenhum'}</Row>
         {next && <Row label="Próximo tier">{next}</Row>}
+        {final && <Row label="Final">{final}</Row>}
         <Row label="Vitórias">{s.wins}</Row>
         <Row label="Derrotas">{s.losses}</Row>
         <Row label="DP"><Dp value={s.dp} /></Row>
         <Row label="Cartas diferentes">{Object.keys(s.collection).length}</Row>
       </ul>
+      {s.champion && onChampion && <button className="hud-btn gold" onClick={onChampion}><GameIcon name="trophy" size={18} /> Rever cena de campeão</button>}
       {!confirm
         ? <button className="hud-btn" onClick={() => setConfirm(true)}><GameIcon name="newGame" size={18} /> Nova campanha</button>
         : (

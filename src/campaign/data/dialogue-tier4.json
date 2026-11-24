@@ -1,0 +1,757 @@
+{
+  "_comment": "Falas curtas do Tier 4 (change tier4-finais), no tom das do Tier 3. O copy_campaign_data.py junta ao dialogue.json, e o `champion` (cena de campeão, depois da primeira vitória sobre o Yami Yugi) vai junto: uma por amigo do Tier 1 e a genérica, sem laço. {nome} = nome do jogador; {a|b|c} = masculino|feminino|neutro. O Yami Yugi e o Yami Bakura são o outro lado do Yugi e do Bakura (o espírito do Item do Milênio); as falas não citam eventos de laço.",
+  "duelists": {
+    "ishizu": {
+      "firstGreeting": [
+        [
+          {
+            "speaker": "ishizu",
+            "expression": "neutral",
+            "text": "Eu sabia que você viria, {nome}. O Colar do Milênio me mostrou este encontro."
+          },
+          { "speaker": "player", "expression": "surprised", "text": "Você já sabia o meu nome?" },
+          {
+            "speaker": "ishizu",
+            "expression": "happy",
+            "text": "Sei muito mais do que isso. Meu nome é Ishizu Ishtar."
+          }
+        ],
+        [
+          {
+            "speaker": "ishizu",
+            "expression": "neutral",
+            "text": "Sou Ishizu, guardiã do túmulo do Faraó. As finais da Batalha da Cidade começaram, e você faz parte delas."
+          }
+        ]
+      ],
+      "greeting": [
+        [
+          {
+            "speaker": "ishizu",
+            "expression": "neutral",
+            "text": "O futuro muda a cada passo seu, {nome}. É raro eu ver isso acontecer."
+          }
+        ],
+        [
+          {
+            "speaker": "ishizu",
+            "expression": "sad",
+            "text": "Meu irmão se perdeu nas sombras. Estou aqui para trazê-lo de volta."
+          }
+        ],
+        [
+          {
+            "speaker": "ishizu",
+            "expression": "happy",
+            "text": "Bem-vind{o|a|e} de volta. O Kaiba não gosta que eu use o prédio dele, mas não disse que não."
+          }
+        ]
+      ],
+      "beforeDuel": [
+        [
+          {
+            "speaker": "ishizu",
+            "expression": "neutral",
+            "text": "Já vi como este duelo termina. Quer mesmo tentar mudar o destino?"
+          }
+        ],
+        [
+          {
+            "speaker": "ishizu",
+            "expression": "neutral",
+            "text": "Cada carta que você compra, eu já vi. Mesmo assim, mostre do que é capaz."
+          }
+        ],
+        [{ "speaker": "ishizu", "expression": "happy", "text": "Vamos, {nome}. Que o seu deck fale por você." }]
+      ],
+      "playerWins": [
+        [
+          {
+            "speaker": "ishizu",
+            "expression": "surprised",
+            "text": "O que o Colar me mostrou... não aconteceu. Você mudou o futuro."
+          }
+        ],
+        [
+          {
+            "speaker": "ishizu",
+            "expression": "happy",
+            "text": "Que bom estar errada de vez em quando. Obrigada, {nome}."
+          }
+        ],
+        [
+          {
+            "speaker": "ishizu",
+            "expression": "neutral",
+            "text": "O destino não é escrito em pedra. Você acabou de provar isso."
+          }
+        ]
+      ],
+      "playerLoses": [
+        [
+          {
+            "speaker": "ishizu",
+            "expression": "neutral",
+            "text": "Era assim que eu tinha visto. Mas não desista: o futuro ainda pode mudar."
+          }
+        ],
+        [
+          {
+            "speaker": "ishizu",
+            "expression": "sad",
+            "text": "Sinto muito, {nome}. Às vezes até eu queria ver outro final."
+          }
+        ],
+        [{ "speaker": "ishizu", "expression": "neutral", "text": "Volte mais forte. Vou esperar para ver o que muda." }]
+      ],
+      "firstWin": [
+        { "speaker": "ishizu", "expression": "surprised", "text": "Eu vi a minha vitória. Vi com clareza." },
+        { "speaker": "player", "expression": "happy", "text": "Parece que o futuro tinha outros planos." },
+        {
+          "speaker": "ishizu",
+          "expression": "happy",
+          "text": "Tinha mesmo. Talvez você seja quem pode salvar o meu irmão, {nome}."
+        }
+      ]
+    },
+    "odion": {
+      "firstGreeting": [
+        [
+          {
+            "speaker": "odion",
+            "expression": "neutral",
+            "text": "Pare. Ninguém chega perto do Mestre Marik sem passar por mim."
+          },
+          { "speaker": "player", "expression": "neutral", "text": "Então vamos duelar. Eu me chamo {nome}." },
+          { "speaker": "odion", "expression": "neutral", "text": "Odion. Lembre bem desse nome." }
+        ],
+        [
+          {
+            "speaker": "odion",
+            "expression": "neutral",
+            "text": "Sou Odion. Protejo a família Ishtar desde que me conheço por gente. Você está no meu caminho."
+          }
+        ]
+      ],
+      "greeting": [
+        [{ "speaker": "odion", "expression": "neutral", "text": "Você voltou à arena. Isso é coragem ou teimosia?" }],
+        [
+          {
+            "speaker": "odion",
+            "expression": "sad",
+            "text": "O Mestre Marik não é mau. Ele só carrega um peso grande demais."
+          }
+        ],
+        [
+          {
+            "speaker": "odion",
+            "expression": "neutral",
+            "text": "O vento aqui em cima é forte, {nome}. Segure bem as suas cartas."
+          }
+        ]
+      ],
+      "beforeDuel": [
+        [
+          {
+            "speaker": "odion",
+            "expression": "angry",
+            "text": "Minhas armadilhas são a muralha que protege o Mestre Marik. Tente atravessar."
+          }
+        ],
+        [{ "speaker": "odion", "expression": "neutral", "text": "Não luto por mim. Por isso não posso perder." }],
+        [
+          {
+            "speaker": "odion",
+            "expression": "neutral",
+            "text": "Encarnação de Apophis, desperte. Este duelo começa agora."
+          }
+        ]
+      ],
+      "playerWins": [
+        [{ "speaker": "odion", "expression": "surprised", "text": "Você atravessou a muralha..." }],
+        [
+          {
+            "speaker": "odion",
+            "expression": "sad",
+            "text": "Falhei de novo com o Mestre Marik. Mas não falhei com você: o duelo foi justo."
+          }
+        ],
+        [{ "speaker": "odion", "expression": "neutral", "text": "Força de verdade. Respeito isso, {nome}." }]
+      ],
+      "playerLoses": [
+        [
+          {
+            "speaker": "odion",
+            "expression": "neutral",
+            "text": "A muralha continua de pé. Volte quando estiver pront{o|a|e}."
+          }
+        ],
+        [
+          {
+            "speaker": "odion",
+            "expression": "neutral",
+            "text": "Não há vergonha em cair diante de quem protege alguém."
+          }
+        ],
+        [{ "speaker": "odion", "expression": "happy", "text": "Você quase conseguiu. Quase." }]
+      ],
+      "firstWin": [
+        { "speaker": "odion", "expression": "surprised", "text": "Nenhuma armadilha segurou você." },
+        {
+          "speaker": "player",
+          "expression": "neutral",
+          "text": "Você duela para proteger alguém. Dá pra sentir isso nas cartas."
+        },
+        {
+          "speaker": "odion",
+          "expression": "sad",
+          "text": "Então talvez você entenda... Se encontrar o Mestre Marik, lembre que ainda existe bondade nele."
+        }
+      ]
+    },
+    "yamibakura": {
+      "firstGreeting": [
+        [
+          {
+            "speaker": "yamibakura",
+            "expression": "happy",
+            "text": "Ora, ora. Um rosto conhecido do meu hospedeiro. {nome}, não é?"
+          },
+          { "speaker": "player", "expression": "surprised", "text": "Bakura? Você está... diferente." },
+          {
+            "speaker": "yamibakura",
+            "expression": "angry",
+            "text": "O garoto educado está dormindo. Quem fala agora é o espírito do Anel do Milênio."
+          }
+        ],
+        [
+          {
+            "speaker": "yamibakura",
+            "expression": "neutral",
+            "text": "Não se engane com o rosto. Eu sou o outro lado do Bakura, e não sou nada gentil."
+          }
+        ]
+      ],
+      "greeting": [
+        [
+          {
+            "speaker": "yamibakura",
+            "expression": "happy",
+            "text": "Voltou para a cabine? Gosto de visitas que não aprendem."
+          }
+        ],
+        [
+          {
+            "speaker": "yamibakura",
+            "expression": "neutral",
+            "text": "O Anel aponta para os Itens do Milênio. Todos eles vão ser meus."
+          }
+        ],
+        [
+          {
+            "speaker": "yamibakura",
+            "expression": "neutral",
+            "text": "Não conte ao Bakura que conversamos. Ele se preocupa à toa."
+          }
+        ]
+      ],
+      "beforeDuel": [
+        [
+          {
+            "speaker": "yamibakura",
+            "expression": "happy",
+            "text": "Vamos jogar um jogo das trevas, {nome}. Do jeito antigo."
+          }
+        ],
+        [
+          {
+            "speaker": "yamibakura",
+            "expression": "angry",
+            "text": "Necrofear das Trevas está com fome. Cada monstro que você perder vai alimentá-lo."
+          }
+        ],
+        [{ "speaker": "yamibakura", "expression": "neutral", "text": "Embaralhe. Não que faça diferença." }]
+      ],
+      "playerWins": [
+        [{ "speaker": "yamibakura", "expression": "angry", "text": "Tsc. Sorte de principiante." }],
+        [
+          {
+            "speaker": "yamibakura",
+            "expression": "surprised",
+            "text": "Você é mais interessante do que eu pensava. Isso é perigoso... para você."
+          }
+        ],
+        [{ "speaker": "yamibakura", "expression": "neutral", "text": "Pode ir. As trevas sabem esperar." }]
+      ],
+      "playerLoses": [
+        [
+          {
+            "speaker": "yamibakura",
+            "expression": "happy",
+            "text": "Hah! Era isso que o garoto chamava de amig{o|a|e} forte?"
+          }
+        ],
+        [{ "speaker": "yamibakura", "expression": "happy", "text": "As sombras mandam lembranças, {nome}." }],
+        [{ "speaker": "yamibakura", "expression": "neutral", "text": "Volte quando quiser perder de novo." }]
+      ],
+      "firstWin": [
+        { "speaker": "yamibakura", "expression": "angry", "text": "Impossível. O Necrofear nunca falha." },
+        { "speaker": "player", "expression": "neutral", "text": "Devolve o Bakura. Ele não merece carregar você." },
+        {
+          "speaker": "yamibakura",
+          "expression": "happy",
+          "text": "Devolver? Hah... Ele ainda precisa de mim, {nome}. E eu dele. Até a próxima."
+        }
+      ]
+    },
+    "marik": {
+      "firstGreeting": [
+        [
+          {
+            "speaker": "marik",
+            "expression": "neutral",
+            "text": "Então você é {nome}, quem derrubou os meus Caçadores de Raros."
+          },
+          { "speaker": "player", "expression": "neutral", "text": "E você é o líder deles." },
+          { "speaker": "marik", "expression": "happy", "text": "Marik Ishtar. E eu vim buscar o que me foi prometido." }
+        ],
+        [
+          {
+            "speaker": "marik",
+            "expression": "neutral",
+            "text": "Sou Marik, da família que guarda o túmulo do Faraó. Passei a vida no escuro esperando por estas finais."
+          }
+        ]
+      ],
+      "greeting": [
+        [{ "speaker": "marik", "expression": "neutral", "text": "O mar aqui no cais é calmo. Diferente de mim." }],
+        [
+          {
+            "speaker": "marik",
+            "expression": "sad",
+            "text": "A Ishizu acha que ainda dá para voltar atrás. Será que ela tem razão?"
+          }
+        ],
+        [
+          {
+            "speaker": "marik",
+            "expression": "neutral",
+            "text": "Tem uma voz na minha cabeça, {nome}. Ela fica mais alta a cada dia."
+          }
+        ]
+      ],
+      "beforeDuel": [
+        [
+          {
+            "speaker": "marik",
+            "expression": "angry",
+            "text": "O Obelisco esmaga tudo que fica no caminho. Inclusive você."
+          }
+        ],
+        [
+          {
+            "speaker": "marik",
+            "expression": "neutral",
+            "text": "Três tributos e o deus desce ao campo. Vamos ver se você aguenta."
+          }
+        ],
+        [
+          {
+            "speaker": "marik",
+            "expression": "neutral",
+            "text": "Duele comigo, {nome}. Preciso saber se ainda sou eu quem decide."
+          }
+        ]
+      ],
+      "playerWins": [
+        [{ "speaker": "marik", "expression": "surprised", "text": "Você venceu um deus egípcio... Quem é você?" }],
+        [{ "speaker": "marik", "expression": "sad", "text": "Talvez eu precise mesmo ouvir a minha irmã." }],
+        [
+          {
+            "speaker": "marik",
+            "expression": "neutral",
+            "text": "Boa luta. A voz ficou quieta enquanto a gente duelava."
+          }
+        ]
+      ],
+      "playerLoses": [
+        [{ "speaker": "marik", "expression": "happy", "text": "Viu? Ninguém resiste ao poder dos deuses." }],
+        [
+          {
+            "speaker": "marik",
+            "expression": "neutral",
+            "text": "Não fique triste, {nome}. Até o Faraó vai cair diante do Obelisco."
+          }
+        ],
+        [
+          {
+            "speaker": "marik",
+            "expression": "angry",
+            "text": "Mais uma vez, e mais uma vez você cai. Volte quando for de verdade."
+          }
+        ]
+      ],
+      "firstWin": [
+        { "speaker": "marik", "expression": "surprised", "text": "O Obelisco... caiu?" },
+        { "speaker": "player", "expression": "neutral", "text": "Não é o deus que ganha o duelo, Marik. É quem joga." },
+        {
+          "speaker": "marik",
+          "expression": "sad",
+          "text": "Quem joga... Então cuidado, {nome}. A coisa dentro de mim não joga limpo."
+        }
+      ]
+    },
+    "yamimarik": {
+      "firstGreeting": [
+        [
+          {
+            "speaker": "yamimarik",
+            "expression": "happy",
+            "text": "Hahaha! Então você é {o|a|e} famos{o|a|e} {nome}. O Marik tem tanto medo de você..."
+          },
+          { "speaker": "player", "expression": "surprised", "text": "Você não é o Marik." },
+          {
+            "speaker": "yamimarik",
+            "expression": "angry",
+            "text": "Eu sou o que ele escondeu por anos. E agora quem manda sou eu."
+          }
+        ]
+      ],
+      "greeting": [
+        [
+          {
+            "speaker": "yamimarik",
+            "expression": "happy",
+            "text": "Bem-vind{o|a|e} ao Reino das Sombras. Daqui ninguém sai inteiro."
+          }
+        ],
+        [
+          {
+            "speaker": "yamimarik",
+            "expression": "neutral",
+            "text": "O Faraó espera no topo da torre. Mas antes, você é meu."
+          }
+        ],
+        [{ "speaker": "yamimarik", "expression": "angry", "text": "Ainda de pé, {nome}? Vou resolver isso." }]
+      ],
+      "beforeDuel": [
+        [
+          {
+            "speaker": "yamimarik",
+            "expression": "happy",
+            "text": "Cada ponto de vida que você perder, as sombras levam um pedaço seu."
+          }
+        ],
+        [
+          {
+            "speaker": "yamimarik",
+            "expression": "angry",
+            "text": "O Dragão Alado de Rá está faminto. Vamos alimentá-lo!"
+          }
+        ],
+        [
+          {
+            "speaker": "yamimarik",
+            "expression": "neutral",
+            "text": "Embaralhe, {nome}. Seja rápid{o|a|e}. Eu odeio esperar."
+          }
+        ]
+      ],
+      "playerWins": [
+        [{ "speaker": "yamimarik", "expression": "angry", "text": "Isso não muda nada! As sombras não se cansam." }],
+        [
+          {
+            "speaker": "yamimarik",
+            "expression": "surprised",
+            "text": "De novo...? Como você ainda brilha aqui dentro?"
+          }
+        ],
+        [{ "speaker": "yamimarik", "expression": "angry", "text": "Aproveite enquanto pode, {nome}." }]
+      ],
+      "playerLoses": [
+        [{ "speaker": "yamimarik", "expression": "happy", "text": "Hahaha! Que delícia. Faça de novo." }],
+        [{ "speaker": "yamimarik", "expression": "happy", "text": "O Rá agradece o almoço, {nome}." }],
+        [{ "speaker": "yamimarik", "expression": "neutral", "text": "Você é só mais uma sombra agora." }]
+      ],
+      "firstWin": [
+        { "speaker": "yamimarik", "expression": "angry", "text": "Rá... derrotado de novo? Não, não, não!" }
+      ],
+      "bossEntrance": [
+        {
+          "speaker": "yamimarik",
+          "expression": "happy",
+          "text": "Ishizu, Odion, o ladrão do Anel e até o fraco do Marik. Você venceu todos."
+        },
+        { "speaker": "player", "expression": "neutral", "text": "Só falta você. Devolve o Marik." },
+        { "speaker": "yamimarik", "expression": "angry", "text": "Devolver? Eu vou é engolir você junto com ele!" },
+        {
+          "speaker": "yamimarik",
+          "expression": "happy",
+          "text": "Veja o Dragão Alado de Rá, {nome}. E diga adeus à luz!"
+        }
+      ],
+      "bossDefeat": [
+        { "speaker": "yamimarik", "expression": "surprised", "text": "Não... O Rá... caindo?!" },
+        {
+          "speaker": "yamimarik",
+          "expression": "angry",
+          "text": "Isso não acabou! Eu sempre vou estar nas sombras do Marik!"
+        },
+        { "speaker": "player", "expression": "neutral", "text": "Então o Marik vai aprender a acender a luz." },
+        {
+          "speaker": "yamimarik",
+          "expression": "sad",
+          "text": "Hah... Vá. O Faraó espera no alto da torre, {nome}. Ele vai acabar com você por mim."
+        }
+      ]
+    },
+    "yamiyugi": {
+      "firstGreeting": [
+        [
+          { "speaker": "yamiyugi", "expression": "neutral", "text": "{nome}. O Yugi fala muito de você." },
+          { "speaker": "player", "expression": "surprised", "text": "Yugi? Mas você parece outra pessoa." },
+          {
+            "speaker": "yamiyugi",
+            "expression": "happy",
+            "text": "Sou o outro lado dele, o espírito do Enigma do Milênio. Vou esperar você no topo da torre."
+          }
+        ]
+      ],
+      "greeting": [
+        [
+          {
+            "speaker": "yamiyugi",
+            "expression": "neutral",
+            "text": "Daqui de cima dá para ver Domino inteira. Foi uma longa jornada, não foi?"
+          }
+        ],
+        [
+          {
+            "speaker": "yamiyugi",
+            "expression": "happy",
+            "text": "O Yugi mandou dizer que está torcendo por você. Mesmo contra mim."
+          }
+        ],
+        [
+          {
+            "speaker": "yamiyugi",
+            "expression": "neutral",
+            "text": "Um duelista de verdade acredita no coração das cartas, {nome}."
+          }
+        ]
+      ],
+      "beforeDuel": [
+        [
+          {
+            "speaker": "yamiyugi",
+            "expression": "neutral",
+            "text": "Sem jogos das sombras aqui. Só eu, você e as nossas cartas."
+          }
+        ],
+        [
+          {
+            "speaker": "yamiyugi",
+            "expression": "happy",
+            "text": "Vamos, {nome}. Mostre o que você aprendeu nestes dias."
+          }
+        ],
+        [{ "speaker": "yamiyugi", "expression": "angry", "text": "É hora do duelo!" }]
+      ],
+      "playerWins": [
+        [
+          {
+            "speaker": "yamiyugi",
+            "expression": "happy",
+            "text": "Mais uma vez você me superou. O Yugi está orgulhoso."
+          }
+        ],
+        [
+          {
+            "speaker": "yamiyugi",
+            "expression": "neutral",
+            "text": "Belo duelo. Sinto que ainda estou aprendendo com você."
+          }
+        ],
+        [
+          {
+            "speaker": "yamiyugi",
+            "expression": "happy",
+            "text": "Você confiou no seu deck até o fim. Isso é o que faz um campeão."
+          }
+        ]
+      ],
+      "playerLoses": [
+        [
+          {
+            "speaker": "yamiyugi",
+            "expression": "neutral",
+            "text": "Foi por pouco. Acredite no coração das cartas e tente de novo."
+          }
+        ],
+        [
+          {
+            "speaker": "yamiyugi",
+            "expression": "happy",
+            "text": "Você me obrigou a usar tudo. Volte quando quiser, {nome}."
+          }
+        ],
+        [
+          {
+            "speaker": "yamiyugi",
+            "expression": "neutral",
+            "text": "Uma derrota não define um duelista. O que vem depois, sim."
+          }
+        ]
+      ],
+      "firstWin": [
+        { "speaker": "yamiyugi", "expression": "happy", "text": "Outra vitória sua. Já não é sorte, {nome}." }
+      ],
+      "bossEntrance": [
+        {
+          "speaker": "yamiyugi",
+          "expression": "neutral",
+          "text": "Você venceu o Yami Marik e trouxe a luz de volta para o Marik. Obrigado."
+        },
+        { "speaker": "player", "expression": "neutral", "text": "Agora falta o último duelo." },
+        {
+          "speaker": "yamiyugi",
+          "expression": "happy",
+          "text": "Falta. E eu não vou facilitar. O Yugi também não ia querer isso."
+        },
+        {
+          "speaker": "yamiyugi",
+          "expression": "angry",
+          "text": "No topo da torre, a final da Batalha da Cidade. É hora do duelo, {nome}!"
+        }
+      ],
+      "bossDefeat": [
+        { "speaker": "yamiyugi", "expression": "surprised", "text": "Você... venceu." },
+        {
+          "speaker": "yamiyugi",
+          "expression": "happy",
+          "text": "Que duelo! Fazia tempo que eu não sentia o coração das cartas desse jeito."
+        },
+        { "speaker": "player", "expression": "happy", "text": "Foi o melhor duelo da minha vida." },
+        {
+          "speaker": "yamiyugi",
+          "expression": "neutral",
+          "text": "O Slifer, o Dragão Celeste, reconheceu a sua força. De agora em diante, ele luta ao seu lado, {nome}."
+        }
+      ]
+    }
+  },
+  "champion": {
+    "joey": [
+      {
+        "speaker": "joey",
+        "expression": "surprised",
+        "text": "Não acredito! Você ganhou do Yugi! Quer dizer, do outro Yugi!"
+      },
+      {
+        "speaker": "yamiyugi",
+        "expression": "happy",
+        "text": "Venceu de forma justa, Joey. A Batalha da Cidade tem {um novo campeão|uma nova campeã|uma nova pessoa campeã}."
+      },
+      {
+        "speaker": "joey",
+        "expression": "happy",
+        "text": "Eu sabia! Desde o primeiro duelo no parque eu sabia que você era dos bons, {nome}!"
+      },
+      { "speaker": "player", "expression": "happy", "text": "Você me ajudou a chegar até aqui, Joey." },
+      {
+        "speaker": "joey",
+        "expression": "happy",
+        "text": "Então a gente comemora junto! Mas olha: na próxima, quem te desafia sou eu!"
+      }
+    ],
+    "tea": [
+      {
+        "speaker": "tea",
+        "expression": "surprised",
+        "text": "{nome}! Você conseguiu! Eu quase não consegui olhar o último turno!"
+      },
+      {
+        "speaker": "yamiyugi",
+        "expression": "happy",
+        "text": "Foi um duelo digno de uma final. Parabéns, {campeão|campeã|pessoa campeã}."
+      },
+      {
+        "speaker": "tea",
+        "expression": "happy",
+        "text": "Eu sempre disse que a amizade dá força no duelo. Agora você é a prova!"
+      },
+      { "speaker": "player", "expression": "happy", "text": "Saber que você estava torcendo fez diferença, Tea." },
+      {
+        "speaker": "tea",
+        "expression": "blushing",
+        "text": "Para com isso... Vem, vamos comemorar antes que o Joey coma tudo!"
+      }
+    ],
+    "tristan": [
+      { "speaker": "tristan", "expression": "surprised", "text": "Cara... Você ganhou da final da Batalha da Cidade!" },
+      {
+        "speaker": "yamiyugi",
+        "expression": "happy",
+        "text": "Ganhou mesmo. Você tem {um amigo|uma amiga|uma amizade} e tanto aqui, Tristan."
+      },
+      {
+        "speaker": "tristan",
+        "expression": "happy",
+        "text": "Pode apostar! Eu fiquei gritando o duelo inteiro, {nome}. Acho que perdi a voz."
+      },
+      { "speaker": "player", "expression": "happy", "text": "Eu ouvi cada grito, Tristan." },
+      {
+        "speaker": "tristan",
+        "expression": "happy",
+        "text": "Então valeu a pena! Bora descer dessa torre e contar pra escola inteira!"
+      }
+    ],
+    "bakura": [
+      {
+        "speaker": "bakura",
+        "expression": "surprised",
+        "text": "Você venceu, {nome}... e eu estou aqui para ver. Às vezes eu perco tanta coisa."
+      },
+      {
+        "speaker": "yamiyugi",
+        "expression": "neutral",
+        "text": "Hoje você não perdeu nada, Bakura. Esteve aqui o tempo todo."
+      },
+      { "speaker": "bakura", "expression": "happy", "text": "Obrigado por não desistir, {nome}. De nenhum de nós." },
+      { "speaker": "player", "expression": "happy", "text": "Você também faz parte dessa vitória, Bakura." },
+      { "speaker": "bakura", "expression": "blushing", "text": "Então posso guardar este dia comigo. É um dos bons." }
+    ],
+    "yugi": [
+      {
+        "speaker": "yamiyugi",
+        "expression": "happy",
+        "text": "Foi uma honra duelar com você. O Yugi quer falar com você agora."
+      },
+      {
+        "speaker": "yugi",
+        "expression": "happy",
+        "text": "{nome}! Você conseguiu! Eu vi tudo lá de dentro do Enigma!"
+      },
+      { "speaker": "player", "expression": "happy", "text": "Foi difícil, Yugi. O seu outro lado não facilitou nada." },
+      {
+        "speaker": "yugi",
+        "expression": "happy",
+        "text": "Ele nunca facilita! Mas ele disse que nunca vai esquecer esse duelo com você."
+      },
+      { "speaker": "yugi", "expression": "neutral", "text": "E eu também não. Obrigado por esses dias, {nome}." }
+    ],
+    "generic": [
+      {
+        "speaker": "yamiyugi",
+        "expression": "happy",
+        "text": "Está decidido. {nome} é {o campeão|a campeã|a pessoa campeã} da Batalha da Cidade!"
+      },
+      { "speaker": "joey", "expression": "happy", "text": "Isso aí! Eu sabia!" },
+      { "speaker": "tea", "expression": "happy", "text": "Parabéns, {nome}! Foi lindo de ver!" },
+      { "speaker": "tristan", "expression": "happy", "text": "Que final! Ainda estou tremendo!" },
+      { "speaker": "bakura", "expression": "happy", "text": "Você mereceu cada vitória até aqui." },
+      { "speaker": "yugi", "expression": "happy", "text": "Agora você é uma lenda de Domino!" },
+      { "speaker": "player", "expression": "happy", "text": "Obrigad{o|a|e}, pessoal. Não ia chegar aqui sem vocês." }
+    ]
+  }
+}

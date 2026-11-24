@@ -88,7 +88,7 @@ export function MapScreen({ s, onMeet, onShop, onDecks, onCollection, onBonds, o
           {imgOk && <img className="mapimg" src={mapImage(period)} alt="" draggable={false} onError={() => setImgOk(false)} />}
           <div className="period-tint" />
           {people.map(({ duelist: d, point }, i) => (
-            <button key={d.key} className={`pinhead${d.isBoss ? ' boss' : ''}`}
+            <button key={d.key} className={`pinhead${d.isBoss || d.isFinal ? ' boss' : ''}`}
               style={{ left: `${point.x * 100}%`, top: `${point.y * 100}%`, animationDelay: `${-i * 0.6}s` }}
               onClick={() => onMeet(d.key)} aria-label={`Encontrar ${d.name}`}>
               <img src={faceOf(d.key)} alt="" draggable={false} />

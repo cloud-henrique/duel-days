@@ -8,6 +8,10 @@
  * - `pegasus`: dia 10 com os 5 comuns do Tier 2 vencidos (o Pegasus aparece).
  * - `tier3`: dia 15, Tier 3 aberto (Tiers 1 e 2 vencidos inteiros), com 2000 DP.
  * - `kaiba`: dia 18 com os 4 comuns do Tier 3 vencidos (o Kaiba aparece).
+ * - `tier4` (change tier4-finais): dia 23, Tier 4 aberto (Tiers 1 a 3 vencidos inteiros), com 3000 DP.
+ * - `yamimarik`: dia 26 com os 4 comuns do Tier 4 vencidos (o Yami Marik aparece).
+ * - `final`: dia 27 com o Yami Marik vencido (o Yami Yugi aparece) e o Joey com 5 eventos de laço (a cena de campeão
+ *   dele toca na primeira vitória sobre o Yami Yugi).
  * - `shop`: dia 4 do Tier 1 com 6000 DP (dá para a caixa) e os 3 pacotes ganhos, para conferir a loja.
  * - `all-cards`: a coleção com 3 cópias de cada carta da base (`poolIds`), para medir a grade do editor cheia.
  * - `bond-late` (change lacos-ate-o-fim): dia 15 (Tier 3); o Joey (amizade) com 5 eventos e a resposta do 5º pendente, o
@@ -73,6 +77,29 @@ export function debugPreset(name: string, s0: CampaignState | null, poolIds: rea
       openThrough(3);
       for (const k of ['espa', 'rarehunter', 'arkana', 'strings']) s.victories[k] = Math.max(s.victories[k] ?? 0, 1);
       return s;
+    case 'tier4':
+      Object.assign(s, { day: 23, period: 0, dp: 3000, concluded: false });
+      openThrough(4);
+      return s;
+    case 'yamimarik':
+    case 'final': {
+      Object.assign(s, { day: name === 'final' ? 27 : 26, period: 0, dp: 3000, concluded: false });
+      openThrough(4);
+      const t4 = TIERS.find((t) => t.number === 4)!;
+      for (const d of t4.duelists.filter((d) => !d.isBoss && !d.isFinal)) s.victories[d.key] = Math.max(s.victories[d.key] ?? 0, 1);
+      if (name === 'final') {
+        const boss = t4.duelists.find((d) => d.isBoss)!;
+        s.victories[boss.key] = Math.max(s.victories[boss.key] ?? 0, 1);
+        if (!s.defeatedBosses.includes(4)) s.defeatedBosses.push(4);
+        s.bossDefeatedOn = { ...s.bossDefeatedOn, 4: s.bossDefeatedOn?.[4] ?? s.day };
+        s.met = [...new Set([...s.met, 'tristan', 'tea', 'joey', 'bakura'])];
+        Object.assign(s.affinity, { joey: 500 });
+        Object.assign(s.bondEventsDone, { joey: 5 });
+        s.bondRoutes.joey = 'friendship';
+        s.bondPicksFrom = { ...s.bondPicksFrom, joey: 5 };
+      }
+      return s;
+    }
     case 'shop':
       Object.assign(s, { day: 4, period: 0, dp: 6000, concluded: false, unopenedPacks: ['lob', 'lob', 'lob'] });
       return s;

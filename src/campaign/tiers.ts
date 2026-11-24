@@ -9,13 +9,17 @@ import type { CampaignState } from './state';
 
 export const FIRST_TIER = TIERS[0];
 export const hasContent = (t: TierData | undefined) => !!t && t.duelists.length > 0;
-export const regularsOf = (t: TierData): DuelistData[] => t.duelists.filter((d) => !d.isBoss);
+export const regularsOf = (t: TierData): DuelistData[] => t.duelists.filter((d) => !d.isBoss && !d.isFinal);
 export const bossOf = (t: TierData): DuelistData | undefined => t.duelists.find((d) => d.isBoss);
+/** O duelo final do tier (só o último tier tem: o Yami Yugi). */
+export const finalOf = (t: TierData): DuelistData | undefined => t.duelists.find((d) => d.isFinal);
 export const bossBeaten = (s: CampaignState, t: TierData) => s.defeatedBosses.includes(t.number);
+/** O duelo final aparece depois do chefe do tier dele vencido. */
+export const isFinalAvailable = (s: CampaignState, t: TierData) => !!finalOf(t) && isTierOpen(s, t.number) && bossBeaten(s, t);
 
-/** Cada duelista do tier (comuns e chefe) vencido ao menos uma vez, e o chefe registrado como vencido. */
+/** Cada duelista do tier (comuns e chefe; o final não conta) vencido ao menos uma vez, e o chefe registrado como vencido. */
 export const tierCleared = (s: CampaignState, t: TierData) =>
-  hasContent(t) && bossBeaten(s, t) && t.duelists.every((d) => (s.victories[d.key] ?? 0) > 0);
+  hasContent(t) && bossBeaten(s, t) && t.duelists.every((d) => d.isFinal || (s.victories[d.key] ?? 0) > 0);
 
 /** O tier está aberto: o primeiro, ou o anterior aberto e vencido por inteiro (`tierCleared`). */
 export function isTierOpen(s: CampaignState, n: number): boolean {

@@ -2815,8 +2815,946 @@
    "name": "Finais",
    "firstDay": 23,
    "lastDay": 30,
-   "packs": [],
-   "duelists": []
+   "packs": [
+    {
+     "key": "ast",
+     "offset": 0
+    },
+    {
+     "key": "sod",
+     "offset": 2
+    }
+   ],
+   "duelists": [
+    {
+     "key": "ishizu",
+     "name": "Ishizu",
+     "isBoss": false,
+     "scene": {
+      "bg": "kaiba-corp",
+      "place": "Kaiba Corp"
+     },
+     "signatureCard": {
+      "id": 17484499,
+      "comment": "Exchange of the Spirit"
+     },
+     "bond": false,
+     "deck": {
+      "name": "Ishizu Ishtar (Battle City)",
+      "main": [
+       {
+        "id": 12493482,
+        "count": 3,
+        "comment": "Dunames Dark Witch"
+       },
+       {
+        "id": 16268841,
+        "count": 3,
+        "comment": "Zolga"
+       },
+       {
+        "id": 54878498,
+        "count": 2,
+        "comment": "Kelbek"
+       },
+       {
+        "id": 82108372,
+        "count": 2,
+        "comment": "Mudora"
+       },
+       {
+        "id": 16135253,
+        "count": 2,
+        "comment": "Agido"
+       },
+       {
+        "id": 80441106,
+        "count": 2,
+        "comment": "Keldo"
+       },
+       {
+        "id": 28106077,
+        "count": 2,
+        "comment": "Cestus of Dagla"
+       },
+       {
+        "id": 53129443,
+        "count": 1,
+        "comment": "Dark Hole"
+       },
+       {
+        "id": 16435215,
+        "count": 2,
+        "comment": "Dragged Down into the Grave"
+       },
+       {
+        "id": 83764718,
+        "count": 1,
+        "comment": "Monster Reborn"
+       },
+       {
+        "id": 55144522,
+        "count": 1,
+        "comment": "Pot of Greed"
+       },
+       {
+        "id": 12580477,
+        "count": 1,
+        "comment": "Raigeki"
+       },
+       {
+        "id": 29228529,
+        "count": 2,
+        "comment": "Spell Reproduction"
+       },
+       {
+        "id": 72302403,
+        "count": 2,
+        "comment": "Swords of Revealing Light"
+       },
+       {
+        "id": 17484499,
+        "count": 1,
+        "comment": "Exchange of the Spirit"
+       },
+       {
+        "id": 44095762,
+        "count": 1,
+        "comment": "Mirror Force"
+       },
+       {
+        "id": 80863132,
+        "count": 1,
+        "comment": "Muko"
+       },
+       {
+        "id": 12607053,
+        "count": 1,
+        "comment": "Waboku"
+       }
+      ],
+      "extra": []
+     }
+    },
+    {
+     "key": "odion",
+     "name": "Odion",
+     "isBoss": false,
+     "scene": {
+      "bg": "arena-dirigivel",
+      "place": "Arena do dirigível"
+     },
+     "signatureCard": {
+      "id": 28649820,
+      "comment": "Embodiment of Apophis"
+     },
+     "bond": false,
+     "deck": {
+      "name": "Odion (Anime Deck)",
+      "main": [
+       {
+        "id": 57281778,
+        "count": 2,
+        "comment": "Ryu Kokki; no lugar de Swarm of Scarabs: 500 de ATK; zumbi de 2400; no lugar de Ghost Knight of Jackal: nível 5 de 1700; 2400; +1 no lugar de The Winged Dragon of Ra (Deus de outro dono)"
+       },
+       {
+        "id": 88472456,
+        "count": 1,
+        "comment": "Zombyra the Dark; no lugar de Cobra Jar: 600 de ATK; 2100; no lugar de Swarm of Locusts: 1000 de ATK; 2100"
+       },
+       {
+        "id": 53839837,
+        "count": 1,
+        "comment": "Vampire Lord; no lugar de Spirit Reaper: 300 de ATK; zumbi de 2000; no lugar de Wandering Mummy: zumbi de 2000 no lugar de 1500"
+       },
+       {
+        "id": 56120475,
+        "count": 2,
+        "comment": "Sakuretsu Armor; no lugar de Polymerization: a Fusão quase nunca sai; no lugar de Dark Spirit of the Silent: efeito fraco"
+       },
+       {
+        "id": 73698349,
+        "count": 1,
+        "comment": "Giant Orc; no lugar de Des Lacooda: 500 de ATK; 2200"
+       },
+       {
+        "id": 29401950,
+        "count": 1,
+        "comment": "Bottomless Trap Hole; no lugar de Statue of the Wicked: só vale com a armadilha destruída"
+       },
+       {
+        "id": 53582587,
+        "count": 1,
+        "comment": "Torrential Tribute; no lugar de Curse of Anubis: efeito fraco"
+       },
+       {
+        "id": 4206964,
+        "count": 1,
+        "comment": "Trap Hole; no lugar de Ordeal of a Traveler: efeito de sorte"
+       },
+       {
+        "id": 89194033,
+        "count": 1,
+        "comment": "Mystical Beast of Serket"
+       },
+       {
+        "id": 40659562,
+        "count": 1,
+        "comment": "Guardian Sphinx"
+       },
+       {
+        "id": 16509093,
+        "count": 1,
+        "comment": "Royal Keeper"
+       },
+       {
+        "id": 51351302,
+        "count": 1,
+        "comment": "A Man with Wdjat"
+       },
+       {
+        "id": 77044671,
+        "count": 1,
+        "comment": "Pyramid Turtle"
+       },
+       {
+        "id": 26202165,
+        "count": 1,
+        "comment": "Sangan"
+       },
+       {
+        "id": 23205979,
+        "count": 1,
+        "comment": "Spirit Reaper"
+       },
+       {
+        "id": 59290628,
+        "count": 1,
+        "comment": "Nightmare Horse"
+       },
+       {
+        "id": 29762407,
+        "count": 1,
+        "comment": "Temple of the Kings"
+       },
+       {
+        "id": 79571449,
+        "count": 1,
+        "comment": "Graceful Charity"
+       },
+       {
+        "id": 83764718,
+        "count": 1,
+        "comment": "Monster Reborn"
+       },
+       {
+        "id": 55144522,
+        "count": 1,
+        "comment": "Pot of Greed"
+       },
+       {
+        "id": 72302403,
+        "count": 1,
+        "comment": "Swords of Revealing Light"
+       },
+       {
+        "id": 97077563,
+        "count": 1,
+        "comment": "Call of the Haunted"
+       },
+       {
+        "id": 28649820,
+        "count": 1,
+        "comment": "Embodiment of Apophis"
+       },
+       {
+        "id": 55256016,
+        "count": 1,
+        "comment": "Judgment of Anubis; +1 no lugar de Apophis the Swamp Deity"
+       },
+       {
+        "id": 77414722,
+        "count": 1,
+        "comment": "Magic Jammer"
+       },
+       {
+        "id": 60082869,
+        "count": 1,
+        "comment": "Dust Tornado"
+       },
+       {
+        "id": 4178474,
+        "count": 1,
+        "comment": "Raigeki Break"
+       },
+       {
+        "id": 65810489,
+        "count": 1,
+        "comment": "Statue of the Wicked"
+       }
+      ],
+      "extra": [
+       {
+        "id": 85684223,
+        "count": 1,
+        "comment": "Reaper on the Nightmare"
+       }
+      ]
+     }
+    },
+    {
+     "key": "yamibakura",
+     "name": "Yami Bakura",
+     "isBoss": false,
+     "scene": {
+      "bg": "cabine-dirigivel",
+      "place": "Cabine do dirigível"
+     },
+     "signatureCard": {
+      "id": 31829185,
+      "comment": "Dark Necrofear"
+     },
+     "bond": false,
+     "deck": {
+      "name": "Yami Bakura - Anime Deck",
+      "main": [
+       {
+        "id": 4206964,
+        "count": 1,
+        "comment": "Trap Hole; no lugar de Spirit Message \"L\": idem; no lugar de Soul Release: efeito fraco"
+       },
+       {
+        "id": 29401950,
+        "count": 1,
+        "comment": "Bottomless Trap Hole; no lugar de Nightmare's Steelcage: só adia o ataque"
+       },
+       {
+        "id": 73698349,
+        "count": 1,
+        "comment": "Giant Orc; no lugar de Morphing Jar #2: 800 de ATK"
+       },
+       {
+        "id": 49881766,
+        "count": 2,
+        "comment": "Archfiend Soldier; no lugar de Spirit Message \"I\": as Spirit Messages só servem ao Destiny Board; no lugar de Spirit Message \"N\": idem; no lugar de Mask of Darkness: 900 de ATK"
+       },
+       {
+        "id": 53839837,
+        "count": 1,
+        "comment": "Vampire Lord; no lugar de Winged Minion: 700 de ATK"
+       },
+       {
+        "id": 70781052,
+        "count": 2,
+        "comment": "Summoned Skull; no lugar de Spirit Message \"A\": idem; no lugar de Dark Master - Zorc: idem"
+       },
+       {
+        "id": 53129443,
+        "count": 1,
+        "comment": "Dark Hole; no lugar de Contract with the Dark Master: ritual que a CPU quase nunca monta"
+       },
+       {
+        "id": 57281778,
+        "count": 1,
+        "comment": "Ryu Kokki; no lugar de Earthbound Spirit: 500 de ATK"
+       },
+       {
+        "id": 53582587,
+        "count": 1,
+        "comment": "Torrential Tribute; no lugar de Puppet Master: nível 6 de 0 ATK"
+       },
+       {
+        "id": 56120475,
+        "count": 1,
+        "comment": "Sakuretsu Armor; no lugar de Destiny Board: idem"
+       },
+       {
+        "id": 66989694,
+        "count": 1,
+        "comment": "The Earl of Demise; +1 no lugar de Tragoedia; +1 no lugar de Doomcaliber Knight"
+       },
+       {
+        "id": 14531242,
+        "count": 1,
+        "comment": "Opticlops; +1 no lugar de Shadowslayer; +1 no lugar de Necroface"
+       },
+       {
+        "id": 5434080,
+        "count": 1,
+        "comment": "Headless Knight; +1 no lugar de Prometheus, King of the Shadows"
+       },
+       {
+        "id": 68049471,
+        "count": 1,
+        "comment": "The Gross Ghost of Fled Dreams"
+       },
+       {
+        "id": 32541773,
+        "count": 1,
+        "comment": "The Portrait's Secret"
+       },
+       {
+        "id": 56647086,
+        "count": 1,
+        "comment": "Invader of Darkness"
+       },
+       {
+        "id": 31829185,
+        "count": 1,
+        "comment": "Dark Necrofear"
+       },
+       {
+        "id": 53982768,
+        "count": 1,
+        "comment": "Dark Ruler Ha Des"
+       },
+       {
+        "id": 13945283,
+        "count": 1,
+        "comment": "Wall of Illusion"
+       },
+       {
+        "id": 26202165,
+        "count": 1,
+        "comment": "Sangan"
+       },
+       {
+        "id": 40619825,
+        "count": 1,
+        "comment": "Axe of Despair"
+       },
+       {
+        "id": 4031928,
+        "count": 1,
+        "comment": "Change of Heart"
+       },
+       {
+        "id": 83764718,
+        "count": 1,
+        "comment": "Monster Reborn"
+       },
+       {
+        "id": 55144522,
+        "count": 1,
+        "comment": "Pot of Greed"
+       },
+       {
+        "id": 77414722,
+        "count": 1,
+        "comment": "Magic Jammer"
+       },
+       {
+        "id": 79852326,
+        "count": 1,
+        "comment": "Zoma the Spirit"
+       },
+       {
+        "id": 65743242,
+        "count": 1,
+        "comment": "Call of the Earthbound"
+       },
+       {
+        "id": 12607053,
+        "count": 1,
+        "comment": "Waboku"
+       }
+      ],
+      "extra": []
+     }
+    },
+    {
+     "key": "marik",
+     "name": "Marik",
+     "isBoss": false,
+     "scene": {
+      "bg": "cais",
+      "place": "Cais"
+     },
+     "signatureCard": {
+      "id": 10000000,
+      "comment": "Obelisk the Tormentor"
+     },
+     "bond": false,
+     "deck": {
+      "name": "Ra's Ascension (Marik Ishtar)",
+      "main": [
+       {
+        "id": 10000000,
+        "count": 1,
+        "comment": "Obelisk the Tormentor; assinatura (a receita não tinha), no lugar de 1 Giant Orc"
+       },
+       {
+        "id": 5318639,
+        "count": 1,
+        "comment": "Mystical Space Typhoon; no lugar de Chorus of Sanctuary: efeito fraco"
+       },
+       {
+        "id": 62279055,
+        "count": 1,
+        "comment": "Magic Cylinder; no lugar de Metal Reflect Slime: idem"
+       },
+       {
+        "id": 56120475,
+        "count": 1,
+        "comment": "Sakuretsu Armor; no lugar de Bait Doll: efeito fraco; no lugar de Jam Defender: idem"
+       },
+       {
+        "id": 29401950,
+        "count": 1,
+        "comment": "Bottomless Trap Hole; no lugar de Jam Defender: só serve ao Slime"
+       },
+       {
+        "id": 53129443,
+        "count": 1,
+        "comment": "Dark Hole; no lugar de Helpoemer: nível 5 de 2000, efeito que a CPU não aproveita"
+       },
+       {
+        "id": 73698349,
+        "count": 2,
+        "comment": "Giant Orc; no lugar de Dark Jeroid: 1200 de ATK; 2200 de nível 4; no lugar de Bowganian: idem; 2200; +1 no lugar de The Winged Dragon of Ra (Deus de outro dono)"
+       },
+       {
+        "id": 38445524,
+        "count": 2,
+        "comment": "Gil Garth; +1 no lugar de The Winged Dragon of Ra (cópia acima do limite); +1 no lugar de The Winged Dragon of Ra (cópia acima do limite); no lugar de Bowganian: 1300 de ATK; 1800 de nível 4"
+       },
+       {
+        "id": 49881766,
+        "count": 2,
+        "comment": "Archfiend Soldier; no lugar de Rafflesia Seduction: 300 de ATK; no lugar de Vengeful Bog Spirit: efeito fraco; demônio de 1900 de nível 4; no lugar de Dark Jeroid: idem; 1900"
+       },
+       {
+        "id": 53582587,
+        "count": 1,
+        "comment": "Torrential Tribute; no lugar de Magical Stone Excavation: pede descarte"
+       },
+       {
+        "id": 4206964,
+        "count": 1,
+        "comment": "Trap Hole; no lugar de Chorus of Sanctuary: efeito fraco"
+       },
+       {
+        "id": 52090844,
+        "count": 1,
+        "comment": "Bowganian"
+       },
+       {
+        "id": 90980792,
+        "count": 1,
+        "comment": "Dark Jeroid"
+       },
+       {
+        "id": 99050989,
+        "count": 1,
+        "comment": "Drillago"
+       },
+       {
+        "id": 99747800,
+        "count": 2,
+        "comment": "Legendary Fiend"
+       },
+       {
+        "id": 4335645,
+        "count": 1,
+        "comment": "Newdoria"
+       },
+       {
+        "id": 102380,
+        "count": 1,
+        "comment": "Lava Golem"
+       },
+       {
+        "id": 31709826,
+        "count": 2,
+        "comment": "Revival Jam"
+       },
+       {
+        "id": 65169794,
+        "count": 1,
+        "comment": "Black Pendant"
+       },
+       {
+        "id": 98494543,
+        "count": 1,
+        "comment": "Magical Stone Excavation"
+       },
+       {
+        "id": 83764718,
+        "count": 1,
+        "comment": "Monster Reborn"
+       },
+       {
+        "id": 65830223,
+        "count": 1,
+        "comment": "Coffin Seller"
+       },
+       {
+        "id": 21558682,
+        "count": 1,
+        "comment": "Jam Defender"
+       },
+       {
+        "id": 1224927,
+        "count": 1,
+        "comment": "Malevolent Catastrophe"
+       },
+       {
+        "id": 26905245,
+        "count": 1,
+        "comment": "Metal Reflect Slime"
+       }
+      ],
+      "extra": []
+     }
+    },
+    {
+     "key": "yamimarik",
+     "name": "Yami Marik",
+     "isBoss": true,
+     "scene": {
+      "bg": "reino-das-sombras",
+      "place": "Reino das Sombras"
+     },
+     "signatureCard": {
+      "id": 10000010,
+      "comment": "The Winged Dragon of Ra"
+     },
+     "bond": false,
+     "deck": {
+      "name": "Yami Marik Character Themed Deck",
+      "main": [
+       {
+        "id": 77585513,
+        "count": 1,
+        "comment": "Jinzo; no lugar de Lekunga: cala as armadilhas dos comuns do T4"
+       },
+       {
+        "id": 45986603,
+        "count": 1,
+        "comment": "Snatch Steal; no lugar de Melchid the Four-Face Beast: efeito fraco"
+       },
+       {
+        "id": 18144506,
+        "count": 1,
+        "comment": "Harpie's Feather Duster; no lugar de Newdoria: idem"
+       },
+       {
+        "id": 19613556,
+        "count": 1,
+        "comment": "Heavy Storm; no lugar de Makyura the Destructor: limpa as armadilhas dos comuns do T4"
+       },
+       {
+        "id": 70781052,
+        "count": 1,
+        "comment": "Summoned Skull; no lugar de Lord Poison: demônio de 2500"
+       },
+       {
+        "id": 4206964,
+        "count": 1,
+        "comment": "Trap Hole; no lugar de Remove Trap: efeito fraco"
+       },
+       {
+        "id": 53129443,
+        "count": 1,
+        "comment": "Dark Hole; no lugar de The Mask of Remnants: combo com o Des Gardius que a CPU quase nunca monta"
+       },
+       {
+        "id": 53582587,
+        "count": 1,
+        "comment": "Torrential Tribute; no lugar de Hidden Soldiers: efeito fraco"
+       },
+       {
+        "id": 56120475,
+        "count": 1,
+        "comment": "Sakuretsu Armor; no lugar de Nightmare Wheel: efeito fraco"
+       },
+       {
+        "id": 10000010,
+        "count": 1,
+        "comment": "The Winged Dragon of Ra"
+       },
+       {
+        "id": 38445524,
+        "count": 2,
+        "comment": "Gil Garth; +1 no lugar de The Winged Dragon of Ra - Sphere Mode; +1 no lugar de The Winged Dragon of Ra - Immortal Phoenix"
+       },
+       {
+        "id": 52090844,
+        "count": 1,
+        "comment": "Bowganian; +1 no lugar de Holding Arms; +1 no lugar de Holding Legs"
+       },
+       {
+        "id": 99050989,
+        "count": 1,
+        "comment": "Drillago; +1 no lugar de Juragedo"
+       },
+       {
+        "id": 13944422,
+        "count": 1,
+        "comment": "Granadora"
+       },
+       {
+        "id": 90980792,
+        "count": 1,
+        "comment": "Dark Jeroid"
+       },
+       {
+        "id": 99747800,
+        "count": 1,
+        "comment": "Legendary Fiend"
+       },
+       {
+        "id": 102380,
+        "count": 1,
+        "comment": "Lava Golem"
+       },
+       {
+        "id": 48948935,
+        "count": 1,
+        "comment": "Masked Beast Des Gardius"
+       },
+       {
+        "id": 31709826,
+        "count": 1,
+        "comment": "Revival Jam"
+       },
+       {
+        "id": 98494543,
+        "count": 1,
+        "comment": "Magical Stone Excavation"
+       },
+       {
+        "id": 55144522,
+        "count": 1,
+        "comment": "Pot of Greed"
+       },
+       {
+        "id": 83764718,
+        "count": 1,
+        "comment": "Monster Reborn"
+       },
+       {
+        "id": 70828912,
+        "count": 1,
+        "comment": "Premature Burial"
+       },
+       {
+        "id": 65169794,
+        "count": 1,
+        "comment": "Black Pendant"
+       },
+       {
+        "id": 12580477,
+        "count": 1,
+        "comment": "Raigeki"
+       },
+       {
+        "id": 65830223,
+        "count": 1,
+        "comment": "Coffin Seller"
+       },
+       {
+        "id": 1224927,
+        "count": 1,
+        "comment": "Malevolent Catastrophe"
+       },
+       {
+        "id": 26905245,
+        "count": 1,
+        "comment": "Metal Reflect Slime"
+       },
+       {
+        "id": 44095762,
+        "count": 1,
+        "comment": "Mirror Force"
+       }
+      ],
+      "extra": []
+     }
+    },
+    {
+     "key": "yamiyugi",
+     "name": "Yami Yugi",
+     "isBoss": false,
+     "isFinal": true,
+     "scene": {
+      "bg": "arena-torre",
+      "place": "Arena da torre"
+     },
+     "signatureCard": {
+      "id": 10000020,
+      "comment": "Slifer the Sky Dragon (na 1ª vitória: duelo final)"
+     },
+     "bond": false,
+     "deck": {
+      "name": "Yami Yugi",
+      "main": [
+       {
+        "id": 45986603,
+        "count": 1,
+        "comment": "Snatch Steal; no lugar de Gamma The Magnet Warrior: idem"
+       },
+       {
+        "id": 18144506,
+        "count": 1,
+        "comment": "Harpie's Feather Duster; no lugar de Beta The Magnet Warrior: idem"
+       },
+       {
+        "id": 19613556,
+        "count": 1,
+        "comment": "Heavy Storm; no lugar de Alpha The Magnet Warrior: só serve ao Valkyrion; limpa armadilhas"
+       },
+       {
+        "id": 72989439,
+        "count": 1,
+        "comment": "Black Luster Soldier - Envoy of the Beginning; no lugar de Valkyrion the Magna Warrior: o Soldado do Lustro Negro é do Yugi"
+       },
+       {
+        "id": 53582587,
+        "count": 1,
+        "comment": "Torrential Tribute; no lugar de Berfomet: nível 5 de 1400; a Fusão quase nunca sai"
+       },
+       {
+        "id": 69140098,
+        "count": 1,
+        "comment": "Gemini Elf; no lugar de Obnoxious Celtic Guard: 1400 de ATK; 1900; no lugar de Gazelle the King of Mythical Beasts: 1500 de ATK; 1900; +1 no lugar de Obelisk the Tormentor (Deus de outro dono)"
+       },
+       {
+        "id": 70781052,
+        "count": 1,
+        "comment": "Summoned Skull; no lugar de Polymerization: a Fusão quase nunca sai; a Caveira Invocada é do Yugi"
+       },
+       {
+        "id": 4206964,
+        "count": 1,
+        "comment": "Trap Hole; no lugar de Fiend's Sanctuary: efeito fraco"
+       },
+       {
+        "id": 56120475,
+        "count": 1,
+        "comment": "Sakuretsu Armor; no lugar de Soul Rope: efeito fraco"
+       },
+       {
+        "id": 53129443,
+        "count": 1,
+        "comment": "Dark Hole; no lugar de Thousand Knives: só com o Mago Negro em campo"
+       },
+       {
+        "id": 83764718,
+        "count": 1,
+        "comment": "Monster Reborn; no lugar de Magic Formula: só com os Magos"
+       },
+       {
+        "id": 4031928,
+        "count": 1,
+        "comment": "Change of Heart; no lugar de Multiply: combo com o Kuriboh"
+       },
+       {
+        "id": 10000020,
+        "count": 1,
+        "comment": "Slifer the Sky Dragon"
+       },
+       {
+        "id": 46986414,
+        "count": 1,
+        "comment": "Dark Magician; +1 no lugar de Electromagnetic Turtle; +1 no lugar de The Winged Dragon of Ra (Deus de outro dono)"
+       },
+       {
+        "id": 38033121,
+        "count": 1,
+        "comment": "Dark Magician Girl"
+       },
+       {
+        "id": 78193831,
+        "count": 1,
+        "comment": "Buster Blader"
+       },
+       {
+        "id": 73752131,
+        "count": 1,
+        "comment": "Skilled Dark Magician"
+       },
+       {
+        "id": 25652259,
+        "count": 1,
+        "comment": "Queen's Knight"
+       },
+       {
+        "id": 64788463,
+        "count": 1,
+        "comment": "King's Knight"
+       },
+       {
+        "id": 90876561,
+        "count": 1,
+        "comment": "Jack's Knight"
+       },
+       {
+        "id": 71413901,
+        "count": 1,
+        "comment": "Breaker the Magical Warrior"
+       },
+       {
+        "id": 40640057,
+        "count": 1,
+        "comment": "Kuriboh"
+       },
+       {
+        "id": 30208479,
+        "count": 1,
+        "comment": "Magician of Black Chaos"
+       },
+       {
+        "id": 99789342,
+        "count": 1,
+        "comment": "Dark Magic Curtain; +1 no lugar de The Eye of Timaeus"
+       },
+       {
+        "id": 72302403,
+        "count": 1,
+        "comment": "Swords of Revealing Light"
+       },
+       {
+        "id": 66788016,
+        "count": 1,
+        "comment": "Fissure"
+       },
+       {
+        "id": 55144522,
+        "count": 1,
+        "comment": "Pot of Greed"
+       },
+       {
+        "id": 79571449,
+        "count": 1,
+        "comment": "Graceful Charity"
+       },
+       {
+        "id": 44095762,
+        "count": 1,
+        "comment": "Mirror Force"
+       },
+       {
+        "id": 62279055,
+        "count": 1,
+        "comment": "Magic Cylinder; +1 no lugar de Dark Renewal; +1 no lugar de Black Illusion"
+       }
+      ],
+      "extra": [
+       {
+        "id": 98502113,
+        "count": 1,
+        "comment": "Dark Paladin"
+       },
+       {
+        "id": 4796100,
+        "count": 1,
+        "comment": "Chimera the Flying Mythical Beast"
+       }
+      ]
+     }
+    }
+   ]
   }
  ]
 }

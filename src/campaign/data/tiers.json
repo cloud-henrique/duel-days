@@ -65,10 +65,28 @@
       "signatureCard": { "id": 89631139, "comment": "Blue-Eyes White Dragon" } }
    ]
   },
-  { "number": 4, "name": "Finais", "firstDay": 23, "lastDay": 30, "packs": [], "duelists": [] }
+  {
+   "number": 4, "name": "Finais", "firstDay": 23, "lastDay": 30,
+   "packs": [{ "key": "ast", "offset": 0 }, { "key": "sod", "offset": 2 }],
+   "duelists": [
+    { "key": "ishizu", "name": "Ishizu", "isBoss": false, "scene": { "bg": "kaiba-corp", "place": "Kaiba Corp" },
+      "signatureCard": { "id": 17484499, "comment": "Exchange of the Spirit" } },
+    { "key": "odion", "name": "Odion", "isBoss": false, "scene": { "bg": "arena-dirigivel", "place": "Arena do dirigível" },
+      "signatureCard": { "id": 28649820, "comment": "Embodiment of Apophis" } },
+    { "key": "yamibakura", "name": "Yami Bakura", "isBoss": false, "scene": { "bg": "cabine-dirigivel", "place": "Cabine do dirigível" },
+      "signatureCard": { "id": 31829185, "comment": "Dark Necrofear" } },
+    { "key": "marik", "name": "Marik", "isBoss": false, "scene": { "bg": "cais", "place": "Cais" },
+      "signatureCard": { "id": 10000000, "comment": "Obelisk the Tormentor" } },
+    { "key": "yamimarik", "name": "Yami Marik", "isBoss": true, "scene": { "bg": "reino-das-sombras", "place": "Reino das Sombras" },
+      "signatureCard": { "id": 10000010, "comment": "The Winged Dragon of Ra" } },
+    { "key": "yamiyugi", "name": "Yami Yugi", "isBoss": false, "isFinal": true, "scene": { "bg": "arena-torre", "place": "Arena da torre" },
+      "signatureCard": { "id": 10000020, "comment": "Slifer the Sky Dragon (na 1ª vitória: duelo final)" } }
+   ]
+  }
  ],
  "packNames": {
   "lon": "Labyrinth of Nightmare", "lod": "Legacy of Darkness", "pgd": "Pharaonic Guardian",
-  "mfc": "Magician's Force", "dcr": "Dark Crisis", "ioc": "Invasion of Chaos"
+  "mfc": "Magician's Force", "dcr": "Dark Crisis", "ioc": "Invasion of Chaos",
+  "ast": "Ancient Sanctuary", "sod": "Soul of the Duelist"
  }
 }

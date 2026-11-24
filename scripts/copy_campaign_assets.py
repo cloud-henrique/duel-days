@@ -38,6 +38,7 @@ IMAGES = {
     'pack-pgd.jpg': 'pack-pgd.jpg',
     'pack-mfc.jpg': 'pack-mfc.jpg',  # Tier 3 (o nativo não tem a do DCR: vem do Yugipedia, em COVERS)
     'pack-ioc.jpg': 'pack-ioc.jpg',
+    'pack-ast.jpg': 'pack-ast.jpg',  # Tier 4 (a SOD não tem capa no nativo: vale a desenhada, assets.ts)
 }
 # Capas que o nativo não tem: baixadas do Yugipedia (a página do arquivo fica atrás do desafio do Cloudflare; o
 # endereço direto vem da API: api.php?action=query&titles=File:<nome>&prop=imageinfo&iiprop=url) e reduzidas para 600 px

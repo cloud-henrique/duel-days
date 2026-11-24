@@ -185,8 +185,10 @@
 
 /* Status e fim */
 .statlist { list-style: none; margin: 0; padding: 10px 14px; display: flex; flex-direction: column; gap: 8px; }
-.statlist li { display: flex; justify-content: space-between; align-items: center; }
-.statlist li span { color: var(--dim); }
+.statlist li { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.statlist li span { color: var(--dim); flex: none; }
+/* Valores longos (os 4 chefes vencidos, o título de campeão) quebram à direita, sem encostar no rótulo. */
+.statlist li b { text-align: right; min-width: 0; }
 .confirm { padding: 12px; display: flex; flex-direction: column; gap: 10px; }
 .confirm p { margin: 0; }
 .confirm .acts { display: flex; gap: 8px; }
