@@ -24,6 +24,9 @@ export function lpTone(lp: number, start = START_LP): LpTone {
   return r >= HIGH ? 'high' : r >= LOW ? 'mid' : 'low';
 }
 
+/** O LP que a placa mostra: o motor deixa passar de zero (um golpe de 1900 com 200 de LP dá −1700), a tela para no zero. */
+export const lpShown = (lp: number) => Math.max(0, lp);
+
 /** Largura da barra em porcentagem (0..100). */
 export const lpPercent = (lp: number, start = START_LP) => Math.max(0, Math.min(100, (lp / start) * 100));
 

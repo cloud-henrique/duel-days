@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { GameIcon } from '../../ui/icons';
-import { LP_POPUP_MS, LP_STEPS, LP_STEP_MS, lpDelta, lpPercent, lpTone, lpTween } from './lp';
+import { LP_POPUP_MS, LP_STEPS, LP_STEP_MS, lpDelta, lpPercent, lpShown, lpTone, lpTween } from './lp';
 
 const BASE = import.meta.env.BASE_URL;
 export const avatar = (id: string) => `${BASE}characters/${id}/neutral.webp`;
@@ -34,7 +34,9 @@ function useLpDisplay(lp: number) {
  * Deck e cemitério ficam na fileira de pilhas. A placa marca com `data-loc` o lugar `p:plate`: alvo do ataque direto e
  * origem/destino das cartas sem lugar visível.
  */
-export function Plate({ side, who, lp, hand, turn }: { side: 'me' | 'foe'; who: Duelist; lp: number; hand: number; turn: boolean }) {
+export function Plate({ side, who, lp: raw, hand, turn }: { side: 'me' | 'foe'; who: Duelist; lp: number; hand: number; turn: boolean }) {
+  // A contagem, a variação e a barra partem do LP limitado em zero (o golpe final mostra o que faltava, não o excesso).
+  const lp = lpShown(raw);
   const { shown, delta } = useLpDisplay(lp);
   const p = side === 'me' ? 0 : 1;
   return (

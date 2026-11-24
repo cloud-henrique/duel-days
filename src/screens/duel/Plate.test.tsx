@@ -52,6 +52,16 @@ describe('Plate', () => {
     expect(container.querySelector('.plate')?.classList.contains('turn')).toBe(true);
   });
 
+  it('golpe final além do LP: a placa para no zero e a variação é o que faltava', () => {
+    vi.useFakeTimers();
+    const { container, rerender } = render(<Plate {...props} lp={200} />);
+    rerender(<Plate {...props} lp={-1700} />);
+    expect(container.querySelector('.lpdelta b')?.textContent).toBe('−200');
+    act(() => { vi.advanceTimersByTime(LP_STEP_MS * LP_STEPS); });
+    expect(container.querySelector('.lpn')?.textContent).toBe('0');
+    expect((container.querySelector('.bar i') as HTMLElement).style.width).toBe('0%');
+  });
+
   it('barra pela porcentagem e cor pelo tom', () => {
     const { container } = render(<Plate {...props} lp={500} />);
     expect(container.querySelector('.bar')?.classList.contains('low')).toBe(true);
